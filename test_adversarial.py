@@ -368,6 +368,17 @@ def group_h():
 
 # ── GROUP I — Concept anchoring ──────────────────────────────────────────────
 
+def expect_flagged(label, text, canonical_pattern, display_term):
+    """Boundary test: any non-PASS verdict counts as CAUGHT. PASS = missed detection."""
+    verdict = check_block_anchoring(text, canonical_pattern, display_term)
+    if verdict != "PASS":
+        _counts["caught"] += 1
+        _label(f"CAUGHT ({verdict})", "32", label)
+    else:
+        _counts["missed"] += 1
+        _label("MISSED", "31", label, "— implicit substitution not detected")
+
+
 def expect_anchor(label, text, canonical_pattern, display_term, expected):
     """check_block_anchoring must return the expected verdict."""
     verdict = check_block_anchoring(text, canonical_pattern, display_term)
@@ -462,6 +473,72 @@ def group_i():
     )
 
 
+# ── GROUP II — Implicit semantic drift ───────────────────────────────────────
+
+def group_ii():
+    section("GROUP II — Implicit semantic drift (no explicit relational phrases)")
+
+    Q1 = PDCA_ANCHORING_CHECKS[3]["canonical"]   # Coupling
+
+    # II-A — Implicit coupling via co-action verbs (no "between")
+    expect_flagged(
+        "II1  'operate together' — constraints + outcomes, no relational keyword",
+        "Outcomes emerge as constraints operate together within the system.",
+        Q1, "Coupling",
+    )
+    expect_flagged(
+        "II2  'interacting restrictions' — passive determination phrasing",
+        "System behaviour is determined by interacting restrictions.",
+        Q1, "Coupling",
+    )
+    expect_flagged(
+        "II3  'jointly govern' — co-action verb without explicit link",
+        "Constraints jointly govern resulting states.",
+        Q1, "Coupling",
+    )
+    expect_flagged(
+        "II4  'in combination' — combinatory production phrasing",
+        "Rules act in combination to produce outcomes.",
+        Q1, "Coupling",
+    )
+
+    # II-B — Distributed cross-sentence expression
+    expect_flagged(
+        "II5  split sentences — constraints then outcomes, no linking phrase",
+        "Constraints are enforced. These constraints produce consistent outcomes.",
+        Q1, "Coupling",
+    )
+    expect_flagged(
+        "II6  obligations → results — two-sentence implicit structure",
+        "Obligations are applied. Results follow predictably from those obligations.",
+        Q1, "Coupling",
+    )
+
+    # II-C — Passive semantic framing
+    expect_flagged(
+        "II7  'shaped by' — passive causal framing without relational noun",
+        "Outcomes are shaped by constraints applied across the system.",
+        Q1, "Coupling",
+    )
+    expect_flagged(
+        "II8  'function of' — mathematical framing of constraint→result",
+        "System results are a function of enforced restrictions.",
+        Q1, "Coupling",
+    )
+
+    # II-D — High-level abstraction
+    expect_flagged(
+        "II9  'coordinated operation' — abstract systemic framing",
+        "System integrity arises from the coordinated operation of constraints.",
+        Q1, "Coupling",
+    )
+    expect_flagged(
+        "II10 'constraint-driven' — nominalized coupling concept",
+        "Predictable behaviour reflects constraint-driven execution.",
+        Q1, "Coupling",
+    )
+
+
 # ── Main ─────────────────────────────────────────────────────────────────────
 
 def main():
@@ -479,6 +556,7 @@ def main():
     group_g()
     group_h()
     group_i()
+    group_ii()
 
     caught = _counts["caught"]
     passed = _counts["pass"]
