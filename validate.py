@@ -35,13 +35,100 @@ CORPUS = {
 # Public-facing docs where plain-language paraphrase is acceptable
 PUBLIC_DOCS = {"Executive Brief", "Public Article"}
 
-# CLAUDE.md §Terminology — forbidden paraphrases of protected terms
+# Characters either side of a match to examine for context
+CONTEXT_WINDOW = 200
+
+# CLAUDE.md §Terminology — context-aware paraphrase guards.
+#
+# A forbidden match is ALLOWED if:
+#   (a) allow_if_nearby  — the protected term appears within CONTEXT_WINDOW chars
+#       (the forbidden word is used in discussion or contrast alongside the real term)
+#   (b) allow_if_contrast — explicit contrast phrasing detected in the window
+#       (e.g. "unlike alignment", "beyond alignment", "rather than alignment")
+#
+# Everything else is flagged as a standalone substitution.
 PARAPHRASE_GUARDS = [
-    ("Coupling",                   r"\b(alignment|connection|linkage)\b"),
-    ("Integrity Layer",            r"\b(integrity conditions|integrity requirements|integrity criteria)\b"),
-    ("Coherence Test",             r"\bcoherence check\b"),
-    ("Materially Affects Interests", r"\bmaterial impact\b"),
+    {
+        "term":    "Coupling",
+        "forbidden": r"\b(alignment|connection|linkage)\b",
+        "allow_if_nearby":   r"\bCoupling\b",
+        "allow_if_contrast": [
+            r"unlike\b.{0,60}(alignment|connection|linkage)",
+            r"not\s+(?:merely\s+)?(alignment|connection|linkage)",
+            r"rather\s+than\b.{0,60}(alignment|connection|linkage)",
+            r"beyond\b.{0,60}(alignment|connection|linkage)",
+            r"distinguish.{0,60}(alignment|connection|linkage)",
+            r"in\s+contrast\b.{0,60}(alignment|connection|linkage)",
+            r"differ.{0,60}(alignment|connection|linkage)",
+        ],
+    },
+    {
+        "term":    "Integrity Layer",
+        "forbidden": r"\b(integrity conditions?|integrity requirements?|integrity criteria)\b",
+        "allow_if_nearby":   r"\bIntegrity Layer\b",
+        "allow_if_contrast": [],
+    },
+    {
+        "term":    "Coherence Test",
+        "forbidden": r"\bcoherence check\b",
+        "allow_if_nearby":   r"\bCoherence Test\b",
+        "allow_if_contrast": [],
+    },
+    {
+        "term":    "Materially Affects Interests",
+        "forbidden": r"\bmaterial impact\b",
+        "allow_if_nearby":   r"\bMaterially Affects Interests\b",
+        "allow_if_contrast": [],
+    },
 ]
+
+# Exported pattern constants — imported by test_adversarial.py
+INTEGRITY_PATTERNS = [
+    ("A.1  Structural Transparency", r"A\.1 FINDING\s*:(.*?)(?=A\.2 FINDING|B\.1|\Z)"),
+    ("A.2  Structural Honesty",       r"A\.2 FINDING\s*:(.*?)(?=A\.3 FINDING|B\.1|\Z)"),
+    ("A.3  Structural Containment",   r"A\.3 FINDING\s*:(.*?)(?=INTEGRITY LAYER FINDING|\Z)"),
+]
+
+COHERENCE_PATTERNS = [
+    ("Q1  Coupling",      r"B\.1 FINDING\s*:(.*?)(?=B\.2 FINDING|\Z)"),
+    ("Q2  Consistency",   r"B\.2 FINDING\s*:(.*?)(?=B\.3 FINDING|\Z)"),
+    ("Q3  Reversibility", r"B\.3 FINDING\s*:(.*?)(?=SECTION C|\Z)"),
+]
+
+HIERARCHY_PATTERNS = [
+    ("Foundational Principles declared",     r"FOUNDATIONAL PRINCIPLES|PART ONE"),
+    ("Non-amendable declaration present",    r"cannot be amended|non-amendable"),
+    ("Provision Layer present",              r"PROVISION LAYER|Provision Layer"),
+    ("Toolkit marked subordinate",           r"Compliance Toolkit|Operational Standard"),
+    ("Self-application clause (Part Seven)", r"PART SEVEN|self.application|applies to regulatory"),
+]
+
+
+# ── Core pure function (importable by tests) ──────────────────────────────────
+
+def find_paraphrase_violations(text, guard, window=CONTEXT_WINDOW):
+    """Return list of (char_pos, context_snippet) for unallowed substitutions.
+
+    Scans text for occurrences of guard["forbidden"]. Each match is examined
+    in a ±window char context. The match is suppressed (allowed) if:
+      - guard["allow_if_nearby"] appears in the context window, or
+      - any pattern in guard["allow_if_contrast"] matches the context window.
+    Remaining matches are standalone substitutions and are returned as violations.
+    """
+    violations = []
+    for m in re.finditer(guard["forbidden"], text, re.IGNORECASE):
+        start = max(0, m.start() - window)
+        end   = min(len(text), m.end() + window)
+        ctx   = text[start:end]
+
+        if re.search(guard["allow_if_nearby"], ctx, re.IGNORECASE):
+            continue
+        if any(re.search(p, ctx, re.IGNORECASE) for p in guard.get("allow_if_contrast", [])):
+            continue
+
+        violations.append((m.start(), ctx.replace("\n", " ").strip()))
+    return violations
+
 
 # ── Output ────────────────────────────────────────────────────────────────────
 
@@ -114,10 +201,12 @@ def check_terminology(docs):
             info(f"{label} — public-facing; plain-language paraphrase acceptable")
             continue
         issues = []
-        for term, pattern in PARAPHRASE_GUARDS:
-            m = re.search(pattern, text, re.IGNORECASE)
-            if m:
-                issues.append(f'"{term}" may be paraphrased as "{m.group(0)}"')
+        for guard in PARAPHRASE_GUARDS:
+            violations = find_paraphrase_violations(text, guard)
+            if violations:
+                issues.append(
+                    f'"{guard["term"]}" — {len(violations)} standalone substitution(s) detected'
+                )
         if issues:
             for issue in issues:
                 warn(f"{label} — {issue}")
@@ -145,14 +234,7 @@ def check_hierarchy(docs):
         fail("LAIF_v1.2.txt not loaded — cannot verify hierarchy")
         return
     text = docs["LAIF v1.2"]
-    checks = [
-        ("Foundational Principles declared",    r"FOUNDATIONAL PRINCIPLES|PART ONE"),
-        ("Non-amendable declaration present",   r"cannot be amended|non-amendable"),
-        ("Provision Layer present",             r"PROVISION LAYER|Provision Layer"),
-        ("Toolkit marked subordinate",          r"Compliance Toolkit|Operational Standard"),
-        ("Self-application clause (Part Seven)", r"PART SEVEN|self.application|applies to regulatory"),
-    ]
-    for label, pattern in checks:
+    for label, pattern in HIERARCHY_PATTERNS:
         if re.search(pattern, text, re.IGNORECASE):
             ok(label)
         else:
@@ -166,24 +248,18 @@ def check_integrity_layer(text):
     info("Precondition of lawful deployment — all three must be satisfied simultaneously.")
     info("Partial satisfaction = failure. No partial credit.  (LAIF v1.2 Part Two)\n")
 
-    checks = [
-        ("A.1  Structural Transparency", r"A\.1 FINDING\s*:(.*?)(?=A\.2 FINDING|B\.1|\Z)"),
-        ("A.2  Structural Honesty",       r"A\.2 FINDING\s*:(.*?)(?=A\.3 FINDING|B\.1|\Z)"),
-        ("A.3  Structural Containment",   r"A\.3 FINDING\s*:(.*?)(?=INTEGRITY LAYER FINDING|\Z)"),
-    ]
-    for label, pattern in checks:
+    for label, pattern in INTEGRITY_PATTERNS:
         m = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
         if not m:
             warn(f"{label} — finding section not located")
             continue
         excerpt = m.group(1).strip().replace("\n", " ")
         if re.search(r"NOT SATISFIED", excerpt, re.IGNORECASE):
-            finding("NOT SATISFIED", f"{label}")
+            finding("NOT SATISFIED", label)
             info(excerpt[:180] + ("..." if len(excerpt) > 180 else ""))
         else:
-            finding("SATISFIED", f"{label}")
+            finding("SATISFIED", label)
 
-    # Overall Integrity Layer verdict
     m = re.search(r"INTEGRITY LAYER FINDING\s*:(.*?)(?=SECTION B|\Z)", text, re.DOTALL | re.IGNORECASE)
     if m:
         overall = m.group(1).strip().replace("\n", " ")
@@ -202,24 +278,18 @@ def check_coherence_test(text):
     info("All three questions must be answered affirmatively.")
     info("Failure at Q1 = automatic failure of the full test.  (LAIF v1.2 Part One)\n")
 
-    checks = [
-        ("Q1  Coupling",      r"B\.1 FINDING\s*:(.*?)(?=B\.2 FINDING|\Z)"),
-        ("Q2  Consistency",   r"B\.2 FINDING\s*:(.*?)(?=B\.3 FINDING|\Z)"),
-        ("Q3  Reversibility", r"B\.3 FINDING\s*:(.*?)(?=SECTION C|\Z)"),
-    ]
-    for label, pattern in checks:
+    for label, pattern in COHERENCE_PATTERNS:
         m = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
         if not m:
             warn(f"{label} — finding section not located")
             continue
         excerpt = m.group(1).strip().replace("\n", " ")
         if re.search(r"NOT SATISFIED", excerpt, re.IGNORECASE):
-            finding("NOT SATISFIED", f"{label}")
+            finding("NOT SATISFIED", label)
             info(excerpt[:180] + ("..." if len(excerpt) > 180 else ""))
         else:
-            finding("SATISFIED", f"{label}")
+            finding("SATISFIED", label)
 
-    # Overall PDCA verdict
     m = re.search(r"(FINDING:\s*DEPLOYMENT.*?NOT COHERENT[^\n]*)", text, re.IGNORECASE)
     print()
     if m:
@@ -234,7 +304,6 @@ def check_case_analysis(text):
     section("CHECK 8 — Case Analysis  (8 Retrospective Governance Failures)")
     info("Documents whether the Coherence Test would have flagged incoherence at the decision point.\n")
 
-    # Parse summary table rows: "Case Label | FAIL/PASS/PARTIAL | ... | Verdict"
     pattern = r"^(.+?)\s*\|\s*(FAIL|PASS|PARTIAL)\s*\|\s*(FAIL|PASS|PARTIAL)\s*\|\s*(FAIL|PASS|PARTIAL)\s*\|\s*(.+?)\s*$"
     rows = [m.groups() for line in text.splitlines()
             if (m := re.match(pattern, line.strip(), re.IGNORECASE))]
@@ -245,15 +314,12 @@ def check_case_analysis(text):
 
     flagged = 0
     for case, q1, q2, q3, verdict in rows:
-        v = verdict.strip()
-        q1v = q1.upper()
-        q2v = q2.upper()
-        q3v = q3.upper()
-        tag = "FLAGGED" if "Flagged" in v or "FAIL" in (q1v, q2v, q3v) else "CLEAR"
+        v    = verdict.strip()
+        q1v, q2v, q3v = q1.upper(), q2.upper(), q3.upper()
+        tag  = "FLAGGED" if "Flagged" in v or "FAIL" in (q1v, q2v, q3v) else "CLEAR"
         if tag == "FLAGGED":
             flagged += 1
-        row_label = f"{case:<36} Q1:{q1v:<8} Q2:{q2v:<8} Q3:{q3v:<8} → {v}"
-        result(tag, row_label)
+        result(tag, f"{case:<36} Q1:{q1v:<8} Q2:{q2v:<8} Q3:{q3v:<8} → {v}")
 
     print()
     info(f"{flagged}/{len(rows)} cases: Coherence Test flagged structural incoherence at the decision point.")
