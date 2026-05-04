@@ -35,6 +35,10 @@ from validate import (
     COHERENCE_PATTERNS,
     HIERARCHY_PATTERNS,
     CONTEXT_WINDOW,
+    check_block_anchoring,
+    detect_semantic_substitution,
+    PDCA_ANCHORING_CHECKS,
+    V12_ANCHORING_CHECKS,
 )
 
 # ── Test runner ───────────────────────────────────────────────────────────────
@@ -362,6 +366,102 @@ def group_h():
     )
 
 
+# ── GROUP I — Concept anchoring ──────────────────────────────────────────────
+
+def expect_anchor(label, text, canonical_pattern, display_term, expected):
+    """check_block_anchoring must return the expected verdict."""
+    verdict = check_block_anchoring(text, canonical_pattern, display_term)
+    if verdict == expected:
+        key = "caught" if expected != "PASS" else "pass"
+        _counts[key] += 1
+        _label(f"{verdict}", "32", label)
+    else:
+        key = "missed" if expected != "PASS" else "false_positive"
+        _counts[key] += 1
+        _label(f"WRONG ({verdict})", "31", label,
+               f"— expected {expected}, got {verdict}")
+
+
+def group_i():
+    section("GROUP I — Concept anchoring: check_block_anchoring")
+
+    Q1_CANONICAL = PDCA_ANCHORING_CHECKS[3]["canonical"]   # Coupling
+    A1_CANONICAL = PDCA_ANCHORING_CHECKS[0]["canonical"]   # Structural Transparency
+    Q2_CANONICAL = PDCA_ANCHORING_CHECKS[4]["canonical"]   # Consistency
+
+    # I1 — canonical term present → PASS
+    expect_anchor(
+        "I1  'Coupling' explicit in block → PASS",
+        "Coupling between constraints and outcomes is established.",
+        Q1_CANONICAL, "Coupling", "PASS",
+    )
+
+    # I2 — relational phrase + domain noun, canonical absent → CONCEPT_SUBSTITUTED
+    expect_anchor(
+        "I2  'alignment between constraints and outcomes' → CONCEPT_SUBSTITUTED",
+        "There is alignment between constraints and outcomes in this deployment.",
+        Q1_CANONICAL, "Coupling", "CONCEPT_SUBSTITUTED",
+    )
+
+    # I3 — 'coherence between restrictions and interests' → CONCEPT_SUBSTITUTED
+    expect_anchor(
+        "I3  'coherence between restrictions and interests' → CONCEPT_SUBSTITUTED",
+        "The assessment confirms coherence between restrictions and protected interests.",
+        Q1_CANONICAL, "Coupling", "CONCEPT_SUBSTITUTED",
+    )
+
+    # I4 — 'consistent relationship between restrictions and results' → CONCEPT_SUBSTITUTED
+    expect_anchor(
+        "I4  'consistent relationship between restrictions and results' → CONCEPT_SUBSTITUTED",
+        "A consistent relationship between restrictions and results was observed.",
+        Q1_CANONICAL, "Coupling", "CONCEPT_SUBSTITUTED",
+    )
+
+    # I5 — contrast phrasing with canonical present → PASS (canonical appears → PASS)
+    expect_anchor(
+        "I5  'Unlike alignment, LAIF requires Coupling' → PASS",
+        "Unlike alignment, LAIF requires Coupling between constraints and outcomes.",
+        Q1_CANONICAL, "Coupling", "PASS",
+    )
+
+    # I6 — Structural Transparency named explicitly → PASS
+    expect_anchor(
+        "I6  'Structural Transparency is not satisfied' → PASS",
+        "Structural Transparency is not satisfied in the assessed configuration.",
+        A1_CANONICAL, "Structural Transparency", "PASS",
+    )
+
+    # I7 — Transparency concept via relational phrase, canonical absent → CONCEPT_SUBSTITUTED
+    expect_anchor(
+        "I7  Transparency as 'correlation between outputs and their basis' → CONCEPT_SUBSTITUTED",
+        "There is an insufficient correlation between outputs and their objectives "
+        "in the clinical deployment configuration.",
+        A1_CANONICAL, "Structural Transparency", "CONCEPT_SUBSTITUTED",
+    )
+
+    # I8 — Consistency named explicitly → PASS
+    expect_anchor(
+        "I8  'The Consistency requirement is not satisfied' → PASS",
+        "The Consistency requirement is not satisfied at this scale of deployment.",
+        Q2_CANONICAL, "Consistency", "PASS",
+    )
+
+    # I9 — Consistency block, no term, no relational pattern → ANCHOR_MISSING
+    expect_anchor(
+        "I9  Vague block with no term and no relational pattern → ANCHOR_MISSING",
+        "The deployment was assessed under the second question of the test. "
+        "Results were inconclusive.",
+        Q2_CANONICAL, "Consistency", "ANCHOR_MISSING",
+    )
+
+    # I10 — completely empty / irrelevant block → ANCHOR_MISSING
+    expect_anchor(
+        "I10 Empty block → ANCHOR_MISSING",
+        "No information recorded.",
+        Q1_CANONICAL, "Coupling", "ANCHOR_MISSING",
+    )
+
+
 # ── Main ─────────────────────────────────────────────────────────────────────
 
 def main():
@@ -378,6 +478,7 @@ def main():
     group_f()
     group_g()
     group_h()
+    group_i()
 
     caught = _counts["caught"]
     passed = _counts["pass"]
