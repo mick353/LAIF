@@ -21,6 +21,13 @@ Each document was assessed against three complementary layers:
 
 **Layer 3 — Sector analysis:** Each document assessed against a sector profile defining relevant human interests, risk indicator signals, and expected evidence artefacts. Produces sector risk alignment score (0–100) and sector-specific remediation priorities referencing LAIF source sections.
 
+**Layer 4 — Structural depth (adversarial hardening):** Three diagnostic checks run against every document regardless of formal compliance verdict:
+- **Coupling quality** (STRUCTURAL / SHALLOW / NEGATED / ABSENT): detects hollow or negated Coupling declarations (LAIF v1.2 Principle 2)
+- **Contradiction detection**: detects co-presence of claimed Integrity Layer properties and language that contradicts them (LAIF v1.2 A.2 Structural Honesty)
+- **Sector gaming risk** (LOW / MEDIUM / HIGH): detects high sector keyword density without substantive governance content (LAIF v1.2 Q2 Consistency)
+
+**Strong compliance verdict:** STRONG PASS requires formal PASS + STRUCTURAL Coupling + no contradictions. A formal PASS with shallow Coupling = WEAK PASS, not a strong compliance claim.
+
 ## Scoring Model
 | Dimension            | Weight | LAIF Source                | Description                                                              |
 | -------------------- | ------ | -------------------------- | ------------------------------------------------------------------------ |
@@ -38,8 +45,12 @@ Each document was assessed against three complementary layers:
 
 ### EU AI Act — Art. 9, 13 & 14
 **Formal LAIF Compliance:** ❌ FAIL  
+**Strong Compliance:** ❌ FAIL  
+**Structural Depth:** 🟡 WEAK  
+**Coupling Quality:** ABSENT — Coupling not present in document  
 **Source type:** binding_regulation  
 **Sector:** General AI Governance  
+**Sector Gaming Risk:** LOW  
 **Remediation Effort:** HIGH
 
 
@@ -183,8 +194,12 @@ None detected.
 
 ### NIST AI RMF — Govern & Map Functions
 **Formal LAIF Compliance:** ❌ FAIL  
+**Strong Compliance:** ❌ FAIL  
+**Structural Depth:** 🟡 WEAK  
+**Coupling Quality:** ABSENT — Coupling not present in document  
 **Source type:** voluntary_framework  
 **Sector:** General AI Governance  
+**Sector Gaming Risk:** LOW  
 **Remediation Effort:** VERY HIGH
 
 
@@ -330,8 +345,12 @@ None detected.
 
 ### OECD AI Principles (2019, rev. 2024)
 **Formal LAIF Compliance:** ❌ FAIL  
+**Strong Compliance:** ❌ FAIL  
+**Structural Depth:** 🟡 WEAK  
+**Coupling Quality:** ABSENT — Coupling not present in document  
 **Source type:** international_principles  
 **Sector:** General AI Governance  
+**Sector Gaming Risk:** LOW  
 **Remediation Effort:** VERY HIGH
 
 
@@ -476,8 +495,12 @@ None detected.
 
 ### US Executive Order 14110 — §4 Safety & §7 Workers
 **Formal LAIF Compliance:** ❌ FAIL  
+**Strong Compliance:** ❌ FAIL  
+**Structural Depth:** 🟡 WEAK  
+**Coupling Quality:** ABSENT — Coupling not present in document  
 **Source type:** executive_directive  
 **Sector:** General AI Governance  
+**Sector Gaming Risk:** LOW  
 **Remediation Effort:** HIGH
 
 
@@ -627,8 +650,12 @@ None detected.
 
 ### NHS England — AI in Clinical Decision Support (Policy Framework)
 **Formal LAIF Compliance:** ❌ FAIL  
+**Strong Compliance:** ❌ FAIL  
+**Structural Depth:** 🔴 HOLLOW  
+**Coupling Quality:** ABSENT — Coupling not present in document  
 **Source type:** sector_policy  
 **Sector:** Clinical AI Deployment  
+**Sector Gaming Risk:** HIGH  
 **Remediation Effort:** VERY HIGH
 
 
@@ -750,6 +777,7 @@ None detected.
 - LAIF structural element missing: non-amendable constitutional hierarchy
 - LAIF structural element missing: self-application clause (Part Seven)
 - LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
+- Sector gaming risk [HIGH]: Sector risk alignment 80% vs overall readiness 29/100. High keyword density without substantive governance — consistent with sector keyword stuffing. A genuinely sector-appropriate document would score higher on conceptual proximity and auditability (LAIF v1.2 Q2 Consistency).
 
 
 #### Primary Failure Modes
@@ -773,8 +801,12 @@ None detected.
 
 ### TUC/CIPD — Framework for Fair AI in Employment Decisions
 **Formal LAIF Compliance:** ❌ FAIL  
+**Strong Compliance:** ❌ FAIL  
+**Structural Depth:** 🟡 WEAK  
+**Coupling Quality:** ABSENT — Coupling not present in document  
 **Source type:** sector_policy  
 **Sector:** Employment / Workforce AI  
+**Sector Gaming Risk:** LOW  
 **Remediation Effort:** HIGH
 
 
