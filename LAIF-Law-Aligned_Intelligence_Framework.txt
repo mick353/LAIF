@@ -1,0 +1,21 @@
+LAIF — Law-Aligned Intelligence Framework
+
+START HERE:
+→ 01_START_HERE / Executive Brief (2 min)
+→ 01_START_HERE / Public Article (5–7 min)
+
+FOR SYSTEM:
+→ 02_CORE_FRAMEWORK / LAIF v1.2
+
+FOR PROOF:
+→ 03_APPLICATIONS_AND_INTEGRATION / PDCA (GPT-4 Clinical)
+
+FOR ADOPTION:
+→ 03_APPLICATIONS_AND_INTEGRATION / Regulatory Integration Guide
+
+
+The Law-Aligned Intelligence Framework (LAIF) is a constitutional-level governance standard for AI systems.
+
+It provides a unified test — coupling (alignment between restrictions and protected interests), consistency (applicability across scales), and reversibility (preservation of future decision capacity) — used to evaluate AI deployments, policies, and regulatory decisions.
+
+LAIF is implemented operationally through the Pre-Deployment Coherence Assessment (PDCA), a structured audit process applied before system deployment.
