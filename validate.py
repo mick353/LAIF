@@ -8,6 +8,7 @@ Coherence Test check against the GPT-4 Clinical assessment document.
 Checks 1–5  Infrastructure / rule compliance  (PASS/FAIL — FAIL = problem)
 Checks 6–7  PDCA assessment findings          (FINDING — expected to surface incoherence)
 Check  8    Case Analysis summary             (RESULT  — documents real-world outcomes)
+Check  9    Concept anchoring                 (PASS/FAIL — FAIL = problem)
 
 Exit 0 if no infrastructure failures, Exit 1 if any rule check fails.
 
@@ -103,6 +104,92 @@ HIERARCHY_PATTERNS = [
     ("Self-application clause (Part Seven)", r"PART SEVEN|self.application|applies to regulatory"),
 ]
 
+# Concept anchoring — relational phrase heuristic signals a Coupling-like concept
+# is being expressed without the canonical term.
+RELATIONAL_PHRASES = [
+    r"\balignment between\b",
+    r"\bcoherence between\b",
+    r"\brelationship between\b",
+    r"\bconsistency between\b",
+    r"\bconnection between\b",
+    r"\blinkage between\b",
+    r"\bcorrelation between\b",
+]
+
+DOMAIN_NOUNS = [
+    r"\b(constraints?|rules?|obligations?|prohibitions?)\b",
+    r"\b(outcomes?|results?|interests?|goals?|objectives?)\b",
+    r"\b(restrictions?|protections?|protected interests?)\b",
+]
+
+# Anchoring checks for PDCA sections (Integrity Layer + Coherence Test)
+PDCA_ANCHORING_CHECKS = [
+    {
+        "label":     "A.1  Structural Transparency",
+        "extract":   r"A\.1 FINDING\s*:(.*?)(?=A\.2 FINDING|B\.1|\Z)",
+        "canonical": r"\bStructural Transparency\b",
+        "term":      "Structural Transparency",
+    },
+    {
+        "label":     "A.2  Structural Honesty",
+        "extract":   r"A\.2 FINDING\s*:(.*?)(?=A\.3 FINDING|B\.1|\Z)",
+        "canonical": r"\bStructural Honesty\b",
+        "term":      "Structural Honesty",
+    },
+    {
+        "label":     "A.3  Structural Containment",
+        "extract":   r"A\.3 FINDING\s*:(.*?)(?=INTEGRITY LAYER FINDING|\Z)",
+        "canonical": r"\bStructural Containment\b",
+        "term":      "Structural Containment",
+    },
+    {
+        "label":     "Q1  Coupling",
+        "extract":   r"B\.1 FINDING\s*:(.*?)(?=B\.2 FINDING|\Z)",
+        "canonical": r"\bCoupling\b",
+        "term":      "Coupling",
+    },
+    {
+        "label":     "Q2  Consistency",
+        "extract":   r"B\.2 FINDING\s*:(.*?)(?=B\.3 FINDING|\Z)",
+        "canonical": r"\bConsistency\b",
+        "term":      "Consistency",
+    },
+    {
+        "label":     "Q3  Reversibility",
+        "extract":   r"B\.3 FINDING\s*:(.*?)(?=SECTION C|\Z)",
+        "canonical": r"\bReversibility\b",
+        "term":      "Reversibility",
+    },
+]
+
+# Anchoring checks for LAIF v1.2 Principle 1 block
+V12_ANCHORING_CHECKS = [
+    {
+        "label":     "Principle 1 — Coherence Standard named",
+        "extract":   r"(Principle 1.*?)(?=Principle 2|\Z)",
+        "canonical": r"\bCoherence Standard\b",
+        "term":      "Coherence Standard",
+    },
+    {
+        "label":     "Principle 1 — Coupling condition declared",
+        "extract":   r"(Principle 1.*?)(?=Principle 2|\Z)",
+        "canonical": r"\bcoupled\b|\bCoupling\b",
+        "term":      "coupled/Coupling",
+    },
+    {
+        "label":     "Principle 1 — Consistency condition declared",
+        "extract":   r"(Principle 1.*?)(?=Principle 2|\Z)",
+        "canonical": r"\bconsistent\b|\bConsistency\b",
+        "term":      "consistent/Consistency",
+    },
+    {
+        "label":     "Principle 1 — Revisability condition declared",
+        "extract":   r"(Principle 1.*?)(?=Principle 2|\Z)",
+        "canonical": r"\brevisable\b|\bReversibility\b",
+        "term":      "revisable/Reversibility",
+    },
+]
+
 
 # ── Core pure function (importable by tests) ──────────────────────────────────
 
@@ -128,6 +215,25 @@ def find_paraphrase_violations(text, guard, window=CONTEXT_WINDOW):
 
         violations.append((m.start(), ctx.replace("\n", " ").strip()))
     return violations
+
+
+def detect_semantic_substitution(block_text):
+    """Return True if block uses relational phrasing + domain nouns without canonical term."""
+    has_relational = any(re.search(p, block_text, re.IGNORECASE) for p in RELATIONAL_PHRASES)
+    has_domain     = any(re.search(p, block_text, re.IGNORECASE) for p in DOMAIN_NOUNS)
+    return has_relational and has_domain
+
+
+def check_block_anchoring(block_text, canonical_pattern, display_term):
+    """Return 'PASS', 'ANCHOR_MISSING', or 'CONCEPT_SUBSTITUTED'.
+
+    PASS              — canonical term found in block
+    CONCEPT_SUBSTITUTED — canonical absent + semantic substitution heuristic fires
+    ANCHOR_MISSING    — canonical absent, no substitution signal detected
+    """
+    if re.search(canonical_pattern, block_text, re.IGNORECASE):
+        return "PASS"
+    return "CONCEPT_SUBSTITUTED" if detect_semantic_substitution(block_text) else "ANCHOR_MISSING"
 
 
 # ── Output ────────────────────────────────────────────────────────────────────
@@ -164,6 +270,28 @@ def section(title):
     print(f"\n{'─' * 66}")
     print(f"  {title}")
     print(f"{'─' * 66}")
+
+
+# ── CHECK 9 — Concept anchoring ──────────────────────────────────────────────
+
+def check_concept_anchoring(text, checks, source_label):
+    """Verify that each structural block contains its canonical term."""
+    section(f"CHECK 9 — Concept Anchoring  [{source_label}]")
+    info("Each structural block must contain its canonical LAIF term explicitly.")
+    info("ANCHOR_MISSING = term absent; CONCEPT_SUBSTITUTED = paraphrase without term.\n")
+
+    for chk in checks:
+        m = re.search(chk["extract"], text, re.DOTALL | re.IGNORECASE)
+        if not m:
+            warn(f"{chk['label']} — structural block not located (cannot anchor-check)")
+            continue
+        verdict = check_block_anchoring(m.group(1), chk["canonical"], chk["term"])
+        if verdict == "PASS":
+            ok(f"{chk['label']}")
+        elif verdict == "CONCEPT_SUBSTITUTED":
+            fail(f"{chk['label']} — CONCEPT_SUBSTITUTED: '{chk['term']}' absent; semantic substitution detected")
+        else:
+            fail(f"{chk['label']} — ANCHOR_MISSING: '{chk['term']}' not found in structural block")
 
 
 # ── CHECK 1 — Document ingestion ──────────────────────────────────────────────
@@ -351,6 +479,16 @@ def main():
         check_case_analysis(docs["Case Analysis"])
     else:
         fail("Case Analysis file unavailable — check 8 skipped")
+
+    if "PDCA (GPT-4 Clinical)" in docs:
+        check_concept_anchoring(docs["PDCA (GPT-4 Clinical)"], PDCA_ANCHORING_CHECKS, "PDCA GPT-4 Clinical")
+    else:
+        fail("PDCA file unavailable — check 9 (PDCA anchoring) skipped")
+
+    if "LAIF v1.2" in docs:
+        check_concept_anchoring(docs["LAIF v1.2"], V12_ANCHORING_CHECKS, "LAIF v1.2")
+    else:
+        fail("LAIF v1.2 unavailable — check 9 (v1.2 anchoring) skipped")
 
     print(f"\n{'═' * 66}")
     p, f_, w = infra_results["pass"], infra_results["fail"], infra_results["warn"]
