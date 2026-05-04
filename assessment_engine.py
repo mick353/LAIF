@@ -334,6 +334,49 @@ CONTRADICTION_CHECKS = [
              "autonomous/no-oversight language contradicts Structural Containment"),
         ],
     },
+    # ── Non-canonical contradiction checks ────────────────────────────────────
+    # These fire on informal expressions of an Integrity Layer property (the trigger)
+    # co-present with language that contradicts it — without requiring canonical LAIF
+    # terms. Catches evasion where a document expresses the governance intent informally
+    # but simultaneously asserts conditions that negate it.
+    # Source: LAIF v1.2 A.2 Structural Honesty (all four): a document expressing an
+    # Integrity Layer intent while negating its substance fails the correspondence test
+    # regardless of whether it uses canonical terminology.
+    {
+        "property":    "Reversibility (non-canonical)",
+        "trigger":     r"\b(?:can\s+be\s+(?:reversed|modified|appealed|changed)|right\s+(?:to\s+)?(?:appeal|contest|review)\b|subject\s+to\s+(?:appeal|review)|(?:decisions?|outcomes?)\s+(?:are|shall\s+be)\s+(?:reversible|modifiable))\b",
+        "adversaries": [
+            (r"\b(?:permanently?|irrevocabl[ey]|irreversible|final\s+and\s+binding|cannot\s+be\s+(?:undone|reversed|changed|appealed|modified)|no\s+(?:right\s+of\s+)?(?:appeal|review|recourse))\b",
+             "irreversibility language co-present with expressed reversibility intent (non-canonical)"),
+        ],
+    },
+    {
+        "property":    "Structural Transparency (non-canonical)",
+        "trigger":     r"\b(?:system\s+(?:transparency|explainability)|outputs?\s+(?:are\s+)?(?:transparent|explainable|interpretable)|model\s+transparency|explainability\s+(?:is\s+)?(?:provided|ensured|maintained))\b",
+        "adversaries": [
+            (r"\b(?:proprietary|trade\s+secret|cannot\s+(?:be\s+)?(?:disclosed|explained|accessed|revealed)|withheld|black.?box|opaque)\b",
+             "non-disclosure/opacity language co-present with expressed transparency intent (non-canonical)"),
+        ],
+    },
+    {
+        "property":    "Structural Containment (non-canonical)",
+        "trigger":     r"\b(?:operates?\s+within\b|system\s+boundaries?\b|operational\s+(?:boundaries?|scope|limits?)\b|confined\s+to\s+(?:its\s+)?(?:scope|boundaries?|purpose))\b",
+        "adversaries": [
+            (r"\b(?:without\s+human\s+(?:oversight|review|approval|authorisation|authorization)|no\s+human\s+(?:in\s+the\s+loop|oversight|review|approval)|executes?\s+(?:\w+\s+)?without\s+(?:human\s+)?(?:oversight|review|approval))\b",
+             "no-oversight language co-present with expressed containment intent (non-canonical)"),
+        ],
+    },
+    {
+        # Trigger: any sentence that asserts correspondence between stated and actual
+        # objectives/goals — expressed without requiring exact adjacency of terms.
+        # Uses .{0,60} to bridge intervening qualifiers ("of this system", etc.).
+        "property":    "Structural Honesty (non-canonical)",
+        "trigger":     r"\b(?:stated\s+objectives?\b.{0,60}\b(?:accurate|correct|correspond|reflect|align)\b|actual\s+(?:objectives?|goals?|behaviour)\b.{0,40}\b(?:match|align|reflect)\b.{0,30}\bstated\b)\b",
+        "adversaries": [
+            (r"\b(?:undisclosed\s+(?:objectives?|goals?|optimisation|purpose)|hidden\s+(?:objectives?|goals?|agenda))\b",
+             "undisclosed/hidden objectives co-present with expressed honesty intent (non-canonical)"),
+        ],
+    },
 ]
 
 
