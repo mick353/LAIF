@@ -5,9 +5,14 @@ LAIF Assessment — Document Corpus
 Representative excerpts from public AI governance frameworks.
 Self-contained — no live fetching required.
 
-Each entry carries document metadata and the text excerpt used for analysis.
-Excerpts are expanded beyond the original test_real_world.py versions to
-provide sufficient signal density for multi-dimensional scoring.
+Each entry carries:
+  - Document metadata (source_type, jurisdiction, year, citation)
+  - sector  — LAIF sector profile key for sector-aware assessment
+  - text    — excerpt used for analysis
+
+Documents 1–4: general AI governance frameworks (cross-sector).
+Document 5:    clinical AI deployment policy (sector: clinical_ai).
+Document 6:    employment AI governance framework (sector: employment_ai).
 """
 
 DOCUMENTS = {
@@ -17,6 +22,7 @@ DOCUMENTS = {
         "jurisdiction": "European Union",
         "year":         2024,
         "citation":     "Regulation (EU) 2024/1689 of the European Parliament and of the Council",
+        "sector":       "general_ai_governance",
         "text": """\
 EU AI Act (Regulation 2024/1689) — Risk Management, Transparency, and Human Oversight
 
@@ -80,6 +86,7 @@ throughout their lifetime.
         "jurisdiction": "United States",
         "year":         2023,
         "citation":     "NIST AI Risk Management Framework 1.0 (NIST AI 100-1)",
+        "sector":       "general_ai_governance",
         "text": """\
 NIST AI Risk Management Framework 1.0 — Govern and Map Functions
 
@@ -134,6 +141,7 @@ evaluated and recorded before deployment is authorised.
         "jurisdiction": "International (OECD member states)",
         "year":         2024,
         "citation":     "OECD Principles on AI, adopted May 2019, revised 2024",
+        "sector":       "general_ai_governance",
         "text": """\
 OECD Principles on AI — Value-Based Principles for Responsible AI
 
@@ -181,6 +189,7 @@ effective remedies and the ability to contest decisions made by or with AI.
         "jurisdiction": "United States (Federal)",
         "year":         2023,
         "citation":     "Executive Order 14110 on Safe, Secure, and Trustworthy AI (Oct 30, 2023)",
+        "sector":       "general_ai_governance",
         "text": """\
 Executive Order 14110 on Safe, Secure, and Trustworthy Artificial Intelligence
 (October 30, 2023)
@@ -217,6 +226,161 @@ protections for workers, maintaining the connection between obligations imposed 
 workers and the protections those obligations are intended to serve. No deployment
 shall sever the linkage between a worker's legal obligations and their
 corresponding rights.
+""",
+    },
+
+    "NHS England — AI in Clinical Decision Support (Policy Framework)": {
+        "source_type":  "sector_policy",
+        "jurisdiction": "United Kingdom",
+        "year":         2024,
+        "citation":     "NHS England AI in Clinical Decision Support — Governance Framework (illustrative excerpt)",
+        "sector":       "clinical_ai",
+        "text": """\
+NHS England — Governance Framework for AI-Enabled Clinical Decision Support
+
+1. Purpose and Scope
+
+This framework governs the deployment of AI-enabled clinical decision support
+systems (CDSS) across NHS trusts. It applies to all AI systems that generate
+clinical recommendations, diagnostic outputs, or treatment suggestions that
+materially affect patient care decisions. The framework covers the full deployment
+lifecycle from procurement through post-market surveillance.
+
+2. Clinical Validation Requirements
+
+2.1 All AI-enabled CDSS must undergo prospective clinical validation in the target
+patient population before deployment. Validation studies shall demonstrate
+clinical accuracy, sensitivity, and specificity appropriate to the intended
+clinical use case.
+
+2.2 Providers shall maintain technical documentation of validation methodology,
+datasets used, and performance metrics. Technical documentation shall be updated
+following any material change to the system or its deployment context.
+
+2.3 Adverse event reporting: Any AI-generated recommendation that contributes to
+a patient safety incident must be reported through the National Reporting and
+Learning System (NRLS) and reviewed by the Clinical AI Safety Committee.
+
+3. Human Oversight and Clinician Responsibility
+
+3.1 AI-generated clinical recommendations are advisory only. Clinical decision
+authority rests with the responsible clinician. No CDSS shall be configured to
+require clinicians to justify overriding an AI recommendation as a precondition
+of recording their clinical decision.
+
+3.2 Trusts shall ensure that clinical staff using AI systems have received
+appropriate training on the system's capabilities, limitations, and documented
+error characteristics before patient-facing deployment.
+
+3.3 Post-market surveillance: Trusts shall conduct quarterly performance monitoring
+of deployed AI systems, including review of override rates, adverse events, and
+equity metrics across patient demographics.
+
+4. Transparency and Patient Rights
+
+4.1 Patients shall be informed when AI systems have materially contributed to a
+clinical recommendation affecting their care. This information shall be provided
+in plain language accessible to patients without clinical training.
+
+4.2 Patients have the right to request a human clinician review of any
+AI-assisted clinical recommendation. This right shall not be subject to conditions
+or prerequisites.
+
+4.3 Providers shall disclose the AI system's material limitations to deploying
+clinicians, including known performance gaps in specific patient subgroups.
+
+5. Safety and Containment
+
+5.1 AI systems shall not autonomously initiate clinical actions — including
+ordering tests, prescribing medications, or changing treatment plans — without
+explicit clinician authorisation at the point of care.
+
+5.2 Systems shall surface out-of-scope queries through designated clinical
+escalation channels rather than generating recommendations outside their validated
+indication.
+
+5.3 Incident response: trusts shall maintain documented procedures for
+suspending or rolling back an AI system within 24 hours of identification of
+a patient safety concern.
+""",
+    },
+
+    "TUC/CIPD — Framework for Fair AI in Employment Decisions": {
+        "source_type":  "sector_policy",
+        "jurisdiction": "United Kingdom",
+        "year":         2024,
+        "citation":     "Illustrative AI in Employment Governance Framework (sector assessment document)",
+        "sector":       "employment_ai",
+        "text": """\
+Framework for the Governance of AI Systems in Employment Decisions
+
+Produced for HR and employment law practitioners deploying AI in workforce management.
+
+Section 1 — Scope
+
+This framework applies to AI systems used to inform or automate decisions affecting
+workers' employment status, including: applicant screening and recruitment scoring;
+performance assessment and management; pay and bonus determination; promotion and
+progression decisions; and dismissal or redundancy selection. Any system whose
+outputs materially affect a worker's employment status or income falls within scope.
+
+Section 2 — Employer Obligations
+
+2.1 Transparency: Employers shall notify workers when AI systems are used in
+employment decisions affecting them and shall provide a meaningful explanation
+of the factors and weighting used in any AI-assisted decision.
+
+2.2 Human review: Every AI-assisted employment decision that adversely affects a
+worker's employment status — including decisions on hiring, performance rating,
+pay, promotion, and dismissal — shall be subject to human review before it takes
+effect. Workers have the right to request human review of any adverse AI decision.
+
+2.3 Fairness audit: Employers shall commission an algorithmic fairness audit
+before deploying any AI system for employment decisions. The audit shall assess
+the system for discriminatory outputs across protected characteristics. Results
+shall be documented and made available to worker representatives on request.
+
+2.4 Worker consultation: Before deploying AI systems that will monitor worker
+performance or determine employment outcomes, employers shall consult with trade
+unions or worker representatives on the system's purpose, decision logic,
+safeguards, and appeal processes.
+
+Section 3 — Worker Rights
+
+3.1 Right to explanation: Any worker adversely affected by an AI-assisted
+employment decision has the right to a written explanation of the decision
+in plain language, including the factors that contributed to the outcome.
+
+3.2 Right of appeal: Every adverse employment decision informed by AI is
+subject to an internal appeal process before a human decision-maker with
+authority to reverse the AI recommendation. The appeal process shall be
+completed within 20 working days.
+
+3.3 Protection from automated dismissal: No dismissal decision may be taken
+solely on the basis of AI output without human review and sign-off by a senior
+manager. Workers facing dismissal where AI has been used must be informed of
+this fact and given the opportunity to make representations before the decision
+is finalised.
+
+3.4 Collective rights: Trade unions and worker representatives have the right
+to request disclosure of algorithmic audit results, model documentation, and
+performance monitoring data for AI systems used in employment decisions.
+
+Section 4 — Accountability
+
+4.1 Designated AI Accountability Officer: Employers deploying AI in employment
+decisions shall designate an individual responsible for compliance with this
+framework. This individual shall have authority to suspend or recall AI systems
+where fairness or legal compliance concerns arise.
+
+4.2 Record-keeping: Employers shall maintain records of AI-assisted employment
+decisions, including the factors considered and the human review outcome, for
+a period of five years. Records shall be available for inspection on request.
+
+4.3 Redress: Workers who believe an AI-assisted employment decision has caused
+them harm through discrimination or procedural unfairness may raise a
+discrimination policy complaint through internal grievance procedures or
+employment tribunal proceedings.
 """,
     },
 
