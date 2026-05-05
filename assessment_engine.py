@@ -954,10 +954,10 @@ def _executive_summary(result):
         )
     elif cq in ("SHALLOW", "ABSENT"):
         risks.append(
-            f"Coupling quality is {cq}: no governance restriction is structurally paired with "
-            f"a named human interest. Each restriction can be weakened in isolation without "
-            f"triggering a corresponding protection failure. Q1 (Coupling) failure = "
-            f"automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)"
+            "Coupling not structurally declared: no governance restriction is paired with "
+            "a named human interest. Each restriction can be weakened in isolation without "
+            "triggering a corresponding protection failure. Q1 (Coupling) failure = "
+            "automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)"
         )
     if contras:
         props = ", ".join(sorted({p for p, _, _ in contras}))
@@ -1050,33 +1050,17 @@ def _executive_summary(result):
             )
     strengths = strengths[:3]
 
-    # ── Root cause (one line) ─────────────────────────────────────────────────
+    # ── Root cause — always "Primary structural gap: X" ─────────────────────
     if sc == "STRONG PASS":
-        why = (
-            "Full structural compliance: Coupling declared with named human interest, "
-            "Coherence Test documented, Integrity Layer precondition satisfied."
-        )
-    elif sc == "WEAK PASS":
-        why = (
-            f"Formal gate satisfied but Coupling is {cq.lower()} — restrictions not paired "
-            f"with specific human interests (LAIF v1.2 Principle 2)."
-        )
+        why = "Primary structural gap: none — full structural compliance confirmed."
+    elif cq in ("ABSENT", "SHALLOW", "NEGATED"):
+        why = "Primary structural gap: Coupling not structurally declared."
     elif contras:
-        why = (
-            f"Structural contradictions ({len(contras)}) undermine the Integrity Layer — "
-            f"claimed properties are negated by document content (LAIF v1.2 A.2)."
-        )
-    elif cq in ("ABSENT", "SHALLOW"):
-        why = (
-            f"Primary gap: Coupling is {cq.lower()} — no restriction paired with a named "
-            f"human interest. Most common LAIF failure mode (Q1 of Coherence Test)."
-        )
+        why = "Primary structural gap: Integrity Layer not enforced as precondition."
+    elif not result.get("construct_coverage", {}).get("Coherence Test"):
+        why = "Primary structural gap: Coherence Test not applied."
     else:
-        missing = [lbl for lbl, ok in fcd if not ok]
-        why = (
-            f"Formal compliance fails: {missing[0] if missing else 'required constructs'} "
-            f"not present. Overall readiness {overall}/100."
-        )
+        why = "Primary structural gap: Integrity Layer not enforced as precondition."
 
     # ── Position Assessment ───────────────────────────────────────────────────
     # Auto-built from construct coverage, coupling_state, and conceptual proximity.
@@ -1095,13 +1079,9 @@ def _executive_summary(result):
         contains.append("implicit Coupling signals (protective intent present)")
 
     if cs == "STRUCTURAL":
-        position_result = "Structurally compliant — Coupling is explicitly declared."
-    elif conceptual >= 60:
-        position_result = "Conceptually aligned, structurally incomplete."
-    elif conceptual >= 40:
-        position_result = "Partially aligned — governance intent present but structurally underspecified."
+        position_result = "Structurally compliant with LAIF"
     else:
-        position_result = "Substantively misaligned — insufficient governance intent and structural form."
+        position_result = "Conceptually aligned, structurally incomplete"
 
     not_enforced = []
     if cs != "STRUCTURAL":
@@ -1141,7 +1121,7 @@ def _structured_findings(result):
     # ── Coupling quality ──────────────────────────────────────────────────────
     if cq == "ABSENT":
         findings.append({
-            "title":    "Coupling absent — no restriction paired with a human interest",
+            "title":    "Coupling not structurally declared — no restriction paired with a human interest",
             "severity": "HIGH",
             "evidence": "The canonical term 'Coupling' does not appear in the document.",
             "impact":   (
@@ -1853,6 +1833,13 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
     }
     result["recommended_remediation_steps"] = _remediation(result)
     _tier = _deployment_risk_tier(overall, strong_compliance)
+    # Consistency invariant — matches _deployment_risk_tier() thresholds exactly
+    assert (
+        (_tier == "LOW"      and strong_compliance == "STRONG PASS") or
+        (_tier == "MODERATE" and overall >= 70 and strong_compliance != "STRONG PASS") or
+        (_tier == "HIGH"     and 40 <= overall < 70 and strong_compliance != "STRONG PASS") or
+        (_tier == "CRITICAL" and overall < 40 and strong_compliance != "STRONG PASS")
+    ), f"Risk tier {_tier!r} inconsistent with score {overall}/strong_compliance {strong_compliance!r}"
     result["deployment_risk"]      = _tier  # canonical key (spec)
     result["deployment_risk_tier"] = _tier  # backward-compatible alias
 
@@ -1869,6 +1856,48 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
     result["structured_findings"]       = _structured_findings(result)
     result["structured_remediation_steps"] = _structured_remediation(result)
     return result
+
+
+# ── Signal grouping for display ───────────────────────────────────────────────
+# Display-only classification — does NOT affect scoring.
+# Human interest signals relate to specific human interests at risk.
+# Governance signals relate to structural, procedural, and architectural controls.
+
+_HUMAN_INTEREST_KW = frozenset([
+    "rights", "safety", "harm", "accountability", "redress", "consent",
+    "patient", "worker", "dignity", "human interest", "non-discrimination",
+    "fairness", "privacy", "data protection", "freedom", "welfare",
+])
+_GOVERNANCE_KW = frozenset([
+    "transparency", "oversight", "audit", "monitor", "review", "enforc",
+    "mandatory", "obligation", "document", "evidence", "reporting",
+    "mechanism", "hierarchy", "lifecycle", "proportionat", "coherence",
+    "integrity layer", "coupling", "containment", "numbered", "shall",
+    "threshold", "constitutional", "self-application", "pdca",
+])
+
+
+def _classify_signal(label):
+    """Return 'human_interest', 'governance', or 'structural' for a signal label."""
+    ll = label.lower()
+    for kw in _HUMAN_INTEREST_KW:
+        if kw in ll:
+            return "human_interest"
+    for kw in _GOVERNANCE_KW:
+        if kw in ll:
+            return "governance"
+    return "structural"
+
+
+def _group_signals(signals):
+    """
+    Partition a list of (label, weight) signal tuples into display groups.
+    Returns dict: {"human_interest": [...], "governance": [...], "structural": [...]}
+    """
+    groups = {"human_interest": [], "governance": [], "structural": []}
+    for label, w in signals:
+        groups[_classify_signal(label)].append((label, w))
+    return groups
 
 
 # ── Markdown report generator ─────────────────────────────────────────────────
@@ -1946,8 +1975,8 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     p()
     p("**Layer 4 — Structural depth (adversarial hardening):** Three diagnostic checks "
       "run against every document regardless of formal compliance verdict:")
-    p("- **Coupling quality** (STRUCTURAL / SHALLOW / NEGATED / ABSENT): detects hollow "
-      "or negated Coupling declarations (LAIF v1.2 Principle 2)")
+    p("- **Coupling state** (STRUCTURALLY DECLARED / NOT STRUCTURALLY DECLARED): detects hollow "
+      "or negated Coupling declarations; implicit signals surfaced separately (LAIF v1.2 Principle 2)")
     p("- **Contradiction detection**: detects co-presence of claimed Integrity Layer "
       "properties and language that contradicts them (LAIF v1.2 A.2 Structural Honesty)")
     p("- **Sector gaming risk** (LOW / MEDIUM / HIGH): detects high sector keyword "
@@ -2104,29 +2133,29 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             p(f"**Coupling:** STRUCTURALLY DECLARED ✅")
             if cq_ev:
                 p(f"  Evidence: «{cq_ev[:150]}»")
-        else:
-            p(f"**Coupling:** NOT STRUCTURALLY DECLARED ❌")
+        elif cstate == "IMPLICIT":
+            p(f"**Coupling:** NOT STRUCTURALLY DECLARED (implicit signals present) ❌")
             if cq_val == "NEGATED" and cq_ev:
                 p(f"  Evidence of negation: «{cq_ev[:150]}»")
             p()
-            if ic.get("found"):
-                p("**Implicit coupling signals detected:**")
-                for excerpt in ic.get("matches", []):
-                    p(f"- «{excerpt}»")
-                p()
-                p("**Why this matters:**  ")
-                p("Protections are present but not structurally bound to restrictions. "
-                  "Each protection can be weakened independently without invalidating "
-                  "the governance logic. This satisfies governance intent but not the "
-                  "structural requirement of LAIF v1.2 Principle 2 (Coupling).")
-                p()
-                p("**Fix:**  ")
-                p("Explicitly pair each restriction with the human interest it protects. "
-                  "Ensure both carry equivalent normative force — neither can be weakened "
-                  "in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).")
-            else:
-                p("No implicit coupling signals detected. The document does not express "
-                  "protective intent in a form that can be structurally upgraded.")
+            p("**Implicit signals detected:**")
+            for excerpt in ic.get("matches", []):
+                p(f"- «{excerpt}»")
+            p()
+            p("**Interpretation:**  ")
+            p("These statements indicate recognition of responsibility or protection, "
+              "but do not explicitly bind restrictions to protected human interests.")
+            p()
+            p("**Fix:**  ")
+            p("Explicitly pair each restriction with the human interest it protects. "
+              "Ensure both carry equivalent normative force — neither can be weakened "
+              "in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).")
+        else:  # ABSENT
+            p(f"**Coupling:** NOT STRUCTURALLY DECLARED (no signals detected) ❌")
+            p()
+            p("No implicit coupling signals detected. The document does not express "
+              "protective intent in a form that can be structurally upgraded via "
+              "terminological revision alone.")
         p()
         if r.get("contradictions"):
             p("**⚠️ Structural Contradictions Detected:**")
@@ -2180,9 +2209,20 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 p(f"**Why:** {trace['reason']}")
                 p()
             if fired:
+                grp = _group_signals(fired)
                 p("**Signals detected:**")
-                for label, w in fired:
-                    p(f"- {label} (+{w} pts)")
+                if grp["human_interest"]:
+                    p("*Human interest signals:*")
+                    for label, w in grp["human_interest"]:
+                        p(f"- {label} (+{w} pts)")
+                if grp["governance"]:
+                    p("*Governance signals:*")
+                    for label, w in grp["governance"]:
+                        p(f"- {label} (+{w} pts)")
+                if grp["structural"]:
+                    p("*Structural signals:*")
+                    for label, w in grp["structural"]:
+                        p(f"- {label} (+{w} pts)")
                 p()
             if missed:
                 p("**Signals missing:**")
@@ -2190,7 +2230,7 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                     p(f"- {label} (missed {w} pts)")
                 p()
             if trace.get("weight_rationale"):
-                p(f"**Weight rationale:** {trace['weight_rationale']}")
+                p(f"**Dimension significance:** {trace['weight_rationale']}")
                 p()
 
         overall_bar = score_bar(r["overall_readiness_score"])
