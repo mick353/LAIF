@@ -21,6 +21,13 @@ Each document was assessed against three complementary layers:
 
 **Layer 3 — Sector analysis:** Each document assessed against a sector profile defining relevant human interests, risk indicator signals, and expected evidence artefacts. Produces sector risk alignment score (0–100) and sector-specific remediation priorities referencing LAIF source sections.
 
+**Layer 4 — Structural depth (adversarial hardening):** Three diagnostic checks run against every document regardless of formal compliance verdict:
+- **Coupling quality** (STRUCTURAL / SHALLOW / NEGATED / ABSENT): detects hollow or negated Coupling declarations (LAIF v1.2 Principle 2)
+- **Contradiction detection**: detects co-presence of claimed Integrity Layer properties and language that contradicts them (LAIF v1.2 A.2 Structural Honesty)
+- **Sector gaming risk** (LOW / MEDIUM / HIGH): detects high sector keyword density without substantive governance content (LAIF v1.2 Q2 Consistency)
+
+**Strong compliance verdict:** STRONG PASS requires formal PASS + STRUCTURAL Coupling + no contradictions. A formal PASS with shallow Coupling = WEAK PASS, not a strong compliance claim.
+
 ## Scoring Model
 | Dimension            | Weight | LAIF Source                | Description                                                              |
 | -------------------- | ------ | -------------------------- | ------------------------------------------------------------------------ |
@@ -37,63 +44,128 @@ Each document was assessed against three complementary layers:
 ## Per-Document Scorecards
 
 ### EU AI Act — Art. 9, 13 & 14
-**Formal LAIF Compliance:** ❌ FAIL  
+
+#### Executive Assessment
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 44/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+**Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
+
+**Key risks:**
+- Coupling quality is ABSENT: no governance restriction is structurally paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
+- Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Missing any single construct = FAIL regardless of overall readiness score.
+
+**Key strengths:**
+- Moderate conceptual proximity (49/100): key LAIF-aligned governance concepts are present, indicating partial substantive alignment with LAIF's foundational principles.
+- Strong sector risk alignment (60/100): the document addresses the materially relevant human interests for the General AI Governance deployment context.
+- Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
+
+
+#### Compliance Summary
+| Dimension                       | Verdict |
+| ------------------------------- | ------- |
+| Formal compliance (binary gate) | FAIL    |
+| Structural depth                | WEAK    |
+| Structural contradictions       | NONE    |
+| Sector gaming risk              | LOW     |
+| Final verdict                   | FAIL    |
+
 **Source type:** binding_regulation  
 **Sector:** General AI Governance  
+**Coupling Quality:** ABSENT — Coupling not present in document  
 **Remediation Effort:** HIGH
 
 
 #### Scores and Signal Breakdown
-**Structural: 41/100** ████░░░░░░
-  + numbered sub-requirements (+8)
-  + mandatory obligation language (shall) (+8)
-  + full lifecycle scope declared (+6)
-  + risk stratification / proportionality (+7)
-  + operational mechanisms defined (+6)
-  + review / monitoring mechanisms (+6)
-  − threshold gate conditions (all must pass simultaneously) (0/15)
-  − non-amendable constitutional hierarchy (0/18)
-  − self-application clause (Part Seven) (0/12)
-  − named decision instrument (Coherence Test / PDCA) (0/14)
+**Structural — 41/100** ████░░░░░░
 
-**Terminology: 0/100** ░░░░░░░░░░
-  − Coupling (0/25)
-  − Coherence Test (0/20)
-  − Integrity Layer (0/20)
-  − Structural Transparency (0/10)
-  − Structural Honesty (0/10)
-  − Structural Containment (0/10)
-  − Materially Affects Interests (0/5)
+**Why:** Weak structural coverage (41/100): only 6 of 10 signals matched. Principal gaps: threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy, self-application clause (Part Seven).
 
-**Conceptual Proximity: 49/100** █████░░░░░
-  + human rights / fundamental interests (+10)
-  + transparency (+8)
-  + explainability / interpretability (+8)
-  + human oversight (+8)
-  + safety (+7)
-  + risk governance (+8)
-  − accountability (0/8)
-  − proportionality (0/8)
-  − contestability / redress (0/9)
-  − reversibility / modifiability (0/8)
-  − traceability / responsibility (0/10)
-  − fairness / labour / non-discrimination (0/8)
+**Signals detected:**
+- numbered sub-requirements (+8 pts)
+- mandatory obligation language (shall) (+8 pts)
+- full lifecycle scope declared (+6 pts)
+- risk stratification / proportionality (+7 pts)
+- operational mechanisms defined (+6 pts)
+- review / monitoring mechanisms (+6 pts)
 
-**Auditability: 60/100** ██████░░░░
-  + numbered traceable requirements (+20)
-  + evidence / documentation requirements (+20)
-  + review / monitoring mechanisms (+20)
-  − multiple mandatory obligations (shall … shall) (0/20)
-  − specific, measurable obligations (0/20)
+**Signals missing:**
+- threshold gate conditions (all must pass simultaneously) (missed 15 pts)
+- non-amendable constitutional hierarchy (missed 18 pts)
+- self-application clause (Part Seven) (missed 12 pts)
+- named decision instrument (Coherence Test / PDCA) (missed 14 pts)
 
-**Enforceability: 60/100** ██████░░░░
-  + mandatory language (shall) (+20)
-  + risk-proportionate thresholds (+20)
-  + non-discretionary operational mandates (+20)
-  − named responsible parties (0/20)
-  − enforcement consequences / penalties (0/20)
+**Weight rationale:** 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).
 
-**Overall Readiness: 44/100** ████░░░░░░  (Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + Enforceability×0.20)
+**Terminology — 0/100** ░░░░░░░░░░
+
+**Why:** No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- Coupling (missed 25 pts)
+- Coherence Test (missed 20 pts)
+- Integrity Layer (missed 20 pts)
+- Structural Transparency (missed 10 pts)
+- Structural Honesty (missed 10 pts)
+- Structural Containment (missed 10 pts)
+- Materially Affects Interests (missed 5 pts)
+
+**Weight rationale:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
+
+**Conceptual Proximity — 49/100** █████░░░░░
+
+**Why:** Weak conceptual coverage (49/100): only 6 of 12 signals matched. Principal gaps: accountability, proportionality, contestability / redress.
+
+**Signals detected:**
+- human rights / fundamental interests (+10 pts)
+- transparency (+8 pts)
+- explainability / interpretability (+8 pts)
+- human oversight (+8 pts)
+- safety (+7 pts)
+- risk governance (+8 pts)
+
+**Signals missing:**
+- accountability (missed 8 pts)
+- proportionality (missed 8 pts)
+- contestability / redress (missed 9 pts)
+- reversibility / modifiability (missed 8 pts)
+- traceability / responsibility (missed 10 pts)
+- fairness / labour / non-discrimination (missed 8 pts)
+
+**Weight rationale:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
+
+**Auditability — 60/100** ██████░░░░
+
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+
+**Signals detected:**
+- numbered traceable requirements (+20 pts)
+- evidence / documentation requirements (+20 pts)
+- review / monitoring mechanisms (+20 pts)
+
+**Signals missing:**
+- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- specific, measurable obligations (missed 20 pts)
+
+**Weight rationale:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
+
+**Enforceability — 60/100** ██████░░░░
+
+**Why:** Partial enforceability coverage (60/100): 3 of 5 signals matched. Key gaps: named responsible parties, enforcement consequences / penalties.
+
+**Signals detected:**
+- mandatory language (shall) (+20 pts)
+- risk-proportionate thresholds (+20 pts)
+- non-discretionary operational mandates (+20 pts)
+
+**Signals missing:**
+- named responsible parties (missed 20 pts)
+- enforcement consequences / penalties (missed 20 pts)
+
+**Weight rationale:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
+
+**Overall Readiness — 44/100** ████░░░░░░
+
+**Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
 
 #### Construct Coverage
@@ -168,77 +240,169 @@ None detected.
 - terminological — no canonical LAIF terms present
 
 
-#### Sector-Aware Remediation (ordered by impact)
-1. Declare structural Coupling for each governance restriction: explicitly identify the specific human interest at stake (not a category — name it with specificity, e.g. 'the patient's interest in receiving treatment decisions based on accurate clinical assessment') and pair it with a protection of equivalent normative force. The restriction and its paired protection must not be capable of being weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-2. Apply the Coherence Test before any governance provision is issued or deployment authorised: Q1 Coupling (does the deployment identify and protect the specific human interest at risk?), Q2 Consistency (would this governance logic produce just and workable outcomes at all comparable scales?), Q3 Reversibility (does the deployment preserve the capacity of future actors to reverse or modify its consequences?). All three must be answered affirmatively. Failure at Q1 constitutes automatic failure of the full test (LAIF v1.2 Part One).
-3. Establish the Integrity Layer as a deployment precondition: A.1 Structural Transparency (system can produce a compliant meaningful account of any material output), A.2 Structural Honesty (stated objectives correspond to implemented objectives, verified by independent review), A.3 Structural Containment (system operates within documented operational boundaries in all tested conditions including edge cases). All three must be satisfied simultaneously before deployment proceeds. Partial satisfaction is failure — there is no partial credit (LAIF v1.2 Part Two; Toolkit §1.3–§1.5).
-4. Adopt LAIF canonical terminology throughout the document. Replace informal equivalents with precise terms: 'alignment/connection/linkage' → 'Coupling'; 'integrity conditions/requirements' → 'Integrity Layer'; 'coherence check' → 'Coherence Test'; 'transparency requirements' → 'Structural Transparency'; 'honesty requirements' → 'Structural Honesty'; 'boundary controls' → 'Structural Containment'. Each canonical term carries structural enforcement meaning that paraphrases do not (LAIF_Compliance_Toolkit.txt §1).
-5. Declare a non-amendable constitutional hierarchy with three tiers: (i) Foundational Principles at the apex — non-amendable, define the governance standard; (ii) Provisions derived from Principles — cannot contradict Principles; (iii) Operational Standards (Toolkit-level definitions) — subordinate to Provisions, revisable without amending Principles. This hierarchy is not optional — it prevents operational revision from eroding constitutional guarantees (LAIF v1.2 Principle 3).
-6. Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-7. Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
-8. Establish the Integrity Layer as a deployment precondition: A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment must all be satisfied simultaneously. Partial satisfaction = failure (LAIF v1.2 Part Two; Toolkit §1.3–§1.5).
-9. Add a self-application clause: specify that the framework applies to regulatory bodies and governance actors themselves, not only to AI operators (LAIF v1.2 Part Seven).
+#### Structured Findings
+**🔴 [HIGH] Coupling absent — no restriction paired with a human interest**
+- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+
+**🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
+- *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
+- *Impact:* Formal LAIF compliance is binary. Missing any single required construct = FAIL regardless of overall readiness score. These constructs are structurally necessary — they cannot be satisfied by partial presence.
+- *Recommended action:* Add the missing constructs substantively — each must be meaningfully implemented, not merely cited. Implement in this priority order: Coupling → Coherence Test → Integrity Layer → constitutional hierarchy → self-application clause.
+
+
+
+#### Remediation Plan (ordered by impact)
+**1. Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+   **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
+   **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+
+**2. Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
+   **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
+   **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+
+**3. Problem:** Integrity Layer not declared as a deployment precondition.
+   **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
+   **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+
+**4. Problem:** Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy, self-application clause (Part Seven).
+   **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
+   **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
+
+**5. Problem:** Introduce structural Coupling for each governance provision — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   **Concrete fix:** Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
+
+**6. Problem:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   **Concrete fix:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
+
 
 ---
 
 ### NIST AI RMF — Govern & Map Functions
-**Formal LAIF Compliance:** ❌ FAIL  
+
+#### Executive Assessment
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 30/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+**Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
+
+**Key risks:**
+- Coupling quality is ABSENT: no governance restriction is structurally paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
+- Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Missing any single construct = FAIL regardless of overall readiness score.
+- Low enforceability (20/100): mandatory language ('shall'), named responsible parties, and enforcement consequences are largely absent. Governance provisions are aspirational rather than operationally binding.
+
+**Key strengths:**
+- Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
+
+
+#### Compliance Summary
+| Dimension                       | Verdict |
+| ------------------------------- | ------- |
+| Formal compliance (binary gate) | FAIL    |
+| Structural depth                | WEAK    |
+| Structural contradictions       | NONE    |
+| Sector gaming risk              | LOW     |
+| Final verdict                   | FAIL    |
+
 **Source type:** voluntary_framework  
 **Sector:** General AI Governance  
+**Coupling Quality:** ABSENT — Coupling not present in document  
 **Remediation Effort:** VERY HIGH
 
 
 #### Scores and Signal Breakdown
-**Structural: 26/100** ███░░░░░░░
-  + numbered sub-requirements (+8)
-  + full lifecycle scope declared (+6)
-  + operational mechanisms defined (+6)
-  + review / monitoring mechanisms (+6)
-  − mandatory obligation language (shall) (0/8)
-  − risk stratification / proportionality (0/7)
-  − threshold gate conditions (all must pass simultaneously) (0/15)
-  − non-amendable constitutional hierarchy (0/18)
-  − self-application clause (Part Seven) (0/12)
-  − named decision instrument (Coherence Test / PDCA) (0/14)
+**Structural — 26/100** ███░░░░░░░
 
-**Terminology: 0/100** ░░░░░░░░░░
-  − Coupling (0/25)
-  − Coherence Test (0/20)
-  − Integrity Layer (0/20)
-  − Structural Transparency (0/10)
-  − Structural Honesty (0/10)
-  − Structural Containment (0/10)
-  − Materially Affects Interests (0/5)
+**Why:** Weak structural coverage (26/100): only 4 of 10 signals matched. Principal gaps: mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
 
-**Conceptual Proximity: 39/100** ████░░░░░░
-  + transparency (+8)
-  + accountability (+8)
-  + human oversight (+8)
-  + safety (+7)
-  + risk governance (+8)
-  − human rights / fundamental interests (0/10)
-  − explainability / interpretability (0/8)
-  − proportionality (0/8)
-  − contestability / redress (0/9)
-  − reversibility / modifiability (0/8)
-  − traceability / responsibility (0/10)
-  − fairness / labour / non-discrimination (0/8)
+**Signals detected:**
+- numbered sub-requirements (+8 pts)
+- full lifecycle scope declared (+6 pts)
+- operational mechanisms defined (+6 pts)
+- review / monitoring mechanisms (+6 pts)
 
-**Auditability: 60/100** ██████░░░░
-  + numbered traceable requirements (+20)
-  + evidence / documentation requirements (+20)
-  + review / monitoring mechanisms (+20)
-  − multiple mandatory obligations (shall … shall) (0/20)
-  − specific, measurable obligations (0/20)
+**Signals missing:**
+- mandatory obligation language (shall) (missed 8 pts)
+- risk stratification / proportionality (missed 7 pts)
+- threshold gate conditions (all must pass simultaneously) (missed 15 pts)
+- non-amendable constitutional hierarchy (missed 18 pts)
+- self-application clause (Part Seven) (missed 12 pts)
+- named decision instrument (Coherence Test / PDCA) (missed 14 pts)
 
-**Enforceability: 20/100** ██░░░░░░░░
-  + enforcement consequences / penalties (+20)
-  − mandatory language (shall) (0/20)
-  − named responsible parties (0/20)
-  − risk-proportionate thresholds (0/20)
-  − non-discretionary operational mandates (0/20)
+**Weight rationale:** 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).
 
-**Overall Readiness: 30/100** ███░░░░░░░  (Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + Enforceability×0.20)
+**Terminology — 0/100** ░░░░░░░░░░
+
+**Why:** No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- Coupling (missed 25 pts)
+- Coherence Test (missed 20 pts)
+- Integrity Layer (missed 20 pts)
+- Structural Transparency (missed 10 pts)
+- Structural Honesty (missed 10 pts)
+- Structural Containment (missed 10 pts)
+- Materially Affects Interests (missed 5 pts)
+
+**Weight rationale:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
+
+**Conceptual Proximity — 39/100** ████░░░░░░
+
+**Why:** Weak conceptual coverage (39/100): only 5 of 12 signals matched. Principal gaps: human rights / fundamental interests, explainability / interpretability, proportionality.
+
+**Signals detected:**
+- transparency (+8 pts)
+- accountability (+8 pts)
+- human oversight (+8 pts)
+- safety (+7 pts)
+- risk governance (+8 pts)
+
+**Signals missing:**
+- human rights / fundamental interests (missed 10 pts)
+- explainability / interpretability (missed 8 pts)
+- proportionality (missed 8 pts)
+- contestability / redress (missed 9 pts)
+- reversibility / modifiability (missed 8 pts)
+- traceability / responsibility (missed 10 pts)
+- fairness / labour / non-discrimination (missed 8 pts)
+
+**Weight rationale:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
+
+**Auditability — 60/100** ██████░░░░
+
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+
+**Signals detected:**
+- numbered traceable requirements (+20 pts)
+- evidence / documentation requirements (+20 pts)
+- review / monitoring mechanisms (+20 pts)
+
+**Signals missing:**
+- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- specific, measurable obligations (missed 20 pts)
+
+**Weight rationale:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
+
+**Enforceability — 20/100** ██░░░░░░░░
+
+**Why:** Weak enforceability coverage (20/100): only 1 of 5 signals matched. Principal gaps: mandatory language (shall), named responsible parties, risk-proportionate thresholds.
+
+**Signals detected:**
+- enforcement consequences / penalties (+20 pts)
+
+**Signals missing:**
+- mandatory language (shall) (missed 20 pts)
+- named responsible parties (missed 20 pts)
+- risk-proportionate thresholds (missed 20 pts)
+- non-discretionary operational mandates (missed 20 pts)
+
+**Weight rationale:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
+
+**Overall Readiness — 30/100** ███░░░░░░░
+
+**Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
 
 #### Construct Coverage
@@ -315,77 +479,178 @@ None detected.
 - enforceability — insufficient mandatory operational requirements
 
 
-#### Sector-Aware Remediation (ordered by impact)
-1. Declare structural Coupling for each governance restriction: explicitly identify the specific human interest at stake (not a category — name it with specificity, e.g. 'the patient's interest in receiving treatment decisions based on accurate clinical assessment') and pair it with a protection of equivalent normative force. The restriction and its paired protection must not be capable of being weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-2. Apply the Coherence Test before any governance provision is issued or deployment authorised: Q1 Coupling (does the deployment identify and protect the specific human interest at risk?), Q2 Consistency (would this governance logic produce just and workable outcomes at all comparable scales?), Q3 Reversibility (does the deployment preserve the capacity of future actors to reverse or modify its consequences?). All three must be answered affirmatively. Failure at Q1 constitutes automatic failure of the full test (LAIF v1.2 Part One).
-3. Establish the Integrity Layer as a deployment precondition: A.1 Structural Transparency (system can produce a compliant meaningful account of any material output), A.2 Structural Honesty (stated objectives correspond to implemented objectives, verified by independent review), A.3 Structural Containment (system operates within documented operational boundaries in all tested conditions including edge cases). All three must be satisfied simultaneously before deployment proceeds. Partial satisfaction is failure — there is no partial credit (LAIF v1.2 Part Two; Toolkit §1.3–§1.5).
-4. Adopt LAIF canonical terminology throughout the document. Replace informal equivalents with precise terms: 'alignment/connection/linkage' → 'Coupling'; 'integrity conditions/requirements' → 'Integrity Layer'; 'coherence check' → 'Coherence Test'; 'transparency requirements' → 'Structural Transparency'; 'honesty requirements' → 'Structural Honesty'; 'boundary controls' → 'Structural Containment'. Each canonical term carries structural enforcement meaning that paraphrases do not (LAIF_Compliance_Toolkit.txt §1).
-5. Declare a non-amendable constitutional hierarchy with three tiers: (i) Foundational Principles at the apex — non-amendable, define the governance standard; (ii) Provisions derived from Principles — cannot contradict Principles; (iii) Operational Standards (Toolkit-level definitions) — subordinate to Provisions, revisable without amending Principles. This hierarchy is not optional — it prevents operational revision from eroding constitutional guarantees (LAIF v1.2 Principle 3).
-6. Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-7. Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
-8. Establish the Integrity Layer as a deployment precondition: A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment must all be satisfied simultaneously. Partial satisfaction = failure (LAIF v1.2 Part Two; Toolkit §1.3–§1.5).
-9. Add a self-application clause: specify that the framework applies to regulatory bodies and governance actors themselves, not only to AI operators (LAIF v1.2 Part Seven).
+#### Structured Findings
+**🔴 [HIGH] Coupling absent — no restriction paired with a human interest**
+- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+
+**🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
+- *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
+- *Impact:* Formal LAIF compliance is binary. Missing any single required construct = FAIL regardless of overall readiness score. These constructs are structurally necessary — they cannot be satisfied by partial presence.
+- *Recommended action:* Add the missing constructs substantively — each must be meaningfully implemented, not merely cited. Implement in this priority order: Coupling → Coherence Test → Integrity Layer → constitutional hierarchy → self-application clause.
+
+**🟡 [MEDIUM] Low Structural governance architecture score (26/100)**
+- *Evidence:* Score 26/100. Key missed signals: mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
+- *Impact:* Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
+- *Recommended action:* Target the missed signals for this dimension: mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously). The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
+
+**🟡 [MEDIUM] Low Enforceability score (20/100)**
+- *Evidence:* Score 20/100. Key missed signals: mandatory language (shall), named responsible parties, risk-proportionate thresholds.
+- *Impact:* Without enforceable obligations, regulatory bodies cannot hold operators accountable for governance failures. The standard is aspirational rather than operationally binding — no party can be required to comply.
+- *Recommended action:* Target the missed signals for this dimension: mandatory language (shall), named responsible parties, risk-proportionate thresholds. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
+
+
+
+#### Remediation Plan (ordered by impact)
+**1. Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+   **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
+   **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+
+**2. Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
+   **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
+   **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+
+**3. Problem:** Integrity Layer not declared as a deployment precondition.
+   **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
+   **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+
+**4. Problem:** Constitutional hierarchy not declared (structural score 26/100). Missing: mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
+   **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
+   **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
+
+**5. Problem:** Introduce structural Coupling for each governance provision — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   **Concrete fix:** Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
+
+**6. Problem:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   **Concrete fix:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
+
 
 ---
 
 ### OECD AI Principles (2019, rev. 2024)
-**Formal LAIF Compliance:** ❌ FAIL  
+
+#### Executive Assessment
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 22/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+**Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
+
+**Key risks:**
+- Coupling quality is ABSENT: no governance restriction is structurally paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
+- Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Missing any single construct = FAIL regardless of overall readiness score.
+- Low enforceability (20/100): mandatory language ('shall'), named responsible parties, and enforcement consequences are largely absent. Governance provisions are aspirational rather than operationally binding.
+
+**Key strengths:**
+- High conceptual proximity (76/100): accountability, oversight, transparency, and contestability are expressed through the document's own vocabulary. The adoption pathway is terminological and structural, not conceptual — the underlying intent is already present.
+- Strong sector risk alignment (60/100): the document addresses the materially relevant human interests for the General AI Governance deployment context.
+
+
+#### Compliance Summary
+| Dimension                       | Verdict |
+| ------------------------------- | ------- |
+| Formal compliance (binary gate) | FAIL    |
+| Structural depth                | WEAK    |
+| Structural contradictions       | NONE    |
+| Sector gaming risk              | LOW     |
+| Final verdict                   | FAIL    |
+
 **Source type:** international_principles  
 **Sector:** General AI Governance  
+**Coupling Quality:** ABSENT — Coupling not present in document  
 **Remediation Effort:** VERY HIGH
 
 
 #### Scores and Signal Breakdown
-**Structural: 12/100** █░░░░░░░░░
-  + full lifecycle scope declared (+6)
-  + operational mechanisms defined (+6)
-  − numbered sub-requirements (0/8)
-  − mandatory obligation language (shall) (0/8)
-  − risk stratification / proportionality (0/7)
-  − review / monitoring mechanisms (0/6)
-  − threshold gate conditions (all must pass simultaneously) (0/15)
-  − non-amendable constitutional hierarchy (0/18)
-  − self-application clause (Part Seven) (0/12)
-  − named decision instrument (Coherence Test / PDCA) (0/14)
+**Structural — 12/100** █░░░░░░░░░
 
-**Terminology: 0/100** ░░░░░░░░░░
-  − Coupling (0/25)
-  − Coherence Test (0/20)
-  − Integrity Layer (0/20)
-  − Structural Transparency (0/10)
-  − Structural Honesty (0/10)
-  − Structural Containment (0/10)
-  − Materially Affects Interests (0/5)
+**Why:** Weak structural coverage (12/100): only 2 of 10 signals matched. Principal gaps: numbered sub-requirements, mandatory obligation language (shall), risk stratification / proportionality.
 
-**Conceptual Proximity: 76/100** ████████░░
-  + human rights / fundamental interests (+10)
-  + transparency (+8)
-  + explainability / interpretability (+8)
-  + accountability (+8)
-  + human oversight (+8)
-  + safety (+7)
-  + contestability / redress (+9)
-  + traceability / responsibility (+10)
-  + fairness / labour / non-discrimination (+8)
-  − proportionality (0/8)
-  − reversibility / modifiability (0/8)
-  − risk governance (0/8)
+**Signals detected:**
+- full lifecycle scope declared (+6 pts)
+- operational mechanisms defined (+6 pts)
 
-**Auditability: 0/100** ░░░░░░░░░░
-  − multiple mandatory obligations (shall … shall) (0/20)
-  − numbered traceable requirements (0/20)
-  − evidence / documentation requirements (0/20)
-  − review / monitoring mechanisms (0/20)
-  − specific, measurable obligations (0/20)
+**Signals missing:**
+- numbered sub-requirements (missed 8 pts)
+- mandatory obligation language (shall) (missed 8 pts)
+- risk stratification / proportionality (missed 7 pts)
+- review / monitoring mechanisms (missed 6 pts)
+- threshold gate conditions (all must pass simultaneously) (missed 15 pts)
+- non-amendable constitutional hierarchy (missed 18 pts)
+- self-application clause (Part Seven) (missed 12 pts)
+- named decision instrument (Coherence Test / PDCA) (missed 14 pts)
 
-**Enforceability: 20/100** ██░░░░░░░░
-  + named responsible parties (+20)
-  − mandatory language (shall) (0/20)
-  − risk-proportionate thresholds (0/20)
-  − enforcement consequences / penalties (0/20)
-  − non-discretionary operational mandates (0/20)
+**Weight rationale:** 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).
 
-**Overall Readiness: 22/100** ██░░░░░░░░  (Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + Enforceability×0.20)
+**Terminology — 0/100** ░░░░░░░░░░
+
+**Why:** No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- Coupling (missed 25 pts)
+- Coherence Test (missed 20 pts)
+- Integrity Layer (missed 20 pts)
+- Structural Transparency (missed 10 pts)
+- Structural Honesty (missed 10 pts)
+- Structural Containment (missed 10 pts)
+- Materially Affects Interests (missed 5 pts)
+
+**Weight rationale:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
+
+**Conceptual Proximity — 76/100** ████████░░
+
+**Why:** Partial conceptual coverage (76/100): 9 of 12 signals matched. Key gaps: proportionality, reversibility / modifiability.
+
+**Signals detected:**
+- human rights / fundamental interests (+10 pts)
+- transparency (+8 pts)
+- explainability / interpretability (+8 pts)
+- accountability (+8 pts)
+- human oversight (+8 pts)
+- safety (+7 pts)
+- contestability / redress (+9 pts)
+- traceability / responsibility (+10 pts)
+- fairness / labour / non-discrimination (+8 pts)
+
+**Signals missing:**
+- proportionality (missed 8 pts)
+- reversibility / modifiability (missed 8 pts)
+- risk governance (missed 8 pts)
+
+**Weight rationale:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
+
+**Auditability — 0/100** ░░░░░░░░░░
+
+**Why:** No auditability signals present — none of the 5 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- numbered traceable requirements (missed 20 pts)
+- evidence / documentation requirements (missed 20 pts)
+- review / monitoring mechanisms (missed 20 pts)
+- specific, measurable obligations (missed 20 pts)
+
+**Weight rationale:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
+
+**Enforceability — 20/100** ██░░░░░░░░
+
+**Why:** Weak enforceability coverage (20/100): only 1 of 5 signals matched. Principal gaps: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties.
+
+**Signals detected:**
+- named responsible parties (+20 pts)
+
+**Signals missing:**
+- mandatory language (shall) (missed 20 pts)
+- risk-proportionate thresholds (missed 20 pts)
+- enforcement consequences / penalties (missed 20 pts)
+- non-discretionary operational mandates (missed 20 pts)
+
+**Weight rationale:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
+
+**Overall Readiness — 22/100** ██░░░░░░░░
+
+**Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
 
 #### Construct Coverage
@@ -461,77 +726,185 @@ None detected.
 - enforceability — insufficient mandatory operational requirements
 
 
-#### Sector-Aware Remediation (ordered by impact)
-1. Declare structural Coupling for each governance restriction: explicitly identify the specific human interest at stake (not a category — name it with specificity, e.g. 'the patient's interest in receiving treatment decisions based on accurate clinical assessment') and pair it with a protection of equivalent normative force. The restriction and its paired protection must not be capable of being weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-2. Apply the Coherence Test before any governance provision is issued or deployment authorised: Q1 Coupling (does the deployment identify and protect the specific human interest at risk?), Q2 Consistency (would this governance logic produce just and workable outcomes at all comparable scales?), Q3 Reversibility (does the deployment preserve the capacity of future actors to reverse or modify its consequences?). All three must be answered affirmatively. Failure at Q1 constitutes automatic failure of the full test (LAIF v1.2 Part One).
-3. Establish the Integrity Layer as a deployment precondition: A.1 Structural Transparency (system can produce a compliant meaningful account of any material output), A.2 Structural Honesty (stated objectives correspond to implemented objectives, verified by independent review), A.3 Structural Containment (system operates within documented operational boundaries in all tested conditions including edge cases). All three must be satisfied simultaneously before deployment proceeds. Partial satisfaction is failure — there is no partial credit (LAIF v1.2 Part Two; Toolkit §1.3–§1.5).
-4. Adopt LAIF canonical terminology throughout the document. Replace informal equivalents with precise terms: 'alignment/connection/linkage' → 'Coupling'; 'integrity conditions/requirements' → 'Integrity Layer'; 'coherence check' → 'Coherence Test'; 'transparency requirements' → 'Structural Transparency'; 'honesty requirements' → 'Structural Honesty'; 'boundary controls' → 'Structural Containment'. Each canonical term carries structural enforcement meaning that paraphrases do not (LAIF_Compliance_Toolkit.txt §1).
-5. Declare a non-amendable constitutional hierarchy with three tiers: (i) Foundational Principles at the apex — non-amendable, define the governance standard; (ii) Provisions derived from Principles — cannot contradict Principles; (iii) Operational Standards (Toolkit-level definitions) — subordinate to Provisions, revisable without amending Principles. This hierarchy is not optional — it prevents operational revision from eroding constitutional guarantees (LAIF v1.2 Principle 3).
-6. Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-7. Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
-8. Establish the Integrity Layer as a deployment precondition: A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment must all be satisfied simultaneously. Partial satisfaction = failure (LAIF v1.2 Part Two; Toolkit §1.3–§1.5).
-9. Add a self-application clause: specify that the framework applies to regulatory bodies and governance actors themselves, not only to AI operators (LAIF v1.2 Part Seven).
+#### Structured Findings
+**🔴 [HIGH] Coupling absent — no restriction paired with a human interest**
+- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+
+**🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
+- *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
+- *Impact:* Formal LAIF compliance is binary. Missing any single required construct = FAIL regardless of overall readiness score. These constructs are structurally necessary — they cannot be satisfied by partial presence.
+- *Recommended action:* Add the missing constructs substantively — each must be meaningfully implemented, not merely cited. Implement in this priority order: Coupling → Coherence Test → Integrity Layer → constitutional hierarchy → self-application clause.
+
+**🟡 [MEDIUM] Low Structural governance architecture score (12/100)**
+- *Evidence:* Score 12/100. Key missed signals: numbered sub-requirements, mandatory obligation language (shall), risk stratification / proportionality.
+- *Impact:* Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
+- *Recommended action:* Target the missed signals for this dimension: numbered sub-requirements, mandatory obligation language (shall), risk stratification / proportionality. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
+
+**🔴 [HIGH] Low Auditability score (0/100)**
+- *Evidence:* Score 0/100. Key missed signals: multiple mandatory obligations (shall … shall), numbered traceable requirements, evidence / documentation requirements.
+- *Impact:* Without numbered, traceable obligations, a PDCA auditor has no objective basis to verify compliance — compliance claims rest on assertions rather than verifiable evidence. External audit cannot proceed.
+- *Recommended action:* Target the missed signals for this dimension: multiple mandatory obligations (shall … shall), numbered traceable requirements, evidence / documentation requirements. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
+
+**🟡 [MEDIUM] Low Enforceability score (20/100)**
+- *Evidence:* Score 20/100. Key missed signals: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties.
+- *Impact:* Without enforceable obligations, regulatory bodies cannot hold operators accountable for governance failures. The standard is aspirational rather than operationally binding — no party can be required to comply.
+- *Recommended action:* Target the missed signals for this dimension: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
+
+
+
+#### Remediation Plan (ordered by impact)
+**1. Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+   **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
+   **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+
+**2. Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
+   **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
+   **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+
+**3. Problem:** Integrity Layer not declared as a deployment precondition.
+   **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
+   **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+
+**4. Problem:** Constitutional hierarchy not declared (structural score 12/100). Missing: numbered sub-requirements, mandatory obligation language (shall), risk stratification / proportionality.
+   **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
+   **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
+
+**5. Problem:** Introduce structural Coupling for each governance provision — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   **Concrete fix:** Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
+
+**6. Problem:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   **Concrete fix:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
+
 
 ---
 
 ### US Executive Order 14110 — §4 Safety & §7 Workers
-**Formal LAIF Compliance:** ❌ FAIL  
+
+#### Executive Assessment
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 50/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+**Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
+
+**Key risks:**
+- Coupling quality is ABSENT: no governance restriction is structurally paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
+- Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Missing any single construct = FAIL regardless of overall readiness score.
+
+**Key strengths:**
+- High conceptual proximity (66/100): accountability, oversight, transparency, and contestability are expressed through the document's own vocabulary. The adoption pathway is terminological and structural, not conceptual — the underlying intent is already present.
+- Strong sector risk alignment (100/100): the document addresses the materially relevant human interests for the General AI Governance deployment context.
+- Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
+
+
+#### Compliance Summary
+| Dimension                       | Verdict |
+| ------------------------------- | ------- |
+| Formal compliance (binary gate) | FAIL    |
+| Structural depth                | WEAK    |
+| Structural contradictions       | NONE    |
+| Sector gaming risk              | LOW     |
+| Final verdict                   | FAIL    |
+
 **Source type:** executive_directive  
 **Sector:** General AI Governance  
+**Coupling Quality:** ABSENT — Coupling not present in document  
 **Remediation Effort:** HIGH
 
 
 #### Scores and Signal Breakdown
-**Structural: 35/100** ████░░░░░░
-  + numbered sub-requirements (+8)
-  + mandatory obligation language (shall) (+8)
-  + risk stratification / proportionality (+7)
-  + operational mechanisms defined (+6)
-  + review / monitoring mechanisms (+6)
-  − full lifecycle scope declared (0/6)
-  − threshold gate conditions (all must pass simultaneously) (0/15)
-  − non-amendable constitutional hierarchy (0/18)
-  − self-application clause (Part Seven) (0/12)
-  − named decision instrument (Coherence Test / PDCA) (0/14)
+**Structural — 35/100** ████░░░░░░
 
-**Terminology: 0/100** ░░░░░░░░░░
-  − Coupling (0/25)
-  − Coherence Test (0/20)
-  − Integrity Layer (0/20)
-  − Structural Transparency (0/10)
-  − Structural Honesty (0/10)
-  − Structural Containment (0/10)
-  − Materially Affects Interests (0/5)
+**Why:** Weak structural coverage (35/100): only 5 of 10 signals matched. Principal gaps: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy.
 
-**Conceptual Proximity: 66/100** ███████░░░
-  + human rights / fundamental interests (+10)
-  + transparency (+8)
-  + accountability (+8)
-  + human oversight (+8)
-  + proportionality (+8)
-  + safety (+7)
-  + contestability / redress (+9)
-  + fairness / labour / non-discrimination (+8)
-  − explainability / interpretability (0/8)
-  − reversibility / modifiability (0/8)
-  − risk governance (0/8)
-  − traceability / responsibility (0/10)
+**Signals detected:**
+- numbered sub-requirements (+8 pts)
+- mandatory obligation language (shall) (+8 pts)
+- risk stratification / proportionality (+7 pts)
+- operational mechanisms defined (+6 pts)
+- review / monitoring mechanisms (+6 pts)
 
-**Auditability: 60/100** ██████░░░░
-  + numbered traceable requirements (+20)
-  + evidence / documentation requirements (+20)
-  + review / monitoring mechanisms (+20)
-  − multiple mandatory obligations (shall … shall) (0/20)
-  − specific, measurable obligations (0/20)
+**Signals missing:**
+- full lifecycle scope declared (missed 6 pts)
+- threshold gate conditions (all must pass simultaneously) (missed 15 pts)
+- non-amendable constitutional hierarchy (missed 18 pts)
+- self-application clause (Part Seven) (missed 12 pts)
+- named decision instrument (Coherence Test / PDCA) (missed 14 pts)
 
-**Enforceability: 80/100** ████████░░
-  + mandatory language (shall) (+20)
-  + named responsible parties (+20)
-  + risk-proportionate thresholds (+20)
-  + non-discretionary operational mandates (+20)
-  − enforcement consequences / penalties (0/20)
+**Weight rationale:** 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).
 
-**Overall Readiness: 50/100** █████░░░░░  (Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + Enforceability×0.20)
+**Terminology — 0/100** ░░░░░░░░░░
+
+**Why:** No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- Coupling (missed 25 pts)
+- Coherence Test (missed 20 pts)
+- Integrity Layer (missed 20 pts)
+- Structural Transparency (missed 10 pts)
+- Structural Honesty (missed 10 pts)
+- Structural Containment (missed 10 pts)
+- Materially Affects Interests (missed 5 pts)
+
+**Weight rationale:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
+
+**Conceptual Proximity — 66/100** ███████░░░
+
+**Why:** Partial conceptual coverage (66/100): 8 of 12 signals matched. Key gaps: explainability / interpretability, reversibility / modifiability.
+
+**Signals detected:**
+- human rights / fundamental interests (+10 pts)
+- transparency (+8 pts)
+- accountability (+8 pts)
+- human oversight (+8 pts)
+- proportionality (+8 pts)
+- safety (+7 pts)
+- contestability / redress (+9 pts)
+- fairness / labour / non-discrimination (+8 pts)
+
+**Signals missing:**
+- explainability / interpretability (missed 8 pts)
+- reversibility / modifiability (missed 8 pts)
+- risk governance (missed 8 pts)
+- traceability / responsibility (missed 10 pts)
+
+**Weight rationale:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
+
+**Auditability — 60/100** ██████░░░░
+
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+
+**Signals detected:**
+- numbered traceable requirements (+20 pts)
+- evidence / documentation requirements (+20 pts)
+- review / monitoring mechanisms (+20 pts)
+
+**Signals missing:**
+- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- specific, measurable obligations (missed 20 pts)
+
+**Weight rationale:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
+
+**Enforceability — 80/100** ████████░░
+
+**Why:** Strong enforceability coverage (80/100): 4 of 5 signals matched. Strongest contributors: mandatory language (shall), named responsible parties.
+
+**Signals detected:**
+- mandatory language (shall) (+20 pts)
+- named responsible parties (+20 pts)
+- risk-proportionate thresholds (+20 pts)
+- non-discretionary operational mandates (+20 pts)
+
+**Signals missing:**
+- enforcement consequences / penalties (missed 20 pts)
+
+**Weight rationale:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
+
+**Overall Readiness — 50/100** █████░░░░░
+
+**Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
 
 #### Construct Coverage
@@ -610,79 +983,183 @@ None detected.
 - terminological (paraphrase) — forbidden substitutions detected
 
 
-#### Sector-Aware Remediation (ordered by impact)
-1. Paraphrase rewrite required — 'Coupling' guard triggered. Detected: "engage with industry, civil society, and other stakeholders to develop guidelines, standards, methodologies, and related". Replace the forbidden term with the canonical LAIF term 'Coupling'. The substitution is not merely terminological: 'Coupling' carries a structural enforcement requirement that informal equivalents do not. Rewrite pattern: '[alignment/connection/linkage] between [X] and [Y]' → 'Coupling between [X] and [the specific human interest Y protects], with a protection of equivalent normative force' (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-2. Paraphrase rewrite required — 'Coupling' guard triggered. Detected: "orrection, and redress for affected individuals.  Section 7 — Supporting Workers  Agencies shall ensure that AI deployme". Replace the forbidden term with the canonical LAIF term 'Coupling'. The substitution is not merely terminological: 'Coupling' carries a structural enforcement requirement that informal equivalents do not. Rewrite pattern: '[alignment/connection/linkage] between [X] and [Y]' → 'Coupling between [X] and [the specific human interest Y protects], with a protection of equivalent normative force' (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-3. Declare structural Coupling for each governance restriction: explicitly identify the specific human interest at stake (not a category — name it with specificity, e.g. 'the patient's interest in receiving treatment decisions based on accurate clinical assessment') and pair it with a protection of equivalent normative force. The restriction and its paired protection must not be capable of being weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-4. Apply the Coherence Test before any governance provision is issued or deployment authorised: Q1 Coupling (does the deployment identify and protect the specific human interest at risk?), Q2 Consistency (would this governance logic produce just and workable outcomes at all comparable scales?), Q3 Reversibility (does the deployment preserve the capacity of future actors to reverse or modify its consequences?). All three must be answered affirmatively. Failure at Q1 constitutes automatic failure of the full test (LAIF v1.2 Part One).
-5. Establish the Integrity Layer as a deployment precondition: A.1 Structural Transparency (system can produce a compliant meaningful account of any material output), A.2 Structural Honesty (stated objectives correspond to implemented objectives, verified by independent review), A.3 Structural Containment (system operates within documented operational boundaries in all tested conditions including edge cases). All three must be satisfied simultaneously before deployment proceeds. Partial satisfaction is failure — there is no partial credit (LAIF v1.2 Part Two; Toolkit §1.3–§1.5).
-6. Adopt LAIF canonical terminology throughout the document. Replace informal equivalents with precise terms: 'alignment/connection/linkage' → 'Coupling'; 'integrity conditions/requirements' → 'Integrity Layer'; 'coherence check' → 'Coherence Test'; 'transparency requirements' → 'Structural Transparency'; 'honesty requirements' → 'Structural Honesty'; 'boundary controls' → 'Structural Containment'. Each canonical term carries structural enforcement meaning that paraphrases do not (LAIF_Compliance_Toolkit.txt §1).
-7. Declare a non-amendable constitutional hierarchy with three tiers: (i) Foundational Principles at the apex — non-amendable, define the governance standard; (ii) Provisions derived from Principles — cannot contradict Principles; (iii) Operational Standards (Toolkit-level definitions) — subordinate to Provisions, revisable without amending Principles. This hierarchy is not optional — it prevents operational revision from eroding constitutional guarantees (LAIF v1.2 Principle 3).
-8. Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-9. Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
-10. Establish the Integrity Layer as a deployment precondition: A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment must all be satisfied simultaneously. Partial satisfaction = failure (LAIF v1.2 Part Two; Toolkit §1.3–§1.5).
-11. Add a self-application clause: specify that the framework applies to regulatory bodies and governance actors themselves, not only to AI operators (LAIF v1.2 Part Seven).
+#### Structured Findings
+**🔴 [HIGH] Coupling absent — no restriction paired with a human interest**
+- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+
+**🟡 [MEDIUM] Paraphrase violation: forbidden substitution of 'Coupling'**
+- *Evidence:* 3 instance(s). Example: «engage with industry, civil society, and other stakeholders to develop guidelines, standards, method»
+- *Impact:* Informal substitutes for 'Coupling' do not carry its enforcement weight. 'Coupling' is not equivalent to 'alignment' — the canonical term requires a named human interest, paired protection, and equivalent normative force that informal equivalents lack (Toolkit §1).
+- *Recommended action:* Replace each forbidden term with 'Coupling' and add the structural declaration the canonical term requires (Toolkit §1).
+
+**🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
+- *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
+- *Impact:* Formal LAIF compliance is binary. Missing any single required construct = FAIL regardless of overall readiness score. These constructs are structurally necessary — they cannot be satisfied by partial presence.
+- *Recommended action:* Add the missing constructs substantively — each must be meaningfully implemented, not merely cited. Implement in this priority order: Coupling → Coherence Test → Integrity Layer → constitutional hierarchy → self-application clause.
+
+**🟡 [MEDIUM] Low Structural governance architecture score (35/100)**
+- *Evidence:* Score 35/100. Key missed signals: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy.
+- *Impact:* Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
+- *Recommended action:* Target the missed signals for this dimension: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
+
+
+
+#### Remediation Plan (ordered by impact)
+**1. Problem:** Forbidden paraphrase of 'Coupling' detected: «engage with industry, civil society, and other stakeholders to develop guidelines, standards, method»
+   **Why it matters:** 'Coupling' is a structurally load-bearing canonical term. Informal substitutes do not carry the enforcement obligation the term requires. Using 'alignment' or 'connection' where 'Coupling' is required leaves each restriction without a mandatory paired protection (Toolkit §1).
+   **Concrete fix:** Replace the forbidden term with 'Coupling' at every occurrence. For 'Coupling' specifically, also add: the named human interest, the paired restriction, and a statement of equivalent normative force on both sides (Toolkit §2 B.1; LAIF v1.2 Principle 2).
+
+**2. Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+   **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
+   **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+
+**3. Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
+   **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
+   **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+
+**4. Problem:** Integrity Layer not declared as a deployment precondition.
+   **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
+   **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+
+**5. Problem:** Constitutional hierarchy not declared (structural score 35/100). Missing: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy.
+   **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
+   **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
+
+**6. Problem:** Introduce structural Coupling for each governance provision — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   **Concrete fix:** Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
+
+**7. Problem:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   **Concrete fix:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
+
 
 ---
 
 ### NHS England — AI in Clinical Decision Support (Policy Framework)
-**Formal LAIF Compliance:** ❌ FAIL  
+
+#### Executive Assessment
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 29/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+**Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
+
+**Key risks:**
+- Coupling quality is ABSENT: no governance restriction is structurally paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
+- High sector gaming risk: sector keyword density is elevated while substantive governance content is low (overall 29/100). This pattern would not produce just outcomes at the individual-decision scale — failing Q2 Consistency. (LAIF v1.2 Principle 5)
+- Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Missing any single construct = FAIL regardless of overall readiness score.
+
+**Key strengths:**
+- Strong sector risk alignment (80/100): the document addresses the materially relevant human interests for the Clinical AI Deployment deployment context.
+
+
+#### Compliance Summary
+| Dimension                       | Verdict |
+| ------------------------------- | ------- |
+| Formal compliance (binary gate) | FAIL    |
+| Structural depth                | HOLLOW  |
+| Structural contradictions       | NONE    |
+| Sector gaming risk              | HIGH    |
+| Final verdict                   | FAIL    |
+
 **Source type:** sector_policy  
 **Sector:** Clinical AI Deployment  
+**Coupling Quality:** ABSENT — Coupling not present in document  
 **Remediation Effort:** VERY HIGH
 
 
 #### Scores and Signal Breakdown
-**Structural: 35/100** ████░░░░░░
-  + mandatory obligation language (shall) (+8)
-  + full lifecycle scope declared (+6)
-  + review / monitoring mechanisms (+6)
-  + threshold gate conditions (all must pass simultaneously) (+15)
-  − numbered sub-requirements (0/8)
-  − risk stratification / proportionality (0/7)
-  − operational mechanisms defined (0/6)
-  − non-amendable constitutional hierarchy (0/18)
-  − self-application clause (Part Seven) (0/12)
-  − named decision instrument (Coherence Test / PDCA) (0/14)
+**Structural — 35/100** ████░░░░░░
 
-**Terminology: 0/100** ░░░░░░░░░░
-  − Coupling (0/25)
-  − Coherence Test (0/20)
-  − Integrity Layer (0/20)
-  − Structural Transparency (0/10)
-  − Structural Honesty (0/10)
-  − Structural Containment (0/10)
-  − Materially Affects Interests (0/5)
+**Why:** Weak structural coverage (35/100): only 4 of 10 signals matched. Principal gaps: numbered sub-requirements, risk stratification / proportionality, operational mechanisms defined.
 
-**Conceptual Proximity: 23/100** ██░░░░░░░░
-  + transparency (+8)
-  + human oversight (+8)
-  + safety (+7)
-  − human rights / fundamental interests (0/10)
-  − explainability / interpretability (0/8)
-  − accountability (0/8)
-  − proportionality (0/8)
-  − contestability / redress (0/9)
-  − reversibility / modifiability (0/8)
-  − risk governance (0/8)
-  − traceability / responsibility (0/10)
-  − fairness / labour / non-discrimination (0/8)
+**Signals detected:**
+- mandatory obligation language (shall) (+8 pts)
+- full lifecycle scope declared (+6 pts)
+- review / monitoring mechanisms (+6 pts)
+- threshold gate conditions (all must pass simultaneously) (+15 pts)
 
-**Auditability: 40/100** ████░░░░░░
-  + evidence / documentation requirements (+20)
-  + review / monitoring mechanisms (+20)
-  − multiple mandatory obligations (shall … shall) (0/20)
-  − numbered traceable requirements (0/20)
-  − specific, measurable obligations (0/20)
+**Signals missing:**
+- numbered sub-requirements (missed 8 pts)
+- risk stratification / proportionality (missed 7 pts)
+- operational mechanisms defined (missed 6 pts)
+- non-amendable constitutional hierarchy (missed 18 pts)
+- self-application clause (Part Seven) (missed 12 pts)
+- named decision instrument (Coherence Test / PDCA) (missed 14 pts)
 
-**Enforceability: 40/100** ████░░░░░░
-  + mandatory language (shall) (+20)
-  + non-discretionary operational mandates (+20)
-  − named responsible parties (0/20)
-  − risk-proportionate thresholds (0/20)
-  − enforcement consequences / penalties (0/20)
+**Weight rationale:** 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).
 
-**Overall Readiness: 29/100** ███░░░░░░░  (Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + Enforceability×0.20)
+**Terminology — 0/100** ░░░░░░░░░░
+
+**Why:** No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- Coupling (missed 25 pts)
+- Coherence Test (missed 20 pts)
+- Integrity Layer (missed 20 pts)
+- Structural Transparency (missed 10 pts)
+- Structural Honesty (missed 10 pts)
+- Structural Containment (missed 10 pts)
+- Materially Affects Interests (missed 5 pts)
+
+**Weight rationale:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
+
+**Conceptual Proximity — 23/100** ██░░░░░░░░
+
+**Why:** Weak conceptual coverage (23/100): only 3 of 12 signals matched. Principal gaps: human rights / fundamental interests, explainability / interpretability, accountability.
+
+**Signals detected:**
+- transparency (+8 pts)
+- human oversight (+8 pts)
+- safety (+7 pts)
+
+**Signals missing:**
+- human rights / fundamental interests (missed 10 pts)
+- explainability / interpretability (missed 8 pts)
+- accountability (missed 8 pts)
+- proportionality (missed 8 pts)
+- contestability / redress (missed 9 pts)
+- reversibility / modifiability (missed 8 pts)
+- risk governance (missed 8 pts)
+- traceability / responsibility (missed 10 pts)
+- fairness / labour / non-discrimination (missed 8 pts)
+
+**Weight rationale:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
+
+**Auditability — 40/100** ████░░░░░░
+
+**Why:** Weak auditability coverage (40/100): only 2 of 5 signals matched. Principal gaps: multiple mandatory obligations (shall … shall), numbered traceable requirements, specific, measurable obligations.
+
+**Signals detected:**
+- evidence / documentation requirements (+20 pts)
+- review / monitoring mechanisms (+20 pts)
+
+**Signals missing:**
+- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- numbered traceable requirements (missed 20 pts)
+- specific, measurable obligations (missed 20 pts)
+
+**Weight rationale:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
+
+**Enforceability — 40/100** ████░░░░░░
+
+**Why:** Weak enforceability coverage (40/100): only 2 of 5 signals matched. Principal gaps: named responsible parties, risk-proportionate thresholds, enforcement consequences / penalties.
+
+**Signals detected:**
+- mandatory language (shall) (+20 pts)
+- non-discretionary operational mandates (+20 pts)
+
+**Signals missing:**
+- named responsible parties (missed 20 pts)
+- risk-proportionate thresholds (missed 20 pts)
+- enforcement consequences / penalties (missed 20 pts)
+
+**Weight rationale:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
+
+**Overall Readiness — 29/100** ███░░░░░░░
+
+**Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
 
 #### Construct Coverage
@@ -750,6 +1227,7 @@ None detected.
 - LAIF structural element missing: non-amendable constitutional hierarchy
 - LAIF structural element missing: self-application clause (Part Seven)
 - LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
+- Sector gaming risk [HIGH]: Sector risk alignment 80% vs overall readiness 29/100. High keyword density without substantive governance — consistent with sector keyword stuffing. A genuinely sector-appropriate document would score higher on conceptual proximity and auditability (LAIF v1.2 Q2 Consistency).
 
 
 #### Primary Failure Modes
@@ -758,77 +1236,185 @@ None detected.
 - conceptual — LAIF-like concepts insufficiently expressed
 
 
-#### Sector-Aware Remediation (ordered by impact)
-1. Declare structural Coupling for each governance restriction: explicitly identify the specific human interest at stake (not a category — name it with specificity, e.g. 'the patient's interest in receiving treatment decisions based on accurate clinical assessment') and pair it with a protection of equivalent normative force. The restriction and its paired protection must not be capable of being weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-2. Apply the Coherence Test before any governance provision is issued or deployment authorised: Q1 Coupling (does the deployment identify and protect the specific human interest at risk?), Q2 Consistency (would this governance logic produce just and workable outcomes at all comparable scales?), Q3 Reversibility (does the deployment preserve the capacity of future actors to reverse or modify its consequences?). All three must be answered affirmatively. Failure at Q1 constitutes automatic failure of the full test (LAIF v1.2 Part One).
-3. Establish the Integrity Layer as a deployment precondition: A.1 Structural Transparency (system can produce a compliant meaningful account of any material output), A.2 Structural Honesty (stated objectives correspond to implemented objectives, verified by independent review), A.3 Structural Containment (system operates within documented operational boundaries in all tested conditions including edge cases). All three must be satisfied simultaneously before deployment proceeds. Partial satisfaction is failure — there is no partial credit (LAIF v1.2 Part Two; Toolkit §1.3–§1.5).
-4. Adopt LAIF canonical terminology throughout the document. Replace informal equivalents with precise terms: 'alignment/connection/linkage' → 'Coupling'; 'integrity conditions/requirements' → 'Integrity Layer'; 'coherence check' → 'Coherence Test'; 'transparency requirements' → 'Structural Transparency'; 'honesty requirements' → 'Structural Honesty'; 'boundary controls' → 'Structural Containment'. Each canonical term carries structural enforcement meaning that paraphrases do not (LAIF_Compliance_Toolkit.txt §1).
-5. Declare a non-amendable constitutional hierarchy with three tiers: (i) Foundational Principles at the apex — non-amendable, define the governance standard; (ii) Provisions derived from Principles — cannot contradict Principles; (iii) Operational Standards (Toolkit-level definitions) — subordinate to Provisions, revisable without amending Principles. This hierarchy is not optional — it prevents operational revision from eroding constitutional guarantees (LAIF v1.2 Principle 3).
-6. Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI alert suppression' → 'Coupling between alert suppression rules and the patient's interest in receiving clinically accurate recommendations' (Toolkit §2 B.1).
-7. Apply Q3 Reversibility: clinician override must always be preserved — AI recommendations must not displace clinical judgement irreversibly. Rewrite: 'AI system supports clinical decisions' → 'AI system provides recommendations subject to clinician override at every decision point, with override logged and reversible' (LAIF v1.2 Provision D1).
-8. Establish Structural Containment: document approved indications, patient populations, and operational boundaries for clinical AI. Add: 'System operates within documented clinical scope; out-of-scope queries surfaced to clinician, not resolved autonomously' (Toolkit §1.5).
-9. Require informed consent documentation for AI-assisted decisions that materially affect patient treatment — 'materially affects interests' includes clinical and diagnostic recommendations (Toolkit §1.2).
+#### Structured Findings
+**🔴 [HIGH] Coupling absent — no restriction paired with a human interest**
+- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+
+**🔴 [HIGH] High sector gaming risk detected**
+- *Evidence:* Sector risk alignment 80% vs overall readiness 29/100. High keyword density without substantive governance — consistent with sector keyword stuffing. A genuinely sector-appropriate document would score higher on conceptual proximity and auditability (LAIF v1.2 Q2 Consistency).
+- *Impact:* High sector keyword density with low substantive governance content is inconsistent with genuine compliance. Keyword selection without governance substance would not produce just outcomes at the individual-decision scale — failing Q2 Consistency (LAIF v1.2 Principle 5).
+- *Recommended action:* Increase substantive coverage: add concrete obligations (auditability), named responsible parties (enforceability), and structural Coupling declarations. Sector keywords must be the vocabulary of genuine governance intent, not a substitute for it.
+
+**🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
+- *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
+- *Impact:* Formal LAIF compliance is binary. Missing any single required construct = FAIL regardless of overall readiness score. These constructs are structurally necessary — they cannot be satisfied by partial presence.
+- *Recommended action:* Add the missing constructs substantively — each must be meaningfully implemented, not merely cited. Implement in this priority order: Coupling → Coherence Test → Integrity Layer → constitutional hierarchy → self-application clause.
+
+**🟡 [MEDIUM] Low Structural governance architecture score (35/100)**
+- *Evidence:* Score 35/100. Key missed signals: numbered sub-requirements, risk stratification / proportionality, operational mechanisms defined.
+- *Impact:* Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
+- *Recommended action:* Target the missed signals for this dimension: numbered sub-requirements, risk stratification / proportionality, operational mechanisms defined. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
+
+**🟡 [MEDIUM] Low Conceptual coverage score (23/100)**
+- *Evidence:* Score 23/100. Key missed signals: human rights / fundamental interests, explainability / interpretability, accountability.
+- *Impact:* Low conceptual proximity indicates the document's governance intent is not substantially aligned with LAIF values. The adoption gap is more fundamental than terminology — substantive governance redesign is required, not just terminological substitution.
+- *Recommended action:* Target the missed signals for this dimension: human rights / fundamental interests, explainability / interpretability, accountability. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
+
+
+
+#### Remediation Plan (ordered by impact)
+**1. Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+   **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
+   **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+
+**2. Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
+   **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
+   **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+
+**3. Problem:** Integrity Layer not declared as a deployment precondition.
+   **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
+   **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+
+**4. Problem:** Constitutional hierarchy not declared (structural score 35/100). Missing: numbered sub-requirements, risk stratification / proportionality, operational mechanisms defined.
+   **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
+   **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
+
+**5. Problem:** Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI… — not addressed in this document.
+   **Why it matters:** In the Clinical AI Deployment deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   **Concrete fix:** Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI alert suppression' → 'Coupling between alert suppression rules and the patient's interest in receiving clinically accurate recommendations' (Toolkit §2 B.1).
+
+**6. Problem:** Apply Q3 Reversibility: clinician override must always be preserved — not addressed in this document.
+   **Why it matters:** In the Clinical AI Deployment deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   **Concrete fix:** Apply Q3 Reversibility: clinician override must always be preserved — AI recommendations must not displace clinical judgement irreversibly. Rewrite: 'AI system supports clinical decisions' → 'AI system provides recommendations subject to clinician override at every decision point, with override logged and reversible' (LAIF v1.2 Provision D1).
+
 
 ---
 
 ### TUC/CIPD — Framework for Fair AI in Employment Decisions
-**Formal LAIF Compliance:** ❌ FAIL  
+
+#### Executive Assessment
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 35/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+**Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
+
+**Key risks:**
+- Coupling quality is ABSENT: no governance restriction is structurally paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
+- Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Missing any single construct = FAIL regardless of overall readiness score.
+
+**Key strengths:**
+- Moderate conceptual proximity (41/100): key LAIF-aligned governance concepts are present, indicating partial substantive alignment with LAIF's foundational principles.
+- Strong sector risk alignment (80/100): the document addresses the materially relevant human interests for the Employment / Workforce AI deployment context.
+- Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
+
+
+#### Compliance Summary
+| Dimension                       | Verdict |
+| ------------------------------- | ------- |
+| Formal compliance (binary gate) | FAIL    |
+| Structural depth                | WEAK    |
+| Structural contradictions       | NONE    |
+| Sector gaming risk              | LOW     |
+| Final verdict                   | FAIL    |
+
 **Source type:** sector_policy  
 **Sector:** Employment / Workforce AI  
+**Coupling Quality:** ABSENT — Coupling not present in document  
 **Remediation Effort:** HIGH
 
 
 #### Scores and Signal Breakdown
-**Structural: 28/100** ███░░░░░░░
-  + numbered sub-requirements (+8)
-  + mandatory obligation language (shall) (+8)
-  + operational mechanisms defined (+6)
-  + review / monitoring mechanisms (+6)
-  − full lifecycle scope declared (0/6)
-  − risk stratification / proportionality (0/7)
-  − threshold gate conditions (all must pass simultaneously) (0/15)
-  − non-amendable constitutional hierarchy (0/18)
-  − self-application clause (Part Seven) (0/12)
-  − named decision instrument (Coherence Test / PDCA) (0/14)
+**Structural — 28/100** ███░░░░░░░
 
-**Terminology: 0/100** ░░░░░░░░░░
-  − Coupling (0/25)
-  − Coherence Test (0/20)
-  − Integrity Layer (0/20)
-  − Structural Transparency (0/10)
-  − Structural Honesty (0/10)
-  − Structural Containment (0/10)
-  − Materially Affects Interests (0/5)
+**Why:** Weak structural coverage (28/100): only 4 of 10 signals matched. Principal gaps: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
 
-**Conceptual Proximity: 41/100** ████░░░░░░
-  + transparency (+8)
-  + explainability / interpretability (+8)
-  + accountability (+8)
-  + contestability / redress (+9)
-  + fairness / labour / non-discrimination (+8)
-  − human rights / fundamental interests (0/10)
-  − human oversight (0/8)
-  − proportionality (0/8)
-  − safety (0/7)
-  − reversibility / modifiability (0/8)
-  − risk governance (0/8)
-  − traceability / responsibility (0/10)
+**Signals detected:**
+- numbered sub-requirements (+8 pts)
+- mandatory obligation language (shall) (+8 pts)
+- operational mechanisms defined (+6 pts)
+- review / monitoring mechanisms (+6 pts)
 
-**Auditability: 60/100** ██████░░░░
-  + numbered traceable requirements (+20)
-  + evidence / documentation requirements (+20)
-  + review / monitoring mechanisms (+20)
-  − multiple mandatory obligations (shall … shall) (0/20)
-  − specific, measurable obligations (0/20)
+**Signals missing:**
+- full lifecycle scope declared (missed 6 pts)
+- risk stratification / proportionality (missed 7 pts)
+- threshold gate conditions (all must pass simultaneously) (missed 15 pts)
+- non-amendable constitutional hierarchy (missed 18 pts)
+- self-application clause (Part Seven) (missed 12 pts)
+- named decision instrument (Coherence Test / PDCA) (missed 14 pts)
 
-**Enforceability: 40/100** ████░░░░░░
-  + mandatory language (shall) (+20)
-  + non-discretionary operational mandates (+20)
-  − named responsible parties (0/20)
-  − risk-proportionate thresholds (0/20)
-  − enforcement consequences / penalties (0/20)
+**Weight rationale:** 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).
 
-**Overall Readiness: 35/100** ████░░░░░░  (Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + Enforceability×0.20)
+**Terminology — 0/100** ░░░░░░░░░░
+
+**Why:** No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- Coupling (missed 25 pts)
+- Coherence Test (missed 20 pts)
+- Integrity Layer (missed 20 pts)
+- Structural Transparency (missed 10 pts)
+- Structural Honesty (missed 10 pts)
+- Structural Containment (missed 10 pts)
+- Materially Affects Interests (missed 5 pts)
+
+**Weight rationale:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
+
+**Conceptual Proximity — 41/100** ████░░░░░░
+
+**Why:** Weak conceptual coverage (41/100): only 5 of 12 signals matched. Principal gaps: human rights / fundamental interests, human oversight, proportionality.
+
+**Signals detected:**
+- transparency (+8 pts)
+- explainability / interpretability (+8 pts)
+- accountability (+8 pts)
+- contestability / redress (+9 pts)
+- fairness / labour / non-discrimination (+8 pts)
+
+**Signals missing:**
+- human rights / fundamental interests (missed 10 pts)
+- human oversight (missed 8 pts)
+- proportionality (missed 8 pts)
+- safety (missed 7 pts)
+- reversibility / modifiability (missed 8 pts)
+- risk governance (missed 8 pts)
+- traceability / responsibility (missed 10 pts)
+
+**Weight rationale:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
+
+**Auditability — 60/100** ██████░░░░
+
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+
+**Signals detected:**
+- numbered traceable requirements (+20 pts)
+- evidence / documentation requirements (+20 pts)
+- review / monitoring mechanisms (+20 pts)
+
+**Signals missing:**
+- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- specific, measurable obligations (missed 20 pts)
+
+**Weight rationale:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
+
+**Enforceability — 40/100** ████░░░░░░
+
+**Why:** Weak enforceability coverage (40/100): only 2 of 5 signals matched. Principal gaps: named responsible parties, risk-proportionate thresholds, enforcement consequences / penalties.
+
+**Signals detected:**
+- mandatory language (shall) (+20 pts)
+- non-discretionary operational mandates (+20 pts)
+
+**Signals missing:**
+- named responsible parties (missed 20 pts)
+- risk-proportionate thresholds (missed 20 pts)
+- enforcement consequences / penalties (missed 20 pts)
+
+**Weight rationale:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
+
+**Overall Readiness — 35/100** ████░░░░░░
+
+**Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
 
 #### Construct Coverage
@@ -904,16 +1490,49 @@ None detected.
 - terminological — no canonical LAIF terms present
 
 
-#### Sector-Aware Remediation (ordered by impact)
-1. Declare structural Coupling for each governance restriction: explicitly identify the specific human interest at stake (not a category — name it with specificity, e.g. 'the patient's interest in receiving treatment decisions based on accurate clinical assessment') and pair it with a protection of equivalent normative force. The restriction and its paired protection must not be capable of being weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-2. Apply the Coherence Test before any governance provision is issued or deployment authorised: Q1 Coupling (does the deployment identify and protect the specific human interest at risk?), Q2 Consistency (would this governance logic produce just and workable outcomes at all comparable scales?), Q3 Reversibility (does the deployment preserve the capacity of future actors to reverse or modify its consequences?). All three must be answered affirmatively. Failure at Q1 constitutes automatic failure of the full test (LAIF v1.2 Part One).
-3. Establish the Integrity Layer as a deployment precondition: A.1 Structural Transparency (system can produce a compliant meaningful account of any material output), A.2 Structural Honesty (stated objectives correspond to implemented objectives, verified by independent review), A.3 Structural Containment (system operates within documented operational boundaries in all tested conditions including edge cases). All three must be satisfied simultaneously before deployment proceeds. Partial satisfaction is failure — there is no partial credit (LAIF v1.2 Part Two; Toolkit §1.3–§1.5).
-4. Adopt LAIF canonical terminology throughout the document. Replace informal equivalents with precise terms: 'alignment/connection/linkage' → 'Coupling'; 'integrity conditions/requirements' → 'Integrity Layer'; 'coherence check' → 'Coherence Test'; 'transparency requirements' → 'Structural Transparency'; 'honesty requirements' → 'Structural Honesty'; 'boundary controls' → 'Structural Containment'. Each canonical term carries structural enforcement meaning that paraphrases do not (LAIF_Compliance_Toolkit.txt §1).
-5. Declare a non-amendable constitutional hierarchy with three tiers: (i) Foundational Principles at the apex — non-amendable, define the governance standard; (ii) Provisions derived from Principles — cannot contradict Principles; (iii) Operational Standards (Toolkit-level definitions) — subordinate to Provisions, revisable without amending Principles. This hierarchy is not optional — it prevents operational revision from eroding constitutional guarantees (LAIF v1.2 Principle 3).
-6. Declare Coupling between each employment AI restriction and the specific worker interest it protects. Rewrite: 'alignment between obligations imposed on workers and the protections those obligations are intended to serve' → 'Coupling between obligations imposed on workers and the protections afforded to their employment status and income' (Toolkit §2 B.1; LAIF v1.2 Principle 2).
-7. Apply Q2 Consistency: governance logic must produce just outcomes across all scales — from individual worker to collective bargaining unit. Rewrite: 'AI performance assessment applies to all employees' → 'AI performance assessment applies consistently across all roles, scales, and worker categories, with equivalent review rights at each scale' (LAIF v1.2 Principle 5).
-8. Apply Q3 Reversibility: algorithmic dismissal or demotion without appeal pathway fails Provision D1. Rewrite: 'AI-driven performance scoring determines employment decisions' → 'AI-driven performance scoring informs employment decisions subject to mandatory human review, with outcomes reversible on appeal' (LAIF v1.2 Provision D1).
-9. Implement bias auditing as a pre-deployment evidence artefact under Integrity Layer A.1 — Structural Transparency requires documented error characteristics including discriminatory output patterns (Toolkit §1.3).
+#### Structured Findings
+**🔴 [HIGH] Coupling absent — no restriction paired with a human interest**
+- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+
+**🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
+- *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
+- *Impact:* Formal LAIF compliance is binary. Missing any single required construct = FAIL regardless of overall readiness score. These constructs are structurally necessary — they cannot be satisfied by partial presence.
+- *Recommended action:* Add the missing constructs substantively — each must be meaningfully implemented, not merely cited. Implement in this priority order: Coupling → Coherence Test → Integrity Layer → constitutional hierarchy → self-application clause.
+
+**🟡 [MEDIUM] Low Structural governance architecture score (28/100)**
+- *Evidence:* Score 28/100. Key missed signals: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
+- *Impact:* Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
+- *Recommended action:* Target the missed signals for this dimension: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously). The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
+
+
+
+#### Remediation Plan (ordered by impact)
+**1. Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+   **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
+   **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+
+**2. Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
+   **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
+   **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+
+**3. Problem:** Integrity Layer not declared as a deployment precondition.
+   **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
+   **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+
+**4. Problem:** Constitutional hierarchy not declared (structural score 28/100). Missing: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
+   **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
+   **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
+
+**5. Problem:** Declare Coupling between each employment AI restriction and the specific worker interest it protects. Rewrite:… — not addressed in this document.
+   **Why it matters:** In the Employment / Workforce AI deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   **Concrete fix:** Declare Coupling between each employment AI restriction and the specific worker interest it protects. Rewrite: 'alignment between obligations imposed on workers and the protections those obligations are intended to serve' → 'Coupling between obligations imposed on workers and the protections afforded to their employment status and income' (Toolkit §2 B.1; LAIF v1.2 Principle 2).
+
+**6. Problem:** Apply Q2 Consistency: governance logic must produce just outcomes across all scales — not addressed in this document.
+   **Why it matters:** In the Employment / Workforce AI deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   **Concrete fix:** Apply Q2 Consistency: governance logic must produce just outcomes across all scales — from individual worker to collective bargaining unit. Rewrite: 'AI performance assessment applies to all employees' → 'AI performance assessment applies consistently across all roles, scales, and worker categories, with equivalent review rights at each scale' (LAIF v1.2 Principle 5).
+
 
 ---
 

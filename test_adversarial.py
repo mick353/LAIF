@@ -8,7 +8,6 @@ its own rules — the framework applies to itself.
 
 Groups:
   A  Paraphrase guard — Coupling vs alignment / connection / linkage
-     (allow/deny boundary: context-aware distinction)
   B  Paraphrase guard — Coherence Test vs 'coherence check'
   C  Paraphrase guard — Integrity Layer vs 'integrity requirements'
   D  Header format — 'April 2026' required in opening 400 chars
@@ -16,6 +15,12 @@ Groups:
   F  PDCA structure — Integrity Layer FINDING sections (A.1–A.3)
   G  PDCA structure — Coherence Test FINDING sections (B.1–B.3)
   H  Cross-layer — full Coupling→alignment substitution throughout PDCA
+  I  Concept anchoring — PASS / ANCHOR_MISSING / CONCEPT_SUBSTITUTED
+  II Implicit semantic drift — canonical term absent, concept expressed implicitly
+
+  III Fake coupling — term present, structural declaration absent or negated
+  IV  Contradiction detection — claimed Integrity Layer properties contradicted
+  V   Sector gaming — high keyword density without substantive governance
 
 Exit 0 if all tests pass, Exit 1 if any are missed or produce false positives.
 
@@ -40,6 +45,7 @@ from validate import (
     PDCA_ANCHORING_CHECKS,
     V12_ANCHORING_CHECKS,
 )
+from assessment_engine import assess
 
 # ── Test runner ───────────────────────────────────────────────────────────────
 
@@ -98,9 +104,13 @@ def section(title):
 
 # ── Guards ────────────────────────────────────────────────────────────────────
 
-G_COUPLING  = next(g for g in PARAPHRASE_GUARDS if g["term"] == "Coupling")
-G_INTEGRITY = next(g for g in PARAPHRASE_GUARDS if g["term"] == "Integrity Layer")
-G_COHERENCE = next(g for g in PARAPHRASE_GUARDS if g["term"] == "Coherence Test")
+G_COUPLING        = next(g for g in PARAPHRASE_GUARDS if g["term"] == "Coupling")
+G_INTEGRITY       = next(g for g in PARAPHRASE_GUARDS if g["term"] == "Integrity Layer")
+G_COHERENCE       = next(g for g in PARAPHRASE_GUARDS if g["term"] == "Coherence Test")
+G_ST_TRANSPARENCY = next(g for g in PARAPHRASE_GUARDS if g["term"] == "Structural Transparency")
+G_ST_HONESTY      = next(g for g in PARAPHRASE_GUARDS if g["term"] == "Structural Honesty")
+G_ST_CONTAINMENT  = next(g for g in PARAPHRASE_GUARDS if g["term"] == "Structural Containment")
+G_REVERSIBILITY   = next(g for g in PARAPHRASE_GUARDS if g["term"] == "Reversibility")
 
 
 # ── GROUP A — Coupling guard: allow/deny boundary ────────────────────────────
@@ -539,6 +549,566 @@ def group_ii():
     )
 
 
+# ── GROUP III–V helpers ───────────────────────────────────────────────────────
+
+def info(msg):
+    print(f"           \033[90m{msg}\033[0m" if sys.stdout.isatty() else f"           {msg}")
+
+def expect_coupling_quality(label, result, expected_quality):
+    """Detect that coupling_quality equals expected_quality."""
+    actual = result.get("coupling_quality", "ABSENT")
+    if actual == expected_quality:
+        _counts["caught"] += 1
+        _label(f"CAUGHT ({actual})", "32", label)
+    else:
+        _counts["missed"] += 1
+        _label(f"MISSED (got {actual})", "31", label,
+               f"— {result.get('coupling_quality_reason', 'no reason')[:80]}")
+
+def expect_structural_coupling(label, result):
+    """Clean case — genuine structural Coupling should return STRUCTURAL."""
+    actual = result.get("coupling_quality", "ABSENT")
+    if actual == "STRUCTURAL":
+        _counts["pass"] += 1
+        _label("PASS (STRUCTURAL)", "32", label)
+    else:
+        _counts["false_positive"] += 1
+        _label(f"FALSE+ (got {actual})", "33", label,
+               f"— legitimate structural Coupling incorrectly rejected")
+
+def expect_contradiction(label, result, property_name):
+    """Contradiction for property_name must be detected."""
+    contras = result.get("contradictions", [])
+    if any(p == property_name for p, _, _ in contras):
+        _counts["caught"] += 1
+        _label(f"CAUGHT (contradiction: {property_name})", "32", label)
+    else:
+        _counts["missed"] += 1
+        _label("MISSED", "31", label,
+               f"— expected contradiction for {property_name}, none detected")
+
+def expect_no_contradiction(label, result):
+    """Clean case — no contradictions should be detected."""
+    contras = result.get("contradictions", [])
+    if not contras:
+        _counts["pass"] += 1
+        _label("PASS (no contradictions)", "32", label)
+    else:
+        _counts["false_positive"] += 1
+        _label(f"FALSE+ ({len(contras)} contradiction(s))", "33", label,
+               f"— [{contras[0][0]}] {contras[0][1][:60]}")
+
+def expect_gaming_risk(label, result, expected_levels):
+    """Gaming risk must be in expected_levels (e.g. ['HIGH', 'MEDIUM'])."""
+    actual = result.get("sector_gaming_risk", "LOW")
+    if actual in expected_levels:
+        _counts["caught"] += 1
+        _label(f"CAUGHT (gaming: {actual})", "32", label)
+    else:
+        _counts["missed"] += 1
+        _label(f"MISSED (got {actual})", "31", label,
+               f"— {result.get('sector_gaming_reason', '')[:70]}")
+
+def expect_no_gaming(label, result):
+    """Clean case — no gaming risk should be detected."""
+    actual = result.get("sector_gaming_risk", "LOW")
+    if actual == "LOW":
+        _counts["pass"] += 1
+        _label("PASS (no gaming risk)", "32", label)
+    else:
+        _counts["false_positive"] += 1
+        _label(f"FALSE+ (got {actual})", "33", label,
+               f"— {result.get('sector_gaming_reason', '')[:70]}")
+
+def expect_weak_or_hollow(label, result):
+    """Structural depth must be WEAK or HOLLOW (not STRONG)."""
+    depth = result.get("structural_depth", "WEAK")
+    if depth in ("WEAK", "HOLLOW"):
+        _counts["caught"] += 1
+        _label(f"CAUGHT (depth: {depth})", "32", label)
+    else:
+        _counts["missed"] += 1
+        _label(f"MISSED (got {depth})", "31", label,
+               "— hollow/shallow document incorrectly rated STRONG")
+
+
+# ── GROUP III — Fake Coupling ─────────────────────────────────────────────────
+
+def group_iii():
+    """
+    GROUP III — Fake Coupling
+    Adversarial inputs that include 'Coupling' in non-structural contexts.
+    These must be detected as SHALLOW or NEGATED, not STRUCTURAL.
+
+    Protocol Step 3: Failure Design — Fake Coupling
+    Source: LAIF v1.2 Principle 2; Toolkit §2 B.1.
+    """
+    section("GROUP III — Fake Coupling (Principle 2 adversarial)")
+    info("Tests that 'Coupling' is used structurally, not rhetorically or negatively.")
+    info("SHALLOW/NEGATED = correctly detected; STRUCTURAL = missed detection.\n")
+
+    # III-1: Hollow vocabulary — all formal terms present, Coupling acknowledged only
+    r = assess(
+        name="III-1",
+        source_type="test",
+        text=(
+            "FOUNDATIONAL PRINCIPLES apply. Cannot be amended. PART ONE: constitutional.\n"
+            "PART SEVEN: self-application to regulatory bodies acknowledged.\n"
+            "Integrity Layer: noted. Coherence Test: referenced. Coupling: acknowledged.\n"
+            "A.1 FINDING: noted. B.1 FINDING: Coupling acknowledged.\n"
+        ),
+    )
+    expect_coupling_quality(
+        "III-1 'Coupling: acknowledged' — referential, no structural declaration",
+        r, "SHALLOW"
+    )
+    expect_weak_or_hollow(
+        "III-1 structural depth not STRONG despite formal-gate terms present",
+        r
+    )
+
+    # III-2: Negated Coupling — explicitly declared inapplicable
+    r = assess(
+        name="III-2",
+        source_type="test",
+        text=(
+            "Following review, Coupling is not applicable to this deployment context "
+            "and has been excluded from operational scope. The Coupling requirement was "
+            "assessed and deemed outside the scope of this framework."
+        ),
+    )
+    expect_coupling_quality(
+        "III-2 'Coupling is not applicable' — explicit negation must be detected",
+        r, "NEGATED"
+    )
+
+    # III-3: Structural Coupling — genuine declaration (should be STRUCTURAL, clean case)
+    r = assess(
+        name="III-3",
+        source_type="test",
+        text=(
+            "The Coupling between the data retention restriction (limiting storage to 90 days) "
+            "and the patient's specific human interest in privacy and data minimisation is "
+            "declared with equivalent normative force. Neither the restriction nor its paired "
+            "protection may be weakened in isolation."
+        ),
+    )
+    expect_structural_coupling(
+        "III-3 genuine structural Coupling — 'between X and Y, equivalent normative force'",
+        r
+    )
+
+    # III-4: Referential Coupling — "as defined in LAIF"
+    r = assess(
+        name="III-4",
+        source_type="test",
+        text=(
+            "Coupling, as defined in LAIF v1.2 Principle 2, has been referenced in this "
+            "document. For the definition of Coupling, refer to the LAIF framework. "
+            "See also: Coupling in the framework documentation."
+        ),
+    )
+    expect_coupling_quality(
+        "III-4 'Coupling as defined in LAIF' — referential, not declared",
+        r, "SHALLOW"
+    )
+
+    # III-5: Coupling between wrong entities ("between systems", not restriction+interest)
+    r = assess(
+        name="III-5",
+        source_type="test",
+        text=(
+            "The Coupling between the AI system and the oversight mechanism ensures "
+            "coordination. System Coupling is maintained through API integration. "
+            "Module Coupling between components is documented in the technical specification."
+        ),
+    )
+    expect_coupling_quality(
+        "III-5 'Coupling between systems' — wrong object (should be restriction+human interest)",
+        r, "SHALLOW"
+    )
+
+    # III-6: Maximum term stuffing — all 8 formal-gate terms present, all hollow.
+    # CRITICAL test: formal_laif_compliance = PASS but structural_depth should be HOLLOW.
+    r = assess(
+        name="III-6",
+        source_type="test",
+        text=(
+            "FOUNDATIONAL PRINCIPLES: noted. Cannot be amended. PART ONE. PART SEVEN: "
+            "self-application to regulatory bodies.\n"
+            "Coupling: confirmed. Integrity Layer: confirmed. Coherence Test: applied.\n"
+            "Non-amendable provisions apply.\n"
+            "A.1 FINDING: acknowledged.\n"
+            "B.1 FINDING: Coupling noted.\n"
+        ),
+    )
+    # Formal gate passes (all 8 terms present)
+    formal = r.get("formal_laif_compliance")
+    if formal == "PASS":
+        _counts["caught"] += 1
+        _label("CAUGHT (formal PASS confirmed)", "32",
+               "III-6 formal gate passes — hollow document exploits term-based check")
+    else:
+        _counts["missed"] += 1
+        _label("MISSED", "31",
+               "III-6 expected formal PASS on hollow doc, got FAIL")
+    # But structural depth must be HOLLOW/WEAK, not STRONG
+    expect_weak_or_hollow(
+        "III-6 structural depth is WEAK/HOLLOW despite formal PASS — WEAK PASS correctly flagged",
+        r
+    )
+    # And strong compliance must not be STRONG PASS
+    sc = r.get("strong_laif_compliance", "FAIL")
+    if sc != "STRONG PASS":
+        _counts["caught"] += 1
+        _label(f"CAUGHT (strong_compliance={sc})", "32",
+               "III-6 hollow document correctly denied STRONG PASS")
+    else:
+        _counts["missed"] += 1
+        _label("MISSED", "31",
+               "III-6 hollow document incorrectly granted STRONG PASS")
+
+
+# ── GROUP IV — Contradiction Detection ────────────────────────────────────────
+
+def group_iv():
+    """
+    GROUP IV — Contradiction Detection
+    Documents claiming Integrity Layer properties while contradicting them.
+    Source: LAIF v1.2 A.2 Structural Honesty; Toolkit §1.4.
+    Protocol Step 3: Failure Design — Surface Transparency / Hidden Irreversibility.
+    """
+    section("GROUP IV — Contradiction Detection (A.2 Structural Honesty adversarial)")
+    info("Claimed properties contradicted by co-present language = structural dishonesty.")
+    info("CAUGHT = contradiction detected; MISSED = adversarial input slipped through.\n")
+
+    # IV-1: Reversibility claimed + irreversibility authorised
+    r = assess(
+        name="IV-1",
+        source_type="test",
+        text=(
+            "Q3 Reversibility is satisfied. The deployment preserves the capacity of "
+            "future actors to modify its consequences. "
+            "However, once accepted, the AI decision is permanently recorded and cannot "
+            "be reversed, appealed, or changed under any circumstances."
+        ),
+    )
+    expect_contradiction(
+        "IV-1 Reversibility claimed + 'permanently recorded and cannot be reversed'",
+        r, "Reversibility"
+    )
+
+    # IV-2: Structural Transparency claimed + non-disclosure
+    r = assess(
+        name="IV-2",
+        source_type="test",
+        text=(
+            "Structural Transparency: satisfied. The system can produce meaningful "
+            "accounts of its outputs on request. "
+            "The model architecture and training data are proprietary and cannot be "
+            "disclosed to users or regulators under any circumstances."
+        ),
+    )
+    expect_contradiction(
+        "IV-2 Structural Transparency + 'proprietary and cannot be disclosed'",
+        r, "Structural Transparency"
+    )
+
+    # IV-3: Consistency claimed + scale-exclusive carve-out
+    r = assess(
+        name="IV-3",
+        source_type="test",
+        text=(
+            "Consistency: This governance framework applies consistently. "
+            "However, this framework applies only to large enterprise deployments. "
+            "Smaller deployments are exempt from these requirements."
+        ),
+    )
+    expect_contradiction(
+        "IV-3 Consistency + 'applies only to large deployments; smaller exempt'",
+        r, "Consistency"
+    )
+
+    # IV-4: Clean document — no contradictions (should produce no false positive)
+    r = assess(
+        name="IV-4",
+        source_type="test",
+        text=(
+            "Reversibility is maintained: all decisions are subject to human review "
+            "and may be reversed through appeal within 30 days. "
+            "Structural Transparency: outputs are explainable in plain language on request, "
+            "with confidence levels and limitations disclosed. "
+            "Consistency: governance applies at all scales."
+        ),
+    )
+    expect_no_contradiction(
+        "IV-4 clean document — no contradictions should be detected",
+        r
+    )
+
+
+# ── GROUP V — Sector Gaming ───────────────────────────────────────────────────
+
+def group_v():
+    """
+    GROUP V — Sector Gaming
+    Inputs with high sector keyword density but no substantive governance content.
+    Source: LAIF v1.2 Q2 Consistency — reasoning must hold at all scales; keyword-
+    optimised documents do not satisfy scale-invariant governance logic.
+    Protocol Step 3: Failure Design — Sector Gaming.
+    """
+    section("GROUP V — Sector Gaming (Q2 Consistency adversarial)")
+    info("High sector keyword density without governance substance = gaming signal.")
+    info("HIGH/MEDIUM gaming risk = correctly detected; LOW = missed.\n")
+
+    # V-1: Clinical keyword stuffing with no governance architecture
+    clinical_soup = (
+        "This document covers clinical decision support, patient safety, clinical "
+        "recommendations, clinical validation, diagnostic outputs, treatment decisions, "
+        "physician oversight, clinical audit, adverse events, post-market surveillance, "
+        "medical device, SaMD, informed consent, clinical governance, clinical trial, "
+        "validation study, performance monitoring, patient consent, patient harm risk. "
+        "All clinical AI systems are referenced. Clinical recommendations are acknowledged."
+    )
+    r = assess(
+        name="V-1",
+        source_type="test",
+        text=clinical_soup,
+        sector="clinical_ai",
+    )
+    expect_gaming_risk(
+        "V-1 clinical keyword soup — high sector alignment, near-zero governance content",
+        r, ["HIGH", "MEDIUM"]
+    )
+
+    # V-2: Employment AI with genuine governance (should NOT be flagged as gaming)
+    genuine_employment = (
+        "Employers shall notify workers when AI systems are used in employment decisions "
+        "affecting them and shall provide a meaningful explanation of the factors used. "
+        "Every adverse AI-assisted employment decision shall be subject to mandatory human "
+        "review before it takes effect. Workers have the right to request human review. "
+        "Employers shall commission an algorithmic fairness audit before deploying any AI "
+        "system for hiring or performance assessment decisions. Bias audit results shall "
+        "be documented and made available to worker representatives on request. "
+        "A designated AI Accountability Officer shall be responsible for compliance. "
+        "Records of AI-assisted employment decisions shall be maintained for five years. "
+        "Workers facing AI-assisted dismissal shall have the right of appeal before a "
+        "human decision-maker with authority to reverse the AI recommendation."
+    )
+    r = assess(
+        name="V-2",
+        source_type="test",
+        text=genuine_employment,
+        sector="employment_ai",
+    )
+    expect_no_gaming(
+        "V-2 genuine employment AI governance — sector alignment with real governance content",
+        r
+    )
+
+    # V-3: High sector alignment + very low overall (financial keyword stuffing)
+    financial_soup = (
+        "Credit scoring decision underwriting insurance risk AML fraud detection "
+        "algorithmic trading high-frequency regulatory compliance credit assessment "
+        "model risk management model validation model governance fair lending fairness "
+        "testing bias test explainability XAI systemic risk systemic impact SREP ICAAP "
+        "regulatory capital credit decision insurance pricing fraud AML compliance "
+        "reporting. Credit scoring models assess insurance underwriting risk."
+    )
+    r = assess(
+        name="V-3",
+        source_type="test",
+        text=financial_soup,
+        sector="financial_services_ai",
+    )
+    expect_gaming_risk(
+        "V-3 financial keyword list — sector signals without governance architecture",
+        r, ["HIGH", "MEDIUM"]
+    )
+
+
+# ── GROUP VI helpers ──────────────────────────────────────────────────────────
+
+def expect_paraphrase_violation(label, result, term):
+    """assess() must report a paraphrase violation for the given canonical term."""
+    violations = result.get("paraphrase_violations", {})
+    if term in violations and violations[term]:
+        _counts["caught"] += 1
+        _label(f"CAUGHT (paraphrase: {term})", "32", label)
+    else:
+        _counts["missed"] += 1
+        _label("MISSED", "31", label,
+               f"— expected paraphrase violation for '{term}', none detected")
+
+def expect_no_paraphrase(label, result):
+    """assess() must report no paraphrase violations."""
+    violations = result.get("paraphrase_violations", {})
+    if not violations:
+        _counts["pass"] += 1
+        _label("PASS (no paraphrase violations)", "32", label)
+    else:
+        terms = ", ".join(violations.keys())
+        _counts["false_positive"] += 1
+        _label(f"FALSE+ (paraphrase: {terms})", "33", label,
+               "— no violations expected, some detected")
+
+
+# ── GROUP VI — Non-canonical contradiction + paraphrase coverage ──────────────
+
+def group_vi():
+    """
+    GROUP VI — Non-canonical contradiction and paraphrase coverage.
+    Tests that the harness detects Integrity Layer contradictions and paraphrase
+    substitutions without requiring LAIF canonical terminology in the document.
+
+    Paraphrase tests (VI-1 to VI-5): direct guard tests using find_paraphrase_violations.
+    Contradiction tests (VI-6 to VI-10): assess() with non-canonical trigger phrases.
+
+    Protocol Step 3: Failure Design — Implicit Coupling, Surface Transparency,
+    Hidden Irreversibility. Source: LAIF v1.2 A.2 Structural Honesty; Toolkit §1.3–§1.5.
+    """
+    section("GROUP VI — Non-canonical contradiction and paraphrase coverage")
+    info("Paraphrase guards detect informal substitutes for LAIF canonical terms.")
+    info("Non-canonical contradictions caught without requiring LAIF vocabulary.\n")
+
+    # ── Paraphrase guard tests ─────────────────────────────────────────────────
+
+    # VI-1: Structural Honesty guard — "model honesty" without canonical term
+    expect_violation(
+        "VI-1  'model honesty' substitutes for Structural Honesty — caught",
+        "The model honesty of the deployed system has been reviewed and confirmed "
+        "against stated objectives. System honesty conditions are documented.",
+        G_ST_HONESTY,
+    )
+
+    # VI-2: Structural Honesty guard — "model honesty" co-occurring with canonical → allowed
+    expect_clean(
+        "VI-2  'model honesty' alongside 'Structural Honesty' — allowed",
+        "Structural Honesty requires more than model honesty: the A.2 precondition "
+        "demands that stated optimisation objectives correspond to actual implemented "
+        "objectives, verified by independent testing.",
+        G_ST_HONESTY,
+    )
+
+    # VI-3: Structural Containment guard — "boundary controls" without canonical term
+    expect_violation(
+        "VI-3  'boundary controls' substitutes for Structural Containment — caught",
+        "The system's boundary controls have been reviewed. Scope controls are "
+        "documented in the operational specification and confirmed during testing.",
+        G_ST_CONTAINMENT,
+    )
+
+    # VI-4: Reversibility guard — "rollback capability" without canonical term
+    expect_violation(
+        "VI-4  'rollback capability' substitutes for Reversibility — caught",
+        "A rollback capability has been implemented and documented. The rollback "
+        "requirement is satisfied and the rollback clause is included in the "
+        "deployment agreement.",
+        G_REVERSIBILITY,
+    )
+
+    # VI-5: Structural Transparency guard — "output transparency" without canonical term
+    expect_violation(
+        "VI-5  'output transparency' substitutes for Structural Transparency — caught",
+        "Output transparency is confirmed. The system provides output transparency "
+        "to all affected users in a form they can understand.",
+        G_ST_TRANSPARENCY,
+    )
+
+    # VI-6: Structural Transparency guard — "output transparency" co-occurring with
+    # canonical "Structural Transparency" → allowed (contrast/co-occurrence)
+    expect_clean(
+        "VI-6  'output transparency' alongside 'Structural Transparency' — allowed",
+        "Structural Transparency is a stricter standard than output transparency: "
+        "A.1 requires a compliant meaningful account of the basis of any material "
+        "output — not merely that output transparency is achieved.",
+        G_ST_TRANSPARENCY,
+    )
+
+    # ── Non-canonical contradiction tests ─────────────────────────────────────
+
+    # VI-7: Non-canonical Reversibility — "can be appealed" + "permanently recorded"
+    r = assess(
+        name="VI-7",
+        source_type="test",
+        text=(
+            "All final decisions can be appealed within 30 days of issuance. "
+            "Decisions are subject to review at the request of any affected party. "
+            "However, once an AI decision is implemented, it is permanently recorded "
+            "and cannot be reversed or appealed under any circumstances whatsoever."
+        ),
+    )
+    expect_contradiction(
+        "VI-7  reversibility intent + 'permanently recorded, cannot be reversed'",
+        r, "Reversibility (non-canonical)"
+    )
+
+    # VI-8: Non-canonical Structural Transparency — "outputs are transparent" + "proprietary"
+    r = assess(
+        name="VI-8",
+        source_type="test",
+        text=(
+            "The system maintains model transparency. All outputs are transparent "
+            "and explainable to affected users in plain language. The model "
+            "architecture and training weights are proprietary and cannot be "
+            "disclosed to users, regulators, or third parties under any circumstances."
+        ),
+    )
+    expect_contradiction(
+        "VI-8  transparency intent + 'proprietary and cannot be disclosed'",
+        r, "Structural Transparency (non-canonical)"
+    )
+
+    # VI-9: Non-canonical Structural Containment — "operates within boundaries" +
+    # "without human review or approval"
+    r = assess(
+        name="VI-9",
+        source_type="test",
+        text=(
+            "The system operates within its defined operational scope and is "
+            "confined to its approved purpose. When the confidence score exceeds "
+            "0.95, the system executes consequential actions without human review "
+            "or approval to minimise processing latency."
+        ),
+    )
+    expect_contradiction(
+        "VI-9  containment intent + 'executes actions without human review or approval'",
+        r, "Structural Containment (non-canonical)"
+    )
+
+    # VI-10: Non-canonical Structural Honesty — stated objectives accurate + undisclosed goals
+    r = assess(
+        name="VI-10",
+        source_type="test",
+        text=(
+            "The stated objectives of this system are accurate and correspond to "
+            "the system's actual operational behaviour as verified in testing. "
+            "The system has undisclosed optimisation goals that drive its actual "
+            "recommendation patterns but are not referenced in governance documentation."
+        ),
+    )
+    expect_contradiction(
+        "VI-10 honesty intent + 'undisclosed optimisation goals'",
+        r, "Structural Honesty (non-canonical)"
+    )
+
+    # VI-11: Clean document — reversibility intent with no contradictions (no false positive)
+    r = assess(
+        name="VI-11",
+        source_type="test",
+        text=(
+            "All decisions can be appealed within 20 working days. Decisions are "
+            "subject to review on request. The system is transparent in its outputs "
+            "and operates within its approved scope. Explanations are provided to "
+            "affected parties on request in plain language."
+        ),
+    )
+    expect_no_contradiction(
+        "VI-11 clean document — reversibility intent, no contradicting language",
+        r
+    )
+
+
 # ── Main ─────────────────────────────────────────────────────────────────────
 
 def main():
@@ -557,6 +1127,10 @@ def main():
     group_h()
     group_i()
     group_ii()
+    group_iii()
+    group_iv()
+    group_v()
+    group_vi()
 
     caught = _counts["caught"]
     passed = _counts["pass"]

@@ -196,6 +196,265 @@ CONSTRUCT_COVERAGE_CHECKS = [
 ]
 
 
+# ── Coupling quality detection ─────────────────────────────────────────────────
+# Source: LAIF v1.2 Principle 2 — Coupling is not satisfied by mentioning the
+# term; it requires: (1) a specific human interest named, (2) a restriction
+# paired with it, (3) protection of equivalent normative force on both sides,
+# (4) neither side weakened in isolation. Toolkit §2 B.1 operationalises this.
+#
+# Verdict levels:
+#   STRUCTURAL — Coupling declared with structural indicators
+#   SHALLOW    — Coupling mentioned without structural declaration
+#   NEGATED    — Coupling present but explicitly negated / declared inapplicable
+#   ABSENT     — Coupling not in document
+
+# Indicators that Coupling is being used structurally (not merely mentioned)
+COUPLING_STRUCTURAL_INDICATORS = [
+    # Requires "between" + a restriction/obligation/interest/protection within 300 chars.
+    # Narrows the match: "Coupling between systems" must not fire; only "Coupling between
+    # [restriction/obligation] and [human interest/right/protection]" qualifies.
+    r"\bCoupling\s+between\b.{1,300}\b(?:restriction|obligation|prohibition|interest|right|protection)\b",
+    r"\bCoupling\b.{1,200}\bspecific\s+human\s+interest\b",
+    r"\bCoupling\b.{1,200}\bequivalent\s+normative\s+force\b",
+    r"\bstructural\s+Coupling\b",
+    r"\bdeclare\w*\s+(?:structural\s+)?Coupling\b",
+    r"\bCoupling\b.{1,200}\bpair(?:ed|s|ing)\b.{1,200}\bprotection\b",
+    r"\bCoupling\b.{1,200}\b(?:restriction|obligation|prohibition)\b.{1,200}\b(?:human interest|right|protection)\b",
+]
+
+# Indicators that Coupling is explicitly negated or declared inapplicable
+COUPLING_NEGATION_INDICATORS = [
+    r"\bCoupling\b.{0,120}\b(?:not\s+(?:applicable|required|established|satisfied|met|adopted|declared|implemented)|outside\s+(?:the\s+)?scope|beyond\s+scope|inapplicable|rejected|absent|excluded)\b",
+    r"\b(?:not\s+applicable|outside\s+(?:the\s+)?scope|inapplicable|rejected|excluded|not\s+required)\b.{0,120}\bCoupling\b",
+    r"\bno\s+Coupling\b",
+    r"\bCoupling\b.{0,80}\bdoes\s+not\s+apply\b",
+    r"\bCoupling\b.{0,80}\bdeemed\b.{0,40}\b(?:unnecessary|inapplicable|not\s+required)\b",
+]
+
+# Indicators that Coupling is referenced/acknowledged but not structurally declared
+COUPLING_HOLLOW_INDICATORS = [
+    r"\bCoupling\b.{0,120}\b(?:acknowledged|noted|referenced|mentioned|as\s+defined|per\s+(?:the\s+)?(?:LAIF|framework|definition)|see\s+(?:also\s+)?(?:LAIF|framework)|in\s+(?:LAIF|the\s+framework))\b",
+    r"\b(?:acknowledge|note|reference|mention|define)\w*\b.{0,120}\bCoupling\b",
+    r"\bCoupling\b.{0,40}(?::|\s*—|\s*–)\s*(?:see|refer|noted|acknowledged|tbc|tbd|pending|future)\b",
+]
+
+
+def _coupling_quality(text):
+    """
+    Assess the structural quality of Coupling usage in a document.
+    Source: LAIF v1.2 Principle 2; Toolkit §2 B.1.
+
+    Returns (quality, reason):
+      STRUCTURAL — declared with named human interest and paired protection
+      SHALLOW    — mentioned without structural declaration
+      NEGATED    — present but explicitly negated or declared inapplicable
+      ABSENT     — not present in document
+    """
+    if not re.search(r"\bCoupling\b", text, re.IGNORECASE):
+        return "ABSENT", "Coupling not present in document"
+
+    # Negation takes priority — most adversarial case
+    for pat in COUPLING_NEGATION_INDICATORS:
+        m = re.search(pat, text, re.IGNORECASE)
+        if m:
+            start = max(0, m.start() - 60)
+            end   = min(len(text), m.end() + 60)
+            ctx   = text[start:end].replace("\n", " ").strip()
+            return "NEGATED", f"Coupling negated/inapplicable: «{ctx[:120]}»"
+
+    # Structural indicators
+    for pat in COUPLING_STRUCTURAL_INDICATORS:
+        if re.search(pat, text, re.IGNORECASE | re.DOTALL):
+            return "STRUCTURAL", (
+                "Coupling declared with structural indicators — 'between X and Y', "
+                "named human interest, or equivalent normative force present"
+            )
+
+    # Hollow/referential usage
+    for pat in COUPLING_HOLLOW_INDICATORS:
+        m = re.search(pat, text, re.IGNORECASE)
+        if m:
+            start = max(0, m.start() - 60)
+            end   = min(len(text), m.end() + 60)
+            ctx   = text[start:end].replace("\n", " ").strip()
+            return "SHALLOW", f"Coupling referenced but not declared: «{ctx[:120]}»"
+
+    # Term present without any structural or hollow indicator
+    return "SHALLOW", (
+        "Coupling mentioned without structural declaration — no 'between X and Y', "
+        "no named human interest, no equivalent normative force"
+    )
+
+
+# ── Contradiction detection ────────────────────────────────────────────────────
+# Source: LAIF v1.2 Integrity Layer A.2 (Structural Honesty) — stated objectives
+# must correspond to implemented objectives; a document that claims an Integrity
+# Layer property while contradicting its substance fails Structural Honesty.
+# Toolkit §1.4: system must perform consistently whether or not being evaluated.
+
+CONTRADICTION_CHECKS = [
+    {
+        # Source: LAIF v1.2 Provision D1 — Reversibility; Toolkit §2 B.3
+        "property":    "Reversibility",
+        "trigger":     r"\bReversibility\b",
+        "adversaries": [
+            (r"\b(?:permanently?|irrevocabl[ey]|irreversible|final\s+and\s+binding|cannot\s+be\s+(?:undone|reversed|changed|appealed|modified)|no\s+(?:appeal|review|recourse|right\s+of\s+redress))\b",
+             "irreversibility language co-present with Reversibility claim"),
+        ],
+    },
+    {
+        # Source: LAIF v1.2 Integrity Layer A.1; Toolkit §1.3 — Structural
+        # Transparency requires the system can produce a meaningful account of
+        # any material output; non-disclosure directly contradicts this.
+        "property":    "Structural Transparency",
+        "trigger":     r"\bStructural\s+Transparency\b",
+        "adversaries": [
+            (r"\b(?:proprietary|trade\s+secret|confidential(?:ly)?|not\s+(?:disclosed|available|accessible|explainable|inspectable)|cannot\s+(?:be\s+)?(?:disclosed|explained|accessed|revealed)|withheld|black.?box|opaque)\b",
+             "non-disclosure/opacity language co-present with Structural Transparency claim"),
+        ],
+    },
+    {
+        # Source: LAIF v1.2 Principle 5 — Consistency (Q2): reasoning must hold
+        # at smaller AND larger scales; scale-exclusion directly contradicts this.
+        "property":    "Consistency",
+        "trigger":     r"\bConsistency\b",
+        "adversaries": [
+            (r"\b(?:applies?\s+only\s+to\s+(?:large|major|significant|enterprise|high.risk)|exempts?\s+(?:small|minor|low.risk|standard)|not\s+applicable\s+to\s+(?:small|minor|low.risk))\b",
+             "scale-exclusive language contradicts Consistency (Q2 requires scale-invariance)"),
+        ],
+    },
+    {
+        # Source: Toolkit §1.5 — Structural Containment: system must not initiate
+        # materially irreversible actions without authorisation (Provision D1).
+        # Autonomous operation without oversight contradicts containment.
+        "property":    "Structural Containment",
+        "trigger":     r"\bStructural\s+Containment\b",
+        "adversaries": [
+            (r"\b(?:autonomous(?:ly)?|without\s+human\s+(?:oversight|review|approval|authorisation|authorization)|self.(?:direct|govern|initiat|execut)|no\s+human\s+(?:in\s+the\s+loop|oversight|review))\b",
+             "autonomous/no-oversight language contradicts Structural Containment"),
+        ],
+    },
+    # ── Non-canonical contradiction checks ────────────────────────────────────
+    # These fire on informal expressions of an Integrity Layer property (the trigger)
+    # co-present with language that contradicts it — without requiring canonical LAIF
+    # terms. Catches evasion where a document expresses the governance intent informally
+    # but simultaneously asserts conditions that negate it.
+    # Source: LAIF v1.2 A.2 Structural Honesty (all four): a document expressing an
+    # Integrity Layer intent while negating its substance fails the correspondence test
+    # regardless of whether it uses canonical terminology.
+    {
+        "property":    "Reversibility (non-canonical)",
+        "trigger":     r"\b(?:can\s+be\s+(?:reversed|modified|appealed|changed)|right\s+(?:to\s+)?(?:appeal|contest|review)\b|subject\s+to\s+(?:appeal|review)|(?:decisions?|outcomes?)\s+(?:are|shall\s+be)\s+(?:reversible|modifiable))\b",
+        "adversaries": [
+            (r"\b(?:permanently?|irrevocabl[ey]|irreversible|final\s+and\s+binding|cannot\s+be\s+(?:undone|reversed|changed|appealed|modified)|no\s+(?:right\s+of\s+)?(?:appeal|review|recourse))\b",
+             "irreversibility language co-present with expressed reversibility intent (non-canonical)"),
+        ],
+    },
+    {
+        "property":    "Structural Transparency (non-canonical)",
+        "trigger":     r"\b(?:system\s+(?:transparency|explainability)|outputs?\s+(?:are\s+)?(?:transparent|explainable|interpretable)|model\s+transparency|explainability\s+(?:is\s+)?(?:provided|ensured|maintained))\b",
+        "adversaries": [
+            (r"\b(?:proprietary|trade\s+secret|cannot\s+(?:be\s+)?(?:disclosed|explained|accessed|revealed)|withheld|black.?box|opaque)\b",
+             "non-disclosure/opacity language co-present with expressed transparency intent (non-canonical)"),
+        ],
+    },
+    {
+        "property":    "Structural Containment (non-canonical)",
+        "trigger":     r"\b(?:operates?\s+within\b|system\s+boundaries?\b|operational\s+(?:boundaries?|scope|limits?)\b|confined\s+to\s+(?:its\s+)?(?:scope|boundaries?|purpose))\b",
+        "adversaries": [
+            (r"\b(?:without\s+human\s+(?:oversight|review|approval|authorisation|authorization)|no\s+human\s+(?:in\s+the\s+loop|oversight|review|approval)|executes?\s+(?:\w+\s+)?without\s+(?:human\s+)?(?:oversight|review|approval))\b",
+             "no-oversight language co-present with expressed containment intent (non-canonical)"),
+        ],
+    },
+    {
+        # Trigger: any sentence that asserts correspondence between stated and actual
+        # objectives/goals — expressed without requiring exact adjacency of terms.
+        # Uses .{0,60} to bridge intervening qualifiers ("of this system", etc.).
+        "property":    "Structural Honesty (non-canonical)",
+        "trigger":     r"\b(?:stated\s+objectives?\b.{0,60}\b(?:accurate|correct|correspond|reflect|align)\b|actual\s+(?:objectives?|goals?|behaviour)\b.{0,40}\b(?:match|align|reflect)\b.{0,30}\bstated\b)\b",
+        "adversaries": [
+            (r"\b(?:undisclosed\s+(?:objectives?|goals?|optimisation|purpose)|hidden\s+(?:objectives?|goals?|agenda))\b",
+             "undisclosed/hidden objectives co-present with expressed honesty intent (non-canonical)"),
+        ],
+    },
+]
+
+
+def _contradiction_check(text):
+    """
+    Detect contradictions between claimed LAIF properties and document content.
+    Source: LAIF v1.2 A.2 Structural Honesty — stated and implemented objectives
+    must correspond. A document claiming an Integrity Layer property while
+    contradicting its substance exhibits structural dishonesty (Toolkit §1.4).
+
+    Returns list of (property, description, context_snippet) tuples.
+    """
+    findings = []
+    for check in CONTRADICTION_CHECKS:
+        if not re.search(check["trigger"], text, re.IGNORECASE):
+            continue
+        for pat, desc in check["adversaries"]:
+            m = re.search(pat, text, re.IGNORECASE)
+            if m:
+                start = max(0, m.start() - 100)
+                end   = min(len(text), m.end() + 100)
+                ctx   = text[start:end].replace("\n", " ").strip()
+                findings.append((check["property"], desc, ctx[:200]))
+    return findings
+
+
+# ── Sector gaming detection ────────────────────────────────────────────────────
+# Source: LAIF v1.2 Principle 5 (Consistency / Q2) — governance logic must hold
+# across all scales. A document optimised for sector keywords without substantive
+# governance cannot satisfy Q2: the reasoning would not hold at the individual-
+# decision level, only at the keyword-density level.
+
+def _sector_gaming_risk(sector_alignment, overall, conceptual):
+    """
+    Detect potential sector gaming: high sector keyword alignment with low
+    substantive governance content.
+
+    HIGH   — sector alignment ≥80% AND overall readiness <30 (keyword stuffing)
+    MEDIUM — sector alignment ≥70% AND conceptual proximity <25 (keywords without intent)
+    LOW    — no gaming indicators detected
+    """
+    if sector_alignment >= 80 and overall < 30:
+        return "HIGH", (
+            f"Sector risk alignment {sector_alignment}% vs overall readiness {overall}/100. "
+            "High keyword density without substantive governance — consistent with sector "
+            "keyword stuffing. A genuinely sector-appropriate document would score higher "
+            "on conceptual proximity and auditability (LAIF v1.2 Q2 Consistency)."
+        )
+    if sector_alignment >= 70 and conceptual < 25:
+        return "MEDIUM", (
+            f"Sector alignment {sector_alignment}% but conceptual proximity {conceptual}/100. "
+            "Sector-specific vocabulary present without underlying governance intent. "
+            "May indicate sector-optimised keyword selection rather than substantive coverage."
+        )
+    return "LOW", "No sector gaming indicators detected."
+
+
+# ── Structural depth synthesis ─────────────────────────────────────────────────
+
+def _structural_depth(coupling_quality, contradictions, gaming_risk, formal_pass):
+    """
+    Synthesise overall structural depth from diagnostic layers.
+
+    STRONG — Structural Coupling + no contradictions + formal PASS + no gaming
+    WEAK   — Shallow Coupling OR minor contradictions OR formal PASS with caveats
+    HOLLOW — Negated/absent Coupling OR major contradictions OR high gaming risk
+    """
+    if coupling_quality == "NEGATED" or gaming_risk == "HIGH" or len(contradictions) >= 2:
+        return "HOLLOW"
+    if coupling_quality in ("SHALLOW", "ABSENT") and formal_pass:
+        return "HOLLOW"  # Formal PASS with hollow Coupling = hollow compliance
+    if coupling_quality == "SHALLOW" or contradictions or gaming_risk == "MEDIUM":
+        return "WEAK"
+    if coupling_quality == "STRUCTURAL" and not contradictions and gaming_risk == "LOW" and formal_pass:
+        return "STRONG"
+    return "WEAK"
+
+
 # ── Sector profiles ────────────────────────────────────────────────────────────
 # Source: LAIF_Compliance_Toolkit.txt §7.5 — PDCA tiering is calibrated to
 # deployment sector and stakes. Profiles contextualise the assessment for the
@@ -473,6 +732,659 @@ def _tty(code, text):
     return f"\033[{code}m{text}\033[0m" if sys.stdout.isatty() else text
 
 
+# ── Score trace support ───────────────────────────────────────────────────────
+# Each dimension carries a weight rationale that explains WHY it is weighted
+# as it is, not merely what it measures. This makes score explanations
+# decision-grade: a non-engineer can understand why a number is what it is.
+
+_SCORE_WEIGHT_RATIONALE = {
+    "structural": (
+        "25% weight. Governance architecture is the primary carrier of LAIF compliance. "
+        "Without a non-amendable constitutional hierarchy, threshold gate conditions "
+        "(Integrity Layer precondition), and named decision instruments (Coherence Test / "
+        "PDCA), all other provisions are operationally revisable — the core failure "
+        "LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven)."
+    ),
+    "terminology": (
+        "15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is "
+        "not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity "
+        "requirements'. Each term carries a specific enforcement obligation that informal "
+        "equivalents do not. Lower weight because terminology alone is necessary but not "
+        "sufficient for compliance (Toolkit §1)."
+    ),
+    "conceptual": (
+        "20% weight. Measures whether the document's governance intent is substantively "
+        "aligned with LAIF, independent of vocabulary. High conceptual proximity with low "
+        "structural or terminology scores signals a document expressing the right values "
+        "through different vocabulary — adoption pathway is shorter. Low conceptual "
+        "proximity indicates a more fundamental governance gap (LAIF v1.2 Part One)."
+    ),
+    "auditability": (
+        "20% weight. LAIF obligations must be independently verifiable. Numbered "
+        "requirements, evidence documentation mandates, and monitoring mechanisms are "
+        "the operational artefacts that allow a PDCA auditor to confirm compliance. "
+        "Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA)."
+    ),
+    "enforceability": (
+        "20% weight. A governance standard that cannot be enforced is an aspiration, not "
+        "a constraint. Mandatory language ('shall'), named responsible parties, and "
+        "enforcement consequences are the minimum conditions for operational enforceability. "
+        "Voluntary frameworks characteristically score low here regardless of conceptual "
+        "quality (LAIF v1.2 Part Three)."
+    ),
+}
+
+
+def _score_reason(dim, score, fired, missed):
+    """Plain-English one-sentence explanation of a dimension score."""
+    n_fired = len(fired)
+    n_total = n_fired + len(missed)
+    if score == 0:
+        return (
+            f"No {dim} signals present — none of the {n_total} expected signals matched. "
+            f"This dimension is absent from the document."
+        )
+    if score >= 80:
+        top = ", ".join(lbl for lbl, _ in fired[:2])
+        return (
+            f"Strong {dim} coverage ({score}/100): {n_fired} of {n_total} signals matched. "
+            f"Strongest contributors: {top}."
+        )
+    if score >= 50:
+        gaps = ", ".join(lbl for lbl, _ in missed[:2]) or "none"
+        return (
+            f"Partial {dim} coverage ({score}/100): {n_fired} of {n_total} signals matched. "
+            f"Key gaps: {gaps}."
+        )
+    gaps = ", ".join(lbl for lbl, _ in missed[:3]) or "none"
+    return (
+        f"Weak {dim} coverage ({score}/100): only {n_fired} of {n_total} signals matched. "
+        f"Principal gaps: {gaps}."
+    )
+
+
+def _build_score_trace(dim, score, fired, missed):
+    """Build a score_trace entry for one dimension."""
+    return {
+        "score":            score,
+        "signals_fired":   [lbl for lbl, _ in fired],
+        "signals_missing": [lbl for lbl, _ in missed],
+        "weight_rationale": _SCORE_WEIGHT_RATIONALE[dim],
+        "reason":           _score_reason(dim, score, fired, missed),
+    }
+
+
+# ── Decision-grade reporting helpers ─────────────────────────────────────────
+
+def _compliance_summary(result):
+    """Flat summary dict — one authoritative verdict per dimension."""
+    return {
+        "formal":           result["formal_laif_compliance"],
+        "structural_depth": result["structural_depth"],
+        "contradictions":   "DETECTED" if result["contradictions"] else "NONE",
+        "sector_gaming":    result["sector_gaming_risk"],
+        "final":            result["strong_laif_compliance"],
+    }
+
+
+def _executive_summary(result):
+    """
+    Plain-English decision summary for a single document.
+    Returns {verdict, risks, strengths, why} — all non-engineer readable.
+    """
+    sc         = result["strong_laif_compliance"]
+    depth      = result["structural_depth"]
+    cq         = result["coupling_quality"]
+    overall    = result["overall_readiness_score"]
+    contras    = result["contradictions"]
+    formal     = result["formal_laif_compliance"]
+    gaming     = result["sector_gaming_risk"]
+    conceptual = result["conceptual_proximity_score"]
+    enforce    = result["enforceability_score"]
+    fcd        = result.get("formal_checks_detail", [])
+
+    # ── Verdict ──────────────────────────────────────────────────────────────
+    if sc == "STRONG PASS":
+        verdict = (
+            "This document satisfies formal LAIF v1.2 compliance and demonstrates genuine "
+            "structural governance depth: Coupling is declared with a named human interest, "
+            "no structural contradictions were detected, and all 8 required constructs are present."
+        )
+    elif sc == "WEAK PASS":
+        verdict = (
+            f"This document passes the formal LAIF v1.2 compliance gate — all 8 required "
+            f"constructs are present — but structural depth is {depth.lower()}: Coupling "
+            f"quality is {cq}. Restrictions are not structurally paired with the specific "
+            f"human interests they protect, meaning neither side can be defended as "
+            f"structurally required by the other."
+        )
+    else:
+        missing = [lbl for lbl, ok in fcd if not ok]
+        if len(missing) >= len(fcd) and fcd:
+            miss_str = f"all {len(fcd)} required constructs"
+        elif len(missing) > 4:
+            miss_str = ", ".join(missing[:4]) + f" and {len(missing) - 4} others"
+        else:
+            miss_str = ", ".join(missing) if missing else "see formal checks detail"
+        verdict = (
+            f"This document fails formal LAIF v1.2 compliance. Required constructs absent: "
+            f"{miss_str}. Overall readiness score: {overall}/100. "
+            f"Formal compliance is binary — partial presence of required constructs does not "
+            f"constitute compliance."
+        )
+
+    # ── Key risks (up to 3) ──────────────────────────────────────────────────
+    risks = []
+    if cq == "NEGATED":
+        risks.append(
+            "Coupling is explicitly negated or declared inapplicable — the most adversarial "
+            "Coupling failure mode. The framework actively disclaims the structural pairing "
+            "requirement, making it impossible to satisfy the Coherence Test Q1. "
+            "(LAIF v1.2 Principle 2)"
+        )
+    elif cq in ("SHALLOW", "ABSENT"):
+        risks.append(
+            f"Coupling quality is {cq}: no governance restriction is structurally paired with "
+            f"a named human interest. Each restriction can be weakened in isolation without "
+            f"triggering a corresponding protection failure. Q1 (Coupling) failure = "
+            f"automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)"
+        )
+    if contras:
+        props = ", ".join(sorted({p for p, _, _ in contras}))
+        risks.append(
+            f"Structural contradictions detected in: {props}. The document simultaneously "
+            f"claims these properties and contains language that negates them — a Structural "
+            f"Honesty failure. A document that contradicts its own governance declarations "
+            f"cannot satisfy the Integrity Layer precondition. (LAIF v1.2 A.2)"
+        )
+    if gaming == "HIGH":
+        risks.append(
+            f"High sector gaming risk: sector keyword density is elevated while substantive "
+            f"governance content is low (overall {overall}/100). This pattern would not "
+            f"produce just outcomes at the individual-decision scale — failing Q2 Consistency. "
+            f"(LAIF v1.2 Principle 5)"
+        )
+    elif gaming == "MEDIUM" and len(risks) < 3:
+        risks.append(
+            f"Medium sector gaming risk: sector vocabulary present without underlying "
+            f"governance intent. Conceptual proximity is {conceptual}/100, below the level "
+            f"expected for genuine sector alignment."
+        )
+    if formal == "FAIL" and len(risks) < 3:
+        missing = [lbl for lbl, ok in fcd if not ok]
+        if missing:
+            risks.append(
+                f"Formal compliance gate not satisfied: {len(missing)} required construct(s) "
+                f"absent — {', '.join(missing[:3])}. Missing any single construct = FAIL "
+                f"regardless of overall readiness score."
+            )
+    if enforce < 30 and len(risks) < 3:
+        risks.append(
+            f"Low enforceability ({enforce}/100): mandatory language ('shall'), named "
+            f"responsible parties, and enforcement consequences are largely absent. "
+            f"Governance provisions are aspirational rather than operationally binding."
+        )
+    risks = risks[:3]
+
+    # ── Key strengths (up to 3) ──────────────────────────────────────────────
+    strengths = []
+    if conceptual >= 60:
+        strengths.append(
+            f"High conceptual proximity ({conceptual}/100): accountability, oversight, "
+            f"transparency, and contestability are expressed through the document's own "
+            f"vocabulary. The adoption pathway is terminological and structural, not "
+            f"conceptual — the underlying intent is already present."
+        )
+    elif conceptual >= 40:
+        strengths.append(
+            f"Moderate conceptual proximity ({conceptual}/100): key LAIF-aligned governance "
+            f"concepts are present, indicating partial substantive alignment with LAIF's "
+            f"foundational principles."
+        )
+    cc = result["construct_coverage"]
+    present = [k for k, v in cc.items() if v]
+    if len(present) >= 4:
+        listed = ", ".join(present[:3]) + (" and others" if len(present) > 3 else "")
+        strengths.append(
+            f"{len(present)} of 8 LAIF constructs present: {listed}. "
+            f"The document's vocabulary partially overlaps with LAIF canonical terms."
+        )
+    if result["sector_risk_alignment"] >= 60 and len(strengths) < 3:
+        strengths.append(
+            f"Strong sector risk alignment ({result['sector_risk_alignment']}/100): the "
+            f"document addresses the materially relevant human interests for the "
+            f"{result.get('sector_label', result['sector_used'])} deployment context."
+        )
+    if result["auditability_score"] >= 60 and len(strengths) < 3:
+        strengths.append(
+            f"Good auditability ({result['auditability_score']}/100): numbered requirements, "
+            f"evidence mandates, and monitoring mechanisms are present — obligations can "
+            f"be externally verified."
+        )
+    if enforce >= 60 and len(strengths) < 3:
+        strengths.append(
+            f"Strong enforceability ({enforce}/100): mandatory language, named responsible "
+            f"parties, and enforcement consequences are present."
+        )
+    if not strengths:
+        s = result["structural_score"]
+        if s > 0:
+            strengths.append(
+                f"Some structural signals present ({s}/100): basic governance architecture "
+                f"markers provide a foundation for LAIF adoption."
+            )
+        else:
+            strengths.append(
+                "Document establishes a governance scope for AI deployment, providing a "
+                "foundation on which LAIF-compliant provisions can be built."
+            )
+    strengths = strengths[:3]
+
+    # ── Root cause (one line) ─────────────────────────────────────────────────
+    if sc == "STRONG PASS":
+        why = (
+            "Full structural compliance: Coupling declared with named human interest, "
+            "Coherence Test documented, Integrity Layer precondition satisfied."
+        )
+    elif sc == "WEAK PASS":
+        why = (
+            f"Formal gate satisfied but Coupling is {cq.lower()} — restrictions not paired "
+            f"with specific human interests (LAIF v1.2 Principle 2)."
+        )
+    elif contras:
+        why = (
+            f"Structural contradictions ({len(contras)}) undermine the Integrity Layer — "
+            f"claimed properties are negated by document content (LAIF v1.2 A.2)."
+        )
+    elif cq in ("ABSENT", "SHALLOW"):
+        why = (
+            f"Primary gap: Coupling is {cq.lower()} — no restriction paired with a named "
+            f"human interest. Most common LAIF failure mode (Q1 of Coherence Test)."
+        )
+    else:
+        missing = [lbl for lbl, ok in fcd if not ok]
+        why = (
+            f"Formal compliance fails: {missing[0] if missing else 'required constructs'} "
+            f"not present. Overall readiness {overall}/100."
+        )
+
+    return {"verdict": verdict, "risks": risks, "strengths": strengths, "why": why}
+
+
+def _structured_findings(result):
+    """
+    Generate a list of structured findings — each with title, severity
+    (HIGH / MEDIUM / LOW), evidence, impact, and recommended_action.
+    Findings are diagnostic observations; remediation steps are prescriptions.
+    """
+    findings = []
+    cq       = result["coupling_quality"]
+    cq_r     = result["coupling_quality_reason"]
+    contras  = result["contradictions"]
+    gaming   = result["sector_gaming_risk"]
+    gaming_r = result["sector_gaming_reason"]
+    overall  = result["overall_readiness_score"]
+    fcd      = result.get("formal_checks_detail", [])
+
+    # ── Coupling quality ──────────────────────────────────────────────────────
+    if cq == "ABSENT":
+        findings.append({
+            "title":    "Coupling absent — no restriction paired with a human interest",
+            "severity": "HIGH",
+            "evidence": "The canonical term 'Coupling' does not appear in the document.",
+            "impact":   (
+                "Every governance restriction can be weakened in isolation without triggering "
+                "a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test "
+                "failure. Integrity Layer precondition cannot be satisfied without Coupling "
+                "(LAIF v1.2 Principle 2)."
+            ),
+            "recommended_action": (
+                "Declare structural Coupling for each governance restriction: name the specific "
+                "human interest at stake and pair it with a protection of equivalent normative "
+                "force (Toolkit §2 B.1)."
+            ),
+        })
+    elif cq == "SHALLOW":
+        findings.append({
+            "title":    "Coupling declared as SHALLOW — structural pairing not established",
+            "severity": "HIGH",
+            "evidence": cq_r,
+            "impact":   (
+                "Mentioning 'Coupling' without a structural declaration does not satisfy "
+                "LAIF v1.2 Principle 2. The term is present but the required architecture — "
+                "named human interest, paired protection, equivalent normative force — is "
+                "absent. A formal PASS with SHALLOW Coupling = WEAK PASS only."
+            ),
+            "recommended_action": (
+                "Rewrite Coupling references to include the named human interest, the "
+                "restriction paired with it, and a statement of equivalent normative force "
+                "on both sides (Toolkit §2 B.1; LAIF v1.2 Principle 2)."
+            ),
+        })
+    elif cq == "NEGATED":
+        findings.append({
+            "title":    "Coupling explicitly negated or declared inapplicable",
+            "severity": "HIGH",
+            "evidence": cq_r,
+            "impact":   (
+                "Active negation is the most adversarial Coupling failure mode. The document "
+                "asserts the requirement does not apply — this cannot satisfy Q1 of the "
+                "Coherence Test regardless of other scores (LAIF v1.2 Principle 2)."
+            ),
+            "recommended_action": (
+                "Remove the negation of Coupling and replace with a structural declaration "
+                "naming the specific human interest each restriction protects (Toolkit §2 B.1)."
+            ),
+        })
+
+    # ── Structural contradictions ─────────────────────────────────────────────
+    for prop, desc, ctx in contras:
+        findings.append({
+            "title":    f"Structural contradiction: {prop}",
+            "severity": "HIGH",
+            "evidence": f"{desc} — «{ctx[:120]}»",
+            "impact":   (
+                f"The document simultaneously claims '{prop}' and contains language that "
+                f"negates it. This is a Structural Honesty failure (LAIF v1.2 A.2): stated "
+                f"objectives do not correspond to the document's implemented provisions. "
+                f"The Integrity Layer precondition cannot be satisfied."
+            ),
+            "recommended_action": (
+                f"Resolve the contradiction: either remove the contradicting language and "
+                f"implement '{prop}' substantively, or remove the claim to this property and "
+                f"document why it does not apply. Retaining both violates Structural Honesty "
+                f"(Toolkit §1.4)."
+            ),
+        })
+
+    # ── Sector gaming ─────────────────────────────────────────────────────────
+    if gaming == "HIGH":
+        findings.append({
+            "title":    "High sector gaming risk detected",
+            "severity": "HIGH",
+            "evidence": gaming_r,
+            "impact":   (
+                "High sector keyword density with low substantive governance content is "
+                "inconsistent with genuine compliance. Keyword selection without governance "
+                "substance would not produce just outcomes at the individual-decision scale — "
+                "failing Q2 Consistency (LAIF v1.2 Principle 5)."
+            ),
+            "recommended_action": (
+                "Increase substantive coverage: add concrete obligations (auditability), "
+                "named responsible parties (enforceability), and structural Coupling "
+                "declarations. Sector keywords must be the vocabulary of genuine governance "
+                "intent, not a substitute for it."
+            ),
+        })
+    elif gaming == "MEDIUM":
+        findings.append({
+            "title":    "Medium sector gaming risk — vocabulary present without governance intent",
+            "severity": "MEDIUM",
+            "evidence": gaming_r,
+            "impact":   (
+                "Sector-specific vocabulary without underlying conceptual coverage suggests "
+                "keyword optimisation. Conceptual proximity should be ≥40 for credible "
+                "sector alignment."
+            ),
+            "recommended_action": (
+                "Pair each sector-specific risk indicator with a substantive governance "
+                "measure — obligation, monitoring mechanism, or Coupling declaration."
+            ),
+        })
+
+    # ── Paraphrase violations ─────────────────────────────────────────────────
+    for term, vs in result["paraphrase_violations"].items():
+        ex = vs[0][1].replace("\n", " ")[:100] if vs else ""
+        findings.append({
+            "title":    f"Paraphrase violation: forbidden substitution of '{term}'",
+            "severity": "MEDIUM",
+            "evidence": f"{len(vs)} instance(s). Example: «{ex}»",
+            "impact":   (
+                f"Informal substitutes for '{term}' do not carry its enforcement weight. "
+                f"'Coupling' is not equivalent to 'alignment' — the canonical term requires "
+                f"a named human interest, paired protection, and equivalent normative force "
+                f"that informal equivalents lack (Toolkit §1)."
+            ),
+            "recommended_action": (
+                f"Replace each forbidden term with '{term}' and add the structural "
+                f"declaration the canonical term requires (Toolkit §1)."
+            ),
+        })
+
+    # ── Formal compliance gaps ────────────────────────────────────────────────
+    missing_formal = [(lbl, ok) for lbl, ok in fcd if not ok]
+    if missing_formal and result["formal_laif_compliance"] == "FAIL":
+        labels = ", ".join(lbl for lbl, _ in missing_formal[:4])
+        if len(missing_formal) > 4:
+            labels += f" and {len(missing_formal) - 4} others"
+        findings.append({
+            "title":    (
+                f"Formal compliance gate not satisfied — "
+                f"{len(missing_formal)} required construct(s) absent"
+            ),
+            "severity": "HIGH",
+            "evidence": f"Missing: {labels}.",
+            "impact":   (
+                "Formal LAIF compliance is binary. Missing any single required construct "
+                "= FAIL regardless of overall readiness score. These constructs are "
+                "structurally necessary — they cannot be satisfied by partial presence."
+            ),
+            "recommended_action": (
+                "Add the missing constructs substantively — each must be meaningfully "
+                "implemented, not merely cited. Implement in this priority order: "
+                "Coupling → Coherence Test → Integrity Layer → constitutional hierarchy "
+                "→ self-application clause."
+            ),
+        })
+
+    # ── Low dimension scores ──────────────────────────────────────────────────
+    _DIM_CONSEQUENCE = {
+        "structural": (
+            "Without a constitutional hierarchy, operational revisions can alter the "
+            "governance standard without triggering a constitutional amendment — "
+            "foundational protections are not locked against erosion over time."
+        ),
+        "conceptual": (
+            "Low conceptual proximity indicates the document's governance intent is not "
+            "substantially aligned with LAIF values. The adoption gap is more fundamental "
+            "than terminology — substantive governance redesign is required, not just "
+            "terminological substitution."
+        ),
+        "auditability": (
+            "Without numbered, traceable obligations, a PDCA auditor has no objective "
+            "basis to verify compliance — compliance claims rest on assertions rather "
+            "than verifiable evidence. External audit cannot proceed."
+        ),
+        "enforceability": (
+            "Without enforceable obligations, regulatory bodies cannot hold operators "
+            "accountable for governance failures. The standard is aspirational rather "
+            "than operationally binding — no party can be required to comply."
+        ),
+    }
+    for dim_key, dim_label, score_key, threshold in [
+        ("structural",    "Structural governance architecture", "structural_score",           40),
+        ("conceptual",    "Conceptual coverage",               "conceptual_proximity_score",  30),
+        ("auditability",  "Auditability",                      "auditability_score",           40),
+        ("enforceability","Enforceability",                    "enforceability_score",         40),
+    ]:
+        score = result[score_key]
+        if score < threshold:
+            bd = result["score_breakdown"][dim_key]
+            missed = ", ".join(lbl for lbl, _ in bd["missed"][:3])
+            findings.append({
+                "title":    f"Low {dim_label} score ({score}/100)",
+                "severity": "MEDIUM" if score > 0 else "HIGH",
+                "evidence": f"Score {score}/100. Key missed signals: {missed}.",
+                "impact":   _DIM_CONSEQUENCE.get(dim_key, f"Score below threshold."),
+                "recommended_action": (
+                    f"Target the missed signals for this dimension: {missed}. "
+                    f"The weight rationale for this dimension is detailed in the "
+                    f"Scores and Signal Breakdown section above."
+                ),
+            })
+
+    return findings
+
+
+def _structured_remediation(result):
+    """
+    Structured remediation steps with Problem / Why it matters / Concrete fix.
+    Higher-impact items first. Rendered in the markdown report; plain-string
+    recommended_remediation_steps retained separately for console output.
+    """
+    steps = []
+
+    # 1 — Paraphrase violations (most specific, highest immediate impact)
+    for term, violations in result["paraphrase_violations"].items():
+        for _, ctx in violations[:1]:
+            snippet = ctx.replace("\n", " ").strip()[:100]
+            steps.append({
+                "problem": (
+                    f"Forbidden paraphrase of '{term}' detected: «{snippet}»"
+                ),
+                "why_it_matters": (
+                    f"'{term}' is a structurally load-bearing canonical term. Informal "
+                    f"substitutes do not carry the enforcement obligation the term requires. "
+                    f"Using 'alignment' or 'connection' where 'Coupling' is required leaves "
+                    f"each restriction without a mandatory paired protection (Toolkit §1)."
+                ),
+                "concrete_fix": (
+                    f"Replace the forbidden term with '{term}' at every occurrence. "
+                    f"For 'Coupling' specifically, also add: the named human interest, "
+                    f"the paired restriction, and a statement of equivalent normative force "
+                    f"on both sides (Toolkit §2 B.1; LAIF v1.2 Principle 2)."
+                ),
+            })
+
+    # 2 — Coupling
+    cq = result["coupling_quality"]
+    if cq in ("ABSENT", "SHALLOW", "NEGATED"):
+        cq_r = result["coupling_quality_reason"]
+        if cq == "ABSENT":
+            problem = "Structural Coupling not declared — the term 'Coupling' is absent."
+        elif cq == "SHALLOW":
+            problem = f"Coupling declared SHALLOW — {cq_r[:110]}"
+        else:
+            problem = f"Coupling explicitly negated — {cq_r[:110]}"
+        steps.append({
+            "problem": problem,
+            "why_it_matters": (
+                "Without structural Coupling, no governance restriction is paired with the "
+                "specific human interest it protects. Each restriction can be weakened "
+                "independently. Q1 (Coupling) failure = automatic failure of the full "
+                "Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+            ),
+            "concrete_fix": (
+                "For each governance restriction, add: 'Coupling between [restriction] "
+                "and [the specific human interest it protects], with [named protection "
+                "mechanism] of equivalent normative force.' Both sides must be named "
+                "explicitly; neither can be weakened in isolation (Toolkit §2 B.1)."
+            ),
+        })
+
+    # 3 — Coherence Test
+    if not result["construct_coverage"].get("Coherence Test"):
+        steps.append({
+            "problem": "Coherence Test not applied — no Q1/Q2/Q3 documentation present.",
+            "why_it_matters": (
+                "The Coherence Test is the primary LAIF decision instrument: Q1 Coupling "
+                "(specific human interest identified and protected?), Q2 Consistency "
+                "(governance logic scale-invariant?), Q3 Reversibility (future actors can "
+                "modify?). Without it, there is no evidence provisions were tested for "
+                "structural soundness before deployment (LAIF v1.2 Part One)."
+            ),
+            "concrete_fix": (
+                "Add PDCA Section B: apply all three Coherence Test questions to each major "
+                "governance provision. Each must be answered affirmatively. Q1 failure = "
+                "full failure — do not proceed to Q2/Q3 without satisfying Q1 "
+                "(LAIF v1.2 Part One; Toolkit §2)."
+            ),
+        })
+
+    # 4 — Integrity Layer
+    if not result["construct_coverage"].get("Integrity Layer"):
+        steps.append({
+            "problem": "Integrity Layer not declared as a deployment precondition.",
+            "why_it_matters": (
+                "A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural "
+                "Containment — all three must be satisfied simultaneously before deployment "
+                "may proceed. Partial satisfaction = failure. Without this gate, there is "
+                "no precondition preventing premature deployment (LAIF v1.2 Part Two)."
+            ),
+            "concrete_fix": (
+                "Add an Integrity Layer section with three threshold conditions: A.1 — system "
+                "can produce a meaningful account of any material output; A.2 — stated "
+                "objectives correspond to implemented objectives, verified by independent "
+                "review; A.3 — system operates within documented boundaries in all tested "
+                "conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5)."
+            ),
+        })
+
+    # 5 — Structural contradictions
+    for prop, desc, ctx in result["contradictions"]:
+        steps.append({
+            "problem": f"Structural contradiction in '{prop}': {desc}",
+            "why_it_matters": (
+                f"Claiming '{prop}' while containing language that negates it fails "
+                f"Structural Honesty (LAIF v1.2 A.2). Contradictions invalidate the "
+                f"Integrity Layer precondition regardless of other scores."
+            ),
+            "concrete_fix": (
+                f"Resolve the contradiction: (a) remove the contradicting language and "
+                f"implement '{prop}' substantively, or (b) remove the claim to '{prop}' "
+                f"and document why the property does not apply. Both cannot coexist "
+                f"(Toolkit §1.4)."
+            ),
+        })
+
+    # 6 — Constitutional hierarchy (low structural score)
+    if result["structural_score"] < 50:
+        bd = result["score_breakdown"]["structural"]
+        missed = ", ".join(lbl for lbl, _ in bd["missed"][:3])
+        steps.append({
+            "problem": (
+                f"Constitutional hierarchy not declared "
+                f"(structural score {result['structural_score']}/100). Missing: {missed}."
+            ),
+            "why_it_matters": (
+                "Without a non-amendable three-tier hierarchy, operational revisions can "
+                "erode Foundational Principles. LAIF's structure — Foundational Principles "
+                "(non-amendable) → Provisions → Operational Standards — prevents governance "
+                "degradation over time (LAIF v1.2 Principle 3)."
+            ),
+            "concrete_fix": (
+                "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational "
+                "Principles — non-amendable; (ii) Provisions derived from Principles; "
+                "(iii) Operational Standards — subordinate and revisable. Add a "
+                "non-amendable clause, self-application clause (Part Seven), and threshold "
+                "gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, "
+                "Two, Seven)."
+            ),
+        })
+
+    # 7 — Sector-specific (top 2 from profile)
+    sector_label = result.get("sector_label", result["sector_used"])
+    for step_text in result.get("sector_remediation_priority", [])[:2]:
+        if not any(step_text[:60] in s.get("concrete_fix", "")[:60] for s in steps):
+            # derive a distinct problem statement from the first clause of step_text
+            first_clause = re.split(r"\s(?:—|–|:)\s", step_text, maxsplit=1)[0]
+            if len(first_clause) > 110:
+                first_clause = first_clause[:110].rstrip() + "…"
+            steps.append({
+                "problem": f"{first_clause} — not addressed in this document.",
+                "why_it_matters": (
+                    f"In the {sector_label} deployment context, this governance gap exposes "
+                    f"specific human interests that materially affect persons subject to the "
+                    f"AI system's outputs. Each gap represents a Coupling declaration that is "
+                    f"absent or insufficient for this sector "
+                    f"(Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
+                ),
+                "concrete_fix": step_text,
+            })
+
+    return steps
+
+
 # ── Remediation step generator ────────────────────────────────────────────────
 
 def _remediation(result):
@@ -714,10 +1626,61 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         + [f"Evidence gap: {lbl}" for lbl, ok in sector_evidence_results if not ok]
     )
 
+    # ── Structural depth analysis (hardening layer) ───────────────────────────
+    # These run AFTER sector analysis because gaming detection uses sector_alignment.
+    # Source: LAIF v1.2 Principle 2 (Coupling quality); A.2 Structural Honesty
+    # (contradictions); Q2 Consistency (sector gaming = scale-inconsistent keyword use).
+    cq, cq_reason        = _coupling_quality(text)
+    contradictions       = _contradiction_check(text)
+    gaming_level, gaming_reason = _sector_gaming_risk(sector_risk_alignment, overall, c)
+    depth                = _structural_depth(cq, contradictions, gaming_level, formal_pass)
+
+    # Strong compliance: formal gate PASS + genuine structural depth.
+    # A hollow document that passes the formal gate but has SHALLOW/NEGATED Coupling
+    # or contradictions is a WEAK PASS — not a STRONG PASS.
+    if formal_pass and depth == "STRONG":
+        strong_compliance = "STRONG PASS"
+    elif formal_pass:
+        strong_compliance = "WEAK PASS"
+    else:
+        strong_compliance = "FAIL"
+
+    # Surface contradiction and gaming gaps
+    if cq in ("SHALLOW", "NEGATED"):
+        gaps.append(
+            f"Coupling quality: {cq} — {cq_reason} "
+            f"(LAIF v1.2 Principle 2 requires structural declaration with named human interest "
+            f"and equivalent normative force)"
+        )
+    for prop, desc, ctx in contradictions:
+        gaps.append(f"Structural contradiction [{prop}]: {desc} — context: «{ctx[:80]}»")
+    if gaming_level != "LOW":
+        gaps.append(f"Sector gaming risk [{gaming_level}]: {gaming_reason}")
+
+    # Upgrade failure modes for structural depth issues
+    if depth == "HOLLOW" and formal_pass:
+        failure_modes.append(
+            "structural depth — formal PASS with HOLLOW depth: Coupling quality is "
+            f"{cq}; all required terms present but structural declaration absent or negated"
+        )
+    if contradictions:
+        failure_modes.append(
+            f"internal contradiction — {len(contradictions)} Structural Honesty violation(s) "
+            "detected: claimed properties contradicted by document content (LAIF v1.2 A.2)"
+        )
+
     result = {
         "document_name":              name,
         "source_type":                source_type,
         "formal_laif_compliance":     "PASS" if formal_pass else "FAIL",
+        "formal_checks_detail":       formal_checks,   # [(label, bool), ...]
+        "strong_laif_compliance":     strong_compliance,
+        "structural_depth":           depth,
+        "coupling_quality":           cq,
+        "coupling_quality_reason":    cq_reason,
+        "contradictions":             contradictions,
+        "sector_gaming_risk":         gaming_level,
+        "sector_gaming_reason":       gaming_reason,
         "construct_coverage":         construct_coverage,
         "structural_score":           s,
         "terminology_score":          t,
@@ -748,6 +1711,19 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         **meta,
     }
     result["recommended_remediation_steps"] = _remediation(result)
+
+    # ── Decision-grade reporting fields (added after base result is built) ────
+    result["score_trace"] = {
+        "structural":    _build_score_trace("structural",    s, s_fired, s_missed),
+        "terminology":   _build_score_trace("terminology",   t, t_fired, t_missed),
+        "conceptual":    _build_score_trace("conceptual",    c, c_fired, c_missed),
+        "auditability":  _build_score_trace("auditability",  a, a_fired, a_missed),
+        "enforceability":_build_score_trace("enforceability",e, e_fired, e_missed),
+    }
+    result["compliance_summary"]        = _compliance_summary(result)
+    result["executive_summary"]         = _executive_summary(result)
+    result["structured_findings"]       = _structured_findings(result)
+    result["structured_remediation_steps"] = _structured_remediation(result)
     return result
 
 
@@ -823,6 +1799,19 @@ def generate_markdown_report(assessments, report_date="May 2026"):
       "defining relevant human interests, risk indicator signals, and expected evidence "
       "artefacts. Produces sector risk alignment score (0–100) and sector-specific "
       "remediation priorities referencing LAIF source sections.")
+    p()
+    p("**Layer 4 — Structural depth (adversarial hardening):** Three diagnostic checks "
+      "run against every document regardless of formal compliance verdict:")
+    p("- **Coupling quality** (STRUCTURAL / SHALLOW / NEGATED / ABSENT): detects hollow "
+      "or negated Coupling declarations (LAIF v1.2 Principle 2)")
+    p("- **Contradiction detection**: detects co-presence of claimed Integrity Layer "
+      "properties and language that contradicts them (LAIF v1.2 A.2 Structural Honesty)")
+    p("- **Sector gaming risk** (LOW / MEDIUM / HIGH): detects high sector keyword "
+      "density without substantive governance content (LAIF v1.2 Q2 Consistency)")
+    p()
+    p("**Strong compliance verdict:** STRONG PASS requires formal PASS + STRUCTURAL "
+      "Coupling + no contradictions. A formal PASS with shallow Coupling = WEAK PASS, "
+      "not a strong compliance claim.")
 
     # ── Scoring Model ────────────────────────────────────────────────────────
     h(2, "Scoring Model")
@@ -853,15 +1842,67 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     for r in assessments:
         h(3, r["document_name"])
         compliance_tag = "✅ PASS" if r["formal_laif_compliance"] == "PASS" else "❌ FAIL"
-        p(f"**Formal LAIF Compliance:** {compliance_tag}  ")
+        strong_tag = {
+            "STRONG PASS": "✅✅ STRONG PASS",
+            "WEAK PASS":   "⚠️ WEAK PASS (formal gate passed; structural depth insufficient)",
+            "FAIL":        "❌ FAIL",
+        }.get(r.get("strong_laif_compliance", "FAIL"), "❌ FAIL")
+        depth_tag = {
+            "STRONG": "🟢 STRONG",
+            "WEAK":   "🟡 WEAK",
+            "HOLLOW": "🔴 HOLLOW",
+        }.get(r.get("structural_depth", "WEAK"), "⚪ UNKNOWN")
+
+        # ── Executive Summary block ──────────────────────────────────────────
+        es = r.get("executive_summary", {})
+        if es:
+            h(4, "Executive Assessment")
+            p(f"> {es.get('verdict', '')}")
+            p()
+            p(f"**Root cause:** {es.get('why', '')}")
+            p()
+            if es.get("risks"):
+                p("**Key risks:**")
+                for risk in es["risks"]:
+                    p(f"- {risk}")
+                p()
+            if es.get("strengths"):
+                p("**Key strengths:**")
+                for strength in es["strengths"]:
+                    p(f"- {strength}")
+                p()
+
+        # ── Compliance Summary table ─────────────────────────────────────────
+        cs = r.get("compliance_summary", {})
+        if cs:
+            h(4, "Compliance Summary")
+            table(
+                ["Dimension", "Verdict"],
+                [
+                    ["Formal compliance (binary gate)", cs.get("formal", "—")],
+                    ["Structural depth",                cs.get("structural_depth", "—")],
+                    ["Structural contradictions",       cs.get("contradictions", "—")],
+                    ["Sector gaming risk",              cs.get("sector_gaming", "—")],
+                    ["Final verdict",                   cs.get("final", "—")],
+                ]
+            )
+            p()
+
         p(f"**Source type:** {r['source_type']}  ")
         p(f"**Sector:** {r.get('sector_label', r['sector_used'])}  ")
+        p(f"**Coupling Quality:** {r.get('coupling_quality', 'ABSENT')} — {r.get('coupling_quality_reason', '')}  ")
         p(f"**Remediation Effort:** {r['remediation_effort']}")
+        if r.get("contradictions"):
+            p()
+            p("**⚠️ Structural Contradictions Detected:**")
+            for prop, desc, ctx in r["contradictions"]:
+                p(f"- [{prop}] {desc}: «{ctx[:100]}»")
         p()
 
         # Scores with signal traceability
         h(4, "Scores and Signal Breakdown")
         bd = r["score_breakdown"]
+        st = r.get("score_trace", {})
         for dim_key, dim_label, score_key in [
             ("structural",    "Structural",           "structural_score"),
             ("terminology",   "Terminology",          "terminology_score"),
@@ -869,21 +1910,42 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             ("auditability",  "Auditability",         "auditability_score"),
             ("enforceability","Enforceability",       "enforceability_score"),
         ]:
-            score = r[score_key]
-            p(f"**{dim_label}: {score}/100** {score_bar(score)}")
+            score  = r[score_key]
+            trace  = st.get(dim_key, {})
             fired  = bd[dim_key]["fired"]
             missed = bd[dim_key]["missed"]
-            if fired:
-                for label, w in fired:
-                    p(f"  + {label} (+{w})")
-            if missed:
-                for label, w in missed:
-                    p(f"  − {label} (0/{w})")
+
+            p(f"**{dim_label} — {score}/100** {score_bar(score)}")
             p()
+            if trace.get("reason"):
+                p(f"**Why:** {trace['reason']}")
+                p()
+            if fired:
+                p("**Signals detected:**")
+                for label, w in fired:
+                    p(f"- {label} (+{w} pts)")
+                p()
+            if missed:
+                p("**Signals missing:**")
+                for label, w in missed:
+                    p(f"- {label} (missed {w} pts)")
+                p()
+            if trace.get("weight_rationale"):
+                p(f"**Weight rationale:** {trace['weight_rationale']}")
+                p()
+
         overall_bar = score_bar(r["overall_readiness_score"])
-        p(f"**Overall Readiness: {r['overall_readiness_score']}/100** {overall_bar}  "
-          f"(Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + "
-          f"Enforceability×0.20)")
+        p(f"**Overall Readiness — {r['overall_readiness_score']}/100** {overall_bar}")
+        p()
+        p(
+            "**Why:** Weighted sum of the five dimensions above — "
+            "Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + "
+            "Auditability×0.20 + Enforceability×0.20. "
+            "A document achieves overall readiness by addressing governance architecture, "
+            "canonical terminology, substantive intent, verifiability, and enforceability "
+            "simultaneously. Weakness in any single dimension constrains the overall score "
+            "proportionally."
+        )
         p()
 
         # Construct coverage
@@ -969,10 +2031,33 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             p(f"- {fm}")
         p()
 
-        # Sector-aware remediation
-        h(4, "Sector-Aware Remediation (ordered by impact)")
-        for i, step in enumerate(r["recommended_remediation_steps"], 1):
-            p(f"{i}. {step}")
+        # ── Structured Findings ─────────────────────────────────────────────
+        h(4, "Structured Findings")
+        sfindings = r.get("structured_findings", [])
+        if sfindings:
+            for fi in sfindings:
+                sev = fi.get("severity", "MEDIUM")
+                sev_icon = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}.get(sev, "⚪")
+                p(f"**{sev_icon} [{sev}] {fi.get('title', '')}**")
+                p(f"- *Evidence:* {fi.get('evidence', '')}")
+                p(f"- *Impact:* {fi.get('impact', '')}")
+                p(f"- *Recommended action:* {fi.get('recommended_action', '')}")
+                p()
+        else:
+            p("No structured findings generated.")
+        p()
+
+        # ── Remediation (Problem / Why it matters / Concrete fix) ────────────
+        h(4, "Remediation Plan (ordered by impact)")
+        srem = r.get("structured_remediation_steps", [])
+        if srem:
+            for i, step in enumerate(srem, 1):
+                p(f"**{i}. Problem:** {step.get('problem', '')}")
+                p(f"   **Why it matters:** {step.get('why_it_matters', '')}")
+                p(f"   **Concrete fix:** {step.get('concrete_fix', '')}")
+                p()
+        else:
+            p("No structured remediation steps generated.")
         p()
         p("---")
 

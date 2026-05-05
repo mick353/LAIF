@@ -85,6 +85,48 @@ PARAPHRASE_GUARDS = [
         "allow_if_nearby":   r"\bMaterially Affects Interests\b",
         "allow_if_contrast": [],
     },
+    # Source: LAIF v1.2 Part Two A.1; Toolkit §1.3 — Structural Transparency is
+    # a defined Integrity Layer property requiring a compliant meaningful account
+    # of any material output. "output transparency" and "transparency conditions"
+    # are informal substitutes that lose the structural threshold requirement.
+    {
+        "term":    "Structural Transparency",
+        "forbidden": r"\b(?:transparency conditions?|output transparency)\b",
+        "allow_if_nearby":   r"\bStructural Transparency\b",
+        "allow_if_contrast": [
+            r"(?:unlike|beyond|rather\s+than)\b.{0,80}(?:output transparency|transparency conditions?)",
+        ],
+    },
+    # Source: LAIF v1.2 Part Two A.2; Toolkit §1.4 — Structural Honesty requires
+    # that stated optimisation objectives correspond to actual implemented objectives.
+    # "honesty conditions", "model honesty", "system honesty" lose this structural
+    # correspondence requirement.
+    {
+        "term":    "Structural Honesty",
+        "forbidden": r"\b(?:honesty conditions?|model honesty|system honesty)\b",
+        "allow_if_nearby":   r"\bStructural Honesty\b",
+        "allow_if_contrast": [],
+    },
+    # Source: LAIF v1.2 Part Two A.3; Toolkit §1.5 — Structural Containment requires
+    # operation within documented operational boundaries across all tested conditions.
+    # "boundary controls", "scope controls", "containment conditions" are informal
+    # substitutes that drop the all-conditions and edge-case coverage requirement.
+    {
+        "term":    "Structural Containment",
+        "forbidden": r"\b(?:boundary controls?|scope controls?|containment conditions?)\b",
+        "allow_if_nearby":   r"\bStructural Containment\b",
+        "allow_if_contrast": [],
+    },
+    # Source: LAIF v1.2 Provision D1; Toolkit §2 B.3 — Reversibility (Q3) requires
+    # that future actors can modify or reverse deployment consequences. "rollback
+    # capability/requirement/clause" and "modifiability requirement" are informal
+    # operational terms that omit the future-actor and governance-architecture dimensions.
+    {
+        "term":    "Reversibility",
+        "forbidden": r"\b(?:rollback\s+(?:requirement|clause|condition|capability)|modifiability\s+(?:requirement|clause))\b",
+        "allow_if_nearby":   r"\bReversibility\b",
+        "allow_if_contrast": [],
+    },
 ]
 
 # Exported pattern constants — imported by test_adversarial.py
