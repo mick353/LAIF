@@ -76,66 +76,96 @@ Each document was assessed against three complementary layers:
 
 
 #### Scores and Signal Breakdown
-**Structural: 41/100** ████░░░░░░
-  *Weak structural coverage (41/100): only 6 of 10 signals matched. Principal gaps: threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy, self-application clause (Part Seven).*
-  + numbered sub-requirements (+8)
-  + mandatory obligation language (shall) (+8)
-  + full lifecycle scope declared (+6)
-  + risk stratification / proportionality (+7)
-  + operational mechanisms defined (+6)
-  + review / monitoring mechanisms (+6)
-  − threshold gate conditions (all must pass simultaneously) (0/15)
-  − non-amendable constitutional hierarchy (0/18)
-  − self-application clause (Part Seven) (0/12)
-  − named decision instrument (Coherence Test / PDCA) (0/14)
-  *Weighting: 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).*
+**Structural — 41/100** ████░░░░░░
 
-**Terminology: 0/100** ░░░░░░░░░░
-  *No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.*
-  − Coupling (0/25)
-  − Coherence Test (0/20)
-  − Integrity Layer (0/20)
-  − Structural Transparency (0/10)
-  − Structural Honesty (0/10)
-  − Structural Containment (0/10)
-  − Materially Affects Interests (0/5)
-  *Weighting: 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).*
+**Why:** Weak structural coverage (41/100): only 6 of 10 signals matched. Principal gaps: threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy, self-application clause (Part Seven).
 
-**Conceptual Proximity: 49/100** █████░░░░░
-  *Weak conceptual coverage (49/100): only 6 of 12 signals matched. Principal gaps: accountability, proportionality, contestability / redress.*
-  + human rights / fundamental interests (+10)
-  + transparency (+8)
-  + explainability / interpretability (+8)
-  + human oversight (+8)
-  + safety (+7)
-  + risk governance (+8)
-  − accountability (0/8)
-  − proportionality (0/8)
-  − contestability / redress (0/9)
-  − reversibility / modifiability (0/8)
-  − traceability / responsibility (0/10)
-  − fairness / labour / non-discrimination (0/8)
-  *Weighting: 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).*
+**Signals detected:**
+- numbered sub-requirements (+8 pts)
+- mandatory obligation language (shall) (+8 pts)
+- full lifecycle scope declared (+6 pts)
+- risk stratification / proportionality (+7 pts)
+- operational mechanisms defined (+6 pts)
+- review / monitoring mechanisms (+6 pts)
 
-**Auditability: 60/100** ██████░░░░
-  *Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.*
-  + numbered traceable requirements (+20)
-  + evidence / documentation requirements (+20)
-  + review / monitoring mechanisms (+20)
-  − multiple mandatory obligations (shall … shall) (0/20)
-  − specific, measurable obligations (0/20)
-  *Weighting: 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).*
+**Signals missing:**
+- threshold gate conditions (all must pass simultaneously) (missed 15 pts)
+- non-amendable constitutional hierarchy (missed 18 pts)
+- self-application clause (Part Seven) (missed 12 pts)
+- named decision instrument (Coherence Test / PDCA) (missed 14 pts)
 
-**Enforceability: 60/100** ██████░░░░
-  *Partial enforceability coverage (60/100): 3 of 5 signals matched. Key gaps: named responsible parties, enforcement consequences / penalties.*
-  + mandatory language (shall) (+20)
-  + risk-proportionate thresholds (+20)
-  + non-discretionary operational mandates (+20)
-  − named responsible parties (0/20)
-  − enforcement consequences / penalties (0/20)
-  *Weighting: 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).*
+**Weight rationale:** 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).
 
-**Overall Readiness: 44/100** ████░░░░░░  (Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + Enforceability×0.20)
+**Terminology — 0/100** ░░░░░░░░░░
+
+**Why:** No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- Coupling (missed 25 pts)
+- Coherence Test (missed 20 pts)
+- Integrity Layer (missed 20 pts)
+- Structural Transparency (missed 10 pts)
+- Structural Honesty (missed 10 pts)
+- Structural Containment (missed 10 pts)
+- Materially Affects Interests (missed 5 pts)
+
+**Weight rationale:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
+
+**Conceptual Proximity — 49/100** █████░░░░░
+
+**Why:** Weak conceptual coverage (49/100): only 6 of 12 signals matched. Principal gaps: accountability, proportionality, contestability / redress.
+
+**Signals detected:**
+- human rights / fundamental interests (+10 pts)
+- transparency (+8 pts)
+- explainability / interpretability (+8 pts)
+- human oversight (+8 pts)
+- safety (+7 pts)
+- risk governance (+8 pts)
+
+**Signals missing:**
+- accountability (missed 8 pts)
+- proportionality (missed 8 pts)
+- contestability / redress (missed 9 pts)
+- reversibility / modifiability (missed 8 pts)
+- traceability / responsibility (missed 10 pts)
+- fairness / labour / non-discrimination (missed 8 pts)
+
+**Weight rationale:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
+
+**Auditability — 60/100** ██████░░░░
+
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+
+**Signals detected:**
+- numbered traceable requirements (+20 pts)
+- evidence / documentation requirements (+20 pts)
+- review / monitoring mechanisms (+20 pts)
+
+**Signals missing:**
+- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- specific, measurable obligations (missed 20 pts)
+
+**Weight rationale:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
+
+**Enforceability — 60/100** ██████░░░░
+
+**Why:** Partial enforceability coverage (60/100): 3 of 5 signals matched. Key gaps: named responsible parties, enforcement consequences / penalties.
+
+**Signals detected:**
+- mandatory language (shall) (+20 pts)
+- risk-proportionate thresholds (+20 pts)
+- non-discretionary operational mandates (+20 pts)
+
+**Signals missing:**
+- named responsible parties (missed 20 pts)
+- enforcement consequences / penalties (missed 20 pts)
+
+**Weight rationale:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
+
+**Overall Readiness — 44/100** ████░░░░░░
+
+**Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
 
 #### Construct Coverage
@@ -283,66 +313,96 @@ None detected.
 
 
 #### Scores and Signal Breakdown
-**Structural: 26/100** ███░░░░░░░
-  *Weak structural coverage (26/100): only 4 of 10 signals matched. Principal gaps: mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).*
-  + numbered sub-requirements (+8)
-  + full lifecycle scope declared (+6)
-  + operational mechanisms defined (+6)
-  + review / monitoring mechanisms (+6)
-  − mandatory obligation language (shall) (0/8)
-  − risk stratification / proportionality (0/7)
-  − threshold gate conditions (all must pass simultaneously) (0/15)
-  − non-amendable constitutional hierarchy (0/18)
-  − self-application clause (Part Seven) (0/12)
-  − named decision instrument (Coherence Test / PDCA) (0/14)
-  *Weighting: 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).*
+**Structural — 26/100** ███░░░░░░░
 
-**Terminology: 0/100** ░░░░░░░░░░
-  *No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.*
-  − Coupling (0/25)
-  − Coherence Test (0/20)
-  − Integrity Layer (0/20)
-  − Structural Transparency (0/10)
-  − Structural Honesty (0/10)
-  − Structural Containment (0/10)
-  − Materially Affects Interests (0/5)
-  *Weighting: 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).*
+**Why:** Weak structural coverage (26/100): only 4 of 10 signals matched. Principal gaps: mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
 
-**Conceptual Proximity: 39/100** ████░░░░░░
-  *Weak conceptual coverage (39/100): only 5 of 12 signals matched. Principal gaps: human rights / fundamental interests, explainability / interpretability, proportionality.*
-  + transparency (+8)
-  + accountability (+8)
-  + human oversight (+8)
-  + safety (+7)
-  + risk governance (+8)
-  − human rights / fundamental interests (0/10)
-  − explainability / interpretability (0/8)
-  − proportionality (0/8)
-  − contestability / redress (0/9)
-  − reversibility / modifiability (0/8)
-  − traceability / responsibility (0/10)
-  − fairness / labour / non-discrimination (0/8)
-  *Weighting: 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).*
+**Signals detected:**
+- numbered sub-requirements (+8 pts)
+- full lifecycle scope declared (+6 pts)
+- operational mechanisms defined (+6 pts)
+- review / monitoring mechanisms (+6 pts)
 
-**Auditability: 60/100** ██████░░░░
-  *Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.*
-  + numbered traceable requirements (+20)
-  + evidence / documentation requirements (+20)
-  + review / monitoring mechanisms (+20)
-  − multiple mandatory obligations (shall … shall) (0/20)
-  − specific, measurable obligations (0/20)
-  *Weighting: 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).*
+**Signals missing:**
+- mandatory obligation language (shall) (missed 8 pts)
+- risk stratification / proportionality (missed 7 pts)
+- threshold gate conditions (all must pass simultaneously) (missed 15 pts)
+- non-amendable constitutional hierarchy (missed 18 pts)
+- self-application clause (Part Seven) (missed 12 pts)
+- named decision instrument (Coherence Test / PDCA) (missed 14 pts)
 
-**Enforceability: 20/100** ██░░░░░░░░
-  *Weak enforceability coverage (20/100): only 1 of 5 signals matched. Principal gaps: mandatory language (shall), named responsible parties, risk-proportionate thresholds.*
-  + enforcement consequences / penalties (+20)
-  − mandatory language (shall) (0/20)
-  − named responsible parties (0/20)
-  − risk-proportionate thresholds (0/20)
-  − non-discretionary operational mandates (0/20)
-  *Weighting: 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).*
+**Weight rationale:** 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).
 
-**Overall Readiness: 30/100** ███░░░░░░░  (Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + Enforceability×0.20)
+**Terminology — 0/100** ░░░░░░░░░░
+
+**Why:** No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- Coupling (missed 25 pts)
+- Coherence Test (missed 20 pts)
+- Integrity Layer (missed 20 pts)
+- Structural Transparency (missed 10 pts)
+- Structural Honesty (missed 10 pts)
+- Structural Containment (missed 10 pts)
+- Materially Affects Interests (missed 5 pts)
+
+**Weight rationale:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
+
+**Conceptual Proximity — 39/100** ████░░░░░░
+
+**Why:** Weak conceptual coverage (39/100): only 5 of 12 signals matched. Principal gaps: human rights / fundamental interests, explainability / interpretability, proportionality.
+
+**Signals detected:**
+- transparency (+8 pts)
+- accountability (+8 pts)
+- human oversight (+8 pts)
+- safety (+7 pts)
+- risk governance (+8 pts)
+
+**Signals missing:**
+- human rights / fundamental interests (missed 10 pts)
+- explainability / interpretability (missed 8 pts)
+- proportionality (missed 8 pts)
+- contestability / redress (missed 9 pts)
+- reversibility / modifiability (missed 8 pts)
+- traceability / responsibility (missed 10 pts)
+- fairness / labour / non-discrimination (missed 8 pts)
+
+**Weight rationale:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
+
+**Auditability — 60/100** ██████░░░░
+
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+
+**Signals detected:**
+- numbered traceable requirements (+20 pts)
+- evidence / documentation requirements (+20 pts)
+- review / monitoring mechanisms (+20 pts)
+
+**Signals missing:**
+- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- specific, measurable obligations (missed 20 pts)
+
+**Weight rationale:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
+
+**Enforceability — 20/100** ██░░░░░░░░
+
+**Why:** Weak enforceability coverage (20/100): only 1 of 5 signals matched. Principal gaps: mandatory language (shall), named responsible parties, risk-proportionate thresholds.
+
+**Signals detected:**
+- enforcement consequences / penalties (+20 pts)
+
+**Signals missing:**
+- mandatory language (shall) (missed 20 pts)
+- named responsible parties (missed 20 pts)
+- risk-proportionate thresholds (missed 20 pts)
+- non-discretionary operational mandates (missed 20 pts)
+
+**Weight rationale:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
+
+**Overall Readiness — 30/100** ███░░░░░░░
+
+**Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
 
 #### Construct Coverage
@@ -503,66 +563,94 @@ None detected.
 
 
 #### Scores and Signal Breakdown
-**Structural: 12/100** █░░░░░░░░░
-  *Weak structural coverage (12/100): only 2 of 10 signals matched. Principal gaps: numbered sub-requirements, mandatory obligation language (shall), risk stratification / proportionality.*
-  + full lifecycle scope declared (+6)
-  + operational mechanisms defined (+6)
-  − numbered sub-requirements (0/8)
-  − mandatory obligation language (shall) (0/8)
-  − risk stratification / proportionality (0/7)
-  − review / monitoring mechanisms (0/6)
-  − threshold gate conditions (all must pass simultaneously) (0/15)
-  − non-amendable constitutional hierarchy (0/18)
-  − self-application clause (Part Seven) (0/12)
-  − named decision instrument (Coherence Test / PDCA) (0/14)
-  *Weighting: 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).*
+**Structural — 12/100** █░░░░░░░░░
 
-**Terminology: 0/100** ░░░░░░░░░░
-  *No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.*
-  − Coupling (0/25)
-  − Coherence Test (0/20)
-  − Integrity Layer (0/20)
-  − Structural Transparency (0/10)
-  − Structural Honesty (0/10)
-  − Structural Containment (0/10)
-  − Materially Affects Interests (0/5)
-  *Weighting: 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).*
+**Why:** Weak structural coverage (12/100): only 2 of 10 signals matched. Principal gaps: numbered sub-requirements, mandatory obligation language (shall), risk stratification / proportionality.
 
-**Conceptual Proximity: 76/100** ████████░░
-  *Partial conceptual coverage (76/100): 9 of 12 signals matched. Key gaps: proportionality, reversibility / modifiability.*
-  + human rights / fundamental interests (+10)
-  + transparency (+8)
-  + explainability / interpretability (+8)
-  + accountability (+8)
-  + human oversight (+8)
-  + safety (+7)
-  + contestability / redress (+9)
-  + traceability / responsibility (+10)
-  + fairness / labour / non-discrimination (+8)
-  − proportionality (0/8)
-  − reversibility / modifiability (0/8)
-  − risk governance (0/8)
-  *Weighting: 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).*
+**Signals detected:**
+- full lifecycle scope declared (+6 pts)
+- operational mechanisms defined (+6 pts)
 
-**Auditability: 0/100** ░░░░░░░░░░
-  *No auditability signals present — none of the 5 expected signals matched. This dimension is absent from the document.*
-  − multiple mandatory obligations (shall … shall) (0/20)
-  − numbered traceable requirements (0/20)
-  − evidence / documentation requirements (0/20)
-  − review / monitoring mechanisms (0/20)
-  − specific, measurable obligations (0/20)
-  *Weighting: 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).*
+**Signals missing:**
+- numbered sub-requirements (missed 8 pts)
+- mandatory obligation language (shall) (missed 8 pts)
+- risk stratification / proportionality (missed 7 pts)
+- review / monitoring mechanisms (missed 6 pts)
+- threshold gate conditions (all must pass simultaneously) (missed 15 pts)
+- non-amendable constitutional hierarchy (missed 18 pts)
+- self-application clause (Part Seven) (missed 12 pts)
+- named decision instrument (Coherence Test / PDCA) (missed 14 pts)
 
-**Enforceability: 20/100** ██░░░░░░░░
-  *Weak enforceability coverage (20/100): only 1 of 5 signals matched. Principal gaps: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties.*
-  + named responsible parties (+20)
-  − mandatory language (shall) (0/20)
-  − risk-proportionate thresholds (0/20)
-  − enforcement consequences / penalties (0/20)
-  − non-discretionary operational mandates (0/20)
-  *Weighting: 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).*
+**Weight rationale:** 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).
 
-**Overall Readiness: 22/100** ██░░░░░░░░  (Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + Enforceability×0.20)
+**Terminology — 0/100** ░░░░░░░░░░
+
+**Why:** No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- Coupling (missed 25 pts)
+- Coherence Test (missed 20 pts)
+- Integrity Layer (missed 20 pts)
+- Structural Transparency (missed 10 pts)
+- Structural Honesty (missed 10 pts)
+- Structural Containment (missed 10 pts)
+- Materially Affects Interests (missed 5 pts)
+
+**Weight rationale:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
+
+**Conceptual Proximity — 76/100** ████████░░
+
+**Why:** Partial conceptual coverage (76/100): 9 of 12 signals matched. Key gaps: proportionality, reversibility / modifiability.
+
+**Signals detected:**
+- human rights / fundamental interests (+10 pts)
+- transparency (+8 pts)
+- explainability / interpretability (+8 pts)
+- accountability (+8 pts)
+- human oversight (+8 pts)
+- safety (+7 pts)
+- contestability / redress (+9 pts)
+- traceability / responsibility (+10 pts)
+- fairness / labour / non-discrimination (+8 pts)
+
+**Signals missing:**
+- proportionality (missed 8 pts)
+- reversibility / modifiability (missed 8 pts)
+- risk governance (missed 8 pts)
+
+**Weight rationale:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
+
+**Auditability — 0/100** ░░░░░░░░░░
+
+**Why:** No auditability signals present — none of the 5 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- numbered traceable requirements (missed 20 pts)
+- evidence / documentation requirements (missed 20 pts)
+- review / monitoring mechanisms (missed 20 pts)
+- specific, measurable obligations (missed 20 pts)
+
+**Weight rationale:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
+
+**Enforceability — 20/100** ██░░░░░░░░
+
+**Why:** Weak enforceability coverage (20/100): only 1 of 5 signals matched. Principal gaps: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties.
+
+**Signals detected:**
+- named responsible parties (+20 pts)
+
+**Signals missing:**
+- mandatory language (shall) (missed 20 pts)
+- risk-proportionate thresholds (missed 20 pts)
+- enforcement consequences / penalties (missed 20 pts)
+- non-discretionary operational mandates (missed 20 pts)
+
+**Weight rationale:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
+
+**Overall Readiness — 22/100** ██░░░░░░░░
+
+**Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
 
 #### Construct Coverage
@@ -727,66 +815,96 @@ None detected.
 
 
 #### Scores and Signal Breakdown
-**Structural: 35/100** ████░░░░░░
-  *Weak structural coverage (35/100): only 5 of 10 signals matched. Principal gaps: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy.*
-  + numbered sub-requirements (+8)
-  + mandatory obligation language (shall) (+8)
-  + risk stratification / proportionality (+7)
-  + operational mechanisms defined (+6)
-  + review / monitoring mechanisms (+6)
-  − full lifecycle scope declared (0/6)
-  − threshold gate conditions (all must pass simultaneously) (0/15)
-  − non-amendable constitutional hierarchy (0/18)
-  − self-application clause (Part Seven) (0/12)
-  − named decision instrument (Coherence Test / PDCA) (0/14)
-  *Weighting: 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).*
+**Structural — 35/100** ████░░░░░░
 
-**Terminology: 0/100** ░░░░░░░░░░
-  *No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.*
-  − Coupling (0/25)
-  − Coherence Test (0/20)
-  − Integrity Layer (0/20)
-  − Structural Transparency (0/10)
-  − Structural Honesty (0/10)
-  − Structural Containment (0/10)
-  − Materially Affects Interests (0/5)
-  *Weighting: 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).*
+**Why:** Weak structural coverage (35/100): only 5 of 10 signals matched. Principal gaps: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy.
 
-**Conceptual Proximity: 66/100** ███████░░░
-  *Partial conceptual coverage (66/100): 8 of 12 signals matched. Key gaps: explainability / interpretability, reversibility / modifiability.*
-  + human rights / fundamental interests (+10)
-  + transparency (+8)
-  + accountability (+8)
-  + human oversight (+8)
-  + proportionality (+8)
-  + safety (+7)
-  + contestability / redress (+9)
-  + fairness / labour / non-discrimination (+8)
-  − explainability / interpretability (0/8)
-  − reversibility / modifiability (0/8)
-  − risk governance (0/8)
-  − traceability / responsibility (0/10)
-  *Weighting: 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).*
+**Signals detected:**
+- numbered sub-requirements (+8 pts)
+- mandatory obligation language (shall) (+8 pts)
+- risk stratification / proportionality (+7 pts)
+- operational mechanisms defined (+6 pts)
+- review / monitoring mechanisms (+6 pts)
 
-**Auditability: 60/100** ██████░░░░
-  *Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.*
-  + numbered traceable requirements (+20)
-  + evidence / documentation requirements (+20)
-  + review / monitoring mechanisms (+20)
-  − multiple mandatory obligations (shall … shall) (0/20)
-  − specific, measurable obligations (0/20)
-  *Weighting: 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).*
+**Signals missing:**
+- full lifecycle scope declared (missed 6 pts)
+- threshold gate conditions (all must pass simultaneously) (missed 15 pts)
+- non-amendable constitutional hierarchy (missed 18 pts)
+- self-application clause (Part Seven) (missed 12 pts)
+- named decision instrument (Coherence Test / PDCA) (missed 14 pts)
 
-**Enforceability: 80/100** ████████░░
-  *Strong enforceability coverage (80/100): 4 of 5 signals matched. Strongest contributors: mandatory language (shall), named responsible parties.*
-  + mandatory language (shall) (+20)
-  + named responsible parties (+20)
-  + risk-proportionate thresholds (+20)
-  + non-discretionary operational mandates (+20)
-  − enforcement consequences / penalties (0/20)
-  *Weighting: 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).*
+**Weight rationale:** 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).
 
-**Overall Readiness: 50/100** █████░░░░░  (Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + Enforceability×0.20)
+**Terminology — 0/100** ░░░░░░░░░░
+
+**Why:** No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- Coupling (missed 25 pts)
+- Coherence Test (missed 20 pts)
+- Integrity Layer (missed 20 pts)
+- Structural Transparency (missed 10 pts)
+- Structural Honesty (missed 10 pts)
+- Structural Containment (missed 10 pts)
+- Materially Affects Interests (missed 5 pts)
+
+**Weight rationale:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
+
+**Conceptual Proximity — 66/100** ███████░░░
+
+**Why:** Partial conceptual coverage (66/100): 8 of 12 signals matched. Key gaps: explainability / interpretability, reversibility / modifiability.
+
+**Signals detected:**
+- human rights / fundamental interests (+10 pts)
+- transparency (+8 pts)
+- accountability (+8 pts)
+- human oversight (+8 pts)
+- proportionality (+8 pts)
+- safety (+7 pts)
+- contestability / redress (+9 pts)
+- fairness / labour / non-discrimination (+8 pts)
+
+**Signals missing:**
+- explainability / interpretability (missed 8 pts)
+- reversibility / modifiability (missed 8 pts)
+- risk governance (missed 8 pts)
+- traceability / responsibility (missed 10 pts)
+
+**Weight rationale:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
+
+**Auditability — 60/100** ██████░░░░
+
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+
+**Signals detected:**
+- numbered traceable requirements (+20 pts)
+- evidence / documentation requirements (+20 pts)
+- review / monitoring mechanisms (+20 pts)
+
+**Signals missing:**
+- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- specific, measurable obligations (missed 20 pts)
+
+**Weight rationale:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
+
+**Enforceability — 80/100** ████████░░
+
+**Why:** Strong enforceability coverage (80/100): 4 of 5 signals matched. Strongest contributors: mandatory language (shall), named responsible parties.
+
+**Signals detected:**
+- mandatory language (shall) (+20 pts)
+- named responsible parties (+20 pts)
+- risk-proportionate thresholds (+20 pts)
+- non-discretionary operational mandates (+20 pts)
+
+**Signals missing:**
+- enforcement consequences / penalties (missed 20 pts)
+
+**Weight rationale:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
+
+**Overall Readiness — 50/100** █████░░░░░
+
+**Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
 
 #### Construct Coverage
@@ -952,66 +1070,96 @@ None detected.
 
 
 #### Scores and Signal Breakdown
-**Structural: 35/100** ████░░░░░░
-  *Weak structural coverage (35/100): only 4 of 10 signals matched. Principal gaps: numbered sub-requirements, risk stratification / proportionality, operational mechanisms defined.*
-  + mandatory obligation language (shall) (+8)
-  + full lifecycle scope declared (+6)
-  + review / monitoring mechanisms (+6)
-  + threshold gate conditions (all must pass simultaneously) (+15)
-  − numbered sub-requirements (0/8)
-  − risk stratification / proportionality (0/7)
-  − operational mechanisms defined (0/6)
-  − non-amendable constitutional hierarchy (0/18)
-  − self-application clause (Part Seven) (0/12)
-  − named decision instrument (Coherence Test / PDCA) (0/14)
-  *Weighting: 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).*
+**Structural — 35/100** ████░░░░░░
 
-**Terminology: 0/100** ░░░░░░░░░░
-  *No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.*
-  − Coupling (0/25)
-  − Coherence Test (0/20)
-  − Integrity Layer (0/20)
-  − Structural Transparency (0/10)
-  − Structural Honesty (0/10)
-  − Structural Containment (0/10)
-  − Materially Affects Interests (0/5)
-  *Weighting: 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).*
+**Why:** Weak structural coverage (35/100): only 4 of 10 signals matched. Principal gaps: numbered sub-requirements, risk stratification / proportionality, operational mechanisms defined.
 
-**Conceptual Proximity: 23/100** ██░░░░░░░░
-  *Weak conceptual coverage (23/100): only 3 of 12 signals matched. Principal gaps: human rights / fundamental interests, explainability / interpretability, accountability.*
-  + transparency (+8)
-  + human oversight (+8)
-  + safety (+7)
-  − human rights / fundamental interests (0/10)
-  − explainability / interpretability (0/8)
-  − accountability (0/8)
-  − proportionality (0/8)
-  − contestability / redress (0/9)
-  − reversibility / modifiability (0/8)
-  − risk governance (0/8)
-  − traceability / responsibility (0/10)
-  − fairness / labour / non-discrimination (0/8)
-  *Weighting: 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).*
+**Signals detected:**
+- mandatory obligation language (shall) (+8 pts)
+- full lifecycle scope declared (+6 pts)
+- review / monitoring mechanisms (+6 pts)
+- threshold gate conditions (all must pass simultaneously) (+15 pts)
 
-**Auditability: 40/100** ████░░░░░░
-  *Weak auditability coverage (40/100): only 2 of 5 signals matched. Principal gaps: multiple mandatory obligations (shall … shall), numbered traceable requirements, specific, measurable obligations.*
-  + evidence / documentation requirements (+20)
-  + review / monitoring mechanisms (+20)
-  − multiple mandatory obligations (shall … shall) (0/20)
-  − numbered traceable requirements (0/20)
-  − specific, measurable obligations (0/20)
-  *Weighting: 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).*
+**Signals missing:**
+- numbered sub-requirements (missed 8 pts)
+- risk stratification / proportionality (missed 7 pts)
+- operational mechanisms defined (missed 6 pts)
+- non-amendable constitutional hierarchy (missed 18 pts)
+- self-application clause (Part Seven) (missed 12 pts)
+- named decision instrument (Coherence Test / PDCA) (missed 14 pts)
 
-**Enforceability: 40/100** ████░░░░░░
-  *Weak enforceability coverage (40/100): only 2 of 5 signals matched. Principal gaps: named responsible parties, risk-proportionate thresholds, enforcement consequences / penalties.*
-  + mandatory language (shall) (+20)
-  + non-discretionary operational mandates (+20)
-  − named responsible parties (0/20)
-  − risk-proportionate thresholds (0/20)
-  − enforcement consequences / penalties (0/20)
-  *Weighting: 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).*
+**Weight rationale:** 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).
 
-**Overall Readiness: 29/100** ███░░░░░░░  (Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + Enforceability×0.20)
+**Terminology — 0/100** ░░░░░░░░░░
+
+**Why:** No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- Coupling (missed 25 pts)
+- Coherence Test (missed 20 pts)
+- Integrity Layer (missed 20 pts)
+- Structural Transparency (missed 10 pts)
+- Structural Honesty (missed 10 pts)
+- Structural Containment (missed 10 pts)
+- Materially Affects Interests (missed 5 pts)
+
+**Weight rationale:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
+
+**Conceptual Proximity — 23/100** ██░░░░░░░░
+
+**Why:** Weak conceptual coverage (23/100): only 3 of 12 signals matched. Principal gaps: human rights / fundamental interests, explainability / interpretability, accountability.
+
+**Signals detected:**
+- transparency (+8 pts)
+- human oversight (+8 pts)
+- safety (+7 pts)
+
+**Signals missing:**
+- human rights / fundamental interests (missed 10 pts)
+- explainability / interpretability (missed 8 pts)
+- accountability (missed 8 pts)
+- proportionality (missed 8 pts)
+- contestability / redress (missed 9 pts)
+- reversibility / modifiability (missed 8 pts)
+- risk governance (missed 8 pts)
+- traceability / responsibility (missed 10 pts)
+- fairness / labour / non-discrimination (missed 8 pts)
+
+**Weight rationale:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
+
+**Auditability — 40/100** ████░░░░░░
+
+**Why:** Weak auditability coverage (40/100): only 2 of 5 signals matched. Principal gaps: multiple mandatory obligations (shall … shall), numbered traceable requirements, specific, measurable obligations.
+
+**Signals detected:**
+- evidence / documentation requirements (+20 pts)
+- review / monitoring mechanisms (+20 pts)
+
+**Signals missing:**
+- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- numbered traceable requirements (missed 20 pts)
+- specific, measurable obligations (missed 20 pts)
+
+**Weight rationale:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
+
+**Enforceability — 40/100** ████░░░░░░
+
+**Why:** Weak enforceability coverage (40/100): only 2 of 5 signals matched. Principal gaps: named responsible parties, risk-proportionate thresholds, enforcement consequences / penalties.
+
+**Signals detected:**
+- mandatory language (shall) (+20 pts)
+- non-discretionary operational mandates (+20 pts)
+
+**Signals missing:**
+- named responsible parties (missed 20 pts)
+- risk-proportionate thresholds (missed 20 pts)
+- enforcement consequences / penalties (missed 20 pts)
+
+**Weight rationale:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
+
+**Overall Readiness — 29/100** ███░░░░░░░
+
+**Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
 
 #### Construct Coverage
@@ -1177,66 +1325,96 @@ None detected.
 
 
 #### Scores and Signal Breakdown
-**Structural: 28/100** ███░░░░░░░
-  *Weak structural coverage (28/100): only 4 of 10 signals matched. Principal gaps: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).*
-  + numbered sub-requirements (+8)
-  + mandatory obligation language (shall) (+8)
-  + operational mechanisms defined (+6)
-  + review / monitoring mechanisms (+6)
-  − full lifecycle scope declared (0/6)
-  − risk stratification / proportionality (0/7)
-  − threshold gate conditions (all must pass simultaneously) (0/15)
-  − non-amendable constitutional hierarchy (0/18)
-  − self-application clause (Part Seven) (0/12)
-  − named decision instrument (Coherence Test / PDCA) (0/14)
-  *Weighting: 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).*
+**Structural — 28/100** ███░░░░░░░
 
-**Terminology: 0/100** ░░░░░░░░░░
-  *No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.*
-  − Coupling (0/25)
-  − Coherence Test (0/20)
-  − Integrity Layer (0/20)
-  − Structural Transparency (0/10)
-  − Structural Honesty (0/10)
-  − Structural Containment (0/10)
-  − Materially Affects Interests (0/5)
-  *Weighting: 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).*
+**Why:** Weak structural coverage (28/100): only 4 of 10 signals matched. Principal gaps: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
 
-**Conceptual Proximity: 41/100** ████░░░░░░
-  *Weak conceptual coverage (41/100): only 5 of 12 signals matched. Principal gaps: human rights / fundamental interests, human oversight, proportionality.*
-  + transparency (+8)
-  + explainability / interpretability (+8)
-  + accountability (+8)
-  + contestability / redress (+9)
-  + fairness / labour / non-discrimination (+8)
-  − human rights / fundamental interests (0/10)
-  − human oversight (0/8)
-  − proportionality (0/8)
-  − safety (0/7)
-  − reversibility / modifiability (0/8)
-  − risk governance (0/8)
-  − traceability / responsibility (0/10)
-  *Weighting: 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).*
+**Signals detected:**
+- numbered sub-requirements (+8 pts)
+- mandatory obligation language (shall) (+8 pts)
+- operational mechanisms defined (+6 pts)
+- review / monitoring mechanisms (+6 pts)
 
-**Auditability: 60/100** ██████░░░░
-  *Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.*
-  + numbered traceable requirements (+20)
-  + evidence / documentation requirements (+20)
-  + review / monitoring mechanisms (+20)
-  − multiple mandatory obligations (shall … shall) (0/20)
-  − specific, measurable obligations (0/20)
-  *Weighting: 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).*
+**Signals missing:**
+- full lifecycle scope declared (missed 6 pts)
+- risk stratification / proportionality (missed 7 pts)
+- threshold gate conditions (all must pass simultaneously) (missed 15 pts)
+- non-amendable constitutional hierarchy (missed 18 pts)
+- self-application clause (Part Seven) (missed 12 pts)
+- named decision instrument (Coherence Test / PDCA) (missed 14 pts)
 
-**Enforceability: 40/100** ████░░░░░░
-  *Weak enforceability coverage (40/100): only 2 of 5 signals matched. Principal gaps: named responsible parties, risk-proportionate thresholds, enforcement consequences / penalties.*
-  + mandatory language (shall) (+20)
-  + non-discretionary operational mandates (+20)
-  − named responsible parties (0/20)
-  − risk-proportionate thresholds (0/20)
-  − enforcement consequences / penalties (0/20)
-  *Weighting: 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).*
+**Weight rationale:** 25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven).
 
-**Overall Readiness: 35/100** ████░░░░░░  (Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + Enforceability×0.20)
+**Terminology — 0/100** ░░░░░░░░░░
+
+**Why:** No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.
+
+**Signals missing:**
+- Coupling (missed 25 pts)
+- Coherence Test (missed 20 pts)
+- Integrity Layer (missed 20 pts)
+- Structural Transparency (missed 10 pts)
+- Structural Honesty (missed 10 pts)
+- Structural Containment (missed 10 pts)
+- Materially Affects Interests (missed 5 pts)
+
+**Weight rationale:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
+
+**Conceptual Proximity — 41/100** ████░░░░░░
+
+**Why:** Weak conceptual coverage (41/100): only 5 of 12 signals matched. Principal gaps: human rights / fundamental interests, human oversight, proportionality.
+
+**Signals detected:**
+- transparency (+8 pts)
+- explainability / interpretability (+8 pts)
+- accountability (+8 pts)
+- contestability / redress (+9 pts)
+- fairness / labour / non-discrimination (+8 pts)
+
+**Signals missing:**
+- human rights / fundamental interests (missed 10 pts)
+- human oversight (missed 8 pts)
+- proportionality (missed 8 pts)
+- safety (missed 7 pts)
+- reversibility / modifiability (missed 8 pts)
+- risk governance (missed 8 pts)
+- traceability / responsibility (missed 10 pts)
+
+**Weight rationale:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
+
+**Auditability — 60/100** ██████░░░░
+
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+
+**Signals detected:**
+- numbered traceable requirements (+20 pts)
+- evidence / documentation requirements (+20 pts)
+- review / monitoring mechanisms (+20 pts)
+
+**Signals missing:**
+- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- specific, measurable obligations (missed 20 pts)
+
+**Weight rationale:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
+
+**Enforceability — 40/100** ████░░░░░░
+
+**Why:** Weak enforceability coverage (40/100): only 2 of 5 signals matched. Principal gaps: named responsible parties, risk-proportionate thresholds, enforcement consequences / penalties.
+
+**Signals detected:**
+- mandatory language (shall) (+20 pts)
+- non-discretionary operational mandates (+20 pts)
+
+**Signals missing:**
+- named responsible parties (missed 20 pts)
+- risk-proportionate thresholds (missed 20 pts)
+- enforcement consequences / penalties (missed 20 pts)
+
+**Weight rationale:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
+
+**Overall Readiness — 35/100** ████░░░░░░
+
+**Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
 
 #### Construct Coverage

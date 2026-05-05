@@ -1909,26 +1909,42 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             ("auditability",  "Auditability",         "auditability_score"),
             ("enforceability","Enforceability",       "enforceability_score"),
         ]:
-            score = r[score_key]
-            p(f"**{dim_label}: {score}/100** {score_bar(score)}")
-            trace = st.get(dim_key, {})
-            if trace.get("reason"):
-                p(f"  *{trace['reason']}*")
+            score  = r[score_key]
+            trace  = st.get(dim_key, {})
             fired  = bd[dim_key]["fired"]
             missed = bd[dim_key]["missed"]
-            if fired:
-                for label, w in fired:
-                    p(f"  + {label} (+{w})")
-            if missed:
-                for label, w in missed:
-                    p(f"  − {label} (0/{w})")
-            if trace.get("weight_rationale"):
-                p(f"  *Weighting: {trace['weight_rationale']}*")
+
+            p(f"**{dim_label} — {score}/100** {score_bar(score)}")
             p()
+            if trace.get("reason"):
+                p(f"**Why:** {trace['reason']}")
+                p()
+            if fired:
+                p("**Signals detected:**")
+                for label, w in fired:
+                    p(f"- {label} (+{w} pts)")
+                p()
+            if missed:
+                p("**Signals missing:**")
+                for label, w in missed:
+                    p(f"- {label} (missed {w} pts)")
+                p()
+            if trace.get("weight_rationale"):
+                p(f"**Weight rationale:** {trace['weight_rationale']}")
+                p()
+
         overall_bar = score_bar(r["overall_readiness_score"])
-        p(f"**Overall Readiness: {r['overall_readiness_score']}/100** {overall_bar}  "
-          f"(Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + Auditability×0.20 + "
-          f"Enforceability×0.20)")
+        p(f"**Overall Readiness — {r['overall_readiness_score']}/100** {overall_bar}")
+        p()
+        p(
+            "**Why:** Weighted sum of the five dimensions above — "
+            "Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + "
+            "Auditability×0.20 + Enforceability×0.20. "
+            "A document achieves overall readiness by addressing governance architecture, "
+            "canonical terminology, substantive intent, verifiability, and enforceability "
+            "simultaneously. Weakness in any single dimension constrains the overall score "
+            "proportionally."
+        )
         p()
 
         # Construct coverage
