@@ -7,12 +7,27 @@ Self-contained — no live fetching required.
 
 Each entry carries:
   - Document metadata (source_type, jurisdiction, year, citation)
-  - sector  — LAIF sector profile key for sector-aware assessment
-  - text    — excerpt used for analysis
+  - sector       — LAIF sector profile key for sector-aware assessment
+  - text         — excerpt used for analysis
+  - provenance   — OFFICIAL_EXCERPT | REPRESENTATIVE_EXCERPT | SYNTHETIC_TEST_DOCUMENT
+  - source_url   — canonical URL for the source document (empty string if synthetic)
+  - source_note  — brief note on accuracy: verbatim, condensed paraphrase, or synthetic
+  - intended_use — role in the corpus: real-world baseline, sector scenario, or demonstration
+
+Provenance classifications:
+  OFFICIAL_EXCERPT          — text is verified verbatim from the authoritative source
+  REPRESENTATIVE_EXCERPT    — text is a condensed paraphrase or illustrative excerpt
+                               capturing the governance intent of a real framework;
+                               NOT verbatim; not citable as the primary source
+  SYNTHETIC_TEST_DOCUMENT   — constructed for adversarial or stress-testing purposes;
+                               does not represent any real-world governance document
 
 Documents 1–4: general AI governance frameworks (cross-sector).
 Document 5:    clinical AI deployment policy (sector: clinical_ai).
 Document 6:    employment AI governance framework (sector: employment_ai).
+
+IMPORTANT: All documents in this corpus are REPRESENTATIVE_EXCERPT.
+None should be cited as verbatim source text in external publications.
 """
 
 DOCUMENTS = {
@@ -23,6 +38,11 @@ DOCUMENTS = {
         "year":         2024,
         "citation":     "Regulation (EU) 2024/1689 of the European Parliament and of the Council",
         "sector":       "general_ai_governance",
+        "provenance":   "REPRESENTATIVE_EXCERPT",
+        "source_url":   "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689",
+        "source_note":  "Condensed paraphrase of Articles 9, 13, and 14; captures governance "
+                        "intent but is not verbatim text. Verify against official OJ publication.",
+        "intended_use": "real-world baseline",
         "text": """\
 EU AI Act (Regulation 2024/1689) — Risk Management, Transparency, and Human Oversight
 
@@ -87,6 +107,11 @@ throughout their lifetime.
         "year":         2023,
         "citation":     "NIST AI Risk Management Framework 1.0 (NIST AI 100-1)",
         "sector":       "general_ai_governance",
+        "provenance":   "REPRESENTATIVE_EXCERPT",
+        "source_url":   "https://airc.nist.gov/RMF",
+        "source_note":  "Condensed paraphrase of GOVERN and MAP functions; note British spelling "
+                        "'organisational' departs from the American-English original. Not verbatim.",
+        "intended_use": "real-world baseline",
         "text": """\
 NIST AI Risk Management Framework 1.0 — Govern and Map Functions
 
@@ -142,6 +167,11 @@ evaluated and recorded before deployment is authorised.
         "year":         2024,
         "citation":     "OECD Principles on AI, adopted May 2019, revised 2024",
         "sector":       "general_ai_governance",
+        "provenance":   "REPRESENTATIVE_EXCERPT",
+        "source_url":   "https://oecd.ai/en/ai-principles",
+        "source_note":  "Condensed paraphrase of the five OECD AI Principles; structural numbering "
+                        "and intent preserved but wording is not verbatim.",
+        "intended_use": "real-world baseline",
         "text": """\
 OECD Principles on AI — Value-Based Principles for Responsible AI
 
@@ -190,6 +220,12 @@ effective remedies and the ability to contest decisions made by or with AI.
         "year":         2023,
         "citation":     "Executive Order 14110 on Safe, Secure, and Trustworthy AI (Oct 30, 2023)",
         "sector":       "general_ai_governance",
+        "provenance":   "REPRESENTATIVE_EXCERPT",
+        "source_url":   "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+        "source_note":  "Paraphrased and condensed from §4 (Safety/Security) and §7 (Workers); "
+                        "contains purpose-adapted wording including LAIF paraphrase test terms "
+                        "('linkage', 'connection') to exercise paraphrase detection. Not verbatim.",
+        "intended_use": "real-world baseline with embedded paraphrase stress-test",
         "text": """\
 Executive Order 14110 on Safe, Secure, and Trustworthy Artificial Intelligence
 (October 30, 2023)
@@ -235,6 +271,12 @@ corresponding rights.
         "year":         2024,
         "citation":     "NHS England AI in Clinical Decision Support — Governance Framework (illustrative excerpt)",
         "sector":       "clinical_ai",
+        "provenance":   "REPRESENTATIVE_EXCERPT",
+        "source_url":   "",
+        "source_note":  "Illustrative sector scenario: structured in the style of NHS England governance "
+                        "documentation but is not an official NHS England publication. Citation text "
+                        "confirms '(illustrative excerpt)'. For sector assessment demonstration only.",
+        "intended_use": "sector scenario — clinical AI governance",
         "text": """\
 NHS England — Governance Framework for AI-Enabled Clinical Decision Support
 
@@ -311,6 +353,13 @@ a patient safety concern.
         "year":         2024,
         "citation":     "Illustrative AI in Employment Governance Framework (sector assessment document)",
         "sector":       "employment_ai",
+        "provenance":   "REPRESENTATIVE_EXCERPT",
+        "source_url":   "",
+        "source_note":  "Illustrative sector scenario: written in the style of TUC/CIPD employment "
+                        "AI guidance but is not an official publication of either body. Citation text "
+                        "confirms 'Illustrative...sector assessment document'. For sector assessment "
+                        "demonstration only.",
+        "intended_use": "sector scenario — employment AI governance",
         "text": """\
 Framework for the Governance of AI Systems in Employment Decisions
 

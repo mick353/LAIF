@@ -244,14 +244,13 @@ def _coupling_quality(text):
     Assess the structural quality of Coupling usage in a document.
     Source: LAIF v1.2 Principle 2; Toolkit §2 B.1.
 
-    Returns (quality, reason):
-      STRUCTURAL — declared with named human interest and paired protection
-      SHALLOW    — mentioned without structural declaration
-      NEGATED    — present but explicitly negated or declared inapplicable
-      ABSENT     — not present in document
+    Returns (quality, reason, evidence):
+      quality  — STRUCTURAL | SHALLOW | NEGATED | ABSENT
+      reason   — human-readable explanation
+      evidence — verbatim text snippet (up to 200 chars) or empty string
     """
     if not re.search(r"\bCoupling\b", text, re.IGNORECASE):
-        return "ABSENT", "Coupling not present in document"
+        return "ABSENT", "Coupling not present in document", ""
 
     # Negation takes priority — most adversarial case
     for pat in COUPLING_NEGATION_INDICATORS:
@@ -259,16 +258,20 @@ def _coupling_quality(text):
         if m:
             start = max(0, m.start() - 60)
             end   = min(len(text), m.end() + 60)
-            ctx   = text[start:end].replace("\n", " ").strip()
-            return "NEGATED", f"Coupling negated/inapplicable: «{ctx[:120]}»"
+            ctx   = text[start:end].replace("\n", " ").strip()[:200]
+            return "NEGATED", "Coupling negated/inapplicable in document", ctx
 
     # Structural indicators
     for pat in COUPLING_STRUCTURAL_INDICATORS:
-        if re.search(pat, text, re.IGNORECASE | re.DOTALL):
+        m = re.search(pat, text, re.IGNORECASE | re.DOTALL)
+        if m:
+            start = max(0, m.start() - 40)
+            end   = min(len(text), m.end() + 80)
+            ctx   = text[start:end].replace("\n", " ").strip()[:200]
             return "STRUCTURAL", (
                 "Coupling declared with structural indicators — 'between X and Y', "
                 "named human interest, or equivalent normative force present"
-            )
+            ), ctx
 
     # Hollow/referential usage
     for pat in COUPLING_HOLLOW_INDICATORS:
@@ -276,14 +279,21 @@ def _coupling_quality(text):
         if m:
             start = max(0, m.start() - 60)
             end   = min(len(text), m.end() + 60)
-            ctx   = text[start:end].replace("\n", " ").strip()
-            return "SHALLOW", f"Coupling referenced but not declared: «{ctx[:120]}»"
+            ctx   = text[start:end].replace("\n", " ").strip()[:200]
+            return "SHALLOW", "Coupling referenced but not declared structurally", ctx
 
     # Term present without any structural or hollow indicator
+    m = re.search(r"\bCoupling\b", text, re.IGNORECASE)
+    if m:
+        start = max(0, m.start() - 40)
+        end   = min(len(text), m.end() + 80)
+        ctx   = text[start:end].replace("\n", " ").strip()[:200]
+    else:
+        ctx = ""
     return "SHALLOW", (
         "Coupling mentioned without structural declaration — no 'between X and Y', "
         "no named human interest, no equivalent normative force"
-    )
+    ), ctx
 
 
 # ── Contradiction detection ────────────────────────────────────────────────────
@@ -1495,6 +1505,34 @@ def _remediation(result):
     return steps
 
 
+# ── Deployment risk tier ─────────────────────────────────────────────────────
+# Source: LAIF_Compliance_Toolkit.txt §7 — Tiering by stakes and structural depth.
+# A document cannot be LOW risk if it fails formal compliance; structural depth
+# is a gating condition on MODERATE because WEAK/HOLLOW depth indicates that
+# required properties may be nominally present but structurally inert.
+
+def _deployment_risk_tier(overall_score, strong_laif_compliance):
+    """
+    Derive deployment risk tier from overall readiness and strong compliance verdict.
+
+    CRITICAL — formal compliance fails AND overall readiness <35
+               (fundamental structural gaps; deployment should be blocked)
+    HIGH     — formal compliance fails OR overall readiness <50
+               (significant gaps; deployment requires major remediation)
+    MODERATE — formal/strong compliance weak AND overall readiness 50–69
+               (partial alignment; targeted remediation required before deployment)
+    LOW      — strong compliance STRONG PASS AND overall readiness ≥70
+               (all preconditions met; standard ongoing monitoring applies)
+    """
+    if strong_laif_compliance != "STRONG PASS" and overall_score < 35:
+        return "CRITICAL"
+    if strong_laif_compliance == "FAIL" or overall_score < 50:
+        return "HIGH"
+    if strong_laif_compliance != "STRONG PASS" or overall_score < 70:
+        return "MODERATE"
+    return "LOW"
+
+
 # ── Core assessment function ──────────────────────────────────────────────────
 
 def assess(name, source_type, text, sector="general_ai_governance", **meta):
@@ -1630,7 +1668,7 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
     # These run AFTER sector analysis because gaming detection uses sector_alignment.
     # Source: LAIF v1.2 Principle 2 (Coupling quality); A.2 Structural Honesty
     # (contradictions); Q2 Consistency (sector gaming = scale-inconsistent keyword use).
-    cq, cq_reason        = _coupling_quality(text)
+    cq, cq_reason, cq_evidence = _coupling_quality(text)
     contradictions       = _contradiction_check(text)
     gaming_level, gaming_reason = _sector_gaming_risk(sector_risk_alignment, overall, c)
     depth                = _structural_depth(cq, contradictions, gaming_level, formal_pass)
@@ -1678,6 +1716,7 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         "structural_depth":           depth,
         "coupling_quality":           cq,
         "coupling_quality_reason":    cq_reason,
+        "coupling_quality_evidence":  cq_evidence,
         "contradictions":             contradictions,
         "sector_gaming_risk":         gaming_level,
         "sector_gaming_reason":       gaming_reason,
@@ -1711,6 +1750,7 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         **meta,
     }
     result["recommended_remediation_steps"] = _remediation(result)
+    result["deployment_risk_tier"] = _deployment_risk_tier(overall, strong_compliance)
 
     # ── Decision-grade reporting fields (added after base result is built) ────
     result["score_trace"] = {
@@ -1853,11 +1893,44 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             "HOLLOW": "🔴 HOLLOW",
         }.get(r.get("structural_depth", "WEAK"), "⚪ UNKNOWN")
 
-        # ── Executive Summary block ──────────────────────────────────────────
+        # ── Provenance notice ────────────────────────────────────────────────
+        provenance = r.get("provenance", "")
+        source_note = r.get("source_note", "")
+        source_url  = r.get("source_url", "")
+        intended_use = r.get("intended_use", "")
+        if provenance:
+            prov_badges = {
+                "OFFICIAL_EXCERPT":          "> ✅ **OFFICIAL_EXCERPT** — text verified verbatim from the authoritative source.",
+                "REPRESENTATIVE_EXCERPT":    "> ⚠️ **REPRESENTATIVE_EXCERPT** — condensed paraphrase or illustrative excerpt. "
+                                              "Not verbatim. Not citable as the primary source.",
+                "SYNTHETIC_TEST_DOCUMENT":   "> 🔬 **SYNTHETIC_TEST_DOCUMENT** — constructed for adversarial/stress-testing. "
+                                              "Does not represent any real-world governance document.",
+            }
+            p(prov_badges.get(provenance, f"> Provenance: {provenance}"))
+            if source_note:
+                p(f"> {source_note}")
+            if source_url:
+                p(f"> Source: {source_url}")
+            if intended_use:
+                p(f"> Intended use: {intended_use}")
+            p()
+
+        # ── Executive Assessment block ────────────────────────────────────────
         es = r.get("executive_summary", {})
+        risk_tier = r.get("deployment_risk_tier", "HIGH")
+        risk_tier_badge = {
+            "CRITICAL": "🔴 **CRITICAL**",
+            "HIGH":     "🟠 **HIGH**",
+            "MODERATE": "🟡 **MODERATE**",
+            "LOW":      "🟢 **LOW**",
+        }.get(risk_tier, f"**{risk_tier}**")
         if es:
             h(4, "Executive Assessment")
             p(f"> {es.get('verdict', '')}")
+            p()
+            p(f"**Overall Readiness:** {r['overall_readiness_score']}/100  ")
+            p(f"**Deployment Risk Tier:** {risk_tier_badge}  ")
+            p(f"**Remediation Effort:** {r['remediation_effort']}")
             p()
             p(f"**Root cause:** {es.get('why', '')}")
             p()
@@ -1870,6 +1943,15 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 p("**Key strengths:**")
                 for strength in es["strengths"]:
                     p(f"- {strength}")
+                p()
+            # What Must Be Fixed First — top 3 structured remediation steps
+            srem = r.get("structured_remediation_steps", [])
+            if srem:
+                p("**What Must Be Fixed First:**")
+                for step in srem[:3]:
+                    prob = step.get("problem", "")
+                    fix  = step.get("concrete_fix", "")
+                    p(f"1. **{prob}** — {fix}" if prob else f"1. {fix}")
                 p()
 
         # ── Compliance Summary table ─────────────────────────────────────────
@@ -1891,12 +1973,16 @@ def generate_markdown_report(assessments, report_date="May 2026"):
         p(f"**Source type:** {r['source_type']}  ")
         p(f"**Sector:** {r.get('sector_label', r['sector_used'])}  ")
         p(f"**Coupling Quality:** {r.get('coupling_quality', 'ABSENT')} — {r.get('coupling_quality_reason', '')}  ")
-        p(f"**Remediation Effort:** {r['remediation_effort']}")
+        cq_ev = r.get("coupling_quality_evidence", "")
+        if cq_ev and r.get("coupling_quality", "ABSENT") in ("SHALLOW", "NEGATED"):
+            p(f"**Coupling Evidence:** «{cq_ev[:150]}»")
         if r.get("contradictions"):
             p()
             p("**⚠️ Structural Contradictions Detected:**")
             for prop, desc, ctx in r["contradictions"]:
-                p(f"- [{prop}] {desc}: «{ctx[:100]}»")
+                p(f"- [{prop}] {desc}")
+                if ctx:
+                    p(f"  Evidence: «{ctx[:150]}»")
         p()
 
         # Scores with signal traceability
@@ -2081,6 +2167,30 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             for r in assessments
         ]
     )
+    p()
+
+    h(3, "Deployment Risk Tier Summary")
+    tier_order = {"CRITICAL": 0, "HIGH": 1, "MODERATE": 2, "LOW": 3}
+    table(
+        ["Document", "Risk Tier", "Overall", "Compliance", "Provenance"],
+        sorted(
+            [
+                [
+                    r["document_name"][:38],
+                    r.get("deployment_risk_tier", "HIGH"),
+                    f"{r['overall_readiness_score']}/100",
+                    r.get("strong_laif_compliance", "FAIL"),
+                    r.get("provenance", ""),
+                ]
+                for r in assessments
+            ],
+            key=lambda row: tier_order.get(row[1], 9)
+        )
+    )
+    p()
+    p("**Risk tier derivation:** CRITICAL = compliance FAIL + overall <35; "
+      "HIGH = compliance FAIL or overall <50; MODERATE = weak/hollow compliance + overall 50–69; "
+      "LOW = STRONG PASS + overall ≥70.")
     p()
 
     high_conceptual = [r for r in assessments if r["conceptual_proximity_score"] >= 60]

@@ -249,6 +249,10 @@ def main():
             jurisdiction=doc.get("jurisdiction", ""),
             year=doc.get("year", ""),
             citation=doc.get("citation", ""),
+            provenance=doc.get("provenance", "REPRESENTATIVE_EXCERPT"),
+            source_url=doc.get("source_url", ""),
+            source_note=doc.get("source_note", ""),
+            intended_use=doc.get("intended_use", ""),
         )
         _print_scorecard(r)
         results.append(r)

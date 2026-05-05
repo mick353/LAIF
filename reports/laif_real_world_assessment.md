@@ -44,9 +44,18 @@ Each document was assessed against three complementary layers:
 ## Per-Document Scorecards
 
 ### EU AI Act — Art. 9, 13 & 14
+> ⚠️ **REPRESENTATIVE_EXCERPT** — condensed paraphrase or illustrative excerpt. Not verbatim. Not citable as the primary source.
+> Condensed paraphrase of Articles 9, 13, and 14; captures governance intent but is not verbatim text. Verify against official OJ publication.
+> Source: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689
+> Intended use: real-world baseline
+
 
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 44/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+**Overall Readiness:** 44/100  
+**Deployment Risk Tier:** 🟠 **HIGH**  
+**Remediation Effort:** HIGH
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
 
@@ -58,6 +67,11 @@ Each document was assessed against three complementary layers:
 - Moderate conceptual proximity (49/100): key LAIF-aligned governance concepts are present, indicating partial substantive alignment with LAIF's foundational principles.
 - Strong sector risk alignment (60/100): the document addresses the materially relevant human interests for the General AI Governance deployment context.
 - Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
+
+**What Must Be Fixed First:**
+1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+1. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+1. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
 #### Compliance Summary
@@ -72,7 +86,6 @@ Each document was assessed against three complementary layers:
 **Source type:** binding_regulation  
 **Sector:** General AI Governance  
 **Coupling Quality:** ABSENT — Coupling not present in document  
-**Remediation Effort:** HIGH
 
 
 #### Scores and Signal Breakdown
@@ -282,9 +295,18 @@ None detected.
 ---
 
 ### NIST AI RMF — Govern & Map Functions
+> ⚠️ **REPRESENTATIVE_EXCERPT** — condensed paraphrase or illustrative excerpt. Not verbatim. Not citable as the primary source.
+> Condensed paraphrase of GOVERN and MAP functions; note British spelling 'organisational' departs from the American-English original. Not verbatim.
+> Source: https://airc.nist.gov/RMF
+> Intended use: real-world baseline
+
 
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 30/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+**Overall Readiness:** 30/100  
+**Deployment Risk Tier:** 🔴 **CRITICAL**  
+**Remediation Effort:** VERY HIGH
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
 
@@ -295,6 +317,11 @@ None detected.
 
 **Key strengths:**
 - Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
+
+**What Must Be Fixed First:**
+1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+1. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+1. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
 #### Compliance Summary
@@ -309,7 +336,6 @@ None detected.
 **Source type:** voluntary_framework  
 **Sector:** General AI Governance  
 **Coupling Quality:** ABSENT — Coupling not present in document  
-**Remediation Effort:** VERY HIGH
 
 
 #### Scores and Signal Breakdown
@@ -531,9 +557,18 @@ None detected.
 ---
 
 ### OECD AI Principles (2019, rev. 2024)
+> ⚠️ **REPRESENTATIVE_EXCERPT** — condensed paraphrase or illustrative excerpt. Not verbatim. Not citable as the primary source.
+> Condensed paraphrase of the five OECD AI Principles; structural numbering and intent preserved but wording is not verbatim.
+> Source: https://oecd.ai/en/ai-principles
+> Intended use: real-world baseline
+
 
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 22/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+**Overall Readiness:** 22/100  
+**Deployment Risk Tier:** 🔴 **CRITICAL**  
+**Remediation Effort:** VERY HIGH
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
 
@@ -545,6 +580,11 @@ None detected.
 **Key strengths:**
 - High conceptual proximity (76/100): accountability, oversight, transparency, and contestability are expressed through the document's own vocabulary. The adoption pathway is terminological and structural, not conceptual — the underlying intent is already present.
 - Strong sector risk alignment (60/100): the document addresses the materially relevant human interests for the General AI Governance deployment context.
+
+**What Must Be Fixed First:**
+1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+1. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+1. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
 #### Compliance Summary
@@ -559,7 +599,6 @@ None detected.
 **Source type:** international_principles  
 **Sector:** General AI Governance  
 **Coupling Quality:** ABSENT — Coupling not present in document  
-**Remediation Effort:** VERY HIGH
 
 
 #### Scores and Signal Breakdown
@@ -783,9 +822,18 @@ None detected.
 ---
 
 ### US Executive Order 14110 — §4 Safety & §7 Workers
+> ⚠️ **REPRESENTATIVE_EXCERPT** — condensed paraphrase or illustrative excerpt. Not verbatim. Not citable as the primary source.
+> Paraphrased and condensed from §4 (Safety/Security) and §7 (Workers); contains purpose-adapted wording including LAIF paraphrase test terms ('linkage', 'connection') to exercise paraphrase detection. Not verbatim.
+> Source: https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence
+> Intended use: real-world baseline with embedded paraphrase stress-test
+
 
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 50/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+**Overall Readiness:** 50/100  
+**Deployment Risk Tier:** 🟠 **HIGH**  
+**Remediation Effort:** HIGH
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
 
@@ -797,6 +845,11 @@ None detected.
 - High conceptual proximity (66/100): accountability, oversight, transparency, and contestability are expressed through the document's own vocabulary. The adoption pathway is terminological and structural, not conceptual — the underlying intent is already present.
 - Strong sector risk alignment (100/100): the document addresses the materially relevant human interests for the General AI Governance deployment context.
 - Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
+
+**What Must Be Fixed First:**
+1. **Forbidden paraphrase of 'Coupling' detected: «engage with industry, civil society, and other stakeholders to develop guidelines, standards, method»** — Replace the forbidden term with 'Coupling' at every occurrence. For 'Coupling' specifically, also add: the named human interest, the paired restriction, and a statement of equivalent normative force on both sides (Toolkit §2 B.1; LAIF v1.2 Principle 2).
+1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+1. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
 
 
 #### Compliance Summary
@@ -811,7 +864,6 @@ None detected.
 **Source type:** executive_directive  
 **Sector:** General AI Governance  
 **Coupling Quality:** ABSENT — Coupling not present in document  
-**Remediation Effort:** HIGH
 
 
 #### Scores and Signal Breakdown
@@ -1039,9 +1091,17 @@ None detected.
 ---
 
 ### NHS England — AI in Clinical Decision Support (Policy Framework)
+> ⚠️ **REPRESENTATIVE_EXCERPT** — condensed paraphrase or illustrative excerpt. Not verbatim. Not citable as the primary source.
+> Illustrative sector scenario: structured in the style of NHS England governance documentation but is not an official NHS England publication. Citation text confirms '(illustrative excerpt)'. For sector assessment demonstration only.
+> Intended use: sector scenario — clinical AI governance
+
 
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 29/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+**Overall Readiness:** 29/100  
+**Deployment Risk Tier:** 🔴 **CRITICAL**  
+**Remediation Effort:** VERY HIGH
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
 
@@ -1052,6 +1112,11 @@ None detected.
 
 **Key strengths:**
 - Strong sector risk alignment (80/100): the document addresses the materially relevant human interests for the Clinical AI Deployment deployment context.
+
+**What Must Be Fixed First:**
+1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+1. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+1. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
 #### Compliance Summary
@@ -1066,7 +1131,6 @@ None detected.
 **Source type:** sector_policy  
 **Sector:** Clinical AI Deployment  
 **Coupling Quality:** ABSENT — Coupling not present in document  
-**Remediation Effort:** VERY HIGH
 
 
 #### Scores and Signal Breakdown
@@ -1293,9 +1357,17 @@ None detected.
 ---
 
 ### TUC/CIPD — Framework for Fair AI in Employment Decisions
+> ⚠️ **REPRESENTATIVE_EXCERPT** — condensed paraphrase or illustrative excerpt. Not verbatim. Not citable as the primary source.
+> Illustrative sector scenario: written in the style of TUC/CIPD employment AI guidance but is not an official publication of either body. Citation text confirms 'Illustrative...sector assessment document'. For sector assessment demonstration only.
+> Intended use: sector scenario — employment AI governance
+
 
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 35/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+**Overall Readiness:** 35/100  
+**Deployment Risk Tier:** 🟠 **HIGH**  
+**Remediation Effort:** HIGH
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
 
@@ -1307,6 +1379,11 @@ None detected.
 - Moderate conceptual proximity (41/100): key LAIF-aligned governance concepts are present, indicating partial substantive alignment with LAIF's foundational principles.
 - Strong sector risk alignment (80/100): the document addresses the materially relevant human interests for the Employment / Workforce AI deployment context.
 - Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
+
+**What Must Be Fixed First:**
+1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+1. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+1. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
 #### Compliance Summary
@@ -1321,7 +1398,6 @@ None detected.
 **Source type:** sector_policy  
 **Sector:** Employment / Workforce AI  
 **Coupling Quality:** ABSENT — Coupling not present in document  
-**Remediation Effort:** HIGH
 
 
 #### Scores and Signal Breakdown
@@ -1547,6 +1623,19 @@ None detected.
 | US Executive Order 14110 — §4 Safety & | 35  | 0   | 66  | 60  | 80  | 50  | 100%             |
 | NHS England — AI in Clinical Decision  | 35  | 0   | 23  | 40  | 40  | 29  | 80%              |
 | TUC/CIPD — Framework for Fair AI in Em | 28  | 0   | 41  | 60  | 40  | 35  | 80%              |
+
+
+### Deployment Risk Tier Summary
+| Document                               | Risk Tier | Overall | Compliance | Provenance             |
+| -------------------------------------- | --------- | ------- | ---------- | ---------------------- |
+| NIST AI RMF — Govern & Map Functions   | CRITICAL  | 30/100  | FAIL       | REPRESENTATIVE_EXCERPT |
+| OECD AI Principles (2019, rev. 2024)   | CRITICAL  | 22/100  | FAIL       | REPRESENTATIVE_EXCERPT |
+| NHS England — AI in Clinical Decision  | CRITICAL  | 29/100  | FAIL       | REPRESENTATIVE_EXCERPT |
+| EU AI Act — Art. 9, 13 & 14            | HIGH      | 44/100  | FAIL       | REPRESENTATIVE_EXCERPT |
+| US Executive Order 14110 — §4 Safety & | HIGH      | 50/100  | FAIL       | REPRESENTATIVE_EXCERPT |
+| TUC/CIPD — Framework for Fair AI in Em | HIGH      | 35/100  | FAIL       | REPRESENTATIVE_EXCERPT |
+
+**Risk tier derivation:** CRITICAL = compliance FAIL + overall <35; HIGH = compliance FAIL or overall <50; MODERATE = weak/hollow compliance + overall 50–69; LOW = STRONG PASS + overall ≥70.
 
 - High conceptual proximity (≥60): OECD AI Principles (2019, rev. 2024), US Executive Order 14110 — §4 Safety & §7 Workers — LAIF-like intent expressed through own vocabulary.
 - Paraphrase violations: US Executive Order 14110 — §4 Safety & §7 Workers — forbidden substitution of LAIF canonical terms.
