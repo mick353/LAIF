@@ -46,7 +46,7 @@ Each document was assessed against three complementary layers:
 ### EU AI Act — Art. 9, 13 & 14
 
 #### Executive Assessment
-> This document fails formal LAIF v1.2 compliance. Required constructs absent: Coupling, Integrity Layer, Coherence Test and 5 others. Overall readiness score: 44/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 44/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
 
@@ -240,12 +240,12 @@ None detected.
    **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
-**5. Problem:** Sector-specific governance gap (General AI Governance).
-   **Why it matters:** The General AI Governance deployment context exposes specific human interests requiring tailored Coupling declarations and evidence artefacts (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+**5. Problem:** Introduce structural Coupling for each governance provision — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
 
-**6. Problem:** Sector-specific governance gap (General AI Governance).
-   **Why it matters:** The General AI Governance deployment context exposes specific human interests requiring tailored Coupling declarations and evidence artefacts (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+**6. Problem:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
 
 
@@ -254,7 +254,7 @@ None detected.
 ### NIST AI RMF — Govern & Map Functions
 
 #### Executive Assessment
-> This document fails formal LAIF v1.2 compliance. Required constructs absent: Coupling, Integrity Layer, Coherence Test and 5 others. Overall readiness score: 30/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 30/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
 
@@ -432,12 +432,12 @@ None detected.
 
 **🟡 [MEDIUM] Low Structural governance architecture score (26/100)**
 - *Evidence:* Score 26/100. Key missed signals: mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
-- *Impact:* A structural governance architecture score below 40 increases the remediation effort required for LAIF adoption. Current overall readiness: 30/100.
+- *Impact:* Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
 - *Recommended action:* Target the missed signals for this dimension: mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously). See weight_rationale in score_trace for prioritisation context.
 
 **🟡 [MEDIUM] Low Enforceability score (20/100)**
 - *Evidence:* Score 20/100. Key missed signals: mandatory language (shall), named responsible parties, risk-proportionate thresholds.
-- *Impact:* A enforceability score below 40 increases the remediation effort required for LAIF adoption. Current overall readiness: 30/100.
+- *Impact:* Without enforceable obligations, regulatory bodies cannot hold operators accountable for governance failures. The standard is aspirational rather than operationally binding — no party can be required to comply.
 - *Recommended action:* Target the missed signals for this dimension: mandatory language (shall), named responsible parties, risk-proportionate thresholds. See weight_rationale in score_trace for prioritisation context.
 
 
@@ -459,12 +459,12 @@ None detected.
    **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
-**5. Problem:** Sector-specific governance gap (General AI Governance).
-   **Why it matters:** The General AI Governance deployment context exposes specific human interests requiring tailored Coupling declarations and evidence artefacts (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+**5. Problem:** Introduce structural Coupling for each governance provision — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
 
-**6. Problem:** Sector-specific governance gap (General AI Governance).
-   **Why it matters:** The General AI Governance deployment context exposes specific human interests requiring tailored Coupling declarations and evidence artefacts (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+**6. Problem:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
 
 
@@ -473,7 +473,7 @@ None detected.
 ### OECD AI Principles (2019, rev. 2024)
 
 #### Executive Assessment
-> This document fails formal LAIF v1.2 compliance. Required constructs absent: Coupling, Integrity Layer, Coherence Test and 5 others. Overall readiness score: 22/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 22/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
 
@@ -651,17 +651,17 @@ None detected.
 
 **🟡 [MEDIUM] Low Structural governance architecture score (12/100)**
 - *Evidence:* Score 12/100. Key missed signals: numbered sub-requirements, mandatory obligation language (shall), risk stratification / proportionality.
-- *Impact:* A structural governance architecture score below 40 increases the remediation effort required for LAIF adoption. Current overall readiness: 22/100.
+- *Impact:* Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
 - *Recommended action:* Target the missed signals for this dimension: numbered sub-requirements, mandatory obligation language (shall), risk stratification / proportionality. See weight_rationale in score_trace for prioritisation context.
 
 **🔴 [HIGH] Low Auditability score (0/100)**
 - *Evidence:* Score 0/100. Key missed signals: multiple mandatory obligations (shall … shall), numbered traceable requirements, evidence / documentation requirements.
-- *Impact:* A auditability score below 40 increases the remediation effort required for LAIF adoption. Current overall readiness: 22/100.
+- *Impact:* Without numbered, traceable obligations, a PDCA auditor has no objective basis to verify compliance — compliance claims rest on assertions rather than verifiable evidence. External audit cannot proceed.
 - *Recommended action:* Target the missed signals for this dimension: multiple mandatory obligations (shall … shall), numbered traceable requirements, evidence / documentation requirements. See weight_rationale in score_trace for prioritisation context.
 
 **🟡 [MEDIUM] Low Enforceability score (20/100)**
 - *Evidence:* Score 20/100. Key missed signals: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties.
-- *Impact:* A enforceability score below 40 increases the remediation effort required for LAIF adoption. Current overall readiness: 22/100.
+- *Impact:* Without enforceable obligations, regulatory bodies cannot hold operators accountable for governance failures. The standard is aspirational rather than operationally binding — no party can be required to comply.
 - *Recommended action:* Target the missed signals for this dimension: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties. See weight_rationale in score_trace for prioritisation context.
 
 
@@ -683,12 +683,12 @@ None detected.
    **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
-**5. Problem:** Sector-specific governance gap (General AI Governance).
-   **Why it matters:** The General AI Governance deployment context exposes specific human interests requiring tailored Coupling declarations and evidence artefacts (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+**5. Problem:** Introduce structural Coupling for each governance provision — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
 
-**6. Problem:** Sector-specific governance gap (General AI Governance).
-   **Why it matters:** The General AI Governance deployment context exposes specific human interests requiring tailored Coupling declarations and evidence artefacts (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+**6. Problem:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
 
 
@@ -697,7 +697,7 @@ None detected.
 ### US Executive Order 14110 — §4 Safety & §7 Workers
 
 #### Executive Assessment
-> This document fails formal LAIF v1.2 compliance. Required constructs absent: Coupling, Integrity Layer, Coherence Test and 5 others. Overall readiness score: 50/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 50/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
 
@@ -883,7 +883,7 @@ None detected.
 
 **🟡 [MEDIUM] Low Structural governance architecture score (35/100)**
 - *Evidence:* Score 35/100. Key missed signals: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy.
-- *Impact:* A structural governance architecture score below 40 increases the remediation effort required for LAIF adoption. Current overall readiness: 50/100.
+- *Impact:* Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
 - *Recommended action:* Target the missed signals for this dimension: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy. See weight_rationale in score_trace for prioritisation context.
 
 
@@ -909,12 +909,12 @@ None detected.
    **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
-**6. Problem:** Sector-specific governance gap (General AI Governance).
-   **Why it matters:** The General AI Governance deployment context exposes specific human interests requiring tailored Coupling declarations and evidence artefacts (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+**6. Problem:** Introduce structural Coupling for each governance provision — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
 
-**7. Problem:** Sector-specific governance gap (General AI Governance).
-   **Why it matters:** The General AI Governance deployment context exposes specific human interests requiring tailored Coupling declarations and evidence artefacts (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+**7. Problem:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.
+   **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
 
 
@@ -923,7 +923,7 @@ None detected.
 ### NHS England — AI in Clinical Decision Support (Policy Framework)
 
 #### Executive Assessment
-> This document fails formal LAIF v1.2 compliance. Required constructs absent: Coupling, Integrity Layer, Coherence Test and 5 others. Overall readiness score: 29/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 29/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
 
@@ -1106,12 +1106,12 @@ None detected.
 
 **🟡 [MEDIUM] Low Structural governance architecture score (35/100)**
 - *Evidence:* Score 35/100. Key missed signals: numbered sub-requirements, risk stratification / proportionality, operational mechanisms defined.
-- *Impact:* A structural governance architecture score below 40 increases the remediation effort required for LAIF adoption. Current overall readiness: 29/100.
+- *Impact:* Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
 - *Recommended action:* Target the missed signals for this dimension: numbered sub-requirements, risk stratification / proportionality, operational mechanisms defined. See weight_rationale in score_trace for prioritisation context.
 
 **🟡 [MEDIUM] Low Conceptual coverage score (23/100)**
 - *Evidence:* Score 23/100. Key missed signals: human rights / fundamental interests, explainability / interpretability, accountability.
-- *Impact:* A conceptual coverage score below 30 increases the remediation effort required for LAIF adoption. Current overall readiness: 29/100.
+- *Impact:* Low conceptual proximity indicates the document's governance intent is not substantially aligned with LAIF values. The adoption gap is more fundamental than terminology — substantive governance redesign is required, not just terminological substitution.
 - *Recommended action:* Target the missed signals for this dimension: human rights / fundamental interests, explainability / interpretability, accountability. See weight_rationale in score_trace for prioritisation context.
 
 
@@ -1133,12 +1133,12 @@ None detected.
    **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
-**5. Problem:** Sector-specific governance gap (Clinical AI Deployment).
-   **Why it matters:** The Clinical AI Deployment deployment context exposes specific human interests requiring tailored Coupling declarations and evidence artefacts (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+**5. Problem:** Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI… — not addressed in this document.
+   **Why it matters:** In the Clinical AI Deployment deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI alert suppression' → 'Coupling between alert suppression rules and the patient's interest in receiving clinically accurate recommendations' (Toolkit §2 B.1).
 
-**6. Problem:** Sector-specific governance gap (Clinical AI Deployment).
-   **Why it matters:** The Clinical AI Deployment deployment context exposes specific human interests requiring tailored Coupling declarations and evidence artefacts (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+**6. Problem:** Apply Q3 Reversibility: clinician override must always be preserved — not addressed in this document.
+   **Why it matters:** In the Clinical AI Deployment deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Apply Q3 Reversibility: clinician override must always be preserved — AI recommendations must not displace clinical judgement irreversibly. Rewrite: 'AI system supports clinical decisions' → 'AI system provides recommendations subject to clinician override at every decision point, with override logged and reversible' (LAIF v1.2 Provision D1).
 
 
@@ -1147,7 +1147,7 @@ None detected.
 ### TUC/CIPD — Framework for Fair AI in Employment Decisions
 
 #### Executive Assessment
-> This document fails formal LAIF v1.2 compliance. Required constructs absent: Coupling, Integrity Layer, Coherence Test and 5 others. Overall readiness score: 35/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 35/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
 
@@ -1325,7 +1325,7 @@ None detected.
 
 **🟡 [MEDIUM] Low Structural governance architecture score (28/100)**
 - *Evidence:* Score 28/100. Key missed signals: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
-- *Impact:* A structural governance architecture score below 40 increases the remediation effort required for LAIF adoption. Current overall readiness: 35/100.
+- *Impact:* Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
 - *Recommended action:* Target the missed signals for this dimension: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously). See weight_rationale in score_trace for prioritisation context.
 
 
@@ -1347,12 +1347,12 @@ None detected.
    **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
-**5. Problem:** Sector-specific governance gap (Employment / Workforce AI).
-   **Why it matters:** The Employment / Workforce AI deployment context exposes specific human interests requiring tailored Coupling declarations and evidence artefacts (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+**5. Problem:** Declare Coupling between each employment AI restriction and the specific worker interest it protects. Rewrite:… — not addressed in this document.
+   **Why it matters:** In the Employment / Workforce AI deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Declare Coupling between each employment AI restriction and the specific worker interest it protects. Rewrite: 'alignment between obligations imposed on workers and the protections those obligations are intended to serve' → 'Coupling between obligations imposed on workers and the protections afforded to their employment status and income' (Toolkit §2 B.1; LAIF v1.2 Principle 2).
 
-**6. Problem:** Sector-specific governance gap (Employment / Workforce AI).
-   **Why it matters:** The Employment / Workforce AI deployment context exposes specific human interests requiring tailored Coupling declarations and evidence artefacts (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+**6. Problem:** Apply Q2 Consistency: governance logic must produce just outcomes across all scales — not addressed in this document.
+   **Why it matters:** In the Employment / Workforce AI deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Apply Q2 Consistency: governance logic must produce just outcomes across all scales — from individual worker to collective bargaining unit. Rewrite: 'AI performance assessment applies to all employees' → 'AI performance assessment applies consistently across all roles, scales, and worker categories, with equivalent review rights at each scale' (LAIF v1.2 Principle 5).
 
 

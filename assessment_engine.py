@@ -860,12 +860,15 @@ def _executive_summary(result):
         )
     else:
         missing = [lbl for lbl, ok in fcd if not ok]
-        miss_str = ", ".join(missing[:3])
-        if len(missing) > 3:
-            miss_str += f" and {len(missing) - 3} others"
+        if len(missing) >= len(fcd) and fcd:
+            miss_str = f"all {len(fcd)} required constructs"
+        elif len(missing) > 4:
+            miss_str = ", ".join(missing[:4]) + f" and {len(missing) - 4} others"
+        else:
+            miss_str = ", ".join(missing) if missing else "see formal checks detail"
         verdict = (
             f"This document fails formal LAIF v1.2 compliance. Required constructs absent: "
-            f"{miss_str or 'see formal checks detail'}. Overall readiness score: {overall}/100. "
+            f"{miss_str}. Overall readiness score: {overall}/100. "
             f"Formal compliance is binary — partial presence of required constructs does not "
             f"constitute compliance."
         )
@@ -1175,6 +1178,29 @@ def _structured_findings(result):
         })
 
     # ── Low dimension scores ──────────────────────────────────────────────────
+    _DIM_CONSEQUENCE = {
+        "structural": (
+            "Without a constitutional hierarchy, operational revisions can alter the "
+            "governance standard without triggering a constitutional amendment — "
+            "foundational protections are not locked against erosion over time."
+        ),
+        "conceptual": (
+            "Low conceptual proximity indicates the document's governance intent is not "
+            "substantially aligned with LAIF values. The adoption gap is more fundamental "
+            "than terminology — substantive governance redesign is required, not just "
+            "terminological substitution."
+        ),
+        "auditability": (
+            "Without numbered, traceable obligations, a PDCA auditor has no objective "
+            "basis to verify compliance — compliance claims rest on assertions rather "
+            "than verifiable evidence. External audit cannot proceed."
+        ),
+        "enforceability": (
+            "Without enforceable obligations, regulatory bodies cannot hold operators "
+            "accountable for governance failures. The standard is aspirational rather "
+            "than operationally binding — no party can be required to comply."
+        ),
+    }
     for dim_key, dim_label, score_key, threshold in [
         ("structural",    "Structural governance architecture", "structural_score",           40),
         ("conceptual",    "Conceptual coverage",               "conceptual_proximity_score",  30),
@@ -1189,10 +1215,7 @@ def _structured_findings(result):
                 "title":    f"Low {dim_label} score ({score}/100)",
                 "severity": "MEDIUM" if score > 0 else "HIGH",
                 "evidence": f"Score {score}/100. Key missed signals: {missed}.",
-                "impact":   (
-                    f"A {dim_label.lower()} score below {threshold} increases the remediation "
-                    f"effort required for LAIF adoption. Current overall readiness: {overall}/100."
-                ),
+                "impact":   _DIM_CONSEQUENCE.get(dim_key, f"Score below threshold."),
                 "recommended_action": (
                     f"Target the missed signals for this dimension: {missed}. "
                     f"See weight_rationale in score_trace for prioritisation context."
@@ -1339,17 +1362,20 @@ def _structured_remediation(result):
         })
 
     # 7 — Sector-specific (top 2 from profile)
+    sector_label = result.get("sector_label", result["sector_used"])
     for step_text in result.get("sector_remediation_priority", [])[:2]:
         if not any(step_text[:60] in s.get("concrete_fix", "")[:60] for s in steps):
+            # derive a distinct problem statement from the first clause of step_text
+            first_clause = re.split(r"\s(?:—|–|:)\s", step_text, maxsplit=1)[0]
+            if len(first_clause) > 110:
+                first_clause = first_clause[:110].rstrip() + "…"
             steps.append({
-                "problem": (
-                    f"Sector-specific governance gap "
-                    f"({result.get('sector_label', result['sector_used'])})."
-                ),
+                "problem": f"{first_clause} — not addressed in this document.",
                 "why_it_matters": (
-                    f"The {result.get('sector_label', result['sector_used'])} deployment "
-                    f"context exposes specific human interests requiring tailored Coupling "
-                    f"declarations and evidence artefacts "
+                    f"In the {sector_label} deployment context, this governance gap exposes "
+                    f"specific human interests that materially affect persons subject to the "
+                    f"AI system's outputs. Each gap represents a Coupling declaration that is "
+                    f"absent or insufficient for this sector "
                     f"(Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
                 ),
                 "concrete_fix": step_text,
