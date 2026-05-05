@@ -2342,14 +2342,24 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 "MINIMAL":  "governance signals too weak for reliable assurance",
             }.get(_gs_tier, _gs_tier)
 
-            # Main interpretation text (derived from coupling_state + governance tier + compliance)
+            # Main interpretation text — model-relative phrasing throughout.
+            # Never uses absolute governance quality claims ("weak governance", "poor governance").
+            # Derived from governance_signal tier + compliance; coupling_state informs structural label.
             if _sc_es == "STRONG PASS":
                 _interp = "This document is structurally robust and enforceable."
-            elif _gs_tier in ("STRONG", "MODERATE") and _cstate_es in ("ABSENT", "IMPLICIT"):
-                _interp = ("This document contains governance intent but lacks structural "
-                           "guarantees.")
-            else:
-                _interp = "This document is weak in both structure and governance."
+            elif _gs_tier == "STRONG":
+                _interp = ("This document demonstrates strong governance controls under this "
+                           "model but has not yet met LAIF structural enforcement requirements.")
+            elif _gs_tier == "MODERATE":
+                _interp = ("This document demonstrates meaningful governance controls but "
+                           "lacks structural enforcement required for reliability at scale.")
+            elif _gs_tier == "WEAK":
+                _interp = ("This document contains some governance intent but lacks both "
+                           "structural enforcement and sufficient operational depth under "
+                           "this model.")
+            else:  # MINIMAL
+                _interp = ("This document shows limited detectable governance signals under "
+                           "this model and lacks structural enforcement.")
 
             h(5, "Interpretation")
             p(_interp)

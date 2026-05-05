@@ -63,7 +63,7 @@ Each document was assessed against three complementary layers:
 
 
 ##### Interpretation
-This document contains governance intent but lacks structural guarantees.
+This document demonstrates meaningful governance controls but lacks structural enforcement required for reliability at scale.
 
 - **Structural Readiness:** LOW (LAIF requirements not met)
 - **Governance Strength:** MODERATE — real-world controls present but not structurally enforced
@@ -365,7 +365,7 @@ None detected.
 
 
 ##### Interpretation
-This document is weak in both structure and governance.
+This document contains some governance intent but lacks both structural enforcement and sufficient operational depth under this model.
 
 - **Structural Readiness:** LOW (LAIF requirements not met)
 - **Governance Strength:** WEAK — partial governance controls — significant gaps in intent and structure
@@ -678,7 +678,7 @@ None detected.
 
 
 ##### Interpretation
-This document is weak in both structure and governance.
+This document contains some governance intent but lacks both structural enforcement and sufficient operational depth under this model.
 
 - **Structural Readiness:** LOW (LAIF requirements not met)
 - **Governance Strength:** WEAK — partial governance controls — significant gaps in intent and structure
@@ -1007,7 +1007,7 @@ None detected.
 
 
 ##### Interpretation
-This document contains governance intent but lacks structural guarantees.
+This document demonstrates meaningful governance controls but lacks structural enforcement required for reliability at scale.
 
 - **Structural Readiness:** LOW (LAIF requirements not met)
 - **Governance Strength:** MODERATE — real-world controls present but not structurally enforced
@@ -1326,7 +1326,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 
 ##### Interpretation
-This document is weak in both structure and governance.
+This document shows limited detectable governance signals under this model and lacks structural enforcement.
 
 - **Structural Readiness:** LOW (LAIF requirements not met)
 - **Governance Strength:** MINIMAL — governance signals too weak for reliable assurance
@@ -1657,7 +1657,7 @@ None detected.
 
 
 ##### Interpretation
-This document is weak in both structure and governance.
+This document contains some governance intent but lacks both structural enforcement and sufficient operational depth under this model.
 
 - **Structural Readiness:** LOW (LAIF requirements not met)
 - **Governance Strength:** WEAK — partial governance controls — significant gaps in intent and structure
