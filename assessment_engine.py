@@ -2118,9 +2118,33 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             p(f"**Overall Readiness:** {r['overall_readiness_score']}/100  ")
             p(f"**Deployment Risk Tier:** {risk_tier_badge}  ")
             p(f"**Remediation Effort:** {r['remediation_effort']}")
+
+            # Primary structural failure — priority: Coupling > Coherence Test > Integrity Layer > contradictions
+            _cstate_es = r.get("coupling_state", "ABSENT")
+            _cq_es     = r.get("coupling_quality", "ABSENT")
+            _sc_es     = r.get("strong_laif_compliance", "FAIL")
+            if _sc_es == "STRONG PASS":
+                _psf = None
+            elif _cstate_es == "ABSENT":
+                _psf = ("obligations are defined without enforceable protections "
+                        "for affected individuals.")
+            elif _cstate_es == "IMPLICIT":
+                _psf = ("protections are suggested but not structurally bound to obligations.")
+            elif not r.get("construct_coverage", {}).get("Coherence Test"):
+                _psf = ("no mechanism ensures decisions remain consistent across scale.")
+            elif not r.get("construct_coverage", {}).get("Integrity Layer"):
+                _psf = ("deployment preconditions (Integrity Layer) are not declared "
+                        "or enforced.")
+            elif r.get("contradictions"):
+                _psf = ("the document's own provisions contradict the protections it claims "
+                        "to provide.")
+            else:
+                _psf = ("required LAIF constructs are absent from the governance structure.")
+            if _psf:
+                p(f"**Primary structural failure:** {_psf}")
             p()
 
-            # STEP 3 — False sense of compliance warning
+            # False sense of compliance warning
             if (r["overall_readiness_score"] > 40
                     and r.get("strong_laif_compliance") != "STRONG PASS"):
                 p("> ⚠️ **This document may appear compliant but lacks the structural "
@@ -2218,10 +2242,11 @@ def generate_markdown_report(assessments, report_date="May 2026"):
               "but do not explicitly bind restrictions to protected human interests.")
             p()
             p("**Why this matters:**  ")
-            p("Implicit protections can be removed or weakened without formally violating "
-              "any stated obligation. Only an explicit structural declaration creates a "
-              "binding pairing — one that cannot be modified without simultaneously "
-              "modifying the paired protection.")
+            p("IMPLICIT coupling signals indicate intent, but do NOT provide enforceable "
+              "structural guarantees. The obligations and protections are not formally "
+              "bound, meaning protections can be removed without affecting obligations. "
+              "This does not constitute partial compliance — the structural requirement "
+              "is absent regardless of expressed intent.")
             p()
             p("**Practical meaning:**  ")
             p("This document signals protective intent. However, an operator could modify "

@@ -56,6 +56,7 @@ Each document was assessed against three complementary layers:
 **Overall Readiness:** 44/100  
 **Deployment Risk Tier:** 🟠 **HIGH**  
 **Remediation Effort:** HIGH
+**Primary structural failure:** obligations are defined without enforceable protections for affected individuals.
 
 > ⚠️ **This document may appear compliant but lacks the structural guarantees required for reliable governance.** A document can score moderately on readiness metrics while still failing every structural precondition that makes governance obligations enforceable.
 
@@ -343,6 +344,7 @@ None detected.
 **Overall Readiness:** 30/100  
 **Deployment Risk Tier:** 🔴 **CRITICAL**  
 **Remediation Effort:** VERY HIGH
+**Primary structural failure:** obligations are defined without enforceable protections for affected individuals.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
@@ -637,6 +639,7 @@ None detected.
 **Overall Readiness:** 22/100  
 **Deployment Risk Tier:** 🔴 **CRITICAL**  
 **Remediation Effort:** VERY HIGH
+**Primary structural failure:** protections are suggested but not structurally bound to obligations.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
@@ -689,7 +692,7 @@ However, the following are not structurally enforced:
 These statements indicate recognition of responsibility or protection, but do not explicitly bind restrictions to protected human interests.
 
 **Why this matters:**  
-Implicit protections can be removed or weakened without formally violating any stated obligation. Only an explicit structural declaration creates a binding pairing — one that cannot be modified without simultaneously modifying the paired protection.
+IMPLICIT coupling signals indicate intent, but do NOT provide enforceable structural guarantees. The obligations and protections are not formally bound, meaning protections can be removed without affecting obligations. This does not constitute partial compliance — the structural requirement is absent regardless of expressed intent.
 
 **Practical meaning:**  
 This document signals protective intent. However, an operator could modify specific obligations without being required to maintain the corresponding protections. The governance intent is present; the structural enforceability is not.
@@ -947,6 +950,7 @@ None detected.
 **Overall Readiness:** 50/100  
 **Deployment Risk Tier:** 🟠 **HIGH**  
 **Remediation Effort:** HIGH
+**Primary structural failure:** obligations are defined without enforceable protections for affected individuals.
 
 > ⚠️ **This document may appear compliant but lacks the structural guarantees required for reliable governance.** A document can score moderately on readiness metrics while still failing every structural precondition that makes governance obligations enforceable.
 
@@ -1251,6 +1255,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 **Overall Readiness:** 29/100  
 **Deployment Risk Tier:** 🔴 **CRITICAL**  
 **Remediation Effort:** VERY HIGH
+**Primary structural failure:** obligations are defined without enforceable protections for affected individuals.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
@@ -1549,6 +1554,7 @@ None detected.
 **Overall Readiness:** 35/100  
 **Deployment Risk Tier:** 🔴 **CRITICAL**  
 **Remediation Effort:** HIGH
+**Primary structural failure:** protections are suggested but not structurally bound to obligations.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
@@ -1601,7 +1607,7 @@ However, the following are not structurally enforced:
 These statements indicate recognition of responsibility or protection, but do not explicitly bind restrictions to protected human interests.
 
 **Why this matters:**  
-Implicit protections can be removed or weakened without formally violating any stated obligation. Only an explicit structural declaration creates a binding pairing — one that cannot be modified without simultaneously modifying the paired protection.
+IMPLICIT coupling signals indicate intent, but do NOT provide enforceable structural guarantees. The obligations and protections are not formally bound, meaning protections can be removed without affecting obligations. This does not constitute partial compliance — the structural requirement is absent regardless of expressed intent.
 
 **Practical meaning:**  
 This document signals protective intent. However, an operator could modify specific obligations without being required to maintain the corresponding protections. The governance intent is present; the structural enforceability is not.
