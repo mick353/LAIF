@@ -1124,6 +1124,33 @@ def _executive_summary(result):
     }
 
 
+# Module-level consequence descriptions — shared by _structured_findings and
+# _structured_remediation so dimension-gap explanations stay consistent.
+_DIM_CONSEQUENCE = {
+    "structural": (
+        "Without a constitutional hierarchy, operational revisions can alter the "
+        "governance standard without triggering a constitutional amendment — "
+        "foundational protections are not locked against erosion over time."
+    ),
+    "conceptual": (
+        "Low conceptual proximity indicates the document's governance intent is not "
+        "substantially aligned with LAIF values. The adoption gap is more fundamental "
+        "than terminology — substantive governance redesign is required, not just "
+        "terminological substitution."
+    ),
+    "auditability": (
+        "Without numbered, traceable obligations, a PDCA auditor has no objective "
+        "basis to verify compliance — compliance claims rest on assertions rather "
+        "than verifiable evidence. External audit cannot proceed."
+    ),
+    "enforceability": (
+        "Without enforceable obligations, regulatory bodies cannot hold operators "
+        "accountable for governance failures. The standard is aspirational rather "
+        "than operationally binding — no party can be required to comply."
+    ),
+}
+
+
 def _structured_findings(result):
     """
     Generate a list of structured findings — each with title, severity
@@ -1291,29 +1318,6 @@ def _structured_findings(result):
         })
 
     # ── Low dimension scores ──────────────────────────────────────────────────
-    _DIM_CONSEQUENCE = {
-        "structural": (
-            "Without a constitutional hierarchy, operational revisions can alter the "
-            "governance standard without triggering a constitutional amendment — "
-            "foundational protections are not locked against erosion over time."
-        ),
-        "conceptual": (
-            "Low conceptual proximity indicates the document's governance intent is not "
-            "substantially aligned with LAIF values. The adoption gap is more fundamental "
-            "than terminology — substantive governance redesign is required, not just "
-            "terminological substitution."
-        ),
-        "auditability": (
-            "Without numbered, traceable obligations, a PDCA auditor has no objective "
-            "basis to verify compliance — compliance claims rest on assertions rather "
-            "than verifiable evidence. External audit cannot proceed."
-        ),
-        "enforceability": (
-            "Without enforceable obligations, regulatory bodies cannot hold operators "
-            "accountable for governance failures. The standard is aspirational rather "
-            "than operationally binding — no party can be required to comply."
-        ),
-    }
     for dim_key, dim_label, score_key, threshold in [
         ("structural",    "Structural governance architecture", "structural_score",           40),
         ("conceptual",    "Conceptual coverage",               "conceptual_proximity_score",  30),
@@ -1369,9 +1373,34 @@ def _structured_remediation(result):
                 ),
             })
 
-    # 2 — Coupling
+    # 2 — Coupling (document-specific: IMPLICIT vs ABSENT/SHALLOW/NEGATED)
     cq = result["coupling_quality"]
-    if cq in ("ABSENT", "SHALLOW", "NEGATED"):
+    cs = result.get("coupling_state", "ABSENT")
+    ic = result.get("implicit_coupling", {})
+
+    if cs == "IMPLICIT":
+        # Document already has protective intent — the fix is structural, not conceptual.
+        signal_excerpts = ic.get("matches", [])
+        first_signal = signal_excerpts[0][:100].strip() if signal_excerpts else "protective language detected"
+        steps.append({
+            "problem": "Implicit protective signals present but not declared as structural Coupling.",
+            "why_it_matters": (
+                f"The document already expresses protective intent — detected: "
+                f"«{first_signal}». However, implicit intent does not constitute structural "
+                f"Coupling: the protection can be removed without affecting the obligation it "
+                f"was meant to serve. The upgrade required is structural, not conceptual "
+                f"(LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+            ),
+            "concrete_fix": (
+                "Convert each detected implicit signal into an explicit Coupling declaration: "
+                "'Coupling between [the restriction already present] and [the specific human "
+                "interest the detected protective language names], with equivalent normative "
+                "force on both sides — neither may be weakened in isolation.' "
+                "The governance intent is present; only the structural binding is missing "
+                "(Toolkit §2 B.1)."
+            ),
+        })
+    elif cq in ("ABSENT", "SHALLOW", "NEGATED"):
         cq_r = result["coupling_quality_reason"]
         if cq == "ABSENT":
             problem = "Structural Coupling not declared — the term 'Coupling' is absent."
@@ -1394,6 +1423,49 @@ def _structured_remediation(result):
                 "explicitly; neither can be weakened in isolation (Toolkit §2 B.1)."
             ),
         })
+
+    # 2b — Document-specific dimension gaps (inserted before generic LAIF constructs).
+    # Sort dimensions by score ascending — most deficient dimension gets priority.
+    # Up to 2 steps inserted here; ensures "What Must Be Fixed First" varies by document.
+    _DIM_THRESHOLDS = {
+        "structural": 50, "conceptual": 35, "auditability": 50, "enforceability": 50,
+    }
+    _DIM_LABELS = {
+        "structural":    "Structural governance architecture",
+        "conceptual":    "Conceptual governance coverage",
+        "auditability":  "Auditability",
+        "enforceability":"Enforceability",
+    }
+    dim_scores = sorted(
+        [
+            ("structural",    result["structural_score"]),
+            ("conceptual",    result["conceptual_proximity_score"]),
+            ("auditability",  result["auditability_score"]),
+            ("enforceability",result["enforceability_score"]),
+        ],
+        key=lambda x: x[1],   # ascending — most deficient first
+    )
+    dim_inserted = 0
+    for dim_key, score in dim_scores:
+        if dim_inserted >= 2:
+            break
+        if score >= _DIM_THRESHOLDS.get(dim_key, 50):
+            continue
+        bd     = result["score_breakdown"][dim_key]
+        missed = ", ".join(lbl for lbl, _ in bd["missed"][:3])
+        steps.append({
+            "problem": (
+                f"{_DIM_LABELS[dim_key]} score critically low ({score}/100) — "
+                f"most deficient dimension after Coupling."
+            ),
+            "why_it_matters": _DIM_CONSEQUENCE.get(dim_key, f"{dim_key} below threshold."),
+            "concrete_fix": (
+                f"Address the {len(bd['missed'])} missed signals for this dimension. "
+                f"Critical gaps: {missed}. "
+                f"Full signal breakdown in the Scores section."
+            ),
+        })
+        dim_inserted += 1
 
     # 3 — Coherence Test
     if not result["construct_coverage"].get("Coherence Test"):
@@ -1631,6 +1703,40 @@ def _deployment_risk_tier(overall_score, strong_laif_compliance):
     if overall_score >= 40:
         return "HIGH"
     return "CRITICAL"
+
+
+# ── Governance signal strength (derived view) ─────────────────────────────────
+# Derived entirely from existing scored fields — no new detection logic.
+# Answers: "how strong is the real-world governance signal in this document?"
+# independent of LAIF-specific structural vocabulary.
+#
+# Uses conceptual proximity (40%), enforceability (30%), auditability (30%).
+# These three dimensions are the best proxies for governance quality that are
+# measurable without requiring LAIF canonical terms to be present.
+
+def _governance_signal_strength(result):
+    """
+    Derived score using EXISTING fields only.  No new detection logic.
+
+    Weights: conceptual 40%, enforceability 30%, auditability 30%.
+    Tiers: STRONG ≥75 · MODERATE ≥55 · WEAK ≥35 · MINIMAL <35
+    """
+    conceptual     = result.get("conceptual_proximity_score", 0)
+    enforceability = result.get("enforceability_score", 0)
+    auditability   = result.get("auditability_score", 0)
+
+    score = int((conceptual * 0.4) + (enforceability * 0.3) + (auditability * 0.3))
+
+    if score >= 75:
+        tier = "STRONG"
+    elif score >= 55:
+        tier = "MODERATE"
+    elif score >= 35:
+        tier = "WEAK"
+    else:
+        tier = "MINIMAL"
+
+    return {"score": score, "tier": tier}
 
 
 # ── Directionality check ─────────────────────────────────────────────────────
@@ -1927,10 +2033,11 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         "auditability":  _build_score_trace("auditability",  a, a_fired, a_missed),
         "enforceability":_build_score_trace("enforceability",e, e_fired, e_missed),
     }
-    result["compliance_summary"]        = _compliance_summary(result)
-    result["executive_summary"]         = _executive_summary(result)
-    result["structured_findings"]       = _structured_findings(result)
+    result["compliance_summary"]           = _compliance_summary(result)
+    result["executive_summary"]            = _executive_summary(result)
+    result["structured_findings"]          = _structured_findings(result)
     result["structured_remediation_steps"] = _structured_remediation(result)
+    result["governance_signal"]            = _governance_signal_strength(result)
     return result
 
 
@@ -2059,11 +2166,8 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     p("**Validator:** validate.py (unchanged — strict formal compliance enforced)  ")
     p("**Scoring:** Traceable per-signal breakdown for every dimension  ")
     p()
-    p("> **SCOPE NOTICE**  ")
-    p("> This assessment evaluates **structural conformance to LAIF v1.2**.  ")
-    p("> It does **NOT** measure general governance quality.  ")
-    p("> A document may demonstrate strong governance while scoring low if it does not "
-      "structurally implement LAIF constructs.")
+    p("> **SCOPE NOTICE:** This assessment evaluates structural conformance to LAIF v1.2. "
+      "It does not independently determine overall governance quality.")
 
     # ── Executive Summary ────────────────────────────────────────────────────
     h(2, "Executive Summary")
@@ -2202,34 +2306,74 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                   "(e.g. PDCA FINDING blocks). External frameworks will not meet this "
                   "requirement unless explicitly adopting LAIF.*")
                 p()
+            # ── Dual-layer summary ────────────────────────────────────────────
+            _gs        = r.get("governance_signal", {"score": 0, "tier": "MINIMAL"})
+            _gs_tier   = _gs["tier"]
+            _gs_score  = _gs["score"]
+            _gs_badges = {
+                "STRONG":   "🟢 **STRONG**",
+                "MODERATE": "🟡 **MODERATE**",
+                "WEAK":     "🟠 **WEAK**",
+                "MINIMAL":  "🔴 **MINIMAL**",
+            }
             p(f"**Overall Readiness:** {r['overall_readiness_score']}/100  ")
             p(f"**Deployment Risk Tier:** {risk_tier_badge}  ")
-            p(f"**Remediation Effort:** {r['remediation_effort']}")
-
-            # Primary structural failure — priority: Coupling > Coherence Test > Integrity Layer > contradictions
-            _cstate_es = r.get("coupling_state", "ABSENT")
-            _cq_es     = r.get("coupling_quality", "ABSENT")
-            _sc_es     = r.get("strong_laif_compliance", "FAIL")
-            if _sc_es == "STRONG PASS":
-                _psf = None
-            elif _cstate_es == "ABSENT":
-                _psf = ("obligations are defined without enforceable protections "
-                        "for affected individuals.")
-            elif _cstate_es == "IMPLICIT":
-                _psf = ("protections are suggested but not structurally bound to obligations.")
-            elif not r.get("construct_coverage", {}).get("Coherence Test"):
-                _psf = ("no mechanism ensures decisions remain consistent across scale.")
-            elif not r.get("construct_coverage", {}).get("Integrity Layer"):
-                _psf = ("deployment preconditions (Integrity Layer) are not declared "
-                        "or enforced.")
-            elif r.get("contradictions"):
-                _psf = ("the document's own provisions contradict the protections it claims "
-                        "to provide.")
-            else:
-                _psf = ("required LAIF constructs are absent from the governance structure.")
-            if _psf:
-                p(f"**Primary structural failure:** {_psf}")
+            p(f"**Governance Signal Strength:** {_gs_badges.get(_gs_tier, _gs_tier)} "
+              f"({_gs_score}/100)")
             p()
+
+            # ── Interpretation block ──────────────────────────────────────────
+            _sc_es     = r.get("strong_laif_compliance", "FAIL")
+            _cstate_es = r.get("coupling_state", "ABSENT")
+
+            # Structural readiness label (maps compliance verdict to plain label)
+            if _sc_es == "STRONG PASS":
+                _struct_label = "HIGH (LAIF requirements met)"
+            elif _sc_es == "WEAK PASS":
+                _struct_label = "MODERATE (formal gate passed; structural depth insufficient)"
+            else:
+                _struct_label = "LOW (LAIF requirements not met)"
+
+            # Governance strength label
+            _gov_desc = {
+                "STRONG":   "comprehensive governance controls present — structural formalisation required",
+                "MODERATE": "real-world controls present but not structurally enforced",
+                "WEAK":     "partial governance controls — significant gaps in intent and structure",
+                "MINIMAL":  "governance signals too weak for reliable assurance",
+            }.get(_gs_tier, _gs_tier)
+
+            # Main interpretation text (derived from coupling_state + governance tier + compliance)
+            if _sc_es == "STRONG PASS":
+                _interp = "This document is structurally robust and enforceable."
+            elif _gs_tier in ("STRONG", "MODERATE") and _cstate_es in ("ABSENT", "IMPLICIT"):
+                _interp = ("This document contains governance intent but lacks structural "
+                           "guarantees.")
+            else:
+                _interp = "This document is weak in both structure and governance."
+
+            h(5, "Interpretation")
+            p(_interp)
+            p()
+            p(f"- **Structural Readiness:** {_struct_label}")
+            p(f"- **Governance Strength:** {_gs_tier} — {_gov_desc}")
+            p()
+
+            # Primary structural failure line
+            if _sc_es != "STRONG PASS":
+                if _cstate_es == "ABSENT":
+                    _psf = "obligations are defined without enforceable protections for affected individuals."
+                elif _cstate_es == "IMPLICIT":
+                    _psf = "protections are suggested but not structurally bound to obligations."
+                elif not r.get("construct_coverage", {}).get("Coherence Test"):
+                    _psf = "no mechanism ensures decisions remain consistent across scale."
+                elif not r.get("construct_coverage", {}).get("Integrity Layer"):
+                    _psf = "deployment preconditions (Integrity Layer) are not declared or enforced."
+                elif r.get("contradictions"):
+                    _psf = "the document's own provisions contradict the protections it claims to provide."
+                else:
+                    _psf = "required LAIF constructs are absent from the governance structure."
+                p(f"**Primary structural failure:** {_psf}")
+                p()
 
             # False sense of compliance warning
             if (r["overall_readiness_score"] > 40
@@ -2243,7 +2387,6 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             p(f"**Root cause:** {es.get('why', '')}")
             p()
 
-            # STEP 4 — What this means in practice
             _practical = _practical_meaning_exec(r)
             if _practical:
                 p(f"**What this means in practice:** {_practical}")
@@ -2259,7 +2402,7 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 for strength in es["strengths"]:
                     p(f"- {strength}")
                 p()
-            # Position Assessment (STEP 6)
+
             pa = es.get("position_assessment", {})
             if pa:
                 p("**Position Assessment:**")
@@ -2276,7 +2419,8 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                     p()
                 p(f"**Result:** {pa.get('result', '')}")
                 p()
-            # What Must Be Fixed First — top 3 structured remediation steps
+
+            # What Must Be Fixed First — top 3 from document-specific ordered steps
             srem = r.get("structured_remediation_steps", [])
             if srem:
                 p("**What Must Be Fixed First:**")
