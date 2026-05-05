@@ -20,6 +20,13 @@ import re
 import sys
 from pathlib import Path
 
+# Canonical LAIF terms and spec constants — imported for reference.
+# validate.py detection logic is NOT changed by this import.
+try:
+    from laif_spec import CANONICAL_TERMS, INTEGRITY_LAYER, COHERENCE_TEST  # noqa: F401
+except ImportError:
+    pass  # laif_spec.py is optional; validate.py remains self-contained
+
 REPO = Path(__file__).parent
 
 CORPUS = {

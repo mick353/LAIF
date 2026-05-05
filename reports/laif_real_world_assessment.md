@@ -68,10 +68,19 @@ Each document was assessed against three complementary layers:
 - Strong sector risk alignment (60/100): the document addresses the materially relevant human interests for the General AI Governance deployment context.
 - Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
 
+**Position Assessment:**
+
+However, the following are not structurally enforced:
+- Coupling not structurally declared — restrictions not bound to human interests
+- Coherence Test not applied — Q1/Q2/Q3 not documented
+- Integrity Layer not declared as a deployment precondition
+
+**Result:** Partially aligned — governance intent present but structurally underspecified.
+
 **What Must Be Fixed First:**
 1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
-1. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-1. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+2. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
 #### Compliance Summary
@@ -85,7 +94,19 @@ Each document was assessed against three complementary layers:
 
 **Source type:** binding_regulation  
 **Sector:** General AI Governance  
-**Coupling Quality:** ABSENT — Coupling not present in document  
+**Coupling:** NOT STRUCTURALLY DECLARED ❌
+
+No implicit coupling signals detected. The document does not express protective intent in a form that can be structurally upgraded.
+
+
+#### Minimal Upgrade Path (No System Rewrite Required)
+To achieve formal LAIF Coupling compliance without restructuring the entire document:
+
+1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
+2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
+3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+
 
 
 #### Scores and Signal Breakdown
@@ -318,10 +339,19 @@ None detected.
 **Key strengths:**
 - Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
 
+**Position Assessment:**
+
+However, the following are not structurally enforced:
+- Coupling not structurally declared — restrictions not bound to human interests
+- Coherence Test not applied — Q1/Q2/Q3 not documented
+- Integrity Layer not declared as a deployment precondition
+
+**Result:** Substantively misaligned — insufficient governance intent and structural form.
+
 **What Must Be Fixed First:**
 1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
-1. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-1. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+2. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
 #### Compliance Summary
@@ -335,7 +365,19 @@ None detected.
 
 **Source type:** voluntary_framework  
 **Sector:** General AI Governance  
-**Coupling Quality:** ABSENT — Coupling not present in document  
+**Coupling:** NOT STRUCTURALLY DECLARED ❌
+
+No implicit coupling signals detected. The document does not express protective intent in a form that can be structurally upgraded.
+
+
+#### Minimal Upgrade Path (No System Rewrite Required)
+To achieve formal LAIF Coupling compliance without restructuring the entire document:
+
+1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
+2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
+3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+
 
 
 #### Scores and Signal Breakdown
@@ -581,10 +623,22 @@ None detected.
 - High conceptual proximity (76/100): accountability, oversight, transparency, and contestability are expressed through the document's own vocabulary. The adoption pathway is terminological and structural, not conceptual — the underlying intent is already present.
 - Strong sector risk alignment (60/100): the document addresses the materially relevant human interests for the General AI Governance deployment context.
 
+**Position Assessment:**
+
+This document contains:
+- implicit Coupling signals (protective intent present)
+
+However, the following are not structurally enforced:
+- Coupling not structurally declared — restrictions not bound to human interests
+- Coherence Test not applied — Q1/Q2/Q3 not documented
+- Integrity Layer not declared as a deployment precondition
+
+**Result:** Conceptually aligned, structurally incomplete.
+
 **What Must Be Fixed First:**
 1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
-1. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-1. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+2. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
 #### Compliance Summary
@@ -598,7 +652,27 @@ None detected.
 
 **Source type:** international_principles  
 **Sector:** General AI Governance  
-**Coupling Quality:** ABSENT — Coupling not present in document  
+**Coupling:** NOT STRUCTURALLY DECLARED ❌
+
+**Implicit coupling signals detected:**
+- «AI actors should be accountable for the proper functioning of AI systems and for the respect of»
+
+**Why this matters:**  
+Protections are present but not structurally bound to restrictions. Each protection can be weakened independently without invalidating the governance logic. This satisfies governance intent but not the structural requirement of LAIF v1.2 Principle 2 (Coupling).
+
+**Fix:**  
+Explicitly pair each restriction with the human interest it protects. Ensure both carry equivalent normative force — neither can be weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
+
+
+#### Minimal Upgrade Path (No System Rewrite Required)
+To achieve formal LAIF Coupling compliance without restructuring the entire document:
+
+1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
+2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
+3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+
+*Note: implicit coupling signals already present (see above) — the governance intent is established. This upgrade is terminological and structural, not conceptual.*
 
 
 #### Scores and Signal Breakdown
@@ -846,10 +920,19 @@ None detected.
 - Strong sector risk alignment (100/100): the document addresses the materially relevant human interests for the General AI Governance deployment context.
 - Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
 
+**Position Assessment:**
+
+However, the following are not structurally enforced:
+- Coupling not structurally declared — restrictions not bound to human interests
+- Coherence Test not applied — Q1/Q2/Q3 not documented
+- Integrity Layer not declared as a deployment precondition
+
+**Result:** Conceptually aligned, structurally incomplete.
+
 **What Must Be Fixed First:**
 1. **Forbidden paraphrase of 'Coupling' detected: «engage with industry, civil society, and other stakeholders to develop guidelines, standards, method»** — Replace the forbidden term with 'Coupling' at every occurrence. For 'Coupling' specifically, also add: the named human interest, the paired restriction, and a statement of equivalent normative force on both sides (Toolkit §2 B.1; LAIF v1.2 Principle 2).
-1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
-1. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+2. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+3. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
 
 
 #### Compliance Summary
@@ -863,7 +946,19 @@ None detected.
 
 **Source type:** executive_directive  
 **Sector:** General AI Governance  
-**Coupling Quality:** ABSENT — Coupling not present in document  
+**Coupling:** NOT STRUCTURALLY DECLARED ❌
+
+No implicit coupling signals detected. The document does not express protective intent in a form that can be structurally upgraded.
+
+
+#### Minimal Upgrade Path (No System Rewrite Required)
+To achieve formal LAIF Coupling compliance without restructuring the entire document:
+
+1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
+2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
+3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+
 
 
 #### Scores and Signal Breakdown
@@ -1113,10 +1208,19 @@ None detected.
 **Key strengths:**
 - Strong sector risk alignment (80/100): the document addresses the materially relevant human interests for the Clinical AI Deployment deployment context.
 
+**Position Assessment:**
+
+However, the following are not structurally enforced:
+- Coupling not structurally declared — restrictions not bound to human interests
+- Coherence Test not applied — Q1/Q2/Q3 not documented
+- Integrity Layer not declared as a deployment precondition
+
+**Result:** Substantively misaligned — insufficient governance intent and structural form.
+
 **What Must Be Fixed First:**
 1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
-1. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-1. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+2. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
 #### Compliance Summary
@@ -1130,7 +1234,19 @@ None detected.
 
 **Source type:** sector_policy  
 **Sector:** Clinical AI Deployment  
-**Coupling Quality:** ABSENT — Coupling not present in document  
+**Coupling:** NOT STRUCTURALLY DECLARED ❌
+
+No implicit coupling signals detected. The document does not express protective intent in a form that can be structurally upgraded.
+
+
+#### Minimal Upgrade Path (No System Rewrite Required)
+To achieve formal LAIF Coupling compliance without restructuring the entire document:
+
+1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
+2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
+3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+
 
 
 #### Scores and Signal Breakdown
@@ -1366,7 +1482,7 @@ None detected.
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 35/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
 **Overall Readiness:** 35/100  
-**Deployment Risk Tier:** 🟠 **HIGH**  
+**Deployment Risk Tier:** 🔴 **CRITICAL**  
 **Remediation Effort:** HIGH
 
 **Root cause:** Primary gap: Coupling is absent — no restriction paired with a named human interest. Most common LAIF failure mode (Q1 of Coherence Test).
@@ -1380,10 +1496,22 @@ None detected.
 - Strong sector risk alignment (80/100): the document addresses the materially relevant human interests for the Employment / Workforce AI deployment context.
 - Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
 
+**Position Assessment:**
+
+This document contains:
+- implicit Coupling signals (protective intent present)
+
+However, the following are not structurally enforced:
+- Coupling not structurally declared — restrictions not bound to human interests
+- Coherence Test not applied — Q1/Q2/Q3 not documented
+- Integrity Layer not declared as a deployment precondition
+
+**Result:** Partially aligned — governance intent present but structurally underspecified.
+
 **What Must Be Fixed First:**
 1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
-1. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-1. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+2. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
 #### Compliance Summary
@@ -1397,7 +1525,27 @@ None detected.
 
 **Source type:** sector_policy  
 **Sector:** Employment / Workforce AI  
-**Coupling Quality:** ABSENT — Coupling not present in document  
+**Coupling:** NOT STRUCTURALLY DECLARED ❌
+
+**Implicit coupling signals detected:**
+- «gnate an individual responsible for compliance with this framework. This individual shall have»
+
+**Why this matters:**  
+Protections are present but not structurally bound to restrictions. Each protection can be weakened independently without invalidating the governance logic. This satisfies governance intent but not the structural requirement of LAIF v1.2 Principle 2 (Coupling).
+
+**Fix:**  
+Explicitly pair each restriction with the human interest it protects. Ensure both carry equivalent normative force — neither can be weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
+
+
+#### Minimal Upgrade Path (No System Rewrite Required)
+To achieve formal LAIF Coupling compliance without restructuring the entire document:
+
+1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
+2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
+3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+
+*Note: implicit coupling signals already present (see above) — the governance intent is established. This upgrade is terminological and structural, not conceptual.*
 
 
 #### Scores and Signal Breakdown
@@ -1631,9 +1779,9 @@ None detected.
 | NIST AI RMF — Govern & Map Functions   | CRITICAL  | 30/100  | FAIL       | REPRESENTATIVE_EXCERPT |
 | OECD AI Principles (2019, rev. 2024)   | CRITICAL  | 22/100  | FAIL       | REPRESENTATIVE_EXCERPT |
 | NHS England — AI in Clinical Decision  | CRITICAL  | 29/100  | FAIL       | REPRESENTATIVE_EXCERPT |
+| TUC/CIPD — Framework for Fair AI in Em | CRITICAL  | 35/100  | FAIL       | REPRESENTATIVE_EXCERPT |
 | EU AI Act — Art. 9, 13 & 14            | HIGH      | 44/100  | FAIL       | REPRESENTATIVE_EXCERPT |
 | US Executive Order 14110 — §4 Safety & | HIGH      | 50/100  | FAIL       | REPRESENTATIVE_EXCERPT |
-| TUC/CIPD — Framework for Fair AI in Em | HIGH      | 35/100  | FAIL       | REPRESENTATIVE_EXCERPT |
 
 **Risk tier derivation:** CRITICAL = compliance FAIL + overall <35; HIGH = compliance FAIL or overall <50; MODERATE = weak/hollow compliance + overall 50–69; LOW = STRONG PASS + overall ≥70.
 

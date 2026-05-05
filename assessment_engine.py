@@ -296,6 +296,66 @@ def _coupling_quality(text):
     ), ctx
 
 
+# ── Implicit coupling signals ─────────────────────────────────────────────────
+# Source: LAIF v1.2 Principle 2 — Coupling requires explicit structural pairing.
+# Implicit signals indicate governance intent (protections present) without the
+# structural binding that makes Coupling load-bearing. Their presence lifts the
+# coupling_state from ABSENT to IMPLICIT — a meaningful distinction for adoption
+# guidance but NOT a compliance upgrade (formal gate is unchanged).
+
+_IMPLICIT_COUPLING_PATTERNS = [
+    (r"protect(?:s|ion)?\s+\S+(?:\s+\S+)?\s+from",     "protection language"),
+    (r"ensure(?:s|ing)?\s+\S+(?:\s+\S+)?\s+(?:rights|interests)", "rights/interests assurance"),
+    (r"\bto\s+prevent\s+harm\b",                         "harm prevention"),
+    (r"\bto\s+mitigate\s+risk\b",                        "risk mitigation"),
+    (r"\baccountable\s+for\b",                           "accountability declaration"),
+    (r"\bresponsible\s+for\b",                           "responsibility declaration"),
+    (r"\bsubject\s+to\s+oversight\b",                    "oversight subjection"),
+]
+
+
+def _implicit_coupling_signals(text):
+    """
+    Detect governance language that implies Coupling intent without the explicit
+    structural pairing required by LAIF v1.2 Principle 2.
+
+    Returns:
+      {"found": bool, "matches": [up to 3 text excerpts, max 120 chars each]}
+
+    Presence of these signals does NOT upgrade compliance. It indicates that
+    the governance intent is present and the adoption pathway is structural
+    (add explicit Coupling declarations) rather than conceptual.
+    """
+    matches = []
+    for pat, _ in _IMPLICIT_COUPLING_PATTERNS:
+        m = re.search(pat, text, re.IGNORECASE)
+        if m:
+            start   = max(0, m.start() - 20)
+            end     = min(len(text), m.end() + 60)
+            excerpt = text[start:end].replace("\n", " ").strip()[:120]
+            matches.append(excerpt)
+            if len(matches) >= 3:
+                break
+    return {"found": bool(matches), "matches": matches}
+
+
+def _coupling_state(existing_verdict, implicit):
+    """
+    Synthesise coupling state from explicit verdict and implicit signal scan.
+
+    STRUCTURAL — explicit Coupling declared with structural indicators (full credit)
+    IMPLICIT   — Coupling absent/shallow but implicit protective intent detected
+    ABSENT     — no Coupling and no implicit coupling signals found
+
+    Source: LAIF v1.2 Principle 2; adoption guidance distinguishes intent from form.
+    """
+    if existing_verdict == "STRUCTURAL":
+        return "STRUCTURAL"
+    if implicit["found"]:
+        return "IMPLICIT"
+    return "ABSENT"
+
+
 # ── Contradiction detection ────────────────────────────────────────────────────
 # Source: LAIF v1.2 Integrity Layer A.2 (Structural Honesty) — stated objectives
 # must correspond to implemented objectives; a document that claims an Integrity
@@ -1018,7 +1078,49 @@ def _executive_summary(result):
             f"not present. Overall readiness {overall}/100."
         )
 
-    return {"verdict": verdict, "risks": risks, "strengths": strengths, "why": why}
+    # ── Position Assessment ───────────────────────────────────────────────────
+    # Auto-built from construct coverage, coupling_state, and conceptual proximity.
+    # Answers: "what does this document contain, and what structural gap remains?"
+    cc          = result.get("construct_coverage", {})
+    cs          = result.get("coupling_state", "ABSENT")
+    ic          = result.get("implicit_coupling", {})
+    present_cc  = [k for k, v in cc.items() if v]
+    absent_cc   = [k for k, v in cc.items() if not v]
+
+    # What the document contains (positive vocabulary + implicit coupling signals)
+    contains = []
+    if present_cc:
+        contains.extend(present_cc[:4])
+    if ic.get("found") and "Coupling (implicit)" not in contains:
+        contains.append("implicit Coupling signals (protective intent present)")
+
+    if cs == "STRUCTURAL":
+        position_result = "Structurally compliant — Coupling is explicitly declared."
+    elif conceptual >= 60:
+        position_result = "Conceptually aligned, structurally incomplete."
+    elif conceptual >= 40:
+        position_result = "Partially aligned — governance intent present but structurally underspecified."
+    else:
+        position_result = "Substantively misaligned — insufficient governance intent and structural form."
+
+    not_enforced = []
+    if cs != "STRUCTURAL":
+        not_enforced.append("Coupling not structurally declared — restrictions not bound to human interests")
+    if not cc.get("Coherence Test"):
+        not_enforced.append("Coherence Test not applied — Q1/Q2/Q3 not documented")
+    if not cc.get("Integrity Layer"):
+        not_enforced.append("Integrity Layer not declared as a deployment precondition")
+
+    position_assessment = {
+        "contains":    contains,
+        "not_enforced": not_enforced[:3],
+        "result":      position_result,
+    }
+
+    return {
+        "verdict": verdict, "risks": risks, "strengths": strengths, "why": why,
+        "position_assessment": position_assessment,
+    }
 
 
 def _structured_findings(result):
@@ -1514,23 +1616,20 @@ def _remediation(result):
 def _deployment_risk_tier(overall_score, strong_laif_compliance):
     """
     Derive deployment risk tier from overall readiness and strong compliance verdict.
+    Source: LAIF_Compliance_Toolkit.txt §7 — Tiering by stakes and structural depth.
 
-    CRITICAL — formal compliance fails AND overall readiness <35
-               (fundamental structural gaps; deployment should be blocked)
-    HIGH     — formal compliance fails OR overall readiness <50
-               (significant gaps; deployment requires major remediation)
-    MODERATE — formal/strong compliance weak AND overall readiness 50–69
-               (partial alignment; targeted remediation required before deployment)
-    LOW      — strong compliance STRONG PASS AND overall readiness ≥70
-               (all preconditions met; standard ongoing monitoring applies)
+    LOW      — STRONG PASS (all Integrity Layer and Coherence Test conditions met)
+    MODERATE — overall ≥70 (approaching compliance; targeted remediation sufficient)
+    HIGH     — overall ≥40 (significant gaps; major remediation before deployment)
+    CRITICAL — overall <40 (fundamental gaps; deployment should be blocked)
     """
-    if strong_laif_compliance != "STRONG PASS" and overall_score < 35:
-        return "CRITICAL"
-    if strong_laif_compliance == "FAIL" or overall_score < 50:
-        return "HIGH"
-    if strong_laif_compliance != "STRONG PASS" or overall_score < 70:
+    if strong_laif_compliance == "STRONG PASS":
+        return "LOW"
+    if overall_score >= 70:
         return "MODERATE"
-    return "LOW"
+    if overall_score >= 40:
+        return "HIGH"
+    return "CRITICAL"
 
 
 # ── Core assessment function ──────────────────────────────────────────────────
@@ -1669,6 +1768,7 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
     # Source: LAIF v1.2 Principle 2 (Coupling quality); A.2 Structural Honesty
     # (contradictions); Q2 Consistency (sector gaming = scale-inconsistent keyword use).
     cq, cq_reason, cq_evidence = _coupling_quality(text)
+    implicit_coupling            = _implicit_coupling_signals(text)
     contradictions       = _contradiction_check(text)
     gaming_level, gaming_reason = _sector_gaming_risk(sector_risk_alignment, overall, c)
     depth                = _structural_depth(cq, contradictions, gaming_level, formal_pass)
@@ -1717,6 +1817,8 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         "coupling_quality":           cq,
         "coupling_quality_reason":    cq_reason,
         "coupling_quality_evidence":  cq_evidence,
+        "implicit_coupling":          implicit_coupling,
+        "coupling_state":             _coupling_state(cq, implicit_coupling),
         "contradictions":             contradictions,
         "sector_gaming_risk":         gaming_level,
         "sector_gaming_reason":       gaming_reason,
@@ -1750,7 +1852,9 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         **meta,
     }
     result["recommended_remediation_steps"] = _remediation(result)
-    result["deployment_risk_tier"] = _deployment_risk_tier(overall, strong_compliance)
+    _tier = _deployment_risk_tier(overall, strong_compliance)
+    result["deployment_risk"]      = _tier  # canonical key (spec)
+    result["deployment_risk_tier"] = _tier  # backward-compatible alias
 
     # ── Decision-grade reporting fields (added after base result is built) ────
     result["score_trace"] = {
@@ -1944,14 +2048,31 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 for strength in es["strengths"]:
                     p(f"- {strength}")
                 p()
+            # Position Assessment (STEP 6)
+            pa = es.get("position_assessment", {})
+            if pa:
+                p("**Position Assessment:**")
+                p()
+                if pa.get("contains"):
+                    p("This document contains:")
+                    for item in pa["contains"]:
+                        p(f"- {item}")
+                    p()
+                if pa.get("not_enforced"):
+                    p("However, the following are not structurally enforced:")
+                    for item in pa["not_enforced"]:
+                        p(f"- {item}")
+                    p()
+                p(f"**Result:** {pa.get('result', '')}")
+                p()
             # What Must Be Fixed First — top 3 structured remediation steps
             srem = r.get("structured_remediation_steps", [])
             if srem:
                 p("**What Must Be Fixed First:**")
-                for step in srem[:3]:
+                for i, step in enumerate(srem[:3], 1):
                     prob = step.get("problem", "")
                     fix  = step.get("concrete_fix", "")
-                    p(f"1. **{prob}** — {fix}" if prob else f"1. {fix}")
+                    p(f"{i}. **{prob}** — {fix}" if prob else f"{i}. {fix}")
                 p()
 
         # ── Compliance Summary table ─────────────────────────────────────────
@@ -1972,18 +2093,70 @@ def generate_markdown_report(assessments, report_date="May 2026"):
 
         p(f"**Source type:** {r['source_type']}  ")
         p(f"**Sector:** {r.get('sector_label', r['sector_used'])}  ")
-        p(f"**Coupling Quality:** {r.get('coupling_quality', 'ABSENT')} — {r.get('coupling_quality_reason', '')}  ")
-        cq_ev = r.get("coupling_quality_evidence", "")
-        if cq_ev and r.get("coupling_quality", "ABSENT") in ("SHALLOW", "NEGATED"):
-            p(f"**Coupling Evidence:** «{cq_ev[:150]}»")
-        if r.get("contradictions"):
+
+        # ── Coupling state block (STEP 5) ────────────────────────────────────
+        cstate  = r.get("coupling_state", "ABSENT")
+        cq_val  = r.get("coupling_quality", "ABSENT")
+        cq_ev   = r.get("coupling_quality_evidence", "")
+        ic      = r.get("implicit_coupling", {})
+
+        if cstate == "STRUCTURAL":
+            p(f"**Coupling:** STRUCTURALLY DECLARED ✅")
+            if cq_ev:
+                p(f"  Evidence: «{cq_ev[:150]}»")
+        else:
+            p(f"**Coupling:** NOT STRUCTURALLY DECLARED ❌")
+            if cq_val == "NEGATED" and cq_ev:
+                p(f"  Evidence of negation: «{cq_ev[:150]}»")
             p()
+            if ic.get("found"):
+                p("**Implicit coupling signals detected:**")
+                for excerpt in ic.get("matches", []):
+                    p(f"- «{excerpt}»")
+                p()
+                p("**Why this matters:**  ")
+                p("Protections are present but not structurally bound to restrictions. "
+                  "Each protection can be weakened independently without invalidating "
+                  "the governance logic. This satisfies governance intent but not the "
+                  "structural requirement of LAIF v1.2 Principle 2 (Coupling).")
+                p()
+                p("**Fix:**  ")
+                p("Explicitly pair each restriction with the human interest it protects. "
+                  "Ensure both carry equivalent normative force — neither can be weakened "
+                  "in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).")
+            else:
+                p("No implicit coupling signals detected. The document does not express "
+                  "protective intent in a form that can be structurally upgraded.")
+        p()
+        if r.get("contradictions"):
             p("**⚠️ Structural Contradictions Detected:**")
             for prop, desc, ctx in r["contradictions"]:
                 p(f"- [{prop}] {desc}")
                 if ctx:
                     p(f"  Evidence: «{ctx[:150]}»")
-        p()
+            p()
+
+        # ── Minimal Upgrade Path (STEP 7) ────────────────────────────────────
+        if cstate != "STRUCTURAL":
+            h(4, "Minimal Upgrade Path (No System Rewrite Required)")
+            p("To achieve formal LAIF Coupling compliance without restructuring the "
+              "entire document:")
+            p()
+            p("1. **Identify each restriction** — list every 'shall not' or operational "
+              "constraint in the document.")
+            p("2. **Identify the affected human interest** — for each restriction, state "
+              "the specific human interest it protects (e.g. 'patient safety', "
+              "'worker's right to explanation').")
+            p("3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] "
+              "and [human interest]: neither may be weakened without the other.'")
+            p("4. **Ensure equivalent normative force** — both sides of the pair must use "
+              "the same mandatory language ('shall') so neither can be downgraded in isolation.")
+            p()
+            if ic.get("found"):
+                p("*Note: implicit coupling signals already present (see above) — the "
+                  "governance intent is established. This upgrade is terminological and "
+                  "structural, not conceptual.*")
+            p()
 
         # Scores with signal traceability
         h(4, "Scores and Signal Breakdown")
