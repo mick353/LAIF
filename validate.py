@@ -40,6 +40,10 @@ PUBLIC_DOCS = {"Executive Brief", "Public Article"}
 CONTEXT_WINDOW = 200
 
 # CLAUDE.md §Terminology — context-aware paraphrase guards.
+# Source: LAIF_Compliance_Toolkit.txt §1 — canonical term definitions.
+# Source: LAIF v1.2 Principle 2 — Coupling is structurally load-bearing;
+#   paraphrases (alignment, connection, linkage) lose the bidirectional
+#   enforcement requirement that Coupling carries.
 #
 # A forbidden match is ALLOWED if:
 #   (a) allow_if_nearby  — the protected term appears within CONTEXT_WINDOW chars
@@ -81,21 +85,75 @@ PARAPHRASE_GUARDS = [
         "allow_if_nearby":   r"\bMaterially Affects Interests\b",
         "allow_if_contrast": [],
     },
+    # Source: LAIF v1.2 Part Two A.1; Toolkit §1.3 — Structural Transparency is
+    # a defined Integrity Layer property requiring a compliant meaningful account
+    # of any material output. "output transparency" and "transparency conditions"
+    # are informal substitutes that lose the structural threshold requirement.
+    {
+        "term":    "Structural Transparency",
+        "forbidden": r"\b(?:transparency conditions?|output transparency)\b",
+        "allow_if_nearby":   r"\bStructural Transparency\b",
+        "allow_if_contrast": [
+            r"(?:unlike|beyond|rather\s+than)\b.{0,80}(?:output transparency|transparency conditions?)",
+        ],
+    },
+    # Source: LAIF v1.2 Part Two A.2; Toolkit §1.4 — Structural Honesty requires
+    # that stated optimisation objectives correspond to actual implemented objectives.
+    # "honesty conditions", "model honesty", "system honesty" lose this structural
+    # correspondence requirement.
+    {
+        "term":    "Structural Honesty",
+        "forbidden": r"\b(?:honesty conditions?|model honesty|system honesty)\b",
+        "allow_if_nearby":   r"\bStructural Honesty\b",
+        "allow_if_contrast": [],
+    },
+    # Source: LAIF v1.2 Part Two A.3; Toolkit §1.5 — Structural Containment requires
+    # operation within documented operational boundaries across all tested conditions.
+    # "boundary controls", "scope controls", "containment conditions" are informal
+    # substitutes that drop the all-conditions and edge-case coverage requirement.
+    {
+        "term":    "Structural Containment",
+        "forbidden": r"\b(?:boundary controls?|scope controls?|containment conditions?)\b",
+        "allow_if_nearby":   r"\bStructural Containment\b",
+        "allow_if_contrast": [],
+    },
+    # Source: LAIF v1.2 Provision D1; Toolkit §2 B.3 — Reversibility (Q3) requires
+    # that future actors can modify or reverse deployment consequences. "rollback
+    # capability/requirement/clause" and "modifiability requirement" are informal
+    # operational terms that omit the future-actor and governance-architecture dimensions.
+    {
+        "term":    "Reversibility",
+        "forbidden": r"\b(?:rollback\s+(?:requirement|clause|condition|capability)|modifiability\s+(?:requirement|clause))\b",
+        "allow_if_nearby":   r"\bReversibility\b",
+        "allow_if_contrast": [],
+    },
 ]
 
 # Exported pattern constants — imported by test_adversarial.py
+# Source: LAIF v1.2 Part Two — Integrity Layer A.1/A.2/A.3 are preconditions
+#   of lawful deployment; all three must be satisfied simultaneously.
+#   Partial satisfaction = failure. No partial credit.
 INTEGRITY_PATTERNS = [
     ("A.1  Structural Transparency", r"A\.1 FINDING\s*:(.*?)(?=A\.2 FINDING|B\.1|\Z)"),
     ("A.2  Structural Honesty",       r"A\.2 FINDING\s*:(.*?)(?=A\.3 FINDING|B\.1|\Z)"),
     ("A.3  Structural Containment",   r"A\.3 FINDING\s*:(.*?)(?=INTEGRITY LAYER FINDING|\Z)"),
 ]
 
+# Source: LAIF v1.2 Part One — Coherence Test: Q1 Coupling, Q2 Consistency,
+#   Q3 Reversibility. All three must be answered affirmatively.
+#   Failure at Q1 (Coupling) = automatic failure of the full Coherence Test.
+#   Q1 is the most commonly failed question (CLAUDE.md §The Coherence Test).
 COHERENCE_PATTERNS = [
     ("Q1  Coupling",      r"B\.1 FINDING\s*:(.*?)(?=B\.2 FINDING|\Z)"),
     ("Q2  Consistency",   r"B\.2 FINDING\s*:(.*?)(?=B\.3 FINDING|\Z)"),
     ("Q3  Reversibility", r"B\.3 FINDING\s*:(.*?)(?=SECTION C|\Z)"),
 ]
 
+# Source: LAIF v1.2 Principle 3 — Framework Hierarchy is load-bearing:
+#   Operational Standards (Toolkit) < Provisions < Foundational Principles.
+#   Provisions cannot contradict Principles. Principles are non-amendable.
+# Source: LAIF v1.2 Part Seven — Self-Application: governance actors and
+#   regulatory bodies are subject to the same Coherence Test as operators.
 HIERARCHY_PATTERNS = [
     ("Foundational Principles declared",     r"FOUNDATIONAL PRINCIPLES|PART ONE"),
     ("Non-amendable declaration present",    r"cannot be amended|non-amendable"),
@@ -106,6 +164,9 @@ HIERARCHY_PATTERNS = [
 
 # Concept anchoring — relational phrase heuristic signals a Coupling-like concept
 # is being expressed without the canonical term.
+# Source: LAIF v1.2 Principle 2 — Coupling requires explicit naming of the
+#   human interest AND a protection of equivalent normative force; relational
+#   phrasing without canonical terminology loses structural enforcement.
 RELATIONAL_PHRASES = [
     r"\balignment between\b",
     r"\bcoherence between\b",
