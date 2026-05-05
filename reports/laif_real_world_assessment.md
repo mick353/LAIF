@@ -5,6 +5,11 @@
 **Validator:** validate.py (unchanged — strict formal compliance enforced)  
 **Scoring:** Traceable per-signal breakdown for every dimension  
 
+> **SCOPE NOTICE**  
+> This assessment evaluates **structural conformance to LAIF v1.2**.  
+> It does **NOT** measure general governance quality.  
+> A document may demonstrate strong governance while scoring low if it does not structurally implement LAIF constructs.
+
 ## Executive Summary
 6 of 6 external AI governance frameworks assessed fail formal LAIF v1.2 compliance. Formal compliance is binary and strict — all 8 required constructs must be present; no partial credit is awarded.
 
@@ -52,6 +57,8 @@ Each document was assessed against three complementary layers:
 
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 44/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+> *Formal compliance requires LAIF-specific structural declarations (e.g. PDCA FINDING blocks). External frameworks will not meet this requirement unless explicitly adopting LAIF.*
 
 **Overall Readiness:** 44/100  
 **Deployment Risk Tier:** 🟠 **HIGH**  
@@ -340,6 +347,8 @@ None detected.
 
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 30/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+> *Formal compliance requires LAIF-specific structural declarations (e.g. PDCA FINDING blocks). External frameworks will not meet this requirement unless explicitly adopting LAIF.*
 
 **Overall Readiness:** 30/100  
 **Deployment Risk Tier:** 🔴 **CRITICAL**  
@@ -635,6 +644,8 @@ None detected.
 
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 22/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+
+> *Formal compliance requires LAIF-specific structural declarations (e.g. PDCA FINDING blocks). External frameworks will not meet this requirement unless explicitly adopting LAIF.*
 
 **Overall Readiness:** 22/100  
 **Deployment Risk Tier:** 🔴 **CRITICAL**  
@@ -947,6 +958,8 @@ None detected.
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 50/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
+> *Formal compliance requires LAIF-specific structural declarations (e.g. PDCA FINDING blocks). External frameworks will not meet this requirement unless explicitly adopting LAIF.*
+
 **Overall Readiness:** 50/100  
 **Deployment Risk Tier:** 🟠 **HIGH**  
 **Remediation Effort:** HIGH
@@ -1252,14 +1265,16 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 29/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
+> *Formal compliance requires LAIF-specific structural declarations (e.g. PDCA FINDING blocks). External frameworks will not meet this requirement unless explicitly adopting LAIF.*
+
 **Overall Readiness:** 29/100  
 **Deployment Risk Tier:** 🔴 **CRITICAL**  
 **Remediation Effort:** VERY HIGH
-**Primary structural failure:** obligations are defined without enforceable protections for affected individuals.
+**Primary structural failure:** protections are suggested but not structurally bound to obligations.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
-**What this means in practice:** This document imposes obligations but does not structurally protect the people those obligations are meant to serve — each obligation can be removed independently of any corresponding protection.
+**What this means in practice:** This document signals protective intent but does not structurally bind obligations to the people they protect — the intent is present but not enforceable as written.
 
 **Key risks:**
 - Coupling not structurally declared: no governance restriction is paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
@@ -1270,6 +1285,9 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 - Strong sector risk alignment (80/100): the document addresses the materially relevant human interests for the Clinical AI Deployment deployment context.
 
 **Position Assessment:**
+
+This document contains:
+- implicit Coupling signals (protective intent present)
 
 However, the following are not structurally enforced:
 - Coupling not structurally declared — restrictions not bound to human interests
@@ -1295,12 +1313,22 @@ However, the following are not structurally enforced:
 
 **Source type:** sector_policy  
 **Sector:** Clinical AI Deployment  
-**Coupling:** NOT STRUCTURALLY DECLARED (no signals detected) ❌
+**Coupling:** NOT STRUCTURALLY DECLARED (implicit signals present) ❌
 
-No implicit coupling signals detected. The document does not express protective intent in a form that can be structurally upgraded via terminological revision alone.
+**Implicit signals detected:**
+- «2 Patients have the right to request a human clinician review of any AI-assisted clinical recomm»
+
+**Interpretation:**  
+These statements indicate recognition of responsibility or protection, but do not explicitly bind restrictions to protected human interests.
+
+**Why this matters:**  
+IMPLICIT coupling signals indicate intent, but do NOT provide enforceable structural guarantees. The obligations and protections are not formally bound, meaning protections can be removed without affecting obligations. This does not constitute partial compliance — the structural requirement is absent regardless of expressed intent.
 
 **Practical meaning:**  
-This document imposes obligations but does not structurally protect the people those obligations are meant to serve. Obligations can be weakened or removed independently of the protections they were intended to provide.
+This document signals protective intent. However, an operator could modify specific obligations without being required to maintain the corresponding protections. The governance intent is present; the structural enforceability is not.
+
+**Fix:**  
+Explicitly pair each restriction with the human interest it protects. Ensure both carry equivalent normative force — neither can be weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
 
 
 #### Minimal Upgrade Path (No System Rewrite Required)
@@ -1311,6 +1339,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
 4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
 
+*Note: implicit coupling signals already present (see above) — the governance intent is established. This upgrade is terminological and structural, not conceptual.*
 
 
 #### Scores and Signal Breakdown
@@ -1551,6 +1580,8 @@ None detected.
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 35/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
+> *Formal compliance requires LAIF-specific structural declarations (e.g. PDCA FINDING blocks). External frameworks will not meet this requirement unless explicitly adopting LAIF.*
+
 **Overall Readiness:** 35/100  
 **Deployment Risk Tier:** 🔴 **CRITICAL**  
 **Remediation Effort:** HIGH
@@ -1602,6 +1633,7 @@ However, the following are not structurally enforced:
 
 **Implicit signals detected:**
 - «gnate an individual responsible for compliance with this framework. This individual shall have»
+- «t. Workers have the right to request human review of any adverse AI decision.  2.3 Fairness audi»
 
 **Interpretation:**  
 These statements indicate recognition of responsibility or protection, but do not explicitly bind restrictions to protected human interests.

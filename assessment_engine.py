@@ -304,6 +304,7 @@ def _coupling_quality(text):
 # guidance but NOT a compliance upgrade (formal gate is unchanged).
 
 _IMPLICIT_COUPLING_PATTERNS = [
+    # ── Original 7 patterns ───────────────────────────────────────────────────
     (r"protect(?:s|ion)?\s+\S+(?:\s+\S+)?\s+from",     "protection language"),
     (r"ensure(?:s|ing)?\s+\S+(?:\s+\S+)?\s+(?:rights|interests)", "rights/interests assurance"),
     (r"\bto\s+prevent\s+harm\b",                         "harm prevention"),
@@ -311,6 +312,26 @@ _IMPLICIT_COUPLING_PATTERNS = [
     (r"\baccountable\s+for\b",                           "accountability declaration"),
     (r"\bresponsible\s+for\b",                           "responsibility declaration"),
     (r"\bsubject\s+to\s+oversight\b",                    "oversight subjection"),
+    # ── Extended patterns (Phase 3 — spec-mandated) ───────────────────────────
+    # Cover clinical/employment governance language that structurally restricts
+    # AI action and protects human interests without using LAIF canonical terms.
+    (r"\bmay not be\b.{1,80}\bwithout\b",                "restriction requiring consent/authorisation"),
+    (r"\brequires?\b.{1,80}\bapproval\b",                 "requires approval language"),
+    (r"\bsubject\s+to\b.{1,80}\bapproval\b",              "subject to approval language"),
+    (r"\boverride\b.{1,100}\bmust\s+be\s+(?:permitted|preserved|allowed)\b",
+                                                          "override must be permitted/preserved"),
+    (r"\bmust\s+(?:allow|permit|preserve)\b.{1,100}\boverride\b",
+                                                          "must allow/permit/preserve override"),
+    (r"\brequires?\s+authoris[ae]tion\s+before\b",        "requires authorisation before action"),
+    (r"\bcannot\b.{1,80}\bunless\b.{1,80}\bauthoris[ae]d\b",
+                                                          "cannot act unless authorised"),
+    # ── Gap-closing patterns (clinical governance — NHS false-negative fix) ───
+    # NHS: "shall not ... without explicit clinician authorisation"
+    (r"\bwithout\b.{1,60}\bauthoris[ae]tion\b",           "action gated by authorisation"),
+    # NHS: "Patients have the right to request a human clinician review"
+    # and "This right shall not be subject to conditions or prerequisites"
+    (r"\bright\b.{1,60}\b(?:to\s+request|shall\s+not\s+be)\b",
+                                                          "protected rights language"),
 ]
 
 
@@ -1612,6 +1633,54 @@ def _deployment_risk_tier(overall_score, strong_laif_compliance):
     return "CRITICAL"
 
 
+# ── Directionality check ─────────────────────────────────────────────────────
+# Lightweight heuristic: if rights-language (accountability, transparency, safety,
+# oversight) is used primarily to justify AI/operator control OF humans rather than
+# to protect humans FROM AI outputs, apply a small reduction to the conceptual score.
+#
+# This differentiates surveillance governance ("AI monitors workers for compliance")
+# from protective governance ("workers protected from automated decisions").
+# Does NOT affect formal compliance, coupling detection, or any other dimension.
+# Reduction is -8 points on conceptual, capped at 0 — max impact on overall ~1.6 pts.
+
+_DIRECTIONALITY_SURVEILLANCE = [
+    # AI/system/algorithm as actor directly monitoring/tracking humans
+    r"\b(?:AI|system|algorithm)\s+(?:monitors?|tracks?)\s+(?:worker|employee|patient|individual)\b",
+    # Worker performance is the object of AI tracking
+    r"\bworker\s+performance\s+(?:tracking|monitoring)\b",
+    # Continuous AI monitoring of humans or their compliance
+    r"\bcontinuous\s+(?:AI\s+)?monitoring\s+of\s+(?:worker|employee|staff|personnel|compliance)\b",
+    # "AI-monitored performance" or "AI-monitored compliance" compound
+    r"\bAI.monitored\s+(?:performance|compliance)\b",
+]
+
+_DIRECTIONALITY_RIGHTS = [
+    r"\baccountability\b", r"\btransparency\b", r"\bsafety\b", r"\boversight\b",
+]
+
+
+def _directionality_penalty(text, score):
+    """
+    If rights-language co-occurs with AI-as-surveillor patterns, apply -8 to the
+    conceptual score.  Returns (adjusted_score, was_penalised: bool).
+
+    Rationale: protection-of-humans and control-of-humans both use identical
+    rights vocabulary.  A document that deploys accountability/transparency/safety
+    language to justify AI surveillance should not score identically to one that
+    uses those concepts to protect humans from AI decisions.
+
+    Only fires when all of: ≥1 surveillance indicator AND ≥2 rights-language hits.
+    Does not affect formal compliance, coupling state, or any threshold.
+    """
+    surv_hits  = sum(1 for p in _DIRECTIONALITY_SURVEILLANCE
+                     if re.search(p, text, re.IGNORECASE))
+    rights_hits = sum(1 for p in _DIRECTIONALITY_RIGHTS
+                      if re.search(p, text, re.IGNORECASE))
+    if surv_hits >= 1 and rights_hits >= 2:
+        return max(0, score - 8), True
+    return score, False
+
+
 # ── Core assessment function ──────────────────────────────────────────────────
 
 def assess(name, source_type, text, sector="general_ai_governance", **meta):
@@ -1640,6 +1709,12 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
     c, c_fired, c_missed = _score_signals(text, CONCEPTUAL_RUBRIC)
     a, a_fired, a_missed = _score_signals(text, AUDITABILITY_RUBRIC)
     e, e_fired, e_missed = _score_signals(text, ENFORCEABILITY_RUBRIC)
+
+    # Directionality check — small downward adjustment to conceptual if rights-
+    # language is used to justify AI surveillance of humans rather than protect
+    # humans from AI.  Does not affect formal gate, coupling, or other dimensions.
+    c, _direction_penalised = _directionality_penalty(text, c)
+
     overall = round(0.25 * s + 0.15 * t + 0.20 * c + 0.20 * a + 0.20 * e)
 
     construct_coverage = {
@@ -1805,8 +1880,9 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         "construct_coverage":         construct_coverage,
         "structural_score":           s,
         "terminology_score":          t,
-        "conceptual_proximity_score": c,
-        "auditability_score":         a,
+        "conceptual_proximity_score":            c,
+        "conceptual_directionality_penalised":  _direction_penalised,
+        "auditability_score":                   a,
         "enforceability_score":       e,
         "overall_readiness_score":    overall,
         "remediation_effort":         effort,
@@ -1982,6 +2058,12 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     p("**Classification:** Governance Assessment — System Hardening Release  ")
     p("**Validator:** validate.py (unchanged — strict formal compliance enforced)  ")
     p("**Scoring:** Traceable per-signal breakdown for every dimension  ")
+    p()
+    p("> **SCOPE NOTICE**  ")
+    p("> This assessment evaluates **structural conformance to LAIF v1.2**.  ")
+    p("> It does **NOT** measure general governance quality.  ")
+    p("> A document may demonstrate strong governance while scoring low if it does not "
+      "structurally implement LAIF constructs.")
 
     # ── Executive Summary ────────────────────────────────────────────────────
     h(2, "Executive Summary")
@@ -2115,6 +2197,11 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             h(4, "Executive Assessment")
             p(f"> {es.get('verdict', '')}")
             p()
+            if r["formal_laif_compliance"] == "FAIL":
+                p("> *Formal compliance requires LAIF-specific structural declarations "
+                  "(e.g. PDCA FINDING blocks). External frameworks will not meet this "
+                  "requirement unless explicitly adopting LAIF.*")
+                p()
             p(f"**Overall Readiness:** {r['overall_readiness_score']}/100  ")
             p(f"**Deployment Risk Tier:** {risk_tier_badge}  ")
             p(f"**Remediation Effort:** {r['remediation_effort']}")
