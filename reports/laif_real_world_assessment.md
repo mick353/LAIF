@@ -57,7 +57,11 @@ Each document was assessed against three complementary layers:
 **Deployment Risk Tier:** 🟠 **HIGH**  
 **Remediation Effort:** HIGH
 
+> ⚠️ **This document may appear compliant but lacks the structural guarantees required for reliable governance.** A document can score moderately on readiness metrics while still failing every structural precondition that makes governance obligations enforceable.
+
 **Root cause:** Primary structural gap: Coupling not structurally declared.
+
+**What this means in practice:** This document imposes obligations but does not structurally protect the people those obligations are meant to serve — each obligation can be removed independently of any corresponding protection.
 
 **Key risks:**
 - Coupling not structurally declared: no governance restriction is paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
@@ -97,6 +101,9 @@ However, the following are not structurally enforced:
 **Coupling:** NOT STRUCTURALLY DECLARED (no signals detected) ❌
 
 No implicit coupling signals detected. The document does not express protective intent in a form that can be structurally upgraded via terminological revision alone.
+
+**Practical meaning:**  
+This document imposes obligations but does not structurally protect the people those obligations are meant to serve. Obligations can be weakened or removed independently of the protections they were intended to provide.
 
 
 #### Minimal Upgrade Path (No System Rewrite Required)
@@ -339,6 +346,8 @@ None detected.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
+**What this means in practice:** This document imposes obligations but does not structurally protect the people those obligations are meant to serve — each obligation can be removed independently of any corresponding protection.
+
 **Key risks:**
 - Coupling not structurally declared: no governance restriction is paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
 - Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Missing any single construct = FAIL regardless of overall readiness score.
@@ -376,6 +385,9 @@ However, the following are not structurally enforced:
 **Coupling:** NOT STRUCTURALLY DECLARED (no signals detected) ❌
 
 No implicit coupling signals detected. The document does not express protective intent in a form that can be structurally upgraded via terminological revision alone.
+
+**Practical meaning:**  
+This document imposes obligations but does not structurally protect the people those obligations are meant to serve. Obligations can be weakened or removed independently of the protections they were intended to provide.
 
 
 #### Minimal Upgrade Path (No System Rewrite Required)
@@ -628,6 +640,8 @@ None detected.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
+**What this means in practice:** This document signals protective intent but does not structurally bind obligations to the people they protect — the intent is present but not enforceable as written.
+
 **Key risks:**
 - Coupling not structurally declared: no governance restriction is paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
 - Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Missing any single construct = FAIL regardless of overall readiness score.
@@ -673,6 +687,12 @@ However, the following are not structurally enforced:
 
 **Interpretation:**  
 These statements indicate recognition of responsibility or protection, but do not explicitly bind restrictions to protected human interests.
+
+**Why this matters:**  
+Implicit protections can be removed or weakened without formally violating any stated obligation. Only an explicit structural declaration creates a binding pairing — one that cannot be modified without simultaneously modifying the paired protection.
+
+**Practical meaning:**  
+This document signals protective intent. However, an operator could modify specific obligations without being required to maintain the corresponding protections. The governance intent is present; the structural enforceability is not.
 
 **Fix:**  
 Explicitly pair each restriction with the human interest it protects. Ensure both carry equivalent normative force — neither can be weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
@@ -928,7 +948,11 @@ None detected.
 **Deployment Risk Tier:** 🟠 **HIGH**  
 **Remediation Effort:** HIGH
 
+> ⚠️ **This document may appear compliant but lacks the structural guarantees required for reliable governance.** A document can score moderately on readiness metrics while still failing every structural precondition that makes governance obligations enforceable.
+
 **Root cause:** Primary structural gap: Coupling not structurally declared.
+
+**What this means in practice:** This document imposes obligations but does not structurally protect the people those obligations are meant to serve — each obligation can be removed independently of any corresponding protection.
 
 **Key risks:**
 - Coupling not structurally declared: no governance restriction is paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
@@ -968,6 +992,9 @@ However, the following are not structurally enforced:
 **Coupling:** NOT STRUCTURALLY DECLARED (no signals detected) ❌
 
 No implicit coupling signals detected. The document does not express protective intent in a form that can be structurally upgraded via terminological revision alone.
+
+**Practical meaning:**  
+This document imposes obligations but does not structurally protect the people those obligations are meant to serve. Obligations can be weakened or removed independently of the protections they were intended to provide.
 
 
 #### Minimal Upgrade Path (No System Rewrite Required)
@@ -1227,6 +1254,8 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
+**What this means in practice:** This document imposes obligations but does not structurally protect the people those obligations are meant to serve — each obligation can be removed independently of any corresponding protection.
+
 **Key risks:**
 - Coupling not structurally declared: no governance restriction is paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
 - High sector gaming risk: sector keyword density is elevated while substantive governance content is low (overall 29/100). This pattern would not produce just outcomes at the individual-decision scale — failing Q2 Consistency. (LAIF v1.2 Principle 5)
@@ -1264,6 +1293,9 @@ However, the following are not structurally enforced:
 **Coupling:** NOT STRUCTURALLY DECLARED (no signals detected) ❌
 
 No implicit coupling signals detected. The document does not express protective intent in a form that can be structurally upgraded via terminological revision alone.
+
+**Practical meaning:**  
+This document imposes obligations but does not structurally protect the people those obligations are meant to serve. Obligations can be weakened or removed independently of the protections they were intended to provide.
 
 
 #### Minimal Upgrade Path (No System Rewrite Required)
@@ -1520,6 +1552,8 @@ None detected.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
+**What this means in practice:** This document signals protective intent but does not structurally bind obligations to the people they protect — the intent is present but not enforceable as written.
+
 **Key risks:**
 - Coupling not structurally declared: no governance restriction is paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
 - Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Missing any single construct = FAIL regardless of overall readiness score.
@@ -1565,6 +1599,12 @@ However, the following are not structurally enforced:
 
 **Interpretation:**  
 These statements indicate recognition of responsibility or protection, but do not explicitly bind restrictions to protected human interests.
+
+**Why this matters:**  
+Implicit protections can be removed or weakened without formally violating any stated obligation. Only an explicit structural declaration creates a binding pairing — one that cannot be modified without simultaneously modifying the paired protection.
+
+**Practical meaning:**  
+This document signals protective intent. However, an operator could modify specific obligations without being required to maintain the corresponding protections. The governance intent is present; the structural enforceability is not.
 
 **Fix:**  
 Explicitly pair each restriction with the human interest it protects. Ensure both carry equivalent normative force — neither can be weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).

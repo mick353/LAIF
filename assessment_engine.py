@@ -1858,6 +1858,60 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
     return result
 
 
+# ── Plain-English practical meaning for Executive Summary ─────────────────────
+# Provides a one-sentence "so what?" for non-LAIF readers. Keyed from the
+# primary failure mode, not from scores — so it cannot drift from the actual
+# structural verdict.
+
+def _practical_meaning_exec(result):
+    """
+    Return a single plain-English sentence explaining what the assessment result
+    means for a non-LAIF audience (executives, policy teams, legal/compliance).
+    Returns empty string if document is STRONG PASS.
+    """
+    sc    = result.get("strong_laif_compliance", "FAIL")
+    cq    = result.get("coupling_quality", "ABSENT")
+    cs    = result.get("coupling_state", "ABSENT")
+    contras = result.get("contradictions", [])
+    gaming  = result.get("sector_gaming_risk", "LOW")
+    overall = result.get("overall_readiness_score", 0)
+
+    if sc == "STRONG PASS":
+        return ""
+    if cq == "NEGATED":
+        return (
+            "This document explicitly disclaims the structural protections that make "
+            "governance obligations enforceable — the most serious structural failure."
+        )
+    if contras:
+        return (
+            "This document states governance commitments that are contradicted by other "
+            "provisions — protections appear present but are negated in effect."
+        )
+    if cs == "ABSENT":
+        return (
+            "This document imposes obligations but does not structurally protect the people "
+            "those obligations are meant to serve — each obligation can be removed "
+            "independently of any corresponding protection."
+        )
+    if cs == "IMPLICIT":
+        return (
+            "This document signals protective intent but does not structurally bind "
+            "obligations to the people they protect — the intent is present but "
+            "not enforceable as written."
+        )
+    if overall > 40 and sc != "STRONG PASS":
+        return (
+            "This document addresses the right governance areas but has not structured "
+            "its provisions in a way that makes them independently enforceable or "
+            "verifiable against a named standard."
+        )
+    return (
+        "This document does not yet meet the structural preconditions required to "
+        "provide reliable governance assurance for the people it governs."
+    )
+
+
 # ── Signal grouping for display ───────────────────────────────────────────────
 # Display-only classification — does NOT affect scoring.
 # Human interest signals relate to specific human interests at risk.
@@ -2065,8 +2119,25 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             p(f"**Deployment Risk Tier:** {risk_tier_badge}  ")
             p(f"**Remediation Effort:** {r['remediation_effort']}")
             p()
+
+            # STEP 3 — False sense of compliance warning
+            if (r["overall_readiness_score"] > 40
+                    and r.get("strong_laif_compliance") != "STRONG PASS"):
+                p("> ⚠️ **This document may appear compliant but lacks the structural "
+                  "guarantees required for reliable governance.** A document can score "
+                  "moderately on readiness metrics while still failing every structural "
+                  "precondition that makes governance obligations enforceable.")
+                p()
+
             p(f"**Root cause:** {es.get('why', '')}")
             p()
+
+            # STEP 4 — What this means in practice
+            _practical = _practical_meaning_exec(r)
+            if _practical:
+                p(f"**What this means in practice:** {_practical}")
+                p()
+
             if es.get("risks"):
                 p("**Key risks:**")
                 for risk in es["risks"]:
@@ -2146,6 +2217,18 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             p("These statements indicate recognition of responsibility or protection, "
               "but do not explicitly bind restrictions to protected human interests.")
             p()
+            p("**Why this matters:**  ")
+            p("Implicit protections can be removed or weakened without formally violating "
+              "any stated obligation. Only an explicit structural declaration creates a "
+              "binding pairing — one that cannot be modified without simultaneously "
+              "modifying the paired protection.")
+            p()
+            p("**Practical meaning:**  ")
+            p("This document signals protective intent. However, an operator could modify "
+              "specific obligations without being required to maintain the corresponding "
+              "protections. The governance intent is present; the structural enforceability "
+              "is not.")
+            p()
             p("**Fix:**  ")
             p("Explicitly pair each restriction with the human interest it protects. "
               "Ensure both carry equivalent normative force — neither can be weakened "
@@ -2156,6 +2239,11 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             p("No implicit coupling signals detected. The document does not express "
               "protective intent in a form that can be structurally upgraded via "
               "terminological revision alone.")
+            p()
+            p("**Practical meaning:**  ")
+            p("This document imposes obligations but does not structurally protect the "
+              "people those obligations are meant to serve. Obligations can be weakened "
+              "or removed independently of the protections they were intended to provide.")
         p()
         if r.get("contradictions"):
             p("**⚠️ Structural Contradictions Detected:**")
@@ -2163,6 +2251,12 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 p(f"- [{prop}] {desc}")
                 if ctx:
                     p(f"  Evidence: «{ctx[:150]}»")
+            p()
+            p("**Practical meaning:**  ")
+            p("This document simultaneously claims to provide certain protections and "
+              "contains language that removes them. A governance framework with internal "
+              "contradictions cannot provide reliable assurance — the stated protections "
+              "are present in letter but absent in effect.")
             p()
 
         # ── Minimal Upgrade Path (STEP 7) ────────────────────────────────────
