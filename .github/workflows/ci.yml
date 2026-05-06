@@ -36,6 +36,9 @@ jobs:
       - name: Check protected artifacts
         run: python3 scripts/governance/check_protected_artifacts.py
 
+      - name: Check semantic boundaries
+        run: python3 scripts/governance/check_semantic_boundaries.py
+
   validation:
     name: Validation harness
     runs-on: ubuntu-latest
