@@ -3,21 +3,26 @@
 
 from __future__ import annotations
 
-import json
-import sys
 from pathlib import Path
 
-CONFIG_PATH = Path(__file__).with_name("protected_paths.json")
+from governance_lib import CONFIG_PATH, fail as governance_fail, load_json_config
+
 REQUIRED_KEYS = (
     "protected_artifacts",
     "semantic_sensitive_files",
     "semantic_sensitive_terms",
 )
+REQUIRED_GOVERNANCE_SENSITIVE_PATHS = {
+    "scripts/governance/check_governance_config.py",
+    "scripts/governance/check_protected_artifacts.py",
+    "scripts/governance/check_semantic_boundaries.py",
+    "scripts/governance/governance_lib.py",
+    "scripts/governance/protected_paths.json",
+}
 
 
 def fail(message: str) -> None:
-    print(f"GOVERNANCE CONFIG ERROR: {message}", file=sys.stderr)
-    raise SystemExit(1)
+    governance_fail("GOVERNANCE CONFIG ERROR", message)
 
 
 def validate_string_list(config: dict, key: str) -> list[str]:
@@ -49,6 +54,8 @@ def validate_string_list(config: dict, key: str) -> list[str]:
 
 
 def validate_path_list(config: dict, key: str) -> None:
+    repo_root = CONFIG_PATH.parents[2]
+
     for index, item in enumerate(validate_string_list(config, key)):
         if item.startswith("/"):
             fail(f"'{key}' entry {index} must be repository-relative, not absolute")
@@ -56,26 +63,16 @@ def validate_path_list(config: dict, key: str) -> None:
         if "\\" in item:
             fail(f"'{key}' entry {index} must use forward slashes")
 
+        if not (repo_root / item).exists():
+            fail(f"'{key}' entry {index} does not exist: {item}")
+
 
 def validate_term_list(config: dict, key: str) -> None:
     validate_string_list(config, key)
 
 
 def load_config(path: Path) -> dict:
-    try:
-        with path.open("r", encoding="utf-8") as handle:
-            config = json.load(handle)
-
-    except FileNotFoundError:
-        fail(f"missing config file: {path}")
-
-    except json.JSONDecodeError as exc:
-        fail(f"malformed JSON in {path}: {exc}")
-
-    if not isinstance(config, dict):
-        fail("top-level config must be a JSON object")
-
-    return config
+    return load_json_config("GOVERNANCE CONFIG ERROR", path)
 
 
 def validate_config(config: dict) -> None:
@@ -88,9 +85,19 @@ def validate_config(config: dict) -> None:
     validate_term_list(config, "semantic_sensitive_terms")
 
     protected = config["protected_artifacts"]
+    sensitive_files = set(config["semantic_sensitive_files"])
 
     if not protected:
         fail("'protected_artifacts' must contain at least one path")
+
+    missing_governance_paths = sorted(
+        REQUIRED_GOVERNANCE_SENSITIVE_PATHS - sensitive_files
+    )
+    if missing_governance_paths:
+        fail(
+            "'semantic_sensitive_files' must include governance check paths: "
+            + ", ".join(missing_governance_paths)
+        )
 
 
 def main() -> int:
