@@ -21,8 +21,6 @@ def fail(message: str) -> None:
 
 
 def validate_string_list(config: dict, key: str) -> list[str]:
-
-def validate_string_list(config: dict, key: str) -> None:
     value = config.get(key)
     if not isinstance(value, list):
         fail(f"'{key}' must be a list")
