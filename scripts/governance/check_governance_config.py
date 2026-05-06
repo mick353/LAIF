@@ -76,9 +76,6 @@ def validate_config(config: dict) -> None:
     validate_path_list(config, "protected_artifacts")
     validate_path_list(config, "semantic_sensitive_files")
     validate_term_list(config, "semantic_sensitive_terms")
-=======
-        validate_string_list(config, key)
-
     protected = config["protected_artifacts"]
     if not protected:
         fail("'protected_artifacts' must contain at least one path")
