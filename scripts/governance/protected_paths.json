@@ -11,6 +11,7 @@
     "scripts/governance/protected_paths.json",
     "scripts/governance/check_governance_config.py",
     "scripts/governance/check_protected_artifacts.py",
+    "scripts/governance/governance_lib.py",
     "scripts/governance/check_semantic_boundaries.py",
     "docs/governance/MERGE_POLICY.md",
     "docs/governance/PROTECTED_ARTIFACTS.md",
