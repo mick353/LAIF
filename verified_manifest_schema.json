@@ -185,7 +185,7 @@
       "descriptions": {
         "ASSESSED": "A full LAIF v1.2 assessment has been completed and is recorded in reports/laif_full_assessment.md.",
         "PENDING_ASSESSMENT": "Document is ingested but full assessment not yet completed.",
-        "PENDING_INGESTION": "Document has not yet been ingested; manifest entry is a placeholder recording intent."
+        "PENDING_INGESTION": "Document has not yet been ingested; manifest entry is a placeholder recording intent. When verification_status=PENDING_INGESTION and no source has yet been acquired, acquisition-source fields may remain null or empty until acquisition occurs."
       }
     },
     "provenance_notes": {
@@ -198,7 +198,7 @@
     },
     "acquisition_channel": {
       "type": "string",
-      "description": "How the authoritative source file entered the repository. The channel documents custody only; it does not itself prove authority.",
+      "description": "How the authoritative source file entered the repository. The channel documents custody only; it does not itself prove authority. For verification_status=PENDING_INGESTION with no source yet acquired, this field may be null or empty until acquisition occurs.",
       "enum": [
         "AUTOMATED_URL_RETRIEVAL",
         "HUMAN_GITHUB_DEPOSIT",
@@ -212,12 +212,12 @@
     },
     "authoritative_origin_url": {
       "type": "string",
-      "description": "Canonical official URL from which the source is asserted to originate. This duplicates or supersedes authoritative_url for acquisition-channel provenance.",
+      "description": "Canonical official URL from which the source is asserted to originate. This duplicates or supersedes authoritative_url for acquisition-channel provenance. For verification_status=PENDING_INGESTION with no source yet acquired, this acquisition-source field may be null or empty until acquisition occurs.",
       "format": "uri"
     },
     "acquired_by": {
       "type": "string",
-      "description": "Actor or process that acquired the source file, e.g. automated_tooling, human_maintainer, session_upload_operator."
+      "description": "Actor or process that acquired the source file, e.g. automated_tooling, human_maintainer, session_upload_operator. For verification_status=PENDING_INGESTION with no source yet acquired, this field may be null or empty until acquisition occurs."
     },
     "acquired_at_utc": {
       "type": "string",
@@ -233,12 +233,12 @@
         "string",
         "null"
       ],
-      "description": "SHA256 hash of the originally acquired source file before extraction/transformation. If unavailable for legacy ingestions, set null and explain in acquisition_note/provenance_notes.",
+      "description": "SHA256 hash of the originally acquired source file before extraction/transformation. If unavailable for legacy ingestions, set null and explain in acquisition_note/provenance_notes. For verification_status=PENDING_INGESTION with no source yet acquired, this acquisition-source field may be null or empty until acquisition occurs.",
       "pattern": "^[a-f0-9]{64}$"
     },
     "transformation_chain": {
       "type": "array",
-      "description": "Ordered list of transformations from acquired source file to docs/verified/raw markdown. Each step must be content-preserving or explicitly downgrade citation_status.",
+      "description": "Ordered list of transformations from acquired source file to docs/verified/raw markdown. Each step must be content-preserving or explicitly downgrade citation_status. For verification_status=PENDING_INGESTION with no source yet acquired, this acquisition-source field may be null or empty until acquisition occurs.",
       "items": {
         "type": "string"
       }
@@ -270,7 +270,7 @@
     "citation_status == PRIMARY_CITABLE requires transformation_status in [RAW_VERBATIM, NORMALISED_FORMATTING_ONLY]",
     "assessment_status == ASSESSED requires assessment_reference to be non-null",
     "sha256_hash must match SHA256 of the file at docs/verified/raw/{raw_filename} when verified",
-    "assessment_status == PENDING_INGESTION: sha256_hash, raw_filename, extraction_boundaries, transformation_status may be null",
+    "assessment_status == PENDING_INGESTION: sha256_hash, raw_filename, extraction_boundaries, transformation_status may be null; when verification_status=PENDING_INGESTION and no source has yet been acquired, acquisition-source fields may also be null or empty",
     "acquisition_channel must be one of AUTOMATED_URL_RETRIEVAL, HUMAN_GITHUB_DEPOSIT, HUMAN_SESSION_UPLOAD",
     "verification_status must be one of AUTOMATED_VERIFIED, HUMAN_ATTESTED_AUTHORITATIVE, NETWORK_BLOCKED_PENDING_HUMAN_SOURCE, HASH_VERIFIED_LOCAL_ONLY, REJECTED_UNVERIFIED",
     "HUMAN_ATTESTED_AUTHORITATIVE means the human operator supplied the file and asserted it came from the authoritative source; it is not byte-equivalence proof by itself",

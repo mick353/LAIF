@@ -1,7 +1,7 @@
 # Manual Authoritative Ingestion Workflow
 
-**Framework:** LAIF v1.2  
-**Purpose:** Lawful authoritative-source acquisition when automated URL retrieval is blocked  
+**Framework:** LAIF v1.2
+**Purpose:** Lawful authoritative-source acquisition when automated URL retrieval is blocked
 **Scope:** Provenance architecture only — no scoring, detector, interpretation, or assessment-semantic changes
 
 ---

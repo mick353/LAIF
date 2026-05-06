@@ -1,9 +1,9 @@
 # EU AI Act — Manual Authoritative Ingestion Readiness
 
-**Document:** Regulation (EU) 2024/1689 — Artificial Intelligence Act  
-**Status:** READY_FOR_MANUAL_AUTHORITATIVE_INGESTION  
-**Preferred source:** EUR-Lex Regulation (EU) 2024/1689  
-**Preferred origin URL:** https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689  
+**Document:** Regulation (EU) 2024/1689 — Artificial Intelligence Act
+**Status:** READY_FOR_MANUAL_AUTHORITATIVE_INGESTION
+**Preferred source:** EUR-Lex Regulation (EU) 2024/1689
+**Preferred origin URL:** https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689
 **Readiness date:** May 2026
 
 ---
