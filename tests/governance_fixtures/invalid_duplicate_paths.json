@@ -1,0 +1,12 @@
+{
+  "protected_artifacts": [
+    "reports/laif_full_assessment.md",
+    "reports/laif_full_assessment.md"
+  ],
+  "semantic_sensitive_files": [
+    "docs/governance/SEMANTIC_BOUNDARIES.md"
+  ],
+  "semantic_sensitive_terms": [
+    "assessment_status"
+  ]
+}

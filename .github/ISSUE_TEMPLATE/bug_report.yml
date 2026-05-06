@@ -1,0 +1,29 @@
+name: Bug report
+description: Report a deterministic LAIF implementation or documentation defect.
+title: "Bug: "
+labels: [bug]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe the defect and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Provide deterministic commands, inputs, and observed output.
+      placeholder: |
+        1. Run `...`
+        2. Observe `...`
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Note whether scoring, detector logic, interpretation logic, governance, or documentation is affected.
+    validations:
+      required: true

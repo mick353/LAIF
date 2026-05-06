@@ -1,0 +1,38 @@
+name: Governance issue
+description: Report a protected-artifact, semantic-boundary, provenance, or CI governance concern.
+title: "Governance: "
+labels: [governance]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Governance area
+      options:
+        - Protected artifacts
+        - Semantic-boundary advisory signal
+        - Verified-corpus provenance
+        - CI reproducibility
+        - Contributor workflow
+    validations:
+      required: true
+  - type: textarea
+    id: concern
+    attributes:
+      label: Concern
+      description: Describe the governance issue without adding semantic interpretation beyond the evidence.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Link files, commands, CI logs, or manifest entries relevant to the concern.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_resolution
+    attributes:
+      label: Proposed resolution
+      description: Describe the smallest conservative remediation you recommend.
+    validations:
+      required: false

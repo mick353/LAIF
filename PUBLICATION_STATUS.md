@@ -19,7 +19,7 @@
 | Corpus assessment — refined model v1.1 | Complete — `reports/laif_full_assessment.md` on `main` |
 | Verified corpus infrastructure | Complete — `docs/verified/` with manifests, raw files, evidence traces |
 | Validated corpus mode | Complete — `python3 validate.py --verified-corpus` |
-| EU AI Act full-text ingestion | **BLOCKED** — EUR-Lex returns HTTP 403 on automated access |
+| EU AI Act full-text ingestion | **READY_FOR_MANUAL_AUTHORITATIVE_INGESTION** — automated EUR-Lex retrieval blocked, manual acquisition workflow prepared |
 
 ---
 
@@ -46,13 +46,31 @@ No finding from a representative corpus assessment may be presented as a finding
 | EO 14110 (Fed. Reg. Vol. 88 No. 210) | `docs/verified/raw/` | `2cbab05...` | ASSESSED |
 | NIST AI 100-1 | `docs/verified/raw/` | `44ac320...` | ASSESSED |
 | DTAC v2.0 (NHS England, Feb 2026) | `docs/verified/raw/` | `d727228...` | ASSESSED |
-| EU AI Act (Reg. 2024/1689) | Not ingested — BLOCKED | — | PENDING_INGESTION |
+| EU AI Act (Reg. 2024/1689) | READY_FOR_MANUAL_AUTHORITATIVE_INGESTION | — | PENDING_INGESTION |
 
 **Authoritative assessment artifact:** `reports/laif_full_assessment.md` (on `main`, commit `e3a75f1` or later)
 
 **Provenance verification:** `python3 validate.py --verified-corpus` — all 4 ASSESSED documents produce hash-verified PASS.
 
-**EU AI Act blocking reason:** EUR-Lex returned HTTP 403 Forbidden on all URL variants tested in automated session (May 2026). The regulation is not accessible via automated retrieval from this environment. Ingestion requires human-initiated download from EUR-Lex and supply as a user-uploaded file. See `docs/verified/manifests/eu-ai-act-2024-1689.json` for full blocking record.
+**EU AI Act readiness state:** EUR-Lex returned HTTP 403 Forbidden on all URL variants tested in automated session (May 2026). This is no longer treated as terminal blocking. The document is `READY_FOR_MANUAL_AUTHORITATIVE_INGESTION`: a human maintainer may download Regulation (EU) 2024/1689 from EUR-Lex and supply it through `HUMAN_GITHUB_DEPOSIT` or `HUMAN_SESSION_UPLOAD`. See `docs/verified/pending/eu_ai_act_ingestion_ready.md` and `docs/verified/manifests/eu-ai-act-2024-1689.json`.
+
+
+### 3.1 Acquisition and Verification Taxonomy
+
+The verified corpus now distinguishes source custody from source authority. The permitted acquisition channels are `AUTOMATED_URL_RETRIEVAL`, `HUMAN_GITHUB_DEPOSIT`, and `HUMAN_SESSION_UPLOAD`. A manual channel may support authoritative assessment only when the manifest also records the authoritative origin URL, acquisition metadata, SHA256 hashes, transformation chain, citation status, provenance classification, and verification status.
+
+`HUMAN_ATTESTED_AUTHORITATIVE` records a human assertion about origin; it is not byte-identical upstream verification. `HASH_VERIFIED_LOCAL_ONLY` records local repository integrity only. `NETWORK_BLOCKED_PENDING_HUMAN_SOURCE` is not terminal; it means lawful manual acquisition remains the required next step.
+
+
+### 3.2 Current Verification Classification
+
+| Document | acquisition_channel | verification_status | network_status | Upstream equivalence claim |
+|---|---|---|---|---|
+| OECD Recommendation | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Not claimed |
+| EO 14110 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Not claimed |
+| NIST AI 100-1 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Not claimed |
+| DTAC v2.0 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Not claimed |
+| EU AI Act | Not yet acquired | NETWORK_BLOCKED_PENDING_HUMAN_SOURCE | AUTOMATED_URL_BLOCKED_HTTP_403 | Not claimed |
 
 ---
 
@@ -68,7 +86,7 @@ The consistency test assesses whether the governance logic would produce just re
 Durability classifications (FRAGILE / ADAPTIVE / STABLE / BOUNDED) are based on observable institutional characteristics at the time of assessment. They do not constitute predictions about future durability.
 
 **4.4 URL verification gap**  
-All four ingested documents were sourced from user-supplied files. No document was retrieved directly from its authoritative URL. SHA256 hashes verify integrity of the extracted markdown within this repository but do not certify identity with the source file bytes at the authoritative URL.
+All four ingested documents were sourced from legacy user-supplied files and are classified `HASH_VERIFIED_LOCAL_ONLY` with `network_status: AUTOMATED_URL_BLOCKED_HTTP_403`. SHA256 hashes verify integrity of the extracted markdown within this repository but do not certify identity with the source file bytes at the authoritative URL. Manual re-verification is available through `MANUAL_INGESTION_WORKFLOW.md`.
 
 **4.5 NIST DOCX source**  
 The NIST AI RMF ingestion relied on a user-supplied DOCX file. The DOCX accuracy against the authoritative PDF at doi.org/10.6028/NIST.AI.100-1 has not been independently verified.

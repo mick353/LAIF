@@ -1,0 +1,26 @@
+name: Feature request
+description: Propose a conservative LAIF enhancement.
+title: "Feature: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe the requested enhancement.
+    validations:
+      required: true
+  - type: textarea
+    id: governance
+    attributes:
+      label: Governance and semantic preservation
+      description: Explain how the request preserves scoring logic, detector logic, interpretation logic, and assessment artifacts.
+    validations:
+      required: true
+  - type: textarea
+    id: testing
+    attributes:
+      label: Suggested deterministic tests
+      description: List standard-library or existing validation commands that should cover the change.
+    validations:
+      required: false
