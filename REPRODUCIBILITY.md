@@ -171,13 +171,15 @@ The authoritative assessment for the current corpus is: `reports/laif_full_asses
 
 ## 8. Unresolved Limitations
 
-1. **URL verification gap** — authoritative source URLs are recorded but were not verified by URL fetch. A future verification pass should retrieve documents from listed URLs and compare SHA256 hashes.
+1. **URL verification gap — partially resolved** — A URL verification attempt was made for all five authoritative URLs (May 2026). All five returned HTTP 403 Forbidden, confirming the URLs are server-responsive but blocking automated retrieval. Content comparison against corpus files was not performed; byte-identical equivalence is not claimed. Full verification requires human-initiated browser access. See `docs/verified/url_verification/verification_report.md`.
 
-2. **NIST DOCX provenance** — extracted from user-supplied DOCX; DOCX accuracy against the authoritative PDF has not been independently verified.
+2. **NIST DOCX provenance** — extracted from user-supplied DOCX; DOCX accuracy against the authoritative PDF at doi.org/10.6028/NIST.AI.100-1 has not been independently verified. The PDF URL also returns HTTP 403 from automated session. See `docs/verified/nist_reconciliation.md`.
 
-3. **EU AI Act gap** — not ingested in authoritative corpus. No LAIF assessment of the EU AI Act can be considered authoritative until full-text ingestion is complete.
+3. **EU AI Act gap** — ingestion blocked (EUR-Lex HTTP 403). No LAIF assessment of the EU AI Act can be considered authoritative until full-text ingestion is complete. See `docs/verified/manifests/eu-ai-act-2024-1689.json`.
 
 4. **Agentic AI** — LAIF §2.3 Structural Containment references specific requirements for agentic AI systems. None of the four assessed instruments address this requirement. This is a universal gap, not an assessment limitation.
+
+5. **Evidence trace section verification** — resolved. `python3 validate.py --check-evidence-traces` verifies that section identifiers cited in evidence traces are present in the corresponding raw source files. See Phase 4 implementation.
 
 ---
 
