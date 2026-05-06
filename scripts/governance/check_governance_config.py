@@ -20,7 +20,11 @@ def fail(message: str) -> None:
     raise SystemExit(1)
 
 
+
 def validate_string_list(config: dict, key: str) -> list[str]:
+
+def validate_string_list(config: dict, key: str) -> None:
+
     value = config.get(key)
     if not isinstance(value, list):
         fail(f"'{key}' must be a list")
@@ -33,6 +37,7 @@ def validate_string_list(config: dict, key: str) -> list[str]:
             fail(f"'{key}' entry {index} must not be empty")
         if item != item.strip():
             fail(f"'{key}' entry {index} must not contain leading or trailing whitespace")
+
         if item in seen:
             fail(f"'{key}' contains duplicate entry: {item}")
         seen.add(item)
@@ -41,6 +46,8 @@ def validate_string_list(config: dict, key: str) -> list[str]:
 
 def validate_path_list(config: dict, key: str) -> None:
     for index, item in enumerate(validate_string_list(config, key)):
+
+
         if item.startswith("/"):
             fail(f"'{key}' entry {index} must be repository-relative, not absolute")
         if "\\" in item:
@@ -49,6 +56,11 @@ def validate_path_list(config: dict, key: str) -> None:
 
 def validate_term_list(config: dict, key: str) -> None:
     validate_string_list(config, key)
+
+        if item in seen:
+            fail(f"'{key}' contains duplicate entry: {item}")
+        seen.add(item)
+
 
 
 def load_config(path: Path) -> dict:
@@ -73,6 +85,7 @@ def validate_config(config: dict) -> None:
     validate_path_list(config, "protected_artifacts")
     validate_path_list(config, "semantic_sensitive_files")
     validate_term_list(config, "semantic_sensitive_terms")
+        validate_string_list(config, key)
 
     protected = config["protected_artifacts"]
     if not protected:
