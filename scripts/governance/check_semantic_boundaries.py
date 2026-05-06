@@ -9,14 +9,17 @@ semantic scoring, or proof of semantic drift.
 
 from __future__ import annotations
 
-import json
-import os
-import subprocess
-import sys
 from dataclasses import dataclass
-from pathlib import Path
 
-CONFIG_PATH = Path(__file__).with_name("protected_paths.json")
+from governance_lib import (
+    CONFIG_PATH,
+    changed_files_from_merge_base,
+    fail as governance_fail,
+    load_json_config,
+    merge_base_for,
+    require_base_ref_or_skip,
+    run_git as governance_run_git,
+)
 
 
 @dataclass(frozen=True)
@@ -29,32 +32,15 @@ class Match:
 
 
 def fail(message: str) -> None:
-    print(f"SEMANTIC BOUNDARY CHECK ERROR: {message}", file=sys.stderr)
-    raise SystemExit(1)
+    governance_fail("SEMANTIC BOUNDARY CHECK ERROR", message)
 
 
 def run_git(args: list[str]) -> str:
-    completed = subprocess.run(
-        ["git", *args],
-        check=False,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-    )
-    if completed.returncode != 0:
-        detail = completed.stderr.strip() or completed.stdout.strip()
-        fail(f"git {' '.join(args)} failed: {detail}")
-    return completed.stdout
+    return governance_run_git(args, "SEMANTIC BOUNDARY CHECK ERROR")
 
 
 def load_config() -> tuple[set[str], list[str]]:
-    try:
-        with CONFIG_PATH.open("r", encoding="utf-8") as handle:
-            config = json.load(handle)
-    except FileNotFoundError:
-        fail(f"missing governance config: {CONFIG_PATH}")
-    except json.JSONDecodeError as exc:
-        fail(f"malformed governance config: {exc}")
+    config = load_json_config("SEMANTIC BOUNDARY CHECK ERROR", CONFIG_PATH)
 
     files = config.get("semantic_sensitive_files")
     terms = config.get("semantic_sensitive_terms")
@@ -65,39 +51,8 @@ def load_config() -> tuple[set[str], list[str]]:
     return set(files), terms
 
 
-def resolve_base_ref() -> str | None:
-    explicit = os.environ.get("GOVERNANCE_BASE_REF")
-    if explicit:
-        return explicit
-
-    event_path = os.environ.get("GITHUB_EVENT_PATH")
-    if event_path:
-        try:
-            with Path(event_path).open("r", encoding="utf-8") as handle:
-                event = json.load(handle)
-        except (FileNotFoundError, json.JSONDecodeError):
-            event = {}
-        base_sha = event.get("pull_request", {}).get("base", {}).get("sha")
-        if base_sha:
-            return base_sha
-
-    github_base = os.environ.get("GITHUB_BASE_REF")
-    if github_base:
-        return f"origin/{github_base}"
-
-    return None
-
-
-def merge_base_for(base_ref: str) -> str:
-    merge_base = run_git(["merge-base", base_ref, "HEAD"]).strip()
-    if not merge_base:
-        fail(f"could not determine merge base for {base_ref}")
-    return merge_base
-
-
 def changed_files(merge_base: str) -> set[str]:
-    output = run_git(["diff", "--name-only", f"{merge_base}...HEAD"])
-    return {line for line in output.splitlines() if line}
+    return changed_files_from_merge_base(merge_base, "SEMANTIC BOUNDARY CHECK ERROR")
 
 
 def changed_hunk_matches(merge_base: str, path: str, terms: list[str]) -> list[Match]:
@@ -149,14 +104,12 @@ def print_guidance(matches: list[Match]) -> None:
 
 def main() -> int:
     sensitive_files, sensitive_terms = load_config()
-    base_ref = resolve_base_ref()
+    base_ref = require_base_ref_or_skip("semantic-boundary check")
 
     if base_ref is None:
-        print("No PR base ref detected; semantic-boundary check skipped.")
-        print("Set GITHUB_BASE_REF or GOVERNANCE_BASE_REF to enable advisory hunk-level detection.")
         return 0
 
-    merge_base = merge_base_for(base_ref)
+    merge_base = merge_base_for(base_ref, "SEMANTIC BOUNDARY CHECK ERROR")
     changed_sensitive_files = sorted(changed_files(merge_base) & sensitive_files)
 
     if not changed_sensitive_files:

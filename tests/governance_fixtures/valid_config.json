@@ -20,22 +20,6 @@
   "semantic_sensitive_terms": [
     "Coupling",
     "Integrity Layer",
-    "Coherence Test",
-    "Structural Transparency",
-    "Structural Honesty",
-    "Structural Containment",
-    "Consistency",
-    "Reversibility",
-    "Foundational Principles",
-    "non-amendable",
-    "assessment_status",
-    "citation_status",
-    "transformation_status",
-    "provenance_classification",
-    "acquisition_channel",
-    "verification_status",
-    "network_status",
-    "authoritative_origin_url",
-    "transformation_chain"
+    "Coherence Test"
   ]
 }
