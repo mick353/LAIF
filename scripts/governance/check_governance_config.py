@@ -48,10 +48,7 @@ def validate_path_list(config: dict, key: str) -> None:
 
 
 def validate_term_list(config: dict, key: str) -> None:
-    validate_string_list(config, key)
-        if item in seen:
-            fail(f"'{key}' contains duplicate entry: {item}")
-        seen.add(item)
+    validate_string_list(config, key))
 
 
 def load_config(path: Path) -> dict:
