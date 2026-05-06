@@ -1,0 +1,22 @@
+{
+  "schema": "laif-verified-corpus-manifest-schema-v1.0",
+  "document_id": "eu-ai-act-2024-1689",
+  "title": "Regulation (EU) 2024/1689 of the European Parliament and of the Council laying down harmonised rules on artificial intelligence (Artificial Intelligence Act)",
+  "jurisdiction": "European Union",
+  "source_type": "binding_regulation",
+  "authoritative_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689",
+  "retrieval_date_utc": null,
+  "retrieval_method": null,
+  "publication_date": "2024-07-12",
+  "version_identifier": "OJ L 2024/1689",
+  "sha256_hash": null,
+  "raw_filename": null,
+  "extraction_boundaries": null,
+  "transformation_status": null,
+  "citation_status": "NON_CITABLE",
+  "provenance_classification": "AUTHORITATIVE_PRIMARY_SOURCE",
+  "assessment_status": "PENDING_INGESTION",
+  "assessment_reference": null,
+  "evidence_trace": null,
+  "provenance_notes": "Not yet ingested as authoritative full text. A REPRESENTATIVE_EXCERPT of selected articles (Arts. 9, 13, 14) exists in sample_documents.py but is classified NON_CITABLE — it is a condensed paraphrase for framework validation purposes only, not a verbatim source. Full-text ingestion from EUR-Lex is required before a LAIF v1.2 assessment can be conducted against this instrument as a PRIMARY_CITABLE source. This manifest entry is a placeholder recording ingestion intent and authoritative source location."
+}

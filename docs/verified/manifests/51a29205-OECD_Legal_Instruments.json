@@ -1,0 +1,26 @@
+{
+  "schema": "laif-verified-corpus-manifest-schema-v1.0",
+  "document_id": "51a29205-OECD_Legal_Instruments",
+  "title": "Recommendation of the Council on Artificial Intelligence (OECD/LEGAL/0449)",
+  "jurisdiction": "International (OECD member states and adherents — 46 as of 2024)",
+  "source_type": "international_recommendation",
+  "authoritative_url": "https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0449",
+  "retrieval_date_utc": "NOT_RETRIEVED_FROM_URL",
+  "retrieval_method": "user_supplied_document_strict_source_mode",
+  "publication_date": "2024",
+  "version_identifier": "OECD/LEGAL/0449 (2024 revision; 2019 original)",
+  "sha256_hash": "f35d85747b59c41424858536b566c3c66d0782e4d0036a1c3f6244ed5f259fe6",
+  "raw_filename": "51a29205-OECD_Legal_Instruments.md",
+  "extraction_boundaries": {
+    "full_document": true,
+    "sections": null,
+    "notes": "Full text ingested from user-supplied document in Strict Source Mode. No sections excluded."
+  },
+  "transformation_status": "NORMALISED_FORMATTING_ONLY",
+  "citation_status": "PRIMARY_CITABLE",
+  "provenance_classification": "AUTHORITATIVE_PRIMARY_SOURCE",
+  "assessment_status": "ASSESSED",
+  "assessment_reference": "reports/laif_full_assessment.md — Assessment 1",
+  "evidence_trace": "docs/verified/extracted/51a29205-OECD-evidence-trace.md",
+  "provenance_notes": "Ingested from user-supplied document in Strict Source Mode. No training-derived content used for any factual claim. URL verification against the authoritative OECD Legal Instruments portal was not performed in this session (no network access). SHA256 is of the extracted markdown file at docs/verified/raw/51a29205-OECD_Legal_Instruments.md. The OECD Recommendation was adopted in 2019 and revised in 2024; this ingestion reflects the 2024 version."
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "laif-verified-corpus-manifest-schema-v1.0",
+  "document_id": "5f667a6f-NIST.AI.1001",
+  "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0) — NIST AI 100-1",
+  "jurisdiction": "United States (Federal — National Institute of Standards and Technology)",
+  "source_type": "voluntary_framework",
+  "authoritative_url": "https://doi.org/10.6028/NIST.AI.100-1",
+  "retrieval_date_utc": "NOT_RETRIEVED_FROM_URL",
+  "retrieval_method": "user_supplied_docx_strict_source_mode",
+  "publication_date": "2023-01",
+  "version_identifier": "NIST AI 100-1 (January 2023)",
+  "sha256_hash": "44ac320e6da1d15fcfded2933da7f62bf0ed552b78a81358102c057991ba6509",
+  "raw_filename": "5f667a6f-NIST.AI.1001.md",
+  "extraction_boundaries": {
+    "full_document": true,
+    "sections": null,
+    "notes": "Full text ingested from user-supplied DOCX. Original PDF was unextractable; user provided DOCX as replacement. Content includes Executive Summary, Part 1, Part 2 (Govern/Map/Measure/Manage functions with subcategory tables), and Appendices A-D."
+  },
+  "transformation_status": "NORMALISED_FORMATTING_ONLY",
+  "citation_status": "PRIMARY_CITABLE",
+  "provenance_classification": "AUTHORITATIVE_GOVERNMENT_PUBLICATION",
+  "assessment_status": "ASSESSED",
+  "assessment_reference": "reports/laif_full_assessment.md — Assessment 3",
+  "evidence_trace": "docs/verified/extracted/5f667a6f-NIST-evidence-trace.md",
+  "provenance_notes": "Extraction used python-docx with lxml namespace-aware heading detection (w:pStyle). Heading levels (Heading1 → #, Heading2 → ##) and table structure (pipe tables) were normalised; all text content is verbatim from the DOCX. The user-supplied DOCX accuracy against the authoritative PDF at doi.org/10.6028/NIST.AI.100-1 was not independently verified. SHA256 is of the extracted markdown."
+}

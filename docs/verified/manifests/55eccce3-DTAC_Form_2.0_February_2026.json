@@ -1,0 +1,26 @@
+{
+  "schema": "laif-verified-corpus-manifest-schema-v1.0",
+  "document_id": "55eccce3-DTAC_Form_2.0_February_2026",
+  "title": "Digital Technology Assessment Criteria (DTAC) — Assessment Form v2.0",
+  "jurisdiction": "United Kingdom (NHS England)",
+  "source_type": "procurement_standard",
+  "authoritative_url": "https://transform.england.nhs.uk/key-tools-and-info/digital-technology-assessment-criteria-dtac/",
+  "retrieval_date_utc": "NOT_RETRIEVED_FROM_URL",
+  "retrieval_method": "user_supplied_document_strict_source_mode",
+  "publication_date": "2026-02-24",
+  "version_identifier": "DTAC Form 2.0 (February 2026)",
+  "sha256_hash": "d7272288ce5bb79c0554fcbbe9f6fc5a9c9bf95f9e7b34850edc9c7e698d2811",
+  "raw_filename": "55eccce3-DTAC_Form_2.0_February_2026.md",
+  "extraction_boundaries": {
+    "full_document": true,
+    "sections": null,
+    "notes": "Full text ingested from user-supplied document in Strict Source Mode. Assessment categories C1-C4 and D1 are present in full."
+  },
+  "transformation_status": "NORMALISED_FORMATTING_ONLY",
+  "citation_status": "PRIMARY_CITABLE",
+  "provenance_classification": "REGULATORY_PUBLICATION",
+  "assessment_status": "ASSESSED",
+  "assessment_reference": "reports/laif_full_assessment.md — Assessment 4",
+  "evidence_trace": "docs/verified/extracted/55eccce3-DTAC-evidence-trace.md",
+  "provenance_notes": "NHS England procurement standard operative within the NHS England digital technology procurement process. The HARD enforcement classification in the LAIF Q1b assessment reflects the market-exclusion consequence of DTAC non-compliance (suppliers cannot be listed on NHS England frameworks without DTAC approval). Ingested from user-supplied document in Strict Source Mode. URL verification not performed. SHA256 is of the extracted markdown."
+}

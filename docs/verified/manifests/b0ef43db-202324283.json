@@ -1,0 +1,26 @@
+{
+  "schema": "laif-verified-corpus-manifest-schema-v1.0",
+  "document_id": "b0ef43db-202324283",
+  "title": "Executive Order 14110: Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence",
+  "jurisdiction": "United States (Federal)",
+  "source_type": "executive_directive",
+  "authoritative_url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+  "retrieval_date_utc": "NOT_RETRIEVED_FROM_URL",
+  "retrieval_method": "user_supplied_document_strict_source_mode",
+  "publication_date": "2023-10-30",
+  "version_identifier": "Federal Register Vol. 88 No. 210 (November 1, 2023)",
+  "sha256_hash": "2cbab055409a522549028185c017fa6e450e86bb8fc305a7d0048ad1f6d341c5",
+  "raw_filename": "b0ef43db-202324283.md",
+  "extraction_boundaries": {
+    "full_document": true,
+    "sections": null,
+    "notes": "Full text ingested from user-supplied document in Strict Source Mode. No sections excluded."
+  },
+  "transformation_status": "NORMALISED_FORMATTING_ONLY",
+  "citation_status": "PRIMARY_CITABLE",
+  "provenance_classification": "AUTHORITATIVE_GOVERNMENT_PUBLICATION",
+  "assessment_status": "ASSESSED",
+  "assessment_reference": "reports/laif_full_assessment.md — Assessment 2",
+  "evidence_trace": "docs/verified/extracted/b0ef43db-EO14110-evidence-trace.md",
+  "provenance_notes": "EO 14110 was revoked by Presidential action on 20 January 2025. The LAIF assessment reflects the instrument as operative at its publication date (30 October 2023). The FRAGILE governance durability classification reflects the revocation. Ingested from user-supplied document in Strict Source Mode. URL verification not performed. SHA256 is of the extracted markdown."
+}
