@@ -13,7 +13,8 @@ Check  9    Concept anchoring                 (PASS/FAIL — FAIL = problem)
 Exit 0 if no infrastructure failures, Exit 1 if any rule check fails.
 
 Usage:
-    python3 validate.py
+    python3 validate.py                   # representative corpus mode (default)
+    python3 validate.py --verified-corpus  # verified corpus mode (hash + provenance checks)
 """
 
 import re
@@ -522,9 +523,206 @@ def check_case_analysis(text):
     info("This is the expected outcome — the framework's scale-invariance claim is verified across sectors.")
 
 
+# ── Verified corpus mode ─────────────────────────────────────────────────────
+
+VERIFIED_REQUIRED_FIELDS = [
+    "document_id", "title", "jurisdiction", "source_type",
+    "authoritative_url", "retrieval_date_utc", "retrieval_method",
+    "publication_date", "version_identifier", "sha256_hash",
+    "raw_filename", "extraction_boundaries", "transformation_status",
+    "citation_status", "provenance_classification", "assessment_status",
+]
+
+VALID_TRANSFORMATION = {"RAW_VERBATIM", "STRUCTURALLY_EXTRACTED", "NORMALISED_FORMATTING_ONLY"}
+VALID_CITATION       = {"PRIMARY_CITABLE", "DERIVED_EXCERPT", "NON_CITABLE"}
+VALID_PROVENANCE     = {"AUTHORITATIVE_PRIMARY_SOURCE", "AUTHORITATIVE_GOVERNMENT_PUBLICATION", "REGULATORY_PUBLICATION"}
+VALID_ASSESSMENT     = {"ASSESSED", "PENDING_ASSESSMENT", "PENDING_INGESTION"}
+
+
+def _load_manifests():
+    """Return list of (filename, dict) from docs/verified/manifests/*.json."""
+    import json
+    manifests_dir = REPO / "docs" / "verified" / "manifests"
+    if not manifests_dir.exists():
+        return []
+    results = []
+    for path in sorted(manifests_dir.glob("*.json")):
+        try:
+            with open(path, encoding="utf-8") as f:
+                results.append((path.name, json.load(f)))
+        except Exception as exc:
+            warn(f"Could not load manifest {path.name}: {exc}")
+    return results
+
+
+def _verify_hash(raw_path, expected_hash):
+    """Return (actual_hash, match: bool)."""
+    import hashlib
+    digest = hashlib.sha256(raw_path.read_bytes()).hexdigest()
+    return digest, digest == expected_hash
+
+
+def run_verified_corpus():
+    """Verified corpus mode: check manifests, hashes, and provenance metadata."""
+    import json  # noqa: F401 — imported for clarity; already available above
+
+    print("╔════════════════════════════════════════════════════════════════╗")
+    print("║  LAIF Validation Harness  ·  VERIFIED CORPUS MODE              ║")
+    print("║  Framework v1.2  ·  Compliance Toolkit v1.1  ·  April 2026     ║")
+    print("╚════════════════════════════════════════════════════════════════╝")
+    print()
+    print("  Checking: docs/verified/manifests/  ·  docs/verified/raw/")
+    print("  Existing representative corpus checks are NOT run in this mode.")
+    print("  Assessment scoring and detection logic are unchanged.\n")
+
+    manifests = _load_manifests()
+    if not manifests:
+        fail("No manifests found in docs/verified/manifests/ — verified corpus is empty")
+        _print_summary()
+        sys.exit(1)
+
+    raw_dir = REPO / "docs" / "verified" / "raw"
+    pending = 0
+
+    for mfile, manifest in manifests:
+        doc_id = manifest.get("document_id", mfile)
+        status = manifest.get("assessment_status", "")
+
+        section(f"MANIFEST  {doc_id}")
+
+        # ── 1. Required fields ───────────────────────────────────────────────
+        if status == "PENDING_INGESTION":
+            # Pending documents: only check fields that should be present
+            info("assessment_status = PENDING_INGESTION — hash/file checks skipped")
+            pending += 1
+            for f_ in ("document_id", "title", "jurisdiction", "source_type",
+                        "authoritative_url", "citation_status", "provenance_classification"):
+                if manifest.get(f_):
+                    ok(f"Field present: {f_}")
+                else:
+                    warn(f"Field missing or null: {f_}")
+            continue
+
+        missing = [f for f in VERIFIED_REQUIRED_FIELDS if f not in manifest or manifest[f] is None]
+        if missing:
+            fail(f"Missing required fields: {', '.join(missing)}")
+        else:
+            ok("All required provenance fields present")
+
+        # ── 2. Enum validation ───────────────────────────────────────────────
+        ts = manifest.get("transformation_status", "")
+        cs = manifest.get("citation_status", "")
+        pc = manifest.get("provenance_classification", "")
+        as_ = manifest.get("assessment_status", "")
+
+        if ts in VALID_TRANSFORMATION:
+            ok(f"transformation_status: {ts}")
+        else:
+            fail(f"transformation_status invalid: '{ts}'")
+
+        if cs in VALID_CITATION:
+            ok(f"citation_status: {cs}")
+        else:
+            fail(f"citation_status invalid: '{cs}'")
+
+        if pc in VALID_PROVENANCE:
+            ok(f"provenance_classification: {pc}")
+        else:
+            fail(f"provenance_classification invalid: '{pc}'")
+
+        if as_ in VALID_ASSESSMENT:
+            ok(f"assessment_status: {as_}")
+        else:
+            fail(f"assessment_status invalid: '{as_}'")
+
+        # ── 3. Citation consistency rule ─────────────────────────────────────
+        # PRIMARY_CITABLE requires RAW_VERBATIM or NORMALISED_FORMATTING_ONLY
+        if cs == "PRIMARY_CITABLE" and ts not in {"RAW_VERBATIM", "NORMALISED_FORMATTING_ONLY"}:
+            fail(f"Rule violation: PRIMARY_CITABLE requires RAW_VERBATIM or NORMALISED_FORMATTING_ONLY "
+                 f"(got transformation_status={ts!r})")
+        elif cs == "PRIMARY_CITABLE":
+            ok("Citation rule satisfied: PRIMARY_CITABLE + allowed transformation_status")
+
+        # ── 4. SHA256 hash verification ──────────────────────────────────────
+        raw_filename = manifest.get("raw_filename")
+        expected_hash = manifest.get("sha256_hash", "")
+        if raw_filename:
+            raw_path = raw_dir / raw_filename
+            if raw_path.exists():
+                actual, match = _verify_hash(raw_path, expected_hash)
+                if match:
+                    ok(f"SHA256 verified: {actual[:16]}...")
+                else:
+                    fail(f"SHA256 MISMATCH — expected {expected_hash[:16]}... "
+                         f"got {actual[:16]}...")
+            else:
+                fail(f"Raw file not found: docs/verified/raw/{raw_filename}")
+        else:
+            fail("raw_filename not specified — cannot verify hash")
+
+        # ── 5. Extraction boundaries ─────────────────────────────────────────
+        boundaries = manifest.get("extraction_boundaries") or {}
+        if boundaries.get("full_document"):
+            ok("Extraction boundary: full_document = true")
+        elif boundaries.get("sections"):
+            ok(f"Extraction boundary: {len(boundaries['sections'])} sections defined")
+        else:
+            warn("Extraction boundaries not specified or empty")
+
+        # ── 6. Assessment reference ──────────────────────────────────────────
+        if as_ == "ASSESSED":
+            ref = manifest.get("assessment_reference")
+            if ref:
+                ok(f"Assessment reference: {ref}")
+            else:
+                warn("assessment_status = ASSESSED but assessment_reference is null")
+
+        # ── 7. Evidence trace ────────────────────────────────────────────────
+        trace_rel = manifest.get("evidence_trace")
+        if trace_rel:
+            trace_path = REPO / trace_rel
+            if trace_path.exists() and trace_path.stat().st_size > 0:
+                ok(f"Evidence trace present: {trace_rel}")
+            else:
+                warn(f"Evidence trace referenced but not found: {trace_rel}")
+        else:
+            warn("No evidence_trace field — reproducibility trail not documented")
+
+    # ── Summary ───────────────────────────────────────────────────────────────
+    assessed  = sum(1 for _, m in manifests if m.get("assessment_status") == "ASSESSED")
+    total_man = len(manifests)
+
+    print(f"\n{'═' * 66}")
+    print(f"  Verified corpus: {total_man} manifests  "
+          f"({assessed} ASSESSED  ·  {pending} PENDING_INGESTION)")
+    p, f_, w = infra_results["pass"], infra_results["fail"], infra_results["warn"]
+    status_str = _tty("32", "PASS") if f_ == 0 else _tty("31", "FAIL")
+    print(f"  Provenance checks:  [{status_str}]  pass={p}  fail={f_}  warn={w}")
+    print(f"\n  NOTE: Assessment scoring and detection logic are unchanged.")
+    print(f"  This mode verifies provenance infrastructure only.")
+    print(f"{'═' * 66}\n")
+
+    sys.exit(1 if f_ > 0 else 0)
+
+
+def _print_summary():
+    p, f_, w = infra_results["pass"], infra_results["fail"], infra_results["warn"]
+    status_str = _tty("32", "PASS") if f_ == 0 else _tty("31", "FAIL")
+    print(f"\n{'═' * 66}")
+    print(f"  Infrastructure checks (1–5):  [{status_str}]  "
+          f"pass={p}  fail={f_}  warn={w}")
+    print(f"  Checks 6–8 are PDCA/case findings — FAILs indicate the")
+    print(f"  framework correctly flagged incoherence, not harness errors.")
+    print(f"{'═' * 66}\n")
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
+    if "--verified-corpus" in sys.argv:
+        run_verified_corpus()
+        return  # run_verified_corpus calls sys.exit internally
+
     print("╔════════════════════════════════════════════════════════════════╗")
     print("║  LAIF Validation Harness  ·  Law-Aligned Intelligence          ║")
     print("║  Framework v1.2  ·  Compliance Toolkit v1.1  ·  April 2026     ║")
@@ -558,16 +756,8 @@ def main():
     else:
         fail("LAIF v1.2 unavailable — check 9 (v1.2 anchoring) skipped")
 
-    print(f"\n{'═' * 66}")
-    p, f_, w = infra_results["pass"], infra_results["fail"], infra_results["warn"]
-    status = _tty("32", "PASS") if f_ == 0 else _tty("31", "FAIL")
-    print(f"  Infrastructure checks (1–5):  [{status}]  "
-          f"pass={p}  fail={f_}  warn={w}")
-    print(f"  Checks 6–8 are PDCA/case findings — FAILs indicate the")
-    print(f"  framework correctly flagged incoherence, not harness errors.")
-    print(f"{'═' * 66}\n")
-
-    sys.exit(1 if f_ > 0 else 0)
+    _print_summary()
+    sys.exit(1 if infra_results["fail"] > 0 else 0)
 
 
 if __name__ == "__main__":
