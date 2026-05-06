@@ -86,3 +86,32 @@ When maintainers choose squash merge for an ordinary pull request, the rationale
 ## Governance Philosophy
 
 Repository governance should be deterministic, auditable, and conservative. Controls should identify sensitive changes and require human review; they should not attempt to infer or approve LAIF semantics automatically. Automation may help detect drift, but human reviewers remain responsible for semantic approval decisions.
+
+## Fresh-Branch Governance Workflow
+
+After every merge to `main`, contributors should restart governance work from the latest `origin/main` state instead of continuing on an old pull-request branch. A safe Codex/GitHub workflow is:
+
+1. Fetch and prune the latest main branch: `git fetch origin main --prune`.
+2. Create a fresh phase branch from `origin/main`.
+3. Reset the worktree hard to `origin/main` before making edits.
+4. Confirm `git rev-list --left-right --count HEAD...origin/main` reports `0 0` before edits.
+5. Make only the intended changes for that pull request.
+6. Before requesting review, confirm the branch is ahead-only relative to `origin/main` and inspect `git diff --name-only origin/main...HEAD` for the exact intended diff.
+
+Never reuse stale pull-request branches for later phases. Stale or contaminated pull requests should be closed and ignored for future work. Do not use GitHub's "Copy git apply" flow from a contaminated branch; applying that patch carries the contaminated diff into the new branch.
+
+## Current Governance Lifecycle
+
+Phase 3A governance stabilization and Phase 3B deterministic governance test coverage have both been merged. The CI governance job now runs before, and gates, the downstream validation, adversarial, and real-world jobs.
+
+The governance lifecycle is intentionally conservative:
+
+- protected-artifact checks are blocking when configured protected artifacts appear in the pull-request diff;
+- semantic-boundary checks are advisory-only and warn reviewers without blocking merge;
+- governance config validation enforces that configured path entries exist in the repository;
+- governance helper/check files are semantic-sensitive and should receive focused review when changed;
+- downstream validation, adversarial, and real-world CI jobs depend on the governance job.
+
+The Phase 3B test suite in `tests/test_governance.py` validates the shared governance helpers, config behavior, protected-artifact behavior, and advisory semantic-boundary behavior using `tests/governance_fixtures/valid_config.json`.
+
+These governance tests do not change LAIF assessment scoring, detector semantics, interpretation logic, or assessment conclusions.

@@ -123,3 +123,13 @@ If the answer to any question is yes, the pull request is governance-sensitive a
 ## Automation Boundary
 
 This policy does not attempt heuristic semantic enforcement. Future automation, if added, should detect likely sensitive changes and route them to human review. Human reviewers remain authoritative for semantic approval decisions.
+
+## Phase 3 Advisory Behavior
+
+Phase 3A governance stabilization and Phase 3B deterministic governance test coverage have been merged. Semantic-boundary checking is now part of the CI governance job, and the downstream validation, adversarial, and real-world jobs depend on that governance job.
+
+Semantic-boundary checking remains advisory-only. It reports configured semantic-sensitive file changes and configured exact-term matches in changed hunk lines, but it does not block merge, does not perform semantic interpretation, and does not prove semantic drift.
+
+Governance config validation enforces that configured semantic-sensitive file paths exist. Governance helper/check files are included in the semantic-sensitive set because changes to those files can change the repository's governance signals. The Phase 3B test suite in `tests/test_governance.py` validates shared governance helpers, config behavior, protected-artifact behavior, and semantic-boundary advisory behavior using `tests/governance_fixtures/valid_config.json`.
+
+This policy must not be read to overstate enforcement. Semantic-boundary warnings do not block merge. Governance tests do not change LAIF assessment scoring, detector logic, interpretation logic, or assessment semantics. Repository governance documentation does not imply external legal certification.

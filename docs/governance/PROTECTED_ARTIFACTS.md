@@ -50,3 +50,13 @@ Maintainers may later choose to protect additional files, such as generated real
 ## Human Review
 
 Human reviewers remain responsible for approving assessment artifact changes. Repository documentation can define expectations, and future automation may detect drift, but automation should not approve assessment conclusions by itself.
+
+## Phase 3 Blocking Behavior
+
+Under the merged Phase 3A/3B governance lifecycle, protected-artifact checks are blocking. If a configured protected artifact appears in the pull-request diff, the governance job fails and downstream CI jobs that depend on governance do not proceed.
+
+The check is deterministic and path-level. It does not inspect semantic meaning, report content, hashes, or assessment conclusions. Its purpose is to stop accidental protected-artifact drift before validation, adversarial, or real-world jobs run.
+
+Governance config validation enforces that configured protected-artifact paths exist in the repository. Changing protected-artifact configuration or governance helper/check files is semantic-sensitive and should be reviewed as governance behavior, not ordinary text cleanup.
+
+Protected-artifact protection does not alter LAIF scoring, detector logic, interpretation logic, or assessment conclusions. It also does not create external legal certification; it is repository-governance control for review discipline.

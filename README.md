@@ -128,3 +128,17 @@ Contribution and review expectations are documented in `CONTRIBUTING.md` and `do
 ---
 
 *LAIF v1.2 · Compliance Toolkit v1.1 · April 2026*
+
+## Governance Status
+
+Phase 3A governance stabilization and Phase 3B deterministic governance test coverage have been merged. The repository's CI governance job compiles and runs the governance checks before the validation, adversarial, and real-world CI jobs; those downstream jobs depend on governance completing successfully.
+
+Current governance behavior is deliberately scoped:
+
+- protected-artifact checks are blocking for configured protected artifacts in a pull-request diff;
+- semantic-boundary checks are advisory-only and do not block merge;
+- governance config validation enforces configured path existence;
+- governance helper/check files are semantic-sensitive and require focused review when changed;
+- `tests/test_governance.py` validates shared governance helpers, governance config behavior, protected-artifact behavior, and semantic-boundary advisory behavior with `tests/governance_fixtures/valid_config.json`.
+
+Governance documentation and tests do not alter LAIF assessment/scoring semantics, do not change assessment outcomes, and do not imply external legal certification. LAIF remains a structural governance framework rather than a legal determination or certification authority.
