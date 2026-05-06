@@ -231,6 +231,19 @@ LAIF: publication-prep pass — formatting, README, governance docs
 
 ---
 
+
+### Verified Corpus Acquisition Channels
+
+Verified corpus provenance must distinguish custody from authority. Supported acquisition channels are:
+
+- `AUTOMATED_URL_RETRIEVAL` — tooling fetches directly from the authoritative origin URL.
+- `HUMAN_GITHUB_DEPOSIT` — a human downloads the authoritative source and deposits it into `docs/verified/manual_ingest/` through GitHub or commit.
+- `HUMAN_SESSION_UPLOAD` — a human supplies the authoritative source through the active session and the agent writes the exact supplied file into `docs/verified/manual_ingest/`.
+
+The acquisition channel does not itself prove authority. Authority requires `authoritative_origin_url`, acquisition metadata, SHA256 hash records, a transformation chain, citation status, provenance classification, and verification status. `HUMAN_ATTESTED_AUTHORITATIVE` means a human supplied the file and asserted its authoritative origin; `HASH_VERIFIED_LOCAL_ONLY` means only local repository integrity is proven; `NETWORK_BLOCKED_PENDING_HUMAN_SOURCE` is non-terminal and must not be treated as a failed or fabricated source.
+
+No assessment may be performed from memory, reconstructed missing text, paraphrased substitute text, or screenshots unless explicitly marked non-citable.
+
 ## Key Substantive Notes for AI Assistants
 
 1. **Precision over fluency**: LAIF terminology is legal/constitutional in register. Do not paraphrase defined terms. "Coupling" is not the same as "alignment" or "connection."

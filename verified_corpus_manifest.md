@@ -154,3 +154,19 @@ This manifest provides a human-readable index of all documents in the LAIF verif
 ---
 
 *LAIF v1.2 · Verified Corpus Manifest v1.0 · May 2026*
+
+
+## EU AI Act Manual Readiness
+
+Regulation (EU) 2024/1689 is `READY_FOR_MANUAL_AUTHORITATIVE_INGESTION`. The readiness record is `docs/verified/pending/eu_ai_act_ingestion_ready.md`. No EU AI Act assessment is authoritative until a full source file is supplied, hashed, extracted, manifested, evidence-traced, and validated.
+
+
+## Current Verification Taxonomy
+
+| Document | acquisition_channel | verification_status | network_status | Notes |
+|---|---|---|---|---|
+| OECD Recommendation | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Local raw markdown hash verified; upstream equivalence not claimed |
+| EO 14110 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Local raw markdown hash verified; upstream equivalence not claimed |
+| NIST AI 100-1 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Local raw markdown hash verified; PDF-vs-DOCX remains unresolved |
+| DTAC v2.0 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Local raw markdown hash verified; upstream equivalence not claimed |
+| EU AI Act | Not yet acquired | NETWORK_BLOCKED_PENDING_HUMAN_SOURCE | AUTOMATED_URL_BLOCKED_HTTP_403 | Ready for manual authoritative ingestion |

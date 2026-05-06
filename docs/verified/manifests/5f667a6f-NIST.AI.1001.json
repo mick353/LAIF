@@ -22,5 +22,19 @@
   "assessment_status": "ASSESSED",
   "assessment_reference": "reports/laif_full_assessment.md — Assessment 3",
   "evidence_trace": "docs/verified/extracted/5f667a6f-NIST-evidence-trace.md",
-  "provenance_notes": "Extraction used python-docx with lxml namespace-aware heading detection (w:pStyle). Heading levels (Heading1 → #, Heading2 → ##) and table structure (pipe tables) were normalised; all text content is verbatim from the DOCX. The user-supplied DOCX accuracy against the authoritative PDF at doi.org/10.6028/NIST.AI.100-1 was not independently verified. SHA256 is of the extracted markdown."
+  "provenance_notes": "Extraction used python-docx with lxml namespace-aware heading detection (w:pStyle). Heading levels (Heading1 → #, Heading2 → ##) and table structure (pipe tables) were normalised; all text content is verbatim from the DOCX. The user-supplied DOCX accuracy against the authoritative PDF at doi.org/10.6028/NIST.AI.100-1 was not independently verified. SHA256 is of the extracted markdown. Verification taxonomy: HASH_VERIFIED_LOCAL_ONLY with network_status AUTOMATED_URL_BLOCKED_HTTP_403; authoritative_origin_url recorded; manual re-verification pathway available.",
+  "acquisition_channel": "HUMAN_SESSION_UPLOAD",
+  "authoritative_origin_url": "https://doi.org/10.6028/NIST.AI.100-1",
+  "acquired_by": "legacy_human_source_provider",
+  "acquired_at_utc": "LEGACY_INGESTION_PRE_ACQUISITION_MODEL",
+  "acquisition_note": "Legacy user-supplied Strict Source Mode ingestion. Local raw markdown SHA256 is verified. Automated authoritative URL retrieval later returned HTTP 403, so upstream URL equivalence is not proven. Manual re-verification pathway is available through MANUAL_INGESTION_WORKFLOW.md.",
+  "source_file_sha256": null,
+  "transformation_chain": [
+    "Legacy Strict Source Mode user-supplied DOCX.",
+    "Extracted with python-docx and namespace-aware heading detection.",
+    "Normalised to markdown headings and pipe tables.",
+    "Stored as docs/verified/raw/5f667a6f-NIST.AI.1001.md."
+  ],
+  "verification_status": "HASH_VERIFIED_LOCAL_ONLY",
+  "network_status": "AUTOMATED_URL_BLOCKED_HTTP_403"
 }
