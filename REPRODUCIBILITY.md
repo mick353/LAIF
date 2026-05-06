@@ -200,3 +200,21 @@ The authoritative assessment for the current corpus is: `reports/laif_full_asses
 ---
 
 *LAIF v1.2 · Compliance Toolkit v1.1 · April 2026*
+
+## Governance Reproducibility Checks
+
+The merged Phase 3A and Phase 3B governance work adds deterministic repository-governance checks without changing LAIF assessment semantics or scoring. The CI governance job gates downstream validation, adversarial, and real-world jobs so that repository-governance failures are visible before assessment checks run.
+
+For a reproducible governance review, run:
+
+```bash
+python3 -m py_compile scripts/governance/*.py
+python3 scripts/governance/check_governance_config.py
+python3 scripts/governance/check_protected_artifacts.py
+python3 scripts/governance/check_semantic_boundaries.py
+python3 tests/test_governance.py
+```
+
+Local protected-artifact and semantic-boundary checks skip pull-request diff detection when no PR base ref is available. In CI, the PR base comes from the GitHub pull-request context. Locally, set `GOVERNANCE_BASE_REF` or `GITHUB_BASE_REF` when deterministic diff detection is needed.
+
+The Phase 3B suite validates shared governance helpers, governance config validation, protected-artifact blocking behavior, and semantic-boundary advisory behavior using `tests/governance_fixtures/valid_config.json`. Semantic-boundary warnings are not merge blockers. Governance tests do not change assessment scoring, detector behavior, interpretation logic, published reports, or the verified corpus.
