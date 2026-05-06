@@ -2,7 +2,7 @@
 
 ## Repository Overview
 
-This is a **documentation-only repository** for the Law-Aligned Intelligence Framework (LAIF), a constitutional-level governance standard for AI systems. There is no source code. All files are governance documents in `.docx` or `.txt` format.
+This repository contains the Law-Aligned Intelligence Framework (LAIF), a constitutional-level governance standard for AI systems. It holds governance documents in `.docx` and `.txt` format, ingested source documents for assessment, Python assessment tooling, and authoritative assessment reports.
 
 - **Version**: LAIF v1.2 | Compliance Toolkit v1.1
 - **Date**: April 2026
@@ -15,18 +15,35 @@ This is a **documentation-only repository** for the Law-Aligned Intelligence Fra
 ```
 LAIF/
 ├── LAIF-Law-Aligned_Intelligence_Framework.txt   # Navigation index / START HERE
-├── README.md                                      # One-line project description
+├── README.md                                      # Project description and contents
+├── CLAUDE.md                                      # This file — AI assistant guidance
+├── corpus_manifest.md                             # Provenance classifications for assessed docs
 │
-├── LAIF_Executive_Brief.docx          # 2-min overview; START HERE for new readers
-├── LAIF_Public_Article.docx           # 5–7 min public-facing governance audit article
+├── LAIF_Executive_Brief.docx / .txt   # 2-min overview; START HERE for new readers
+├── LAIF_Public_Article.docx / .txt    # 5–7 min public-facing governance audit article
+├── LAIF_v1.2.docx / .txt             # CORE: The principal framework text (the "constitution")
+├── LAIF_PDCA_GPT4_Clinical.docx / .txt        # Applied PDCA: GPT-4 Clinical Documentation Assistant
+├── LAIF_Case_Analysis.docx / .txt             # Retrospective analysis across 8 AI governance failures
+├── LAIF_Compliance_Toolkit.docx / .txt        # Operational definitions and standards (v1.1)
+├── LAIF_Policy_Paper.docx / .txt              # Academic/policy paper: Coupling, Consistency, Reversibility
+├── LAIF REGULATORY INTEGRATION GUIDE.docx     # Step-by-step EU AI Act + US federal integration
+│   └── LAIF_Regulatory_Integration_Guide.txt
 │
-├── LAIF_v1.2.docx                     # CORE: The principal framework text (the "constitution")
+├── docs/supporting/                             # Ingested full-text source documents (Strict Source Mode)
+│   ├── 51a29205-OECD_Legal_Instruments.md       # OECD Recommendation on AI (OECD/LEGAL/0449)
+│   ├── b0ef43db-202324283.md                    # US Executive Order 14110
+│   ├── 5f667a6f-NIST.AI.1001.md                # NIST AI 100-1 (AI RMF 1.0)
+│   └── 55eccce3-DTAC_Form_2.0_February_2026.md # NHS England DTAC v2.0
 │
-├── LAIF_PDCA_GPT4_Clinical.docx       # Applied PDCA: GPT-4 Clinical Documentation Assistant
-├── LAIF_Case_Analysis.docx            # Retrospective analysis across 8 AI governance failures
-├── LAIF_Compliance_Toolkit.docx       # Operational definitions and standards (v1.1)
-├── LAIF_Policy_Paper.docx             # Academic/policy paper: Coupling, Consistency, Reversibility
-└── LAIF REGULATORY INTEGRATION GUIDE.docx  # Step-by-step EU AI Act + US federal integration
+├── reports/
+│   └── laif_full_assessment.md                  # AUTHORITATIVE: full corpus assessment, model v1.1
+│
+├── assessment_engine.py                         # LAIF assessment logic
+├── laif_spec.py                                 # Framework specification
+├── sample_documents.py                          # Assessment corpus (see corpus_manifest.md)
+├── validate.py                                  # Validation utilities
+├── test_adversarial.py                          # Adversarial test suite
+└── test_real_world.py                           # Real-world document test suite
 ```
 
 ### Conceptual Document Hierarchy
@@ -60,11 +77,13 @@ These are non-amendable and underpin every provision:
 
 The primary decision instrument applied in the PDCA and case analyses:
 
-- **Q1 — Coupling**: Does the deployment identify and protect the specific human interest at risk? (Most commonly failed.)
+- **Q1 — Coupling**: Does the deployment identify and protect the specific human interest at risk? (Most commonly failed.) Under the **refined model v1.1**, Q1 is assessed on two sub-dimensions:
+  - **Q1a — Structural Pairing** (`NONE` / `IMPLICIT` / `EXPLICIT`): Does the instrument's architecture pair each restriction with the specific human interest it protects?
+  - **Q1b — Enforcement Strength** (`NONE` / `SOFT` / `HARD`): Does the pairing carry enforceable normative force equivalent to the restriction imposed?
 - **Q2 — Consistency**: Would the governance logic produce just and workable outcomes if applied across all comparable actors and scales?
 - **Q3 — Reversibility**: Does the deployment preserve the capacity of future actors to reverse or modify its consequences?
 
-A deployment must pass all three questions. Failure at Q1 constitutes automatic failure of the full Coherence Test.
+A deployment must pass all three questions. Failure at Q1 constitutes automatic failure of the full Coherence Test. The Q1a/Q1b split is an **interpretation-layer refinement only** — it does not alter the detection logic or the pass/fail structure of the Coherence Test.
 
 ### The Integrity Layer (LAIF v1.2, Part Two)
 
@@ -141,32 +160,73 @@ LAIF v1.2 explicitly incorporates and integrates with:
 
 ## Working in This Repository
 
-### There Is No Build System
-
-This is a pure documentation repository. There are no:
-- Build scripts, Makefiles, or CI pipelines
-- Package managers (npm, pip, etc.)
-- Test suites
-- Code linters
-
-Workflow is entirely manual document editing and version management via git.
-
 ### Editing Documents
 
 - `.docx` files are Microsoft Word format. Edit with Word, LibreOffice, or programmatically with `python-docx`.
-- The `.txt` file is plain text and serves as the navigation index.
-- `README.md` is a brief one-line GitHub description.
+- `.txt` files are plain-text exports of the `.docx` documents.
+- `README.md` is the public-facing project description.
 
-### Branch Conventions
+### Running Assessment Tools
 
-The repository uses a `main` branch for stable releases. Feature work is done on named branches (e.g., `claude/add-claude-documentation-14U7T`).
+The Python tooling (`assessment_engine.py`, `validate.py`, test suites) requires no build step — run directly with `python3`. The `corpus_manifest.md` documents provenance classifications for all documents in `sample_documents.py`.
+
+---
+
+## Repository Governance
+
+### Authoritative Branch Policy
+
+**`main` is the sole authoritative branch.** No assessment artifact, scoring result, or interpretation refinement is canonical until it has been merged into `main`.
+
+- Feature branches are temporary working branches. They hold work in progress and are deleted or left inactive after merge.
+- All changes — including reporting-layer and interpretation-layer changes — are repository changes and must be committed and merged to `main` to take effect.
+- Force-pushing to `main` is prohibited. Merge via standard merge commit, not rebase.
+
+### Assessment Workflow
+
+The standard workflow for producing a LAIF assessment:
+
+1. **Source ingestion** — extract full text from supplied documents into `docs/supporting/` using Strict Source Mode (no training-derived content; all factual claims must be traceable to the ingested file).
+2. **Assessment** — apply LAIF v1.2 framework using only ingested source files and `LAIF_v1.2.txt`. Record verbatim quotes for all findings.
+3. **Write artifact** — write the complete assessment to `reports/laif_full_assessment.md` (or a named variant for a new corpus).
+4. **Merge to main** — commit and push. The artifact is not authoritative until on `main`.
+
+### Merge Discipline
+
+- Merge feature branches into `main` before writing the final assessment artifact. This ensures the ingested source files referenced in the assessment are present on `main` when the assessment is committed.
+- Do not write assessment artifacts on feature branches and then push separately — the source documents and assessment must arrive on `main` together.
+
+### Interpretation-Layer vs Detection-Layer Distinction
+
+These two layers are **independently revisable**:
+
+| Layer | What it governs | Can be changed without |
+|-------|----------------|------------------------|
+| **Detection layer** | Whether Q1/Q2/Q3 pass or fail; Integrity Layer thresholds; what counts as PASS/FAIL | Changing the Coherence Test definitions in LAIF v1.2 |
+| **Interpretation layer** | How results are expressed, sub-classified, or contextualised (e.g. Q1a/Q1b split; Governance Durability; Reflexivity) | Changing detection logic or pass/fail outcomes |
+
+Interpretation-layer refinements (adding dimensions, splitting classifications) are reporting changes. They must not alter: detection verdicts, Coherence Test pass/fail results, Integrity Layer assessments, or sourced reasoning. Any change that would reverse a PASS to FAIL or vice versa is a detection-layer change and requires explicit justification against LAIF v1.2.
+
+### Publication Artifact Locations
+
+| Artifact | Location | Status |
+|----------|----------|--------|
+| Authoritative full corpus assessment | `reports/laif_full_assessment.md` | Canonical once on `main` |
+| Ingested source documents | `docs/supporting/` | Primary evidence; do not modify after ingestion |
+| Framework corpus (assessment engine inputs) | `sample_documents.py` + `corpus_manifest.md` | See provenance classifications before citing |
+
+### Reproducibility
+
+Any assessment produced from the ingested files in `docs/supporting/` and `LAIF_v1.2.txt` should reproduce the same PASS/FAIL verdicts under LAIF v1.2 detection logic. Interpretation-layer dimensions (Durability, Reflexivity, Q1a/Q1b) may be refined by future reviewers provided they are labelled as such and do not alter the underlying Coherence Test results.
 
 ### Commit Style
 
-Commits in this repository are descriptive and file-level:
+Commits are descriptive and indicate scope:
+
 ```
-Add files via upload
-Initial commit
+LAIF: full source ingestion (strict, no transformation)
+LAIF: full corpus assessment v1.1 (finalised after merge)
+LAIF: publication-prep pass — formatting, README, governance docs
 ```
 
 ---

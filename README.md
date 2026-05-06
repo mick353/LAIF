@@ -104,6 +104,22 @@ LAIF applies to regulatory bodies and governance actors themselves — not only 
 | `LAIF_Policy_Paper.docx` / `.txt` | DOCX + TXT | Academic/policy paper |
 | `LAIF REGULATORY INTEGRATION GUIDE.docx` / `LAIF_Regulatory_Integration_Guide.txt` | DOCX + TXT | Regulatory integration guide |
 | `CLAUDE.md` | MD | AI assistant guidance for this repository |
+| `corpus_manifest.md` | MD | Provenance and citeability classification for all assessed documents |
+
+**Ingested source documents** (`docs/supporting/`):
+
+| File | Description |
+|------|-------------|
+| `51a29205-OECD_Legal_Instruments.md` | OECD Recommendation on AI (OECD/LEGAL/0449) — full text |
+| `b0ef43db-202324283.md` | US Executive Order 14110 (Federal Register Vol. 88 No. 210) — full text |
+| `5f667a6f-NIST.AI.1001.md` | NIST AI 100-1 — AI Risk Management Framework 1.0 — full text |
+| `55eccce3-DTAC_Form_2.0_February_2026.md` | NHS England Digital Technology Assessment Criteria v2.0 — full text |
+
+**Assessment artifacts** (`reports/`):
+
+| File | Description |
+|------|-------------|
+| `laif_full_assessment.md` | **Authoritative** — full corpus assessment, refined model v1.1, all four instruments |
 
 ---
 

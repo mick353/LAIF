@@ -165,8 +165,6 @@ The OECD Recommendation is the upstream principled architecture instrument. Its 
 
 ---
 
----
-
 ## ASSESSMENT 2 — EXECUTIVE ORDER 14110
 **"Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence"**
 **October 30, 2023 | Federal Register Vol. 88 No. 210**
@@ -309,8 +307,6 @@ EO 14110 has EXPLICIT structural pairing — its eight principles each name thei
 
 ---
 
----
-
 ## ASSESSMENT 3 — NIST AI 100-1 (AI RISK MANAGEMENT FRAMEWORK 1.0)
 **January 2023 | National Institute of Standards and Technology**
 
@@ -446,8 +442,6 @@ LAIF v1.2 §7.4 requires governance bodies to "hold itself to the standards of t
 | Reflexivity | **NONE** |
 
 The AI RMF is the most technically sophisticated instrument assessed, and the most thoroughly operationalised risk management framework. It fails Q1b for the same constitutional reason as EO 14110 — voluntary design means no external enforcement — but the AI RMF's NONE is by deliberate design, not by constitutional necessity. Its Q2 and Q3 results are clean passes, and its ADAPTIVE durability reflects genuine institutional commitment to staying current. The framework's primary role in the governance ecosystem is providing the technical operationalisation layer that policy instruments (EO, OECD) mandate in principle.
-
----
 
 ---
 
