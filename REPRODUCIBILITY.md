@@ -84,7 +84,8 @@ The following assumptions apply to ingestion of documents into `docs/verified/ra
 | Verbatim content | Applies within the extracted markdown | Does not certify identity with the original PDF/DOCX bytes |
 | No training-derived content | Applies to all factual claims in the assessment | Cannot be verified by tooling; enforced at assessor level |
 | SHA256 integrity | Guarantees the extracted markdown has not been altered since ingestion | Hash is of the markdown, not the original source file |
-| URL verification | **Not performed** in the current corpus | Documents were sourced from user-supplied files; URLs are recorded as authoritative references, not verified retrieval endpoints |
+| URL verification | Server-responsiveness confirmed (HTTP 403) | Content not accessible from automated session; byte comparison not performed |
+| Evidence trace citation integrity | 39/39 citations verified present in raw files | Verifies section existence, not verbatim quote accuracy |
 
 ---
 

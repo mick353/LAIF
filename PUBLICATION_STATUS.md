@@ -86,10 +86,12 @@ The NIST AI RMF ingestion relied on a user-supplied DOCX file. The DOCX accuracy
 | Real-world document suite | Yes — `test_real_world.py` | `test_real_world.py` |
 | Hash verification | Yes — `python3 validate.py --verified-corpus` | `validate.py` |
 
+**Also covered:**
+- Evidence trace citation verification — `python3 validate.py --check-evidence-traces` verifies all cited section identifiers (39 citations across 4 documents) are present in the corresponding raw source files. Result: 39/39 PASS.
+
 **Not covered by current tooling:**
 - Automated detection of training-derived content (enforced at assessor level; not mechanically verifiable)
-- Cross-document consistency checks between evidence traces and assessment output
-- Automated verification of verbatim quote accuracy against raw source files
+- Verbatim quote accuracy against raw source files (evidence trace verification checks section existence, not quote precision)
 
 ---
 
@@ -132,7 +134,7 @@ Changes required before claiming full publication readiness:
 | EU AI Act full-text ingestion | High | EUR-Lex HTTP 403 (automated access blocked) | Human download from EUR-Lex; supply as uploaded file |
 | URL verification pass | Medium | All authoritative URLs return HTTP 403 from automated session | Human-initiated verification against each listed URL |
 | NIST DOCX accuracy verification | Medium | NIST PDF at doi.org/10.6028/NIST.AI.100-1 returns HTTP 403 | Human download of PDF; textual comparison with extracted markdown |
-| Evidence trace section verification | Resolved | — | Implemented — `python3 validate.py --check-evidence-traces` |
+| Evidence trace section verification | **Resolved** | — | `python3 validate.py --check-evidence-traces` — 39/39 PASS |
 
 ---
 

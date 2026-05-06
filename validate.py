@@ -13,8 +13,9 @@ Check  9    Concept anchoring                 (PASS/FAIL — FAIL = problem)
 Exit 0 if no infrastructure failures, Exit 1 if any rule check fails.
 
 Usage:
-    python3 validate.py                   # representative corpus mode (default)
-    python3 validate.py --verified-corpus  # verified corpus mode (hash + provenance checks)
+    python3 validate.py                          # representative corpus mode (default)
+    python3 validate.py --verified-corpus         # verified corpus mode (hash + provenance checks)
+    python3 validate.py --check-evidence-traces   # evidence trace citation verification
 """
 
 import re
@@ -716,12 +717,172 @@ def _print_summary():
     print(f"{'═' * 66}\n")
 
 
+# ── Evidence trace verification ─────────────────────────────────────────────
+#
+# Each CITATION entry is a tuple (description, regex_pattern).
+# description  — human-readable label for reporting
+# regex_pattern — compiled against the raw source file text; must match if the
+#                 citation is valid. Patterns are document-specific and hardcoded
+#                 from direct inspection of the raw files — no probabilistic inference.
+#
+# Design: fail loudly on any missing citation. No probabilistic matching.
+# A citation is VERIFIED if re.search(pattern, raw_text, re.MULTILINE) succeeds.
+# A citation is MISSING if the pattern produces no match.
+
+EVIDENCE_TRACE_CORPUS = [
+    {
+        "document_id":  "51a29205-OECD",
+        "raw_file":     "docs/verified/raw/51a29205-OECD_Legal_Instruments.md",
+        "trace_file":   "docs/verified/extracted/51a29205-OECD-evidence-trace.md",
+        # OECD sections appear as "1.1. Inclusive growth..." at line start.
+        "citations": [
+            ("OECD Principle 1.1",  r"^1\.1\."),
+            ("OECD Principle 1.2",  r"^1\.2\."),
+            ("OECD Principle 1.3",  r"^1\.3\."),
+            ("OECD Principle 1.4",  r"^1\.4\."),
+            ("OECD Principle 1.5",  r"^1\.5\."),
+            ("OECD Principle 2.1",  r"^2\.1\."),
+            ("OECD Principle 2.2",  r"^2\.2\."),
+        ],
+    },
+    {
+        "document_id":  "b0ef43db-EO14110",
+        "raw_file":     "docs/verified/raw/b0ef43db-202324283.md",
+        "trace_file":   "docs/verified/extracted/b0ef43db-EO14110-evidence-trace.md",
+        # EO sections appear as "## Section 4." and subsections as "### 4.1."
+        # §13(c) appears as "(c) This order is not intended..."
+        "citations": [
+            ("EO §2 (Section 2)",           r"## Section 2\."),
+            ("EO §3(k) (Section 3)",        r"## Section 3\."),
+            ("EO §4.1 (subsection 4.1)",    r"### 4\.1\."),
+            ("EO §4.2 (subsection 4.2)",    r"### 4\.2\."),
+            ("EO §4.5 (subsection 4.5)",    r"### 4\.5\."),
+            ("EO §4.6 (subsection 4.6)",    r"### 4\.6\."),
+            ("EO §7 (Section 7)",           r"## Section 7\."),
+            ("EO §10.1 (subsection 10.1)",  r"### 10\.1\."),
+            ("EO §13 (Section 13)",         r"## Section 13\."),
+            ("EO §13(c) text",              r"\(c\) This order is not intended"),
+        ],
+    },
+    {
+        "document_id":  "5f667a6f-NIST",
+        "raw_file":     "docs/verified/raw/5f667a6f-NIST.AI.1001.md",
+        "trace_file":   "docs/verified/extracted/5f667a6f-NIST-evidence-trace.md",
+        # NIST subcategories appear in table cells as "GOVERN 1.1: ..."
+        "citations": [
+            ("NIST GOVERN 1.1",   r"GOVERN 1\.1"),
+            ("NIST GOVERN 1.2",   r"GOVERN 1\.2"),
+            ("NIST GOVERN 1.4",   r"GOVERN 1\.4"),
+            ("NIST GOVERN 1.7",   r"GOVERN 1\.7"),
+            ("NIST GOVERN 6.1",   r"GOVERN 6\.1"),
+            ("NIST GOVERN 6.2",   r"GOVERN 6\.2"),
+            ("NIST MAP 1.1",      r"MAP 1\.1"),
+            ("NIST MAP 1.6",      r"MAP 1\.6"),
+            ("NIST MAP 5.1",      r"MAP 5\.1"),
+            ("NIST MEASURE 2.5",  r"MEASURE 2\.5"),
+            ("NIST MEASURE 2.6",  r"MEASURE 2\.6"),
+            ("NIST MANAGE 1.3",   r"MANAGE 1\.3"),
+            ("NIST MANAGE 2.2",   r"MANAGE 2\.2"),
+            ("NIST MANAGE 4.1",   r"MANAGE 4\.1"),
+            ("NIST voluntary text", r"voluntary"),
+            ("NIST living document", r"living document"),
+        ],
+    },
+    {
+        "document_id":  "55eccce3-DTAC",
+        "raw_file":     "docs/verified/raw/55eccce3-DTAC_Form_2.0_February_2026.md",
+        "trace_file":   "docs/verified/extracted/55eccce3-DTAC-evidence-trace.md",
+        # DTAC categories appear as "### C1 - Clinical safety" etc.
+        "citations": [
+            ("DTAC Category C1 (Clinical safety)",    r"### C1"),
+            ("DTAC Category C2 (Data protection)",    r"### C2"),
+            ("DTAC Category C3 (Technical security)", r"### C3"),
+            ("DTAC Category C4 (Interoperability)",   r"### C4"),
+            ("DTAC Category D1 (Usability)",          r"### D1"),
+            ("DTAC procurement gate text",            r"C1-C4"),
+        ],
+    },
+]
+
+
+def run_check_evidence_traces():
+    """--check-evidence-traces mode: verify section citations against raw source files."""
+    print("╔════════════════════════════════════════════════════════════════╗")
+    print("║  LAIF Validation Harness  ·  EVIDENCE TRACE VERIFICATION       ║")
+    print("║  Framework v1.2  ·  Compliance Toolkit v1.1  ·  April 2026     ║")
+    print("╚════════════════════════════════════════════════════════════════╝")
+    print()
+    print("  Verifying: section citations in evidence traces exist in raw sources.")
+    print("  Method: deterministic regex match against raw file text.")
+    print("  A FAIL means the cited section was not found — not a scoring change.\n")
+
+    all_pass = True
+
+    for doc in EVIDENCE_TRACE_CORPUS:
+        section(f"EVIDENCE TRACE  {doc['document_id']}")
+
+        raw_path   = REPO / doc["raw_file"]
+        trace_path = REPO / doc["trace_file"]
+
+        # ── File existence checks ────────────────────────────────────────────
+        if not raw_path.exists():
+            fail(f"Raw file not found: {doc['raw_file']}")
+            all_pass = False
+            continue
+        if not trace_path.exists():
+            fail(f"Evidence trace not found: {doc['trace_file']}")
+            all_pass = False
+            continue
+
+        raw_text   = raw_path.read_text(encoding="utf-8")
+        trace_text = trace_path.read_text(encoding="utf-8")
+
+        ok(f"Raw file loaded: {len(raw_text):,} chars")
+        ok(f"Evidence trace loaded: {len(trace_text):,} chars")
+
+        # ── Citation verification ────────────────────────────────────────────
+        missing = []
+        for description, pattern in doc["citations"]:
+            if re.search(pattern, raw_text, re.MULTILINE):
+                ok(f"VERIFIED  {description}")
+            else:
+                fail(f"MISSING   {description}  (pattern: {pattern!r})")
+                missing.append(description)
+                all_pass = False
+
+        if missing:
+            print()
+            warn(f"{len(missing)} citation(s) not found in raw source — "
+                 f"evidence trace may reference non-existent sections")
+
+    # ── Summary ───────────────────────────────────────────────────────────────
+    total_citations = sum(len(d["citations"]) for d in EVIDENCE_TRACE_CORPUS)
+    p, f_, w = infra_results["pass"], infra_results["fail"], infra_results["warn"]
+    status_str = _tty("32", "PASS") if f_ == 0 else _tty("31", "FAIL")
+
+    print(f"\n{'═' * 66}")
+    print(f"  Evidence trace verification: [{status_str}]")
+    print(f"  Documents: {len(EVIDENCE_TRACE_CORPUS)}  "
+          f"Citations checked: {total_citations}  "
+          f"pass={p}  fail={f_}  warn={w}")
+    print(f"\n  Verification scope: section identifiers exist in raw files.")
+    print(f"  This does NOT verify verbatim quote accuracy.")
+    print(f"  Assessment scoring and detection logic are unchanged.")
+    print(f"{'═' * 66}\n")
+
+    sys.exit(1 if f_ > 0 else 0)
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
     if "--verified-corpus" in sys.argv:
         run_verified_corpus()
         return  # run_verified_corpus calls sys.exit internally
+
+    if "--check-evidence-traces" in sys.argv:
+        run_check_evidence_traces()
+        return  # run_check_evidence_traces calls sys.exit internally
 
     print("╔════════════════════════════════════════════════════════════════╗")
     print("║  LAIF Validation Harness  ·  Law-Aligned Intelligence          ║")
