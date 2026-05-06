@@ -19,7 +19,7 @@
 | Corpus assessment — refined model v1.1 | Complete — `reports/laif_full_assessment.md` on `main` |
 | Verified corpus infrastructure | Complete — `docs/verified/` with manifests, raw files, evidence traces |
 | Validated corpus mode | Complete — `python3 validate.py --verified-corpus` |
-| EU AI Act full-text ingestion | Pending |
+| EU AI Act full-text ingestion | **BLOCKED** — EUR-Lex returns HTTP 403 on automated access |
 
 ---
 
@@ -46,11 +46,13 @@ No finding from a representative corpus assessment may be presented as a finding
 | EO 14110 (Fed. Reg. Vol. 88 No. 210) | `docs/verified/raw/` | `2cbab05...` | ASSESSED |
 | NIST AI 100-1 | `docs/verified/raw/` | `44ac320...` | ASSESSED |
 | DTAC v2.0 (NHS England, Feb 2026) | `docs/verified/raw/` | `d727228...` | ASSESSED |
-| EU AI Act (Reg. 2024/1689) | Not ingested | — | PENDING_INGESTION |
+| EU AI Act (Reg. 2024/1689) | Not ingested — BLOCKED | — | PENDING_INGESTION |
 
 **Authoritative assessment artifact:** `reports/laif_full_assessment.md` (on `main`, commit `e3a75f1` or later)
 
 **Provenance verification:** `python3 validate.py --verified-corpus` — all 4 ASSESSED documents produce hash-verified PASS.
+
+**EU AI Act blocking reason:** EUR-Lex returned HTTP 403 Forbidden on all URL variants tested in automated session (May 2026). The regulation is not accessible via automated retrieval from this environment. Ingestion requires human-initiated download from EUR-Lex and supply as a user-uploaded file. See `docs/verified/manifests/eu-ai-act-2024-1689.json` for full blocking record.
 
 ---
 
@@ -125,12 +127,12 @@ The following claims are **not made** by this repository:
 
 Changes required before claiming full publication readiness:
 
-| Gap | Priority | Action |
-|---|---|---|
-| EU AI Act full-text ingestion | High | Obtain authoritative text from EUR-Lex; ingest; create manifest |
-| URL verification pass | Medium | Retrieve all four documents from authoritative URLs; compare SHA256 |
-| NIST DOCX accuracy verification | Medium | Compare DOCX extraction against authoritative PDF |
-| Cross-document quote verification | Low | Automated check that evidence trace citations match raw source line references |
+| Gap | Priority | Blocking reason | Action |
+|---|---|---|---|
+| EU AI Act full-text ingestion | High | EUR-Lex HTTP 403 (automated access blocked) | Human download from EUR-Lex; supply as uploaded file |
+| URL verification pass | Medium | All authoritative URLs return HTTP 403 from automated session | Human-initiated verification against each listed URL |
+| NIST DOCX accuracy verification | Medium | NIST PDF at doi.org/10.6028/NIST.AI.100-1 returns HTTP 403 | Human download of PDF; textual comparison with extracted markdown |
+| Evidence trace section verification | Resolved | — | Implemented — `python3 validate.py --check-evidence-traces` |
 
 ---
 

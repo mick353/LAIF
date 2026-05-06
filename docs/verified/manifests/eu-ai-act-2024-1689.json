@@ -5,8 +5,17 @@
   "jurisdiction": "European Union",
   "source_type": "binding_regulation",
   "authoritative_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689",
+  "authoritative_url_html": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689",
   "retrieval_date_utc": null,
   "retrieval_method": null,
+  "ingestion_status": "BLOCKED",
+  "ingestion_blocked_reason": "HTTP 403 Forbidden returned on all EUR-Lex URL variants during automated session (May 2026). EUR-Lex blocks automated/non-browser retrieval. Full-text ingestion requires human-initiated browser session or API access with appropriate credentials. No source text available for ingestion.",
+  "ingestion_blocked_urls_tested": [
+    "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689",
+    "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689"
+  ],
+  "ingestion_blocked_http_status": 403,
+  "ingestion_unblock_action": "Human-initiated retrieval from EUR-Lex via browser; save as plain text or DOCX; supply to ingestion session as user-uploaded file (same method as EO 14110, OECD, NIST).",
   "publication_date": "2024-07-12",
   "version_identifier": "OJ L 2024/1689",
   "sha256_hash": null,
@@ -18,5 +27,5 @@
   "assessment_status": "PENDING_INGESTION",
   "assessment_reference": null,
   "evidence_trace": null,
-  "provenance_notes": "Not yet ingested as authoritative full text. A REPRESENTATIVE_EXCERPT of selected articles (Arts. 9, 13, 14) exists in sample_documents.py but is classified NON_CITABLE — it is a condensed paraphrase for framework validation purposes only, not a verbatim source. Full-text ingestion from EUR-Lex is required before a LAIF v1.2 assessment can be conducted against this instrument as a PRIMARY_CITABLE source. This manifest entry is a placeholder recording ingestion intent and authoritative source location."
+  "provenance_notes": "Not ingested. No source text available. EUR-Lex returned HTTP 403 on all URL variants tested in automated session (May 2026). A REPRESENTATIVE_EXCERPT of selected articles (Arts. 9, 13, 14) exists in sample_documents.py but is classified NON_CITABLE. No LAIF v1.2 assessment of the EU AI Act can be conducted from the verified corpus until full-text ingestion is complete."
 }
