@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "laif-verified-corpus-manifest-schema-v1.0",
+  "title": "LAIF Verified Corpus Manifest Schema",
+  "description": "Provenance metadata schema for documents in the LAIF verified corpus. Every document ingested into docs/verified/ requires a manifest conforming to this schema.",
+  "schema_version": "1.0",
+  "framework_version": "LAIF v1.2",
+  "date": "April 2026",
+
+  "required_fields": [
+    "document_id",
+    "title",
+    "jurisdiction",
+    "source_type",
+    "authoritative_url",
+    "retrieval_date_utc",
+    "retrieval_method",
+    "publication_date",
+    "version_identifier",
+    "sha256_hash",
+    "raw_filename",
+    "extraction_boundaries",
+    "transformation_status",
+    "citation_status",
+    "provenance_classification",
+    "assessment_status"
+  ],
+
+  "field_definitions": {
+    "document_id": {
+      "type": "string",
+      "description": "Unique identifier for this document within the LAIF corpus. Convention: <8-char-hash>-<ShortTitle>.",
+      "example": "51a29205-OECD_Legal_Instruments"
+    },
+    "title": {
+      "type": "string",
+      "description": "Full official title of the document as it appears in the authoritative publication."
+    },
+    "jurisdiction": {
+      "type": "string",
+      "description": "Legal or institutional jurisdiction of the document.",
+      "examples": ["European Union", "United States (Federal)", "International (OECD)", "United Kingdom (NHS England)"]
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "binding_regulation",
+        "executive_directive",
+        "voluntary_framework",
+        "international_recommendation",
+        "procurement_standard",
+        "sector_policy"
+      ],
+      "descriptions": {
+        "binding_regulation": "Legally binding regulation with direct effect (e.g. EU AI Act)",
+        "executive_directive": "Executive order or equivalent directive — binding on executive agencies, not private actors",
+        "voluntary_framework": "Non-binding framework adopted by voluntary agreement or practice",
+        "international_recommendation": "OECD-type recommendation — non-binding, adopted by member state consensus",
+        "procurement_standard": "Standard enforced through procurement gating rather than statute",
+        "sector_policy": "Sector-specific policy guidance"
+      }
+    },
+    "authoritative_url": {
+      "type": "string",
+      "description": "Canonical URL of the authoritative publication. Use the official government or international body URL. If unknown, set to null and document in provenance_notes.",
+      "format": "uri"
+    },
+    "retrieval_date_utc": {
+      "type": "string",
+      "description": "ISO 8601 UTC timestamp of when the document was retrieved. Set to 'NOT_RETRIEVED_FROM_URL' if sourced from a user-supplied file rather than a URL fetch.",
+      "format": "date-time or NOT_RETRIEVED_FROM_URL"
+    },
+    "retrieval_method": {
+      "type": "string",
+      "enum": [
+        "url_fetch",
+        "user_supplied_document_strict_source_mode",
+        "user_supplied_docx_strict_source_mode",
+        "user_supplied_pdf_strict_source_mode"
+      ],
+      "description": "How the document was obtained. 'strict_source_mode' variants indicate no training-derived content was used."
+    },
+    "publication_date": {
+      "type": "string",
+      "description": "Official publication date of the document. ISO 8601 format preferred; year-only acceptable if month/day unavailable.",
+      "format": "date or year-only string"
+    },
+    "version_identifier": {
+      "type": "string",
+      "description": "Official version, edition, or instrument number as it appears in the publication.",
+      "examples": ["OECD/LEGAL/0449 (2024 revision)", "Federal Register Vol. 88 No. 210", "NIST AI 100-1 (January 2023)", "DTAC Form 2.0 (February 2026)"]
+    },
+    "sha256_hash": {
+      "type": "string",
+      "description": "SHA256 hash of the raw file stored in docs/verified/raw/. This is the hash of the extracted markdown, not necessarily the original source file. Document any difference in provenance_notes.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "raw_filename": {
+      "type": "string",
+      "description": "Filename of the document in docs/verified/raw/. Must exist and hash must match sha256_hash."
+    },
+    "extraction_boundaries": {
+      "type": "object",
+      "description": "Documents the scope of text extracted and used in assessment.",
+      "properties": {
+        "full_document": {
+          "type": "boolean",
+          "description": "True if the entire document was ingested."
+        },
+        "sections": {
+          "type": "array",
+          "description": "If partial extraction, list section identifiers included.",
+          "items": {"type": "string"}
+        },
+        "notes": {
+          "type": "string",
+          "description": "Any additional notes on extraction scope."
+        }
+      }
+    },
+    "transformation_status": {
+      "type": "string",
+      "enum": ["RAW_VERBATIM", "STRUCTURALLY_EXTRACTED", "NORMALISED_FORMATTING_ONLY"],
+      "descriptions": {
+        "RAW_VERBATIM": "Text is byte-for-byte identical to the source, no transformation applied.",
+        "STRUCTURALLY_EXTRACTED": "Text extracted from a structured source (PDF, DOCX) with structure-aware tooling; content is verbatim but format has been normalised from the source encoding.",
+        "NORMALISED_FORMATTING_ONLY": "Text is verbatim with only markdown heading levels, pipe tables, or whitespace normalised. No content words altered."
+      }
+    },
+    "citation_status": {
+      "type": "string",
+      "enum": ["PRIMARY_CITABLE", "DERIVED_EXCERPT", "NON_CITABLE"],
+      "descriptions": {
+        "PRIMARY_CITABLE": "Text is verbatim from the authoritative source and may be cited as primary evidence. Requires NORMALISED_FORMATTING_ONLY or RAW_VERBATIM transformation_status.",
+        "DERIVED_EXCERPT": "Text is a structured extract that preserves substance but may not be verbatim in every detail. Cite with caveat.",
+        "NON_CITABLE": "Text is a paraphrase, summary, or otherwise not suitable for primary citation."
+      }
+    },
+    "provenance_classification": {
+      "type": "string",
+      "enum": ["AUTHORITATIVE_PRIMARY_SOURCE", "AUTHORITATIVE_GOVERNMENT_PUBLICATION", "REGULATORY_PUBLICATION"],
+      "descriptions": {
+        "AUTHORITATIVE_PRIMARY_SOURCE": "The document is itself the authoritative governance instrument (e.g. an international recommendation, regulation, or standard).",
+        "AUTHORITATIVE_GOVERNMENT_PUBLICATION": "The document is an official government publication constituting the operative legal or policy instrument.",
+        "REGULATORY_PUBLICATION": "The document is a regulatory or standards body publication operative within its defined scope."
+      }
+    },
+    "assessment_status": {
+      "type": "string",
+      "enum": ["ASSESSED", "PENDING_ASSESSMENT", "PENDING_INGESTION"],
+      "descriptions": {
+        "ASSESSED": "A full LAIF v1.2 assessment has been completed and is recorded in reports/laif_full_assessment.md.",
+        "PENDING_ASSESSMENT": "Document is ingested but full assessment not yet completed.",
+        "PENDING_INGESTION": "Document has not yet been ingested; manifest entry is a placeholder recording intent."
+      }
+    },
+    "provenance_notes": {
+      "type": "string",
+      "description": "Optional. Any additional provenance context, limitations, or caveats not captured by other fields."
+    },
+    "assessment_reference": {
+      "type": "string",
+      "description": "Optional. Location of the LAIF assessment for this document (e.g. 'reports/laif_full_assessment.md — Assessment 1')."
+    }
+  },
+
+  "validation_rules": [
+    "citation_status == PRIMARY_CITABLE requires transformation_status in [RAW_VERBATIM, NORMALISED_FORMATTING_ONLY]",
+    "assessment_status == ASSESSED requires assessment_reference to be non-null",
+    "sha256_hash must match SHA256 of the file at docs/verified/raw/{raw_filename} when verified",
+    "assessment_status == PENDING_INGESTION: sha256_hash, raw_filename, extraction_boundaries, transformation_status may be null"
+  ]
+}
