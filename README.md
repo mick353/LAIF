@@ -123,7 +123,15 @@ LAIF applies to regulatory bodies and governance actors themselves — not only 
 
 ## Repository Governance
 
-Contribution and review expectations are documented in `CONTRIBUTING.md` and `docs/governance/`. These documents describe semantic-boundary review, protected artifact awareness, merge expectations, and rollback procedures without changing LAIF assessment semantics or validation behavior.
+Contribution and review expectations are documented in `CONTRIBUTING.md` and `docs/governance/`. These documents describe semantic-boundary review, protected artifact awareness, merge expectations, and rollback procedures without changing LAIF assessment semantics, scoring, detector behavior, interpretation logic, or validation behavior. They are repository safeguards only and do not provide external legal certification.
+
+Current governance status:
+
+- Phase 3A governance stabilization has been merged.
+- Phase 3B deterministic governance test coverage has been merged.
+- The CI governance job gates the validation, adversarial, and real-world jobs so downstream assessment checks depend on governance completing successfully.
+- Protected-artifact checks are blocking; semantic-boundary checks are advisory-only and should not be described as merge-blocking warnings by themselves.
+- Governance config validation enforces that configured paths exist, and governance helper/check files are treated as semantic-sensitive repository infrastructure.
 
 ---
 

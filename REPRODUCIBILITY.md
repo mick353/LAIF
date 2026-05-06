@@ -136,6 +136,26 @@ These conditions must hold across any reproduction:
 
 ---
 
+## Governance Check Reproducibility
+
+Phase 3A governance stabilization and Phase 3B deterministic governance test coverage are part of the current repository baseline. These checks protect repository process and assessment artifacts; they do not change LAIF assessment scoring, detector semantics, interpretation semantics, or the external legal status of any assessment.
+
+The governance lifecycle is reproducible with the following commands:
+
+```bash
+python3 -m py_compile scripts/governance/*.py
+python3 scripts/governance/check_governance_config.py
+python3 scripts/governance/check_protected_artifacts.py
+python3 scripts/governance/check_semantic_boundaries.py
+python3 tests/test_governance.py
+```
+
+Governance config validation verifies configured path existence. Protected-artifact checks are blocking when configured protected artifacts drift. Semantic-boundary checks are advisory-only: they identify semantic-sensitive files for review but do not by themselves change assessment outcomes or block merge as semantic verdicts. The CI governance job runs before, and is a dependency of, validation, adversarial, and real-world jobs.
+
+The Phase 3B test suite in `tests/test_governance.py` validates the shared governance helpers, governance config behavior, protected-artifact behavior, and semantic-boundary advisory behavior. It uses `tests/governance_fixtures/valid_config.json` as the valid governance config fixture.
+
+---
+
 ## 5. Interpretation-Layer Boundaries
 
 The **interpretation layer** covers how findings are expressed, sub-classified, or contextualised. It is independently revisable from the detection layer.

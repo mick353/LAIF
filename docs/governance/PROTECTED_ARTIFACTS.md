@@ -16,13 +16,15 @@ Assessment artifacts record assessment findings, conclusions, or evidence output
 
 The distinction matters because ordinary documentation can be clarified without changing assessment results, while artifact edits may alter the recorded outcome or evidentiary basis of an assessment.
 
-## Initial Protected Artifact Scope
+## Configured Protected Artifact Scope
 
-The initial protected artifact is:
+The configured protected artifact is:
 
 - `reports/laif_full_assessment.md`
 
-This file records the full corpus assessment. Do not edit or regenerate it in ordinary pull requests.
+This file records the full corpus assessment. Do not edit or regenerate it in ordinary pull requests. Governance config validation also enforces that configured protected-artifact paths exist, so a missing configured path is a governance configuration failure rather than an assessment revision.
+
+The protected-artifact check is blocking when configured protected artifacts drift. This blocking status does not mean artifacts can never change; it means intentional changes must use a dedicated assessment-artifact review path.
 
 ## Expected Handling
 
@@ -45,7 +47,7 @@ If a protected artifact must change intentionally:
 
 ## Future Optional Protections
 
-Maintainers may later choose to protect additional files, such as generated real-world reports, verified raw corpus files, evidence trace files, or artifact hash records. Those are informational possibilities only. They are not active policy in this Phase 2A documentation layer unless separately adopted.
+Maintainers may later choose to protect additional files, such as generated real-world reports, verified raw corpus files, evidence trace files, or artifact hash records. Those are informational possibilities only. They are not active policy unless separately adopted in the governance configuration.
 
 ## Human Review
 

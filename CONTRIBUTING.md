@@ -10,11 +10,32 @@ This repository contains framework texts, assessment tooling, verified-source pr
 4. Explain whether the change is documentation/provenance-only or governance-sensitive.
 5. Do not regenerate or edit assessment artifacts unless the pull request is dedicated to that purpose and reviewers have agreed to review it as an assessment-artifact change.
 
+## Safe Codex/GitHub Workflow
+
+After each merge, reset local work to the latest `origin/main` before starting the next phase branch. A safe fresh-branch workflow is:
+
+```bash
+git fetch origin main --prune
+git switch -C <fresh-phase-branch> origin/main
+git reset --hard origin/main
+git clean -fd
+git rev-list --left-right --count HEAD...origin/main
+git status --porcelain
+git diff --name-only origin/main...HEAD
+```
+
+Before editing, `git rev-list --left-right --count HEAD...origin/main` should report `0	0`, `git status --porcelain` should be empty, and `git diff --name-only origin/main...HEAD` should be empty. Before opening a pull request, verify the branch is ahead-only, the diff contains exactly the intended files, and no stale work from an earlier branch is present. Never reuse stale pull-request branches; stale or contaminated pull requests should be closed and ignored rather than repaired in place.
+
 ## Required Local Validation Commands
 
 Run these commands from the repository root before marking a pull request ready for review:
 
 ```bash
+python3 -m py_compile scripts/governance/*.py
+python3 scripts/governance/check_governance_config.py
+python3 scripts/governance/check_protected_artifacts.py
+python3 scripts/governance/check_semantic_boundaries.py
+python3 tests/test_governance.py
 python3 validate.py
 python3 validate.py --verified-corpus
 python3 validate.py --check-evidence-traces

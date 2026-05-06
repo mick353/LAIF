@@ -42,11 +42,16 @@ Semantic-sensitive files may include:
 - `test_real_world.py`
 - `laif_spec.py`
 - `sample_documents.py`
+- `scripts/governance/check_governance_config.py`
+- `scripts/governance/check_protected_artifacts.py`
+- `scripts/governance/check_semantic_boundaries.py`
+- `scripts/governance/governance_utils.py`
+- `scripts/governance/protected_paths.json`
 - `reports/laif_full_assessment.md`
 - `LAIF_v1.2.txt`
 - `LAIF_Compliance_Toolkit.txt`
 
-A change to one of these files is not automatically prohibited. It must be reviewed according to what the change affects.
+A change to one of these files is not automatically prohibited. It must be reviewed according to what the change affects. Governance helper/check files are included because they classify protected artifacts, validate governance configuration, and surface semantic-boundary notices.
 
 ## Semantic-Sensitive Terminology
 
@@ -122,4 +127,6 @@ If the answer to any question is yes, the pull request is governance-sensitive a
 
 ## Automation Boundary
 
-This policy does not attempt heuristic semantic enforcement. Future automation, if added, should detect likely sensitive changes and route them to human review. Human reviewers remain authoritative for semantic approval decisions.
+Phase 3A and Phase 3B governance automation separate blocking checks from advisory notices. Governance config validation is blocking and enforces configured path existence. Protected-artifact checks are blocking when configured artifacts drift. Semantic-boundary checks are advisory-only: they surface files and terms that deserve reviewer attention, but a warning is not itself a semantic verdict and should not be described as automatically blocking merge.
+
+The Phase 3B governance test suite validates shared governance helpers, config behavior, protected-artifact behavior, and semantic-boundary advisory behavior using `tests/governance_fixtures/valid_config.json`. These tests protect governance plumbing only; they do not change LAIF assessment scoring, detector behavior, interpretation logic, or published assessment conclusions. Human reviewers remain authoritative for semantic approval decisions.
