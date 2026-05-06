@@ -6,7 +6,6 @@
   "schema_version": "1.0",
   "framework_version": "LAIF v1.2",
   "date": "April 2026",
-
   "required_fields": [
     "document_id",
     "title",
@@ -21,11 +20,18 @@
     "raw_filename",
     "extraction_boundaries",
     "transformation_status",
+    "acquisition_channel",
+    "authoritative_origin_url",
+    "acquired_by",
+    "acquired_at_utc",
+    "acquisition_note",
+    "source_file_sha256",
+    "transformation_chain",
+    "verification_status",
     "citation_status",
     "provenance_classification",
     "assessment_status"
   ],
-
   "field_definitions": {
     "document_id": {
       "type": "string",
@@ -39,7 +45,12 @@
     "jurisdiction": {
       "type": "string",
       "description": "Legal or institutional jurisdiction of the document.",
-      "examples": ["European Union", "United States (Federal)", "International (OECD)", "United Kingdom (NHS England)"]
+      "examples": [
+        "European Union",
+        "United States (Federal)",
+        "International (OECD)",
+        "United Kingdom (NHS England)"
+      ]
     },
     "source_type": {
       "type": "string",
@@ -88,7 +99,12 @@
     "version_identifier": {
       "type": "string",
       "description": "Official version, edition, or instrument number as it appears in the publication.",
-      "examples": ["OECD/LEGAL/0449 (2024 revision)", "Federal Register Vol. 88 No. 210", "NIST AI 100-1 (January 2023)", "DTAC Form 2.0 (February 2026)"]
+      "examples": [
+        "OECD/LEGAL/0449 (2024 revision)",
+        "Federal Register Vol. 88 No. 210",
+        "NIST AI 100-1 (January 2023)",
+        "DTAC Form 2.0 (February 2026)"
+      ]
     },
     "sha256_hash": {
       "type": "string",
@@ -110,7 +126,9 @@
         "sections": {
           "type": "array",
           "description": "If partial extraction, list section identifiers included.",
-          "items": {"type": "string"}
+          "items": {
+            "type": "string"
+          }
         },
         "notes": {
           "type": "string",
@@ -120,7 +138,11 @@
     },
     "transformation_status": {
       "type": "string",
-      "enum": ["RAW_VERBATIM", "STRUCTURALLY_EXTRACTED", "NORMALISED_FORMATTING_ONLY"],
+      "enum": [
+        "RAW_VERBATIM",
+        "STRUCTURALLY_EXTRACTED",
+        "NORMALISED_FORMATTING_ONLY"
+      ],
       "descriptions": {
         "RAW_VERBATIM": "Text is byte-for-byte identical to the source, no transformation applied.",
         "STRUCTURALLY_EXTRACTED": "Text extracted from a structured source (PDF, DOCX) with structure-aware tooling; content is verbatim but format has been normalised from the source encoding.",
@@ -129,7 +151,11 @@
     },
     "citation_status": {
       "type": "string",
-      "enum": ["PRIMARY_CITABLE", "DERIVED_EXCERPT", "NON_CITABLE"],
+      "enum": [
+        "PRIMARY_CITABLE",
+        "DERIVED_EXCERPT",
+        "NON_CITABLE"
+      ],
       "descriptions": {
         "PRIMARY_CITABLE": "Text is verbatim from the authoritative source and may be cited as primary evidence. Requires NORMALISED_FORMATTING_ONLY or RAW_VERBATIM transformation_status.",
         "DERIVED_EXCERPT": "Text is a structured extract that preserves substance but may not be verbatim in every detail. Cite with caveat.",
@@ -138,7 +164,11 @@
     },
     "provenance_classification": {
       "type": "string",
-      "enum": ["AUTHORITATIVE_PRIMARY_SOURCE", "AUTHORITATIVE_GOVERNMENT_PUBLICATION", "REGULATORY_PUBLICATION"],
+      "enum": [
+        "AUTHORITATIVE_PRIMARY_SOURCE",
+        "AUTHORITATIVE_GOVERNMENT_PUBLICATION",
+        "REGULATORY_PUBLICATION"
+      ],
       "descriptions": {
         "AUTHORITATIVE_PRIMARY_SOURCE": "The document is itself the authoritative governance instrument (e.g. an international recommendation, regulation, or standard).",
         "AUTHORITATIVE_GOVERNMENT_PUBLICATION": "The document is an official government publication constituting the operative legal or policy instrument.",
@@ -147,11 +177,15 @@
     },
     "assessment_status": {
       "type": "string",
-      "enum": ["ASSESSED", "PENDING_ASSESSMENT", "PENDING_INGESTION"],
+      "enum": [
+        "ASSESSED",
+        "PENDING_ASSESSMENT",
+        "PENDING_INGESTION"
+      ],
       "descriptions": {
         "ASSESSED": "A full LAIF v1.2 assessment has been completed and is recorded in reports/laif_full_assessment.md.",
         "PENDING_ASSESSMENT": "Document is ingested but full assessment not yet completed.",
-        "PENDING_INGESTION": "Document has not yet been ingested; manifest entry is a placeholder recording intent."
+        "PENDING_INGESTION": "Document has not yet been ingested; manifest entry is a placeholder recording intent. When verification_status=PENDING_INGESTION and no source has yet been acquired, acquisition-source fields may remain null or empty until acquisition occurs."
       }
     },
     "provenance_notes": {
@@ -161,13 +195,87 @@
     "assessment_reference": {
       "type": "string",
       "description": "Optional. Location of the LAIF assessment for this document (e.g. 'reports/laif_full_assessment.md — Assessment 1')."
+    },
+    "acquisition_channel": {
+      "type": "string",
+      "description": "How the authoritative source file entered the repository. The channel documents custody only; it does not itself prove authority. For verification_status=PENDING_INGESTION with no source yet acquired, this field may be null or empty until acquisition occurs.",
+      "enum": [
+        "AUTOMATED_URL_RETRIEVAL",
+        "HUMAN_GITHUB_DEPOSIT",
+        "HUMAN_SESSION_UPLOAD"
+      ],
+      "descriptions": {
+        "AUTOMATED_URL_RETRIEVAL": "Tooling fetched the source directly from the recorded authoritative origin URL.",
+        "HUMAN_GITHUB_DEPOSIT": "A human downloaded the authoritative source and deposited it into docs/verified/manual_ingest/ through GitHub or a Git commit.",
+        "HUMAN_SESSION_UPLOAD": "A human supplied the authoritative source file through the active session, and the agent wrote the exact supplied file into docs/verified/manual_ingest/."
+      }
+    },
+    "authoritative_origin_url": {
+      "type": "string",
+      "description": "Canonical official URL from which the source is asserted to originate. This duplicates or supersedes authoritative_url for acquisition-channel provenance. For verification_status=PENDING_INGESTION with no source yet acquired, this acquisition-source field may be null or empty until acquisition occurs.",
+      "format": "uri"
+    },
+    "acquired_by": {
+      "type": "string",
+      "description": "Actor or process that acquired the source file, e.g. automated_tooling, human_maintainer, session_upload_operator. For verification_status=PENDING_INGESTION with no source yet acquired, this field may be null or empty until acquisition occurs."
+    },
+    "acquired_at_utc": {
+      "type": "string",
+      "description": "ISO 8601 UTC timestamp of acquisition, or NOT_ACQUIRED for pending documents.",
+      "format": "date-time or NOT_ACQUIRED"
+    },
+    "acquisition_note": {
+      "type": "string",
+      "description": "Plain-language custody note. Must state whether authority was automated-verified, human-attested, or pending due to network blocking."
+    },
+    "source_file_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "SHA256 hash of the originally acquired source file before extraction/transformation. If unavailable for legacy ingestions, set null and explain in acquisition_note/provenance_notes. For verification_status=PENDING_INGESTION with no source yet acquired, this acquisition-source field may be null or empty until acquisition occurs.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "transformation_chain": {
+      "type": "array",
+      "description": "Ordered list of transformations from acquired source file to docs/verified/raw markdown. Each step must be content-preserving or explicitly downgrade citation_status. For verification_status=PENDING_INGESTION with no source yet acquired, this acquisition-source field may be null or empty until acquisition occurs.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "verification_status": {
+      "type": "string",
+      "description": "Current authority/equivalence verification state. This is separate from acquisition_channel.",
+      "enum": [
+        "AUTOMATED_VERIFIED",
+        "HUMAN_ATTESTED_AUTHORITATIVE",
+        "NETWORK_BLOCKED_PENDING_HUMAN_SOURCE",
+        "HASH_VERIFIED_LOCAL_ONLY",
+        "REJECTED_UNVERIFIED"
+      ],
+      "descriptions": {
+        "AUTOMATED_VERIFIED": "Automated retrieval from authoritative_origin_url succeeded and local source equivalence was verified.",
+        "HUMAN_ATTESTED_AUTHORITATIVE": "Human operator supplied the file and asserted it came from the authoritative source.",
+        "NETWORK_BLOCKED_PENDING_HUMAN_SOURCE": "Automated retrieval was blocked; this is a non-terminal state pending lawful human source acquisition.",
+        "HASH_VERIFIED_LOCAL_ONLY": "Repository integrity is verified by local hash, but upstream URL equivalence is not yet proven.",
+        "REJECTED_UNVERIFIED": "Source is not accepted for authoritative assessment."
+      }
+    },
+    "network_status": {
+      "type": "string",
+      "description": "Optional structured network retrieval state for the authoritative_origin_url, e.g. AUTOMATED_URL_BLOCKED_HTTP_403 or NOT_ATTEMPTED."
     }
   },
-
   "validation_rules": [
     "citation_status == PRIMARY_CITABLE requires transformation_status in [RAW_VERBATIM, NORMALISED_FORMATTING_ONLY]",
     "assessment_status == ASSESSED requires assessment_reference to be non-null",
     "sha256_hash must match SHA256 of the file at docs/verified/raw/{raw_filename} when verified",
-    "assessment_status == PENDING_INGESTION: sha256_hash, raw_filename, extraction_boundaries, transformation_status may be null"
+    "assessment_status == PENDING_INGESTION: sha256_hash, raw_filename, extraction_boundaries, transformation_status may be null; when verification_status=PENDING_INGESTION and no source has yet been acquired, acquisition-source fields may also be null or empty",
+    "acquisition_channel must be one of AUTOMATED_URL_RETRIEVAL, HUMAN_GITHUB_DEPOSIT, HUMAN_SESSION_UPLOAD",
+    "verification_status must be one of AUTOMATED_VERIFIED, HUMAN_ATTESTED_AUTHORITATIVE, NETWORK_BLOCKED_PENDING_HUMAN_SOURCE, HASH_VERIFIED_LOCAL_ONLY, REJECTED_UNVERIFIED",
+    "HUMAN_ATTESTED_AUTHORITATIVE means the human operator supplied the file and asserted it came from the authoritative source; it is not byte-equivalence proof by itself",
+    "HASH_VERIFIED_LOCAL_ONLY means repository integrity is verified, but upstream URL equivalence is not yet proven",
+    "NETWORK_BLOCKED_PENDING_HUMAN_SOURCE is non-terminal and requires manual acquisition or later automated verification",
+    "transformation_chain must document every extraction/normalisation step from acquired source to raw markdown"
   ]
 }

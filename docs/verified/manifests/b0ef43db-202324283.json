@@ -22,5 +22,18 @@
   "assessment_status": "ASSESSED",
   "assessment_reference": "reports/laif_full_assessment.md — Assessment 2",
   "evidence_trace": "docs/verified/extracted/b0ef43db-EO14110-evidence-trace.md",
-  "provenance_notes": "EO 14110 was revoked by Presidential action on 20 January 2025. The LAIF assessment reflects the instrument as operative at its publication date (30 October 2023). The FRAGILE governance durability classification reflects the revocation. Ingested from user-supplied document in Strict Source Mode. URL verification not performed. SHA256 is of the extracted markdown."
+  "provenance_notes": "EO 14110 was revoked by Presidential action on 20 January 2025. The LAIF assessment reflects the instrument as operative at its publication date (30 October 2023). The FRAGILE governance durability classification reflects the revocation. Ingested from user-supplied document in Strict Source Mode. URL verification not performed. SHA256 is of the extracted markdown. Verification taxonomy: HASH_VERIFIED_LOCAL_ONLY with network_status AUTOMATED_URL_BLOCKED_HTTP_403; authoritative_origin_url recorded; manual re-verification pathway available.",
+  "acquisition_channel": "HUMAN_SESSION_UPLOAD",
+  "authoritative_origin_url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
+  "acquired_by": "legacy_human_source_provider",
+  "acquired_at_utc": "LEGACY_INGESTION_PRE_ACQUISITION_MODEL",
+  "acquisition_note": "Legacy user-supplied Strict Source Mode ingestion. Local raw markdown SHA256 is verified. Automated authoritative URL retrieval later returned HTTP 403, so upstream URL equivalence is not proven. Manual re-verification pathway is available through MANUAL_INGESTION_WORKFLOW.md.",
+  "source_file_sha256": null,
+  "transformation_chain": [
+    "Legacy Strict Source Mode user-supplied document.",
+    "Markdown formatting normalisation only.",
+    "Stored as docs/verified/raw/b0ef43db-202324283.md."
+  ],
+  "verification_status": "HASH_VERIFIED_LOCAL_ONLY",
+  "network_status": "AUTOMATED_URL_BLOCKED_HTTP_403"
 }
