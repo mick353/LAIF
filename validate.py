@@ -531,13 +531,27 @@ VERIFIED_REQUIRED_FIELDS = [
     "authoritative_url", "retrieval_date_utc", "retrieval_method",
     "publication_date", "version_identifier", "sha256_hash",
     "raw_filename", "extraction_boundaries", "transformation_status",
+    "acquisition_channel", "authoritative_origin_url", "acquired_by",
+    "acquired_at_utc", "acquisition_note", "source_file_sha256",
+    "transformation_chain", "verification_status",
     "citation_status", "provenance_classification", "assessment_status",
 ]
+
+VERIFIED_NULLABLE_REQUIRED_FIELDS = {"source_file_sha256"}
 
 VALID_TRANSFORMATION = {"RAW_VERBATIM", "STRUCTURALLY_EXTRACTED", "NORMALISED_FORMATTING_ONLY"}
 VALID_CITATION       = {"PRIMARY_CITABLE", "DERIVED_EXCERPT", "NON_CITABLE"}
 VALID_PROVENANCE     = {"AUTHORITATIVE_PRIMARY_SOURCE", "AUTHORITATIVE_GOVERNMENT_PUBLICATION", "REGULATORY_PUBLICATION"}
 VALID_ASSESSMENT     = {"ASSESSED", "PENDING_ASSESSMENT", "PENDING_INGESTION"}
+VALID_ACQUISITION    = {"AUTOMATED_URL_RETRIEVAL", "HUMAN_GITHUB_DEPOSIT", "HUMAN_SESSION_UPLOAD"}
+VALID_VERIFICATION   = {
+    "AUTOMATED_VERIFIED",
+    "HUMAN_ATTESTED_AUTHORITATIVE",
+    "NETWORK_BLOCKED_PENDING_HUMAN_SOURCE",
+    "HASH_VERIFIED_LOCAL_ONLY",
+    "REJECTED_UNVERIFIED",
+}
+VALID_NETWORK_STATUS = {"AUTOMATED_URL_BLOCKED_HTTP_403", "NOT_ATTEMPTED", "AUTOMATED_URL_RETRIEVED"}
 
 
 def _load_manifests():
@@ -597,14 +611,31 @@ def run_verified_corpus():
             info("assessment_status = PENDING_INGESTION — hash/file checks skipped")
             pending += 1
             for f_ in ("document_id", "title", "jurisdiction", "source_type",
-                        "authoritative_url", "citation_status", "provenance_classification"):
+                        "authoritative_url", "authoritative_origin_url",
+                        "acquired_by", "acquired_at_utc", "acquisition_note",
+                        "verification_status", "network_status",
+                        "citation_status", "provenance_classification"):
                 if manifest.get(f_):
                     ok(f"Field present: {f_}")
                 else:
                     warn(f"Field missing or null: {f_}")
+
+            pending_vs = manifest.get("verification_status")
+            if pending_vs in VALID_VERIFICATION:
+                ok(f"verification_status: {pending_vs}")
+            else:
+                warn(f"verification_status missing or invalid for pending document: {pending_vs!r}")
+
+            if manifest.get("network_status") in VALID_NETWORK_STATUS:
+                ok(f"network_status: {manifest.get('network_status')}")
+            elif manifest.get("network_status"):
+                warn(f"network_status not recognised: {manifest.get('network_status')!r}")
             continue
 
-        missing = [f for f in VERIFIED_REQUIRED_FIELDS if f not in manifest or manifest[f] is None]
+        missing = [
+            f for f in VERIFIED_REQUIRED_FIELDS
+            if f not in manifest or (manifest[f] is None and f not in VERIFIED_NULLABLE_REQUIRED_FIELDS)
+        ]
         if missing:
             fail(f"Missing required fields: {', '.join(missing)}")
         else:
@@ -615,6 +646,9 @@ def run_verified_corpus():
         cs = manifest.get("citation_status", "")
         pc = manifest.get("provenance_classification", "")
         as_ = manifest.get("assessment_status", "")
+        acq = manifest.get("acquisition_channel", "")
+        vs = manifest.get("verification_status", "")
+        ns = manifest.get("network_status", "")
 
         if ts in VALID_TRANSFORMATION:
             ok(f"transformation_status: {ts}")
@@ -635,6 +669,36 @@ def run_verified_corpus():
             ok(f"assessment_status: {as_}")
         else:
             fail(f"assessment_status invalid: '{as_}'")
+
+        if acq in VALID_ACQUISITION:
+            ok(f"acquisition_channel: {acq}")
+        else:
+            fail(f"acquisition_channel invalid: '{acq}'")
+
+        if vs in VALID_VERIFICATION:
+            ok(f"verification_status: {vs}")
+        else:
+            fail(f"verification_status invalid: '{vs}'")
+
+        if ns:
+            if ns in VALID_NETWORK_STATUS:
+                ok(f"network_status: {ns}")
+            else:
+                warn(f"network_status not recognised: '{ns}'")
+
+        origin_url = manifest.get("authoritative_origin_url")
+        if origin_url and origin_url == manifest.get("authoritative_url"):
+            ok("authoritative_origin_url matches authoritative_url")
+        elif origin_url:
+            warn("authoritative_origin_url differs from authoritative_url — verify intentional alias")
+        else:
+            fail("authoritative_origin_url missing — acquisition provenance incomplete")
+
+        chain = manifest.get("transformation_chain")
+        if isinstance(chain, list) and chain:
+            ok(f"transformation_chain documented: {len(chain)} step(s)")
+        else:
+            fail("transformation_chain missing or empty for assessed document")
 
         # ── 3. Citation consistency rule ─────────────────────────────────────
         # PRIMARY_CITABLE requires RAW_VERBATIM or NORMALISED_FORMATTING_ONLY
