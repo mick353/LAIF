@@ -174,6 +174,8 @@ The Python tooling (`assessment_engine.py`, `validate.py`, test suites) requires
 
 ## Repository Governance
 
+See `CONTRIBUTING.md` and `docs/governance/` for contributor-facing review policy, protected artifact awareness, semantic-boundary definitions, merge expectations, and rollback procedures. These governance documents are process guidance and do not alter LAIF semantics, scoring logic, detector logic, interpretation logic, or assessment artifacts.
+
 ### Authoritative Branch Policy
 
 **`main` is the sole authoritative branch.** No assessment artifact, scoring result, or interpretation refinement is canonical until it has been merged into `main`.
