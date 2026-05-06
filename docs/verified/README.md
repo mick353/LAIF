@@ -13,7 +13,10 @@ docs/verified/
 ├── README.md              — this file
 ├── raw/                   — full-text ingestions from user-supplied authoritative sources
 ├── extracted/             — bounded evidence traces documenting assessment citations
-└── manifests/             — provenance JSON manifests, one per document
+├── manifests/             — provenance JSON manifests, one per document
+├── manual_ingest/         — exact human-supplied authoritative files awaiting processing
+├── pending/               — readiness records for documents awaiting manual ingestion
+└── url_verification/      — automated URL verification attempt records
 ```
 
 ## Corpus vs Representative Baseline
@@ -27,6 +30,11 @@ docs/verified/
 | EU AI Act | Not ingested | PENDING_INGESTION |
 
 The `docs/supporting/` files are the **primary source** of the four instruments assessed in `reports/laif_full_assessment.md`. The `docs/verified/` tree adds provenance manifests and hash verification around those same sources.
+
+
+## Manual Ingestion
+
+When automated URL retrieval is blocked, authoritative sources may be supplied through `HUMAN_GITHUB_DEPOSIT` or `HUMAN_SESSION_UPLOAD`. Exact supplied files are staged in `docs/verified/manual_ingest/`; authority is established by the manifest record, SHA256 hashes, transformation chain, citation status, provenance classification, and verification status. See `MANUAL_INGESTION_WORKFLOW.md`.
 
 ## Ingestion Constraints
 

@@ -30,6 +30,21 @@ LAIF assessments are constitutional-governance analyses and are **not legal dete
 
 **Strict Source Mode** — the constraint that no training-derived content may be used — is enforced at the assessor level, not by tooling. Any factual claim in an assessment that cannot be cited to a verbatim line in an ingested source file is a Strict Source Mode violation.
 
+
+### 1.1.1 Acquisition Channels
+
+The verified corpus supports three lawful source-acquisition channels:
+
+| Channel | Meaning | Authority limitation |
+|---|---|---|
+| `AUTOMATED_URL_RETRIEVAL` | Tooling fetches the file directly from `authoritative_origin_url` | Strongest channel only if hash/equivalence verification succeeds |
+| `HUMAN_GITHUB_DEPOSIT` | Human downloads the authoritative file and deposits it into `docs/verified/manual_ingest/` via GitHub or commit | Requires human attestation and local hash verification |
+| `HUMAN_SESSION_UPLOAD` | Human uploads the file during the session and the agent writes the exact supplied file into `docs/verified/manual_ingest/` | Requires human attestation and local hash verification |
+
+The acquisition channel does not itself prove authority. Authority is established only by the combined manifest record: `authoritative_origin_url`, `acquired_by`, `acquired_at_utc`, `acquisition_note`, `source_file_sha256`, `transformation_chain`, `citation_status`, `provenance_classification`, and `verification_status`.
+
+`HUMAN_ATTESTED_AUTHORITATIVE` means the human operator supplied the file and asserted that it came from the authoritative source. `HASH_VERIFIED_LOCAL_ONLY` means repository integrity is verified, but upstream URL equivalence is not yet proven. `NETWORK_BLOCKED_PENDING_HUMAN_SOURCE` is a non-terminal state that should trigger manual acquisition or later automated re-verification.
+
 ### 1.2 Assessment Execution
 
 **Step 1 — Integrity Layer (Section A):**
@@ -84,7 +99,7 @@ The following assumptions apply to ingestion of documents into `docs/verified/ra
 | Verbatim content | Applies within the extracted markdown | Does not certify identity with the original PDF/DOCX bytes |
 | No training-derived content | Applies to all factual claims in the assessment | Cannot be verified by tooling; enforced at assessor level |
 | SHA256 integrity | Guarantees the extracted markdown has not been altered since ingestion | Hash is of the markdown, not the original source file |
-| URL verification | Server-responsiveness confirmed (HTTP 403) | Content not accessible from automated session; byte comparison not performed |
+| URL verification | `network_status` recorded as `AUTOMATED_URL_BLOCKED_HTTP_403`; OECD/EO/NIST/DTAC are `HASH_VERIFIED_LOCAL_ONLY` | Content not accessible from automated session; upstream byte comparison not performed |
 | Evidence trace citation integrity | 39/39 citations verified present in raw files | Verifies section existence, not verbatim quote accuracy |
 
 ---
@@ -172,7 +187,7 @@ The authoritative assessment for the current corpus is: `reports/laif_full_asses
 
 ## 8. Unresolved Limitations
 
-1. **URL verification gap — partially resolved** — A URL verification attempt was made for all five authoritative URLs (May 2026). All five returned HTTP 403 Forbidden, confirming the URLs are server-responsive but blocking automated retrieval. Content comparison against corpus files was not performed; byte-identical equivalence is not claimed. Full verification requires human-initiated browser access. See `docs/verified/url_verification/verification_report.md`.
+1. **URL verification gap — partially resolved** — A URL verification attempt was made for all five authoritative URLs (May 2026). All five returned HTTP 403 Forbidden, confirming the URLs are server-responsive but blocking automated retrieval. OECD, EO 14110, NIST, and DTAC are classified `HASH_VERIFIED_LOCAL_ONLY` with `network_status: AUTOMATED_URL_BLOCKED_HTTP_403`; content comparison against upstream sources was not performed and byte-identical equivalence is not claimed. Full verification requires human-initiated browser access. See `docs/verified/url_verification/verification_report.md`.
 
 2. **NIST DOCX provenance** — extracted from user-supplied DOCX; DOCX accuracy against the authoritative PDF at doi.org/10.6028/NIST.AI.100-1 has not been independently verified. The PDF URL also returns HTTP 403 from automated session. See `docs/verified/nist_reconciliation.md`.
 

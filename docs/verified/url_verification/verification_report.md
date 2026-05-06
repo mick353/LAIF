@@ -1,21 +1,21 @@
 # URL Verification Report
 
-**Framework:** Law-Aligned Intelligence Framework v1.2  
-**Verification attempt date:** May 2026  
-**Verification method:** Automated HTTP GET from assessment session  
+**Framework:** Law-Aligned Intelligence Framework v1.2
+**Verification attempt date:** May 2026
+**Verification method:** Automated HTTP GET from assessment session
 **Verification scope:** Existence and accessibility of authoritative source URLs
 
 ---
 
 ## Summary
 
-| Document | URL | HTTP Status | Content Accessible | Byte-Hash Comparable | Action Required |
-|---|---|---|---|---|---|
-| OECD Recommendation | legalinstruments.oecd.org | 403 Forbidden | No | No | Human browser access |
-| EO 14110 | federalregister.gov | 403 Forbidden | No | No | Human browser access |
-| NIST AI 100-1 | doi.org/10.6028/NIST.AI.100-1 | 403 Forbidden | No | No | Human browser access |
-| DTAC v2.0 | transform.england.nhs.uk | 403 Forbidden | No | No | Human browser access |
-| EU AI Act | eur-lex.europa.eu | 403 Forbidden | No | No | Human browser access |
+| Document | URL | HTTP Status | network_status | verification_status | Content Accessible | Byte-Hash Comparable | Action Required |
+|---|---|---|---|---|---|---|---|
+| OECD Recommendation | legalinstruments.oecd.org | 403 Forbidden | AUTOMATED_URL_BLOCKED_HTTP_403 | HASH_VERIFIED_LOCAL_ONLY | No | No | Manual re-verification available |
+| EO 14110 | federalregister.gov | 403 Forbidden | AUTOMATED_URL_BLOCKED_HTTP_403 | HASH_VERIFIED_LOCAL_ONLY | No | No | Manual re-verification available |
+| NIST AI 100-1 | doi.org/10.6028/NIST.AI.100-1 | 403 Forbidden | AUTOMATED_URL_BLOCKED_HTTP_403 | HASH_VERIFIED_LOCAL_ONLY | No | No | Manual re-verification available |
+| DTAC v2.0 | transform.england.nhs.uk | 403 Forbidden | AUTOMATED_URL_BLOCKED_HTTP_403 | HASH_VERIFIED_LOCAL_ONLY | No | No | Manual re-verification available |
+| EU AI Act | eur-lex.europa.eu | 403 Forbidden | AUTOMATED_URL_BLOCKED_HTTP_403 | NETWORK_BLOCKED_PENDING_HUMAN_SOURCE | No | No | Ready for manual authoritative ingestion |
 
 ---
 
@@ -43,93 +43,103 @@
 
 ### 1. OECD Recommendation on AI
 
-**URL tested:** https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0449  
-**HTTP status:** 403 Forbidden  
-**Timestamp:** May 2026 (automated session)  
-**Content retrieved:** None  
-**Byte comparison performed:** No  
-**Hash comparison performed:** No  
+**URL tested:** https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0449
+**HTTP status:** 403 Forbidden
+**Timestamp:** May 2026 (automated session)
+**Content retrieved:** None
+**Byte comparison performed:** No
+**Hash comparison performed:** No
 
-**Corpus file:** `docs/verified/raw/51a29205-OECD_Legal_Instruments.md`  
-**Corpus SHA256:** `f35d85747b59c41424858536b566c3c66d0782e4d0036a1c3f6244ed5f259fe6`  
-**Corpus provenance:** User-supplied document; strict source mode ingestion  
+**Corpus file:** `docs/verified/raw/51a29205-OECD_Legal_Instruments.md`
+**Corpus SHA256:** `f35d85747b59c41424858536b566c3c66d0782e4d0036a1c3f6244ed5f259fe6`
+**Corpus provenance:** User-supplied document; strict source mode ingestion
 
-**Verification status:** URL CONFIRMED RESPONSIVE — CONTENT NOT ACCESSIBLE FROM THIS SESSION  
-**Gap:** Byte-identical equivalence between corpus file and live URL not verified.  
+**network_status:** AUTOMATED_URL_BLOCKED_HTTP_403
+**verification_status:** HASH_VERIFIED_LOCAL_ONLY
+**Verification status:** URL CONFIRMED RESPONSIVE — CONTENT NOT ACCESSIBLE FROM THIS SESSION
+**Gap:** Byte-identical equivalence between corpus file and live URL not verified.
 **Action:** Human maintainer to access URL via browser, download document, and compare SHA256 against corpus SHA256.
 
 ---
 
 ### 2. Executive Order 14110
 
-**URL tested:** https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence  
-**HTTP status:** 403 Forbidden  
-**Timestamp:** May 2026 (automated session)  
-**Content retrieved:** None  
-**Byte comparison performed:** No  
-**Hash comparison performed:** No  
+**URL tested:** https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence
+**HTTP status:** 403 Forbidden
+**Timestamp:** May 2026 (automated session)
+**Content retrieved:** None
+**Byte comparison performed:** No
+**Hash comparison performed:** No
 
-**Corpus file:** `docs/verified/raw/b0ef43db-202324283.md`  
-**Corpus SHA256:** `2cbab055409a522549028185c017fa6e450e86bb8fc305a7d0048ad1f6d341c5`  
-**Corpus provenance:** User-supplied document; strict source mode ingestion  
-**Note:** EO 14110 was revoked 20 January 2025. The Federal Register record is an archival document.  
+**Corpus file:** `docs/verified/raw/b0ef43db-202324283.md`
+**Corpus SHA256:** `2cbab055409a522549028185c017fa6e450e86bb8fc305a7d0048ad1f6d341c5`
+**Corpus provenance:** User-supplied document; strict source mode ingestion
+**Note:** EO 14110 was revoked 20 January 2025. The Federal Register record is an archival document.
 
-**Verification status:** URL CONFIRMED RESPONSIVE — CONTENT NOT ACCESSIBLE FROM THIS SESSION  
-**Gap:** Byte-identical equivalence not verified.  
+**network_status:** AUTOMATED_URL_BLOCKED_HTTP_403
+**verification_status:** HASH_VERIFIED_LOCAL_ONLY
+**Verification status:** URL CONFIRMED RESPONSIVE — CONTENT NOT ACCESSIBLE FROM THIS SESSION
+**Gap:** Byte-identical equivalence not verified.
 **Action:** Human maintainer to access Federal Register URL; download plain text; compare SHA256.
 
 ---
 
 ### 3. NIST AI 100-1
 
-**URL tested:** https://doi.org/10.6028/NIST.AI.100-1  
-**HTTP status:** 403 Forbidden  
-**Timestamp:** May 2026 (automated session)  
-**Content retrieved:** None  
-**Byte comparison performed:** No  
-**Hash comparison performed:** No  
+**URL tested:** https://doi.org/10.6028/NIST.AI.100-1
+**HTTP status:** 403 Forbidden
+**Timestamp:** May 2026 (automated session)
+**Content retrieved:** None
+**Byte comparison performed:** No
+**Hash comparison performed:** No
 
-**Corpus file:** `docs/verified/raw/5f667a6f-NIST.AI.1001.md`  
-**Corpus SHA256:** `44ac320e6da1d15fcfded2933da7f62bf0ed552b78a81358102c057991ba6509`  
-**Corpus provenance:** User-supplied DOCX; python-docx extraction; strict source mode  
+**Corpus file:** `docs/verified/raw/5f667a6f-NIST.AI.1001.md`
+**Corpus SHA256:** `44ac320e6da1d15fcfded2933da7f62bf0ed552b78a81358102c057991ba6509`
+**Corpus provenance:** User-supplied DOCX; python-docx extraction; strict source mode
 **Additional gap:** Corpus derived from DOCX, not from the authoritative PDF. Two-step verification needed: (1) confirm PDF content matches DOCX; (2) confirm extracted markdown matches PDF content.
 
-**Verification status:** URL CONFIRMED RESPONSIVE — CONTENT NOT ACCESSIBLE FROM THIS SESSION  
-**Gap:** Both DOCX-vs-PDF and markdown-vs-PDF equivalence unverified.  
+**network_status:** AUTOMATED_URL_BLOCKED_HTTP_403
+**verification_status:** HASH_VERIFIED_LOCAL_ONLY
+**Verification status:** URL CONFIRMED RESPONSIVE — CONTENT NOT ACCESSIBLE FROM THIS SESSION
+**Gap:** Both DOCX-vs-PDF and markdown-vs-PDF equivalence unverified.
 **Action:** Human maintainer to download PDF from doi.org/10.6028/NIST.AI.100-1; extract text; compare against corpus markdown.
 
 ---
 
 ### 4. DTAC v2.0
 
-**URL tested:** https://transform.england.nhs.uk/key-tools-and-info/digital-technology-assessment-criteria-dtac/  
-**HTTP status:** 403 Forbidden  
-**Timestamp:** May 2026 (automated session)  
-**Content retrieved:** None  
-**Byte comparison performed:** No  
-**Hash comparison performed:** No  
+**URL tested:** https://transform.england.nhs.uk/key-tools-and-info/digital-technology-assessment-criteria-dtac/
+**HTTP status:** 403 Forbidden
+**Timestamp:** May 2026 (automated session)
+**Content retrieved:** None
+**Byte comparison performed:** No
+**Hash comparison performed:** No
 
-**Corpus file:** `docs/verified/raw/55eccce3-DTAC_Form_2.0_February_2026.md`  
-**Corpus SHA256:** `d7272288ce5bb79c0554fcbbe9f6fc5a9c9bf95f9e7b34850edc9c7e698d2811`  
-**Corpus provenance:** User-supplied document; strict source mode ingestion  
+**Corpus file:** `docs/verified/raw/55eccce3-DTAC_Form_2.0_February_2026.md`
+**Corpus SHA256:** `d7272288ce5bb79c0554fcbbe9f6fc5a9c9bf95f9e7b34850edc9c7e698d2811`
+**Corpus provenance:** User-supplied document; strict source mode ingestion
 **Note:** NHS England may update DTAC without version change. Verification should confirm DTAC Form 2.0 dated February 2026 is still the current version.
 
-**Verification status:** URL CONFIRMED RESPONSIVE — CONTENT NOT ACCESSIBLE FROM THIS SESSION  
-**Gap:** Byte-identical equivalence not verified; current version status not confirmed.  
+**network_status:** AUTOMATED_URL_BLOCKED_HTTP_403
+**verification_status:** HASH_VERIFIED_LOCAL_ONLY
+**Verification status:** URL CONFIRMED RESPONSIVE — CONTENT NOT ACCESSIBLE FROM THIS SESSION
+**Gap:** Byte-identical equivalence not verified; current version status not confirmed.
 **Action:** Human maintainer to access NHS England URL; download DTAC Form 2.0 (February 2026); compare SHA256.
 
 ---
 
 ### 5. EU AI Act
 
-**URL tested:** https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689  
-**URL tested (HTML):** https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689  
-**HTTP status:** 403 Forbidden (both variants)  
-**Timestamp:** May 2026 (automated session)  
-**Content retrieved:** None  
+**URL tested:** https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689
+**URL tested (HTML):** https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689
+**HTTP status:** 403 Forbidden (both variants)
+**Timestamp:** May 2026 (automated session)
+**Content retrieved:** None
 
-**Corpus file:** None — ingestion BLOCKED  
-**Verification status:** URL CONFIRMED RESPONSIVE — CONTENT NOT ACCESSIBLE FROM THIS SESSION  
+**Corpus file:** None — READY_FOR_MANUAL_AUTHORITATIVE_INGESTION
+**network_status:** AUTOMATED_URL_BLOCKED_HTTP_403
+**verification_status:** NETWORK_BLOCKED_PENDING_HUMAN_SOURCE
+**Verification status:** URL CONFIRMED RESPONSIVE — CONTENT NOT ACCESSIBLE FROM THIS SESSION
 **Note:** This document is not yet in the corpus. URL verification here confirms the authoritative source URL is structurally valid.
 
 ---
@@ -153,7 +163,7 @@ To complete URL verification for each document:
 
 ## Outstanding Status
 
-This verification pass established that all five authoritative URLs are server-responsive (HTTP 403 is a server response, not a network failure). Content verification requires human-initiated access. No byte-identical equivalence claims are made.
+This verification pass established that all five authoritative URLs are server-responsive (HTTP 403 is a server response, not a network failure). For OECD, EO 14110, NIST, and DTAC, local repository hashes are verified but upstream URL equivalence is not proven (`HASH_VERIFIED_LOCAL_ONLY`). For the EU AI Act, no source file has been acquired and the state is `NETWORK_BLOCKED_PENDING_HUMAN_SOURCE` / `READY_FOR_MANUAL_AUTHORITATIVE_INGESTION`. No byte-identical equivalence claims are made.
 
 **Date of next required verification:** Before any publication claim that corpus files are equivalent to live authoritative sources.
 
