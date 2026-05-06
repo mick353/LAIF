@@ -121,6 +121,10 @@ LAIF applies to regulatory bodies and governance actors themselves — not only 
 |------|-------------|
 | `laif_full_assessment.md` | **Authoritative** — full corpus assessment, refined model v1.1, all four instruments |
 
+## Repository Governance
+
+Contribution and review expectations are documented in `CONTRIBUTING.md` and `docs/governance/`. These documents describe semantic-boundary review, protected artifact awareness, merge expectations, and rollback procedures without changing LAIF assessment semantics or validation behavior.
+
 ---
 
 *LAIF v1.2 · Compliance Toolkit v1.1 · April 2026*

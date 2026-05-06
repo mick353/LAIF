@@ -22,5 +22,18 @@
   "assessment_status": "ASSESSED",
   "assessment_reference": "reports/laif_full_assessment.md — Assessment 1",
   "evidence_trace": "docs/verified/extracted/51a29205-OECD-evidence-trace.md",
-  "provenance_notes": "Ingested from user-supplied document in Strict Source Mode. No training-derived content used for any factual claim. URL verification against the authoritative OECD Legal Instruments portal was not performed in this session (no network access). SHA256 is of the extracted markdown file at docs/verified/raw/51a29205-OECD_Legal_Instruments.md. The OECD Recommendation was adopted in 2019 and revised in 2024; this ingestion reflects the 2024 version."
+  "provenance_notes": "Ingested from user-supplied document in Strict Source Mode. No training-derived content used for any factual claim. URL verification against the authoritative OECD Legal Instruments portal was not performed in this session (no network access). SHA256 is of the extracted markdown file at docs/verified/raw/51a29205-OECD_Legal_Instruments.md. The OECD Recommendation was adopted in 2019 and revised in 2024; this ingestion reflects the 2024 version. Verification taxonomy: HASH_VERIFIED_LOCAL_ONLY with network_status AUTOMATED_URL_BLOCKED_HTTP_403; authoritative_origin_url recorded; manual re-verification pathway available.",
+  "acquisition_channel": "HUMAN_SESSION_UPLOAD",
+  "authoritative_origin_url": "https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0449",
+  "acquired_by": "legacy_human_source_provider",
+  "acquired_at_utc": "LEGACY_INGESTION_PRE_ACQUISITION_MODEL",
+  "acquisition_note": "Legacy user-supplied Strict Source Mode ingestion. Local raw markdown SHA256 is verified. Automated authoritative URL retrieval later returned HTTP 403, so upstream URL equivalence is not proven. Manual re-verification pathway is available through MANUAL_INGESTION_WORKFLOW.md.",
+  "source_file_sha256": null,
+  "transformation_chain": [
+    "Legacy Strict Source Mode user-supplied document.",
+    "Markdown formatting normalisation only.",
+    "Stored as docs/verified/raw/51a29205-OECD_Legal_Instruments.md."
+  ],
+  "verification_status": "HASH_VERIFIED_LOCAL_ONLY",
+  "network_status": "AUTOMATED_URL_BLOCKED_HTTP_403"
 }
