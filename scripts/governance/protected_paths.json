@@ -1,0 +1,40 @@
+{
+  "protected_artifacts": [
+    "reports/laif_full_assessment.md"
+  ],
+  "semantic_sensitive_files": [
+    "CLAUDE.md",
+    "validate.py",
+    "test_adversarial.py",
+    "test_real_world.py",
+    "verified_manifest_schema.json",
+    "scripts/governance/protected_paths.json",
+    "scripts/governance/check_governance_config.py",
+    "scripts/governance/check_protected_artifacts.py",
+    "scripts/governance/check_semantic_boundaries.py",
+    "docs/governance/MERGE_POLICY.md",
+    "docs/governance/PROTECTED_ARTIFACTS.md",
+    "docs/governance/SEMANTIC_BOUNDARIES.md"
+  ],
+  "semantic_sensitive_terms": [
+    "Coupling",
+    "Integrity Layer",
+    "Coherence Test",
+    "Structural Transparency",
+    "Structural Honesty",
+    "Structural Containment",
+    "Consistency",
+    "Reversibility",
+    "Foundational Principles",
+    "non-amendable",
+    "assessment_status",
+    "citation_status",
+    "transformation_status",
+    "provenance_classification",
+    "acquisition_channel",
+    "verification_status",
+    "network_status",
+    "authoritative_origin_url",
+    "transformation_chain"
+  ]
+}
