@@ -2127,6 +2127,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     result["structured_findings"]          = _structured_findings(result)
     result["structured_remediation_steps"] = _structured_remediation(result)
     result["governance_signal"]            = _governance_signal_strength(result)
+    result["remediation_patches"]          = _build_remediation_patches(result)
     return result
 
 
@@ -2326,6 +2327,292 @@ def _remediation_groups(steps):
             groups["Immediate clarity/control fixes"].append(step)
     return {name: values for name, values in groups.items() if values}
 
+
+
+_REMEDIATION_PATCH_KEYS = (
+    "patch_id",
+    "assessment_mode",
+    "source_document",
+    "finding_type",
+    "severity",
+    "laif_construct",
+    "governance_force_component",
+    "diagnostic_gap",
+    "source_evidence",
+    "recommended_patch",
+    "canonical_clause_if_adopting_laif",
+    "operational_control",
+    "evidence_artifact",
+    "verification_test",
+    "responsible_actor",
+    "implementation_priority",
+    "legal_authority_boundary",
+)
+
+_PATCH_SOURCE_EVIDENCE_FALLBACK = (
+    "Not directly quoted by current deterministic extractor; reviewer confirmation required."
+)
+
+_PATCH_MAX_PER_DOCUMENT = 12
+
+
+def _slugify_patch_id(text, index):
+    """Return a stable compact patch identifier for deterministic report output."""
+    base = re.sub(r"[^a-z0-9]+", "-", str(text or "patch").lower()).strip("-")
+    base = base[:42].strip("-") or "patch"
+    return f"LAIF-PATCH-{index:02d}-{base}"
+
+
+def _gap_text(gap):
+    if isinstance(gap, dict):
+        return str(gap.get("diagnostic_gap") or gap.get("problem") or gap.get("title") or gap)
+    return str(gap)
+
+
+def _severity_for_gap(gap, result):
+    text = _gap_text(gap).lower()
+    if "contradiction" in text or "negated" in text:
+        return "critical"
+    if any(term in text for term in ("coupling", "integrity layer", "coherence test", "precondition")):
+        return "high"
+    if any(term in text for term in ("low ", "critically low", "evidence gap", "audit", "enforceability")):
+        return "medium"
+    if any(term in text for term in ("sector", "context", "provenance")):
+        return "low"
+    if result.get("formal_laif_native_compliance", result.get("formal_laif_compliance")) == "FAIL":
+        return "medium"
+    return "informational"
+
+
+def _governance_component_for_gap(gap):
+    text = _gap_text(gap).lower()
+    checks = (
+        ("evidence", ("evidence", "documentation", "record", "trace", "audit")),
+        ("auditability", ("auditability", "audit", "monitor", "review", "traceability")),
+        ("reversibility", ("reversibility", "reverse", "rollback", "appeal", "redress", "contest")),
+        ("escalation", ("escalation", "complaint", "supervisory", "authority")),
+        ("consequence", ("consequence", "sanction", "penalty", "enforcement", "liability")),
+        ("actor", ("actor", "responsible", "provider", "operator", "deployer", "agency")),
+        ("trigger", ("trigger", "threshold", "before deployment", "pre-deployment", "when")),
+        ("protected interest", ("human interest", "rights", "safety", "privacy", "non-discrimination")),
+        ("control", ("control", "safeguard", "integrity layer", "containment", "transparency", "honesty")),
+        ("mandate", ("shall", "must", "mandatory", "obligation", "binding")),
+    )
+    for component, terms in checks:
+        if any(term in text for term in terms):
+            return component
+    return "control"
+
+
+def _construct_for_gap(gap):
+    text = _gap_text(gap).lower()
+    construct_terms = (
+        ("Structural Transparency", ("structural transparency", "transparency", "meaningful account", "explanation")),
+        ("Structural Honesty", ("structural honesty", "honesty", "contradiction", "objectives")),
+        ("Structural Containment", ("structural containment", "containment", "boundary", "irreversible")),
+        ("Integrity Layer", ("integrity layer", "precondition", "deployment precondition")),
+        ("Coherence Test", ("coherence test", "pdca", "q1", "q2", "q3")),
+        ("Coupling", ("coupling", "human interest", "restriction")),
+        ("Consistency", ("consistency", "scale-invariant")),
+        ("Reversibility", ("reversibility", "reverse", "rollback", "appeal", "redress")),
+    )
+    for construct, terms in construct_terms:
+        if any(term in text for term in terms):
+            return construct
+    return "Governance-force implementation"
+
+
+def _patch_type_for_gap(gap):
+    text = _gap_text(gap).lower()
+    if "laif-native" in text or "canonical" in text or "terminolog" in text:
+        return "terminology_gap"
+    if "construct" in text or any(c.lower() in text for c in _CONSTRUCT_ORDER):
+        return "construct_gap"
+    if any(term in text for term in ("audit", "trace", "monitor", "review")):
+        return "auditability_gap"
+    if any(term in text for term in ("enforce", "consequence", "sanction", "mandatory", "shall")):
+        return "enforceability_gap"
+    if any(term in text for term in ("revers", "rollback", "appeal", "redress", "contest")):
+        return "reversibility_gap"
+    if any(term in text for term in ("evidence", "documentation", "artifact", "record")):
+        return "evidence_gap"
+    if "sector" in text:
+        return "sector_context_gap"
+    if any(term in text for term in ("provenance", "citation", "source")):
+        return "provenance_gap"
+    if "certification" in text:
+        return "laif_native_certification_gap"
+    return "governance_force_gap"
+
+
+def _recommended_patch_for_gap(gap, result):
+    construct = _construct_for_gap(gap)
+    component = _governance_component_for_gap(gap)
+    gap_text = _gap_text(gap)
+    if construct == "Coupling":
+        return "Define each restriction with the specific protected human or public interest it serves, then assign equivalent institutional force to both sides of the pairing."
+    if construct == "Coherence Test":
+        return "Define a documented Coherence Test workflow that applies Coupling, Consistency, and Reversibility checks before the relevant decision or deployment trigger."
+    if construct == "Integrity Layer":
+        return "Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use."
+    if component == "evidence":
+        return "Require evidence artifacts for the finding, including named records, retention location, reviewer role, and update cadence."
+    if component == "reversibility":
+        return "Add an escalation path and reversibility procedure that identifies who can pause, roll back, review, or remedy the affected decision."
+    if component == "actor":
+        return "Specify responsible actor ownership for the control, including approval authority, implementation role, and review accountability."
+    if component == "auditability":
+        return "Create a verification test and audit trail that a reviewer can repeat without relying on undocumented discretion."
+    return f"Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: {gap_text[:160]}"
+
+
+def _canonical_clause_for_gap(gap, result):
+    construct = _construct_for_gap(gap)
+    if construct == "Coupling":
+        return "If adopting LAIF-native form: Coupling shall pair each restriction with the specific human interest protected, with neither side weakened in isolation."
+    if construct == "Coherence Test":
+        return "If adopting LAIF-native form: the Coherence Test shall document Q1 Coupling, Q2 Consistency, and Q3 Reversibility before authorization."
+    if construct == "Integrity Layer":
+        return "If adopting LAIF-native form: deployment authorization shall require Structural Transparency, Structural Honesty, and Structural Containment evidence."
+    return "If adopting LAIF-native form, translate this diagnostic gap into a canonical LAIF clause only after institutional authority approves the adoption path."
+
+
+def _operational_control_for_gap(gap, result):
+    component = _governance_component_for_gap(gap)
+    controls = {
+        "mandate": "Maintain a controlled obligation register that maps mandate text to owner, trigger, evidence, and review status.",
+        "actor": "Assign a named accountable role and backup reviewer for implementation, exception approval, and periodic review.",
+        "trigger": "Create trigger criteria for when the control activates, including pre-deployment, change, incident, and periodic review events.",
+        "protected interest": "Record the protected interest and affected population for each restriction or operational control.",
+        "control": "Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.",
+        "evidence": "Require evidence capture in a repository with citation, date, responsible actor, and reviewer confirmation.",
+        "reversibility": "Maintain a rollback, appeal, or corrective-action playbook with decision authority and response time expectations.",
+        "escalation": "Add an escalation path from operator review to accountable governance, legal/compliance, or procurement authority.",
+        "consequence": "Define institution-approved consequences for unresolved nonconformance, including pause, remediation, or management review.",
+        "auditability": "Create repeatable audit sampling and trace review steps tied to the control evidence repository.",
+    }
+    return controls.get(component, controls["control"])
+
+
+def _evidence_artifact_for_gap(gap, result):
+    component = _governance_component_for_gap(gap)
+    artifacts = {
+        "mandate": "Approved obligation register entry with source citation and control mapping.",
+        "actor": "Responsibility assignment matrix or control-owner attestation.",
+        "trigger": "Trigger matrix and completed pre-deployment or change-review checklist.",
+        "protected interest": "Protected-interest register with affected-population rationale.",
+        "control": "Signed control procedure, exception log, and implementation record.",
+        "evidence": "Evidence packet containing source excerpt, record location, reviewer, date, and retention rule.",
+        "reversibility": "Rollback, appeal, redress, or corrective-action log with closure evidence.",
+        "escalation": "Escalation log showing routing, accountable recipient, decision, and closure date.",
+        "consequence": "Nonconformance record and institution-approved consequence or remediation decision.",
+        "auditability": "Audit workpaper or trace sample showing repeatable verification steps and results.",
+    }
+    return artifacts.get(component, artifacts["control"])
+
+
+def _verification_test_for_gap(gap, result):
+    component = _governance_component_for_gap(gap)
+    return (
+        f"Create a verification test that samples this {component} control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status."
+    )
+
+
+def _responsible_actor_for_gap(gap, result):
+    text = _gap_text(gap).lower()
+    if "procurement" in text or "vendor" in text:
+        return "Procurement lead with legal/compliance and vendor-management support"
+    if "sector" in text or "risk" in text:
+        return "Departmental AI governance owner with sector subject-matter reviewer"
+    if "audit" in text or "evidence" in text:
+        return "Internal audit or compliance evidence owner"
+    if "legal" in text or "regulat" in text:
+        return "Legal/compliance owner with policy authority"
+    return "Institutional AI governance owner"
+
+
+def _implementation_priority_for_gap(gap, result):
+    text = _gap_text(gap).lower()
+    if result.get("assessment_mode") != "laif_native_certification" and (
+        "laif-native" in text or "canonical" in text or any(c.lower() in text for c in _CONSTRUCT_ORDER)
+    ):
+        return "optional_laif_adoption"
+    severity = _severity_for_gap(gap, result)
+    if severity in ("critical", "high"):
+        return "immediate"
+    if severity == "medium":
+        return "near_term"
+    return "planned"
+
+
+def _legal_authority_boundary_for_gap(gap, result):
+    if result.get("assessment_mode") == "external_framework":
+        return "diagnostic_only"
+    if _implementation_priority_for_gap(gap, result) == "optional_laif_adoption":
+        return "laif_native_adoption"
+    return "institution_defined"
+
+
+def _patch_candidate_gap_entries(result):
+    entries = []
+    entries.extend(_gap_text(gap) for gap in result.get("primary_failure_modes", []))
+    entries.extend(f"Missing LAIF construct: {construct}" for construct, present in result.get("construct_coverage", {}).items() if not present)
+    for dim_key, dim in result.get("score_breakdown", {}).items():
+        missed = dim.get("missed", [])
+        score_key = {
+            "structural": "structural_score",
+            "terminology": "terminology_score",
+            "conceptual": "conceptual_proximity_score",
+            "auditability": "auditability_score",
+            "enforceability": "enforceability_score",
+        }.get(dim_key)
+        score = result.get(score_key, 100) if score_key else 100
+        if missed and score < 50:
+            labels = ", ".join(label for label, _ in missed[:3])
+            entries.append(f"Low {dim_key} score ({score}/100): missed signals include {labels}")
+    for step in result.get("structured_remediation_steps", []):
+        problem = step.get("problem", "") if isinstance(step, dict) else str(step)
+        if problem:
+            entries.append(f"Structured remediation step: {problem}")
+    return entries
+
+
+def _build_remediation_patches(result):
+    """Build deterministic, machine-readable diagnostic remediation records."""
+    patches = []
+    seen_gaps = set()
+    for gap in _patch_candidate_gap_entries(result):
+        diagnostic_gap = re.sub(r"\s+", " ", _gap_text(gap)).strip()
+        if not diagnostic_gap:
+            continue
+        dedupe_key = diagnostic_gap.lower()
+        if dedupe_key in seen_gaps:
+            continue
+        seen_gaps.add(dedupe_key)
+        patch_index = len(patches) + 1
+        patch = {
+            "patch_id": _slugify_patch_id(diagnostic_gap, patch_index),
+            "assessment_mode": result.get("assessment_mode", "external_framework"),
+            "source_document": result.get("document_name", "unknown document"),
+            "finding_type": _patch_type_for_gap(diagnostic_gap),
+            "severity": _severity_for_gap(diagnostic_gap, result),
+            "laif_construct": _construct_for_gap(diagnostic_gap),
+            "governance_force_component": _governance_component_for_gap(diagnostic_gap),
+            "diagnostic_gap": diagnostic_gap,
+            "source_evidence": _PATCH_SOURCE_EVIDENCE_FALLBACK,
+            "recommended_patch": _recommended_patch_for_gap(diagnostic_gap, result),
+            "canonical_clause_if_adopting_laif": _canonical_clause_for_gap(diagnostic_gap, result),
+            "operational_control": _operational_control_for_gap(diagnostic_gap, result),
+            "evidence_artifact": _evidence_artifact_for_gap(diagnostic_gap, result),
+            "verification_test": _verification_test_for_gap(diagnostic_gap, result),
+            "responsible_actor": _responsible_actor_for_gap(diagnostic_gap, result),
+            "implementation_priority": _implementation_priority_for_gap(diagnostic_gap, result),
+            "legal_authority_boundary": _legal_authority_boundary_for_gap(diagnostic_gap, result),
+        }
+        patches.append(patch)
+        if len(patches) >= _PATCH_MAX_PER_DOCUMENT:
+            break
+    return patches
 
 def _native_certification_label(result):
     if result.get("assessment_mode") == "external_framework" and result.get("formal_laif_native_compliance", result.get("formal_laif_compliance")) == "FAIL":
@@ -2690,6 +2977,25 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 p()
         elif not structured_steps:
             p("No remediation steps generated by the current rubric.")
+        patches = r.get("remediation_patches", [])
+        h(4, "Structured Remediation Patch Set")
+        p("These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.")
+        if patches:
+            for patch in patches:
+                p(f"- **Patch ID:** {patch.get('patch_id', '')}")
+                p(f"  - **Finding type:** {patch.get('finding_type', '')}")
+                p(f"  - **Severity:** {patch.get('severity', '')}")
+                p(f"  - **LAIF construct:** {patch.get('laif_construct', '')}")
+                p(f"  - **Governance-force component:** {patch.get('governance_force_component', '')}")
+                p(f"  - **Diagnostic gap:** {patch.get('diagnostic_gap', '')}")
+                p(f"  - **Recommended patch:** {patch.get('recommended_patch', '')}")
+                p(f"  - **Operational control:** {patch.get('operational_control', '')}")
+                p(f"  - **Evidence artifact:** {patch.get('evidence_artifact', '')}")
+                p(f"  - **Verification test:** {patch.get('verification_test', '')}")
+                p(f"  - **Responsible actor:** {patch.get('responsible_actor', '')}")
+                p(f"  - **Legal authority boundary:** {patch.get('legal_authority_boundary', '')}")
+        else:
+            p("No structured remediation patches generated by the current deterministic extractor.")
         p()
 
         h(3, "Limits")
