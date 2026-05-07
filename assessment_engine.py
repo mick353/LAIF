@@ -2258,8 +2258,8 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     p()
     p("> **SCOPE NOTICE:** This assessment separates LAIF-native certification from "
       "external framework structural assessment. External framework assessment is "
-      "diagnostic; a finding of not LAIF-native is not a determination that an external "
-      "instrument is legally invalid or governance-invalid.")
+      "diagnostic; not LAIF-native / canonical remediation required is not a "
+      "determination that an external instrument is legally invalid or governance-invalid.")
 
     # ── Executive Summary ────────────────────────────────────────────────────
     h(2, "Executive Summary")
@@ -2396,7 +2396,7 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             p()
             if r["formal_laif_compliance"] == "FAIL":
                 if r.get("assessment_mode") == "external_framework":
-                    p("> *LAIF-native certification: FAIL / NOT LAIF-NATIVE. External "
+                    p("> *LAIF-native certification: FAIL / not LAIF-native / canonical remediation required. External "
                       "framework structural assessment: diagnostic, not certification. "
                       "This is not a claim that the external instrument is legally invalid "
                       "or governance-invalid.*")
@@ -2416,7 +2416,10 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 "MINIMAL":  "🔴 **MINIMAL**",
             }
             p(f"**Overall Readiness:** {r['overall_readiness_score']}/100  ")
-            p(f"**Deployment Risk Tier:** {risk_tier_badge}  ")
+            if r.get("assessment_mode") == "external_framework":
+                p(f"**Diagnostic deployment risk tier (under this model):** {risk_tier_badge}  ")
+            else:
+                p(f"**Deployment Risk Tier:** {risk_tier_badge}  ")
             p(f"**Governance Signal Strength:** {_gs_badges.get(_gs_tier, _gs_tier)} "
               f"({_gs_score}/100)")
             p()
@@ -2427,18 +2430,18 @@ def generate_markdown_report(assessments, report_date="May 2026"):
 
             # Structural readiness label (maps compliance verdict to plain label)
             if _sc_es == "STRONG PASS":
-                _struct_label = "HIGH (LAIF requirements met)"
+                _struct_label = "HIGH (LAIF-native requirements met)"
             elif _sc_es == "WEAK PASS":
-                _struct_label = "MODERATE (formal gate passed; structural depth insufficient)"
+                _struct_label = "MODERATE (LAIF-native formal gate passed; structural depth insufficient)"
             else:
-                _struct_label = "LOW (LAIF requirements not met)"
+                _struct_label = "LOW (LAIF-native requirements not met)"
 
             # Governance strength label
             _gov_desc = {
-                "STRONG":   "comprehensive governance controls present — structural formalisation required",
-                "MODERATE": "real-world controls present but not structurally enforced",
-                "WEAK":     "partial governance controls — significant gaps in intent and structure",
-                "MINIMAL":  "governance signals too weak for reliable assurance",
+                "STRONG":   "comprehensive governance controls detected — LAIF structural formalisation required",
+                "MODERATE": "real-world controls detected; LAIF structural formalisation not yet detected",
+                "WEAK":     "partial governance controls detected under this diagnostic model",
+                "MINIMAL":  "limited governance signals detected under this diagnostic model",
             }.get(_gs_tier, _gs_tier)
 
             # Main interpretation text — model-relative phrasing throughout.
@@ -2451,46 +2454,56 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                            "model but has not yet met LAIF structural enforcement requirements.")
             elif _gs_tier == "MODERATE":
                 _interp = ("This document demonstrates meaningful governance controls but "
-                           "lacks structural enforcement required for reliability at scale.")
+                           "requires LAIF structural remediation under this diagnostic model.")
             elif _gs_tier == "WEAK":
-                _interp = ("This document contains some governance intent but lacks both "
-                           "structural enforcement and sufficient operational depth under "
-                           "this model.")
+                _interp = ("This document contains some governance intent and requires "
+                           "LAIF structural remediation plus additional operational depth "
+                           "under this diagnostic model.")
             else:  # MINIMAL
                 _interp = ("This document shows limited detectable governance signals under "
-                           "this model and lacks structural enforcement.")
+                           "this model and requires LAIF structural remediation for certification.")
 
-            h(5, "Interpretation")
+            h(5, "LAIF-model Interpretation" if r.get("assessment_mode") == "external_framework" else "Interpretation")
             p(_interp)
             p()
             p(f"- **Structural Readiness:** {_struct_label}")
             p(f"- **Governance Strength:** {_gs_tier} — {_gov_desc}")
             p()
 
-            # Primary structural failure line
+            # Primary LAIF structural remediation gap line
             if _sc_es != "STRONG PASS":
                 if _cstate_es == "ABSENT":
-                    _psf = "obligations are defined without enforceable protections for affected individuals."
+                    _psf = "under LAIF-native criteria, obligations are not structurally paired with enforceable protections for affected individuals."
                 elif _cstate_es == "IMPLICIT":
-                    _psf = "protections are suggested but not structurally bound to obligations."
+                    _psf = "under LAIF-native criteria, protections are suggested but not structurally bound to obligations."
                 elif not r.get("construct_coverage", {}).get("Coherence Test"):
-                    _psf = "no mechanism ensures decisions remain consistent across scale."
+                    _psf = "under the LAIF diagnostic model, no LAIF Coherence Test mechanism is detected for scale consistency."
                 elif not r.get("construct_coverage", {}).get("Integrity Layer"):
-                    _psf = "deployment preconditions (Integrity Layer) are not declared or enforced."
+                    _psf = "under LAIF-native criteria, Integrity Layer deployment preconditions are not declared or enforced."
                 elif r.get("contradictions"):
-                    _psf = "the document's own provisions contradict the protections it claims to provide."
+                    _psf = "under this diagnostic model, detected provisions appear to conflict with claimed protections."
                 else:
-                    _psf = "required LAIF constructs are absent from the governance structure."
-                p(f"**Primary structural failure:** {_psf}")
+                    _psf = "required LAIF constructs are not detected; canonical remediation is required for LAIF-native certification."
+                if r.get("assessment_mode") == "external_framework":
+                    p(f"**Primary LAIF structural remediation gap:** {_psf}")
+                else:
+                    p(f"**Primary structural failure:** {_psf}")
                 p()
 
             # False sense of compliance warning
             if (r["overall_readiness_score"] > 40
                     and r.get("strong_laif_compliance") != "STRONG PASS"):
-                p("> ⚠️ **This document may appear compliant but lacks the structural "
-                  "guarantees required for reliable governance.** A document can score "
-                  "moderately on readiness metrics while still failing every structural "
-                  "precondition that makes governance obligations enforceable.")
+                if r.get("assessment_mode") == "external_framework":
+                    p("> ⚠️ **Under LAIF-native certification criteria, this external framework "
+                      "may appear close on diagnostic readiness metrics but still requires "
+                      "LAIF structural remediation.** Diagnostic proximity does not certify "
+                      "LAIF-native compliance or determine the framework's legal validity under "
+                      "its own authority.")
+                else:
+                    p("> ⚠️ **This document may appear compliant but lacks the structural "
+                      "guarantees required for reliable governance.** A document can score "
+                      "moderately on readiness metrics while still failing every structural "
+                      "precondition that makes governance obligations enforceable.")
                 p()
 
             p(f"**Root cause:** {es.get('why', '')}")
@@ -2522,17 +2535,26 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                         p(f"- {item}")
                     p()
                 if pa.get("not_enforced"):
-                    p("However, the following are not structurally enforced:")
+                    if r.get("assessment_mode") == "external_framework":
+                        p("Under the LAIF diagnostic model, these LAIF structural enforcement elements are not detected:")
+                    else:
+                        p("However, the following are not structurally enforced:")
                     for item in pa["not_enforced"]:
                         p(f"- {item}")
                     p()
-                p(f"**Result:** {pa.get('result', '')}")
+                if r.get("assessment_mode") == "external_framework":
+                    p(f"**LAIF-model result:** {pa.get('result', '')}")
+                else:
+                    p(f"**Result:** {pa.get('result', '')}")
                 p()
 
             # What Must Be Fixed First — top 3 from document-specific ordered steps
             srem = r.get("structured_remediation_steps", [])
             if srem:
-                p("**What Must Be Fixed First:**")
+                if r.get("assessment_mode") == "external_framework":
+                    p("**LAIF structural remediation priorities:**")
+                else:
+                    p("**What Must Be Fixed First:**")
                 for i, step in enumerate(srem[:3], 1):
                     prob = step.get("problem", "")
                     fix  = step.get("concrete_fix", "")
@@ -2546,13 +2568,19 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             table(
                 ["Dimension", "Verdict"],
                 [
-                    ["LAIF-native certification (binary gate)", cs.get("formal", "—")],
+                    ["LAIF-native certification (binary gate)",
+                     ("FAIL / not LAIF-native / canonical remediation required"
+                      if r.get("assessment_mode") == "external_framework"
+                      and cs.get("formal") == "FAIL" else cs.get("formal", "—"))],
                     ["External framework assessment",
                      r.get("external_framework_assessment", {}).get("structural_assessment", "—")],
                     ["Structural depth",                cs.get("structural_depth", "—")],
                     ["Structural contradictions",       cs.get("contradictions", "—")],
                     ["Sector gaming risk",              cs.get("sector_gaming", "—")],
-                    ["Final verdict",                   cs.get("final", "—")],
+                    ["LAIF-native certification verdict",
+                     ("FAIL / not LAIF-native / canonical remediation required"
+                      if r.get("assessment_mode") == "external_framework"
+                      and cs.get("final") == "FAIL" else cs.get("final", "—"))],
                 ]
             )
             p()
@@ -2843,17 +2871,20 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     )
     p()
 
-    h(3, "Deployment Risk Tier Summary")
+    h(3, "Diagnostic Deployment Risk Tier Summary")
     tier_order = {"CRITICAL": 0, "HIGH": 1, "MODERATE": 2, "LOW": 3}
     table(
-        ["Document", "Risk Tier", "Overall", "Compliance", "Provenance"],
+        ["Document", "Diagnostic Risk Tier", "Overall", "LAIF-native Certification", "Provenance"],
         sorted(
             [
                 [
                     r["document_name"][:38],
                     r.get("deployment_risk_tier", "HIGH"),
                     f"{r['overall_readiness_score']}/100",
-                    r.get("strong_laif_compliance", "FAIL"),
+                    ("FAIL / not LAIF-native / canonical remediation required"
+                     if r.get("assessment_mode") == "external_framework"
+                     and r.get("strong_laif_compliance") == "FAIL"
+                     else r.get("strong_laif_compliance", "FAIL")),
                     r.get("provenance", ""),
                 ]
                 for r in assessments
@@ -2862,8 +2893,8 @@ def generate_markdown_report(assessments, report_date="May 2026"):
         )
     )
     p()
-    p("**Risk tier derivation:** CRITICAL = compliance FAIL + overall <35; "
-      "HIGH = compliance FAIL or overall <50; MODERATE = weak/hollow compliance + overall 50–69; "
+    p("**Risk tier derivation:** CRITICAL = LAIF-native certification FAIL + overall <35; "
+      "HIGH = LAIF-native certification FAIL or overall <50; MODERATE = weak/hollow certification + overall 50–69; "
       "LOW = STRONG PASS + overall ≥70.")
     p()
 

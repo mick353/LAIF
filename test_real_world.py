@@ -64,9 +64,10 @@ def _print_scorecard(r):
     print(f"  Sector:     {r.get('sector_label', r['sector_used'])}")
     print()
     native_status = r.get("formal_laif_native_compliance", compliance)
-    native_suffix = " / NOT LAIF-NATIVE" if native_status == "FAIL" else ""
+    native_suffix = " / not LAIF-native / canonical remediation required" if native_status == "FAIL" else ""
     print(f"  LAIF-native certification: {comp_tag}{native_suffix}")
     print("  External framework structural assessment: diagnostic (not certification)")
+    print("  Status note: not LAIF-native / canonical remediation required; not a legal or governance invalidity claim")
     print()
 
     # Scores with per-signal breakdown
@@ -171,8 +172,10 @@ def _print_summary(results):
 
     failing  = [r for r in results if r["formal_laif_compliance"] == "FAIL"]
     pct_fail = round(100 * len(failing) / len(results))
-    print(f"  LAIF-native certification: {len(results) - len(failing)}/{len(results)} pass  "
-          f"({len(failing)}/{len(results)} fail / not LAIF-native, {pct_fail}%)")
+    print(
+        f"  LAIF-native certification: {len(results) - len(failing)}/{len(results)} pass  "
+        f"({len(failing)}/{len(results)} fail / not LAIF-native / canonical remediation required, {pct_fail}%)"
+    )
     print("  External framework structural assessment: diagnostic (not certification)")
 
     print()
@@ -242,6 +245,7 @@ def main():
     print("  Formal compliance: binary and strict (validate.py unchanged).")
     print("  Scoring: traceable -- every number answered by fired/missed signals.")
     print("  Sector analysis: contextualised per deployment sector profile.")
+    print("  External framework status: diagnostic; not LAIF-native / canonical remediation required is not legal or governance invalidity.")
 
     results = []
     for name, doc in DOCUMENTS.items():
