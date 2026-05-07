@@ -163,6 +163,16 @@ def _print_scorecard(r):
             print(f"       {ln.strip()}")
     if len(r["recommended_remediation_steps"]) > 5:
         print(f"    ... and {len(r['recommended_remediation_steps']) - 5} further steps in report")
+    patches = r.get("remediation_patches", [])
+    print(f"  Structured remediation patches: {len(patches)}")
+    for patch in patches[:2]:
+        short = patch.get("recommended_patch", "")
+        if len(short) > 96:
+            short = short[:93].rstrip() + "..."
+        print(
+            f"    · {patch.get('patch_id', '')} | "
+            f"{patch.get('finding_type', '')} | {patch.get('severity', '')} | {short}"
+        )
     print()
 
 

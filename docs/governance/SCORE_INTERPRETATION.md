@@ -88,3 +88,7 @@ Scores support triage, comparison, review, and remediation prioritisation. They 
 Current score weights are deterministic model weights. They are reviewable and calibration-sensitive. A weight expresses how the current LAIF rubric values a signal for diagnostic and remediation purposes; it should not be presented as empirically validated or statistically validated unless future validation work supports that claim.
 
 When score weights change, reviewers should treat the change as interpretation-layer or assessment-sensitive work depending on whether it affects outputs, thresholds, or public meaning. Score-weight changes should be documented so historical comparisons remain understandable.
+
+## Phase 3N Structured Remediation Patch Schema
+
+Structured remediation records are defined in [REMEDIATION_PATCH_SCHEMA.md](REMEDIATION_PATCH_SCHEMA.md). They convert existing diagnostic findings into machine-readable patches, controls, evidence artifacts, verification tests, and responsible-actor guidance. These records are diagnostic unless separately adopted by a regulator, institution, contract, procurement process, or other authority, and they do not determine legal validity or certify LAIF-native compliance.

@@ -66,3 +66,7 @@ Legal validity non-determination is a standing boundary on all LAIF outputs. LAI
 3. **External diagnostic findings are model-relative.** They describe what LAIF detects or does not detect under its current rubric and governance-force model.
 4. **CI and protected-artifact failures are repository workflow results.** They must not be presented as governance judgments on external documents.
 5. **Generated reports must preserve result boundaries.** Report headings and summaries should distinguish certification, diagnostic, remediation, evidence/provenance, and repository-governance results.
+
+## Phase 3N Structured Remediation Patch Schema
+
+Structured remediation records are defined in [REMEDIATION_PATCH_SCHEMA.md](REMEDIATION_PATCH_SCHEMA.md). They convert existing diagnostic findings into machine-readable patches, controls, evidence artifacts, verification tests, and responsible-actor guidance. These records are diagnostic unless separately adopted by a regulator, institution, contract, procurement process, or other authority, and they do not determine legal validity or certify LAIF-native compliance.

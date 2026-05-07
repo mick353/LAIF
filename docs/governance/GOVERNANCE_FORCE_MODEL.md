@@ -57,3 +57,7 @@ Employment and HR AI policy has governance force when it protects applicants and
 ## Interpretation Boundary
 
 Governance-force analysis is a LAIF model lens. It can identify structural gaps, ambiguity, or remediation priorities, but it does not determine legal validity, regulator acceptance, industry compliance, or the legal enforceability of an external instrument under its own authority.
+
+## Phase 3N Structured Remediation Patch Schema
+
+Structured remediation records are defined in [REMEDIATION_PATCH_SCHEMA.md](REMEDIATION_PATCH_SCHEMA.md). They convert existing diagnostic findings into machine-readable patches, controls, evidence artifacts, verification tests, and responsible-actor guidance. These records are diagnostic unless separately adopted by a regulator, institution, contract, procurement process, or other authority, and they do not determine legal validity or certify LAIF-native compliance.
