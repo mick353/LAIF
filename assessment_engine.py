@@ -2335,7 +2335,7 @@ def _native_certification_label(result):
 
 
 def _safe_executive_verdict_text(result):
-    """Return mode-scoped executive verdict wording for generated reports."""
+    """Render executive verdict text without reusing unscoped compliance wording."""
     verdict = result.get("executive_summary", {}).get("verdict", "")
     if not verdict:
         return ""
@@ -2344,28 +2344,29 @@ def _safe_executive_verdict_text(result):
         "formal_laif_native_compliance",
         result.get("formal_laif_compliance", "FAIL"),
     )
+    passes_native_gate = native_status == "PASS"
+
     if result.get("assessment_mode") == "external_framework":
-        if native_status == "PASS":
-            return (
-                "This source passes the formal LAIF-native certification gate under LAIF "
-                "criteria; external framework assessment remains diagnostic and does not "
-                "determine legal validity."
-            )
+        gate_result = "passes" if passes_native_gate else "does not pass"
         return (
-            "This source does not pass the formal LAIF-native certification gate under "
-            "LAIF criteria; external framework assessment remains diagnostic and does "
-            "not determine legal validity."
+            f"This source {gate_result} the formal LAIF-native certification gate "
+            "under LAIF criteria; external framework assessment remains diagnostic "
+            "and does not determine legal validity."
         )
 
-    if native_status == "PASS":
-        return (
-            "This document passes the formal LAIF-native certification gate under "
-            "current LAIF criteria."
-        )
+    gate_result = "passes" if passes_native_gate else "does not pass"
     return (
-        "This document does not pass the formal LAIF-native certification gate under "
-        "current LAIF criteria."
+        f"This document {gate_result} the formal LAIF-native certification gate "
+        "under current LAIF criteria."
     )
+
+
+def _safe_executive_risk_text(risk):
+    """Scope generated-report risk text that contains binary gate phrasing."""
+    return str(risk).replace(
+        "Missing any single construct = FAIL",
+        "Missing any single construct prevents LAIF-native certification",
+    ).replace(" = FAIL", " prevents certification")
 
 
 def generate_markdown_report(assessments, report_date="May 2026"):
@@ -2500,7 +2501,7 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             if risks:
                 h(4, "Key LAIF-model risks")
                 for risk in risks:
-                    p(f"- {risk.replace(' = FAIL', ' prevents certification')}")
+                    p(f"- {_safe_executive_risk_text(risk)}")
             strengths = es.get("strengths", [])
             if strengths:
                 h(4, "Key LAIF-model strengths")

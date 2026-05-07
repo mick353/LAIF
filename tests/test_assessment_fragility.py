@@ -208,6 +208,13 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             source_note="Example source note",
             intended_use="Regression test source basis",
         )
+        result["executive_summary"]["verdict"] = (
+            "This document fails formal LAIF v1.2 compliance. Required constructs absent: "
+            "Coupling. Missing any single construct = FAIL regardless of overall readiness score."
+        )
+        result["executive_summary"].setdefault("risks", []).append(
+            "Missing any single construct = FAIL regardless of overall readiness score."
+        )
         report = generate_markdown_report([result], report_date="May 2026")
 
         self.assertNotRegex(
