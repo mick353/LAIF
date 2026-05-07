@@ -160,6 +160,106 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             {"structural", "terminology", "conceptual", "auditability", "enforceability"},
         )
 
+    def test_external_framework_mode_labels_missing_laif_vocabulary_as_not_laif_native(self):
+        """External diagnostics do not equate missing LAIF terms with legal invalidity."""
+        result = assess(
+            "generic external framework",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+
+        self.assertEqual(result["assessment_mode"], "external_framework")
+        self.assertEqual(result["formal_laif_native_compliance"], "FAIL")
+        self.assertEqual(result["formal_laif_compliance"], "FAIL")
+        self.assertTrue(result["laif_canonical_remediation_required"])
+        diagnostic = result["external_framework_assessment"]
+        self.assertEqual(diagnostic["type"], "diagnostic")
+        self.assertEqual(diagnostic["structural_assessment"], "diagnostic")
+        self.assertTrue(diagnostic["not_laif_native_certification"])
+        self.assertEqual(
+            diagnostic["laif_native_certification_status"],
+            "FAIL / NOT LAIF-NATIVE",
+        )
+        self.assertFalse(diagnostic["legal_or_governance_invalidity_claimed"])
+        self.assertIn("not LAIF-native", diagnostic["canonical_terminology_note"])
+        self.assertIn("not LAIF-native", " ".join(result["gaps"]) + diagnostic["canonical_terminology_note"])
+
+    def test_conceptual_proximity_is_diagnostic_and_cannot_override_external_formal_fail(self):
+        """Diagnostic proximity remains separate from LAIF-native certification."""
+        result = assess(
+            "high scalar external fixture",
+            "voluntary_framework",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+
+        self.assertGreaterEqual(result["conceptual_proximity_score"], 40)
+        self.assertGreaterEqual(result["overall_readiness_score"], 40)
+        self.assertEqual(result["formal_laif_native_compliance"], "FAIL")
+        self.assertEqual(result["formal_laif_compliance"], "FAIL")
+        self.assertEqual(result["strong_laif_compliance"], "FAIL")
+        self.assertEqual(
+            result["external_framework_assessment"]["structural_assessment"],
+            "diagnostic",
+        )
+
+    def test_laif_native_mode_preserves_strict_terminology_behavior(self):
+        """LAIF-native certification remains strict when canonical terms are absent."""
+        result = assess(
+            "native claim without canonical vocabulary",
+            "laif_native_candidate",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="laif_native_certification",
+        )
+
+        self.assertEqual(result["assessment_mode"], "laif_native_certification")
+        self.assertEqual(result["formal_laif_native_compliance"], "FAIL")
+        self.assertEqual(result["formal_laif_compliance"], "FAIL")
+        self.assertEqual(result["strong_laif_compliance"], "FAIL")
+        self.assertTrue(result["laif_canonical_remediation_required"])
+        self.assertEqual(result["terminology_score"], 0)
+        self.assertIn(
+            "Canonical terminology is load-bearing",
+            result["external_framework_assessment"]["canonical_terminology_note"],
+        )
+
+    def test_new_assessment_mode_fields_are_present_and_deterministic(self):
+        """Mode-separation output is stable across repeated assessments."""
+        first = assess(
+            "deterministic external fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        second = assess(
+            "deterministic external fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        keys = (
+            "assessment_mode",
+            "formal_laif_native_compliance",
+            "external_framework_assessment",
+            "laif_canonical_remediation_required",
+        )
+        for key in keys:
+            self.assertIn(key, first)
+            self.assertEqual(first[key], second[key])
+        self.assertIn("formal_laif_compliance", first)
+        self.assertIn("strong_laif_compliance", first)
+        self.assertIn("score_breakdown", first)
+
+    def test_default_mode_is_external_unless_input_is_explicitly_laif_native(self):
+        """Existing call sites default to diagnostic external framework mode."""
+        generic = assess("generic fixture", "diagnostic_fixture", GENERIC_REGULATORY_DOCUMENT)
+        canonical = assess("canonical fixture", "diagnostic_fixture", CANONICAL_LAIF_DOCUMENT)
+
+        self.assertEqual(generic["assessment_mode"], "external_framework")
+        self.assertEqual(canonical["assessment_mode"], "laif_native_certification")
+        self.assertEqual(canonical["formal_laif_native_compliance"], "PASS")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

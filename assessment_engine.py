@@ -1789,7 +1789,87 @@ def _directionality_penalty(text, score):
 
 # ── Core assessment function ──────────────────────────────────────────────────
 
-def assess(name, source_type, text, sector="general_ai_governance", **meta):
+def _resolve_assessment_mode(requested_mode, name, source_type, formal_pass):
+    """Return deterministic assessment mode without changing formal scoring.
+
+    Default assessments are external-framework diagnostics. Inputs that are
+    explicitly identified as LAIF-native, or that satisfy the strict LAIF formal
+    gate, are reported as LAIF-native certification unless a caller explicitly
+    requests a mode.
+    """
+    aliases = {
+        "external": "external_framework",
+        "external_framework": "external_framework",
+        "diagnostic": "external_framework",
+        "laif": "laif_native_certification",
+        "laif_native": "laif_native_certification",
+        "laif_native_certification": "laif_native_certification",
+        "certification": "laif_native_certification",
+    }
+    if requested_mode is not None:
+        key = str(requested_mode).strip().lower().replace("-", "_")
+        if key not in aliases:
+            raise ValueError(
+                "assessment_mode must be 'external_framework' or "
+                "'laif_native_certification'"
+            )
+        return aliases[key]
+
+    identity = f"{name} {source_type}".lower().replace("-", "_")
+    if formal_pass or "laif_native" in identity or "laif native" in identity:
+        return "laif_native_certification"
+    return "external_framework"
+
+
+def _assessment_mode_fields(mode, formal_verdict, missing_terms):
+    """Build mode-separation metadata for assessment output."""
+    canonical_remediation_required = formal_verdict == "FAIL" or bool(missing_terms)
+    not_laif_native = formal_verdict == "FAIL"
+    if mode == "external_framework":
+        external = {
+            "type": "diagnostic",
+            "not_laif_native_certification": True,
+            "laif_native_certification_status": (
+                "PASS" if formal_verdict == "PASS" else "FAIL / NOT LAIF-NATIVE"
+            ),
+            "structural_assessment": "diagnostic",
+            "legal_or_governance_invalidity_claimed": False,
+            "canonical_terminology_note": (
+                "Missing LAIF canonical terminology means not LAIF-native / "
+                "canonical remediation required for LAIF certification; it is not "
+                "a determination that the external instrument is legally invalid "
+                "or governance-invalid."
+            ),
+            "certification_notice": (
+                "External framework structural assessment is diagnostic and is not "
+                "LAIF-native certification."
+            ),
+        }
+    else:
+        external = {
+            "type": "not_applicable",
+            "not_laif_native_certification": False,
+            "laif_native_certification_status": formal_verdict,
+            "structural_assessment": "certification",
+            "legal_or_governance_invalidity_claimed": False,
+            "canonical_terminology_note": (
+                "Canonical terminology is load-bearing in LAIF-native certification mode."
+            ),
+            "certification_notice": (
+                "LAIF-native certification mode applies strict binary formal compliance; "
+                "diagnostic scores cannot convert a formal FAIL into PASS."
+            ),
+        }
+    return {
+        "assessment_mode": mode,
+        "formal_laif_native_compliance": formal_verdict,
+        "external_framework_assessment": external,
+        "laif_canonical_remediation_required": canonical_remediation_required,
+        "not_laif_native": not_laif_native,
+    }
+
+
+def assess(name, source_type, text, sector="general_ai_governance", assessment_mode=None, **meta):
     """
     Produce a full LAIF assessment for a document.
 
@@ -1798,6 +1878,7 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
       source_type — classification (binding_regulation, voluntary_framework, etc.)
       text        — document text to assess
       sector      — deployment sector profile key (default: general_ai_governance)
+      assessment_mode — optional mode: external_framework or laif_native_certification
       **meta      — optional metadata (jurisdiction, year, citation)
 
     Returns a dict with:
@@ -1968,10 +2049,19 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
             "detected: claimed properties contradicted by document content (LAIF v1.2 A.2)"
         )
 
+    formal_verdict = "PASS" if formal_pass else "FAIL"
+    resolved_assessment_mode = _resolve_assessment_mode(
+        assessment_mode, name, source_type, formal_pass
+    )
+    mode_fields = _assessment_mode_fields(
+        resolved_assessment_mode, formal_verdict, missing_terms
+    )
+
     result = {
         "document_name":              name,
         "source_type":                source_type,
-        "formal_laif_compliance":     "PASS" if formal_pass else "FAIL",
+        "formal_laif_compliance":     formal_verdict,
+        **mode_fields,
         "formal_checks_detail":       formal_checks,   # [(label, bool), ...]
         "strong_laif_compliance":     strong_compliance,
         "structural_depth":           depth,
@@ -2166,8 +2256,10 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     p("**Validator:** validate.py (unchanged — strict formal compliance enforced)  ")
     p("**Scoring:** Traceable per-signal breakdown for every dimension  ")
     p()
-    p("> **SCOPE NOTICE:** This assessment evaluates structural conformance to LAIF v1.2. "
-      "It does not independently determine overall governance quality.")
+    p("> **SCOPE NOTICE:** This assessment separates LAIF-native certification from "
+      "external framework structural assessment. External framework assessment is "
+      "diagnostic; a finding of not LAIF-native is not a determination that an external "
+      "instrument is legally invalid or governance-invalid.")
 
     # ── Executive Summary ────────────────────────────────────────────────────
     h(2, "Executive Summary")
@@ -2175,9 +2267,10 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     avg_overall = round(sum(r["overall_readiness_score"] for r in assessments) / len(assessments))
     avg_concept = round(sum(r["conceptual_proximity_score"] for r in assessments) / len(assessments))
     p(
-        f"{fail_count} of {len(assessments)} external AI governance frameworks assessed fail "
-        f"formal LAIF v1.2 compliance. Formal compliance is binary and strict — "
-        f"all 8 required constructs must be present; no partial credit is awarded."
+        f"{fail_count} of {len(assessments)} external AI governance frameworks assessed are "
+        f"not LAIF-native for certification purposes. Formal LAIF-native compliance is "
+        f"binary and strict — all 8 required constructs must be present; no partial "
+        f"credit is awarded for certification."
     )
     p()
     p(
@@ -2302,9 +2395,15 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             p(f"> {es.get('verdict', '')}")
             p()
             if r["formal_laif_compliance"] == "FAIL":
-                p("> *Formal compliance requires LAIF-specific structural declarations "
-                  "(e.g. PDCA FINDING blocks). External frameworks will not meet this "
-                  "requirement unless explicitly adopting LAIF.*")
+                if r.get("assessment_mode") == "external_framework":
+                    p("> *LAIF-native certification: FAIL / NOT LAIF-NATIVE. External "
+                      "framework structural assessment: diagnostic, not certification. "
+                      "This is not a claim that the external instrument is legally invalid "
+                      "or governance-invalid.*")
+                else:
+                    p("> *Formal compliance requires LAIF-specific structural declarations "
+                      "(e.g. PDCA FINDING blocks). Diagnostic scores cannot convert this "
+                      "formal FAIL into PASS.*")
                 p()
             # ── Dual-layer summary ────────────────────────────────────────────
             _gs        = r.get("governance_signal", {"score": 0, "tier": "MINIMAL"})
@@ -2447,7 +2546,9 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             table(
                 ["Dimension", "Verdict"],
                 [
-                    ["Formal compliance (binary gate)", cs.get("formal", "—")],
+                    ["LAIF-native certification (binary gate)", cs.get("formal", "—")],
+                    ["External framework assessment",
+                     r.get("external_framework_assessment", {}).get("structural_assessment", "—")],
                     ["Structural depth",                cs.get("structural_depth", "—")],
                     ["Structural contradictions",       cs.get("contradictions", "—")],
                     ["Sector gaming risk",              cs.get("sector_gaming", "—")],
@@ -2789,11 +2890,11 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     for fm, count in fm_counter.most_common():
         p(f"- **{fm}** — {count}/{len(assessments)} documents")
     p()
-    p("The universal failure mode is terminological: no external framework uses LAIF canonical "
-      "terms. However, the absence of structural Coupling is the more consequential gap — "
-      "without it, restrictions are not structurally paired with proportionate protections, "
-      "and neither can be defended as structurally required by the other "
-      "(LAIF v1.2 Principle 2).")
+    p("The universal LAIF-native certification gap is terminological: no external framework "
+      "uses LAIF canonical terms. That means canonical remediation is required before making "
+      "a LAIF-native certification claim; it does not mean the external framework is legally "
+      "invalid or governance-invalid. Conceptual proximity remains diagnostic remediation "
+      "metadata, not certification.")
 
     # ── LAIF Deployment Implications ─────────────────────────────────────────
     h(2, "LAIF Deployment Implications")

@@ -63,7 +63,10 @@ def _print_scorecard(r):
     print(f"  Citation:   {r.get('citation', '')}")
     print(f"  Sector:     {r.get('sector_label', r['sector_used'])}")
     print()
-    print(f"  FORMAL LAIF COMPLIANCE: {comp_tag}")
+    native_status = r.get("formal_laif_native_compliance", compliance)
+    native_suffix = " / NOT LAIF-NATIVE" if native_status == "FAIL" else ""
+    print(f"  LAIF-native certification: {comp_tag}{native_suffix}")
+    print("  External framework structural assessment: diagnostic (not certification)")
     print()
 
     # Scores with per-signal breakdown
@@ -168,8 +171,9 @@ def _print_summary(results):
 
     failing  = [r for r in results if r["formal_laif_compliance"] == "FAIL"]
     pct_fail = round(100 * len(failing) / len(results))
-    print(f"  Formal LAIF compliance:   {len(results) - len(failing)}/{len(results)} pass  "
-          f"({len(failing)}/{len(results)} fail, {pct_fail}%)")
+    print(f"  LAIF-native certification: {len(results) - len(failing)}/{len(results)} pass  "
+          f"({len(failing)}/{len(results)} fail / not LAIF-native, {pct_fail}%)")
+    print("  External framework structural assessment: diagnostic (not certification)")
 
     print()
     print("  SCORE OVERVIEW  (Str=Structural Ter=Terminology Con=Conceptual Aud=Auditability)")
@@ -214,8 +218,8 @@ def _print_summary(results):
 
     print()
     print("  KEY FINDINGS")
-    print(f"    1. {pct_fail}% fail formal compliance -- gap is terminological/structural,")
-    print(f"       not conceptual. Intent is broadly present.")
+    print(f"    1. {pct_fail}% fail LAIF-native certification / are not LAIF-native --")
+    print(f"       the diagnostic gap is terminological/structural, not a claim of legal invalidity.")
     print(f"    2. Avg conceptual proximity {avg_conceptual}/100 -- frameworks address the right")
     print(f"       governance dimensions without LAIF structural vocabulary.")
     print(f"    3. Terminology score 0/100 across general-governance documents -- LAIF")
@@ -253,6 +257,7 @@ def main():
             source_url=doc.get("source_url", ""),
             source_note=doc.get("source_note", ""),
             intended_use=doc.get("intended_use", ""),
+            assessment_mode="external_framework",
         )
         _print_scorecard(r)
         results.append(r)

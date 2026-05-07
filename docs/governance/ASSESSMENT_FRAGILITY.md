@@ -2,7 +2,7 @@
 
 Phase 3H added assessment fragility characterization tests. Those tests document current assessment and validation behavior so that future changes are deliberate, reviewable, and easy to distinguish from accidental scoring drift.
 
-The tests are diagnostic coverage only. They do not change LAIF scoring, validation behavior, assessment-engine behavior, policy requirements, protected artifacts, generated reports, verified-source manifests, or the verified corpus.
+The tests are diagnostic coverage only. Phase 3J adds assessment-mode labels to the assessment-engine output, but it does not change LAIF scoring weights, strict validation behavior, policy requirements, protected artifacts, committed generated reports, verified-source manifests, or the verified corpus.
 
 ## Diagnostic Meaning
 
@@ -15,6 +15,21 @@ Conceptual proximity can therefore be nonzero while formal compliance fails. The
 Canonical LAIF terminology is intentionally load-bearing. Terms such as Coherence Test, Integrity Layer, Coupling, Consistency, Reversibility, Structural Transparency, Structural Honesty, and Structural Containment are not cosmetic labels in the current assessment model. They carry formal meaning and affect both terminology scoring and construct coverage.
 
 The characterization tests also document known regex and context-window limitations. These limitations are calibration risks, not runtime failures. Plausible legal or regulatory phrasing may express operationally relevant governance ideas while still producing low or zero conceptual matches under the current rubric implementation.
+
+## Phase 3J Assessment Modes
+
+Phase 3J separates two questions that previously appeared too close together in public report language:
+
+1. **LAIF-native certification mode** asks whether a document satisfies LAIF's own formal requirements. Canonical terminology remains load-bearing in this mode. A certification claim requires the implemented formal gate to pass; conceptual proximity, readiness, auditability, or enforceability scores cannot convert a formal `FAIL` into `PASS`.
+2. **External framework assessment mode** asks how an external law, standard, vendor policy, or governance framework maps diagnostically against LAIF structural expectations. This mode is assessment and remediation metadata only; it is not LAIF-native certification.
+
+The assessment engine now surfaces explicit mode metadata: `assessment_mode`, `formal_laif_native_compliance`, `external_framework_assessment`, and `laif_canonical_remediation_required`. The legacy fields `formal_laif_compliance`, `strong_laif_compliance`, score fields, and `score_breakdown` remain present for compatibility.
+
+In external framework assessment mode, absent LAIF vocabulary should be read as **not LAIF-native / canonical remediation required**. It must not be read as a claim that the external instrument is legally invalid, governance-invalid, unsafe, unenforceable under its own authority, or valueless. External frameworks may express significant governance substance using their own legal or policy vocabulary while still failing LAIF-native certification because they do not adopt LAIF's canonical structures.
+
+Conceptual proximity is diagnostic/remediation metadata. It can show that an external framework addresses related governance concerns such as risk management, oversight, transparency, redress, documentation, monitoring, or accountability. It does not certify LAIF compliance and does not relax the binary formal gate.
+
+Canonical terminology is mandatory only for LAIF-native certification claims. External framework diagnostics may recommend canonical remediation where an organisation wants to adopt LAIF, but those recommendations are additive mapping guidance rather than a judgment that the external framework is structurally or legally invalid on its own terms.
 
 ## Known Calibration Risks
 
@@ -43,7 +58,6 @@ Formal compliance and scalar scoring answer different questions. Formal PASS/FAI
 This documentation does not:
 
 - change `validate.py`;
-- change `assessment_engine.py`;
 - loosen terminology requirements;
 - convert conceptual proximity into formal compliance;
 - modify reports, protected artifacts, or verified-source manifests;
@@ -59,6 +73,7 @@ The following items are possible future work only. They are not implemented by t
 - expanded legal-phrase rubric fixtures covering plausible regulatory formulations and expected current outcomes;
 - configurable context-window tests that make boundary behavior easier to review before any window-size change;
 - stronger reporting labels for characterization failures so diagnostic false negatives are easier to distinguish from runtime failures;
+- richer assessment-mode displays for downstream consumers while preserving strict LAIF-native certification semantics;
 - regression tests before any scoring adjustment, terminology adjustment, detector adjustment, or conceptual-rubric expansion.
 
 ## Review Discipline
