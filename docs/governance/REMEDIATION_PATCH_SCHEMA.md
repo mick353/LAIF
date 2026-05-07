@@ -23,6 +23,7 @@ Every remediation patch record contains the following fields:
 | `governance_force_component` | Operational force component implicated by the gap. |
 | `diagnostic_gap` | Human-readable diagnostic gap derived from existing assessment result fields. |
 | `source_evidence` | Source evidence available to the deterministic extractor, or reviewer-confirmation fallback language when no direct quote is available. |
+| `evidence_trace_ids` | Optional list of deterministic evidence trace IDs linked to this patch; empty when reviewer confirmation is required or no safe link exists. |
 | `recommended_patch` | Practical institution-facing remediation action. |
 | `canonical_clause_if_adopting_laif` | Optional canonical-style clause guidance for organizations choosing LAIF-native adoption. |
 | `operational_control` | Control procedure or mechanism that would operationalize the patch. |
@@ -81,3 +82,7 @@ The generator must not invent source evidence. If no direct source quotation is 
 > Not directly quoted by current deterministic extractor; reviewer confirmation required.
 
 Patch text should be practical and institutional: define the gap, assign an owner, require evidence, add escalation or reversibility where needed, create a verification test, and specify the responsible actor. External-framework findings must remain diagnostic-only unless the patch is specifically framed as optional LAIF-native adoption guidance or a separate authority makes it binding.
+
+## Phase 3P Evidence Trace Links
+
+Remediation patches may include optional `evidence_trace_ids` when deterministic source support can be safely linked to the patch. If no exact or deterministic source text can be linked, `evidence_trace_ids` remains empty and `source_evidence` keeps the reviewer-confirmation fallback. See [Evidence Trace Model](EVIDENCE_TRACE_MODEL.md).

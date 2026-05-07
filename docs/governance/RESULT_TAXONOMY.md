@@ -70,3 +70,7 @@ Legal validity non-determination is a standing boundary on all LAIF outputs. LAI
 ## Phase 3N Structured Remediation Patch Schema
 
 Structured remediation records are defined in [REMEDIATION_PATCH_SCHEMA.md](REMEDIATION_PATCH_SCHEMA.md). They convert existing diagnostic findings into machine-readable patches, controls, evidence artifacts, verification tests, and responsible-actor guidance. These records are diagnostic unless separately adopted by a regulator, institution, contract, procurement process, or other authority, and they do not determine legal validity or certify LAIF-native compliance.
+
+## Phase 3P Evidence Trace Reference
+
+Phase 3P evidence traces are deterministic source-support metadata only. Exact or deterministic traces require direct source-text presence; otherwise the reviewer-confirmation fallback is used. See [Evidence Trace Model](EVIDENCE_TRACE_MODEL.md).
