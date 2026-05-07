@@ -182,6 +182,7 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             output,
             re.compile(r"FORMAL\s+LAIF\s+COMPLIANCE:\s*\[?FAIL\]?", re.IGNORECASE),
         )
+        self.assertIn("Assessment mode", output)
         self.assertIn("LAIF-native certification", output)
         self.assertIn("External framework structural assessment", output)
         self.assertIn("diagnostic", output)
@@ -208,22 +209,44 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             report,
             re.compile(r"FORMAL\s+LAIF\s+COMPLIANCE:\s*\[?FAIL\]?", re.IGNORECASE),
         )
-        self.assertIn("LAIF-native certification", report)
-        self.assertIn("External framework structural assessment", report)
-        self.assertIn("diagnostic", report)
-        self.assertIn("not LAIF-native / canonical remediation required", report)
-        self.assertIn("not certification", report)
-        self.assertIn("Primary LAIF structural remediation gap", report)
-        self.assertIn("Diagnostic deployment risk tier (under this model)", report)
-        self.assertIn("LAIF-native certification verdict", report)
-        self.assertIn("LAIF structural remediation priorities", report)
-        self.assertIn("LAIF-model result", report)
-        self.assertIn("#### Diagnostic Gaps", report)
-        self.assertIn("#### Primary LAIF Diagnostic Gaps", report)
-        self.assertIn("## Common LAIF Diagnostic Gaps", report)
+        for phrase in (
+            "Assessment Scope",
+            "Result Boundary / How to Read This Report",
+            "Executive Diagnostic Summary",
+            "Governance-Force Profile",
+            "Construct Crosswalk",
+            "Remediation Priorities",
+            "Limits",
+            "Legal / authority boundary",
+            "LAIF-native certification",
+            "External framework structural assessment",
+            "diagnostic",
+            "not LAIF-native / canonical remediation required",
+            "not certification",
+            "Common LAIF diagnostic gaps",
+            "Governance-force patterns",
+            "Remediation themes",
+            "Score distribution / deterministic rubric comparison",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, report)
+        for component in (
+            "mandate",
+            "actor",
+            "trigger",
+            "protected interest",
+            "control",
+            "evidence",
+            "reversibility",
+            "escalation",
+            "consequence",
+            "auditability",
+        ):
+            with self.subTest(component=component):
+                self.assertIn(component, report)
         self.assertNotIn("#### Gaps", report)
-        self.assertNotIn("#### Primary Failure Modes", report)
-        self.assertNotIn("## Common Failure Modes", report)
+        self.assertNotIn("Primary Failure Modes", report)
+        self.assertNotIn("Common Failure Modes", report)
         self.assertNotIn("Primary structural failure", report)
         self.assertNotIn("Final verdict", report)
         self.assertNotIn("**Deployment Risk Tier:**", report)
@@ -239,7 +262,8 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             report,
         )
         self.assertNotIn("governance-worthless", report.lower())
-        self.assertNotIn("structurally incoherent", report.lower())
+        self.assertNotIn("means structurally incoherent", report.lower())
+        self.assertNotIn("are structurally incoherent", report.lower())
         self.assertNotIn("not LAIF-native means legally invalid", report)
         self.assertNotIn("not LAIF-native means governance-invalid", report)
 

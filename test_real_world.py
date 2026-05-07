@@ -62,6 +62,7 @@ def _print_scorecard(r):
     print(f"  Source:     {r['source_type']} · {r.get('jurisdiction', '')} · {r.get('year', '')}")
     print(f"  Citation:   {r.get('citation', '')}")
     print(f"  Sector:     {r.get('sector_label', r['sector_used'])}")
+    print(f"  Assessment mode: {r.get('assessment_mode', 'external_framework')}")
     print()
     native_status = r.get("formal_laif_native_compliance", compliance)
     native_suffix = " / not LAIF-native / canonical remediation required" if native_status == "FAIL" else ""
@@ -167,7 +168,7 @@ def _print_scorecard(r):
 
 def _print_summary(results):
     print(f"\n{'=' * W}")
-    print(f"  CROSS-DOCUMENT SUMMARY -- {len(results)} frameworks analysed")
+    print(f"  CROSS-DOCUMENT DIAGNOSTIC SUMMARY -- {len(results)} frameworks analysed")
     print(f"{'─' * W}")
 
     failing  = [r for r in results if r["formal_laif_compliance"] == "FAIL"]
@@ -220,8 +221,8 @@ def _print_summary(results):
     print(f"  Avg sector risk alignment:  {avg_sector}/100")
 
     print()
-    print("  KEY FINDINGS")
-    print(f"    1. {pct_fail}% fail LAIF-native certification / are not LAIF-native --")
+    print("  GOVERNANCE-FORCE PATTERNS")
+    print(f"    1. {pct_fail}% do not pass the LAIF-native certification channel / are not LAIF-native --")
     print(f"       the diagnostic gap is terminological/structural, not a claim of legal invalidity.")
     print(f"    2. Avg conceptual proximity {avg_conceptual}/100 -- frameworks address the right")
     print(f"       governance dimensions without LAIF structural vocabulary.")
@@ -242,10 +243,13 @@ def main():
     print("║  Sector-aware · Traceable scoring · Spec-aligned                   ║")
     print("║  validate.py enforcement unchanged                                  ║")
     print("╚════════════════════════════════════════════════════════════════════╝")
-    print("  Formal compliance: binary and strict (validate.py unchanged).")
+    print("  Assessment mode / boundary:")
+    print("    - LAIF-native certification is binary, strict, and model-bound (validate.py unchanged).")
+    print("    - External framework structural assessment is diagnostic and not certification.")
+    print("    - Scores are deterministic LAIF rubric outputs, not legal findings or compliance ratings.")
+    print("    - Not LAIF-native is not legal invalidity, governance-invalidity, or governance worthlessness.")
     print("  Scoring: traceable -- every number answered by fired/missed signals.")
     print("  Sector analysis: contextualised per deployment sector profile.")
-    print("  External framework status: diagnostic; not LAIF-native / canonical remediation required is not legal or governance invalidity.")
 
     results = []
     for name, doc in DOCUMENTS.items():
