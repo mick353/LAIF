@@ -168,6 +168,21 @@ class GovernanceLibTests(unittest.TestCase):
         with patched_env(**env):
             self.assertEqual(governance_lib.resolve_base_ref(), "explicit-base")
 
+    def test_resolve_base_ref_prefers_explicit_ref_over_stale_pr_context(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_name:
+            event_path = Path(tmp_name) / "event.json"
+            event_path.write_text(
+                json.dumps({"pull_request": {"base": {"sha": "event-base"}}}),
+                encoding="utf-8",
+            )
+            env = clean_base_env()
+            env["GOVERNANCE_BASE_REF"] = "explicit-base"
+            env["GITHUB_EVENT_PATH"] = str(event_path)
+            env["GITHUB_BASE_REF"] = "stale-local-branch"
+            env["GITHUB_EVENT_NAME"] = "pull_request"
+            with patched_env(**env):
+                self.assertEqual(governance_lib.resolve_base_ref(), "explicit-base")
+
     def test_pull_request_no_base_failure_path_is_deterministic(self) -> None:
         stdout = io.StringIO()
         stderr = io.StringIO()
@@ -358,6 +373,60 @@ class ProtectedArtifactsCheckTests(unittest.TestCase):
         self.assertIn("No protected artifact paths changed relative to PR base.", stdout)
         self.assertEqual(stderr, "")
 
+    def test_semantic_sensitive_terms_outside_protected_paths_do_not_block(self) -> None:
+        tmp_dir, repo, config_path = self.repo_with_config()
+        with tmp_dir:
+            (repo / "reports").mkdir(parents=True, exist_ok=True)
+            (repo / "reports" / "laif_full_assessment.md").write_text("base\n", encoding="utf-8")
+            base = commit_all(repo, "base")
+            (repo / "ordinary.txt").write_text("Coupling changed outside protected paths\n", encoding="utf-8")
+            commit_all(repo, "ordinary semantic term change")
+            code, stdout, stderr = self.run_main(repo, config_path, GOVERNANCE_BASE_REF=base)
+        self.assertEqual(code, 0)
+        self.assertIn("No protected artifact paths changed relative to PR base.", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_explicit_base_ref_is_used_when_pr_branch_ref_is_stale(self) -> None:
+        tmp_dir, repo, config_path = self.repo_with_config()
+        with tmp_dir:
+            protected = repo / "reports" / "laif_full_assessment.md"
+            protected.parent.mkdir(parents=True, exist_ok=True)
+            protected.write_text("base\n", encoding="utf-8")
+            true_base = commit_all(repo, "base")
+            run(["git", "branch", "stale-base-ref", true_base], repo)
+            protected.write_text("feature protected change\n", encoding="utf-8")
+            commit_all(repo, "feature protected change")
+            code, stdout, stderr = self.run_main(
+                repo,
+                config_path,
+                GOVERNANCE_BASE_REF=true_base,
+                GITHUB_BASE_REF="stale-base-ref",
+                GITHUB_EVENT_NAME="pull_request",
+            )
+        self.assertEqual(code, 1)
+        self.assertEqual(stdout, "")
+        self.assertIn("Protected LAIF assessment artifact drift detected.", stderr)
+        self.assertIn("reports/laif_full_assessment.md", stderr)
+
+    def test_pr_mode_with_unresolvable_base_ref_fails_deterministically(self) -> None:
+        tmp_dir, repo, config_path = self.repo_with_config()
+        with tmp_dir:
+            (repo / "reports").mkdir(parents=True, exist_ok=True)
+            (repo / "reports" / "laif_full_assessment.md").write_text("base\n", encoding="utf-8")
+            commit_all(repo, "base")
+            code, stdout, stderr = self.run_main(
+                repo,
+                config_path,
+                GOVERNANCE_BASE_REF="refs/heads/does-not-exist",
+                GITHUB_EVENT_NAME="pull_request",
+            )
+        self.assertEqual(code, 1)
+        self.assertEqual(stdout, "")
+        self.assertIn(
+            "PROTECTED ARTIFACT CHECK FAILED: git merge-base refs/heads/does-not-exist HEAD failed:",
+            stderr,
+        )
+
     def test_pr_mode_without_resolvable_base_ref_fails_deterministically(self) -> None:
         tmp_dir, repo, config_path = self.repo_with_config()
         with tmp_dir:
@@ -448,7 +517,62 @@ class SemanticBoundariesCheckTests(unittest.TestCase):
             code, stdout, stderr = self.run_main(repo, config_path, GOVERNANCE_BASE_REF=base)
         self.assertEqual(code, 0)
         self.assertIn("No configured semantic-sensitive files changed relative to PR base.", stdout)
+        self.assertNotIn("term: Coupling", stdout)
         self.assertEqual(stderr, "")
+
+    def test_semantic_sensitive_file_change_without_configured_terms_is_advisory_only(self) -> None:
+        tmp_dir, repo, config_path = self.repo_with_config()
+        with tmp_dir:
+            (repo / "sensitive.txt").write_text("base\n", encoding="utf-8")
+            base = commit_all(repo, "base")
+            (repo / "sensitive.txt").write_text("non-sensitive wording changed\n", encoding="utf-8")
+            commit_all(repo, "semantic-sensitive path without configured term")
+            code, stdout, stderr = self.run_main(repo, config_path, GOVERNANCE_BASE_REF=base)
+        self.assertEqual(code, 0)
+        self.assertIn(
+            "Configured semantic-sensitive files changed, but no configured terms were touched in changed hunk lines.",
+            stdout,
+        )
+        self.assertIn("This advisory check performed no semantic interpretation.", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_explicit_base_ref_keeps_semantic_boundary_deterministic_with_stale_pr_ref(self) -> None:
+        tmp_dir, repo, config_path = self.repo_with_config()
+        with tmp_dir:
+            (repo / "sensitive.txt").write_text("base\n", encoding="utf-8")
+            true_base = commit_all(repo, "base")
+            run(["git", "branch", "stale-base-ref", true_base], repo)
+            (repo / "sensitive.txt").write_text("Coupling changed on feature\n", encoding="utf-8")
+            commit_all(repo, "semantic-sensitive feature change")
+            code, stdout, stderr = self.run_main(
+                repo,
+                config_path,
+                GOVERNANCE_BASE_REF=true_base,
+                GITHUB_BASE_REF="stale-base-ref",
+                GITHUB_EVENT_NAME="pull_request",
+            )
+        self.assertEqual(code, 0)
+        self.assertIn("Semantic-boundary governance notice.", stdout)
+        self.assertIn("term: Coupling", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_pr_mode_with_unresolvable_base_ref_fails_deterministically(self) -> None:
+        tmp_dir, repo, config_path = self.repo_with_config()
+        with tmp_dir:
+            (repo / "sensitive.txt").write_text("base\n", encoding="utf-8")
+            commit_all(repo, "base")
+            code, stdout, stderr = self.run_main(
+                repo,
+                config_path,
+                GOVERNANCE_BASE_REF="refs/heads/does-not-exist",
+                GITHUB_EVENT_NAME="pull_request",
+            )
+        self.assertEqual(code, 1)
+        self.assertEqual(stdout, "")
+        self.assertIn(
+            "SEMANTIC BOUNDARY CHECK ERROR: git merge-base refs/heads/does-not-exist HEAD failed:",
+            stderr,
+        )
 
     def test_pr_mode_without_resolvable_base_ref_fails_deterministically(self) -> None:
         tmp_dir, repo, config_path = self.repo_with_config()
