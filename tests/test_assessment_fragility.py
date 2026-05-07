@@ -10,13 +10,17 @@ failure channel.
 
 from __future__ import annotations
 
+import io
+import re
 import sys
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from assessment_engine import assess
+from assessment_engine import assess, generate_markdown_report
+from test_real_world import _print_scorecard
 from validate import CONTEXT_WINDOW, PARAPHRASE_GUARDS, find_paraphrase_violations
 
 
@@ -159,6 +163,75 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             set(result["score_breakdown"]),
             {"structural", "terminology", "conceptual", "auditability", "enforceability"},
         )
+
+    def test_external_framework_public_output_uses_mode_context_for_fail_wording(self):
+        """Public external output labels LAIF-native failures without bare compliance wording."""
+        result = assess(
+            "public output external fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            _print_scorecard(result)
+        output = buf.getvalue()
+
+        self.assertNotRegex(
+            output,
+            re.compile(r"FORMAL\s+LAIF\s+COMPLIANCE:\s*\[?FAIL\]?", re.IGNORECASE),
+        )
+        self.assertIn("LAIF-native certification", output)
+        self.assertIn("External framework structural assessment", output)
+        self.assertIn("diagnostic", output)
+        self.assertIn("not LAIF-native / canonical remediation required", output)
+        self.assertNotIn("governance-worthless", output.lower())
+        self.assertNotIn("structurally incoherent", output.lower())
+        self.assertNotIn("legally invalid solely", output.lower())
+
+    def test_real_world_markdown_report_contains_public_mode_separation_notice(self):
+        """Generated real-world markdown describes external frameworks diagnostically."""
+        result = assess(
+            "public report external fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        report = generate_markdown_report([result], report_date="May 2026")
+
+        self.assertNotRegex(
+            report,
+            re.compile(r"FORMAL\s+LAIF\s+COMPLIANCE:\s*\[?FAIL\]?", re.IGNORECASE),
+        )
+        self.assertIn("LAIF-native certification", report)
+        self.assertIn("External framework structural assessment", report)
+        self.assertIn("diagnostic", report)
+        self.assertIn("not LAIF-native / canonical remediation required", report)
+        self.assertIn("not certification", report)
+        self.assertIn("Primary LAIF structural remediation gap", report)
+        self.assertIn("Diagnostic deployment risk tier (under this model)", report)
+        self.assertIn("LAIF-native certification verdict", report)
+        self.assertIn("LAIF structural remediation priorities", report)
+        self.assertIn("LAIF-model result", report)
+        self.assertNotIn("Primary structural failure", report)
+        self.assertNotIn("Final verdict", report)
+        self.assertNotIn("**Deployment Risk Tier:**", report)
+        self.assertNotIn("**What Must Be Fixed First:**", report)
+        self.assertNotIn("**Result:**", report)
+        self.assertNotIn("However, the following are not structurally enforced:", report)
+        self.assertNotIn(
+            "lacks the structural guarantees required for reliable governance",
+            report,
+        )
+        self.assertNotIn(
+            "required LAIF constructs are absent from the governance structure",
+            report,
+        )
+        self.assertNotIn("governance-worthless", report.lower())
+        self.assertNotIn("structurally incoherent", report.lower())
+        self.assertNotIn("not LAIF-native means legally invalid", report)
+        self.assertNotIn("not LAIF-native means governance-invalid", report)
 
     def test_external_framework_mode_labels_missing_laif_vocabulary_as_not_laif_native(self):
         """External diagnostics do not equate missing LAIF terms with legal invalidity."""

@@ -31,6 +31,10 @@ Conceptual proximity is diagnostic/remediation metadata. It can show that an ext
 
 Canonical terminology is mandatory only for LAIF-native certification claims. External framework diagnostics may recommend canonical remediation where an organisation wants to adopt LAIF, but those recommendations are additive mapping guidance rather than a judgment that the external framework is structurally or legally invalid on its own terms.
 
+## Phase 3K Public Output Wording Safety
+
+Public console and generated markdown report sections should label external framework outcomes with explicit mode context. Reports should say **LAIF-native certification** for the strict binary gate and **External framework structural assessment** for diagnostic mapping. When an external framework lacks canonical LAIF terminology, public wording should use **not LAIF-native / canonical remediation required** and explain that this is diagnostic, not certification. Public headings should prefer scoped labels such as **Primary LAIF structural remediation gap**, **LAIF-native certification verdict**, **Diagnostic deployment risk tier**, and **LAIF-model interpretation**. Public output must not equate not-LAIF-native status with legal invalidity, governance invalidity, governance worthlessness, or structural incoherence on the framework's own terms.
+
 ## Known Calibration Risks
 
 ### Regex Fragility
