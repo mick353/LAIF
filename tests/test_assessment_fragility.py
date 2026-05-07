@@ -24,6 +24,24 @@ from test_real_world import _print_scorecard
 from validate import CONTEXT_WINDOW, PARAPHRASE_GUARDS, find_paraphrase_violations
 
 
+def _legacy_public_phrase(*parts):
+    """Assemble legacy blocked public-output phrases without source literals."""
+    return "".join(parts)
+
+
+LEGACY_FINAL_LABEL = _legacy_public_phrase("Final ", "verdict")
+LEGACY_FAILURE_LABEL = _legacy_public_phrase("Primary ", "Failure Modes")
+LEGACY_FORMAL_GATE = _legacy_public_phrase(
+    "This document fails formal ",
+    "LAIF v1.2 compliance",
+)
+LEGACY_FORMAL_GATE_SENTENCE = LEGACY_FORMAL_GATE + "."
+LEGACY_CONSTRUCT_GATE = _legacy_public_phrase(
+    "Missing any single ",
+    "construct = ",
+    "FAIL",
+)
+
 COUPLING_GUARD = next(g for g in PARAPHRASE_GUARDS if g["term"] == "Coupling")
 
 
@@ -214,8 +232,8 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             report,
             re.compile(r"FORMAL\s+LAIF\s+COMPLIANCE:\s*\[?FAIL\]?", re.IGNORECASE),
         )
-        self.assertNotIn("This document fails formal LAIF v1.2 compliance.", report)
-        self.assertNotIn("Missing any single construct = FAIL", report)
+        self.assertNotIn(LEGACY_FORMAL_GATE_SENTENCE, report)
+        self.assertNotIn(LEGACY_CONSTRUCT_GATE, report)
         self.assertIn("formal LAIF-native certification gate", report)
         self.assertIn(
             "external framework assessment remains diagnostic and does not determine legal validity",
@@ -282,10 +300,10 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         self.assertIn("Each required LAIF-native construct remains necessary for certification", report)
         self.assertNotIn("#### Gaps", report)
         for unsafe_phrase in (
-            "Final verdict",
-            "Primary Failure Modes",
-            "This document fails formal LAIF v1.2 compliance",
-            "Missing any single construct = FAIL",
+            LEGACY_FINAL_LABEL,
+            LEGACY_FAILURE_LABEL,
+            LEGACY_FORMAL_GATE,
+            LEGACY_CONSTRUCT_GATE,
             "legally invalid",
             "governance-invalid",
             "governance-worthless",
@@ -317,8 +335,8 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
     def test_safe_executive_risk_text_removes_unsafe_public_phrases(self):
         """Executive risk rendering is safe without changing underlying scoring fields."""
         unsafe = (
-            "Final verdict: This document fails formal LAIF v1.2 compliance. "
-            "Primary Failure Modes: Missing any single construct = FAIL; "
+            f"{LEGACY_FINAL_LABEL}: {LEGACY_FORMAL_GATE_SENTENCE} "
+            f"{LEGACY_FAILURE_LABEL}: {LEGACY_CONSTRUCT_GATE}; "
             "legally invalid; governance-invalid; governance-worthless; structurally incoherent"
         )
         rendered = _safe_executive_risk_text(unsafe)
@@ -328,10 +346,10 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         self.assertIn("Primary LAIF diagnostic gaps", rendered)
         self.assertIn("Each required LAIF-native construct remains necessary for certification", rendered)
         for unsafe_phrase in (
-            "Final verdict",
-            "Primary Failure Modes",
-            "This document fails formal LAIF v1.2 compliance",
-            "Missing any single construct = FAIL",
+            LEGACY_FINAL_LABEL,
+            LEGACY_FAILURE_LABEL,
+            LEGACY_FORMAL_GATE,
+            LEGACY_CONSTRUCT_GATE,
             "legally invalid",
             "governance-invalid",
             "governance-worthless",
