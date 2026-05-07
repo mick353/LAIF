@@ -712,5 +712,181 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
                 self.assertNotIn(unsafe_phrase, output)
 
 
+    def test_sector_profile_clinical_external_metadata(self):
+        """Clinical sector profile fields are returned as diagnostic metadata."""
+        text = "Clinical AI supports patient safety with clinician override, incident log, and clinical fallback."
+        result = assess(
+            "clinical profile fixture",
+            "external_framework",
+            text,
+            sector="clinical_ai",
+            assessment_mode="external_framework",
+        )
+        self.assertEqual(result["sector_profile"], "clinical_ai")
+        self.assertEqual(result["sector_profile_label"], "Clinical AI Deployment")
+        self.assertGreater(len(result["sector_profile_diagnostic_signals"]), 0)
+
+    def test_unknown_sector_profile_falls_back_to_general(self):
+        """Unknown sector values resolve to the general diagnostic overlay."""
+        result = assess(
+            "unknown sector fixture",
+            "external_framework",
+            GENERIC_REGULATORY_DOCUMENT,
+            sector="unknown_sector",
+            assessment_mode="external_framework",
+        )
+        self.assertEqual(result["sector_profile"], "general_ai_governance")
+        self.assertEqual(result["sector_profile_label"], "General AI Governance")
+
+    def test_sector_profile_signals_are_present_for_relevant_text(self):
+        """Sector-relevant vocabulary creates diagnostic signals only."""
+        text = "Procurement requires a vendor contract clause, audit access, vendor disclosure, and assurance artefact."
+        result = assess(
+            "procurement profile fixture",
+            "external_framework",
+            text,
+            sector="procurement_vendor_governance",
+            assessment_mode="external_framework",
+        )
+        signals = result["sector_profile_diagnostic_signals"]
+        self.assertIn("procurement", signals)
+        self.assertIn("vendor", signals)
+        self.assertIn("contract clause", signals)
+
+    def test_sector_profiles_do_not_change_formal_compliance_or_verdict(self):
+        """Profile metadata cannot convert formal failure into pass status."""
+        clinical_text = "Clinical patient safety clinician override incident log clinical fallback patient treatment."
+        general = assess(
+            "profile invariant general fixture",
+            "external_framework",
+            clinical_text,
+            sector="general_ai_governance",
+            assessment_mode="external_framework",
+        )
+        clinical = assess(
+            "profile invariant clinical fixture",
+            "external_framework",
+            clinical_text,
+            sector="clinical_ai",
+            assessment_mode="external_framework",
+        )
+        self.assertEqual(general["formal_laif_native_compliance"], clinical["formal_laif_native_compliance"])
+        self.assertEqual(clinical["formal_laif_native_compliance"], "FAIL")
+        self.assertEqual(clinical["strong_laif_compliance"], "FAIL")
+        self.assertNotEqual(clinical["strong_laif_compliance"], "STRONG PASS")
+
+    def test_sector_profiles_do_not_change_score_weights_or_certification_pathways(self):
+        """Profile fields leave the weighted score model and certification mode boundaries intact."""
+        text = GENERIC_REGULATORY_DOCUMENT + " Patient clinician clinical fallback incident log."
+        result = assess(
+            "score weight profile fixture",
+            "external_framework",
+            text,
+            sector="clinical_ai",
+            assessment_mode="external_framework",
+        )
+        expected = round(
+            0.25 * result["structural_score"]
+            + 0.15 * result["terminology_score"]
+            + 0.20 * result["conceptual_proximity_score"]
+            + 0.20 * result["auditability_score"]
+            + 0.20 * result["enforceability_score"]
+        )
+        self.assertEqual(result["overall_readiness_score"], expected)
+        self.assertTrue(result["external_framework_assessment"]["not_laif_native_certification"])
+        self.assertEqual(result["external_framework_assessment"]["type"], "diagnostic")
+
+    def test_external_framework_profile_legal_boundary_remains_diagnostic_only(self):
+        """External-framework profile patches remain diagnostic-only."""
+        result = assess(
+            "profile legal boundary fixture",
+            "external_framework",
+            GENERIC_REGULATORY_DOCUMENT,
+            sector="government_service_delivery",
+            assessment_mode="external_framework",
+        )
+        self.assertGreater(len(result["remediation_patches"]), 0)
+        for patch in result["remediation_patches"]:
+            self.assertEqual(patch["legal_authority_boundary"], "diagnostic_only")
+
+    def test_markdown_includes_sector_profile_context_and_boundary_note(self):
+        """Report sector context includes profile metadata and non-authority boundary."""
+        result = assess(
+            "sector report fixture",
+            "external_framework",
+            "Student grading assessment requires accessibility record, appeal pathway, and student-impact review.",
+            sector="education_ai",
+            assessment_mode="external_framework",
+        )
+        report = generate_markdown_report([result], report_date="May 2026")
+        self.assertIn("Education AI", report)
+        self.assertIn("Profile-specific remediation themes", report)
+        self.assertIn("Profile-specific evidence cautions", report)
+        self.assertIn("Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance", report)
+
+    def test_console_output_includes_sector_profile_safely(self):
+        """Console scorecard reports concise profile metadata without unsafe phrases."""
+        result = assess(
+            "console profile fixture",
+            "external_framework",
+            "Clinical patient safety clinician override incident log.",
+            sector="clinical_ai",
+            assessment_mode="external_framework",
+        )
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            _print_scorecard(result)
+        output = buf.getvalue()
+        self.assertIn("Sector profile:", output)
+        self.assertIn("Profile signals:", output)
+        for unsafe_phrase in (
+            "legally invalid",
+            "governance-invalid",
+            "governance-worthless",
+            "structurally incoherent",
+            "Final verdict",
+            "Primary Failure Modes",
+        ):
+            with self.subTest(unsafe_phrase=unsafe_phrase):
+                self.assertNotIn(unsafe_phrase, output)
+
+    def test_sector_profiles_document_exists_and_lists_supported_keys_and_boundaries(self):
+        """Sector profile documentation declares supported profiles and boundaries."""
+        doc_path = Path(__file__).resolve().parents[1] / "docs" / "governance" / "SECTOR_PROFILES.md"
+        self.assertTrue(doc_path.exists())
+        text = doc_path.read_text(encoding="utf-8")
+        for key in (
+            "government_service_delivery",
+            "departmental_ai_development",
+            "procurement_vendor_governance",
+            "clinical_ai",
+            "employment_hr_ai",
+            "education_ai",
+            "general_ai_governance",
+        ):
+            with self.subTest(key=key):
+                self.assertIn(key, text)
+        for phrase in (
+            "Profiles do not alter `validate.py`",
+            "Profiles do not alter formal LAIF-native certification",
+            "Profiles do not alter scoring weights",
+            "Profiles do not determine legal validity",
+            "Profiles do not create sector-specific compliance gates",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, text)
+
+    def test_sector_profile_unsafe_grep_gates_remain_clear(self):
+        """Unsafe source-string cleanup gates remain protected."""
+        engine_text = (Path(__file__).resolve().parents[1] / "assessment_engine.py").read_text(encoding="utf-8")
+        console_text = (Path(__file__).resolve().parents[1] / "test_real_world.py").read_text(encoding="utf-8")
+        self.assertNotIn(LEGACY_FINAL_LABEL, engine_text)
+        self.assertNotIn(LEGACY_FAILURE_LABEL, engine_text)
+        self.assertNotIn(LEGACY_FORMAL_GATE, engine_text)
+        self.assertNotIn(LEGACY_CONSTRUCT_GATE, engine_text)
+        self.assertNotIn("md.replace", console_text)
+
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
