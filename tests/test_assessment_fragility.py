@@ -541,5 +541,176 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         self.assertEqual(canonical["formal_laif_native_compliance"], "PASS")
 
 
+    def test_structured_remediation_patches_are_present_and_schema_complete(self):
+        """External framework assessments expose deterministic remediation patch records."""
+        result = assess(
+            "structured patch external fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        required_keys = {
+            "patch_id",
+            "assessment_mode",
+            "source_document",
+            "finding_type",
+            "severity",
+            "laif_construct",
+            "governance_force_component",
+            "diagnostic_gap",
+            "source_evidence",
+            "recommended_patch",
+            "canonical_clause_if_adopting_laif",
+            "operational_control",
+            "evidence_artifact",
+            "verification_test",
+            "responsible_actor",
+            "implementation_priority",
+            "legal_authority_boundary",
+        }
+
+        self.assertIn("remediation_patches", result)
+        self.assertIsInstance(result["remediation_patches"], list)
+        self.assertGreater(len(result["remediation_patches"]), 0)
+        self.assertLessEqual(len(result["remediation_patches"]), 12)
+        for patch in result["remediation_patches"]:
+            with self.subTest(patch=patch.get("patch_id")):
+                self.assertIsInstance(patch, dict)
+                self.assertTrue(required_keys.issubset(patch))
+                self.assertEqual(patch["assessment_mode"], "external_framework")
+                self.assertEqual(patch["source_document"], "structured patch external fixture")
+                self.assertEqual(patch["legal_authority_boundary"], "diagnostic_only")
+                self.assertNotIn("legally invalid", patch["recommended_patch"].lower())
+                self.assertNotIn("legal invalidity", patch["recommended_patch"].lower())
+
+    def test_external_construct_gap_priorities_are_not_automatically_optional(self):
+        """External construct gaps use severity unless explicitly canonical/adoption-focused."""
+        result = assess(
+            "construct priority external fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        by_gap = {patch["diagnostic_gap"]: patch for patch in result["remediation_patches"]}
+
+        for gap in (
+            "Missing LAIF construct: Coupling",
+            "Missing LAIF construct: Coherence Test",
+        ):
+            with self.subTest(gap=gap):
+                self.assertIn(gap, by_gap)
+                self.assertNotEqual(
+                    by_gap[gap]["implementation_priority"],
+                    "optional_laif_adoption",
+                )
+                self.assertEqual(by_gap[gap]["legal_authority_boundary"], "diagnostic_only")
+
+        canonical_gap = "terminological — no canonical LAIF terms present"
+        self.assertIn(canonical_gap, by_gap)
+        self.assertEqual(
+            by_gap[canonical_gap]["implementation_priority"],
+            "optional_laif_adoption",
+        )
+        self.assertEqual(by_gap[canonical_gap]["legal_authority_boundary"], "diagnostic_only")
+
+    def test_structured_remediation_patch_generation_is_deterministic(self):
+        """Repeated assessments produce identical remediation patch payloads."""
+        first = assess(
+            "repeatable patch fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        second = assess(
+            "repeatable patch fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        self.assertEqual(first["remediation_patches"], second["remediation_patches"])
+
+    def test_markdown_renders_structured_remediation_patch_set_safely(self):
+        """Generated markdown includes structured patches and boundary language."""
+        result = assess(
+            "markdown patch fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        report = generate_markdown_report([result], report_date="May 2026")
+
+        self.assertIn("Structured Remediation Patch Set", report)
+        self.assertIn(
+            "These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.",
+            report,
+        )
+        for unsafe_phrase in (
+            "legally invalid",
+            "governance-invalid",
+            "governance-worthless",
+            "structurally incoherent",
+            "Final verdict",
+            "Primary Failure Modes",
+        ):
+            with self.subTest(unsafe_phrase=unsafe_phrase):
+                self.assertNotIn(unsafe_phrase, report)
+
+    def test_remediation_patch_schema_document_exists_and_declares_boundaries(self):
+        """Schema documentation contains required field names and boundary language."""
+        schema_path = Path(__file__).resolve().parents[1] / "docs" / "governance" / "REMEDIATION_PATCH_SCHEMA.md"
+        self.assertTrue(schema_path.exists())
+        text = schema_path.read_text(encoding="utf-8")
+        for field in (
+            "patch_id",
+            "assessment_mode",
+            "source_document",
+            "finding_type",
+            "severity",
+            "laif_construct",
+            "governance_force_component",
+            "diagnostic_gap",
+            "source_evidence",
+            "recommended_patch",
+            "canonical_clause_if_adopting_laif",
+            "operational_control",
+            "evidence_artifact",
+            "verification_test",
+            "responsible_actor",
+            "implementation_priority",
+            "legal_authority_boundary",
+        ):
+            with self.subTest(field=field):
+                self.assertIn(field, text)
+        self.assertIn("Remediation patches are diagnostic guidance", text)
+        self.assertIn("Patches do not determine legal validity", text)
+        self.assertIn("Patches do not certify LAIF-native compliance", text)
+
+    def test_console_output_reports_structured_patch_count_safely(self):
+        """Console scorecard stays concise while surfacing structured patch counts."""
+        result = assess(
+            "console patch fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            _print_scorecard(result)
+        output = buf.getvalue()
+
+        self.assertIn("Structured remediation patches:", output)
+        self.assertIn("LAIF-PATCH-", output)
+        for unsafe_phrase in (
+            "legally invalid",
+            "governance-invalid",
+            "governance-worthless",
+            "structurally incoherent",
+            "Final verdict",
+            "Primary Failure Modes",
+        ):
+            with self.subTest(unsafe_phrase=unsafe_phrase):
+                self.assertNotIn(unsafe_phrase, output)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

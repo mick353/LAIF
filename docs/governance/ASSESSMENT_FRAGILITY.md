@@ -99,3 +99,7 @@ Assessment fragility documentation should preserve the distinction between three
 3. future remediation candidates that require explicit review before implementation.
 
 Any future change that alters scoring, validation, assessment logic, canonical terminology requirements, reports, protected artifacts, manifests, or tests should be reviewed as a behavior-changing or governance-sensitive change rather than as documentation-only work.
+
+## Phase 3N Structured Remediation Patch Schema
+
+Structured remediation records are defined in [REMEDIATION_PATCH_SCHEMA.md](REMEDIATION_PATCH_SCHEMA.md). They convert existing diagnostic findings into machine-readable patches, controls, evidence artifacts, verification tests, and responsible-actor guidance. These records are diagnostic unless separately adopted by a regulator, institution, contract, procurement process, or other authority, and they do not determine legal validity or certify LAIF-native compliance.
