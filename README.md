@@ -2,7 +2,44 @@
 
 **Version 1.2 · Compliance Toolkit v1.1 · April 2026 · Governance Audit Series**
 
-LAIF is a constitutional-level governance standard for AI systems. It provides a single, scale-invariant decision test — the **Coherence Test** — that can be applied consistently across all actors, jurisdictions, and AI capabilities to evaluate whether a deployment, regulation, or policy is structurally sound. Its primary practical instrument is the **Pre-Deployment Coherence Assessment (PDCA)**, a structured audit process designed to integrate with existing regulatory frameworks (EU AI Act, NIST AI RMF, US federal requirements) rather than replace them.
+LAIF is a **structural governance integrity framework for AI-related institutional documents**. It asks whether high-level AI governance principles have been operationalised into enforceable, auditable, reversible, accountable structures that protect identifiable human and public interests.
+
+LAIF can be used diagnostically to examine laws, standards, government policies, departmental AI governance documents, procurement controls, vendor and model-provider policies, development lifecycle controls, and operational AI governance instruments. That diagnostic use does **not** require the source document to use LAIF vocabulary. LAIF is strict only when a document claims or seeks **LAIF-native certification**, where canonical LAIF terms and structures are load-bearing.
+
+The framework's primary practical instrument is the **Pre-Deployment Coherence Assessment (PDCA)**, a structured audit process designed to identify whether governance commitments have enough institutional force to be verified, enforced, escalated, and reversed where necessary. LAIF can integrate with existing regulatory frameworks (EU AI Act, NIST AI RMF, US federal requirements) without claiming to replace their legal authority.
+
+---
+
+## Assessment Modes
+
+| Mode | Purpose | Result meaning |
+|------|---------|----------------|
+| **LAIF-native certification** | Strict evaluation of documents that claim or seek LAIF adoption. | PASS/FAIL is valid only under LAIF-native criteria; canonical LAIF terminology and structures are required. |
+| **External framework diagnostic assessment** | Model-relative review of external laws, standards, policies, procurement rules, vendor policies, and operational governance documents. | Findings identify governance-force, ambiguity, reversibility, auditability, enforceability, accountability, evidence, and remediation gaps; they are diagnostic, not certification. |
+| **Remediation / patch guidance** | Optional adoption pathway for organisations that want to strengthen or LAIF-align an instrument. | Maps diagnostic gaps to LAIF-native clauses, controls, evidence artefacts, and verification tests. |
+| **Repository governance / CI validation** | Internal project integrity checks for protected artifacts, semantic boundaries, provenance, and workflow safety. | CI PASS/FAIL describes repository workflow status, not the legal or governance validity of external documents. |
+
+---
+
+## What LAIF Does Not Claim
+
+LAIF does **not** make the following claims:
+
+- It does not determine legal validity or legal enforceability under any jurisdiction;
+- it does not claim authority over external jurisdictions, regulators, government departments, industries, standards bodies, or institutions;
+- it does not require external frameworks to use LAIF vocabulary to be diagnostically assessed;
+- it does not treat **not LAIF-native** as meaning governance-invalid, legally invalid, unsafe, valueless, worthless, or structurally incoherent on the external framework's own authority.
+
+---
+
+## How to Read LAIF Results
+
+- **LAIF-native PASS/FAIL is strict and model-bound.** It applies when a document claims or seeks LAIF-native certification and is evaluated against LAIF-native criteria.
+- **External scores and findings are diagnostic.** They show how an external instrument appears under the LAIF model; they do not certify or invalidate the external instrument.
+- **Scores are deterministic rubric outputs.** They are not legal findings, statistical confidence values, or external regulatory compliance ratings.
+- **Remediation guidance is additive adoption guidance.** It explains what would need to be added, clarified, evidenced, or tested if an institution wants LAIF-native alignment or stronger governance force.
+
+For detailed interpretation rules, see `docs/governance/RESULT_TAXONOMY.md`, `docs/governance/SCORE_INTERPRETATION.md`, and `docs/governance/GOVERNANCE_FORCE_MODEL.md`.
 
 ---
 
@@ -21,7 +58,7 @@ LAIF is a constitutional-level governance standard for AI systems. It provides a
 
 ## The Three Coherence Test Questions
 
-Every AI deployment, regulation, and governance decision is assessed against three questions. All three must be answered affirmatively. Failure at any one is failure of the full test.
+Every LAIF-native certification claim is assessed against three questions. External framework diagnostic assessment uses the same questions as a structural lens without treating different vocabulary as legal invalidity.
 
 **Q1 — Coupling**
 Does the deployment authorisation identify and protect the specific human interest at risk — with a protection of equivalent normative force to the restriction imposed? This is the most commonly failed question in existing AI governance.

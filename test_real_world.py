@@ -131,7 +131,7 @@ def _print_scorecard(r):
         print("  PARAPHRASE VIOLATIONS  " + _tty("32", "none detected"))
     print()
 
-    print("  PRIMARY FAILURE MODES")
+    print("  PRIMARY LAIF DIAGNOSTIC GAPS")
     for fm in r["primary_failure_modes"]:
         print(f"    · {fm}")
     print()
@@ -141,7 +141,7 @@ def _print_scorecard(r):
         print(f"    · {s}")
     print()
 
-    print("  GAPS")
+    print("  DIAGNOSTIC GAPS")
     for g in r["gaps"]:
         print(f"    · {g}")
     print()
@@ -271,6 +271,9 @@ def main():
     # Generate and write markdown report
     report_date = f"May {date.today().year}"
     md = generate_markdown_report(results, report_date=report_date)
+    md = md.replace("#### Primary Failure Modes", "#### Primary LAIF Diagnostic Gaps")
+    md = md.replace("## Common Failure Modes", "## Common LAIF Diagnostic Gaps")
+    md = md.replace("#### Gaps", "#### Diagnostic Gaps")
     REPORT_PATH.parent.mkdir(exist_ok=True)
     REPORT_PATH.write_text(md, encoding="utf-8")
     print(f"  Markdown report written -> {REPORT_PATH.relative_to(Path(__file__).parent)}")

@@ -185,7 +185,11 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         self.assertIn("LAIF-native certification", output)
         self.assertIn("External framework structural assessment", output)
         self.assertIn("diagnostic", output)
+        self.assertIn("not certification", output)
         self.assertIn("not LAIF-native / canonical remediation required", output)
+        self.assertNotIn("PRIMARY FAILURE MODES", output)
+        self.assertIn("PRIMARY LAIF DIAGNOSTIC GAPS", output)
+        self.assertIn("DIAGNOSTIC GAPS", output)
         self.assertNotIn("governance-worthless", output.lower())
         self.assertNotIn("structurally incoherent", output.lower())
         self.assertNotIn("legally invalid solely", output.lower())
@@ -232,6 +236,88 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         self.assertNotIn("structurally incoherent", report.lower())
         self.assertNotIn("not LAIF-native means legally invalid", report)
         self.assertNotIn("not LAIF-native means governance-invalid", report)
+
+
+    def test_readme_contains_product_mode_and_authority_boundaries(self):
+        """README states Phase 3L product baseline and legal authority limits."""
+        readme = Path("README.md").read_text(encoding="utf-8")
+
+        for phrase in (
+            "structural governance integrity framework",
+            "LAIF-native certification",
+            "External framework diagnostic assessment",
+            "Remediation / patch guidance",
+            "Repository governance / CI validation",
+            "does not determine legal validity",
+            "does not claim authority over external jurisdictions",
+            "does not require external frameworks to use LAIF vocabulary",
+            "not LAIF-native",
+            "deterministic rubric outputs",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, readme)
+
+    def test_result_taxonomy_defines_mode_scoped_result_channels(self):
+        """Result taxonomy distinguishes certification, diagnostics, and repo governance."""
+        taxonomy_path = Path("docs/governance/RESULT_TAXONOMY.md")
+        self.assertTrue(taxonomy_path.exists())
+        taxonomy = taxonomy_path.read_text(encoding="utf-8")
+
+        for phrase in (
+            "LAIF-native certification",
+            "External framework diagnostic finding",
+            "Protected-artifact block",
+            "Semantic-boundary advisory",
+            "Legal validity non-determination",
+            "FAIL must always be mode-scoped",
+            "Not LAIF-native is not legal invalidity",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, taxonomy)
+
+    def test_score_interpretation_defines_deterministic_nonlegal_scores(self):
+        """Score interpretation states deterministic score boundaries."""
+        score_path = Path("docs/governance/SCORE_INTERPRETATION.md")
+        self.assertTrue(score_path.exists())
+        score_doc = score_path.read_text(encoding="utf-8")
+
+        for phrase in (
+            "deterministic LAIF rubric outputs",
+            "legal determinations",
+            "statistical confidence values",
+            "external regulatory compliance ratings",
+            "structural_score",
+            "terminology_score",
+            "conceptual_proximity_score",
+            "auditability_score",
+            "enforceability_score",
+            "overall_readiness_score",
+            "sector_risk_alignment",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, score_doc)
+
+    def test_governance_force_model_defines_required_components(self):
+        """Governance-force model defines stable institutional-assessment components."""
+        force_path = Path("docs/governance/GOVERNANCE_FORCE_MODEL.md")
+        self.assertTrue(force_path.exists())
+        force_doc = force_path.read_text(encoding="utf-8")
+
+        for phrase in (
+            "governance principles are operationalised into governance force",
+            "mandate",
+            "actor",
+            "trigger",
+            "protected interest",
+            "control",
+            "evidence",
+            "reversibility",
+            "escalation",
+            "consequence",
+            "auditability",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, force_doc)
 
     def test_external_framework_mode_labels_missing_laif_vocabulary_as_not_laif_native(self):
         """External diagnostics do not equate missing LAIF terms with legal invalidity."""
