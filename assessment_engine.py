@@ -2229,6 +2229,145 @@ def _group_signals(signals):
 
 # ── Markdown report generator ─────────────────────────────────────────────────
 
+
+_GOVERNANCE_FORCE_COMPONENTS = (
+    "mandate",
+    "actor",
+    "trigger",
+    "protected interest",
+    "control",
+    "evidence",
+    "reversibility",
+    "escalation",
+    "consequence",
+    "auditability",
+)
+
+_CONSTRUCT_ORDER = (
+    "Coupling",
+    "Integrity Layer",
+    "Coherence Test",
+    "Structural Transparency",
+    "Structural Honesty",
+    "Structural Containment",
+    "Consistency",
+    "Reversibility",
+)
+
+
+def _text_pool(result):
+    parts = []
+    for key in ("gaps", "strengths", "primary_failure_modes", "sector_specific_findings", "recommended_remediation_steps"):
+        value = result.get(key, [])
+        if isinstance(value, list):
+            parts.extend(str(v) for v in value)
+        else:
+            parts.append(str(value))
+    coverage = result.get("construct_coverage", {})
+    parts.extend(k for k, present in coverage.items() if present)
+    return "\n".join(parts).lower()
+
+
+def _governance_force_profile(result):
+    """Display-only profile derived from existing assessment signals; does not score."""
+    text = _text_pool(result)
+    coverage = result.get("construct_coverage", {})
+    scores = result.get("score_breakdown", {})
+    fired = []
+    missed = []
+    for dim in scores.values():
+        fired.extend(label.lower() for label, _ in dim.get("fired", []))
+        missed.extend(label.lower() for label, _ in dim.get("missed", []))
+    fired_text = "\n".join(fired)
+    missed_text = "\n".join(missed)
+
+    def classify(component, detected_terms=(), partial_terms=(), gap_terms=()):
+        hay = "\n".join([text, fired_text])
+        gap_hay = "\n".join([text, missed_text])
+        if any(term in hay for term in detected_terms):
+            return "detected", "Existing LAIF-model signals indicate this component is present or directly supported."
+        if any(term in hay for term in partial_terms):
+            return "partial/implicit", "Existing signals suggest the component may be present, but the report does not treat it as fully established."
+        if any(term in gap_hay for term in gap_terms):
+            return "gap / requires review", "Existing gaps or missed signals indicate this component requires reviewer confirmation or remediation."
+        return "requires reviewer confirmation", "Existing deterministic signals are insufficient to classify this component with confidence."
+
+    profile = {
+        "mandate": classify("mandate", ("shall", "must", "mandatory", "binding", "obligation"), ("should", "encourage", "principle"), ("voluntary", "declaratory", "non-binding", "mandatory")),
+        "actor": classify("actor", ("named parties", "responsible", "authority", "provider", "operator", "deployer", "developer", "agency"), ("oversight", "review"), ("named parties", "actor", "responsible")),
+        "trigger": classify("trigger", ("threshold", "trigger", "before deployment", "pre-deployment", "when", "prior to"), ("review", "monitoring"), ("threshold", "trigger")),
+        "protected interest": classify("protected interest", ("human interest", "rights", "safety", "patient", "worker", "non-discrimination", "privacy", "redress"), ("fairness", "welfare", "dignity"), ("human interest", "materially affects")),
+        "control": classify("control", ("integrity layer", "structural transparency", "structural honesty", "structural containment", "control", "safeguard"), ("oversight", "monitoring"), ("integrity layer", "control")),
+        "evidence": classify("evidence", ("evidence present", "documentation", "audit", "record", "trace", "reporting"), ("transparency", "monitoring"), ("evidence gap", "evidence")),
+        "reversibility": ("detected", "Construct coverage marks Reversibility as present.") if coverage.get("Reversibility") else classify("reversibility", ("reversibility", "reverse", "rollback", "appeal", "contest"), ("redress", "review"), ("reversibility", "reverse")),
+        "escalation": classify("escalation", ("escalation", "authority", "enforcement", "supervisory", "complaint"), ("review", "oversight"), ("escalation", "enforcement")),
+        "consequence": classify("consequence", ("consequence", "sanction", "penalty", "enforcement", "remedy", "liability"), ("accountability", "redress"), ("consequence", "sanction", "penalty")),
+        "auditability": classify("auditability", ("audit", "evidence", "trace", "record", "documentation", "monitoring"), ("transparency", "reporting"), ("auditability", "evidence")),
+    }
+    return [(component, *profile[component]) for component in _GOVERNANCE_FORCE_COMPONENTS]
+
+
+def _remediation_groups(steps):
+    """Heuristic display grouping of already-generated remediation steps."""
+    groups = {
+        "Immediate clarity/control fixes": [],
+        "Evidence/auditability fixes": [],
+        "Reversibility/escalation fixes": [],
+        "LAIF-native adoption fixes": [],
+    }
+    for step in steps:
+        low = step.lower()
+        if any(term in low for term in ("evidence", "audit", "documentation", "record", "trace", "monitor")):
+            groups["Evidence/auditability fixes"].append(step)
+        elif any(term in low for term in ("revers", "escalat", "redress", "appeal", "contest")):
+            groups["Reversibility/escalation fixes"].append(step)
+        elif any(term in low for term in ("laif", "canonical", "coupling", "coherence test", "integrity layer", "non-amendable")):
+            groups["LAIF-native adoption fixes"].append(step)
+        else:
+            groups["Immediate clarity/control fixes"].append(step)
+    return {name: values for name, values in groups.items() if values}
+
+
+def _native_certification_label(result):
+    if result.get("assessment_mode") == "external_framework" and result.get("formal_laif_native_compliance", result.get("formal_laif_compliance")) == "FAIL":
+        return "FAIL / not LAIF-native / canonical remediation required"
+    return result.get("formal_laif_native_compliance", result.get("formal_laif_compliance", "FAIL"))
+
+
+def _safe_executive_verdict_text(result):
+    """Return mode-scoped executive verdict wording for generated reports."""
+    verdict = result.get("executive_summary", {}).get("verdict", "")
+    if not verdict:
+        return ""
+
+    native_status = result.get(
+        "formal_laif_native_compliance",
+        result.get("formal_laif_compliance", "FAIL"),
+    )
+    if result.get("assessment_mode") == "external_framework":
+        if native_status == "PASS":
+            return (
+                "This source passes the formal LAIF-native certification gate under LAIF "
+                "criteria; external framework assessment remains diagnostic and does not "
+                "determine legal validity."
+            )
+        return (
+            "This source does not pass the formal LAIF-native certification gate under "
+            "LAIF criteria; external framework assessment remains diagnostic and does "
+            "not determine legal validity."
+        )
+
+    if native_status == "PASS":
+        return (
+            "This document passes the formal LAIF-native certification gate under "
+            "current LAIF criteria."
+        )
+    return (
+        "This document does not pass the formal LAIF-native certification gate under "
+        "current LAIF criteria."
+    )
+
+
 def generate_markdown_report(assessments, report_date="May 2026"):
     lines = []
 
@@ -2248,613 +2387,297 @@ def generate_markdown_report(assessments, report_date="May 2026"):
         for row in rows:
             lines.append(row_str(row))
 
-    # ── Header ──────────────────────────────────────────────────────────────
-    lines.append("# LAIF Real-World Assessment Report")
-    p(f"**Framework version:** LAIF v1.2 · Compliance Toolkit v1.1  ")
-    p(f"**Date:** {report_date}  ")
-    p("**Classification:** Governance Assessment — System Hardening Release  ")
-    p("**Validator:** validate.py (unchanged — strict formal compliance enforced)  ")
-    p("**Scoring:** Traceable per-signal breakdown for every dimension  ")
+    lines.append("# LAIF Institutional Structural Governance Assessment Report")
+    p(f"**Report date:** {report_date}  ")
+    p("**Framework:** LAIF v1.2 · Compliance Toolkit v1.1  ")
+    p("**Report architecture:** Institutional assessment template — Phase 3M  ")
+    p("**Validator boundary:** validate.py enforcement remains unchanged; this report renders existing assessment results only.  ")
     p()
-    p("> **SCOPE NOTICE:** This assessment separates LAIF-native certification from "
-      "external framework structural assessment. External framework assessment is "
-      "diagnostic; not LAIF-native / canonical remediation required is not a "
-      "determination that an external instrument is legally invalid or governance-invalid.")
 
-    # ── Executive Summary ────────────────────────────────────────────────────
-    h(2, "Executive Summary")
-    fail_count  = sum(1 for r in assessments if r["formal_laif_compliance"] == "FAIL")
-    avg_overall = round(sum(r["overall_readiness_score"] for r in assessments) / len(assessments))
-    avg_concept = round(sum(r["conceptual_proximity_score"] for r in assessments) / len(assessments))
-    p(
-        f"{fail_count} of {len(assessments)} external AI governance frameworks assessed are "
-        f"not LAIF-native for certification purposes. Formal LAIF-native compliance is "
-        f"binary and strict — all 8 required constructs must be present; no partial "
-        f"credit is awarded for certification."
-    )
+    h(2, "Result Boundary / How to Read This Report")
+    p("This report separates strict LAIF-native certification from external framework structural assessment.")
     p()
-    p(
-        f"Dimensional scoring reveals that the gap is terminological and structural, not "
-        f"conceptual. Documents achieve an average conceptual proximity score of "
-        f"{avg_concept}/100 and an average overall readiness score of {avg_overall}/100, "
-        f"indicating that the underlying governance intent is broadly present — expressed "
-        f"through different vocabulary and structural frameworks."
-    )
-    p()
-    p(
-        "**Core finding:** Existing frameworks address the right governance dimensions but do not "
-        "enforce them through structural Coupling, the Coherence Test, or the Integrity Layer. "
-        "LAIF is measurably stricter. The adoption pathway is terminological and structural, "
-        "not conceptual — the underlying intent is already present."
-    )
+    p("- **LAIF-native certification** is strict and model-bound; canonical LAIF structures and terminology remain load-bearing.")
+    p("- **External framework structural assessment** is diagnostic and not certification.")
+    p("- **Scores are deterministic LAIF rubric outputs**, not legal determinations, statistical confidence values, or external regulatory compliance ratings.")
+    p("- **Not LAIF-native** does not mean legally invalid, governance-invalid, worthless, unsafe, or structurally incoherent on the source's own authority.")
+    p("- Remediation guidance is additive LAIF adoption guidance unless a regulator, institution, contract, or other authority separately makes it binding.")
 
-    # ── Method ──────────────────────────────────────────────────────────────
-    h(2, "Method")
-    p("Each document was assessed against three complementary layers:")
+    h(2, "Method and Scoring Model")
+    p("Each document is rendered as an institutional assessment product with Assessment Scope, Executive Diagnostic Summary, Governance-Force Profile, LAIF-model Strengths, Diagnostic Gaps, Scorecard and Signal Trace, Construct Crosswalk, Sector / Institutional Context, Remediation Priorities, and Limits.")
+    p("The report interrogates whether governance principles have governance force: mandate, actor, trigger, protected interest, control, evidence, reversibility, escalation, consequence, and auditability. The profile is textual and deterministic, derived from existing signals; it is not a new scoring algorithm.")
     p()
-    p("**Layer 1 — Formal LAIF compliance (binary):** 8 required constructs — Coupling, "
-      "Integrity Layer, Coherence Test, PART ONE / Foundational Principles, non-amendable "
-      "clause, self-application clause, Integrity Layer FINDING block, Coherence Test "
-      "FINDING block. All 8 must be present. Enforced by validate.py (unchanged).")
+    p("**Assessment layers preserved in this report:**")
+    p("- **Formal LAIF-native certification gate:** strict binary check for required LAIF-native constructs; partial construct presence cannot certify LAIF-native status.")
+    p("- **Dimensional scoring model:** deterministic rubric scores for structural, terminology, conceptual proximity, auditability, and enforceability signals.")
+    p("- **Sector analysis:** sector profile metadata identifies materially relevant interests, sector risk indicators, expected evidence artifacts, and sector-specific diagnostic findings.")
+    p("- **Structural depth / adversarial hardening:** coupling quality, contradictions, sector-gaming risk, structural depth, and strong-compliance status are preserved as existing diagnostic fields.")
+    p("- **Traceability:** fired and missed signals are rendered for every scoring dimension so reviewers can see why each score was produced.")
+    p("- **Validation boundary:** scoring logic, rubric weights, formal compliance calculation, and validate.py enforcement remain unchanged.")
     p()
-    p("**Layer 2 — Dimensional scoring (traceable):** Five dimensions scored 0–100 with "
-      "per-signal breakdown. Every score is accompanied by the signals that fired (earned "
-      "points) and those that did not. This answers 'why this number?' for every dimension.")
-    p()
-    p("**Layer 3 — Sector analysis:** Each document assessed against a sector profile "
-      "defining relevant human interests, risk indicator signals, and expected evidence "
-      "artefacts. Produces sector risk alignment score (0–100) and sector-specific "
-      "remediation priorities referencing LAIF source sections.")
-    p()
-    p("**Layer 4 — Structural depth (adversarial hardening):** Three diagnostic checks "
-      "run against every document regardless of formal compliance verdict:")
-    p("- **Coupling state** (STRUCTURALLY DECLARED / NOT STRUCTURALLY DECLARED): detects hollow "
-      "or negated Coupling declarations; implicit signals surfaced separately (LAIF v1.2 Principle 2)")
-    p("- **Contradiction detection**: detects co-presence of claimed Integrity Layer "
-      "properties and language that contradicts them (LAIF v1.2 A.2 Structural Honesty)")
-    p("- **Sector gaming risk** (LOW / MEDIUM / HIGH): detects high sector keyword "
-      "density without substantive governance content (LAIF v1.2 Q2 Consistency)")
-    p()
-    p("**Strong compliance verdict:** STRONG PASS requires formal PASS + STRUCTURAL "
-      "Coupling + no contradictions. A formal PASS with shallow Coupling = WEAK PASS, "
-      "not a strong compliance claim.")
-
-    # ── Scoring Model ────────────────────────────────────────────────────────
-    h(2, "Scoring Model")
     table(
-        ["Dimension", "Weight", "LAIF Source", "Description"],
+        ["Dimension", "Weight", "Role in institutional assessment"],
         [
-            ["Structural",          "25%", "v1.2 Parts One, Two, Seven",
-             "Governance architecture: hierarchy, thresholds, review mechanisms"],
-            ["Terminology",         "15%", "Toolkit §1",
-             "Canonical term presence: Coupling, Coherence Test, Integrity Layer"],
-            ["Conceptual Proximity","20%", "v1.2 Part One",
-             "LAIF-like concepts without LAIF terms: rights, oversight, contestability"],
-            ["Auditability",        "20%", "Toolkit §2 PDCA",
-             "Checkability: numbered obligations, evidence requirements, monitoring"],
-            ["Enforceability",      "20%", "v1.2 Part Three",
-             "Operational enforcement: mandatory language, named parties, consequences"],
-        ]
+            ["Structural", "25%", "Governance architecture, hierarchy, thresholds, and named structural mechanisms."],
+            ["Terminology", "15%", "Canonical LAIF vocabulary / LAIF-native adoption distance; interpreted by assessment mode."],
+            ["Conceptual proximity", "20%", "Diagnostic evidence that external vocabulary addresses LAIF-like governance concerns."],
+            ["Auditability", "20%", "Evidence, documentation, traceability, monitoring, review, and verification signals."],
+            ["Enforceability", "20%", "Mandatory language, responsible actors, operational force, and consequences."],
+        ],
     )
-    p()
-    p("**Overall** = Structural×0.25 + Terminology×0.15 + Conceptual×0.20 + "
-      "Auditability×0.20 + Enforceability×0.20")
-    p()
-    p("**Remediation Effort:** VERY HIGH (<35) · HIGH (35–59) · MEDIUM (≥60)")
 
-    # ── Per-Document Scorecards ───────────────────────────────────────────────
-    h(2, "Per-Document Scorecards")
+    for idx, r in enumerate(assessments, 1):
+        h(2, f"Institutional Assessment {idx}: {r['document_name']}")
 
-    for r in assessments:
-        h(3, r["document_name"])
-        compliance_tag = "✅ PASS" if r["formal_laif_compliance"] == "PASS" else "❌ FAIL"
-        strong_tag = {
-            "STRONG PASS": "✅✅ STRONG PASS",
-            "WEAK PASS":   "⚠️ WEAK PASS (formal gate passed; structural depth insufficient)",
-            "FAIL":        "❌ FAIL",
-        }.get(r.get("strong_laif_compliance", "FAIL"), "❌ FAIL")
-        depth_tag = {
-            "STRONG": "🟢 STRONG",
-            "WEAK":   "🟡 WEAK",
-            "HOLLOW": "🔴 HOLLOW",
-        }.get(r.get("structural_depth", "WEAK"), "⚪ UNKNOWN")
-
-        # ── Provenance notice ────────────────────────────────────────────────
-        provenance = r.get("provenance", "")
+        h(3, "Assessment Scope")
+        scope_rows = [
+            ["Report date", report_date],
+            ["Document name", r.get("document_name", "")],
+            ["Source type", r.get("source_type", "")],
+            ["Jurisdiction", r.get("jurisdiction", "")],
+            ["Sector", r.get("sector_label", r.get("sector_used", ""))],
+            ["Assessment mode", r.get("assessment_mode", "external_framework")],
+            ["Legal / authority boundary", "Diagnostic LAIF-model assessment only; not legal advice, not a legal validity determination, and not an external compliance rating."],
+        ]
+        citation = r.get("citation", "")
         source_note = r.get("source_note", "")
-        source_url  = r.get("source_url", "")
-        intended_use = r.get("intended_use", "")
+        source_url = r.get("source_url", "")
+        provenance = r.get("provenance", "")
+        if citation:
+            scope_rows.append(["Citation / source note", citation])
+        if source_note:
+            scope_rows.append(["Source note", source_note])
+        if source_url:
+            scope_rows.append(["Source URL", source_url])
         if provenance:
-            prov_badges = {
-                "OFFICIAL_EXCERPT":          "> ✅ **OFFICIAL_EXCERPT** — text verified verbatim from the authoritative source.",
-                "REPRESENTATIVE_EXCERPT":    "> ⚠️ **REPRESENTATIVE_EXCERPT** — condensed paraphrase or illustrative excerpt. "
-                                              "Not verbatim. Not citable as the primary source.",
-                "SYNTHETIC_TEST_DOCUMENT":   "> 🔬 **SYNTHETIC_TEST_DOCUMENT** — constructed for adversarial/stress-testing. "
-                                              "Does not represent any real-world governance document.",
-            }
-            p(prov_badges.get(provenance, f"> Provenance: {provenance}"))
+            scope_rows.append(["Provenance", provenance])
+        table(["Field", "Value"], scope_rows)
+        p()
+
+        if any([provenance, source_note, source_url, citation, r.get("intended_use", "")]):
+            h(4, "Provenance / Source Basis")
+            p("This subsection preserves the source basis used for this deterministic assessment. The assessment remains source/provenance dependent and does not independently certify the source's legal status.")
+            if provenance:
+                p(f"- **Provenance classification:** {provenance}")
+            if citation:
+                p(f"- **Citation:** {citation}")
             if source_note:
-                p(f"> {source_note}")
+                p(f"- **Source note:** {source_note}")
             if source_url:
-                p(f"> Source: {source_url}")
-            if intended_use:
-                p(f"> Intended use: {intended_use}")
+                p(f"- **Source URL:** {source_url}")
+            if r.get("intended_use", ""):
+                p(f"- **Intended use:** {r.get('intended_use', '')}")
             p()
 
-        # ── Executive Assessment block ────────────────────────────────────────
+        h(3, "Executive Diagnostic Summary")
+        native_status = _native_certification_label(r)
+        external_status = "diagnostic structural assessment (not certification)" if r.get("assessment_mode") == "external_framework" else "not applicable to LAIF-native certification mode"
+        p(f"- **LAIF-native certification status:** {native_status}")
+        p(f"- **External framework assessment status:** {external_status}")
+        p(f"- **Overall readiness score:** {r['overall_readiness_score']}/100")
+        p(f"- **Remediation effort:** {r['remediation_effort']}")
+        priority_gaps = r.get("primary_failure_modes", [])[:3]
+        if priority_gaps:
+            p("- **Highest-priority diagnostic gaps:**")
+            for gap in priority_gaps:
+                p(f"  - {gap}")
+        else:
+            p("- **Highest-priority diagnostic gaps:** none generated by the current rubric.")
+        p()
+        gs = r.get("governance_signal", {"tier": "MINIMAL", "score": 0})
+        p(f"- **Governance signal strength:** {gs.get('tier', 'MINIMAL')} ({gs.get('score', 0)}/100)")
+        p(f"- **Structural depth:** {r.get('structural_depth', 'UNKNOWN')}")
+        p(f"- **Strong-compliance diagnostic status:** {r.get('strong_laif_compliance', 'FAIL')}")
+        p()
+        p(f"**Model-relative interpretation:** Under the LAIF diagnostic model, this source shows {gs.get('tier', 'MINIMAL').lower()} governance-signal strength ({gs.get('score', 0)}/100) and {r['overall_readiness_score']}/100 overall readiness. The finding identifies LAIF-native certification and governance-force remediation priorities; it does not determine the source's legal validity or governance value under its own authority.")
         es = r.get("executive_summary", {})
-        risk_tier = r.get("deployment_risk_tier", "HIGH")
-        risk_tier_badge = {
-            "CRITICAL": "🔴 **CRITICAL**",
-            "HIGH":     "🟠 **HIGH**",
-            "MODERATE": "🟡 **MODERATE**",
-            "LOW":      "🟢 **LOW**",
-        }.get(risk_tier, f"**{risk_tier}**")
         if es:
-            h(4, "Executive Assessment")
-            p(f"> {es.get('verdict', '')}")
-            p()
-            if r["formal_laif_compliance"] == "FAIL":
-                if r.get("assessment_mode") == "external_framework":
-                    p("> *LAIF-native certification: FAIL / not LAIF-native / canonical remediation required. External "
-                      "framework structural assessment: diagnostic, not certification. "
-                      "This is not a claim that the external instrument is legally invalid "
-                      "or governance-invalid.*")
-                else:
-                    p("> *Formal compliance requires LAIF-specific structural declarations "
-                      "(e.g. PDCA FINDING blocks). Diagnostic scores cannot convert this "
-                      "formal FAIL into PASS.*")
+            rendered_verdict = _safe_executive_verdict_text(r)
+            if rendered_verdict:
                 p()
-            # ── Dual-layer summary ────────────────────────────────────────────
-            _gs        = r.get("governance_signal", {"score": 0, "tier": "MINIMAL"})
-            _gs_tier   = _gs["tier"]
-            _gs_score  = _gs["score"]
-            _gs_badges = {
-                "STRONG":   "🟢 **STRONG**",
-                "MODERATE": "🟡 **MODERATE**",
-                "WEAK":     "🟠 **WEAK**",
-                "MINIMAL":  "🔴 **MINIMAL**",
-            }
-            p(f"**Overall Readiness:** {r['overall_readiness_score']}/100  ")
-            if r.get("assessment_mode") == "external_framework":
-                p(f"**Diagnostic deployment risk tier (under this model):** {risk_tier_badge}  ")
-            else:
-                p(f"**Deployment Risk Tier:** {risk_tier_badge}  ")
-            p(f"**Governance Signal Strength:** {_gs_badges.get(_gs_tier, _gs_tier)} "
-              f"({_gs_score}/100)")
-            p()
-
-            # ── Interpretation block ──────────────────────────────────────────
-            _sc_es     = r.get("strong_laif_compliance", "FAIL")
-            _cstate_es = r.get("coupling_state", "ABSENT")
-
-            # Structural readiness label (maps compliance verdict to plain label)
-            if _sc_es == "STRONG PASS":
-                _struct_label = "HIGH (LAIF-native requirements met)"
-            elif _sc_es == "WEAK PASS":
-                _struct_label = "MODERATE (LAIF-native formal gate passed; structural depth insufficient)"
-            else:
-                _struct_label = "LOW (LAIF-native requirements not met)"
-
-            # Governance strength label
-            _gov_desc = {
-                "STRONG":   "comprehensive governance controls detected — LAIF structural formalisation required",
-                "MODERATE": "real-world controls detected; LAIF structural formalisation not yet detected",
-                "WEAK":     "partial governance controls detected under this diagnostic model",
-                "MINIMAL":  "limited governance signals detected under this diagnostic model",
-            }.get(_gs_tier, _gs_tier)
-
-            # Main interpretation text — model-relative phrasing throughout.
-            # Never uses absolute governance quality claims ("weak governance", "poor governance").
-            # Derived from governance_signal tier + compliance; coupling_state informs structural label.
-            if _sc_es == "STRONG PASS":
-                _interp = "This document is structurally robust and enforceable."
-            elif _gs_tier == "STRONG":
-                _interp = ("This document demonstrates strong governance controls under this "
-                           "model but has not yet met LAIF structural enforcement requirements.")
-            elif _gs_tier == "MODERATE":
-                _interp = ("This document demonstrates meaningful governance controls but "
-                           "requires LAIF structural remediation under this diagnostic model.")
-            elif _gs_tier == "WEAK":
-                _interp = ("This document contains some governance intent and requires "
-                           "LAIF structural remediation plus additional operational depth "
-                           "under this diagnostic model.")
-            else:  # MINIMAL
-                _interp = ("This document shows limited detectable governance signals under "
-                           "this model and requires LAIF structural remediation for certification.")
-
-            h(5, "LAIF-model Interpretation" if r.get("assessment_mode") == "external_framework" else "Interpretation")
-            p(_interp)
-            p()
-            p(f"- **Structural Readiness:** {_struct_label}")
-            p(f"- **Governance Strength:** {_gs_tier} — {_gov_desc}")
-            p()
-
-            # Primary LAIF structural remediation gap line
-            if _sc_es != "STRONG PASS":
-                if _cstate_es == "ABSENT":
-                    _psf = "under LAIF-native criteria, obligations are not structurally paired with enforceable protections for affected individuals."
-                elif _cstate_es == "IMPLICIT":
-                    _psf = "under LAIF-native criteria, protections are suggested but not structurally bound to obligations."
-                elif not r.get("construct_coverage", {}).get("Coherence Test"):
-                    _psf = "under the LAIF diagnostic model, no LAIF Coherence Test mechanism is detected for scale consistency."
-                elif not r.get("construct_coverage", {}).get("Integrity Layer"):
-                    _psf = "under LAIF-native criteria, Integrity Layer deployment preconditions are not declared or enforced."
-                elif r.get("contradictions"):
-                    _psf = "under this diagnostic model, detected provisions appear to conflict with claimed protections."
-                else:
-                    _psf = "required LAIF constructs are not detected; canonical remediation is required for LAIF-native certification."
-                if r.get("assessment_mode") == "external_framework":
-                    p(f"**Primary LAIF structural remediation gap:** {_psf}")
-                else:
-                    p(f"**Primary structural failure:** {_psf}")
-                p()
-
-            # False sense of compliance warning
-            if (r["overall_readiness_score"] > 40
-                    and r.get("strong_laif_compliance") != "STRONG PASS"):
-                if r.get("assessment_mode") == "external_framework":
-                    p("> ⚠️ **Under LAIF-native certification criteria, this external framework "
-                      "may appear close on diagnostic readiness metrics but still requires "
-                      "LAIF structural remediation.** Diagnostic proximity does not certify "
-                      "LAIF-native compliance or determine the framework's legal validity under "
-                      "its own authority.")
-                else:
-                    p("> ⚠️ **This document may appear compliant but lacks the structural "
-                      "guarantees required for reliable governance.** A document can score "
-                      "moderately on readiness metrics while still failing every structural "
-                      "precondition that makes governance obligations enforceable.")
-                p()
-
-            p(f"**Root cause:** {es.get('why', '')}")
-            p()
-
-            _practical = _practical_meaning_exec(r)
-            if _practical:
-                p(f"**What this means in practice:** {_practical}")
-                p()
-
-            if es.get("risks"):
-                p("**Key risks:**")
-                for risk in es["risks"]:
-                    p(f"- {risk}")
-                p()
-            if es.get("strengths"):
-                p("**Key strengths:**")
-                for strength in es["strengths"]:
+                p(f"**Executive assessment detail:** {rendered_verdict}")
+            risks = es.get("risks", [])
+            if risks:
+                h(4, "Key LAIF-model risks")
+                for risk in risks:
+                    p(f"- {risk.replace(' = FAIL', ' prevents certification')}")
+            strengths = es.get("strengths", [])
+            if strengths:
+                h(4, "Key LAIF-model strengths")
+                for strength in strengths:
                     p(f"- {strength}")
-                p()
-
             pa = es.get("position_assessment", {})
             if pa:
-                p("**Position Assessment:**")
-                p()
-                if pa.get("contains"):
-                    p("This document contains:")
-                    for item in pa["contains"]:
+                h(4, "Position assessment under LAIF diagnostic model")
+                contains = pa.get("contains", [])
+                if contains:
+                    p("**Detected position / content:**")
+                    for item in contains:
                         p(f"- {item}")
-                    p()
-                if pa.get("not_enforced"):
-                    if r.get("assessment_mode") == "external_framework":
-                        p("Under the LAIF diagnostic model, these LAIF structural enforcement elements are not detected:")
-                    else:
-                        p("However, the following are not structurally enforced:")
-                    for item in pa["not_enforced"]:
-                        p(f"- {item}")
-                    p()
-                if r.get("assessment_mode") == "external_framework":
-                    p(f"**LAIF-model result:** {pa.get('result', '')}")
-                else:
-                    p(f"**Result:** {pa.get('result', '')}")
-                p()
-
-            # What Must Be Fixed First — top 3 from document-specific ordered steps
-            srem = r.get("structured_remediation_steps", [])
-            if srem:
-                if r.get("assessment_mode") == "external_framework":
+                not_enforced = pa.get("not_enforced", [])
+                if not_enforced:
                     p("**LAIF structural remediation priorities:**")
-                else:
-                    p("**What Must Be Fixed First:**")
-                for i, step in enumerate(srem[:3], 1):
-                    prob = step.get("problem", "")
-                    fix  = step.get("concrete_fix", "")
-                    p(f"{i}. **{prob}** — {fix}" if prob else f"{i}. {fix}")
-                p()
+                    for item in not_enforced:
+                        p(f"- {item}")
+                if pa.get("result"):
+                    p(f"**LAIF-model result:** {pa.get('result')}")
+            if es.get("why"):
+                p(f"**Primary LAIF structural remediation gap:** {es.get('why').replace('Primary structural gap:', '').strip()}")
 
-        # ── Compliance Summary table ─────────────────────────────────────────
-        cs = r.get("compliance_summary", {})
-        if cs:
-            h(4, "Compliance Summary")
-            table(
-                ["Dimension", "Verdict"],
-                [
-                    ["LAIF-native certification (binary gate)",
-                     ("FAIL / not LAIF-native / canonical remediation required"
-                      if r.get("assessment_mode") == "external_framework"
-                      and cs.get("formal") == "FAIL" else cs.get("formal", "—"))],
-                    ["External framework assessment",
-                     r.get("external_framework_assessment", {}).get("structural_assessment", "—")],
-                    ["Structural depth",                cs.get("structural_depth", "—")],
-                    ["Structural contradictions",       cs.get("contradictions", "—")],
-                    ["Sector gaming risk",              cs.get("sector_gaming", "—")],
-                    ["LAIF-native certification verdict",
-                     ("FAIL / not LAIF-native / canonical remediation required"
-                      if r.get("assessment_mode") == "external_framework"
-                      and cs.get("final") == "FAIL" else cs.get("final", "—"))],
-                ]
-            )
-            p()
-
-        p(f"**Source type:** {r['source_type']}  ")
-        p(f"**Sector:** {r.get('sector_label', r['sector_used'])}  ")
-
-        # ── Coupling state block (STEP 5) ────────────────────────────────────
-        cstate  = r.get("coupling_state", "ABSENT")
-        cq_val  = r.get("coupling_quality", "ABSENT")
-        cq_ev   = r.get("coupling_quality_evidence", "")
-        ic      = r.get("implicit_coupling", {})
-
-        if cstate == "STRUCTURAL":
-            p(f"**Coupling:** STRUCTURALLY DECLARED ✅")
-            if cq_ev:
-                p(f"  Evidence: «{cq_ev[:150]}»")
-        elif cstate == "IMPLICIT":
-            p(f"**Coupling:** NOT STRUCTURALLY DECLARED (implicit signals present) ❌")
-            if cq_val == "NEGATED" and cq_ev:
-                p(f"  Evidence of negation: «{cq_ev[:150]}»")
-            p()
-            p("**Implicit signals detected:**")
-            for excerpt in ic.get("matches", []):
-                p(f"- «{excerpt}»")
-            p()
-            p("**Interpretation:**  ")
-            p("These statements indicate recognition of responsibility or protection, "
-              "but do not explicitly bind restrictions to protected human interests.")
-            p()
-            p("**Why this matters:**  ")
-            p("IMPLICIT coupling signals indicate intent, but do NOT provide enforceable "
-              "structural guarantees. The obligations and protections are not formally "
-              "bound, meaning protections can be removed without affecting obligations. "
-              "This does not constitute partial compliance — the structural requirement "
-              "is absent regardless of expressed intent.")
-            p()
-            p("**Practical meaning:**  ")
-            p("This document signals protective intent. However, an operator could modify "
-              "specific obligations without being required to maintain the corresponding "
-              "protections. The governance intent is present; the structural enforceability "
-              "is not.")
-            p()
-            p("**Fix:**  ")
-            p("Explicitly pair each restriction with the human interest it protects. "
-              "Ensure both carry equivalent normative force — neither can be weakened "
-              "in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).")
-        else:  # ABSENT
-            p(f"**Coupling:** NOT STRUCTURALLY DECLARED (no signals detected) ❌")
-            p()
-            p("No implicit coupling signals detected. The document does not express "
-              "protective intent in a form that can be structurally upgraded via "
-              "terminological revision alone.")
-            p()
-            p("**Practical meaning:**  ")
-            p("This document imposes obligations but does not structurally protect the "
-              "people those obligations are meant to serve. Obligations can be weakened "
-              "or removed independently of the protections they were intended to provide.")
-        p()
-        if r.get("contradictions"):
-            p("**⚠️ Structural Contradictions Detected:**")
-            for prop, desc, ctx in r["contradictions"]:
-                p(f"- [{prop}] {desc}")
-                if ctx:
-                    p(f"  Evidence: «{ctx[:150]}»")
-            p()
-            p("**Practical meaning:**  ")
-            p("This document simultaneously claims to provide certain protections and "
-              "contains language that removes them. A governance framework with internal "
-              "contradictions cannot provide reliable assurance — the stated protections "
-              "are present in letter but absent in effect.")
-            p()
-
-        # ── Minimal Upgrade Path (STEP 7) ────────────────────────────────────
-        if cstate != "STRUCTURAL":
-            h(4, "Minimal Upgrade Path (No System Rewrite Required)")
-            p("To achieve formal LAIF Coupling compliance without restructuring the "
-              "entire document:")
-            p()
-            p("1. **Identify each restriction** — list every 'shall not' or operational "
-              "constraint in the document.")
-            p("2. **Identify the affected human interest** — for each restriction, state "
-              "the specific human interest it protects (e.g. 'patient safety', "
-              "'worker's right to explanation').")
-            p("3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] "
-              "and [human interest]: neither may be weakened without the other.'")
-            p("4. **Ensure equivalent normative force** — both sides of the pair must use "
-              "the same mandatory language ('shall') so neither can be downgraded in isolation.")
-            p()
-            if ic.get("found"):
-                p("*Note: implicit coupling signals already present (see above) — the "
-                  "governance intent is established. This upgrade is terminological and "
-                  "structural, not conceptual.*")
-            p()
-
-        # Scores with signal traceability
-        h(4, "Scores and Signal Breakdown")
-        bd = r["score_breakdown"]
-        st = r.get("score_trace", {})
-        for dim_key, dim_label, score_key in [
-            ("structural",    "Structural",           "structural_score"),
-            ("terminology",   "Terminology",          "terminology_score"),
-            ("conceptual",    "Conceptual Proximity", "conceptual_proximity_score"),
-            ("auditability",  "Auditability",         "auditability_score"),
-            ("enforceability","Enforceability",       "enforceability_score"),
-        ]:
-            score  = r[score_key]
-            trace  = st.get(dim_key, {})
-            fired  = bd[dim_key]["fired"]
-            missed = bd[dim_key]["missed"]
-
-            p(f"**{dim_label} — {score}/100** {score_bar(score)}")
-            p()
-            if trace.get("reason"):
-                p(f"**Why:** {trace['reason']}")
-                p()
-            if fired:
-                grp = _group_signals(fired)
-                p("**Signals detected:**")
-                if grp["human_interest"]:
-                    p("*Human interest signals:*")
-                    for label, w in grp["human_interest"]:
-                        p(f"- {label} (+{w} pts)")
-                if grp["governance"]:
-                    p("*Governance signals:*")
-                    for label, w in grp["governance"]:
-                        p(f"- {label} (+{w} pts)")
-                if grp["structural"]:
-                    p("*Structural signals:*")
-                    for label, w in grp["structural"]:
-                        p(f"- {label} (+{w} pts)")
-                p()
-            if missed:
-                p("**Signals missing:**")
-                for label, w in missed:
-                    p(f"- {label} (missed {w} pts)")
-                p()
-            if trace.get("weight_rationale"):
-                p(f"**Dimension significance:** {trace['weight_rationale']}")
-                p()
-
-        overall_bar = score_bar(r["overall_readiness_score"])
-        p(f"**Overall Readiness — {r['overall_readiness_score']}/100** {overall_bar}")
-        p()
-        p(
-            "**Why:** Weighted sum of the five dimensions above — "
-            "Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + "
-            "Auditability×0.20 + Enforceability×0.20. "
-            "A document achieves overall readiness by addressing governance architecture, "
-            "canonical terminology, substantive intent, verifiability, and enforceability "
-            "simultaneously. Weakness in any single dimension constrains the overall score "
-            "proportionally."
-        )
-        p()
-
-        # Construct coverage
-        h(4, "Construct Coverage")
+        h(3, "Governance-Force Profile")
+        p("This display-only profile uses existing score signals, construct coverage, gaps, strengths, sector findings, and remediation text. It marks components as detected, partial/implicit, gap / requires review, or requires reviewer confirmation; it does not create or alter scores.")
         table(
-            ["Construct", "Present", "LAIF Source"],
-            [
-                (k, "✅ Yes" if v else "❌ No",
-                 {"Coupling":                "v1.2 Principle 2; Toolkit §2 B.1",
-                  "Coherence Test":          "v1.2 Part One",
-                  "Integrity Layer":         "v1.2 Part Two",
-                  "Structural Transparency": "Toolkit §1.3 (A.1)",
-                  "Structural Honesty":      "Toolkit §1.4 (A.2)",
-                  "Structural Containment":  "Toolkit §1.5 (A.3)",
-                  "Consistency":             "v1.2 Principle 5",
-                  "Reversibility":           "v1.2 Provision D1"}.get(k, "v1.2"))
-                for k, v in r["construct_coverage"].items()
-            ]
+            ["Component", "Status", "Basis"],
+            [[component, status, basis] for component, status, basis in _governance_force_profile(r)]
         )
         p()
 
-        # Sector section
-        h(4, "Sector Context")
-        p(f"**Sector:** {r.get('sector_label', r['sector_used'])}  ")
-        p(f"**Sector risk alignment:** {r['sector_risk_alignment']}/100  ")
-        p()
-        p("**Relevant human interests (Toolkit §1.2 — Materially Affects Interests):**")
-        for interest in r["sector_relevant_interests"]:
-            p(f"- {interest}")
-        p()
-
-        h(4, "Sector-Specific Findings")
-        risk_present = [f for f in r["sector_specific_findings"] if f.startswith("Risk signal present")]
-        risk_absent  = [f for f in r["sector_specific_findings"] if f.startswith("Risk signal absent")]
-        evid_present = [f for f in r["sector_specific_findings"] if f.startswith("Evidence present")]
-        evid_gap     = [f for f in r["sector_specific_findings"] if f.startswith("Evidence gap")]
-        if risk_present:
-            p("*Risk indicators detected:*")
-            for f in risk_present:
-                p(f"- ✅ {f.replace('Risk signal present: ', '')}")
-        if risk_absent:
-            p("*Risk indicators absent:*")
-            for f in risk_absent:
-                p(f"- ⚪ {f.replace('Risk signal absent: ', '')}")
-        if evid_present:
-            p("*Expected evidence artefacts present:*")
-            for f in evid_present:
-                p(f"- ✅ {f.replace('Evidence present: ', '')}")
-        if evid_gap:
-            p("*Evidence gaps:*")
-            for f in evid_gap:
-                p(f"- ❌ {f.replace('Evidence gap: ', '')}")
-        p()
-
-        # Paraphrase violations
-        if r["paraphrase_violations"]:
-            h(4, "Paraphrase Violations")
-            for term, vs in r["paraphrase_violations"].items():
-                p(f"**Guard: {term}** — {len(vs)} violation(s)  ")
-                p(f"*Source: LAIF v1.2 Principle 2; validate.py context-aware guard*")
-                for _, ctx in vs[:2]:
-                    p(f"> …{ctx.replace(chr(10), ' ')[:120]}…")
+        h(3, "LAIF-Model Strengths")
+        strengths = r.get("strengths", [])
+        if strengths:
+            for strength in strengths[:10]:
+                p(f"- {strength}")
         else:
-            h(4, "Paraphrase Violations")
-            p("None detected.")
+            p("No LAIF-model strengths generated by the current rubric.")
         p()
 
-        # Strengths
-        h(4, "Strengths")
-        for s in r["strengths"][:10]:
-            p(f"- {s}")
+        structured_findings = r.get("structured_findings", [])
+        if structured_findings:
+            h(3, "Structured Diagnostic Findings")
+            p("Structured findings are existing diagnostic observations with severity, evidence, impact, and recommended action; they do not alter scores or certification status.")
+            for finding in structured_findings:
+                p(f"- **[{finding.get('severity', 'MEDIUM')}] {finding.get('title', '')}**")
+                p(f"  - Evidence: {finding.get('evidence', '')}")
+                p(f"  - Impact: {finding.get('impact', '')}")
+                p(f"  - Recommended action: {finding.get('recommended_action', '')}")
+            p()
+
+        h(3, "Diagnostic Gaps")
+        p("These are diagnostic gaps, LAIF-native remediation gaps, and governance-force gaps where applicable. They are not legal-invalidity findings.")
+        gaps = r.get("gaps", [])
+        if gaps:
+            h(4, "Diagnostic gaps")
+            for gap in gaps:
+                p(f"- {gap}")
+        primary = r.get("primary_failure_modes", [])
+        if primary:
+            h(4, "Primary LAIF diagnostic gaps")
+            for gap in primary:
+                p(f"- {gap}")
         p()
 
-        # Diagnostic gaps
-        h(4, "Diagnostic Gaps")
-        for g in r["gaps"]:
-            p(f"- {g}")
+        h(3, "Scorecard and Signal Trace")
+        p("Scores are deterministic LAIF rubric outputs. Terminology score has different interpretive significance by mode: in LAIF-native certification it is load-bearing; in external framework assessment it indicates adoption distance from LAIF vocabulary. Conceptual proximity is diagnostic and cannot certify LAIF-native compliance.")
+        table(
+            ["Dimension", "Score", "Interpretive note"],
+            [
+                ["Structural", f"{r['structural_score']}/100", "Governance architecture and structural mechanisms detected by the rubric."],
+                ["Terminology", f"{r['terminology_score']}/100", "Canonical LAIF vocabulary / adoption distance, interpreted by assessment mode."],
+                ["Conceptual proximity", f"{r['conceptual_proximity_score']}/100", "Diagnostic evidence of LAIF-like governance concerns; not certification."],
+                ["Auditability", f"{r['auditability_score']}/100", "Evidence, traceability, monitoring, and review signals."],
+                ["Enforceability", f"{r['enforceability_score']}/100", "Mandatory language, responsible actors, consequences, and operational force."],
+                ["Overall readiness", f"{r['overall_readiness_score']}/100", "Weighted deterministic rubric output; not a legal or statistical finding."],
+            ],
+        )
+        p()
+        bd = r.get("score_breakdown", {})
+        for dim_key, dim_label in [
+            ("structural", "Structural"),
+            ("terminology", "Terminology"),
+            ("conceptual", "Conceptual proximity"),
+            ("auditability", "Auditability"),
+            ("enforceability", "Enforceability"),
+        ]:
+            dim = bd.get(dim_key, {"fired": [], "missed": []})
+            h(4, f"{dim_label} signal trace")
+            fired = dim.get("fired", [])
+            missed = dim.get("missed", [])
+            if fired:
+                p("**Signals detected:**")
+                for label, weight in fired:
+                    p(f"- {label} (+{weight} pts)")
+            else:
+                p("**Signals detected:** none")
+            if missed:
+                p("**Signals not detected:**")
+                for label, weight in missed:
+                    p(f"- {label} (missed {weight} pts)")
+            p()
+
+        h(3, "Construct Crosswalk")
+        coverage = r.get("construct_coverage", {})
+        table(
+            ["Construct", "Coverage", "Interpretive note"],
+            [
+                [construct, "detected" if coverage.get(construct) else "not detected", "Existing construct_coverage output; scoring logic unchanged."]
+                for construct in _CONSTRUCT_ORDER
+            ],
+        )
         p()
 
-        # Primary diagnostic gaps
-        h(4, "Primary LAIF Diagnostic Gaps")
-        for fm in r["primary_failure_modes"]:
-            p(f"- {fm}")
+        h(3, "Sector / Institutional Context")
+        p("Sector findings are sector-context diagnostic metadata, not sector legal compliance findings.")
+        p(f"- **Sector risk alignment:** {r['sector_risk_alignment']}/100")
+        interests = r.get("sector_relevant_interests", [])
+        if interests:
+            p("- **Relevant human/public interests surfaced by the profile:**")
+            for interest in interests:
+                p(f"  - {interest}")
+        findings = r.get("sector_specific_findings", [])
+        if findings:
+            p("- **Sector-specific diagnostic findings:**")
+            for finding in findings:
+                p(f"  - {finding}")
         p()
 
-        # ── Structured Findings ─────────────────────────────────────────────
-        h(4, "Structured Findings")
-        sfindings = r.get("structured_findings", [])
-        if sfindings:
-            for fi in sfindings:
-                sev = fi.get("severity", "MEDIUM")
-                sev_icon = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}.get(sev, "⚪")
-                p(f"**{sev_icon} [{sev}] {fi.get('title', '')}**")
-                p(f"- *Evidence:* {fi.get('evidence', '')}")
-                p(f"- *Impact:* {fi.get('impact', '')}")
-                p(f"- *Recommended action:* {fi.get('recommended_action', '')}")
+        h(3, "Remediation Priorities")
+        p("The following are additive LAIF remediation guidance. They are not mandatory legal amendments unless a regulator, institution, contract, procurement process, or other authority separately makes them binding. Grouping is heuristic and uses only already-generated remediation text.")
+        structured_steps = r.get("structured_remediation_steps", [])
+        if structured_steps:
+            h(4, "Structured remediation details")
+            p("These preserve the original ordered structured remediation detail: problem, why it matters, and concrete fix.")
+            for i, step in enumerate(structured_steps, 1):
+                p(f"{i}. **Problem:** {step.get('problem', '')}")
+                p(f"   - **Why it matters:** {step.get('why_it_matters', '')}")
+                p(f"   - **Concrete fix:** {step.get('concrete_fix', '')}")
+            p()
+        steps = r.get("recommended_remediation_steps", [])
+        if steps:
+            h(4, "Grouped remediation themes")
+            grouped = _remediation_groups(steps)
+            for group_name, group_steps in grouped.items():
+                h(5, group_name)
+                for i, step in enumerate(group_steps, 1):
+                    p(f"{i}. {step}")
                 p()
-        else:
-            p("No structured findings generated.")
+        elif not structured_steps:
+            p("No remediation steps generated by the current rubric.")
         p()
 
-        # ── Remediation (Problem / Why it matters / Concrete fix) ────────────
-        h(4, "Remediation Plan (ordered by impact)")
-        srem = r.get("structured_remediation_steps", [])
-        if srem:
-            for i, step in enumerate(srem, 1):
-                p(f"**{i}. Problem:** {step.get('problem', '')}")
-                p(f"   **Why it matters:** {step.get('why_it_matters', '')}")
-                p(f"   **Concrete fix:** {step.get('concrete_fix', '')}")
-                p()
-        else:
-            p("No structured remediation steps generated.")
-        p()
+        h(3, "Limits")
+        p("- This report is not legal advice and does not determine legal validity, enforceability, safety, or external regulatory compliance.")
+        p("- Findings depend on the assessed source text, citation/provenance quality, excerpt completeness, and transformation chain.")
+        p("- Scores are deterministic rubric outputs with deterministic rubric limitations; they are not statistical confidence values.")
+        p("- Regex and context-window calibration limits may affect terminology, paraphrase, and conceptual signal detection.")
+        p("- No empirical or statistical validation claim is made for score weights, thresholds, or remediation-effort bands.")
         p("---")
 
-    # ── Cross-Document Findings ───────────────────────────────────────────────
-    h(2, "Cross-Document Findings")
+    h(2, "Cross-document diagnostic summary")
+    count = len(assessments)
+    fail_count = sum(1 for r in assessments if r.get("formal_laif_native_compliance", r.get("formal_laif_compliance")) == "FAIL")
+    avg_overall = round(sum(r["overall_readiness_score"] for r in assessments) / count)
+    avg_concept = round(sum(r["conceptual_proximity_score"] for r in assessments) / count)
+    avg_sector = round(sum(r["sector_risk_alignment"] for r in assessments) / count)
+    p(f"- **LAIF-native certification channel:** {count - fail_count}/{count} pass; {fail_count}/{count} fail / not LAIF-native / canonical remediation required where applicable.")
+    p("- **External framework structural assessment channel:** diagnostic, model-relative, and not certification.")
+    p(f"- **Average conceptual proximity:** {avg_concept}/100")
+    p(f"- **Average overall readiness:** {avg_overall}/100")
+    p(f"- **Average sector risk alignment:** {avg_sector}/100")
+    p()
 
-    h(3, "Score Comparison")
+    h(3, "Score distribution / deterministic rubric comparison")
     table(
-        ["Document", "Str", "Ter", "Con", "Aud", "Enf", "OVR", "Sector Alignment"],
+        ["Document", "Str", "Ter", "Con", "Aud", "Enf", "OVR", "Sector"],
         [
             [
                 r["document_name"][:38],
@@ -2867,108 +2690,45 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 f"{r['sector_risk_alignment']}%",
             ]
             for r in assessments
-        ]
+        ],
     )
     p()
 
-    h(3, "Diagnostic Deployment Risk Tier Summary")
-    tier_order = {"CRITICAL": 0, "HIGH": 1, "MODERATE": 2, "LOW": 3}
-    table(
-        ["Document", "Diagnostic Risk Tier", "Overall", "LAIF-native Certification", "Provenance"],
-        sorted(
-            [
-                [
-                    r["document_name"][:38],
-                    r.get("deployment_risk_tier", "HIGH"),
-                    f"{r['overall_readiness_score']}/100",
-                    ("FAIL / not LAIF-native / canonical remediation required"
-                     if r.get("assessment_mode") == "external_framework"
-                     and r.get("strong_laif_compliance") == "FAIL"
-                     else r.get("strong_laif_compliance", "FAIL")),
-                    r.get("provenance", ""),
-                ]
-                for r in assessments
-            ],
-            key=lambda row: tier_order.get(row[1], 9)
-        )
-    )
-    p()
-    p("**Risk tier derivation:** CRITICAL = LAIF-native certification FAIL + overall <35; "
-      "HIGH = LAIF-native certification FAIL or overall <50; MODERATE = weak/hollow certification + overall 50–69; "
-      "LOW = STRONG PASS + overall ≥70.")
+    h(3, "Common LAIF diagnostic gaps")
+    fm_counter = Counter(fm for r in assessments for fm in r.get("primary_failure_modes", []))
+    if fm_counter:
+        for gap, gap_count in fm_counter.most_common():
+            p(f"- **{gap}** — {gap_count}/{count} documents")
+    else:
+        p("No common LAIF diagnostic gaps generated by the current rubric.")
     p()
 
-    high_conceptual = [r for r in assessments if r["conceptual_proximity_score"] >= 60]
-    if high_conceptual:
-        names = ", ".join(r["document_name"] for r in high_conceptual)
-        p(f"- High conceptual proximity (≥60): {names} — LAIF-like intent expressed through "
-          "own vocabulary.")
+    h(3, "Governance-force patterns")
+    component_counts = Counter()
+    for r in assessments:
+        for component, status, _ in _governance_force_profile(r):
+            if status in {"gap / requires review", "requires reviewer confirmation"}:
+                component_counts[component] += 1
+    if component_counts:
+        for component, component_count in component_counts.most_common():
+            p(f"- **{component}** requires review or confirmation in {component_count}/{count} documents.")
+    else:
+        p("No governance-force review pattern generated by the current profile.")
+    p()
 
-    paraphrase_docs = [r for r in assessments if r["paraphrase_violations"]]
-    if paraphrase_docs:
-        names = ", ".join(r["document_name"] for r in paraphrase_docs)
-        p(f"- Paraphrase violations: {names} — forbidden substitution of LAIF canonical terms.")
+    h(3, "Remediation themes")
+    theme_counts = Counter()
+    for r in assessments:
+        for group_name in _remediation_groups(r.get("recommended_remediation_steps", [])).keys():
+            theme_counts[group_name] += 1
+    if theme_counts:
+        for theme, theme_count in theme_counts.most_common():
+            p(f"- **{theme}** — appears in {theme_count}/{count} remediation sets.")
+    else:
+        p("No remediation themes generated by the current rubric.")
+    p()
 
-    low_enforce = [r for r in assessments if r["enforceability_score"] < 40]
-    if low_enforce:
-        names = ", ".join(r["document_name"] for r in low_enforce)
-        p(f"- Low enforceability (<40): {names} — voluntary/declaratory frameworks without "
-          "binding mandates.")
-
-    # ── Common LAIF Diagnostic Gaps ───────────────────────────────────────────
-    h(2, "Common LAIF Diagnostic Gaps")
-    fm_counter = Counter(fm for r in assessments for fm in r["primary_failure_modes"])
-    for fm, count in fm_counter.most_common():
-        p(f"- **{fm}** — {count}/{len(assessments)} documents")
-    p()
-    p("The universal LAIF-native certification gap is terminological: no external framework "
-      "uses LAIF canonical terms. That means canonical remediation is required before making "
-      "a LAIF-native certification claim; it does not mean the external framework is legally "
-      "invalid or governance-invalid. Conceptual proximity remains diagnostic remediation "
-      "metadata, not certification.")
-
-    # ── LAIF Deployment Implications ─────────────────────────────────────────
-    h(2, "LAIF Deployment Implications")
-    p("1. **LAIF is additive, not competitive.** Existing frameworks address the right "
-      "governance dimensions. LAIF provides the structural enforcement layer they lack — "
-      "canonical terms with load-bearing meaning, Coupling requirements, and the Coherence "
-      "Test as a named decision instrument.")
-    p()
-    p("2. **Conceptual proximity enables adoption.** Documents scoring ≥60 on conceptual "
-      "proximity already express the underlying values. Adoption pathway: introduce LAIF "
-      "canonical terminology and add structural Coupling declarations to existing provisions.")
-    p()
-    p("3. **Paraphrase violations are actionable.** Where 'alignment', 'connection', or "
-      "'linkage' appear as structural governance terms, the minimal fix is a rewrite "
-      "substituting 'Coupling' and adding the paired protection — not a full structural redesign.")
-    p()
-    p("4. **Sector risk alignment measures deployment readiness.** A document with high "
-      "conceptual proximity but low sector risk alignment may not address the specific "
-      "materially-affected interests in the target deployment context.")
-    p()
-    p("5. **Scoring traceability enables targeted remediation.** Per-signal breakdowns "
-      "show precisely which structural elements are missing, enabling prioritised fixes "
-      "rather than wholesale document rewrites.")
-
-    # ── Recommended Next Steps ────────────────────────────────────────────────
-    h(2, "Recommended Next Development Steps")
-    p("1. **Article-level LAIF–EU AI Act mapping:** Map LAIF Provisions to EU AI Act articles "
-      "to formalise the adoption pathway for the EU regulatory context.")
-    p()
-    p("2. **LAIF–NIST RMF function mapping:** Map Coherence Test questions to NIST RMF "
-      "functions (Govern, Map, Measure, Manage) to enable LAIF adoption within existing "
-      "US governance infrastructure.")
-    p()
-    p("3. **Sector-specific PDCA templates:** Produce PDCA-Full templates pre-populated "
-      "with sector-appropriate Coupling declarations, evidence artefact checklists, and "
-      "Coherence Test documentation guidance.")
-    p()
-    p("4. **Score threshold calibration:** As more documents are assessed, calibrate "
-      "remediation effort thresholds against actual adoption timelines.")
-
-    p()
     p("---")
-    p(f"*LAIF v1.2 · Compliance Toolkit v1.1 · {report_date} · Governance Audit Series*")
-    p("*Generated by `test_real_world.py` — validate.py enforcement unchanged*")
-
+    p(f"*LAIF v1.2 · Compliance Toolkit v1.1 · {report_date} · Institutional Assessment Architecture*  ")
+    p("*Generated by `test_real_world.py`; scoring logic, rubric weights, formal compliance calculation, and validate.py enforcement unchanged.*")
     return "\n".join(lines)
