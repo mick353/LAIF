@@ -168,6 +168,12 @@ def _print_scorecard(r):
             print(f"       {ln.strip()}")
     if len(r["recommended_remediation_steps"]) > 5:
         print(f"    ... and {len(r['recommended_remediation_steps']) - 5} further steps in report")
+    traces = r.get("evidence_traces", [])
+    exact_traces = sum(1 for trace in traces if trace.get("confidence") in ("exact", "deterministic_pattern"))
+    fallback_traces = sum(1 for trace in traces if trace.get("confidence") == "fallback_required")
+    print(f"  Evidence traces: {len(traces)}")
+    print(f"  Exact/deterministic traces: {exact_traces}")
+    print(f"  Fallback-required traces: {fallback_traces}")
     patches = r.get("remediation_patches", [])
     print(f"  Structured remediation patches: {len(patches)}")
     for patch in patches[:2]:

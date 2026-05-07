@@ -2284,6 +2284,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     result["structured_findings"]          = _structured_findings(result)
     result["structured_remediation_steps"] = _structured_remediation(result)
     result["governance_signal"]            = _governance_signal_strength(result)
+    result["evidence_traces"]              = _build_evidence_traces(text, result)
     result["remediation_patches"]          = _build_remediation_patches(result)
     return result
 
@@ -2496,6 +2497,7 @@ _REMEDIATION_PATCH_KEYS = (
     "governance_force_component",
     "diagnostic_gap",
     "source_evidence",
+    "evidence_trace_ids",
     "recommended_patch",
     "canonical_clause_if_adopting_laif",
     "operational_control",
@@ -2511,6 +2513,173 @@ _PATCH_SOURCE_EVIDENCE_FALLBACK = (
 )
 
 _PATCH_MAX_PER_DOCUMENT = 12
+_EVIDENCE_TRACE_MAX_PER_DOCUMENT = 20
+_EVIDENCE_TRACE_LEGAL_AUTHORITY_BOUNDARY = (
+    "Evidence traces are deterministic source-support metadata. They do not "
+    "determine legal validity or certify LAIF-native compliance."
+)
+
+
+def _normalize_trace_text(text):
+    """Normalize trace text for deterministic comparison metadata only."""
+    return re.sub(r"\s+", " ", str(text or "")).strip().lower()
+
+
+def _find_text_span(source_text, candidate_text):
+    """Return exact character offsets only when candidate_text is present."""
+    source = str(source_text or "")
+    candidate = str(candidate_text or "")
+    if not source or not candidate:
+        return None
+    start = source.find(candidate)
+    if start < 0:
+        return None
+    end = start + len(candidate)
+    if source[start:end] != candidate:
+        return None
+    return start, end
+
+
+def _trace_id(label, index):
+    base = re.sub(r"[^a-z0-9]+", "-", str(label or "trace").lower()).strip("-")
+    base = base[:36].strip("-") or "trace"
+    return f"LAIF-TRACE-{index:02d}-{base}"
+
+
+def _evidence_trace(
+    source_text,
+    source_document,
+    source_type,
+    assessment_mode,
+    evidence_type,
+    matched_text,
+    match_rule,
+    supports,
+    index,
+):
+    span = _find_text_span(source_text, matched_text)
+    if span is None:
+        return None
+    start, end = span
+    return {
+        "trace_id": _trace_id(evidence_type, index),
+        "source_document": source_document,
+        "source_type": source_type,
+        "assessment_mode": assessment_mode,
+        "evidence_type": evidence_type,
+        "matched_text": matched_text,
+        "normalized_match": _normalize_trace_text(matched_text),
+        "start_char": start,
+        "end_char": end,
+        "match_rule": match_rule,
+        "confidence": "deterministic_pattern" if match_rule.startswith("regex:") else "exact",
+        "supports": supports,
+        "legal_authority_boundary": _EVIDENCE_TRACE_LEGAL_AUTHORITY_BOUNDARY,
+    }
+
+
+def _fallback_evidence_trace(source_document, source_type, assessment_mode, supports, index):
+    return {
+        "trace_id": _trace_id("reviewer-confirmation-required", index),
+        "source_document": source_document,
+        "source_type": source_type,
+        "assessment_mode": assessment_mode,
+        "evidence_type": "reviewer_confirmation_required",
+        "matched_text": "",
+        "normalized_match": "",
+        "start_char": None,
+        "end_char": None,
+        "match_rule": "no_direct_quote_extracted",
+        "confidence": "fallback_required",
+        "supports": supports,
+        "legal_authority_boundary": _EVIDENCE_TRACE_LEGAL_AUTHORITY_BOUNDARY,
+    }
+
+
+def _first_regex_match(text, pattern):
+    match = re.search(pattern, text or "", re.IGNORECASE)
+    if not match:
+        return None
+    return match.group(0)
+
+
+def _extract_profile_signal_traces(text, result):
+    traces = []
+    profile = _sector_profile_metadata(result.get("sector_profile", result.get("sector_used")))
+    signal_specs = []
+    signal_specs.extend((pat, label, "sector_profile_signal") for pat, label in profile.get("risk_indicators", []))
+    signal_specs.extend((pat, label, "provenance_signal") for pat, label in profile.get("expected_evidence", []))
+    for pat, label, evidence_type in signal_specs:
+        matched = _first_regex_match(text, pat)
+        if matched:
+            traces.append((evidence_type, matched, f"regex:{pat}", f"sector profile signal: {label}"))
+    return traces
+
+
+def _extract_governance_force_traces(text, result):
+    traces = []
+    rubric_specs = (
+        (TERMINOLOGY_RUBRIC, "diagnostic_term", "terminology signal"),
+        (STRUCTURAL_RUBRIC, "governance_force_signal", "structural signal"),
+        (CONCEPTUAL_RUBRIC, "governance_force_signal", "conceptual signal"),
+        (AUDITABILITY_RUBRIC, "governance_force_signal", "auditability signal"),
+        (ENFORCEABILITY_RUBRIC, "governance_force_signal", "enforceability signal"),
+    )
+    for rubric, evidence_type, prefix in rubric_specs:
+        for _, pat, label in rubric:
+            matched = _first_regex_match(text, pat)
+            if matched:
+                traces.append((evidence_type, matched, f"regex:{pat}", f"{prefix}: {label}"))
+    return traces
+
+
+def _extract_remediation_anchor_traces(text, result):
+    traces = []
+    for construct, present in result.get("construct_coverage", {}).items():
+        if not present:
+            continue
+        matched = _first_regex_match(text, re.escape(construct))
+        if matched:
+            traces.append(("remediation_anchor", matched, f"regex:{re.escape(construct)}", f"remediation anchor: {construct}"))
+    return traces
+
+
+def _build_evidence_traces(text, result):
+    """Build capped deterministic source-support traces without changing scores."""
+    source_document = result.get("document_name", "unknown document")
+    source_type = result.get("source_type", "unknown_source_type")
+    assessment_mode = result.get("assessment_mode", "external_framework")
+    candidates = []
+    candidates.extend(_extract_profile_signal_traces(text, result))
+    candidates.extend(_extract_governance_force_traces(text, result))
+    candidates.extend(_extract_remediation_anchor_traces(text, result))
+
+    traces = []
+    seen = set()
+    for evidence_type, matched_text, match_rule, supports in candidates:
+        if len(traces) >= _EVIDENCE_TRACE_MAX_PER_DOCUMENT:
+            break
+        span = _find_text_span(text, matched_text)
+        if span is None:
+            continue
+        dedupe = (span[0], span[1], evidence_type, supports)
+        if dedupe in seen:
+            continue
+        seen.add(dedupe)
+        trace = _evidence_trace(
+            text, source_document, source_type, assessment_mode, evidence_type,
+            matched_text, match_rule, supports, len(traces) + 1
+        )
+        if trace is not None and trace["matched_text"] == text[trace["start_char"]:trace["end_char"]]:
+            traces.append(trace)
+
+    if not traces and (result.get("gaps") or result.get("primary_failure_modes") or result.get("recommended_remediation_steps")):
+        traces.append(_fallback_evidence_trace(
+            source_document, source_type, assessment_mode,
+            "diagnostic findings require reviewer confirmation; no direct quote extracted",
+            1,
+        ))
+    return traces[:_EVIDENCE_TRACE_MAX_PER_DOCUMENT]
 
 
 def _slugify_patch_id(text, index):
@@ -2743,6 +2912,43 @@ def _patch_candidate_gap_entries(result):
     return entries
 
 
+def _trace_support_matches_patch(trace, diagnostic_gap, result):
+    if trace.get("confidence") not in ("exact", "deterministic_pattern"):
+        return False
+    haystack = " ".join([
+        str(trace.get("supports", "")),
+        str(trace.get("evidence_type", "")),
+        str(trace.get("normalized_match", "")),
+    ]).lower()
+    needles = [
+        _construct_for_gap(diagnostic_gap),
+        _governance_component_for_gap(diagnostic_gap),
+        _patch_type_for_gap(diagnostic_gap).replace("_", " "),
+    ]
+    for needle in needles:
+        needle = str(needle or "").lower()
+        if needle and needle in haystack:
+            return True
+    gap_low = str(diagnostic_gap or "").lower()
+    for token in ("audit", "evidence", "trace", "transparency", "oversight", "accountability", "risk", "shall", "monitor"):
+        if token in gap_low and token in haystack:
+            return True
+    return False
+
+
+def _evidence_trace_links_for_patch(diagnostic_gap, result):
+    links = []
+    source_evidence = _PATCH_SOURCE_EVIDENCE_FALLBACK
+    for trace in result.get("evidence_traces", []):
+        if len(links) >= 3:
+            break
+        if _trace_support_matches_patch(trace, diagnostic_gap, result):
+            links.append(trace.get("trace_id"))
+            if source_evidence == _PATCH_SOURCE_EVIDENCE_FALLBACK:
+                source_evidence = trace.get("matched_text") or source_evidence
+    return links, source_evidence
+
+
 def _build_remediation_patches(result):
     """Build deterministic, machine-readable diagnostic remediation records."""
     patches = []
@@ -2756,6 +2962,7 @@ def _build_remediation_patches(result):
             continue
         seen_gaps.add(dedupe_key)
         patch_index = len(patches) + 1
+        evidence_trace_ids, source_evidence = _evidence_trace_links_for_patch(diagnostic_gap, result)
         patch = {
             "patch_id": _slugify_patch_id(diagnostic_gap, patch_index),
             "assessment_mode": result.get("assessment_mode", "external_framework"),
@@ -2765,7 +2972,8 @@ def _build_remediation_patches(result):
             "laif_construct": _construct_for_gap(diagnostic_gap),
             "governance_force_component": _governance_component_for_gap(diagnostic_gap),
             "diagnostic_gap": diagnostic_gap,
-            "source_evidence": _PATCH_SOURCE_EVIDENCE_FALLBACK,
+            "source_evidence": source_evidence,
+            "evidence_trace_ids": evidence_trace_ids,
             "recommended_patch": _recommended_patch_for_gap(diagnostic_gap, result),
             "canonical_clause_if_adopting_laif": _canonical_clause_for_gap(diagnostic_gap, result),
             "operational_control": _operational_control_for_gap(diagnostic_gap, result),
@@ -3145,6 +3353,26 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 p(f"  - {finding}")
         p()
 
+        h(3, "Evidence Trace Summary")
+        traces = r.get("evidence_traces", [])
+        exact_count = sum(1 for trace in traces if trace.get("confidence") in ("exact", "deterministic_pattern"))
+        fallback_count = sum(1 for trace in traces if trace.get("confidence") == "fallback_required")
+        p(f"- **Total evidence traces:** {len(traces)}")
+        p(f"- **Exact/deterministic traces:** {exact_count}")
+        p(f"- **Fallback-required traces:** {fallback_count}")
+        p("Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.")
+        if traces:
+            p("- **Top traces:**")
+            for trace in traces[:3]:
+                snippet = trace.get("matched_text") or _PATCH_SOURCE_EVIDENCE_FALLBACK
+                snippet = re.sub(r"\s+", " ", snippet).strip()
+                if len(snippet) > 120:
+                    snippet = snippet[:117] + "..."
+                p(f"  - `{trace.get('trace_id', '')}` — {trace.get('evidence_type', '')}; {trace.get('confidence', '')}; supports: {trace.get('supports', '')}; snippet: {snippet}")
+        else:
+            p("- No evidence traces generated by the current deterministic extractor.")
+        p()
+
         h(3, "Remediation Priorities")
         p("The following are additive LAIF remediation guidance. They are not mandatory legal amendments unless a regulator, institution, contract, procurement process, or other authority separately makes them binding. Grouping is heuristic and uses only already-generated remediation text.")
         structured_steps = r.get("structured_remediation_steps", [])
@@ -3183,6 +3411,11 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 p(f"  - **Evidence artifact:** {patch.get('evidence_artifact', '')}")
                 p(f"  - **Verification test:** {patch.get('verification_test', '')}")
                 p(f"  - **Responsible actor:** {patch.get('responsible_actor', '')}")
+                ids = patch.get('evidence_trace_ids', [])
+                if ids:
+                    p(f"  - **Evidence trace IDs:** {', '.join(ids)}")
+                else:
+                    p("  - **Evidence trace IDs:** reviewer confirmation required / none linked")
                 p(f"  - **Legal authority boundary:** {patch.get('legal_authority_boundary', '')}")
         else:
             p("No structured remediation patches generated by the current deterministic extractor.")

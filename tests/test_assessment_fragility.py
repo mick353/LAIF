@@ -559,6 +559,7 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             "governance_force_component",
             "diagnostic_gap",
             "source_evidence",
+            "evidence_trace_ids",
             "recommended_patch",
             "canonical_clause_if_adopting_laif",
             "operational_control",
@@ -670,6 +671,7 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             "governance_force_component",
             "diagnostic_gap",
             "source_evidence",
+            "evidence_trace_ids",
             "recommended_patch",
             "canonical_clause_if_adopting_laif",
             "operational_control",
@@ -885,6 +887,153 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         self.assertNotIn(LEGACY_FORMAL_GATE, engine_text)
         self.assertNotIn(LEGACY_CONSTRUCT_GATE, engine_text)
         self.assertNotIn("md.replace", console_text)
+
+
+    def test_evidence_traces_are_returned_with_required_keys_and_offsets(self):
+        """Evidence traces are deterministic dict records with exact source spans."""
+        result = assess(
+            "evidence trace fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        self.assertIn("evidence_traces", result)
+        self.assertIsInstance(result["evidence_traces"], list)
+        self.assertGreater(len(result["evidence_traces"]), 0)
+        required = {
+            "trace_id",
+            "source_document",
+            "source_type",
+            "assessment_mode",
+            "evidence_type",
+            "matched_text",
+            "normalized_match",
+            "start_char",
+            "end_char",
+            "match_rule",
+            "confidence",
+            "supports",
+            "legal_authority_boundary",
+        }
+        for trace in result["evidence_traces"]:
+            self.assertIsInstance(trace, dict)
+            self.assertTrue(required.issubset(trace.keys()))
+            if trace["confidence"] in ("exact", "deterministic_pattern"):
+                self.assertEqual(
+                    trace["matched_text"],
+                    GENERIC_REGULATORY_DOCUMENT[trace["start_char"]:trace["end_char"]],
+                )
+            elif trace["confidence"] == "fallback_required":
+                self.assertEqual(trace["matched_text"], "")
+                self.assertIsNone(trace["start_char"])
+                self.assertIsNone(trace["end_char"])
+
+    def test_evidence_trace_fallback_records_do_not_invent_evidence(self):
+        """Fallback traces carry no quoted text or source offsets."""
+        result = assess(
+            "fallback evidence trace fixture",
+            "external_framework",
+            "No meaningful governance source terms here.",
+            assessment_mode="external_framework",
+        )
+        fallback_traces = [t for t in result["evidence_traces"] if t["confidence"] == "fallback_required"]
+        self.assertGreater(len(fallback_traces), 0)
+        for trace in fallback_traces:
+            self.assertEqual(trace["evidence_type"], "reviewer_confirmation_required")
+            self.assertEqual(trace["matched_text"], "")
+            self.assertIsNone(trace["start_char"])
+            self.assertIsNone(trace["end_char"])
+            self.assertEqual(trace["confidence"], "fallback_required")
+
+    def test_evidence_traces_do_not_change_formal_compliance_or_convert_fail(self):
+        """Trace metadata does not affect formal LAIF-native certification."""
+        result = assess(
+            "formal fail evidence trace fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        self.assertIn("evidence_traces", result)
+        self.assertEqual(result["formal_laif_native_compliance"], "FAIL")
+        self.assertEqual(result["formal_laif_compliance"], "FAIL")
+        self.assertNotEqual(result["formal_laif_native_compliance"], "PASS")
+
+    def test_remediation_patches_include_evidence_trace_ids_key(self):
+        """Structured patches include optional evidence trace links."""
+        result = assess(
+            "patch trace link fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        self.assertGreater(len(result["remediation_patches"]), 0)
+        for patch in result["remediation_patches"]:
+            self.assertIn("evidence_trace_ids", patch)
+            self.assertIsInstance(patch["evidence_trace_ids"], list)
+
+    def test_markdown_includes_evidence_trace_summary_and_boundary_note(self):
+        """Generated markdown surfaces compact trace counts and authority boundary."""
+        result = assess(
+            "markdown evidence trace fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        report = generate_markdown_report([result], report_date="May 2026")
+        self.assertIn("Evidence Trace Summary", report)
+        self.assertIn(
+            "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+            report,
+        )
+        self.assertIn("Evidence trace IDs:", report)
+
+    def test_console_output_includes_evidence_trace_counts(self):
+        """Console output reports concise evidence-trace counts only."""
+        result = assess(
+            "console evidence trace fixture",
+            "binding_regulation",
+            GENERIC_REGULATORY_DOCUMENT,
+            assessment_mode="external_framework",
+        )
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            _print_scorecard(result)
+        output = buf.getvalue()
+        self.assertIn("Evidence traces:", output)
+        self.assertIn("Exact/deterministic traces:", output)
+        self.assertIn("Fallback-required traces:", output)
+
+    def test_evidence_trace_model_document_exists_and_declares_required_boundaries(self):
+        """Evidence trace model documentation declares non-hallucination boundaries."""
+        doc_path = Path(__file__).resolve().parents[1] / "docs" / "governance" / "EVIDENCE_TRACE_MODEL.md"
+        self.assertTrue(doc_path.exists())
+        text = doc_path.read_text(encoding="utf-8")
+        for phrase in (
+            "Non-Hallucination Rule",
+            "Exact Text Presence Requirement",
+            "Reviewer-Confirmation Fallback",
+            "Legal / Authority Boundary",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, text)
+
+    def test_evidence_trace_count_cap_and_determinism(self):
+        """Trace extraction is capped and stable across repeated assessments."""
+        text = (GENERIC_REGULATORY_DOCUMENT + "\n") * 10
+        first = assess(
+            "trace cap fixture",
+            "binding_regulation",
+            text,
+            assessment_mode="external_framework",
+        )
+        second = assess(
+            "trace cap fixture",
+            "binding_regulation",
+            text,
+            assessment_mode="external_framework",
+        )
+        self.assertLessEqual(len(first["evidence_traces"]), 20)
+        self.assertEqual(first["evidence_traces"], second["evidence_traces"])
 
 
 

@@ -119,3 +119,7 @@ Profile diagnostics do not replace source evidence, legal review, institutional 
 ## Future Profile Expansion
 
 Future profiles may add vocabulary, diagnostic hints, remediation themes, and evidence cautions. Future expansion must preserve the same non-authority boundary: no changes to `validate.py`, formal LAIF-native certification, scoring weights, legal-validity determinations, or sector-specific compliance gates.
+
+## Phase 3P Evidence Trace Reference
+
+Phase 3P evidence traces are deterministic source-support metadata only. Exact or deterministic traces require direct source-text presence; otherwise the reviewer-confirmation fallback is used. See [Evidence Trace Model](EVIDENCE_TRACE_MODEL.md).
