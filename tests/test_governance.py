@@ -263,6 +263,58 @@ class GovernanceLibTests(unittest.TestCase):
         self.assertEqual(changed, {"tracked.txt", "new.txt"})
 
 
+class GovernanceStatusTests(unittest.TestCase):
+    def run_status(self) -> tuple[int, str, str]:
+        completed = subprocess.run(
+            [sys.executable, "scripts/governance/governance_status.py"],
+            cwd=REPO_ROOT,
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        return completed.returncode, completed.stdout, completed.stderr
+
+    def test_status_command_reports_deterministic_governance_summary(self) -> None:
+        config = governance_lib.load_json_config(
+            "TEST CONFIG ERROR", governance_lib.CONFIG_PATH
+        )
+        code, stdout, stderr = self.run_status()
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stderr, "")
+        self.assertIn("LAIF Governance Status", stdout)
+        self.assertIn(
+            f"Protected artifact count: {len(config['protected_artifacts'])}", stdout
+        )
+        self.assertIn("reports/laif_full_assessment.md", stdout)
+        self.assertIn(
+            f"Semantic-sensitive file count: {len(config['semantic_sensitive_files'])}",
+            stdout,
+        )
+        self.assertIn("scripts/governance/check_semantic_boundaries.py", stdout)
+        self.assertIn(
+            f"Semantic-sensitive term count: {len(config['semantic_sensitive_terms'])}",
+            stdout,
+        )
+        self.assertIn("authoritative_origin_url", stdout)
+        self.assertIn(
+            "Semantic-boundary checks are advisory-only and do not block merges.",
+            stdout,
+        )
+        self.assertIn(
+            "Protected-artifact checks are blocking and fail on protected artifact drift.",
+            stdout,
+        )
+        self.assertIn(
+            "This status tool is read-only and does not alter LAIF scoring, assessment semantics",
+            stdout,
+        )
+        self.assertIn("Test coverage file present: tests/test_governance.py: yes", stdout)
+        self.assertIn("CI workflow present: .github/workflows/ci.yml: yes", stdout)
+        self.assertNotIn("phase-3g-governance-status-report", stdout)
+
+
 class GovernanceConfigCheckTests(unittest.TestCase):
     def run_config_main(self, config_path: Path) -> tuple[int, str, str]:
         stdout = io.StringIO()
