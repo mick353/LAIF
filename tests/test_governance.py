@@ -17,6 +17,29 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 GOVERNANCE_DIR = REPO_ROOT / "scripts" / "governance"
 FIXTURES_DIR = REPO_ROOT / "tests" / "governance_fixtures"
+
+EXPANDED_SEMANTIC_SENSITIVE_TERMS = [
+    "Coupling",
+    "Integrity Layer",
+    "Coherence Test",
+    "Structural Transparency",
+    "Structural Honesty",
+    "Structural Containment",
+    "Consistency",
+    "Reversibility",
+    "Foundational Principles",
+    "non-amendable",
+    "assessment_status",
+    "citation_status",
+    "transformation_status",
+    "provenance_classification",
+    "acquisition_channel",
+    "verification_status",
+    "network_status",
+    "authoritative_origin_url",
+    "transformation_chain",
+]
+
 sys.path.insert(0, str(GOVERNANCE_DIR))
 
 governance_lib = importlib.import_module("governance_lib")
@@ -143,6 +166,33 @@ class GovernanceLibTests(unittest.TestCase):
         self.assertIn("protected_artifacts", config)
         self.assertIn("scripts/governance/governance_lib.py", config["semantic_sensitive_files"])
 
+    def test_production_config_contains_expanded_semantic_sensitive_terms(self) -> None:
+        config = governance_lib.load_json_config(
+            "TEST CONFIG ERROR", governance_lib.CONFIG_PATH
+        )
+        self.assertEqual(
+            config["semantic_sensitive_terms"],
+            EXPANDED_SEMANTIC_SENSITIVE_TERMS,
+        )
+
+    def test_valid_fixture_config_matches_expanded_production_terms(self) -> None:
+        # The valid governance fixture intentionally mirrors production semantic-sensitive
+        # term coverage so tests exercise canonical LAIF/provenance boundary terms.
+        fixture = governance_lib.load_json_config(
+            "TEST CONFIG ERROR", FIXTURES_DIR / "valid_config.json"
+        )
+        production = governance_lib.load_json_config(
+            "TEST CONFIG ERROR", governance_lib.CONFIG_PATH
+        )
+        self.assertEqual(
+            fixture["semantic_sensitive_terms"],
+            EXPANDED_SEMANTIC_SENSITIVE_TERMS,
+        )
+        self.assertEqual(
+            fixture["semantic_sensitive_terms"],
+            production["semantic_sensitive_terms"],
+        )
+
     def test_fail_emits_deterministic_namespaced_error_and_exits_nonzero(self) -> None:
         stderr = io.StringIO()
         with contextlib.redirect_stderr(stderr), self.assertRaises(SystemExit) as caught:
@@ -230,7 +280,7 @@ class GovernanceConfigCheckTests(unittest.TestCase):
         return minimal_config(
             protected=["reports/laif_full_assessment.md"],
             sensitive_files=sensitive_files,
-            terms=["Coupling"],
+            terms=EXPANDED_SEMANTIC_SENSITIVE_TERMS,
         )
 
     def test_valid_config_passes(self) -> None:
@@ -305,12 +355,16 @@ class ProtectedArtifactsCheckTests(unittest.TestCase):
                         code = int(exc.code or 0)
         return code, stdout.getvalue(), stderr.getvalue()
 
-    def repo_with_config(self, protected: list[str] | None = None) -> tuple[tempfile.TemporaryDirectory, Path, Path]:
+    def repo_with_config(
+        self,
+        protected: list[str] | None = None,
+        terms: list[str] | None = None,
+    ) -> tuple[tempfile.TemporaryDirectory, Path, Path]:
         tmp_dir = tempfile.TemporaryDirectory()
         repo = Path(tmp_dir.name)
         init_repo(repo)
         config_path = repo / "scripts" / "governance" / "protected_paths.json"
-        write_json(config_path, minimal_config(protected=protected))
+        write_json(config_path, minimal_config(protected=protected, terms=terms))
         return tmp_dir, repo, config_path
 
     def test_local_non_pr_mode_with_no_base_ref_skips_cleanly(self) -> None:
@@ -334,6 +388,23 @@ class ProtectedArtifactsCheckTests(unittest.TestCase):
             base = commit_all(repo, "base")
             protected.write_text("changed\n", encoding="utf-8")
             commit_all(repo, "protected change")
+            code, stdout, stderr = self.run_main(repo, config_path, GOVERNANCE_BASE_REF=base)
+        self.assertEqual(code, 1)
+        self.assertEqual(stdout, "")
+        self.assertIn("Protected LAIF assessment artifact drift detected.", stderr)
+        self.assertIn("reports/laif_full_assessment.md", stderr)
+
+    def test_expanded_semantic_terms_do_not_affect_protected_artifact_blocking(self) -> None:
+        tmp_dir, repo, config_path = self.repo_with_config(
+            terms=EXPANDED_SEMANTIC_SENSITIVE_TERMS
+        )
+        with tmp_dir:
+            protected = repo / "reports" / "laif_full_assessment.md"
+            protected.parent.mkdir(parents=True, exist_ok=True)
+            protected.write_text("base\n", encoding="utf-8")
+            base = commit_all(repo, "base")
+            protected.write_text("changed despite Structural Transparency terms\n", encoding="utf-8")
+            commit_all(repo, "protected change with expanded terms")
             code, stdout, stderr = self.run_main(repo, config_path, GOVERNANCE_BASE_REF=base)
         self.assertEqual(code, 1)
         self.assertEqual(stdout, "")
@@ -454,12 +525,16 @@ class SemanticBoundariesCheckTests(unittest.TestCase):
                         code = int(exc.code or 0)
         return code, stdout.getvalue(), stderr.getvalue()
 
-    def repo_with_config(self, sensitive_files: list[str] | None = None) -> tuple[tempfile.TemporaryDirectory, Path, Path]:
+    def repo_with_config(
+        self,
+        sensitive_files: list[str] | None = None,
+        terms: list[str] | None = None,
+    ) -> tuple[tempfile.TemporaryDirectory, Path, Path]:
         tmp_dir = tempfile.TemporaryDirectory()
         repo = Path(tmp_dir.name)
         init_repo(repo)
         config_path = repo / "scripts" / "governance" / "protected_paths.json"
-        write_json(config_path, minimal_config(sensitive_files=sensitive_files))
+        write_json(config_path, minimal_config(sensitive_files=sensitive_files, terms=terms))
         return tmp_dir, repo, config_path
 
     def test_local_non_pr_mode_with_no_base_ref_skips_cleanly(self) -> None:
@@ -486,6 +561,42 @@ class SemanticBoundariesCheckTests(unittest.TestCase):
         self.assertIn("Semantic-boundary governance notice.", stdout)
         self.assertIn("Mode: advisory/warn only; this check does not block merges.", stdout)
         self.assertIn("term: Coupling", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_explicit_base_ref_detects_new_structural_term_advisory_only(self) -> None:
+        tmp_dir, repo, config_path = self.repo_with_config(
+            terms=EXPANDED_SEMANTIC_SENSITIVE_TERMS
+        )
+        with tmp_dir:
+            (repo / "sensitive.txt").write_text("base\n", encoding="utf-8")
+            base = commit_all(repo, "base")
+            (repo / "sensitive.txt").write_text(
+                "Structural Transparency changed\n", encoding="utf-8"
+            )
+            commit_all(repo, "semantic-sensitive structural term change")
+            code, stdout, stderr = self.run_main(repo, config_path, GOVERNANCE_BASE_REF=base)
+        self.assertEqual(code, 0)
+        self.assertIn("Semantic-boundary governance notice.", stdout)
+        self.assertIn("Mode: advisory/warn only; this check does not block merges.", stdout)
+        self.assertIn("term: Structural Transparency", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_explicit_base_ref_detects_new_provenance_term_advisory_only(self) -> None:
+        tmp_dir, repo, config_path = self.repo_with_config(
+            terms=EXPANDED_SEMANTIC_SENSITIVE_TERMS
+        )
+        with tmp_dir:
+            (repo / "sensitive.txt").write_text("base\n", encoding="utf-8")
+            base = commit_all(repo, "base")
+            (repo / "sensitive.txt").write_text(
+                "authoritative_origin_url changed\n", encoding="utf-8"
+            )
+            commit_all(repo, "semantic-sensitive provenance term change")
+            code, stdout, stderr = self.run_main(repo, config_path, GOVERNANCE_BASE_REF=base)
+        self.assertEqual(code, 0)
+        self.assertIn("Semantic-boundary governance notice.", stdout)
+        self.assertIn("Mode: advisory/warn only; this check does not block merges.", stdout)
+        self.assertIn("term: authoritative_origin_url", stdout)
         self.assertEqual(stderr, "")
 
     def test_pull_request_mode_with_explicit_base_ref_keeps_semantic_boundary_advisory(self) -> None:
