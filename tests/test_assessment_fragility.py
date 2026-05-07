@@ -19,7 +19,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from assessment_engine import assess, generate_markdown_report
+from assessment_engine import assess, generate_markdown_report, _safe_executive_risk_text
 from test_real_world import _print_scorecard
 from validate import CONTEXT_WINDOW, PARAPHRASE_GUARDS, find_paraphrase_violations
 
@@ -279,11 +279,22 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         ):
             with self.subTest(component=component):
                 self.assertIn(component, report)
+        self.assertIn("Each required LAIF-native construct remains necessary for certification", report)
         self.assertNotIn("#### Gaps", report)
-        self.assertNotIn("Primary Failure Modes", report)
+        for unsafe_phrase in (
+            "Final verdict",
+            "Primary Failure Modes",
+            "This document fails formal LAIF v1.2 compliance",
+            "Missing any single construct = FAIL",
+            "legally invalid",
+            "governance-invalid",
+            "governance-worthless",
+            "structurally incoherent",
+        ):
+            with self.subTest(unsafe_phrase=unsafe_phrase):
+                self.assertNotIn(unsafe_phrase, report)
         self.assertNotIn("Common Failure Modes", report)
         self.assertNotIn("Primary structural failure", report)
-        self.assertNotIn("Final verdict", report)
         self.assertNotIn("**Deployment Risk Tier:**", report)
         self.assertNotIn("**What Must Be Fixed First:**", report)
         self.assertNotIn("**Result:**", report)
@@ -301,6 +312,33 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         self.assertNotIn("are structurally incoherent", report.lower())
         self.assertNotIn("not LAIF-native means legally invalid", report)
         self.assertNotIn("not LAIF-native means governance-invalid", report)
+
+
+    def test_safe_executive_risk_text_removes_unsafe_public_phrases(self):
+        """Executive risk rendering is safe without changing underlying scoring fields."""
+        unsafe = (
+            "Final verdict: This document fails formal LAIF v1.2 compliance. "
+            "Primary Failure Modes: Missing any single construct = FAIL; "
+            "legally invalid; governance-invalid; governance-worthless; structurally incoherent"
+        )
+        rendered = _safe_executive_risk_text(unsafe)
+
+        self.assertIn("Executive diagnostic detail", rendered)
+        self.assertIn("formal LAIF-native certification gate", rendered)
+        self.assertIn("Primary LAIF diagnostic gaps", rendered)
+        self.assertIn("Each required LAIF-native construct remains necessary for certification", rendered)
+        for unsafe_phrase in (
+            "Final verdict",
+            "Primary Failure Modes",
+            "This document fails formal LAIF v1.2 compliance",
+            "Missing any single construct = FAIL",
+            "legally invalid",
+            "governance-invalid",
+            "governance-worthless",
+            "structurally incoherent",
+        ):
+            with self.subTest(unsafe_phrase=unsafe_phrase):
+                self.assertNotIn(unsafe_phrase, rendered)
 
 
     def test_readme_contains_product_mode_and_authority_boundaries(self):

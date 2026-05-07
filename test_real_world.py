@@ -247,7 +247,7 @@ def main():
     print("    - LAIF-native certification is binary, strict, and model-bound (validate.py unchanged).")
     print("    - External framework structural assessment is diagnostic and not certification.")
     print("    - Scores are deterministic LAIF rubric outputs, not legal findings or compliance ratings.")
-    print("    - Not LAIF-native is not legal invalidity, governance-invalidity, or governance worthlessness.")
+    print("    - Not LAIF-native is certification-channel wording, not a legal-validity or governance-worth claim.")
     print("  Scoring: traceable -- every number answered by fired/missed signals.")
     print("  Sector analysis: contextualised per deployment sector profile.")
 
