@@ -303,7 +303,11 @@ class ProtectedArtifactsCheckTests(unittest.TestCase):
         with tmp_dir:
             code, stdout, stderr = self.run_main(repo, config_path)
         self.assertEqual(code, 0)
-        self.assertIn("No PR base ref detected; protected artifact drift check skipped.", stdout)
+        self.assertEqual(
+            stdout,
+            "No PR base ref detected; protected artifact drift check skipped.\n"
+            "Set GITHUB_BASE_REF or GOVERNANCE_BASE_REF to enable deterministic diff detection.\n",
+        )
         self.assertEqual(stderr, "")
 
     def test_explicit_base_ref_detects_protected_artifact_changes(self) -> None:
@@ -316,6 +320,26 @@ class ProtectedArtifactsCheckTests(unittest.TestCase):
             protected.write_text("changed\n", encoding="utf-8")
             commit_all(repo, "protected change")
             code, stdout, stderr = self.run_main(repo, config_path, GOVERNANCE_BASE_REF=base)
+        self.assertEqual(code, 1)
+        self.assertEqual(stdout, "")
+        self.assertIn("Protected LAIF assessment artifact drift detected.", stderr)
+        self.assertIn("reports/laif_full_assessment.md", stderr)
+
+    def test_pull_request_mode_with_explicit_base_ref_detects_protected_artifact_changes(self) -> None:
+        tmp_dir, repo, config_path = self.repo_with_config()
+        with tmp_dir:
+            protected = repo / "reports" / "laif_full_assessment.md"
+            protected.parent.mkdir(parents=True, exist_ok=True)
+            protected.write_text("base\n", encoding="utf-8")
+            base = commit_all(repo, "base")
+            protected.write_text("changed in pr\n", encoding="utf-8")
+            commit_all(repo, "protected pr change")
+            code, stdout, stderr = self.run_main(
+                repo,
+                config_path,
+                GOVERNANCE_BASE_REF=base,
+                GITHUB_EVENT_NAME="pull_request",
+            )
         self.assertEqual(code, 1)
         self.assertEqual(stdout, "")
         self.assertIn("Protected LAIF assessment artifact drift detected.", stderr)
@@ -374,7 +398,11 @@ class SemanticBoundariesCheckTests(unittest.TestCase):
         with tmp_dir:
             code, stdout, stderr = self.run_main(repo, config_path)
         self.assertEqual(code, 0)
-        self.assertIn("No PR base ref detected; semantic-boundary check skipped.", stdout)
+        self.assertEqual(
+            stdout,
+            "No PR base ref detected; semantic-boundary check skipped.\n"
+            "Set GITHUB_BASE_REF or GOVERNANCE_BASE_REF to enable deterministic diff detection.\n",
+        )
         self.assertEqual(stderr, "")
 
     def test_explicit_base_ref_detects_advisory_changes_without_failing(self) -> None:
@@ -385,6 +413,25 @@ class SemanticBoundariesCheckTests(unittest.TestCase):
             (repo / "sensitive.txt").write_text("Coupling changed\n", encoding="utf-8")
             commit_all(repo, "semantic-sensitive change")
             code, stdout, stderr = self.run_main(repo, config_path, GOVERNANCE_BASE_REF=base)
+        self.assertEqual(code, 0)
+        self.assertIn("Semantic-boundary governance notice.", stdout)
+        self.assertIn("Mode: advisory/warn only; this check does not block merges.", stdout)
+        self.assertIn("term: Coupling", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_pull_request_mode_with_explicit_base_ref_keeps_semantic_boundary_advisory(self) -> None:
+        tmp_dir, repo, config_path = self.repo_with_config()
+        with tmp_dir:
+            (repo / "sensitive.txt").write_text("base\n", encoding="utf-8")
+            base = commit_all(repo, "base")
+            (repo / "sensitive.txt").write_text("Coupling changed in PR\n", encoding="utf-8")
+            commit_all(repo, "semantic-sensitive pr change")
+            code, stdout, stderr = self.run_main(
+                repo,
+                config_path,
+                GOVERNANCE_BASE_REF=base,
+                GITHUB_EVENT_NAME="pull_request",
+            )
         self.assertEqual(code, 0)
         self.assertIn("Semantic-boundary governance notice.", stdout)
         self.assertIn("Mode: advisory/warn only; this check does not block merges.", stdout)
