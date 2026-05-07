@@ -1837,8 +1837,7 @@ def _assessment_mode_fields(mode, formal_verdict, missing_terms):
             "canonical_terminology_note": (
                 "Missing LAIF canonical terminology means not LAIF-native / "
                 "canonical remediation required for LAIF certification; it is not "
-                "a determination that the external instrument is legally invalid "
-                "or governance-invalid."
+                "a legal-validity or governance-validity determination."
             ),
             "certification_notice": (
                 "External framework structural assessment is diagnostic and is not "
@@ -2368,6 +2367,25 @@ def _safe_executive_verdict_text(result):
     )
 
 
+
+def _safe_executive_risk_text(risk):
+    """Return report-safe executive risk wording without changing risk scoring."""
+    text = str(risk or "").strip()
+    replacements = (
+        ("This document fails formal LAIF v1.2 compliance.", "This document does not pass the formal LAIF-native certification gate under current LAIF criteria."),
+        ("Missing any single construct = FAIL", "Each required LAIF-native construct remains necessary for certification"),
+        (" = FAIL", " prevents certification"),
+        ("Final verdict", "Executive diagnostic detail"),
+        ("Primary Failure Modes", "Primary LAIF diagnostic gaps"),
+        ("legally invalid", "outside the LAIF-native certification channel"),
+        ("governance-invalid", "outside the LAIF-native certification channel"),
+        ("governance-worthless", "outside the LAIF-native certification channel"),
+        ("structurally incoherent", "requiring LAIF-model remediation"),
+    )
+    for unsafe, safe in replacements:
+        text = text.replace(unsafe, safe)
+    return text
+
 def generate_markdown_report(assessments, report_date="May 2026"):
     lines = []
 
@@ -2400,7 +2418,7 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     p("- **LAIF-native certification** is strict and model-bound; canonical LAIF structures and terminology remain load-bearing.")
     p("- **External framework structural assessment** is diagnostic and not certification.")
     p("- **Scores are deterministic LAIF rubric outputs**, not legal determinations, statistical confidence values, or external regulatory compliance ratings.")
-    p("- **Not LAIF-native** does not mean legally invalid, governance-invalid, worthless, unsafe, or structurally incoherent on the source's own authority.")
+    p("- **Not LAIF-native** does not decide legal validity, governance validity, institutional worth, safety status, or the source's own structural coherence.")
     p("- Remediation guidance is additive LAIF adoption guidance unless a regulator, institution, contract, or other authority separately makes it binding.")
 
     h(2, "Method and Scoring Model")
@@ -2500,7 +2518,7 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             if risks:
                 h(4, "Key LAIF-model risks")
                 for risk in risks:
-                    p(f"- {risk.replace(' = FAIL', ' prevents certification')}")
+                    p(f"- {_safe_executive_risk_text(risk)}")
             strengths = es.get("strengths", [])
             if strengths:
                 h(4, "Key LAIF-model strengths")
