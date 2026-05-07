@@ -182,6 +182,7 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             output,
             re.compile(r"FORMAL\s+LAIF\s+COMPLIANCE:\s*\[?FAIL\]?", re.IGNORECASE),
         )
+        self.assertIn("Assessment mode", output)
         self.assertIn("LAIF-native certification", output)
         self.assertIn("External framework structural assessment", output)
         self.assertIn("diagnostic", output)
@@ -201,6 +202,11 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             "binding_regulation",
             GENERIC_REGULATORY_DOCUMENT,
             assessment_mode="external_framework",
+            citation="Example Citation §1",
+            provenance="OFFICIAL_EXCERPT",
+            source_url="https://example.test/source",
+            source_note="Example source note",
+            intended_use="Regression test source basis",
         )
         report = generate_markdown_report([result], report_date="May 2026")
 
@@ -208,22 +214,74 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             report,
             re.compile(r"FORMAL\s+LAIF\s+COMPLIANCE:\s*\[?FAIL\]?", re.IGNORECASE),
         )
-        self.assertIn("LAIF-native certification", report)
-        self.assertIn("External framework structural assessment", report)
-        self.assertIn("diagnostic", report)
-        self.assertIn("not LAIF-native / canonical remediation required", report)
-        self.assertIn("not certification", report)
-        self.assertIn("Primary LAIF structural remediation gap", report)
-        self.assertIn("Diagnostic deployment risk tier (under this model)", report)
-        self.assertIn("LAIF-native certification verdict", report)
-        self.assertIn("LAIF structural remediation priorities", report)
-        self.assertIn("LAIF-model result", report)
-        self.assertIn("#### Diagnostic Gaps", report)
-        self.assertIn("#### Primary LAIF Diagnostic Gaps", report)
-        self.assertIn("## Common LAIF Diagnostic Gaps", report)
+        self.assertNotIn("This document fails formal LAIF v1.2 compliance.", report)
+        self.assertNotIn("Missing any single construct = FAIL", report)
+        self.assertIn("formal LAIF-native certification gate", report)
+        self.assertIn(
+            "external framework assessment remains diagnostic and does not determine legal validity",
+            report,
+        )
+        for phrase in (
+            "Assessment Scope",
+            "Result Boundary / How to Read This Report",
+            "Method and Scoring Model",
+            "Formal LAIF-native certification gate",
+            "Dimensional scoring model",
+            "Structural depth / adversarial hardening",
+            "Validation boundary",
+            "Provenance / Source Basis",
+            "Executive Diagnostic Summary",
+            "Governance-Force Profile",
+            "Construct Crosswalk",
+            "Remediation Priorities",
+            "Limits",
+            "Legal / authority boundary",
+            "LAIF-native certification",
+            "External framework structural assessment",
+            "diagnostic",
+            "not LAIF-native / canonical remediation required",
+            "not certification",
+            "Common LAIF diagnostic gaps",
+            "Governance-force patterns",
+            "Remediation themes",
+            "Score distribution / deterministic rubric comparison",
+            "Governance signal strength",
+            "Structural depth",
+            "Key LAIF-model risks",
+            "Key LAIF-model strengths",
+            "Position assessment under LAIF diagnostic model",
+            "LAIF structural remediation priorities",
+            "Structured remediation details",
+            "Problem:",
+            "Why it matters:",
+            "Concrete fix:",
+            "Signals detected",
+            "Signals not detected",
+            "Example Citation §1",
+            "OFFICIAL_EXCERPT",
+            "https://example.test/source",
+            "Example source note",
+            "Regression test source basis",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, report)
+        for component in (
+            "mandate",
+            "actor",
+            "trigger",
+            "protected interest",
+            "control",
+            "evidence",
+            "reversibility",
+            "escalation",
+            "consequence",
+            "auditability",
+        ):
+            with self.subTest(component=component):
+                self.assertIn(component, report)
         self.assertNotIn("#### Gaps", report)
-        self.assertNotIn("#### Primary Failure Modes", report)
-        self.assertNotIn("## Common Failure Modes", report)
+        self.assertNotIn("Primary Failure Modes", report)
+        self.assertNotIn("Common Failure Modes", report)
         self.assertNotIn("Primary structural failure", report)
         self.assertNotIn("Final verdict", report)
         self.assertNotIn("**Deployment Risk Tier:**", report)
@@ -239,7 +297,8 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             report,
         )
         self.assertNotIn("governance-worthless", report.lower())
-        self.assertNotIn("structurally incoherent", report.lower())
+        self.assertNotIn("means structurally incoherent", report.lower())
+        self.assertNotIn("are structurally incoherent", report.lower())
         self.assertNotIn("not LAIF-native means legally invalid", report)
         self.assertNotIn("not LAIF-native means governance-invalid", report)
 
