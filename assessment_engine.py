@@ -790,6 +790,154 @@ SECTOR_PROFILES = {
 }
 
 
+
+# Phase 3O sector / institutional diagnostic overlays. These fields enrich
+# diagnostic mapping and remediation wording only; they do not alter validate.py,
+# formal LAIF-native certification, scoring weights, or sector compliance gates.
+SECTOR_PROFILES.update({
+    "government_service_delivery": {
+        "label": "Government Service Delivery",
+        "purpose": "Diagnose AI governance for benefits, licensing, eligibility, enforcement, and other citizen-facing administrative services.",
+        "relevant_interests": [
+            "accurate and non-arbitrary service eligibility decisions",
+            "procedural fairness, reasons, and administrative review",
+            "continuity of public services and service-impact transparency",
+            "records integrity for affected individuals and oversight bodies",
+        ],
+        "diagnostic_terms": ("benefit", "eligibility", "caseworker", "claimant", "citizen", "resident", "service delivery", "administrative review", "reasons for decision", "public record", "appeal", "entitlement", "public service"),
+        "risk_indicators": [
+            (r"\b(?:benefit|eligibility|entitlement|licen[cs]e|permit)\b", "service eligibility / entitlement decision"),
+            (r"\b(?:claimant|citizen|resident|service user|applicant)\b", "affected service user population"),
+            (r"\b(?:administrative review|appeal|reconsideration|reasons for decision)\b", "review / reasons pathway"),
+            (r"\b(?:caseworker|service delivery|public service|agency decision)\b", "service-delivery operational actor"),
+            (r"\b(?:recordkeeping|public record|records authority|decision record)\b", "records / decision trace context"),
+        ],
+        "expected_evidence": [(r"\breasons? for decision\b|\bdecision notice\b", "reasons-for-decision record"), (r"\b(?:administrative review|appeal|reconsideration)\b", "review pathway record"), (r"\bservice-impact (?:record|assessment)\b|\bimpact assessment\b", "service-impact record"), (r"\bcase file\b|\bdecision log\b|\bpublic record\b", "case / decision record"), (r"\bexception log\b|\bhuman caseworker review\b", "exception / human review log")],
+        "governance_force_emphasis": ("actor", "trigger", "protected interest", "evidence", "reversibility", "escalation", "auditability"),
+        "remediation_themes": ("Name the service-delivery policy owner and records/review support roles.", "Tie automated eligibility or service decisions to reasons, appeal, and correction pathways.", "Capture service-impact records and decision logs without inventing unavailable source evidence."),
+        "evidence_cautions": ("Do not infer statutory authority or legal validity from service vocabulary alone.", "Use reviewer-confirmation fallback unless source text contains exact reasons, record, or appeal language."),
+        "remediation_focus": ["For service-delivery decisions, identify the protected public interest, decision trigger, reasons-for-decision record, administrative review pathway, and records-retention owner.", "Assign a service-delivery policy owner with administrative review and records authority support for evidence, correction, and escalation controls."],
+    },
+    "departmental_ai_development": {
+        "label": "Departmental AI Development",
+        "purpose": "Diagnose internal AI project, model, architecture, security, privacy, release, monitoring, and rollback governance.",
+        "relevant_interests": ["secure and reliable public or institutional systems", "privacy and data protection in internal AI delivery", "accountable release governance and rollback capacity"],
+        "diagnostic_terms": ("model register", "architecture review", "release approval", "rollback", "security review", "privacy review", "MLOps", "change control", "risk assessment"),
+        "risk_indicators": [(r"\bmodel register\b|\bAI project\b|\bMLOps\b", "AI project / model inventory"), (r"\barchitecture review\b|\btechnical design\b", "architecture review"), (r"\bsecurity review\b|\bprivacy review\b|\bDPIA\b", "security / privacy review"), (r"\brelease approval\b|\bchange control\b|\bgo-live\b", "release governance"), (r"\brollback plan\b|\bkill switch\b|\bincident response\b", "rollback / incident control")],
+        "expected_evidence": [(r"\bmodel register\b", "model register"), (r"\brisk assessment\b|\bthreat model\b", "risk / threat assessment"), (r"\brelease approval\b|\bchange approval\b", "release approval record"), (r"\brollback plan\b|\bdeployment rollback\b", "rollback plan"), (r"\bsecurity sign-off\b|\bprivacy sign-off\b", "security / privacy sign-off")],
+        "governance_force_emphasis": ("actor", "trigger", "control", "evidence", "reversibility", "auditability"),
+        "remediation_themes": ("Map project owners to architecture, security, privacy, and release reviewers.", "Require model register, risk assessment, release approval, and rollback evidence.", "Treat development profile signals as diagnostic context, not score credit."),
+        "evidence_cautions": ("Do not treat engineering artifacts as proof of governance approval unless the source states approval.", "Do not invent release or rollback evidence absent exact source text."),
+        "remediation_focus": ["Assign an AI project owner with architecture, security, privacy, and release governance reviewers.", "Require a model register entry, risk assessment, release approval, monitoring owner, and rollback plan for each material AI release."],
+    },
+    "procurement_vendor_governance": {
+        "label": "Procurement and Vendor Governance",
+        "purpose": "Diagnose AI controls expressed through procurement, contracts, vendor assurance, audit access, disclosure, and third-party management.",
+        "relevant_interests": ["accountable outsourced AI governance", "audit access and vendor transparency", "contractual assurance for affected people and institutions"],
+        "diagnostic_terms": ("procurement", "vendor", "supplier", "contract clause", "RFP", "due diligence", "audit access", "assurance artefact", "assurance artifact", "SLA", "third party"),
+        "risk_indicators": [(r"\bprocurement\b|\bRFP\b|\btender\b", "procurement process"), (r"\bvendor\b|\bsupplier\b|\bthird[- ]party\b", "vendor / third-party actor"), (r"\bcontract clause\b|\bcontractual\b|\bSLA\b", "contractual control"), (r"\baudit access\b|\bright to audit\b", "audit access"), (r"\bvendor disclosure\b|\bassurance arte?fact\b|\bdue diligence\b", "vendor disclosure / assurance")],
+        "expected_evidence": [(r"\bcontract clause\b", "contract clause"), (r"\bvendor disclosure\b", "vendor disclosure"), (r"\baudit-access record\b|\baudit access\b", "audit-access record"), (r"\bassurance arte?fact\b|\bdue diligence record\b", "assurance artefact"), (r"\bservice level\b|\bSLA\b", "service-level obligation")],
+        "governance_force_emphasis": ("mandate", "actor", "control", "evidence", "consequence", "auditability"),
+        "remediation_themes": ("Assign procurement, legal/compliance, and vendor-management ownership.", "Convert AI governance expectations into contract clauses, disclosures, assurance artifacts, and audit-access records.", "Keep legal-authority boundary diagnostic unless adoption or contract authority is explicit."),
+        "evidence_cautions": ("Do not infer contractual enforceability from procurement vocabulary alone.", "Do not invent vendor disclosures or audit rights without source text."),
+        "remediation_focus": ["Assign a procurement lead with legal/compliance and vendor-management support for contract controls.", "Require contract clauses, vendor disclosures, audit-access records, and assurance artefacts for material vendor AI systems."],
+    },
+    "employment_hr_ai": {
+        "label": "Employment and HR AI",
+        "purpose": "Diagnose hiring, promotion, performance, scheduling, workplace monitoring, adverse-action, and bias-review AI governance.",
+        "relevant_interests": ["fair employment opportunity", "non-discrimination and worker dignity", "human review and appeal of adverse employment actions"],
+        "diagnostic_terms": ("hiring", "candidate", "employee", "worker", "performance", "promotion", "adverse action", "bias review", "HR", "appeal"),
+        "risk_indicators": [(r"\b(?:hiring|recruitment|candidate|promotion|termination)\b", "employment lifecycle decision"), (r"\b(?:employee|worker|staff|personnel)\b", "worker population"), (r"\bperformance (?:scoring|monitoring|review)\b", "performance assessment"), (r"\badverse action\b|\bdisciplinary\b", "adverse employment action"), (r"\bbias (?:review|testing|evidence)\b|\bdisparate impact\b", "bias / disparate-impact review")],
+        "expected_evidence": [(r"\badverse-action review\b|\badverse action review\b", "adverse-action review"), (r"\bbias evidence\b|\bbias test\b|\bdisparate impact\b", "bias evidence"), (r"\bhuman review\b|\bappeal record\b", "human review / appeal record"), (r"\bjob related\b|\bvalidation study\b", "job-related validation evidence"), (r"\baccommodation\b|\baccessibility\b", "accommodation / accessibility evidence")],
+        "governance_force_emphasis": ("protected interest", "actor", "evidence", "reversibility", "escalation", "consequence"),
+        "remediation_themes": ("Assign an HR policy owner with legal/compliance and bias-review support.", "Require adverse-action review, bias evidence, human review, and appeal records.", "Distinguish worker-protection governance from AI surveillance vocabulary."),
+        "evidence_cautions": ("Do not infer employment-law compliance or legal validity from HR terminology.", "Do not generate bias or adverse-action evidence unless exact source text exists."),
+        "remediation_focus": ["Assign an HR policy owner with legal/compliance and bias-review support for adverse-action controls.", "Require adverse-action review, bias evidence, human review, and appeal records for employment-impacting AI decisions."],
+    },
+    "education_ai": {
+        "label": "Education AI",
+        "purpose": "Diagnose AI governance for admissions, grading, learning analytics, student support, accessibility, appeals, and academic governance.",
+        "relevant_interests": ["fair student assessment and access", "student privacy and accessibility", "appeal and support for education-impacting AI decisions"],
+        "diagnostic_terms": ("student", "learner", "grading", "assessment", "admissions", "academic", "accessibility", "accommodation", "appeal", "learning analytics"),
+        "risk_indicators": [(r"\b(?:student|learner|pupil)\b", "student / learner population"), (r"\b(?:grading|assessment|admissions|academic progress)\b", "education-impacting decision"), (r"\blearning analytics\b|\bproctoring\b", "learning analytics / proctoring"), (r"\baccessibility\b|\baccommodation\b|\bstudent support\b", "accessibility / support"), (r"\bacademic governance\b|\bacademic integrity\b|\bappeal pathway\b", "academic governance / appeal")],
+        "expected_evidence": [(r"\bstudent-impact review\b|\bstudent impact review\b", "student-impact review"), (r"\bappeal pathway\b|\bgrade appeal\b", "appeal pathway"), (r"\baccessibility record\b|\baccommodation record\b", "accessibility record"), (r"\bacademic governance review\b", "academic governance review"), (r"\bstudent support record\b", "student support record")],
+        "governance_force_emphasis": ("protected interest", "actor", "control", "evidence", "reversibility", "escalation"),
+        "remediation_themes": ("Assign education policy ownership with student support, accessibility, and academic governance reviewers.", "Require student-impact review, appeal pathway, and accessibility records.", "Avoid treating education vocabulary as legal or certification authority."),
+        "evidence_cautions": ("Do not infer education-law compliance or academic-validity determinations.", "Do not invent appeal, accessibility, or support records without exact source text."),
+        "remediation_focus": ["Assign an education policy owner with student support, accessibility, and academic governance reviewers.", "Require student-impact review, appeal pathway, accessibility record, and academic governance review for education-impacting AI decisions."],
+    },
+})
+
+SECTOR_PROFILES["general_ai_governance"].update({
+    "purpose": "Provide a neutral diagnostic overlay for AI governance documents that do not match a more specific institutional profile.",
+    "diagnostic_terms": ("accountability", "transparency", "human oversight", "risk assessment", "audit", "incident", "redress"),
+    "governance_force_emphasis": ("mandate", "actor", "protected interest", "control", "evidence", "auditability"),
+    "remediation_themes": ("Translate general governance principles into owners, triggers, protected interests, controls, evidence, escalation, and auditability.", "Use LAIF-native terminology only for certification adoption, not external-framework validity claims."),
+    "evidence_cautions": ("General governance vocabulary does not prove compliance or legal validity.", "Use reviewer-confirmation fallback when exact evidence text is absent."),
+})
+SECTOR_PROFILES["clinical_ai"].update({
+    "purpose": "Diagnose AI governance for clinical recommendations, patient safety, clinician review, clinical fallback, and incident pathways.",
+    "diagnostic_terms": ("clinical", "patient", "diagnosis", "treatment", "clinician", "medical device", "clinical fallback", "override", "incident log", "patient safety"),
+    "governance_force_emphasis": ("protected interest", "actor", "control", "evidence", "reversibility", "escalation"),
+    "remediation_themes": ("Assign a clinical governance owner with clinician reviewer and safety incident pathway.", "Require clinical fallback, override record, patient safety review, and incident log.", "Keep clinical source-evidence claims tied to exact text."),
+    "evidence_cautions": ("Clinical vocabulary does not determine medical, regulatory, or legal validity.", "Do not invent clinical validation, fallback, override, patient safety review, or incident evidence."),
+})
+
+_SECTOR_PROFILE_ALIASES = {"public_sector_automation": "government_service_delivery", "public_sector_ai": "government_service_delivery", "government_ai": "government_service_delivery", "departmental_ai": "departmental_ai_development", "internal_ai_development": "departmental_ai_development", "procurement_ai": "procurement_vendor_governance", "vendor_governance": "procurement_vendor_governance", "employment_ai": "employment_hr_ai", "hr_ai": "employment_hr_ai", "workforce_ai": "employment_hr_ai"}
+
+_SECTOR_PROFILE_PATCH_CONTEXT = {
+    "government_service_delivery": {"responsible_actor": "Service-delivery policy owner with administrative review / records authority support", "evidence_artifact": "Reasons-for-decision, review pathway, service-impact record, or case decision log.", "operational_control": "Map each service-impacting AI decision to reasons, administrative review, records retention, exception handling, and human caseworker escalation."},
+    "departmental_ai_development": {"responsible_actor": "AI project owner with architecture, security, privacy, and release governance reviewers", "evidence_artifact": "Model register, risk assessment, release approval, monitoring record, or rollback plan.", "operational_control": "Require architecture, security, privacy, release, monitoring, and rollback checkpoints before operational AI release."},
+    "procurement_vendor_governance": {"responsible_actor": "Procurement lead with legal/compliance and vendor-management support", "evidence_artifact": "Contract clause, vendor disclosure, audit-access record, assurance artefact, or service-level evidence.", "operational_control": "Translate AI governance requirements into contract clauses, vendor disclosure duties, audit-access rights, assurance review, and escalation consequences."},
+    "clinical_ai": {"responsible_actor": "Clinical governance owner with clinician reviewer and safety incident pathway", "evidence_artifact": "Clinical fallback, override record, patient safety review, incident log, or clinical governance record.", "operational_control": "Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation."},
+    "employment_hr_ai": {"responsible_actor": "HR policy owner with legal/compliance and bias-review support", "evidence_artifact": "Adverse-action review, bias evidence, human review/appeal record, or accommodation record.", "operational_control": "Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls."},
+    "education_ai": {"responsible_actor": "Education policy owner with student support, accessibility, and academic governance reviewer", "evidence_artifact": "Student-impact review, appeal pathway, accessibility record, student support record, or academic governance review.", "operational_control": "Map education-impacting AI decisions to student-impact review, accessibility support, appeal pathways, academic governance review, and escalation."},
+}
+
+
+def _sector_profile_key(sector):
+    """Resolve a sector string to a supported diagnostic profile key."""
+    key = str(sector or "general_ai_governance").strip().lower().replace("-", "_").replace(" ", "_")
+    key = _SECTOR_PROFILE_ALIASES.get(key, key)
+    if key in SECTOR_PROFILES:
+        return key
+    return "general_ai_governance"
+
+
+def _sector_profile_metadata(sector):
+    """Return profile metadata for diagnostic display only."""
+    return SECTOR_PROFILES[_sector_profile_key(sector)]
+
+
+def _sector_profile_signals(text, sector):
+    """Deterministically detect profile vocabulary without affecting scores."""
+    profile = _sector_profile_metadata(sector)
+    signals = []
+    for term in profile.get("diagnostic_terms", ()):
+        pattern = r"\b" + re.escape(term).replace(r"\ ", r"\s+") + r"\b"
+        if re.search(pattern, text or "", re.IGNORECASE):
+            signals.append(term)
+    return list(dict.fromkeys(signals))
+
+
+def _sector_profile_remediation_context(result):
+    """Return institution-specific remediation context for diagnostic wording."""
+    return _SECTOR_PROFILE_PATCH_CONTEXT.get(result.get("sector_profile"), {})
+
+
+def _sector_profile_patch_adjustments(patch, result):
+    """Enrich remediation patch wording from profile context without changing authority."""
+    context = _sector_profile_remediation_context(result)
+    if not context:
+        return patch
+    adjusted = dict(patch)
+    adjusted["responsible_actor"] = context.get("responsible_actor", adjusted["responsible_actor"])
+    adjusted["evidence_artifact"] = context.get("evidence_artifact", adjusted["evidence_artifact"])
+    adjusted["operational_control"] = context.get("operational_control", adjusted["operational_control"])
+    return adjusted
+
+
+
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def _score_signals(text, rubric):
@@ -1983,7 +2131,9 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     # Sector analysis
     # Source: LAIF_Compliance_Toolkit.txt §7.5 — PDCA tiering by sector/stakes;
     # Toolkit §1.2 — Materially Affects Interests is the sector gateway test.
-    profile = SECTOR_PROFILES.get(sector, SECTOR_PROFILES["general_ai_governance"])
+    profile_key = _sector_profile_key(sector)
+    profile = _sector_profile_metadata(profile_key)
+    profile_signals = _sector_profile_signals(text, profile_key)
 
     sector_risk_results = [
         (label, bool(re.search(pat, text, re.IGNORECASE)))
@@ -2100,6 +2250,13 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         "sector_specific_findings":    sector_specific_findings,
         "sector_risk_alignment":       sector_risk_alignment,
         "sector_remediation_priority": profile["remediation_focus"],
+        "sector_profile":              profile_key,
+        "sector_profile_label":        profile["label"],
+        "sector_profile_purpose":      profile.get("purpose", "Diagnostic sector overlay."),
+        "sector_profile_diagnostic_signals": profile_signals,
+        "sector_profile_governance_force_emphasis": list(profile.get("governance_force_emphasis", ())),
+        "sector_profile_remediation_themes": list(profile.get("remediation_themes", ())),
+        "sector_profile_evidence_cautions": list(profile.get("evidence_cautions", ())),
         **meta,
     }
     result["recommended_remediation_steps"] = _remediation(result)
@@ -2618,6 +2775,7 @@ def _build_remediation_patches(result):
             "implementation_priority": _implementation_priority_for_gap(diagnostic_gap, result),
             "legal_authority_boundary": _legal_authority_boundary_for_gap(diagnostic_gap, result),
         }
+        patch = _sector_profile_patch_adjustments(patch, result)
         patches.append(patch)
         if len(patches) >= _PATCH_MAX_PER_DOCUMENT:
             break
@@ -2951,7 +3109,30 @@ def generate_markdown_report(assessments, report_date="May 2026"):
 
         h(3, "Sector / Institutional Context")
         p("Sector findings are sector-context diagnostic metadata, not sector legal compliance findings.")
+        p("Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; they improve diagnostic mapping and remediation guidance only.")
+        p(f"- **Sector profile:** {r.get('sector_profile_label', r.get('sector_label', r.get('sector_used', 'General AI Governance')))}")
+        p(f"- **Profile purpose:** {r.get('sector_profile_purpose', 'Diagnostic sector overlay.')}")
         p(f"- **Sector risk alignment:** {r['sector_risk_alignment']}/100")
+        signals = r.get("sector_profile_diagnostic_signals", [])
+        p(f"- **Detected profile diagnostic signals:** {len(signals)}")
+        if signals:
+            for signal in signals:
+                p(f"  - {signal}")
+        emphasis = r.get("sector_profile_governance_force_emphasis", [])
+        if emphasis:
+            p("- **Governance-force emphasis:**")
+            for item in emphasis:
+                p(f"  - {item}")
+        themes = r.get("sector_profile_remediation_themes", [])
+        if themes:
+            p("- **Profile-specific remediation themes:**")
+            for theme in themes:
+                p(f"  - {theme}")
+        cautions = r.get("sector_profile_evidence_cautions", [])
+        if cautions:
+            p("- **Profile-specific evidence cautions:**")
+            for caution in cautions:
+                p(f"  - {caution}")
         interests = r.get("sector_relevant_interests", [])
         if interests:
             p("- **Relevant human/public interests surfaced by the profile:**")

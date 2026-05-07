@@ -96,6 +96,11 @@ def _print_scorecard(r):
     # Sector analysis
     print("  SECTOR ANALYSIS")
     print(f"    Profile:          {r.get('sector_label', r['sector_used'])}")
+    print(f"    Sector profile:   {r.get('sector_profile_label', r.get('sector_label', r['sector_used']))}")
+    profile_signals = r.get("sector_profile_diagnostic_signals", [])
+    print(f"    Profile signals:  {len(profile_signals)}")
+    if profile_signals:
+        print(f"    Top signals:      {', '.join(profile_signals[:2])}")
     align_colour = ("32" if r["sector_risk_alignment"] >= 60 else
                     "33" if r["sector_risk_alignment"] >= 30 else "31")
     print(f"    Risk alignment:   {_tty(align_colour, str(r['sector_risk_alignment']) + '/100')}")
