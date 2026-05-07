@@ -131,7 +131,7 @@ def _print_scorecard(r):
         print("  PARAPHRASE VIOLATIONS  " + _tty("32", "none detected"))
     print()
 
-    print("  PRIMARY FAILURE MODES")
+    print("  PRIMARY LAIF DIAGNOSTIC GAPS")
     for fm in r["primary_failure_modes"]:
         print(f"    · {fm}")
     print()
@@ -141,7 +141,7 @@ def _print_scorecard(r):
         print(f"    · {s}")
     print()
 
-    print("  GAPS")
+    print("  DIAGNOSTIC GAPS")
     for g in r["gaps"]:
         print(f"    · {g}")
     print()
