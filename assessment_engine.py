@@ -2807,14 +2807,14 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             p(f"- {s}")
         p()
 
-        # Gaps
-        h(4, "Gaps")
+        # Diagnostic gaps
+        h(4, "Diagnostic Gaps")
         for g in r["gaps"]:
             p(f"- {g}")
         p()
 
-        # Failure modes
-        h(4, "Primary Failure Modes")
+        # Primary diagnostic gaps
+        h(4, "Primary LAIF Diagnostic Gaps")
         for fm in r["primary_failure_modes"]:
             p(f"- {fm}")
         p()
@@ -2915,8 +2915,8 @@ def generate_markdown_report(assessments, report_date="May 2026"):
         p(f"- Low enforceability (<40): {names} — voluntary/declaratory frameworks without "
           "binding mandates.")
 
-    # ── Common Failure Modes ──────────────────────────────────────────────────
-    h(2, "Common Failure Modes")
+    # ── Common LAIF Diagnostic Gaps ───────────────────────────────────────────
+    h(2, "Common LAIF Diagnostic Gaps")
     fm_counter = Counter(fm for r in assessments for fm in r["primary_failure_modes"])
     for fm, count in fm_counter.most_common():
         p(f"- **{fm}** — {count}/{len(assessments)} documents")

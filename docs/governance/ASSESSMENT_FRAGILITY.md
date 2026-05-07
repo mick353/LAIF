@@ -4,6 +4,16 @@ Phase 3H added assessment fragility characterization tests. Those tests document
 
 The tests are diagnostic coverage only. Phase 3J adds assessment-mode labels to the assessment-engine output, but it does not change LAIF scoring weights, strict validation behavior, policy requirements, protected artifacts, committed generated reports, verified-source manifests, or the verified corpus.
 
+## Related Interpretation Documents
+
+Phase 3L adds interpretation-layer references that clarify result channels without changing assessment logic. See:
+
+- [`RESULT_TAXONOMY.md`](RESULT_TAXONOMY.md) for the distinction between infrastructure PASS/FAIL, LAIF-native certification PASS/FAIL, external framework diagnostic findings, repository governance checks, and legal validity non-determination;
+- [`SCORE_INTERPRETATION.md`](SCORE_INTERPRETATION.md) for how deterministic rubric scores should and should not be read;
+- [`GOVERNANCE_FORCE_MODEL.md`](GOVERNANCE_FORCE_MODEL.md) for the practical lens LAIF uses to assess whether institutional AI governance principles become enforceable, auditable, reversible, accountable governance force.
+
+These documents preserve the Phase 3J/3K separation between strict LAIF-native certification and external framework diagnostic assessment. They do not weaken the rule that formal LAIF compliance remains binary and strict, and they do not convert conceptual proximity into certification.
+
 ## Diagnostic Meaning
 
 Formal LAIF compliance remains binary and strict. A document either satisfies the formal LAIF terminology and compliance gates currently implemented by the repository, or it does not. Conceptual similarity to LAIF concerns does not itself create formal compliance.
