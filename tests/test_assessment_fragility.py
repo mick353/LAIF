@@ -1390,5 +1390,257 @@ class Phase3QCalibrationScoreJustificationTests(unittest.TestCase):
             self.assertEqual(first[key], second[key])
 
 
+class SystemReleaseAuditTests(unittest.TestCase):
+    """Phase 3S whole-system release audit invariants."""
+
+    AUDIT_DOC = Path("docs/governance/SYSTEM_QA_RELEASE_AUDIT.md")
+    CROSS_LINK_DOCS = (
+        Path("docs/governance/ASSESSMENT_FRAGILITY.md"),
+        Path("docs/governance/RESULT_TAXONOMY.md"),
+        Path("docs/governance/SCORE_INTERPRETATION.md"),
+        Path("docs/governance/GOVERNANCE_FORCE_MODEL.md"),
+        Path("docs/governance/REMEDIATION_PATCH_SCHEMA.md"),
+        Path("docs/governance/SECTOR_PROFILES.md"),
+        Path("docs/governance/EVIDENCE_TRACE_MODEL.md"),
+        Path("docs/governance/CALIBRATION_SCORE_JUSTIFICATION.md"),
+        Path("docs/governance/PUBLIC_REPORT_TEMPLATE.md"),
+    )
+    PHASE_3S_EXTERNAL_DOCUMENT = """
+Article 12. Providers shall implement risk management, transparency,
+accountability, human oversight, safety, redress, traceability, and
+non-discrimination measures for high-risk systems. Technical documentation shall
+identify specific requirements and review obligations. Benefits eligibility,
+public service delivery, caseworker escalation, reasons for decision, and
+administrative appeal records must be retained.
+"""
+    REQUIRED_RESULT_FIELDS = (
+        "assessment_mode",
+        "formal_laif_native_compliance",
+        "external_framework_assessment",
+        "laif_canonical_remediation_required",
+        "remediation_patches",
+        "sector_profile",
+        "sector_profile_diagnostic_signals",
+        "evidence_traces",
+        "score_interpretation",
+        "score_justification",
+        "dimension_justifications",
+        "calibration_cautions",
+        "gaming_risk_notes",
+    )
+
+    def _external_result(self, document_text=None, sector="government_service_delivery"):
+        if document_text is None:
+            document_text = self.PHASE_3S_EXTERNAL_DOCUMENT
+        return assess(
+            "phase 3s external framework fixture",
+            "binding_regulation",
+            document_text,
+            sector=sector,
+            assessment_mode="external_framework",
+            citation="Example Citation §3S",
+            provenance="OFFICIAL_EXCERPT",
+            source_url="https://example.test/phase-3s",
+            source_note="Phase 3S deterministic fixture",
+            intended_use="Phase 3S release audit regression source basis",
+        )
+
+    def test_system_qa_release_audit_doc_exists_with_required_headings(self):
+        self.assertTrue(self.AUDIT_DOC.exists())
+        text = self.AUDIT_DOC.read_text(encoding="utf-8")
+        for heading in (
+            "## Purpose",
+            "## Release Scope",
+            "## Architecture Boundary Map",
+            "## Execution Pipeline Boundary",
+            "## LAIF-Native Certification Boundary",
+            "## External Framework Diagnostic Boundary",
+            "## Score / Calibration Boundary",
+            "## Evidence Trace Boundary",
+            "## Remediation Patch Boundary",
+            "## Sector Profile Boundary",
+            "## Public Report Boundary",
+            "## Protected Artifact / Verified Corpus Boundary",
+            "## Anti-Gaming Boundary",
+            "## Known Calibration Risks",
+            "## Known Reporting Risks",
+            "## Known Traceability Risks",
+            "## Release-Readiness Checklist",
+            "## Non-Goals",
+            "## Future Hardening Work",
+            "## Final Release Audit Statement",
+        ):
+            with self.subTest(heading=heading):
+                self.assertIn(heading, text)
+
+    def test_system_qa_release_audit_doc_contains_key_invariant_phrases(self):
+        text = self.AUDIT_DOC.read_text(encoding="utf-8")
+        for phrase in (
+            "validate.py remains the binary validation/certification harness",
+            "assessment_engine.py remains diagnostic",
+            "Formal LAIF-native failure cannot be overridden",
+            "External framework assessment is diagnostic, not certification",
+            "Scores are deterministic rubric outputs",
+            "Evidence traces require exact source text",
+            "Remediation patches are diagnostic unless separately adopted",
+            "Sector profiles are diagnostic overlays only",
+            "Public reports are presentation-only",
+            "Protected artifacts and verified corpus/manifests must not be silently mutated",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, text)
+
+    def test_formal_fail_invariant_across_modes_with_high_diagnostic_signals(self):
+        result = self._external_result()
+        self.assertEqual(result["assessment_mode"], "external_framework")
+        self.assertEqual(result["formal_laif_native_compliance"], "FAIL")
+        self.assertGreater(result["conceptual_proximity_score"], 0)
+        self.assertGreater(len(result["evidence_traces"]), 0)
+        self.assertGreater(len(result["calibration_cautions"]), 0)
+        self.assertTrue(result["sector_profile_diagnostic_signals"])
+
+        report = generate_markdown_report([result], report_date="May 2026")
+        self.assertIn("diagnostic, not certification", report)
+        self.assertNotIn("certified compliant", report)
+        self.assertNotIn("certifies LAIF-native compliance", report)
+
+    def test_generate_markdown_report_does_not_mutate_release_audit_fields(self):
+        result = self._external_result()
+        before = copy.deepcopy({
+            "score_breakdown": result["score_breakdown"],
+            "formal_laif_native_compliance": result["formal_laif_native_compliance"],
+            "evidence_traces": result["evidence_traces"],
+            "remediation_patches": result["remediation_patches"],
+            "sector_profile": result["sector_profile"],
+            "sector_profile_label": result["sector_profile_label"],
+            "sector_profile_diagnostic_signals": result["sector_profile_diagnostic_signals"],
+            "score_interpretation": result["score_interpretation"],
+            "score_justification": result["score_justification"],
+            "dimension_justifications": result["dimension_justifications"],
+            "calibration_cautions": result["calibration_cautions"],
+            "gaming_risk_notes": result["gaming_risk_notes"],
+        })
+        generate_markdown_report([result], report_date="May 2026")
+        after = {key: result[key] for key in before}
+        self.assertEqual(before, after)
+
+    def test_every_exact_evidence_trace_matches_source_offsets(self):
+        result = self._external_result()
+        source = self.PHASE_3S_EXTERNAL_DOCUMENT
+        exact_traces = [
+            trace for trace in result["evidence_traces"]
+            if trace["confidence"] != "fallback_required"
+        ]
+        self.assertGreater(len(exact_traces), 0)
+        for trace in exact_traces:
+            with self.subTest(trace_id=trace["trace_id"]):
+                self.assertIsInstance(trace["start_char"], int)
+                self.assertIsInstance(trace["end_char"], int)
+                self.assertEqual(trace["matched_text"], source[trace["start_char"]:trace["end_char"]])
+
+    def test_fallback_evidence_traces_have_empty_text_and_absent_offsets(self):
+        result = self._external_result("no signal whatsoever xyz", sector="general")
+        fallback_traces = [
+            trace for trace in result["evidence_traces"]
+            if trace["confidence"] == "fallback_required"
+        ]
+        self.assertGreater(len(fallback_traces), 0)
+        for trace in fallback_traces:
+            with self.subTest(trace_id=trace["trace_id"]):
+                self.assertEqual(trace["matched_text"], "")
+                self.assertIsNone(trace["start_char"])
+                self.assertIsNone(trace["end_char"])
+
+    def test_external_framework_remediation_patches_preserve_legal_boundary(self):
+        result = self._external_result()
+        self.assertGreater(len(result["remediation_patches"]), 0)
+        for patch in result["remediation_patches"]:
+            with self.subTest(patch_id=patch["patch_id"]):
+                self.assertEqual(patch["assessment_mode"], "external_framework")
+                self.assertEqual(patch["legal_authority_boundary"], "diagnostic_only")
+                joined = " ".join(str(value).lower() for value in patch.values())
+                self.assertNotIn("legally valid", joined)
+                self.assertNotIn("certified compliant", joined)
+                self.assertNotIn("legal validity is", joined)
+
+    def test_sector_profile_fields_do_not_change_formal_laif_native_compliance(self):
+        no_sector = self._external_result(sector="general")
+        with_sector = self._external_result(sector="government_service_delivery")
+        self.assertEqual(no_sector["formal_laif_native_compliance"], "FAIL")
+        self.assertEqual(with_sector["formal_laif_native_compliance"], "FAIL")
+        self.assertTrue(with_sector["sector_profile"])
+        self.assertTrue(with_sector["sector_profile_diagnostic_signals"])
+
+    def test_calibration_and_gaming_notes_do_not_allege_bad_faith_or_legal_invalidity(self):
+        result = self._external_result()
+        notes = result["calibration_cautions"] + result["gaming_risk_notes"]
+        self.assertGreater(len(notes), 0)
+        joined = " ".join(str(note).lower() for note in notes)
+        self.assertIn("not a finding of bad faith", joined)
+        self.assertIn("not a legal invalidity claim", joined)
+        for unsafe in (
+            "legally invalid",
+            "governance-invalid",
+            "invalid under law",
+            "unlawful",
+            "is a finding of bad faith",
+            "is a legal invalidity claim",
+        ):
+            with self.subTest(unsafe=unsafe):
+                self.assertNotIn(unsafe, joined)
+
+    def test_generated_markdown_avoids_phase_3s_unsafe_public_phrases(self):
+        report = generate_markdown_report([self._external_result()], report_date="May 2026")
+        for phrase in (
+            "Final verdict",
+            "Primary Failure Modes",
+            "legally invalid",
+            "governance-invalid",
+            "governance-worthless",
+            "structurally incoherent",
+            "compliance rating",
+            "certified compliant",
+            "invalid under law",
+            "unlawful",
+            "must amend law",
+            "legal or governance invalidity",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertNotIn(phrase, report)
+
+    def test_generated_markdown_does_not_expose_raw_regex_tokens(self):
+        report = generate_markdown_report([self._external_result()], report_date="May 2026")
+        for token in (r"\b", "(?:", "(?=", "(?!"):
+            with self.subTest(token=token):
+                self.assertNotIn(token, report)
+
+    def test_required_result_fields_from_phase_3j_through_3r_are_present(self):
+        result = self._external_result()
+        for field in self.REQUIRED_RESULT_FIELDS:
+            with self.subTest(field=field):
+                self.assertIn(field, result)
+
+    def test_documentation_cross_links_exist_in_governance_docs(self):
+        for path in self.CROSS_LINK_DOCS:
+            with self.subTest(path=str(path)):
+                text = path.read_text(encoding="utf-8")
+                self.assertIn("SYSTEM_QA_RELEASE_AUDIT.md", text)
+                self.assertIn("Phase 3S System QA Release Audit Reference", text)
+
+    def test_matched_text_must_equal_documentation_gate_still_passes(self):
+        text = Path("docs/governance/EVIDENCE_TRACE_MODEL.md").read_text(encoding="utf-8")
+        self.assertIn("matched_text must equal", text)
+
+    def test_release_audit_assess_and_report_calls_are_deterministic(self):
+        first = self._external_result()
+        second = self._external_result()
+        for field in self.REQUIRED_RESULT_FIELDS + ("score_breakdown", "overall_readiness_score"):
+            with self.subTest(field=field):
+                self.assertEqual(first[field], second[field])
+        first_report = generate_markdown_report([first], report_date="May 2026")
+        second_report = generate_markdown_report([second], report_date="May 2026")
+        self.assertEqual(first_report, second_report)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

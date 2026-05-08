@@ -77,3 +77,7 @@ Public reports should be deterministic for the same assessment inputs and report
 ## Future Report Template Work
 
 Future work may add optional audience-specific front matter, export profiles, accessibility improvements, regulator-specific annexes, and reviewer sign-off workflows. Such work should remain presentation-only unless a separate change explicitly updates scoring, validation, certification, or governance policy.
+
+## Phase 3S System QA Release Audit Reference
+
+See [SYSTEM_QA_RELEASE_AUDIT.md](SYSTEM_QA_RELEASE_AUDIT.md) for the release-readiness audit boundary covering validation/certification separation, diagnostic modes, evidence, remediation, sector profiles, calibration, public reporting, protected artifacts, and verified corpus limits. That audit is documentation/test-only and does not change runtime behavior.
