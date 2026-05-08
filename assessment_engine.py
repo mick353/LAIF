@@ -3475,7 +3475,7 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     p("This public report is a diagnostic LAIF-model output for institutional review.")
     p("External framework structural assessment is diagnostic, not certification. External-framework report sections are diagnostic, not certification, and do not certify LAIF-native compliance unless the LAIF-native certification gate separately passes.")
     p("This report does not determine legal validity, enforceability, safety status, procurement eligibility, clinical authority, HR authority, education authority, or regulatory acceptance.")
-    p("Not LAIF-native is certification-channel wording only; it is not a legal or governance invalidity determination.")
+    p("Not LAIF-native is certification-channel wording only; it is not a legal-validity or governance-validity determination.")
     p("Evidence traces preserve exact-source and reviewer-confirmation boundaries; trace presence does not prove implementation.")
     p("Score bands summarize LAIF-model readiness signals and are not determinations of compliance; high scores cannot override formal LAIF-native failure.")
     p("Formal fail boundary: high semantic, sector, evidence, or calibration proximity cannot override formal LAIF-native failure.")
