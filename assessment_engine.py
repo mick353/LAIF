@@ -2286,6 +2286,11 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     result["governance_signal"]            = _governance_signal_strength(result)
     result["evidence_traces"]              = _build_evidence_traces(text, result)
     result["remediation_patches"]          = _build_remediation_patches(result)
+    result["score_interpretation"]         = _score_interpretation_label(overall)
+    result["score_justification"]          = _score_justification_summary(result)
+    result["dimension_justifications"]     = _dimension_justification_records(result)
+    result["calibration_cautions"]         = _calibration_cautions(result)
+    result["gaming_risk_notes"]            = _score_gaming_risk_notes(result)
     return result
 
 
@@ -2989,6 +2994,256 @@ def _build_remediation_patches(result):
             break
     return patches
 
+
+
+# ── Calibration and score-justification metadata ─────────────────────────────
+# These helpers are interpretive metadata only. They consume existing scores,
+# fired/missed signal labels, evidence traces, sector profile metadata, and
+# remediation patch records; they do not recompute or alter scoring.
+
+_DIMENSION_SCORE_KEYS = {
+    "structural": "structural_score",
+    "terminology": "terminology_score",
+    "conceptual": "conceptual_proximity_score",
+    "auditability": "auditability_score",
+    "enforceability": "enforceability_score",
+}
+
+_DIMENSION_DISPLAY_NAMES = {
+    "structural": "Structural governance architecture",
+    "terminology": "Canonical terminology",
+    "conceptual": "Conceptual proximity",
+    "auditability": "Auditability",
+    "enforceability": "Enforceability",
+}
+
+
+def _score_band(score):
+    """Return a LAIF-model signal band for an existing 0-100 score."""
+    score = max(0, min(100, int(score)))
+    if score <= 19:
+        return "minimal LAIF-model signal"
+    if score <= 39:
+        return "limited LAIF-model signal"
+    if score <= 59:
+        return "partial LAIF-model signal"
+    if score <= 79:
+        return "substantial LAIF-model signal"
+    return "strong LAIF-model signal"
+
+
+def _score_interpretation_label(score):
+    """Return diagnostic, non-legal score interpretation language."""
+    band = _score_band(score)
+    return (
+        f"{band}; diagnostic interpretation only, not a legal verdict, and requires "
+        "evidence/authority verification before any governance conclusion is drawn."
+    )
+
+
+def _dimension_calibration_note(dimension_name, score):
+    """Explain what a dimension band means without turning it into a recipe."""
+    label = _DIMENSION_DISPLAY_NAMES.get(dimension_name, dimension_name.replace("_", " "))
+    band = _score_band(score)
+    return (
+        f"{label} shows {band}. Interpret the score with fired/missed signals, "
+        "source evidence, responsible actor, trigger, control, reversibility, "
+        "consequence, and auditability review; it is not a compliance finding."
+    )
+
+
+def _signal_labels(signals, limit=3):
+    return [label for label, _ in list(signals or [])[:limit]]
+
+
+def _has_fallback_only_evidence(result):
+    traces = result.get("evidence_traces", [])
+    return bool(traces) and all(trace.get("confidence") == "fallback_required" for trace in traces)
+
+
+def _calibration_cautions(result):
+    """Build deterministic calibration caution records from existing metadata."""
+    cautions = []
+
+    def add(caution_id, type_, message, implication, recommended_review):
+        cautions.append({
+            "caution_id": caution_id,
+            "type": type_,
+            "message": message,
+            "implication": implication,
+            "recommended_review": recommended_review,
+        })
+
+    conceptual = result.get("conceptual_proximity_score", 0)
+    terminology = result.get("terminology_score", 0)
+    overall = result.get("overall_readiness_score", 0)
+    sector = result.get("sector_risk_alignment", 0)
+    evidence_traces = result.get("evidence_traces", [])
+    native_status = result.get("formal_laif_native_compliance", result.get("formal_laif_compliance"))
+    construct = result.get("construct_coverage", {})
+
+    if conceptual >= 50 and terminology <= 20:
+        add(
+            "conceptual-high-terminology-low",
+            "score_divergence",
+            "High conceptual LAIF-model signal appears with low canonical terminology signal.",
+            "The source may be conceptually adjacent to LAIF while remaining outside LAIF-native certification language.",
+            "Review whether any LAIF-native adoption is intended and verify authority, evidence, and structural controls before drawing conclusions.",
+        )
+    if sector >= 60 and overall < 50:
+        add(
+            "sector-high-readiness-low",
+            "sector_context",
+            "Sector risk alignment materially exceeds overall readiness.",
+            "Sector relevance may be high even when LAIF-model governance structure is incomplete.",
+            "Review sector-specific evidence artifacts, control ownership, triggers, escalation, and reversibility before relying on score proximity.",
+        )
+    if len(evidence_traces) >= 5 and native_status == "FAIL":
+        add(
+            "evidence-high-formal-fail",
+            "evidence_boundary",
+            "Multiple evidence traces are present while formal LAIF-native compliance remains failed.",
+            "Source presence supports diagnostics but cannot override formal LAIF-native failure.",
+            "Confirm whether traced text implements authority, responsible actor, control, consequence, and auditability rather than only stating concepts.",
+        )
+    if not evidence_traces:
+        add(
+            "evidence-none",
+            "evidence_boundary",
+            "No evidence traces were generated by the deterministic extractor.",
+            "The score remains a rubric output, but source-presence support is unavailable in this assessment output.",
+            "Perform reviewer source confirmation and provenance review before operational reliance.",
+        )
+    elif _has_fallback_only_evidence(result):
+        add(
+            "evidence-fallback-only",
+            "evidence_boundary",
+            "Evidence trace support is fallback-only and requires reviewer confirmation.",
+            "Fallback evidence supports diagnostic triage but does not prove source implementation.",
+            "Review source excerpts directly and confirm exact authority, actor, trigger, control, consequence, and auditability records.",
+        )
+    if overall >= 70 and (not construct.get("Coupling") or result.get("enforceability_score", 0) < 50):
+        add(
+            "high-score-actor-enforceability-review",
+            "structural_review",
+            "Overall LAIF-model signal is high while responsible-actor or enforceability signals require review.",
+            "A high score can reflect text signals without proving accountable authority or enforceable implementation.",
+            "Verify responsible actor, trigger, evidence artifact, escalation path, consequence, and auditability before relying on the score.",
+        )
+    if overall < 40 and result.get("assessment_mode") == "external_framework":
+        add(
+            "low-score-external-authority-boundary",
+            "external_authority_boundary",
+            "Low LAIF-model signal may indicate missing LAIF-model signals, not legal invalidity under the source framework's own authority.",
+            "The assessment does not determine external legal validity, governance validity, safety, or enforceability.",
+            "Separate LAIF diagnostic remediation from legal analysis under the source framework's own authority.",
+        )
+    return cautions
+
+
+def _score_gaming_risk_notes(result):
+    """Build deterministic anti-gaming notes without alleging bad faith."""
+    notes = []
+
+    def add(note_id, trigger, message, recommended_review):
+        notes.append({
+            "note_id": note_id,
+            "type": "anti_gaming",
+            "trigger": trigger,
+            "message": (
+                message + " This is not a finding of bad faith and not a legal invalidity claim."
+            ),
+            "recommended_review": recommended_review,
+        })
+
+    overall = result.get("overall_readiness_score", 0)
+    sector = result.get("sector_risk_alignment", 0)
+    conceptual = result.get("conceptual_proximity_score", 0)
+    audit = result.get("auditability_score", 0)
+    enforce = result.get("enforceability_score", 0)
+    terminology = result.get("terminology_score", 0)
+    structural = result.get("structural_score", 0)
+    construct_count = sum(1 for present in result.get("construct_coverage", {}).values() if present)
+    evidence_count = len(result.get("evidence_traces", []))
+    linked_patch_count = sum(1 for patch in result.get("remediation_patches", []) if patch.get("evidence_trace_ids"))
+
+    if sector - overall >= 25 and sector >= 50:
+        add(
+            "sector-density-over-readiness",
+            "sector risk alignment materially exceeds overall readiness",
+            "Possible keyword or signal density risk; requires structural evidence review.",
+            "Check whether sector-specific language is backed by accountable controls, evidence artifacts, reversibility, escalation, and consequences.",
+        )
+    if conceptual >= 60 and (audit < 45 or enforce < 45):
+        add(
+            "conceptual-high-controls-weak",
+            "conceptual proximity is high while auditability or enforceability is weak",
+            "Possible keyword or signal density risk; requires structural evidence review.",
+            "Verify operational controls rather than relying on conceptual alignment language alone.",
+        )
+    if terminology >= 60 and (structural < 50 or construct_count < 5):
+        add(
+            "terminology-high-structure-weak",
+            "terminology signal is high while structural depth or construct coverage is weak",
+            "Possible keyword or signal density risk; requires structural evidence review.",
+            "Review whether canonical terms are connected to actor, trigger, control, evidence, reversibility, escalation, consequence, and auditability.",
+        )
+    if evidence_count >= 5 and linked_patch_count <= 1 and result.get("remediation_patches"):
+        add(
+            "evidence-many-remediation-weak",
+            "evidence traces are numerous but linked remediation remains weak",
+            "Possible keyword or signal density risk; requires structural evidence review.",
+            "Confirm that traced sources support implementable remediation patches rather than isolated textual mentions.",
+        )
+    return notes
+
+
+def _score_justification_summary(result):
+    """Summarize overall score interpretation without altering score values."""
+    overall = result.get("overall_readiness_score", 0)
+    formal_status = result.get("formal_laif_native_compliance", result.get("formal_laif_compliance", "FAIL"))
+    return {
+        "overall_score": overall,
+        "overall_band": _score_band(overall),
+        "interpretation": _score_interpretation_label(overall),
+        "assessment_mode": result.get("assessment_mode", "external_framework"),
+        "not_legal_determination": True,
+        "not_certification": True,
+        "formal_fail_boundary": (
+            "High conceptual, sector, or evidence proximity cannot override formal LAIF-native failure."
+            if formal_status == "FAIL"
+            else "Formal LAIF-native status remains governed only by the existing certification gate."
+        ),
+        "evidence_trace_context": "Evidence traces support exact source presence where available but do not prove implementation.",
+        "sector_profile_context": "Sector profiles contextualize diagnostics but do not create sector compliance gates.",
+        "remediation_context": "Remediation patches are diagnostic unless separately adopted by an authority.",
+    }
+
+
+def _dimension_justification_records(result):
+    """Create per-dimension justification records from existing signal labels only."""
+    records = []
+    for dim in ("structural", "terminology", "conceptual", "auditability", "enforceability"):
+        score = result.get(_DIMENSION_SCORE_KEYS[dim], 0)
+        breakdown = result.get("score_breakdown", {}).get(dim, {})
+        fired = breakdown.get("fired", [])
+        missed = breakdown.get("missed", [])
+        records.append({
+            "dimension": dim,
+            "score": score,
+            "band": _score_band(score),
+            "interpretation": _score_interpretation_label(score),
+            "fired_signal_count": len(fired),
+            "missed_signal_count": len(missed),
+            "dominant_strengths": _signal_labels(fired),
+            "dominant_gaps": _signal_labels(missed),
+            "calibration_note": _dimension_calibration_note(dim, score),
+            "gaming_caution": (
+                "Rubric visibility is not permission for keyword stuffing; structural evidence, accountable control, reversibility, consequence, and auditability must be reviewed."
+            ),
+        })
+    return records
+
 def _native_certification_label(result):
     if result.get("assessment_mode") == "external_framework" and result.get("formal_laif_native_compliance", result.get("formal_laif_compliance")) == "FAIL":
         return "FAIL / not LAIF-native / canonical remediation required"
@@ -3303,6 +3558,55 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 for label, weight in missed:
                     p(f"- {label} (missed {weight} pts)")
             p()
+
+        h(3, "Score Calibration and Justification")
+        p("Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.")
+        sj = r.get("score_justification", {})
+        p(f"- **Overall score band:** {sj.get('overall_band', _score_band(r.get('overall_readiness_score', 0)))}")
+        p(f"- **Score interpretation:** {r.get('score_interpretation', sj.get('interpretation', 'diagnostic interpretation only'))}")
+        p(f"- **Assessment-mode boundary:** {sj.get('assessment_mode', r.get('assessment_mode', 'external_framework'))}; scores are deterministic rubric metadata, not legal determinations or certification.")
+        p(f"- **Formal fail boundary:** {sj.get('formal_fail_boundary', 'High conceptual, sector, or evidence proximity cannot override formal LAIF-native failure.')}")
+        p(f"- **Evidence context:** {sj.get('evidence_trace_context', 'Evidence traces support source presence but do not prove implementation.')}")
+        p(f"- **Sector context:** {sj.get('sector_profile_context', 'Sector profiles contextualize diagnostics but do not create sector compliance gates.')}")
+        p(f"- **Remediation context:** {sj.get('remediation_context', 'Remediation patches are diagnostic unless separately adopted by an authority.')}")
+        p()
+        justifications = r.get("dimension_justifications", [])
+        if justifications:
+            table(
+                ["Dimension", "Score", "Band", "Signals", "Strengths", "Gaps"],
+                [
+                    [
+                        item.get("dimension", ""),
+                        f"{item.get('score', 0)}/100",
+                        item.get("band", ""),
+                        f"{item.get('fired_signal_count', 0)} fired / {item.get('missed_signal_count', 0)} missed",
+                        "; ".join(item.get("dominant_strengths", [])) or "none",
+                        "; ".join(item.get("dominant_gaps", [])) or "none",
+                    ]
+                    for item in justifications
+                ],
+            )
+            p()
+            for item in justifications:
+                p(f"- **{item.get('dimension', '')}:** {item.get('calibration_note', '')} {item.get('gaming_caution', '')}")
+        else:
+            p("No dimension justification metadata generated.")
+        p()
+        cautions = r.get("calibration_cautions", [])
+        h(4, "Calibration cautions")
+        if cautions:
+            for caution in cautions:
+                p(f"- **{caution.get('caution_id', '')}:** {caution.get('message', '')} Implication: {caution.get('implication', '')} Recommended review: {caution.get('recommended_review', '')}")
+        else:
+            p("- No calibration cautions generated by the deterministic metadata helpers.")
+        h(4, "Gaming risk notes")
+        notes = r.get("gaming_risk_notes", [])
+        if notes:
+            for note in notes:
+                p(f"- **{note.get('note_id', '')}:** {note.get('message', '')} Recommended review: {note.get('recommended_review', '')}")
+        else:
+            p("- No gaming risk notes generated by the deterministic metadata helpers.")
+        p()
 
         h(3, "Construct Crosswalk")
         coverage = r.get("construct_coverage", {})

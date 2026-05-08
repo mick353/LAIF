@@ -85,3 +85,7 @@ A document with FORMAL FAIL plus high semantic, sector, or evidence proximity re
 ## Future Expansion
 
 Future work may add richer deterministic span extraction, source-page references, richer provenance records, or manifest-linked evidence maps. Any expansion must preserve the exact text presence requirement, reviewer-confirmation fallback, legal/authority boundary, and separation from verified corpus / manifest mutation.
+
+## Phase 3Q Calibration and Score Justification Reference
+
+See [CALIBRATION_SCORE_JUSTIFICATION.md](CALIBRATION_SCORE_JUSTIFICATION.md) for the shared boundary governing score bands, score justification metadata, dimension justifications, calibration cautions, gaming-risk notes, evidence/sector/remediation relationships, and the rule that LAIF-model signal strength does not determine legal validity or certify LAIF-native compliance.

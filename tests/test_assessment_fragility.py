@@ -1037,5 +1037,188 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
 
 
 
+class Phase3QCalibrationScoreJustificationTests(unittest.TestCase):
+    """Phase 3Q calibration metadata remains interpretive and deterministic."""
+
+    def _external_result(self, text=GENERIC_REGULATORY_DOCUMENT, sector="high_impact_employment"):
+        return assess(
+            "phase 3q fixture",
+            "binding_regulation",
+            text,
+            sector=sector,
+            assessment_mode="external_framework",
+        )
+
+    def test_phase_3q_assess_returns_calibration_metadata_fields(self):
+        result = self._external_result()
+        for key in (
+            "score_interpretation",
+            "score_justification",
+            "dimension_justifications",
+            "calibration_cautions",
+            "gaming_risk_notes",
+        ):
+            self.assertIn(key, result)
+
+    def test_phase_3q_score_interpretation_uses_laif_model_signal_language(self):
+        result = self._external_result()
+        interp = result["score_interpretation"]
+        self.assertIn("LAIF-model signal", interp)
+        self.assertIn("diagnostic interpretation", interp)
+        self.assertIn("not a legal verdict", interp)
+        self.assertNotIn("legal compliance rating", interp.lower())
+        self.assertNotIn("valid under law", interp.lower())
+
+    def test_phase_3q_dimension_justifications_schema_is_complete(self):
+        result = self._external_result()
+        required = {
+            "dimension",
+            "score",
+            "band",
+            "interpretation",
+            "fired_signal_count",
+            "missed_signal_count",
+            "dominant_strengths",
+            "dominant_gaps",
+            "calibration_note",
+            "gaming_caution",
+        }
+        self.assertEqual(len(result["dimension_justifications"]), 5)
+        for record in result["dimension_justifications"]:
+            self.assertTrue(required.issubset(record))
+
+    def test_phase_3q_dimension_justifications_do_not_expose_raw_regex_patterns(self):
+        result = self._external_result()
+        blob = repr(result["dimension_justifications"])
+        self.assertNotIn(r"\b", blob)
+        self.assertNotIn("(?:", blob)
+        self.assertNotIn(".{0,", blob)
+
+    def test_phase_3q_metadata_preserves_existing_score_values(self):
+        result = self._external_result()
+        expected_overall = round(
+            result["structural_score"] * 0.25
+            + result["terminology_score"] * 0.15
+            + result["conceptual_proximity_score"] * 0.20
+            + result["auditability_score"] * 0.20
+            + result["enforceability_score"] * 0.20
+        )
+        self.assertEqual(result["overall_readiness_score"], expected_overall)
+        self.assertEqual(result["score_justification"]["overall_score"], result["overall_readiness_score"])
+        for dim in result["dimension_justifications"]:
+            score_key = {
+                "structural": "structural_score",
+                "terminology": "terminology_score",
+                "conceptual": "conceptual_proximity_score",
+                "auditability": "auditability_score",
+                "enforceability": "enforceability_score",
+            }[dim["dimension"]]
+            self.assertEqual(dim["score"], result[score_key])
+
+    def test_phase_3q_metadata_preserves_formal_laif_native_compliance(self):
+        result = self._external_result()
+        expected_native = result["formal_laif_compliance"]
+        self.assertEqual(result["formal_laif_native_compliance"], expected_native)
+        self.assertEqual(result["formal_laif_native_compliance"], "FAIL")
+
+    def test_phase_3q_high_conceptual_low_terminology_creates_caution(self):
+        result = self._external_result()
+        caution_ids = {c["caution_id"] for c in result["calibration_cautions"]}
+        self.assertIn("conceptual-high-terminology-low", caution_ids)
+
+    def test_phase_3q_high_sector_alignment_low_readiness_creates_gaming_note(self):
+        result = self._external_result()
+        note_ids = {n["note_id"] for n in result["gaming_risk_notes"]}
+        self.assertIn("sector-density-over-readiness", note_ids)
+        note_blob = " ".join(n["message"] for n in result["gaming_risk_notes"])
+        self.assertIn("possible keyword or signal density risk", note_blob.lower())
+        self.assertIn("requires structural evidence review", note_blob.lower())
+        self.assertIn("not a finding of bad faith", note_blob.lower())
+        self.assertIn("not a legal invalidity claim", note_blob.lower())
+
+    def test_phase_3q_generated_markdown_includes_calibration_section(self):
+        result = self._external_result()
+        report = generate_markdown_report([result], report_date="May 2026")
+        self.assertIn("Score Calibration and Justification", report)
+
+    def test_phase_3q_generated_markdown_includes_boundary_note(self):
+        result = self._external_result()
+        report = generate_markdown_report([result], report_date="May 2026")
+        self.assertIn(
+            "Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.",
+            report,
+        )
+
+    def test_phase_3q_generated_markdown_does_not_expose_raw_regex_syntax(self):
+        result = self._external_result()
+        report = generate_markdown_report([result], report_date="May 2026")
+        self.assertNotIn(r"\b", report)
+        self.assertNotIn("(?:", report)
+
+    def test_phase_3q_console_output_includes_score_band_and_counts(self):
+        result = self._external_result()
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            _print_scorecard(result)
+        output = buf.getvalue()
+        self.assertIn("Score band:", output)
+        self.assertIn("Calibration cautions:", output)
+        self.assertIn("Gaming risk notes:", output)
+
+    def test_phase_3q_calibration_doc_exists_with_required_sections_and_boundaries(self):
+        path = Path("docs/governance/CALIBRATION_SCORE_JUSTIFICATION.md")
+        self.assertTrue(path.exists())
+        text = path.read_text()
+        for heading in (
+            "## Purpose",
+            "## What LAIF Scores Are",
+            "## What LAIF Scores Are Not",
+            "## Assessment Mode Boundary",
+            "## Score Components",
+            "## Fired and Missed Signal Interpretation",
+            "## Calibration Limits",
+            "## False Positive / False Negative Risks",
+            "## Anti-Gaming Boundary",
+            "## Evidence Trace Relationship",
+            "## Sector Profile Relationship",
+            "## Remediation Patch Relationship",
+            "## Reporting Boundary",
+            "## Future Calibration Work",
+        ):
+            self.assertIn(heading, text)
+        for phrase in (
+            "Scores do not certify LAIF-native compliance",
+            "High conceptual, sector, or evidence proximity cannot override formal LAIF-native failure",
+            "Keyword stuffing without structural evidence is a gaming risk",
+            "Evidence traces do not prove implementation",
+            "Sector profiles contextualize diagnostics",
+            "Remediation patches are diagnostic unless separately adopted by an authority",
+        ):
+            self.assertIn(phrase, text)
+
+    def test_phase_3q_unsafe_grep_gates_still_pass(self):
+        evidence_doc = Path("docs/governance/EVIDENCE_TRACE_MODEL.md").read_text()
+        engine = Path("assessment_engine.py").read_text()
+        real_world = Path("test_real_world.py").read_text()
+        self.assertIn("matched_text must equal", evidence_doc)
+        self.assertNotIn(LEGACY_FINAL_LABEL, engine)
+        self.assertNotIn(LEGACY_FAILURE_LABEL, engine)
+        self.assertNotIn(LEGACY_FORMAL_GATE, engine)
+        self.assertNotIn(LEGACY_CONSTRUCT_GATE, engine)
+        self.assertNotIn("md.replace", real_world)
+
+    def test_phase_3q_repeated_assess_calls_are_deterministic_for_calibration_metadata(self):
+        first = self._external_result()
+        second = self._external_result()
+        for key in (
+            "score_interpretation",
+            "score_justification",
+            "dimension_justifications",
+            "calibration_cautions",
+            "gaming_risk_notes",
+        ):
+            self.assertEqual(first[key], second[key])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
