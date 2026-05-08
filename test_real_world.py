@@ -68,7 +68,10 @@ def _print_scorecard(r):
     native_suffix = " / not LAIF-native / canonical remediation required" if native_status == "FAIL" else ""
     print(f"  LAIF-native certification: {comp_tag}{native_suffix}")
     print("  External framework structural assessment: diagnostic (not certification)")
-    print("  Status note: not LAIF-native / canonical remediation required; not a legal or governance invalidity claim")
+    if native_status == "FAIL":
+        print("  Status note: not LAIF-native / canonical remediation required; not a legal or governance invalidity claim")
+    else:
+        print("  Status note: LAIF-native certification status is scoped to the LAIF certification channel")
     print()
 
     # Scores with per-signal breakdown
@@ -90,8 +93,14 @@ def _print_scorecard(r):
     print(f"    {'Overall Readiness':<28} {r['overall_readiness_score']:>3}/100  {overall_bar}")
     score_justification = r.get("score_justification", {})
     print(f"    Score band: {score_justification.get('overall_band', r.get('score_interpretation', 'unknown'))}")
+    caution_count = (
+        len(r.get('calibration_cautions', []))
+        + len(r.get('gaming_risk_notes', []))
+        + len(r.get('sector_profile_evidence_cautions', []))
+    )
     print(f"    Calibration cautions: {len(r.get('calibration_cautions', []))}")
     print(f"    Gaming risk notes: {len(r.get('gaming_risk_notes', []))}")
+    print(f"    Caution/note count: {caution_count}")
     effort_colour = ("32" if r["remediation_effort"] == "LOW" else
                      "33" if r["remediation_effort"] == "MEDIUM" else "31")
     print(f"    Remediation effort: {_tty(effort_colour, r['remediation_effort'])}")

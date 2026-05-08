@@ -85,3 +85,7 @@ Reports must not expose raw regex patterns, publish a keyword-stuffing recipe, o
 Future calibration work may add reviewer fixtures, source-language examples, empirical checks, sector-specific evidence studies, or anti-gaming stress tests. Such work should remain separate from formal LAIF-native certification boundaries unless explicitly adopted through governance review.
 
 Future work should preserve the formal invariant: high semantic, sector, or evidence proximity cannot convert formal LAIF-native failure into a pass.
+
+## Public Report Template Boundary
+
+Generated public markdown reports follow [PUBLIC_REPORT_TEMPLATE.md](PUBLIC_REPORT_TEMPLATE.md). That template is presentation-only: it does not change scoring, validation, LAIF-native certification, evidence trace extraction, remediation patch generation, sector profile metadata, or calibration metadata.

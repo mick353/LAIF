@@ -10,6 +10,7 @@ failure channel.
 
 from __future__ import annotations
 
+import copy
 import io
 import re
 import sys
@@ -1195,6 +1196,157 @@ class Phase3QCalibrationScoreJustificationTests(unittest.TestCase):
             "Remediation patches are diagnostic unless separately adopted by an authority",
         ):
             self.assertIn(phrase, text)
+
+
+    def test_phase_3r_public_report_template_sections_and_boundaries(self):
+        """Public markdown uses the hardened Phase 3R report structure."""
+        result = self._external_result()
+        report = generate_markdown_report([result], report_date="May 2026")
+        for phrase in (
+            "LAIF Institutional Structural Governance Assessment Report",
+            "Report Scope and Boundary",
+            "Executive Brief",
+            "Method Summary",
+            "Cross-Document Dashboard",
+            "Per-Document Assessment",
+            "Mode / Boundary Notice",
+            "Executive Diagnostic Summary",
+            "Score Calibration and Justification",
+            "Evidence Trace Summary",
+            "Structured Remediation Patch Set",
+            "Limits and Reviewer Actions",
+            "Closing Interpretation Notes",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, report)
+        for boundary in (
+            "diagnostic, not certification",
+            "does not determine legal validity",
+            "cannot override formal LAIF-native failure",
+            "reviewer confirmation required",
+        ):
+            with self.subTest(boundary=boundary):
+                self.assertIn(boundary, report)
+
+    def test_phase_3r_public_report_avoids_unsafe_phrases_and_raw_regex(self):
+        """Public report output avoids unsafe public labels and regex internals."""
+        result = self._external_result()
+        report = generate_markdown_report([result], report_date="May 2026")
+        for unsafe_phrase in (
+            "Final verdict",
+            "Primary Failure Modes",
+            "legally invalid",
+            "governance-invalid",
+            "governance-worthless",
+            "structurally incoherent",
+            "compliance rating",
+            "certified compliant",
+            "invalid under law",
+            "unlawful",
+            "must amend law",
+        ):
+            with self.subTest(unsafe_phrase=unsafe_phrase):
+                self.assertNotIn(unsafe_phrase, report)
+        for raw_pattern_token in ("\\b", "(?:", "(?=", "(?!"):
+            with self.subTest(raw_pattern_token=raw_pattern_token):
+                self.assertNotIn(raw_pattern_token, report)
+
+    def test_phase_3r_report_rendering_preserves_assessment_metadata(self):
+        """Rendering the public report does not mutate assessment semantics."""
+        result = self._external_result()
+        before = copy.deepcopy({
+            "score_breakdown": result["score_breakdown"],
+            "overall_readiness_score": result["overall_readiness_score"],
+            "formal_laif_native_compliance": result["formal_laif_native_compliance"],
+            "remediation_patches": result["remediation_patches"],
+            "evidence_traces": result["evidence_traces"],
+            "score_justification": result["score_justification"],
+            "sector_profile": result["sector_profile"],
+            "sector_profile_label": result["sector_profile_label"],
+            "sector_profile_diagnostic_signals": result["sector_profile_diagnostic_signals"],
+        })
+        first_report = generate_markdown_report([result], report_date="May 2026")
+        second_report = generate_markdown_report([result], report_date="May 2026")
+        after = {
+            "score_breakdown": result["score_breakdown"],
+            "overall_readiness_score": result["overall_readiness_score"],
+            "formal_laif_native_compliance": result["formal_laif_native_compliance"],
+            "remediation_patches": result["remediation_patches"],
+            "evidence_traces": result["evidence_traces"],
+            "score_justification": result["score_justification"],
+            "sector_profile": result["sector_profile"],
+            "sector_profile_label": result["sector_profile_label"],
+            "sector_profile_diagnostic_signals": result["sector_profile_diagnostic_signals"],
+        }
+        self.assertEqual(before, after)
+        self.assertEqual(first_report, second_report)
+
+    def test_phase_3r_console_output_is_concise_and_safe(self):
+        """Console output keeps counts without mirroring the full public report."""
+        result = self._external_result()
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            _print_scorecard(result)
+        output = buf.getvalue()
+        self.assertIn("Score band:", output)
+        self.assertIn("Evidence traces:", output)
+        self.assertIn("Structured remediation patches:", output)
+        self.assertIn("Caution/note count:", output)
+        self.assertLess(len(output.splitlines()), 180)
+        for unsafe_phrase in (
+            "Final verdict",
+            "Primary Failure Modes",
+            "legally invalid",
+            "governance-invalid",
+            "governance-worthless",
+            "structurally incoherent",
+            "compliance rating",
+            "certified compliant",
+            "invalid under law",
+            "unlawful",
+            "must amend law",
+        ):
+            with self.subTest(unsafe_phrase=unsafe_phrase):
+                self.assertNotIn(unsafe_phrase, output)
+
+    def test_phase_3r_public_report_template_doc_exists_with_required_boundaries(self):
+        """Public report template documentation declares required sections and safety boundaries."""
+        doc_path = Path(__file__).resolve().parents[1] / "docs" / "governance" / "PUBLIC_REPORT_TEMPLATE.md"
+        self.assertTrue(doc_path.exists())
+        text = doc_path.read_text(encoding="utf-8")
+        for section in (
+            "Purpose",
+            "Public Report Boundary",
+            "Audience",
+            "Required Report Sections",
+            "Executive Brief Rules",
+            "Mode and Certification Wording",
+            "Legal / Authority Boundary Wording",
+            "Score Presentation Rules",
+            "Evidence Trace Presentation Rules",
+            "Remediation Patch Presentation Rules",
+            "Sector Profile Presentation Rules",
+            "Calibration / Anti-Gaming Presentation Rules",
+            "Unsafe Phrases / Prohibited Wording",
+            "Report Stability / Snapshot Expectations",
+            "Future Report Template Work",
+        ):
+            with self.subTest(section=section):
+                self.assertIn(section, text)
+        for boundary in (
+            "Public reports are diagnostic LAIF-model outputs",
+            "Public reports do not determine legal validity",
+            "do not certify LAIF-native compliance unless the LAIF-native certification gate separately passes",
+            "External-framework reports must use diagnostic language",
+            "Not LAIF-native",
+            "Reports must not expose raw regex patterns",
+            "must not encourage keyword stuffing",
+            "must not present score bands as compliance ratings",
+            "must not override formal LAIF-native failure",
+            "preserve exact-source and reviewer-confirmation boundaries",
+        ):
+            with self.subTest(boundary=boundary):
+                self.assertIn(boundary, text)
 
     def test_phase_3q_unsafe_grep_gates_still_pass(self):
         evidence_doc = Path("docs/governance/EVIDENCE_TRACE_MODEL.md").read_text()

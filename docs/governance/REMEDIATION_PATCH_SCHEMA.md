@@ -90,3 +90,7 @@ Remediation patches may include optional `evidence_trace_ids` when deterministic
 ## Phase 3Q Calibration and Score Justification Reference
 
 See [CALIBRATION_SCORE_JUSTIFICATION.md](CALIBRATION_SCORE_JUSTIFICATION.md) for the shared boundary governing score bands, score justification metadata, dimension justifications, calibration cautions, gaming-risk notes, evidence/sector/remediation relationships, and the rule that LAIF-model signal strength does not determine legal validity or certify LAIF-native compliance.
+
+## Public Report Template Boundary
+
+Generated public markdown reports follow [PUBLIC_REPORT_TEMPLATE.md](PUBLIC_REPORT_TEMPLATE.md). That template is presentation-only: it does not change scoring, validation, LAIF-native certification, evidence trace extraction, remediation patch generation, sector profile metadata, or calibration metadata.
