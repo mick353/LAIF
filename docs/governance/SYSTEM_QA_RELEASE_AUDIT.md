@@ -134,3 +134,8 @@ Any future hardening that changes runtime behavior, scoring, validation, certifi
 Phase 3S finds LAIF release-ready as a structural governance diagnostic baseline when interpreted within the documented boundaries: strict LAIF-native certification remains separate from diagnostic assessment; external framework assessment remains diagnostic; public reports remain presentation-only; evidence, remediation, sector, and calibration metadata remain bounded; and protected artifacts plus verified corpus/manifests remain unchanged.
 
 Final release audit finding: no release-blocking defect is identified by this audit pack unless the accompanying deterministic tests or required gates fail in the target environment.
+
+
+## Phase 3U GitHub Actions Batch Orchestration Note
+
+The Phase 3U GitHub Actions workflow is an orchestration layer only. It lets users place documents in `laif_inputs/pending/`, run a manual GitHub workflow, and retrieve processed or failed outputs, but it does not alter LAIF assessment boundaries. Assessment logic, scoring, certification, formal compliance, evidence traces, remediation behavior, sector logic, calibration logic, governance scripts/config, protected artifacts, verified corpus files, manifests, and committed generated reports remain governed by the existing release gates.

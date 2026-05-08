@@ -85,6 +85,17 @@ Does the deployment preserve the capacity of future actors to modify or reverse 
 
 ---
 
+
+## GitHub batch processing
+
+LAIF can process pending documents from GitHub Actions without a local terminal:
+
+1. Upload supported documents to `laif_inputs/pending/`.
+2. Go to **Actions → LAIF Process Pending Documents → Run workflow**.
+3. Download the `laif-batch-output` artifact, or explicitly enable `commit_outputs` to commit organized outputs under `laif_inputs/processed/` and `laif_inputs/failed/`.
+
+Do not place sensitive or private documents in a public repository. For sensitive work, use a private repository or the local document processing runner. See `docs/governance/GITHUB_ACTIONS_DOCUMENT_PROCESSING.md` for details.
+
 ## Reading Order
 
 ```

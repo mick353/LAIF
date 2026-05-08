@@ -1,0 +1,117 @@
+name: LAIF Process Pending Documents
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Assessment mode
+        default: external_framework
+        type: choice
+        options:
+          - external_framework
+          - laif_native
+      sector:
+        description: Sector profile
+        default: auto
+        type: choice
+        options:
+          - auto
+          - general_ai_governance
+          - government_service_delivery
+          - departmental_ai_development
+          - procurement_vendor_governance
+          - clinical_ai
+          - employment_hr_ai
+          - education_ai
+      extractor:
+        description: Document text extractor
+        default: auto
+        type: choice
+        options:
+          - auto
+          - builtin
+          - docling
+          - markitdown
+          - python-docx
+          - pypdf
+      commit_outputs:
+        description: Commit processed/failed outputs back to repository
+        default: false
+        type: boolean
+      commit_mode:
+        description: How to organize pending source files
+        default: copy
+        type: choice
+        options:
+          - copy
+          - move
+          - archive
+      reprocess:
+        description: Process files again even when their source SHA-256 already exists in metadata
+        default: false
+        type: boolean
+      max_files:
+        description: Maximum number of pending files to process
+        default: "20"
+
+permissions:
+  contents: write
+
+env:
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  process-pending-documents:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install base and lightweight ingestion dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install python-docx pypdf
+          if [ "${{ inputs.extractor }}" = "markitdown" ]; then
+            python -m pip install markitdown
+          fi
+          if [ "${{ inputs.extractor }}" = "docling" ]; then
+            echo "Docling is intentionally not installed by default because it is a heavier optional dependency."
+            echo "Install docling in a custom workflow if your repository requires it."
+          fi
+
+      - name: Process pending LAIF documents
+        run: |
+          python3 scripts/laif_batch_process_pending.py \
+            --pending-dir laif_inputs/pending \
+            --processed-dir laif_inputs/processed \
+            --failed-dir laif_inputs/failed \
+            --output-summary laif_batch_summary.json \
+            --mode "${{ inputs.mode }}" \
+            --sector "${{ inputs.sector }}" \
+            --extractor "${{ inputs.extractor }}" \
+            --commit-mode "${{ inputs.commit_mode }}" \
+            --reprocess "${{ inputs.reprocess }}" \
+            --max-files "${{ inputs.max_files }}"
+
+      - name: Upload LAIF batch artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: laif-batch-output
+          path: |
+            laif_inputs/processed/**
+            laif_inputs/failed/**
+            laif_batch_summary.json
+
+      - name: Commit processed outputs
+        if: ${{ inputs.commit_outputs == true }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add laif_inputs/processed laif_inputs/failed laif_batch_summary.json
+          git commit -m "Process LAIF pending documents" || echo "No changes to commit"
+          git push
