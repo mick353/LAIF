@@ -12,7 +12,7 @@ Trace records must not invent source evidence. A trace may only anchor to source
 
 ## Exact Text Presence Requirement
 
-When `confidence` is `exact` or `deterministic_pattern`, `matched_text` must be a direct substring of the assessed document. The `start_char` and `end_char` offsets must point into that same assessed text, and `matched_text` must equal `assessed_text[start_char:end_char]`.
+When `confidence` is `exact` or `deterministic_pattern`, matched_text must equal `assessed_text[start_char:end_char]`. The `start_char` and `end_char` offsets must point into that same assessed text, and `matched_text` must be a direct substring of the assessed document.
 
 If no direct quote was extracted, the trace must use the reviewer-confirmation fallback rather than creating a source anchor.
 
