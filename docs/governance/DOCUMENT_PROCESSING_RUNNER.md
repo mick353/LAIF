@@ -134,3 +134,11 @@ Each JSONL record contains:
 ## Boundary Statement
 
 The document runner is an ingestion and reporting convenience layer. It assesses extracted text using the existing assessment engine and renders existing report logic. It does not modify `assessment_engine.py`, `validate.py`, scoring/certification behavior, formal compliance behavior, governance scripts/config, protected artifacts, verified corpus/manifests, or committed generated reports.
+
+## Phase 3U GitHub Actions batch workflow
+
+For repository-hosted batch operation, Phase 3U provides the manual **LAIF Process Pending Documents** GitHub Actions workflow. Operators place supported documents in `laif_inputs/pending/`, choose workflow inputs for mode, sector, extractor, commit behavior, reprocessing, and maximum attempts, then download the workflow artifact.
+
+The batch workflow is an orchestration wrapper around this Phase 3T runner. It shells to `scripts/laif_process_document.py` for each supported file and preserves the same extraction, assessment, output, and boundary behavior documented above. It does not import or alter the assessment engine, and it does not write to repository-root `reports/`.
+
+Each batch writes a latest summary pointer at `laif_batch_summary.json` and a permanent timestamped history file at `laif_inputs/batch_summaries/<batch_run_id>.json`. The timestamped summaries record successes, failures, skips, duplicate SHA-256 decisions, workflow input values, and output locations.

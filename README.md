@@ -193,3 +193,9 @@ Current governance behavior is deliberately scoped:
 - `tests/test_governance.py` validates shared governance helpers, governance config behavior, protected-artifact behavior, and semantic-boundary advisory behavior with `tests/governance_fixtures/valid_config.json`.
 
 Governance documentation and tests do not alter LAIF assessment/scoring semantics, do not change assessment outcomes, and do not imply external legal certification. LAIF remains a structural governance framework rather than a legal determination or certification authority.
+
+## GitHub batch document processing
+
+LAIF includes a manual GitHub Actions workflow, **LAIF Process Pending Documents**, for Phase 3U batch processing. Add supported files (`.txt`, `.md`, `.markdown`, `.docx`, `.pdf`) to `laif_inputs/pending/`, run the workflow from the Actions tab, and download the artifact containing `laif_inputs/processed/**`, `laif_inputs/failed/**`, `laif_inputs/batch_summaries/**`, and `laif_batch_summary.json`.
+
+The workflow defaults to `commit_outputs=false`, so outputs remain in the workflow artifact unless explicitly committed. If `commit_outputs=true` is selected, processed/failed sources and batch summaries become repository history; do not use that mode for sensitive documents in public or broadly shared repositories. Each batch writes the latest summary to `laif_batch_summary.json` and permanent history to `laif_inputs/batch_summaries/<batch_run_id>.json`.
