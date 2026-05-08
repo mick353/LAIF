@@ -86,3 +86,7 @@ Patch text should be practical and institutional: define the gap, assign an owne
 ## Phase 3P Evidence Trace Links
 
 Remediation patches may include optional `evidence_trace_ids` when deterministic source support can be safely linked to the patch. If no exact or deterministic source text can be linked, `evidence_trace_ids` remains empty and `source_evidence` keeps the reviewer-confirmation fallback. See [Evidence Trace Model](EVIDENCE_TRACE_MODEL.md).
+
+## Phase 3Q Calibration and Score Justification Reference
+
+See [CALIBRATION_SCORE_JUSTIFICATION.md](CALIBRATION_SCORE_JUSTIFICATION.md) for the shared boundary governing score bands, score justification metadata, dimension justifications, calibration cautions, gaming-risk notes, evidence/sector/remediation relationships, and the rule that LAIF-model signal strength does not determine legal validity or certify LAIF-native compliance.

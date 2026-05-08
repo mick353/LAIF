@@ -107,3 +107,7 @@ Structured remediation records are defined in [REMEDIATION_PATCH_SCHEMA.md](REME
 ## Phase 3P Evidence Trace Reference
 
 Phase 3P evidence traces are deterministic source-support metadata only. Exact or deterministic traces require direct source-text presence; otherwise the reviewer-confirmation fallback is used. See [Evidence Trace Model](EVIDENCE_TRACE_MODEL.md).
+
+## Phase 3Q Calibration and Score Justification Reference
+
+See [CALIBRATION_SCORE_JUSTIFICATION.md](CALIBRATION_SCORE_JUSTIFICATION.md) for the shared boundary governing score bands, score justification metadata, dimension justifications, calibration cautions, gaming-risk notes, evidence/sector/remediation relationships, and the rule that LAIF-model signal strength does not determine legal validity or certify LAIF-native compliance.

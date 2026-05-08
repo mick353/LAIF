@@ -88,6 +88,10 @@ def _print_scorecard(r):
     print(f"    {'─' * (W - 4)}")
     overall_bar = _tty_bar(r["overall_readiness_score"])
     print(f"    {'Overall Readiness':<28} {r['overall_readiness_score']:>3}/100  {overall_bar}")
+    score_justification = r.get("score_justification", {})
+    print(f"    Score band: {score_justification.get('overall_band', r.get('score_interpretation', 'unknown'))}")
+    print(f"    Calibration cautions: {len(r.get('calibration_cautions', []))}")
+    print(f"    Gaming risk notes: {len(r.get('gaming_risk_notes', []))}")
     effort_colour = ("32" if r["remediation_effort"] == "LOW" else
                      "33" if r["remediation_effort"] == "MEDIUM" else "31")
     print(f"    Remediation effort: {_tty(effort_colour, r['remediation_effort'])}")
