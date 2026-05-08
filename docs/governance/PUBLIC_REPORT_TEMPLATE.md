@@ -1,5 +1,9 @@
 # Public Report Template
 
+## Document Runner Metadata
+
+When public reports are generated through `scripts/laif_process_document.py`, the rendered report is preceded by extraction and processing metadata, including extractor used, extracted character count, original file name, source SHA-256, processing timestamp, and output paths. This metadata documents the ingestion wrapper context and does not alter the underlying assessment result.
+
 ## Purpose
 
 The public report template defines how LAIF assessment results may be rendered for publication, procurement, departmental, legal/compliance, vendor, clinical, HR, education, and governance audiences. Public reports are diagnostic LAIF-model outputs: they present already-computed assessment data in a stable institutional format without changing scoring, validation, certification, evidence, remediation, sector-profile, or calibration behavior.
