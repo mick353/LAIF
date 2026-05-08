@@ -14,6 +14,8 @@ Trace records must not invent source evidence. A trace may only anchor to source
 
 When `confidence` is `exact` or `deterministic_pattern`, matched_text must equal `assessed_text[start_char:end_char]`. The `start_char` and `end_char` offsets must point into that same assessed text, and `matched_text` must be a direct substring of the assessed document.
 
+When the document ingestion runner is used, evidence traces are based on the extracted text supplied to `assess(...)`, not on the binary source file. Exact traces therefore use offsets into the extracted text, and `matched_text must equal` the extracted text slice at those offsets.
+
 If no direct quote was extracted, the trace must use the reviewer-confirmation fallback rather than creating a source anchor.
 
 ## Trace Record Fields
