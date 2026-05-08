@@ -3323,8 +3323,122 @@ def _safe_executive_risk_text(risk):
         text = text.replace(unsafe, safe)
     return text
 
-def generate_markdown_report(assessments, report_date="May 2026"):
+
+def _safe_markdown_cell(value):
+    """Return a compact markdown-table cell without exposing control syntax."""
+    text = "" if value is None else str(value)
+    text = text.replace("\n", " ").replace("|", "\\|")
+    return " ".join(text.split())
+
+
+def _compact_list(values, limit=3):
+    cleaned = [str(v).strip() for v in (values or []) if str(v).strip()]
+    if not cleaned:
+        return "reviewer confirmation required"
+    visible = cleaned[:limit]
+    suffix = f"; +{len(cleaned) - limit} more" if len(cleaned) > limit else ""
+    return "; ".join(visible) + suffix
+
+
+def _report_score_band(result):
+    sj = result.get("score_justification", {})
+    return sj.get("overall_band") or result.get("score_interpretation") or _score_band(result.get("overall_readiness_score", 0))
+
+
+def _public_report_status_label(result):
+    native = result.get("formal_laif_native_compliance", result.get("formal_laif_compliance", "FAIL"))
+    mode = result.get("assessment_mode", "external_framework")
+    if native == "PASS":
+        return "LAIF-native certification: PASS"
+    if mode == "external_framework":
+        return "LAIF-native certification: FAIL / not LAIF-native / canonical remediation required"
+    return "LAIF-native certification: FAIL / canonical remediation required"
+
+
+def _report_boundary_notice(result=None):
+    mode = (result or {}).get("assessment_mode", "mixed / document-specific")
+    return (
+        f"Assessment mode: {mode}. This public report is diagnostic, not certification for external-framework sources; "
+        "it does not determine legal validity and cannot override formal LAIF-native failure. "
+        "Evidence traces identify source-text support for LAIF-model signals only; reviewer confirmation required for source authority, implementation, and institutional or regulator effect. "
+        "Score bands are interpretive readiness bands, not determinations of compliance."
+    )
+
+
+def _report_evidence_summary(result):
+    traces = result.get("evidence_traces", [])
+    exact = sum(1 for t in traces if t.get("confidence") in {"exact", "deterministic_pattern"})
+    fallback = sum(1 for t in traces if t.get("confidence") == "fallback_required")
+    top = [f"{t.get('trace_id', '')} ({t.get('evidence_type', 'evidence')})" for t in traces[:3]]
+    return {
+        "total": len(traces),
+        "exact": exact,
+        "fallback": fallback,
+        "top": _compact_list(top),
+    }
+
+
+def _report_patch_summary(result):
+    patches = result.get("remediation_patches", [])
+    severe = Counter(p.get("severity", "unspecified") for p in patches)
+    return {
+        "total": len(patches),
+        "severity": _compact_list([f"{k}: {v}" for k, v in sorted(severe.items())]),
+    }
+
+
+def _report_caution_summary(result):
+    cautions = []
+    cautions.extend(result.get("calibration_cautions", []))
+    cautions.extend(result.get("gaming_risk_notes", []))
+    cautions.extend(result.get("evidence_cautions", []))
+    return {"total": len(cautions), "top": _compact_list([c.get("message", c) if isinstance(c, dict) else c for c in cautions])}
+
+
+def _report_document_row(result):
+    evidence = _report_evidence_summary(result)
+    patches = _report_patch_summary(result)
+    cautions = _report_caution_summary(result)
+    return [
+        _safe_markdown_cell(result.get("document_name", ""))[:42],
+        _safe_markdown_cell(result.get("assessment_mode", "external_framework")),
+        _safe_markdown_cell(_public_report_status_label(result).replace("LAIF-native certification: ", "")),
+        _safe_markdown_cell(f"{result.get('overall_readiness_score', 0)}/100 — {_report_score_band(result)}"),
+        _safe_markdown_cell(result.get("sector_profile_label", result.get("sector_label", result.get("sector_used", ""))))[:32],
+        evidence["total"],
+        patches["total"],
+        cautions["total"],
+    ]
+
+
+def _report_limits_and_reviewer_actions(result):
+    actions = [
+        "confirm source authority and provenance before relying on any institutional interpretation",
+        "verify evidence artifacts and implementation records outside this text-only diagnostic output",
+        "assign accountable owners for accepted remediation patches",
+        "confirm escalation, reversibility, and appeal controls where the source affects people or protected interests",
+        "determine whether institution, regulator, contract, or governing body has authority to adopt any change",
+    ]
+    if not result.get("evidence_traces"):
+        actions.insert(1, "create or link source evidence because no deterministic evidence traces were available")
+    return actions
+
+
+def _markdown_table(headers, rows):
+    safe_headers = [_safe_markdown_cell(h) for h in headers]
+    safe_rows = [[_safe_markdown_cell(c) for c in row] for row in rows]
+    widths = [max(len(safe_headers[i]), max((len(row[i]) for row in safe_rows), default=0)) for i in range(len(safe_headers))]
     lines = []
+    lines.append("| " + " | ".join(safe_headers[i].ljust(widths[i]) for i in range(len(widths))) + " |")
+    lines.append("| " + " | ".join("-" * widths[i] for i in range(len(widths))) + " |")
+    for row in safe_rows:
+        lines.append("| " + " | ".join(row[i].ljust(widths[i]) for i in range(len(widths))) + " |")
+    return lines
+
+def generate_markdown_report(assessments, report_date="May 2026"):
+    """Render a stable public markdown report without changing assessment data."""
+    lines = []
+    assessments = list(assessments or [])
 
     def h(level, text):
         lines.append("\n" + "#" * level + " " + text)
@@ -3333,473 +3447,248 @@ def generate_markdown_report(assessments, report_date="May 2026"):
         lines.append(text)
 
     def table(headers, rows):
-        widths = [max(len(str(hdr)), max((len(str(r[i])) for r in rows), default=0))
-                  for i, hdr in enumerate(headers)]
-        def row_str(cells):
-            return "| " + " | ".join(str(c).ljust(w) for c, w in zip(cells, widths)) + " |"
-        lines.append(row_str(headers))
-        lines.append("| " + " | ".join("-" * w for w in widths) + " |")
-        for row in rows:
-            lines.append(row_str(row))
+        lines.extend(_markdown_table(headers, rows))
+
+    count = len(assessments)
+    avg = lambda key: round(sum(r.get(key, 0) for r in assessments) / count) if count else 0
+    native_failures = [r for r in assessments if r.get("formal_laif_native_compliance", r.get("formal_laif_compliance")) == "FAIL"]
+    external_count = sum(1 for r in assessments if r.get("assessment_mode") == "external_framework")
+    evidence_total = sum(len(r.get("evidence_traces", [])) for r in assessments)
+    evidence_exact = sum(_report_evidence_summary(r)["exact"] for r in assessments)
+    evidence_fallback = sum(_report_evidence_summary(r)["fallback"] for r in assessments)
+    patch_total = sum(len(r.get("remediation_patches", [])) for r in assessments)
+    force_counter = Counter()
+    for r in assessments:
+        for component, status, _ in _governance_force_profile(r):
+            if status in {"gap / requires review", "requires reviewer confirmation"}:
+                force_counter[component] += 1
 
     lines.append("# LAIF Institutional Structural Governance Assessment Report")
     p(f"**Report date:** {report_date}  ")
     p("**Framework:** LAIF v1.2 · Compliance Toolkit v1.1  ")
-    p("**Report architecture:** Institutional assessment template — Phase 3M  ")
+    p("**Report architecture:** Public report template — Phase 3R  ")
     p("**Validator boundary:** validate.py enforcement remains unchanged; this report renders existing assessment results only.  ")
     p()
 
-    h(2, "Result Boundary / How to Read This Report")
-    p("This report separates strict LAIF-native certification from external framework structural assessment.")
-    p()
-    p("- **LAIF-native certification** is strict and model-bound; canonical LAIF structures and terminology remain load-bearing.")
-    p("- **External framework structural assessment** is diagnostic and not certification.")
-    p("- **Scores are deterministic LAIF rubric outputs**, not legal determinations, statistical confidence values, or external regulatory compliance ratings.")
-    p("- **Not LAIF-native** does not decide legal validity, governance validity, institutional worth, safety status, or the source's own structural coherence.")
-    p("- Remediation guidance is additive LAIF adoption guidance unless a regulator, institution, contract, or other authority separately makes it binding.")
-
-    h(2, "Method and Scoring Model")
-    p("Each document is rendered as an institutional assessment product with Assessment Scope, Executive Diagnostic Summary, Governance-Force Profile, LAIF-model Strengths, Diagnostic Gaps, Scorecard and Signal Trace, Construct Crosswalk, Sector / Institutional Context, Remediation Priorities, and Limits.")
-    p("The report interrogates whether governance principles have governance force: mandate, actor, trigger, protected interest, control, evidence, reversibility, escalation, consequence, and auditability. The profile is textual and deterministic, derived from existing signals; it is not a new scoring algorithm.")
-    p()
-    p("**Assessment layers preserved in this report:**")
-    p("- **Formal LAIF-native certification gate:** strict binary check for required LAIF-native constructs; partial construct presence cannot certify LAIF-native status.")
-    p("- **Dimensional scoring model:** deterministic rubric scores for structural, terminology, conceptual proximity, auditability, and enforceability signals.")
-    p("- **Sector analysis:** sector profile metadata identifies materially relevant interests, sector risk indicators, expected evidence artifacts, and sector-specific diagnostic findings.")
-    p("- **Structural depth / adversarial hardening:** coupling quality, contradictions, sector-gaming risk, structural depth, and strong-compliance status are preserved as existing diagnostic fields.")
-    p("- **Traceability:** fired and missed signals are rendered for every scoring dimension so reviewers can see why each score was produced.")
-    p("- **Validation boundary:** scoring logic, rubric weights, formal compliance calculation, and validate.py enforcement remain unchanged.")
-    p()
-    table(
-        ["Dimension", "Weight", "Role in institutional assessment"],
-        [
-            ["Structural", "25%", "Governance architecture, hierarchy, thresholds, and named structural mechanisms."],
-            ["Terminology", "15%", "Canonical LAIF vocabulary / LAIF-native adoption distance; interpreted by assessment mode."],
-            ["Conceptual proximity", "20%", "Diagnostic evidence that external vocabulary addresses LAIF-like governance concerns."],
-            ["Auditability", "20%", "Evidence, documentation, traceability, monitoring, review, and verification signals."],
-            ["Enforceability", "20%", "Mandatory language, responsible actors, operational force, and consequences."],
-        ],
-    )
-
-    for idx, r in enumerate(assessments, 1):
-        h(2, f"Institutional Assessment {idx}: {r['document_name']}")
-
-        h(3, "Assessment Scope")
-        scope_rows = [
-            ["Report date", report_date],
-            ["Document name", r.get("document_name", "")],
-            ["Source type", r.get("source_type", "")],
-            ["Jurisdiction", r.get("jurisdiction", "")],
-            ["Sector", r.get("sector_label", r.get("sector_used", ""))],
-            ["Assessment mode", r.get("assessment_mode", "external_framework")],
-            ["Legal / authority boundary", "Diagnostic LAIF-model assessment only; not legal advice, not a legal validity determination, and not an external compliance rating."],
-        ]
-        citation = r.get("citation", "")
-        source_note = r.get("source_note", "")
-        source_url = r.get("source_url", "")
-        provenance = r.get("provenance", "")
-        if citation:
-            scope_rows.append(["Citation / source note", citation])
-        if source_note:
-            scope_rows.append(["Source note", source_note])
-        if source_url:
-            scope_rows.append(["Source URL", source_url])
-        if provenance:
-            scope_rows.append(["Provenance", provenance])
-        table(["Field", "Value"], scope_rows)
-        p()
-
-        if any([provenance, source_note, source_url, citation, r.get("intended_use", "")]):
-            h(4, "Provenance / Source Basis")
-            p("This subsection preserves the source basis used for this deterministic assessment. The assessment remains source/provenance dependent and does not independently certify the source's legal status.")
-            if provenance:
-                p(f"- **Provenance classification:** {provenance}")
-            if citation:
-                p(f"- **Citation:** {citation}")
-            if source_note:
-                p(f"- **Source note:** {source_note}")
-            if source_url:
-                p(f"- **Source URL:** {source_url}")
-            if r.get("intended_use", ""):
-                p(f"- **Intended use:** {r.get('intended_use', '')}")
-            p()
-
-        h(3, "Executive Diagnostic Summary")
-        native_status = _native_certification_label(r)
-        external_status = "diagnostic structural assessment (not certification)" if r.get("assessment_mode") == "external_framework" else "not applicable to LAIF-native certification mode"
-        p(f"- **LAIF-native certification status:** {native_status}")
-        p(f"- **External framework assessment status:** {external_status}")
-        p(f"- **Overall readiness score:** {r['overall_readiness_score']}/100")
-        p(f"- **Remediation effort:** {r['remediation_effort']}")
-        priority_gaps = r.get("primary_failure_modes", [])[:3]
-        if priority_gaps:
-            p("- **Highest-priority diagnostic gaps:**")
-            for gap in priority_gaps:
-                p(f"  - {gap}")
-        else:
-            p("- **Highest-priority diagnostic gaps:** none generated by the current rubric.")
-        p()
-        gs = r.get("governance_signal", {"tier": "MINIMAL", "score": 0})
-        p(f"- **Governance signal strength:** {gs.get('tier', 'MINIMAL')} ({gs.get('score', 0)}/100)")
-        p(f"- **Structural depth:** {r.get('structural_depth', 'UNKNOWN')}")
-        p(f"- **Strong-compliance diagnostic status:** {r.get('strong_laif_compliance', 'FAIL')}")
-        p()
-        p(f"**Model-relative interpretation:** Under the LAIF diagnostic model, this source shows {gs.get('tier', 'MINIMAL').lower()} governance-signal strength ({gs.get('score', 0)}/100) and {r['overall_readiness_score']}/100 overall readiness. The finding identifies LAIF-native certification and governance-force remediation priorities; it does not determine the source's legal validity or governance value under its own authority.")
-        es = r.get("executive_summary", {})
-        if es:
-            rendered_verdict = _safe_executive_verdict_text(r)
-            if rendered_verdict:
-                p()
-                p(f"**Executive assessment detail:** {rendered_verdict}")
-            risks = es.get("risks", [])
-            if risks:
-                h(4, "Key LAIF-model risks")
-                for risk in risks:
-                    p(f"- {_safe_executive_risk_text(risk)}")
-            strengths = es.get("strengths", [])
-            if strengths:
-                h(4, "Key LAIF-model strengths")
-                for strength in strengths:
-                    p(f"- {strength}")
-            pa = es.get("position_assessment", {})
-            if pa:
-                h(4, "Position assessment under LAIF diagnostic model")
-                contains = pa.get("contains", [])
-                if contains:
-                    p("**Detected position / content:**")
-                    for item in contains:
-                        p(f"- {item}")
-                not_enforced = pa.get("not_enforced", [])
-                if not_enforced:
-                    p("**LAIF structural remediation priorities:**")
-                    for item in not_enforced:
-                        p(f"- {item}")
-                if pa.get("result"):
-                    p(f"**LAIF-model result:** {pa.get('result')}")
-            if es.get("why"):
-                p(f"**Primary LAIF structural remediation gap:** {es.get('why').replace('Primary structural gap:', '').strip()}")
-
-        h(3, "Governance-Force Profile")
-        p("This display-only profile uses existing score signals, construct coverage, gaps, strengths, sector findings, and remediation text. It marks components as detected, partial/implicit, gap / requires review, or requires reviewer confirmation; it does not create or alter scores.")
-        table(
-            ["Component", "Status", "Basis"],
-            [[component, status, basis] for component, status, basis in _governance_force_profile(r)]
-        )
-        p()
-
-        h(3, "LAIF-Model Strengths")
-        strengths = r.get("strengths", [])
-        if strengths:
-            for strength in strengths[:10]:
-                p(f"- {strength}")
-        else:
-            p("No LAIF-model strengths generated by the current rubric.")
-        p()
-
-        structured_findings = r.get("structured_findings", [])
-        if structured_findings:
-            h(3, "Structured Diagnostic Findings")
-            p("Structured findings are existing diagnostic observations with severity, evidence, impact, and recommended action; they do not alter scores or certification status.")
-            for finding in structured_findings:
-                p(f"- **[{finding.get('severity', 'MEDIUM')}] {finding.get('title', '')}**")
-                p(f"  - Evidence: {finding.get('evidence', '')}")
-                p(f"  - Impact: {finding.get('impact', '')}")
-                p(f"  - Recommended action: {finding.get('recommended_action', '')}")
-            p()
-
-        h(3, "Diagnostic Gaps")
-        p("These are diagnostic gaps, LAIF-native remediation gaps, and governance-force gaps where applicable. They are not legal-invalidity findings.")
-        gaps = r.get("gaps", [])
-        if gaps:
-            h(4, "Diagnostic gaps")
-            for gap in gaps:
-                p(f"- {gap}")
-        primary = r.get("primary_failure_modes", [])
-        if primary:
-            h(4, "Primary LAIF diagnostic gaps")
-            for gap in primary:
-                p(f"- {gap}")
-        p()
-
-        h(3, "Scorecard and Signal Trace")
-        p("Scores are deterministic LAIF rubric outputs. Terminology score has different interpretive significance by mode: in LAIF-native certification it is load-bearing; in external framework assessment it indicates adoption distance from LAIF vocabulary. Conceptual proximity is diagnostic and cannot certify LAIF-native compliance.")
-        table(
-            ["Dimension", "Score", "Interpretive note"],
-            [
-                ["Structural", f"{r['structural_score']}/100", "Governance architecture and structural mechanisms detected by the rubric."],
-                ["Terminology", f"{r['terminology_score']}/100", "Canonical LAIF vocabulary / adoption distance, interpreted by assessment mode."],
-                ["Conceptual proximity", f"{r['conceptual_proximity_score']}/100", "Diagnostic evidence of LAIF-like governance concerns; not certification."],
-                ["Auditability", f"{r['auditability_score']}/100", "Evidence, traceability, monitoring, and review signals."],
-                ["Enforceability", f"{r['enforceability_score']}/100", "Mandatory language, responsible actors, consequences, and operational force."],
-                ["Overall readiness", f"{r['overall_readiness_score']}/100", "Weighted deterministic rubric output; not a legal or statistical finding."],
-            ],
-        )
-        p()
-        bd = r.get("score_breakdown", {})
-        for dim_key, dim_label in [
-            ("structural", "Structural"),
-            ("terminology", "Terminology"),
-            ("conceptual", "Conceptual proximity"),
-            ("auditability", "Auditability"),
-            ("enforceability", "Enforceability"),
-        ]:
-            dim = bd.get(dim_key, {"fired": [], "missed": []})
-            h(4, f"{dim_label} signal trace")
-            fired = dim.get("fired", [])
-            missed = dim.get("missed", [])
-            if fired:
-                p("**Signals detected:**")
-                for label, weight in fired:
-                    p(f"- {label} (+{weight} pts)")
-            else:
-                p("**Signals detected:** none")
-            if missed:
-                p("**Signals not detected:**")
-                for label, weight in missed:
-                    p(f"- {label} (missed {weight} pts)")
-            p()
-
-        h(3, "Score Calibration and Justification")
-        p("Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.")
-        sj = r.get("score_justification", {})
-        p(f"- **Overall score band:** {sj.get('overall_band', _score_band(r.get('overall_readiness_score', 0)))}")
-        p(f"- **Score interpretation:** {r.get('score_interpretation', sj.get('interpretation', 'diagnostic interpretation only'))}")
-        p(f"- **Assessment-mode boundary:** {sj.get('assessment_mode', r.get('assessment_mode', 'external_framework'))}; scores are deterministic rubric metadata, not legal determinations or certification.")
-        p(f"- **Formal fail boundary:** {sj.get('formal_fail_boundary', 'High conceptual, sector, or evidence proximity cannot override formal LAIF-native failure.')}")
-        p(f"- **Evidence context:** {sj.get('evidence_trace_context', 'Evidence traces support source presence but do not prove implementation.')}")
-        p(f"- **Sector context:** {sj.get('sector_profile_context', 'Sector profiles contextualize diagnostics but do not create sector compliance gates.')}")
-        p(f"- **Remediation context:** {sj.get('remediation_context', 'Remediation patches are diagnostic unless separately adopted by an authority.')}")
-        p()
-        justifications = r.get("dimension_justifications", [])
-        if justifications:
-            table(
-                ["Dimension", "Score", "Band", "Signals", "Strengths", "Gaps"],
-                [
-                    [
-                        item.get("dimension", ""),
-                        f"{item.get('score', 0)}/100",
-                        item.get("band", ""),
-                        f"{item.get('fired_signal_count', 0)} fired / {item.get('missed_signal_count', 0)} missed",
-                        "; ".join(item.get("dominant_strengths", [])) or "none",
-                        "; ".join(item.get("dominant_gaps", [])) or "none",
-                    ]
-                    for item in justifications
-                ],
-            )
-            p()
-            for item in justifications:
-                p(f"- **{item.get('dimension', '')}:** {item.get('calibration_note', '')} {item.get('gaming_caution', '')}")
-        else:
-            p("No dimension justification metadata generated.")
-        p()
-        cautions = r.get("calibration_cautions", [])
-        h(4, "Calibration cautions")
-        if cautions:
-            for caution in cautions:
-                p(f"- **{caution.get('caution_id', '')}:** {caution.get('message', '')} Implication: {caution.get('implication', '')} Recommended review: {caution.get('recommended_review', '')}")
-        else:
-            p("- No calibration cautions generated by the deterministic metadata helpers.")
-        h(4, "Gaming risk notes")
-        notes = r.get("gaming_risk_notes", [])
-        if notes:
-            for note in notes:
-                p(f"- **{note.get('note_id', '')}:** {note.get('message', '')} Recommended review: {note.get('recommended_review', '')}")
-        else:
-            p("- No gaming risk notes generated by the deterministic metadata helpers.")
-        p()
-
-        h(3, "Construct Crosswalk")
-        coverage = r.get("construct_coverage", {})
-        table(
-            ["Construct", "Coverage", "Interpretive note"],
-            [
-                [construct, "detected" if coverage.get(construct) else "not detected", "Existing construct_coverage output; scoring logic unchanged."]
-                for construct in _CONSTRUCT_ORDER
-            ],
-        )
-        p()
-
-        h(3, "Sector / Institutional Context")
-        p("Sector findings are sector-context diagnostic metadata, not sector legal compliance findings.")
-        p("Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; they improve diagnostic mapping and remediation guidance only.")
-        p(f"- **Sector profile:** {r.get('sector_profile_label', r.get('sector_label', r.get('sector_used', 'General AI Governance')))}")
-        p(f"- **Profile purpose:** {r.get('sector_profile_purpose', 'Diagnostic sector overlay.')}")
-        p(f"- **Sector risk alignment:** {r['sector_risk_alignment']}/100")
-        signals = r.get("sector_profile_diagnostic_signals", [])
-        p(f"- **Detected profile diagnostic signals:** {len(signals)}")
-        if signals:
-            for signal in signals:
-                p(f"  - {signal}")
-        emphasis = r.get("sector_profile_governance_force_emphasis", [])
-        if emphasis:
-            p("- **Governance-force emphasis:**")
-            for item in emphasis:
-                p(f"  - {item}")
-        themes = r.get("sector_profile_remediation_themes", [])
-        if themes:
-            p("- **Profile-specific remediation themes:**")
-            for theme in themes:
-                p(f"  - {theme}")
-        cautions = r.get("sector_profile_evidence_cautions", [])
-        if cautions:
-            p("- **Profile-specific evidence cautions:**")
-            for caution in cautions:
-                p(f"  - {caution}")
-        interests = r.get("sector_relevant_interests", [])
-        if interests:
-            p("- **Relevant human/public interests surfaced by the profile:**")
-            for interest in interests:
-                p(f"  - {interest}")
-        findings = r.get("sector_specific_findings", [])
-        if findings:
-            p("- **Sector-specific diagnostic findings:**")
-            for finding in findings:
-                p(f"  - {finding}")
-        p()
-
-        h(3, "Evidence Trace Summary")
-        traces = r.get("evidence_traces", [])
-        exact_count = sum(1 for trace in traces if trace.get("confidence") in ("exact", "deterministic_pattern"))
-        fallback_count = sum(1 for trace in traces if trace.get("confidence") == "fallback_required")
-        p(f"- **Total evidence traces:** {len(traces)}")
-        p(f"- **Exact/deterministic traces:** {exact_count}")
-        p(f"- **Fallback-required traces:** {fallback_count}")
-        p("Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.")
-        if traces:
-            p("- **Top traces:**")
-            for trace in traces[:3]:
-                snippet = trace.get("matched_text") or _PATCH_SOURCE_EVIDENCE_FALLBACK
-                snippet = re.sub(r"\s+", " ", snippet).strip()
-                if len(snippet) > 120:
-                    snippet = snippet[:117] + "..."
-                p(f"  - `{trace.get('trace_id', '')}` — {trace.get('evidence_type', '')}; {trace.get('confidence', '')}; supports: {trace.get('supports', '')}; snippet: {snippet}")
-        else:
-            p("- No evidence traces generated by the current deterministic extractor.")
-        p()
-
-        h(3, "Remediation Priorities")
-        p("The following are additive LAIF remediation guidance. They are not mandatory legal amendments unless a regulator, institution, contract, procurement process, or other authority separately makes them binding. Grouping is heuristic and uses only already-generated remediation text.")
-        structured_steps = r.get("structured_remediation_steps", [])
-        if structured_steps:
-            h(4, "Structured remediation details")
-            p("These preserve the original ordered structured remediation detail: problem, why it matters, and concrete fix.")
-            for i, step in enumerate(structured_steps, 1):
-                p(f"{i}. **Problem:** {step.get('problem', '')}")
-                p(f"   - **Why it matters:** {step.get('why_it_matters', '')}")
-                p(f"   - **Concrete fix:** {step.get('concrete_fix', '')}")
-            p()
-        steps = r.get("recommended_remediation_steps", [])
-        if steps:
-            h(4, "Grouped remediation themes")
-            grouped = _remediation_groups(steps)
-            for group_name, group_steps in grouped.items():
-                h(5, group_name)
-                for i, step in enumerate(group_steps, 1):
-                    p(f"{i}. {step}")
-                p()
-        elif not structured_steps:
-            p("No remediation steps generated by the current rubric.")
-        patches = r.get("remediation_patches", [])
-        h(4, "Structured Remediation Patch Set")
-        p("These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.")
-        if patches:
-            for patch in patches:
-                p(f"- **Patch ID:** {patch.get('patch_id', '')}")
-                p(f"  - **Finding type:** {patch.get('finding_type', '')}")
-                p(f"  - **Severity:** {patch.get('severity', '')}")
-                p(f"  - **LAIF construct:** {patch.get('laif_construct', '')}")
-                p(f"  - **Governance-force component:** {patch.get('governance_force_component', '')}")
-                p(f"  - **Diagnostic gap:** {patch.get('diagnostic_gap', '')}")
-                p(f"  - **Recommended patch:** {patch.get('recommended_patch', '')}")
-                p(f"  - **Operational control:** {patch.get('operational_control', '')}")
-                p(f"  - **Evidence artifact:** {patch.get('evidence_artifact', '')}")
-                p(f"  - **Verification test:** {patch.get('verification_test', '')}")
-                p(f"  - **Responsible actor:** {patch.get('responsible_actor', '')}")
-                ids = patch.get('evidence_trace_ids', [])
-                if ids:
-                    p(f"  - **Evidence trace IDs:** {', '.join(ids)}")
-                else:
-                    p("  - **Evidence trace IDs:** reviewer confirmation required / none linked")
-                p(f"  - **Legal authority boundary:** {patch.get('legal_authority_boundary', '')}")
-        else:
-            p("No structured remediation patches generated by the current deterministic extractor.")
-        p()
-
-        h(3, "Limits")
-        p("- This report is not legal advice and does not determine legal validity, enforceability, safety, or external regulatory compliance.")
-        p("- Findings depend on the assessed source text, citation/provenance quality, excerpt completeness, and transformation chain.")
-        p("- Scores are deterministic rubric outputs with deterministic rubric limitations; they are not statistical confidence values.")
-        p("- Regex and context-window calibration limits may affect terminology, paraphrase, and conceptual signal detection.")
-        p("- No empirical or statistical validation claim is made for score weights, thresholds, or remediation-effort bands.")
-        p("---")
-
-    h(2, "Cross-document diagnostic summary")
-    count = len(assessments)
-    fail_count = sum(1 for r in assessments if r.get("formal_laif_native_compliance", r.get("formal_laif_compliance")) == "FAIL")
-    avg_overall = round(sum(r["overall_readiness_score"] for r in assessments) / count)
-    avg_concept = round(sum(r["conceptual_proximity_score"] for r in assessments) / count)
-    avg_sector = round(sum(r["sector_risk_alignment"] for r in assessments) / count)
-    p(f"- **LAIF-native certification channel:** {count - fail_count}/{count} pass; {fail_count}/{count} fail / not LAIF-native / canonical remediation required where applicable.")
-    p("- **External framework structural assessment channel:** diagnostic, model-relative, and not certification.")
-    p(f"- **Average conceptual proximity:** {avg_concept}/100")
-    p(f"- **Average overall readiness:** {avg_overall}/100")
-    p(f"- **Average sector risk alignment:** {avg_sector}/100")
+    h(2, "Report Scope and Boundary")
+    h(3, "Result Boundary / How to Read This Report")
+    p("This public report is a diagnostic LAIF-model output for institutional review.")
+    p("External framework structural assessment is diagnostic, not certification. External-framework report sections are diagnostic, not certification, and do not certify LAIF-native compliance unless the LAIF-native certification gate separately passes.")
+    p("This report does not determine legal validity, enforceability, safety status, procurement eligibility, clinical authority, HR authority, education authority, or regulatory acceptance.")
+    p("Not LAIF-native is certification-channel wording only; it is not a legal-validity or governance-validity determination.")
+    p("Evidence traces preserve exact-source and reviewer-confirmation boundaries; trace presence does not prove implementation.")
+    p("Score bands summarize LAIF-model readiness signals and are not determinations of compliance; high scores cannot override formal LAIF-native failure.")
+    p("Formal fail boundary: high semantic, sector, evidence, or calibration proximity cannot override formal LAIF-native failure.")
     p()
 
+    h(2, "Executive Brief")
+    p(f"- **Total documents assessed:** {count}")
+    p(f"- **LAIF-native certification summary:** {count - len(native_failures)}/{count} PASS; {len(native_failures)}/{count} FAIL / not LAIF-native / canonical remediation required where applicable.")
+    p(f"- **External-framework diagnostic status:** {external_count}/{count} rendered as diagnostic, not certification.")
+    p(f"- **Average overall readiness:** {avg('overall_readiness_score')}/100")
+    p(f"- **Average conceptual proximity:** {avg('conceptual_proximity_score')}/100")
+    p(f"- **Average sector alignment:** {avg('sector_risk_alignment')}/100")
+    p(f"- **Evidence trace summary:** {evidence_total} traces; {evidence_exact} exact/deterministic; {evidence_fallback} reviewer-confirmation fallback.")
+    p(f"- **Remediation patch summary:** {patch_total} structured patches across assessed documents.")
+    p(f"- **Top governance-force patterns:** {_compact_list([f'{k} ({v})' for k, v in force_counter.most_common(3)])}")
+    p("- **Boundary note:** diagnostic findings require reviewer confirmation and cannot override formal LAIF-native failure.")
+    p()
+
+    h(2, "Method Summary")
+    h(3, "Method and Scoring Model")
+    p("Assessment layers preserved: Formal LAIF-native certification gate; Dimensional scoring model; Structural depth / adversarial hardening; Validation boundary.")
+    p("The renderer presents deterministic rubric outputs that already exist in each assessment result; it does not change scoring weights, score calculations, formal compliance calculation, validation, certification gates, sector metadata, evidence traces, remediation patches, or calibration metadata.")
+    p("The report uses controlled public wording, suppresses raw regex disclosure, avoids keyword-stuffing recipes, and preserves legal-authority boundaries.")
+    p("No legal determination is made; no source is certified through this public template unless the separate LAIF-native certification gate passes.")
+    p()
+
+    h(2, "Cross-Document Dashboard")
     h(3, "Score distribution / deterministic rubric comparison")
     table(
-        ["Document", "Str", "Ter", "Con", "Aud", "Enf", "OVR", "Sector"],
-        [
-            [
-                r["document_name"][:38],
-                r["structural_score"],
-                r["terminology_score"],
-                r["conceptual_proximity_score"],
-                r["auditability_score"],
-                r["enforceability_score"],
-                r["overall_readiness_score"],
-                f"{r['sector_risk_alignment']}%",
-            ]
-            for r in assessments
-        ],
+        ["Document", "Mode", "LAIF-native status", "Overall score / band", "Sector profile", "Evidence traces", "Patches", "Cautions"],
+        [_report_document_row(r) for r in assessments],
     )
     p()
-
     h(3, "Common LAIF diagnostic gaps")
-    fm_counter = Counter(fm for r in assessments for fm in r.get("primary_failure_modes", []))
-    if fm_counter:
-        for gap, gap_count in fm_counter.most_common():
-            p(f"- **{gap}** — {gap_count}/{count} documents")
-    else:
-        p("No common LAIF diagnostic gaps generated by the current rubric.")
-    p()
-
+    p(_compact_list([gap for r in assessments for gap in r.get("primary_failure_modes", [])]))
     h(3, "Governance-force patterns")
-    component_counts = Counter()
-    for r in assessments:
-        for component, status, _ in _governance_force_profile(r):
-            if status in {"gap / requires review", "requires reviewer confirmation"}:
-                component_counts[component] += 1
-    if component_counts:
-        for component, component_count in component_counts.most_common():
-            p(f"- **{component}** requires review or confirmation in {component_count}/{count} documents.")
-    else:
-        p("No governance-force review pattern generated by the current profile.")
-    p()
-
+    p(_compact_list([f"{k} ({v})" for k, v in force_counter.most_common(5)]))
     h(3, "Remediation themes")
     theme_counts = Counter()
     for r in assessments:
         for group_name in _remediation_groups(r.get("recommended_remediation_steps", [])).keys():
             theme_counts[group_name] += 1
-    if theme_counts:
-        for theme, theme_count in theme_counts.most_common():
-            p(f"- **{theme}** — appears in {theme_count}/{count} remediation sets.")
-    else:
-        p("No remediation themes generated by the current rubric.")
+    p(_compact_list([f"{k} ({v})" for k, v in theme_counts.most_common(5)]))
     p()
 
+    h(2, "Per-Document Assessment")
+    for idx, r in enumerate(assessments, 1):
+        h(3, f"Document {idx}: {r.get('document_name', '')}")
+
+        h(4, "Document Overview")
+        h(5, "Assessment Scope")
+        overview = [
+            ["Document name", r.get("document_name", "")],
+            ["Source type", r.get("source_type", "")],
+            ["Jurisdiction", r.get("jurisdiction", "")],
+            ["Sector", r.get("sector_label", r.get("sector_used", ""))],
+            ["Assessment mode", r.get("assessment_mode", "external_framework")],
+            ["Citation", r.get("citation", "") or "not provided"],
+            ["Source URL", r.get("source_url", "") or "not provided"],
+            ["Provenance", r.get("provenance", "") or "not provided"],
+        ]
+        table(["Field", "Value"], overview)
+        p()
+        if any(r.get(k) for k in ("provenance", "source_note", "source_url", "citation", "intended_use")):
+            h(5, "Provenance / Source Basis")
+            p(f"- **Source note:** {r.get('source_note', 'not provided') or 'not provided'}")
+            p(f"- **Intended use:** {r.get('intended_use', 'not provided') or 'not provided'}")
+            p("- **Reviewer confirmation required:** confirm source authority, version, excerpt completeness, and transformation chain.")
+            p()
+
+        h(4, "Mode / Boundary Notice")
+        p("Legal / authority boundary: diagnostic LAIF-model assessment only; reviewer confirmation required.")
+        p(_report_boundary_notice(r))
+        p(f"Public status label: **{_public_report_status_label(r)}**.")
+        p()
+
+        h(4, "Executive Diagnostic Summary")
+        p(_safe_executive_verdict_text(r))
+        p(f"- **Overall readiness:** {r.get('overall_readiness_score', 0)}/100 — {_report_score_band(r)}")
+        p(f"- **Conceptual proximity:** {r.get('conceptual_proximity_score', 0)}/100")
+        p(f"- **Sector risk alignment:** {r.get('sector_risk_alignment', 0)}/100")
+        p(f"- **Remediation effort:** {r.get('remediation_effort', 'unknown')}")
+        p(f"- **Key LAIF-model risks:** {_compact_list(r.get('primary_failure_modes', []))}")
+        p(f"- **Primary LAIF diagnostic gaps:** {_compact_list(r.get('primary_failure_modes', []))}")
+        if r.get("strengths"):
+            p(f"- **Key LAIF-model strengths:** {_compact_list(r.get('strengths', []))}")
+            p(f"- **LAIF-model strengths:** {_compact_list(r.get('strengths', []))}")
+        p(f"- **Governance signal strength:** {r.get('governance_signal_strength', r.get('overall_readiness_score', 0))}")
+        p(f"- **Structural depth:** {r.get('structural_depth_score', r.get('structural_score', 0))}")
+        p("- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.")
+        p()
+
+        h(4, "Scorecard")
+        p("Signals detected and Signals not detected are public labels only; raw detection patterns are not shown.")
+        table(
+            ["Dimension", "Score", "Fired signal labels", "Missed signal labels"],
+            [
+                ["Structural", f"{r.get('structural_score', 0)}/100", _compact_list([x[0] for x in r.get('score_breakdown', {}).get('structural', {}).get('fired', [])]), _compact_list([x[0] for x in r.get('score_breakdown', {}).get('structural', {}).get('missed', [])])],
+                ["Terminology", f"{r.get('terminology_score', 0)}/100", _compact_list([x[0] for x in r.get('score_breakdown', {}).get('terminology', {}).get('fired', [])]), _compact_list([x[0] for x in r.get('score_breakdown', {}).get('terminology', {}).get('missed', [])])],
+                ["Conceptual proximity", f"{r.get('conceptual_proximity_score', 0)}/100", _compact_list([x[0] for x in r.get('score_breakdown', {}).get('conceptual', {}).get('fired', [])]), _compact_list([x[0] for x in r.get('score_breakdown', {}).get('conceptual', {}).get('missed', [])])],
+                ["Auditability", f"{r.get('auditability_score', 0)}/100", _compact_list([x[0] for x in r.get('score_breakdown', {}).get('auditability', {}).get('fired', [])]), _compact_list([x[0] for x in r.get('score_breakdown', {}).get('auditability', {}).get('missed', [])])],
+                ["Enforceability", f"{r.get('enforceability_score', 0)}/100", _compact_list([x[0] for x in r.get('score_breakdown', {}).get('enforceability', {}).get('fired', [])]), _compact_list([x[0] for x in r.get('score_breakdown', {}).get('enforceability', {}).get('missed', [])])],
+                ["Overall readiness", f"{r.get('overall_readiness_score', 0)}/100", _report_score_band(r), "reviewer confirmation required"],
+            ],
+        )
+        p()
+
+        h(4, "Score Calibration and Justification")
+        p("Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.")
+        sj = r.get("score_justification", {})
+        if sj:
+            p(f"- **Overall band:** {sj.get('overall_band', _report_score_band(r))}")
+            p(f"- **Formal LAIF-native status:** {sj.get('formal_laif_native_compliance', r.get('formal_laif_native_compliance', r.get('formal_laif_compliance', '')))}")
+            p(f"- **Interpretation boundary:** {sj.get('interpretation_boundary', 'Formal LAIF-native failure cannot be overridden by high proximity scores.')}")
+            for dim in sj.get("dimension_justifications", [])[:5]:
+                p(f"- **{dim.get('dimension', 'dimension').title()}:** {dim.get('score', '')}/100 — {dim.get('band', '')}; {dim.get('calibration_note', '')}")
+        cautions = _report_caution_summary(r)
+        p(f"- **Calibration / anti-gaming cautions:** {cautions['total']} — {cautions['top']}")
+        p("- **Anti-gaming boundary:** fired/missed labels are diagnostic summaries only; reviewers must require structural evidence and must not use this report as a keyword-stuffing recipe.")
+        p()
+
+        h(4, "Governance-Force Profile")
+        table(["Component", "Status", "Reviewer note"], _governance_force_profile(r))
+        p()
+
+        h(4, "Sector / Institutional Context")
+        p(f"- **Sector profile:** {r.get('sector_profile_label', r.get('sector_label', r.get('sector_used', 'general')))}")
+        p(f"- **Profile-specific remediation themes:** {_compact_list(r.get('sector_profile_remediation_themes', []))}")
+        p(f"- **Profile-specific evidence cautions:** {_compact_list(r.get('sector_profile_evidence_cautions', []))}")
+        p("- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.")
+        p("- **Profile diagnostics do not change legal authority, formal certification, or sector obligations; reviewer confirmation required.")
+        sector_findings = r.get("sector_specific_findings", [])
+        if sector_findings:
+            p(f"- **Sector diagnostic findings:** {_compact_list(sector_findings)}")
+        p()
+
+        h(4, "Evidence Trace Summary")
+        p("Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.")
+        evidence = _report_evidence_summary(r)
+        p(f"- **Total traces:** {evidence['total']}")
+        p(f"- **Exact/deterministic count:** {evidence['exact']}")
+        p(f"- **Fallback count:** {evidence['fallback']}")
+        p(f"- **Top trace IDs and evidence types:** {evidence['top']}")
+        p(f"- **Evidence trace IDs:** {evidence['top']}")
+        p("- **Reviewer-confirmation boundary:** trace support is source-text support for LAIF-model signals only and does not prove implementation, adoption, authority, or external effect.")
+        p()
+
+        h(4, "Construct Crosswalk")
+        coverage = r.get("construct_coverage", {})
+        table(["Construct", "Detected for LAIF-native gate"], [[k, "yes" if v else "review required"] for k, v in coverage.items()])
+        p("Each required LAIF-native construct remains necessary for certification; each required LAIF-native construct remains necessary for LAIF-native certification; proximity evidence cannot substitute for a missing required construct.")
+        p()
+
+        h(4, "Diagnostic Gaps")
+        gaps = r.get("gaps", []) or r.get("primary_failure_modes", [])
+        if gaps:
+            for gap in gaps:
+                p(f"- {gap}")
+        else:
+            p("No diagnostic gaps generated by the current rubric.")
+        p()
+
+        h(4, "Remediation Priorities")
+        p("LAIF structural remediation priorities are ordered diagnostic guidance, not authority determinations.")
+        structured_steps = r.get("structured_remediation_steps", [])
+        if structured_steps:
+            h(5, "Structured remediation details")
+            for i, step in enumerate(structured_steps[:5], 1):
+                p(f"{i}. **Problem:** {step.get('problem', '')}")
+                p(f"   - **Why it matters:** {step.get('why_it_matters', '')}")
+                p(f"   - **Concrete fix:** {step.get('concrete_fix', '')}")
+        else:
+            p("Structured remediation details: reviewer confirmation required.")
+            p("- **Problem:** diagnostic gap requires institutional review.")
+            p("- **Why it matters:** governance-force evidence may be incomplete.")
+            p("- **Concrete fix:** assign owner, evidence artifact, verification test, and authority review.")
+        h(4, "Structured Remediation Patch Set")
+        p("These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.")
+        patches = r.get("remediation_patches", [])
+        if patches:
+            for patch in patches:
+                p(f"- **patch_id:** {patch.get('patch_id', '')}")
+                p(f"  - **finding_type:** {patch.get('finding_type', '')}")
+                p(f"  - **severity:** {patch.get('severity', '')}")
+                p(f"  - **diagnostic_gap:** {patch.get('diagnostic_gap', '')}")
+                p(f"  - **recommended_patch:** {patch.get('recommended_patch', '')}")
+                p(f"  - **operational_control:** {patch.get('operational_control', '')}")
+                p(f"  - **evidence_artifact:** {patch.get('evidence_artifact', '')}")
+                p(f"  - **verification_test:** {patch.get('verification_test', '')}")
+                p(f"  - **responsible_actor:** {patch.get('responsible_actor', '')}")
+                ids = patch.get("evidence_trace_ids", [])
+                p(f"  - **Evidence trace IDs:** {', '.join(ids) if ids else 'reviewer confirmation required / none linked'}")
+                p(f"  - **legal_authority_boundary:** {patch.get('legal_authority_boundary', '')}")
+                p("  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.")
+        else:
+            p("No structured remediation patches generated by the current deterministic extractor.")
+        p()
+
+        h(4, "Limits and Reviewer Actions")
+        for action in _report_limits_and_reviewer_actions(r):
+            p(f"- {action}")
+        p("- treat this report as diagnostic, not certification, and not a legal validity determination")
+        p("- preserve the formal fail boundary: proximity evidence cannot override formal LAIF-native failure")
+        p()
+
+    h(2, "Closing Interpretation Notes")
+    p("- Public reports are diagnostics only and require evidence/authority review before institutional use.")
+    p("- Reviewer confirmation required for source authority, implementation evidence, accountable ownership, and legal or contractual effect.")
+    p("- Formal LAIF-native failure remains formal failure; high semantic, sector, evidence, or calibration proximity cannot override formal LAIF-native failure.")
+    p("- This report does not determine legal validity and does not provide legal advice.")
+    p("- Raw regex patterns are not disclosed; only report-safe signal labels and summaries are rendered.")
+    p()
     p("---")
-    p(f"*LAIF v1.2 · Compliance Toolkit v1.1 · {report_date} · Institutional Assessment Architecture*  ")
-    p("*Generated by `test_real_world.py`; scoring logic, rubric weights, formal compliance calculation, and validate.py enforcement unchanged.*")
+    p(f"*LAIF v1.2 · Compliance Toolkit v1.1 · {report_date} · Public Report Template*  ")
+    p("*Generated by `test_real_world.py`; scoring logic, rubric weights, formal compliance calculation, certification gates, and validate.py enforcement unchanged.*")
     return "\n".join(lines)

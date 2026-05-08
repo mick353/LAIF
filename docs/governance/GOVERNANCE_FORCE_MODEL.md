@@ -69,3 +69,7 @@ Phase 3P evidence traces are deterministic source-support metadata only. Exact o
 ## Phase 3Q Calibration and Score Justification Reference
 
 See [CALIBRATION_SCORE_JUSTIFICATION.md](CALIBRATION_SCORE_JUSTIFICATION.md) for the shared boundary governing score bands, score justification metadata, dimension justifications, calibration cautions, gaming-risk notes, evidence/sector/remediation relationships, and the rule that LAIF-model signal strength does not determine legal validity or certify LAIF-native compliance.
+
+## Public report template reference
+
+Public-facing rendering requirements are defined in [Public Report Template](PUBLIC_REPORT_TEMPLATE.md). That template is presentation-only and does not change scoring, validation, certification, evidence, remediation, sector-profile, calibration, or governance invariants.
