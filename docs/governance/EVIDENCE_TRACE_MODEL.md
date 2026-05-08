@@ -97,3 +97,7 @@ Public-facing rendering requirements are defined in [Public Report Template](PUB
 ## Phase 3S System QA Release Audit Reference
 
 See [SYSTEM_QA_RELEASE_AUDIT.md](SYSTEM_QA_RELEASE_AUDIT.md) for the release-readiness audit boundary covering validation/certification separation, diagnostic modes, evidence, remediation, sector profiles, calibration, public reporting, protected artifacts, and verified corpus limits. That audit is documentation/test-only and does not change runtime behavior.
+
+## Document Ingestion Source Boundary
+
+When the Phase 3T document processing runner is used, evidence traces are based on the extracted text that is passed into the assessment engine. Reviewers must inspect extraction metadata when source fidelity matters, because poor extraction, missing OCR, table-order changes, or parser limitations can affect the assessed text and therefore the trace spans. The existing invariant still applies: `matched_text` must equal the assessed source slice at `source[start_char:end_char]`.

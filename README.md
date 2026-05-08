@@ -10,6 +10,18 @@ The framework's primary practical instrument is the **Pre-Deployment Coherence A
 
 ---
 
+## Process a document with LAIF
+
+Use the Phase 3T document runner to extract text from a local document, run the existing LAIF assessment, and write markdown/JSON outputs without custom Python snippets:
+
+```bash
+python3 scripts/laif_process_document.py path/to/document.docx
+```
+
+The runner defaults to `external_framework` diagnostic mode, writes to `laif_outputs/`, and supports `.txt`/`.md` with the built-in reader. `.docx` and `.pdf` support is available when optional local extractors such as Docling, MarkItDown, `python-docx`, or `pypdf` are installed. See `docs/governance/DOCUMENT_PROCESSING_RUNNER.md` for extractor strategy, metadata, and privacy boundaries.
+
+---
+
 ## Assessment Modes
 
 | Mode | Purpose | Result meaning |

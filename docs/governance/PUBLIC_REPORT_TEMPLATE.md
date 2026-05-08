@@ -81,3 +81,7 @@ Future work may add optional audience-specific front matter, export profiles, ac
 ## Phase 3S System QA Release Audit Reference
 
 See [SYSTEM_QA_RELEASE_AUDIT.md](SYSTEM_QA_RELEASE_AUDIT.md) for the release-readiness audit boundary covering validation/certification separation, diagnostic modes, evidence, remediation, sector profiles, calibration, public reporting, protected artifacts, and verified corpus limits. That audit is documentation/test-only and does not change runtime behavior.
+
+## Document Runner Report Metadata
+
+Reports generated through the Phase 3T document processing runner include an extraction metadata block before the standard public report content. That metadata identifies the input file, extractor used, extracted character count, warnings, assessment mode, and sector profile. The added metadata is diagnostic/presentation-only and does not change scoring, validation, LAIF-native certification, evidence trace generation, remediation patch generation, calibration metadata, or public report safety boundaries.

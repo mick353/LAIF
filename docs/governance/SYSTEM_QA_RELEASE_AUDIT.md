@@ -130,3 +130,9 @@ Any future hardening that changes runtime behavior, scoring, validation, certifi
 Phase 3S finds LAIF release-ready as a structural governance diagnostic baseline when interpreted within the documented boundaries: strict LAIF-native certification remains separate from diagnostic assessment; external framework assessment remains diagnostic; public reports remain presentation-only; evidence, remediation, sector, and calibration metadata remain bounded; and protected artifacts plus verified corpus/manifests remain unchanged.
 
 Final release audit finding: no release-blocking defect is identified by this audit pack unless the accompanying deterministic tests or required gates fail in the target environment.
+
+## Phase 3T Document Runner Note
+
+The Phase 3T document processing runner is a local user-facing wrapper over existing assessment behavior. It extracts text, records extraction metadata, and invokes the current assessment/reporting path. It does not change audit boundaries, scoring, validation, LAIF-native certification, evidence traces, remediation patches, sector profiles, calibration metadata, governance checks, protected artifacts, manifests, verified corpus files, or committed generated reports.
+
+Formal LAIF-native failure remains failure even when an ingested document has high semantic, sector, evidence, or calibration proximity.
