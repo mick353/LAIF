@@ -1,0 +1,118 @@
+name: LAIF Process Pending Documents
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Assessment mode
+        required: true
+        type: choice
+        default: external_framework
+        options:
+          - external_framework
+          - laif_native
+      sector:
+        description: Sector profile
+        required: true
+        type: choice
+        default: auto
+        options:
+          - auto
+          - general_ai_governance
+          - government_service_delivery
+          - departmental_ai_development
+          - procurement_vendor_governance
+          - clinical_ai
+          - employment_hr_ai
+          - education_ai
+      extractor:
+        description: Local extractor strategy
+        required: true
+        type: choice
+        default: auto
+        options:
+          - auto
+          - builtin
+          - docling
+          - markitdown
+          - python-docx
+          - pypdf
+      commit_outputs:
+        description: Commit processed/failed outputs and batch summaries back to the repository
+        required: true
+        type: boolean
+        default: false
+      commit_mode:
+        description: Pending source handling mode
+        required: true
+        type: choice
+        default: copy
+        options:
+          - copy
+          - move
+          - archive
+      reprocess:
+        description: Process documents again even when a prior source_sha256 exists
+        required: true
+        type: boolean
+        default: false
+      max_files:
+        description: Maximum supported pending files to attempt
+        required: true
+        default: "20"
+
+permissions:
+  contents: write
+
+jobs:
+  process-pending-documents:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install lightweight document extractors
+        run: python -m pip install --upgrade python-docx pypdf
+
+      - name: Process pending documents
+        run: |
+          REPROCESS_FLAG=""
+          if [ "${{ inputs.reprocess }}" = "true" ]; then
+            REPROCESS_FLAG="--reprocess"
+          fi
+          python scripts/laif_batch_process_pending.py \
+            --mode "${{ inputs.mode }}" \
+            --sector "${{ inputs.sector }}" \
+            --extractor "${{ inputs.extractor }}" \
+            --commit-mode "${{ inputs.commit_mode }}" \
+            --max-files "${{ inputs.max_files }}" \
+            ${REPROCESS_FLAG}
+
+      - name: Upload batch processing artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: laif-batch-processing-results
+          if-no-files-found: warn
+          path: |
+            laif_inputs/processed/**
+            laif_inputs/failed/**
+            laif_inputs/batch_summaries/**
+            laif_batch_summary.json
+
+      - name: Commit batch outputs
+        if: ${{ inputs.commit_outputs == true }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add laif_inputs/processed laif_inputs/failed laif_inputs/batch_summaries laif_batch_summary.json
+          if git diff --cached --quiet; then
+            echo "No batch outputs to commit."
+          else
+            git commit -m "Add LAIF batch processing outputs"
+            git push
+          fi

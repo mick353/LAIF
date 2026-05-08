@@ -134,3 +134,7 @@ Any future hardening that changes runtime behavior, scoring, validation, certifi
 Phase 3S finds LAIF release-ready as a structural governance diagnostic baseline when interpreted within the documented boundaries: strict LAIF-native certification remains separate from diagnostic assessment; external framework assessment remains diagnostic; public reports remain presentation-only; evidence, remediation, sector, and calibration metadata remain bounded; and protected artifacts plus verified corpus/manifests remain unchanged.
 
 Final release audit finding: no release-blocking defect is identified by this audit pack unless the accompanying deterministic tests or required gates fail in the target environment.
+
+## Phase 3U orchestration boundary
+
+Phase 3U GitHub Actions batch document processing is orchestration only. It preserves LAIF semantic, scoring, certification, validation, governance, protected-artifact, and verified-corpus boundaries by shelling to the Phase 3T document runner for individual documents and by avoiding any change to `assessment_engine.py`, `validate.py`, governance scripts, protected manifests, verified artifacts, or root-level generated reports.
