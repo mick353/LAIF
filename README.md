@@ -10,6 +10,20 @@ The framework's primary practical instrument is the **Pre-Deployment Coherence A
 
 ---
 
+## Document Ingestion Runner
+
+Run a local document through the LAIF diagnostic assessment wrapper with:
+
+```bash
+python3 scripts/laif_process_document.py INPUT_FILE
+```
+
+By default, the runner extracts local `.txt`, `.md`, or `.markdown` text with the built-in extractor, optionally uses installed Docling, MarkItDown, python-docx, or pypdf/PyPDF2 extractors for richer local document formats, and writes markdown and JSON outputs under `laif_outputs/` plus an append-only `laif_processing_index.jsonl`. The runner preserves the original file name, source SHA-256, processing timestamp, and output paths in markdown, JSON, and the processing index. Use `--no-write` for a dry run that creates no markdown, JSON, or index files.
+
+See `docs/governance/DOCUMENT_PROCESSING_RUNNER.md` for extractor strategy, processing identity fields, output schema, and boundary rules.
+
+---
+
 ## Assessment Modes
 
 | Mode | Purpose | Result meaning |

@@ -12,6 +12,10 @@ The release scope covers documentation and reproducible audit tests for architec
 
 No scoring weights, rubric pattern logic, validation gates, certification logic, evidence extraction behavior, remediation generation behavior, sector profile logic, calibration metadata logic, governance checks, protected artifacts, verified corpus files, manifests, or committed generated reports are changed by this audit.
 
+## Document Processing Runner Boundary
+
+The Phase 3T document processing runner is a wrapper around local extraction, `assess(...)`, and `generate_markdown_report([result])`. It does not change audit boundaries, validation semantics, scoring, certification behavior, governance checks, protected artifacts, verified corpus/manifests, or generated report commitments.
+
 ## Architecture Boundary Map
 
 validate.py remains the binary validation/certification harness. It is the strict LAIF-native enforcement path for certification-oriented validation and must not be bypassed by scalar diagnostic outputs.
