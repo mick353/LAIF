@@ -134,3 +134,12 @@ Each JSONL record contains:
 ## Boundary Statement
 
 The document runner is an ingestion and reporting convenience layer. It assesses extracted text using the existing assessment engine and renders existing report logic. It does not modify `assessment_engine.py`, `validate.py`, scoring/certification behavior, formal compliance behavior, governance scripts/config, protected artifacts, verified corpus/manifests, or committed generated reports.
+
+## Batch Processing Summary History
+
+`scripts/laif_batch_process_pending.py` wraps this runner for pending-directory batches. Each batch invocation creates a `batch_run_id` using `<UTC compact timestamp>__batch` and writes both the latest summary pointer and the timestamped summary history file:
+
+- `laif_batch_summary.json` is the latest summary and may be overwritten by the next batch run.
+- `laif_inputs/batch_summaries/<batch_run_id>.json` is the permanent per-run summary history and should not be overwritten by repeated runs.
+
+Both summary files include `batch_run_id` and `timestamped_summary_path`, allowing the latest pointer to be traced to the preserved historical summary. The batch wrapper preserves the runner boundary: it does not modify `assessment_engine.py`, `validate.py`, scoring/certification behavior, formal compliance behavior, governance scripts/config, protected artifacts, verified corpus/manifests, or committed generated reports under `reports/`.

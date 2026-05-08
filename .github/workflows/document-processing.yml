@@ -1,0 +1,76 @@
+name: LAIF Document Processing
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_files:
+        description: Maximum pending files to process
+        required: false
+        default: '25'
+      commit_outputs:
+        description: Commit processed, failed, and batch summary outputs
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: laif-document-processing-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  process-pending:
+    name: Process pending LAIF documents
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Compile document processors
+        run: python3 -m py_compile scripts/laif_batch_process_pending.py scripts/laif_process_document.py
+
+      - name: Process pending documents
+        run: |
+          python3 scripts/laif_batch_process_pending.py \
+            --pending-dir laif_inputs/pending \
+            --processed-dir laif_inputs/processed \
+            --failed-dir laif_inputs/failed \
+            --batch-summaries-dir laif_inputs/batch_summaries \
+            --output-summary laif_batch_summary.json \
+            --max-files "${{ github.event.inputs.max_files || '25' }}"
+
+      - name: Upload processing artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: laif-document-processing-${{ github.run_id }}
+          path: |
+            laif_inputs/processed/**
+            laif_inputs/failed/**
+            laif_inputs/batch_summaries/**
+            laif_batch_summary.json
+
+      - name: Commit processing outputs
+        if: ${{ github.event.inputs.commit_outputs == 'true' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add laif_inputs/processed laif_inputs/failed laif_inputs/batch_summaries laif_batch_summary.json
+          if git diff --cached --quiet; then
+            echo "No processing outputs to commit."
+          else
+            git commit -m "Commit LAIF document processing outputs"
+            git push
+          fi

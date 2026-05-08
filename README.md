@@ -141,6 +141,12 @@ LAIF applies to regulatory bodies and governance actors themselves — not only 
 
 ---
 
+## GitHub Actions Document Processing
+
+The optional LAIF document-processing workflow processes local pending inputs from `laif_inputs/pending` and writes timestamped processed/failed outputs. Batch summaries have both a latest pointer and preserved history: `laif_batch_summary.json` is the latest summary, while `laif_inputs/batch_summaries/<batch_run_id>.json` preserves permanent per-run summary history so repeated runs do not overwrite historical summaries.
+
+`commit_outputs` defaults to `false`. If explicitly enabled, the workflow commits `laif_inputs/processed`, `laif_inputs/failed`, `laif_inputs/batch_summaries`, and `laif_batch_summary.json`. See `docs/governance/GITHUB_ACTIONS_DOCUMENT_PROCESSING.md` for workflow details and privacy warnings.
+
 ## Repository Contents
 
 | File | Format | Description |
