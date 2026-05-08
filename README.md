@@ -8,6 +8,8 @@ LAIF can be used diagnostically to examine laws, standards, government policies,
 
 The framework's primary practical instrument is the **Pre-Deployment Coherence Assessment (PDCA)**, a structured audit process designed to identify whether governance commitments have enough institutional force to be verified, enforced, escalated, and reversed where necessary. LAIF can integrate with existing regulatory frameworks (EU AI Act, NIST AI RMF, US federal requirements) without claiming to replace their legal authority.
 
+The runner preserves original file name, source hash, processing timestamp, and output paths in JSON/markdown metadata and an output-directory JSONL index.
+
 ---
 
 ## Assessment Modes
