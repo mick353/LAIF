@@ -61,7 +61,7 @@ The Integrity Layer assesses whether the Policy structurally requires AI systems
 
 **A.1 Structural Transparency — MODERATE**
 
-The Policy mandates transparency through two distinct mechanisms: (1) agency-level transparency statements, and (2) the AI use case impact assessment tool, which includes transparency and explainability as a assessed dimension.
+The Policy mandates transparency through two distinct mechanisms: (1) agency-level transparency statements, and (2) the AI use case impact assessment tool, which includes transparency and explainability as an assessed dimension.
 
 Agency transparency statement requirements (Standard for AI transparency statements) mandate that agencies publish statements covering: intentions behind AI adoption, classification of AI use, overview of compliance with Policy requirements, and compliance with applicable legislation. Statements must be published on public-facing websites and updated annually or upon significant change.
 
@@ -292,7 +292,7 @@ The following maps key Policy provisions to the most relevant LAIF v1.2 Provisio
 ## OVERALL VERDICT — AUS POLICY FOR RESPONSIBLE USE OF AI v2.0
 
 | Dimension | Finding |
-|---|
+|---|---|
 | **Q1a Structural Pairing** | **IMPLICIT** |
 | **Q1b Enforcement Strength** | **SOFT** |
 | **Q2 Consistency** | **PARTIAL PASS** |
@@ -364,7 +364,7 @@ Add to the impact assessment tool a requirement for deployers to document the op
 ## INGESTION STATUS AND NEXT STEPS
 
 | Item | Status |
-|---|
+|---|---|
 | Policy v2.0 full-text ingestion | BLOCKED — HTTP 403 on all automated access attempts |
 | This assessment | REPRESENTATIVE RESEARCH ASSESSMENT — not authoritative |
 | Authoritative assessment | Requires human-initiated download of policy PDF from digital.gov.au |
