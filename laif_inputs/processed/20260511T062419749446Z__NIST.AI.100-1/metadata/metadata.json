@@ -1,0 +1,20 @@
+{
+  "commit_mode": "copy",
+  "extractor": "auto",
+  "finished_at_utc": "2026-05-11T06:24:20Z",
+  "metadata_dir": "laif_inputs/processed/20260511T062419749446Z__NIST.AI.100-1/metadata",
+  "mode": "external_framework",
+  "original_source_path": "laif_inputs/pending/NIST.AI.100-1.pdf",
+  "processed_at_utc": "2026-05-11T06:24:20Z",
+  "reports_dir": "laif_inputs/processed/20260511T062419749446Z__NIST.AI.100-1/reports",
+  "returncode": 0,
+  "run_id": "20260511T062419749446Z__NIST.AI.100-1",
+  "sector": "government_service_delivery",
+  "source_file_name": "NIST.AI.100-1.pdf",
+  "source_sha256": "7576edb531d9848825814ee88e28b1795d3a84b435b4b797d3670eafdc4a89f1",
+  "started_at_utc": "2026-05-11T06:24:19Z",
+  "status": "success",
+  "stderr": "",
+  "stdout": "Original input path: laif_inputs/processed/20260511T062419749446Z__NIST.AI.100-1/source/NIST.AI.100-1.pdf\nResolved input path: /home/runner/work/LAIF/LAIF/laif_inputs/processed/20260511T062419749446Z__NIST.AI.100-1/source/NIST.AI.100-1.pdf\nOriginal file name: NIST.AI.100-1.pdf\nProcessed at UTC: 2026-05-11T06:24:20Z\nSource SHA-256: 7576edb531d9848825814ee88e28b1795d3a84b435b4b797d3670eafdc4a89f1\nExtractor used: pypdf\nExtracted characters: 106492\nAssessment mode: external_framework\nSector profile: government_service_delivery\nMarkdown report: laif_inputs/processed/20260511T062419749446Z__NIST.AI.100-1/reports/NIST.AI.100-1.laif.md\nJSON report: laif_inputs/processed/20260511T062419749446Z__NIST.AI.100-1/reports/NIST.AI.100-1.laif.json\nProcessing index: laif_inputs/processed/20260511T062419749446Z__NIST.AI.100-1/reports/laif_processing_index.jsonl\n",
+  "stored_source_path": "laif_inputs/processed/20260511T062419749446Z__NIST.AI.100-1/source/NIST.AI.100-1.pdf"
+}

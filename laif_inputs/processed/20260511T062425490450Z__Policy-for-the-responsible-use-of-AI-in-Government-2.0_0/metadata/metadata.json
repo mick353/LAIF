@@ -1,0 +1,20 @@
+{
+  "commit_mode": "copy",
+  "extractor": "auto",
+  "finished_at_utc": "2026-05-11T06:24:26Z",
+  "metadata_dir": "laif_inputs/processed/20260511T062425490450Z__Policy-for-the-responsible-use-of-AI-in-Government-2.0_0/metadata",
+  "mode": "external_framework",
+  "original_source_path": "laif_inputs/pending/Policy for the responsible use of AI in Government 2.0_0.pdf",
+  "processed_at_utc": "2026-05-11T06:24:26Z",
+  "reports_dir": "laif_inputs/processed/20260511T062425490450Z__Policy-for-the-responsible-use-of-AI-in-Government-2.0_0/reports",
+  "returncode": 0,
+  "run_id": "20260511T062425490450Z__Policy-for-the-responsible-use-of-AI-in-Government-2.0_0",
+  "sector": "government_service_delivery",
+  "source_file_name": "Policy for the responsible use of AI in Government 2.0_0.pdf",
+  "source_sha256": "94beda4e6e9f61e0dd5d5f17b45b18cf6015b20fd9aabe41d20318f725273c11",
+  "started_at_utc": "2026-05-11T06:24:25Z",
+  "status": "success",
+  "stderr": "",
+  "stdout": "Original input path: laif_inputs/processed/20260511T062425490450Z__Policy-for-the-responsible-use-of-AI-in-Government-2.0_0/source/Policy for the responsible use of AI in Government 2.0_0.pdf\nResolved input path: /home/runner/work/LAIF/LAIF/laif_inputs/processed/20260511T062425490450Z__Policy-for-the-responsible-use-of-AI-in-Government-2.0_0/source/Policy for the responsible use of AI in Government 2.0_0.pdf\nOriginal file name: Policy for the responsible use of AI in Government 2.0_0.pdf\nProcessed at UTC: 2026-05-11T06:24:25Z\nSource SHA-256: 94beda4e6e9f61e0dd5d5f17b45b18cf6015b20fd9aabe41d20318f725273c11\nExtractor used: pypdf\nExtracted characters: 33440\nAssessment mode: external_framework\nSector profile: government_service_delivery\nMarkdown report: laif_inputs/processed/20260511T062425490450Z__Policy-for-the-responsible-use-of-AI-in-Government-2.0_0/reports/Policy-for-the-responsible-use-of-AI-in-Government-2.0_0.laif.md\nJSON report: laif_inputs/processed/20260511T062425490450Z__Policy-for-the-responsible-use-of-AI-in-Government-2.0_0/reports/Policy-for-the-responsible-use-of-AI-in-Government-2.0_0.laif.json\nProcessing index: laif_inputs/processed/20260511T062425490450Z__Policy-for-the-responsible-use-of-AI-in-Government-2.0_0/reports/laif_processing_index.jsonl\n",
+  "stored_source_path": "laif_inputs/processed/20260511T062425490450Z__Policy-for-the-responsible-use-of-AI-in-Government-2.0_0/source/Policy for the responsible use of AI in Government 2.0_0.pdf"
+}
