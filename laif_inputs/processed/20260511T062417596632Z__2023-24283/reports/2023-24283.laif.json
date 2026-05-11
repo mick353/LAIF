@@ -1,0 +1,635 @@
+{
+  "assessment_result": {
+    "assessment_mode": "external_framework",
+    "auditability_score": 60,
+    "calibration_cautions": [
+      {
+        "caution_id": "conceptual-high-terminology-low",
+        "implication": "The source may be conceptually adjacent to LAIF while remaining outside LAIF-native certification language.",
+        "message": "High conceptual LAIF-model signal appears with low canonical terminology signal.",
+        "recommended_review": "Review whether any LAIF-native adoption is intended and verify authority, evidence, and structural controls before drawing conclusions.",
+        "type": "score_divergence"
+      },
+      {
+        "caution_id": "evidence-high-formal-fail",
+        "implication": "Source presence supports diagnostics but cannot override formal LAIF-native failure.",
+        "message": "Multiple evidence traces are present while formal LAIF-native compliance remains failed.",
+        "recommended_review": "Confirm whether traced text implements authority, responsible actor, control, consequence, and auditability rather than only stating concepts.",
+        "type": "evidence_boundary"
+      }
+    ],
+    "compliance_summary": {
+      "contradictions": "NONE",
+      "final": "FAIL",
+      "formal": "FAIL",
+      "sector_gaming": "LOW",
+      "structural_depth": "WEAK"
+    },
+    "conceptual_directionality_penalised": false,
+    "conceptual_proximity_score": 66,
+    "construct_coverage": {
+      "Coherence Test": false,
+      "Consistency": true,
+      "Coupling": false,
+      "Integrity Layer": false,
+      "Reversibility": false,
+      "Structural Containment": false,
+      "Structural Honesty": false,
+      "Structural Transparency": false
+    },
+    "contradictions": [],
+    "coupling_quality": "ABSENT",
+    "coupling_quality_evidence": "",
+    "coupling_quality_reason": "Coupling not present in document",
+    "coupling_state": "IMPLICIT",
+    "deployment_risk": "HIGH",
+    "deployment_risk_tier": "HIGH",
+    "dimension_justifications": [
+      {
+        "band": "partial LAIF-model signal",
+        "calibration_note": "Structural governance architecture shows partial LAIF-model signal. Interpret the score with fired/missed signals, source evidence, responsible actor, trigger, control, reversibility, consequence, and auditability review; it is not a compliance finding.",
+        "dimension": "structural",
+        "dominant_gaps": [
+          "risk stratification / proportionality",
+          "non-amendable constitutional hierarchy",
+          "self-application clause (Part Seven)"
+        ],
+        "dominant_strengths": [
+          "numbered sub-requirements",
+          "mandatory obligation language (shall)",
+          "full lifecycle scope declared"
+        ],
+        "fired_signal_count": 6,
+        "gaming_caution": "Rubric visibility is not permission for keyword stuffing; structural evidence, accountable control, reversibility, consequence, and auditability must be reviewed.",
+        "interpretation": "partial LAIF-model signal; diagnostic interpretation only, not a legal verdict, and requires evidence/authority verification before any governance conclusion is drawn.",
+        "missed_signal_count": 4,
+        "score": 49
+      },
+      {
+        "band": "minimal LAIF-model signal",
+        "calibration_note": "Canonical terminology shows minimal LAIF-model signal. Interpret the score with fired/missed signals, source evidence, responsible actor, trigger, control, reversibility, consequence, and auditability review; it is not a compliance finding.",
+        "dimension": "terminology",
+        "dominant_gaps": [
+          "Coupling",
+          "Coherence Test",
+          "Integrity Layer"
+        ],
+        "dominant_strengths": [],
+        "fired_signal_count": 0,
+        "gaming_caution": "Rubric visibility is not permission for keyword stuffing; structural evidence, accountable control, reversibility, consequence, and auditability must be reviewed.",
+        "interpretation": "minimal LAIF-model signal; diagnostic interpretation only, not a legal verdict, and requires evidence/authority verification before any governance conclusion is drawn.",
+        "missed_signal_count": 7,
+        "score": 0
+      },
+      {
+        "band": "substantial LAIF-model signal",
+        "calibration_note": "Conceptual proximity shows substantial LAIF-model signal. Interpret the score with fired/missed signals, source evidence, responsible actor, trigger, control, reversibility, consequence, and auditability review; it is not a compliance finding.",
+        "dimension": "conceptual",
+        "dominant_gaps": [
+          "explainability / interpretability",
+          "proportionality",
+          "reversibility / modifiability"
+        ],
+        "dominant_strengths": [
+          "human rights / fundamental interests",
+          "transparency",
+          "accountability"
+        ],
+        "fired_signal_count": 8,
+        "gaming_caution": "Rubric visibility is not permission for keyword stuffing; structural evidence, accountable control, reversibility, consequence, and auditability must be reviewed.",
+        "interpretation": "substantial LAIF-model signal; diagnostic interpretation only, not a legal verdict, and requires evidence/authority verification before any governance conclusion is drawn.",
+        "missed_signal_count": 4,
+        "score": 66
+      },
+      {
+        "band": "substantial LAIF-model signal",
+        "calibration_note": "Auditability shows substantial LAIF-model signal. Interpret the score with fired/missed signals, source evidence, responsible actor, trigger, control, reversibility, consequence, and auditability review; it is not a compliance finding.",
+        "dimension": "auditability",
+        "dominant_gaps": [
+          "multiple mandatory obligations (shall … shall)",
+          "specific, measurable obligations"
+        ],
+        "dominant_strengths": [
+          "numbered traceable requirements",
+          "evidence / documentation requirements",
+          "review / monitoring mechanisms"
+        ],
+        "fired_signal_count": 3,
+        "gaming_caution": "Rubric visibility is not permission for keyword stuffing; structural evidence, accountable control, reversibility, consequence, and auditability must be reviewed.",
+        "interpretation": "substantial LAIF-model signal; diagnostic interpretation only, not a legal verdict, and requires evidence/authority verification before any governance conclusion is drawn.",
+        "missed_signal_count": 2,
+        "score": 60
+      },
+      {
+        "band": "strong LAIF-model signal",
+        "calibration_note": "Enforceability shows strong LAIF-model signal. Interpret the score with fired/missed signals, source evidence, responsible actor, trigger, control, reversibility, consequence, and auditability review; it is not a compliance finding.",
+        "dimension": "enforceability",
+        "dominant_gaps": [
+          "risk-proportionate thresholds"
+        ],
+        "dominant_strengths": [
+          "mandatory language (shall)",
+          "named responsible parties",
+          "enforcement consequences / penalties"
+        ],
+        "fired_signal_count": 4,
+        "gaming_caution": "Rubric visibility is not permission for keyword stuffing; structural evidence, accountable control, reversibility, consequence, and auditability must be reviewed.",
+        "interpretation": "strong LAIF-model signal; diagnostic interpretation only, not a legal verdict, and requires evidence/authority verification before any governance conclusion is drawn.",
+        "missed_signal_count": 1,
+        "score": 80
+      }
+    ],
+    "document_name": "2023-24283",
+    "enforceability_score": 80,
+    "evidence_traces": [
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 916,
+        "evidence_type": "sector_profile_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\b(?:benefit|eligibility|entitlement|licen[cs]e|permit)\\b",
+        "matched_text": "benefit",
+        "normalized_match": "benefit",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 909,
+        "supports": "sector profile signal: service eligibility / entitlement decision",
+        "trace_id": "LAIF-TRACE-01-sector-profile-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 9,
+        "evidence_type": "sector_profile_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\b(?:claimant|citizen|resident|service user|applicant)\\b",
+        "matched_text": "resident",
+        "normalized_match": "resident",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 1,
+        "supports": "sector profile signal: affected service user population",
+        "trace_id": "LAIF-TRACE-02-sector-profile-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 92428,
+        "evidence_type": "sector_profile_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\b(?:administrative review|appeal|reconsideration|reasons for decision)\\b",
+        "matched_text": "appeal",
+        "normalized_match": "appeal",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 92422,
+        "supports": "sector profile signal: review / reasons pathway",
+        "trace_id": "LAIF-TRACE-03-sector-profile-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 10244,
+        "evidence_type": "sector_profile_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\b(?:caseworker|service delivery|public service|agency decision)\\b",
+        "matched_text": "public service",
+        "normalized_match": "public service",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 10230,
+        "supports": "sector profile signal: service-delivery operational actor",
+        "trace_id": "LAIF-TRACE-04-sector-profile-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 92428,
+        "evidence_type": "provenance_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\b(?:administrative review|appeal|reconsideration)\\b",
+        "matched_text": "appeal",
+        "normalized_match": "appeal",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 92422,
+        "supports": "sector profile signal: review pathway record",
+        "trace_id": "LAIF-TRACE-05-provenance-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 20175,
+        "evidence_type": "provenance_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\bservice-impact (?:record|assessment)\\b|\\bimpact assessment\\b",
+        "matched_text": "impact assessment",
+        "normalized_match": "impact assessment",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 20158,
+        "supports": "sector profile signal: service-impact record",
+        "trace_id": "LAIF-TRACE-06-provenance-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 397,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\bArticle\\s+\\d+|GOVERN\\s+\\d+\\.\\d+|Section\\s+\\d+\\.?\\d*",
+        "matched_text": "Section 1.",
+        "normalized_match": "section 1.",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 387,
+        "supports": "structural signal: numbered sub-requirements",
+        "trace_id": "LAIF-TRACE-07-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 2220,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\bshall\\b",
+        "matched_text": "shall",
+        "normalized_match": "shall",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 2215,
+        "supports": "structural signal: mandatory obligation language (shall)",
+        "trace_id": "LAIF-TRACE-08-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 99855,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\blifecycle\\b",
+        "matched_text": "lifecycle",
+        "normalized_match": "lifecycle",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 99846,
+        "supports": "structural signal: full lifecycle scope declared",
+        "trace_id": "LAIF-TRACE-09-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 2732,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\b(?:mechanisms?|safeguards?|measures?)\\b",
+        "matched_text": "mechanisms",
+        "normalized_match": "mechanisms",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 2722,
+        "supports": "structural signal: operational mechanisms defined",
+        "trace_id": "LAIF-TRACE-10-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 48175,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\b(?:monitor|audit|review|inspect|evaluat)\\b",
+        "matched_text": "review",
+        "normalized_match": "review",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 48169,
+        "supports": "structural signal: review / monitoring mechanisms",
+        "trace_id": "LAIF-TRACE-11-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 4284,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\bprecondition\\b|all\\s+(?:three|four|five)\\s+(?:must|shall)\\b|\\bsimultaneously\\b",
+        "matched_text": "simultaneously",
+        "normalized_match": "simultaneously",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 4270,
+        "supports": "structural signal: threshold gate conditions (all must pass simultaneously)",
+        "trace_id": "LAIF-TRACE-12-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 11898,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\bhuman rights\\b|\\bfundamental rights\\b|\\bhuman interests?\\b",
+        "matched_text": "human rights",
+        "normalized_match": "human rights",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 11886,
+        "supports": "conceptual signal: human rights / fundamental interests",
+        "trace_id": "LAIF-TRACE-13-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 21329,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\btransparency\\b|\\btransparent\\b",
+        "matched_text": "transparent",
+        "normalized_match": "transparent",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 21318,
+        "supports": "conceptual signal: transparency",
+        "trace_id": "LAIF-TRACE-14-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 7459,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\baccountability\\b|\\baccountable\\b",
+        "matched_text": "accountable",
+        "normalized_match": "accountable",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 7448,
+        "supports": "conceptual signal: accountability",
+        "trace_id": "LAIF-TRACE-15-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 7323,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\boversight\\b|\\bhuman determination\\b|\\bhuman.in.the.loop\\b",
+        "matched_text": "oversight",
+        "normalized_match": "oversight",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 7314,
+        "supports": "conceptual signal: human oversight",
+        "trace_id": "LAIF-TRACE-16-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 5875,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\bsafety\\b",
+        "matched_text": "safety",
+        "normalized_match": "safety",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 5869,
+        "supports": "conceptual signal: safety",
+        "trace_id": "LAIF-TRACE-17-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 92428,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\bcontest\\w*\\b|\\bappeal\\b|\\bchallenge\\b|\\bredress\\b|\\bremedies\\b",
+        "matched_text": "appeal",
+        "normalized_match": "appeal",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 92422,
+        "supports": "conceptual signal: contestability / redress",
+        "trace_id": "LAIF-TRACE-18-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 7032,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\brisk\\s+(?:management|assessment|governance|control)\\b",
+        "matched_text": "Risk Management",
+        "normalized_match": "risk management",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 7017,
+        "supports": "conceptual signal: risk governance",
+        "trace_id": "LAIF-TRACE-19-governance-force-signal"
+      },
+      {
+        "assessment_mode": "external_framework",
+        "confidence": "deterministic_pattern",
+        "end_char": 801,
+        "evidence_type": "governance_force_signal",
+        "legal_authority_boundary": "Evidence traces are deterministic source-support metadata. They do not determine legal validity or certify LAIF-native compliance.",
+        "match_rule": "regex:\\bworkers?\\b|\\blabour\\s+rights?\\b|\\bfairness\\b|\\bnon.discriminat\\b",
+        "matched_text": "workers",
+        "normalized_match": "workers",
+        "source_document": "2023-24283",
+        "source_type": "uploaded_document",
+        "start_char": 794,
+        "supports": "conceptual signal: fairness / labour / non-discrimination",
+        "trace_id": "LAIF-TRACE-20-governance-force-signal"
+      }
+    ],
+    "executive_summary": {
+      "position_assessment": {
+        "contains": [
+          "Consistency",
+          "implicit Coupling signals (protective intent present)"
+        ],
+        "not_enforced": [
+          "Coupling not structurally declared — restrictions not bound to human interests",
+          "Coherence Test not applied — Q1/Q2/Q3 not documented",
+          "Integrity Layer not declared as a deployment precondition"
+        ],
+        "result": "Conceptually aligned, structurally incomplete"
+      },
+      "risks": [
+        "Coupling not structurally declared: no governance restriction is paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)",
+        "Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Each required LAIF-native construct remains necessary for certification regardless of overall readiness score."
+      ],
+      "strengths": [
+        "High conceptual proximity (66/100): accountability, oversight, transparency, and contestability are expressed through the document's own vocabulary. The adoption pathway is terminological and structural, not conceptual — the underlying intent is already present.",
+        "Strong sector risk alignment (80/100): the document addresses the materially relevant human interests for the Government Service Delivery deployment context.",
+        "Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified."
+      ],
+      "verdict": "This document does not pass the formal LAIF-native certification gate. Required constructs absent: all 8 required constructs. Overall readiness score: 53/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.",
+      "why": "Primary structural gap: Coupling not structurally declared."
+    },
+    "external_framework_assessment": {
+      "canonical_terminology_note": "Missing LAIF canonical terminology means not LAIF-native / canonical remediation required for LAIF certification; it is not a legal-validity or governance-validity determination.",
+      "certification_notice": "External framework structural assessment is diagnostic and is not LAIF-native certification.",
+      "laif_native_certification_status": "FAIL / NOT LAIF-NATIVE",
+      "legal_or_governance_invalidity_claimed": false,
+      "not_laif_native_certification": true,
+      "structural_assessment": "diagnostic",
+      "type": "diagnostic"
+    },
+    "formal_checks_detail": [
+      ["Coupling", false],
+      ["Integrity Layer", false],
+      ["Coherence Test", false],
+      ["PART ONE / Foundational Principles", false],
+      ["non-amendable clause", false],
+      ["self-application clause", false],
+      ["Integrity Layer FINDING block", false],
+      ["Coherence Test FINDING block", false]
+    ],
+    "formal_laif_compliance": "FAIL",
+    "formal_laif_native_compliance": "FAIL",
+    "gaming_risk_notes": [
+      {
+        "message": "Possible keyword or signal density risk; requires structural evidence review. This is not a finding of bad faith and not a legal invalidity claim.",
+        "note_id": "sector-density-over-readiness",
+        "recommended_review": "Check whether sector-specific language is backed by accountable controls, evidence artifacts, reversibility, escalation, and consequences.",
+        "trigger": "sector risk alignment materially exceeds overall readiness",
+        "type": "anti_gaming"
+      }
+    ],
+    "gaps": [
+      "Canonical LAIF terms absent: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
+      "LAIF structural element missing: non-amendable constitutional hierarchy",
+      "LAIF structural element missing: self-application clause (Part Seven)",
+      "LAIF structural element missing: named decision instrument (Coherence Test / PDCA)"
+    ],
+    "governance_signal": {"score": 68, "tier": "MODERATE"},
+    "implicit_coupling": {
+      "found": true,
+      "matches": ["e of authorities to protect American consumers  from fraud, discrimination, and threats to privacy and to addres"]
+    },
+    "laif_canonical_remediation_required": true,
+    "not_laif_native": true,
+    "original_file_name": "2023-24283.pdf",
+    "overall_readiness_score": 53,
+    "paraphrase_violations": {},
+    "primary_failure_modes": [
+      "structural — constitutional hierarchy not declared",
+      "terminological — no canonical LAIF terms present"
+    ],
+    "processed_at_utc": "2026-05-11T06:24:18Z",
+    "recommended_remediation_steps": [
+      "Declare structural Coupling for each governance restriction: explicitly identify the specific human interest at stake (not a category — name it with specificity, e.g. 'the patient’s interest in receiving treatment decisions based on accurate clinical assessment') and pair it with a protection of equivalent normative force. The restriction and its paired protection must not be capable of being weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).",
+      "Apply the Coherence Test before any governance provision is issued or deployment authorised: Q1 Coupling (does the deployment identify and protect the specific human interest at risk?), Q2 Consistency (would this governance logic produce just and workable outcomes at all comparable scales?), Q3 Reversibility (does the deployment preserve the capacity of future actors to reverse or modify its consequences?). All three must be answered affirmatively. Failure at Q1 constitutes automatic failure of the full test (LAIF v1.2 Part One).",
+      "Establish the Integrity Layer as a deployment precondition: A.1 Structural Transparency (system can produce a compliant meaningful account of any material output), A.2 Structural Honesty (stated objectives correspond to implemented objectives, verified by independent review), A.3 Structural Containment (system operates within documented operational boundaries in all tested conditions including edge cases). All three must be satisfied simultaneously before deployment proceeds. Partial satisfaction is failure — there is no partial credit (LAIF v1.2 Part Two; Toolkit §1.3–§1.5).",
+      "Adopt LAIF canonical terminology throughout the document. Replace informal equivalents with precise terms: 'alignment/connection/linkage' → 'Coupling'; 'integrity conditions/requirements' → 'Integrity Layer'; 'coherence check' → 'Coherence Test'; 'transparency requirements' → 'Structural Transparency'; 'honesty requirements' → 'Structural Honesty'; 'boundary controls' → 'Structural Containment'. Each canonical term carries structural enforcement meaning that paraphrases do not (LAIF_Compliance_Toolkit.txt §1).",
+      "Declare a non-amendable constitutional hierarchy with three tiers: (i) Foundational Principles at the apex — non-amendable, define the governance standard; (ii) Provisions derived from Principles — cannot contradict Principles; (iii) Operational Standards (Toolkit-level definitions) — subordinate to Provisions, revisable without amending Principles. This hierarchy is not optional — it prevents operational revision from eroding constitutional guarantees (LAIF v1.2 Principle 3).",
+      "For service-delivery decisions, identify the protected public interest, decision trigger, reasons-for-decision record, administrative review pathway, and records-retention owner.",
+      "Assign a service-delivery policy owner with administrative review and records authority support for evidence, correction, and escalation controls."
+    ],
+    "remediation_effort": "HIGH",
+    "remediation_patches": [],
+    "score_breakdown": {
+      "auditability": {
+        "fired": [["numbered traceable requirements", 20], ["evidence / documentation requirements", 20], ["review / monitoring mechanisms", 20]],
+        "missed": [["multiple mandatory obligations (shall … shall)", 20], ["specific, measurable obligations", 20]]
+      },
+      "conceptual": {
+        "fired": [["human rights / fundamental interests", 10], ["transparency", 8], ["accountability", 8], ["human oversight", 8], ["safety", 7], ["contestability / redress", 9], ["risk governance", 8], ["fairness / labour / non-discrimination", 8]],
+        "missed": [["explainability / interpretability", 8], ["proportionality", 8], ["reversibility / modifiability", 8], ["traceability / responsibility", 10]]
+      },
+      "enforceability": {
+        "fired": [["mandatory language (shall)", 20], ["named responsible parties", 20], ["enforcement consequences / penalties", 20], ["non-discretionary operational mandates", 20]],
+        "missed": [["risk-proportionate thresholds", 20]]
+      },
+      "structural": {
+        "fired": [["numbered sub-requirements", 8], ["mandatory obligation language (shall)", 8], ["full lifecycle scope declared", 6], ["operational mechanisms defined", 6], ["review / monitoring mechanisms", 6], ["threshold gate conditions (all must pass simultaneously)", 15]],
+        "missed": [["risk stratification / proportionality", 7], ["non-amendable constitutional hierarchy", 18], ["self-application clause (Part Seven)", 12], ["named decision instrument (Coherence Test / PDCA)", 14]]
+      },
+      "terminology": {
+        "fired": [],
+        "missed": [["Coupling", 25], ["Coherence Test", 20], ["Integrity Layer", 20], ["Structural Transparency", 10], ["Structural Honesty", 10], ["Structural Containment", 10], ["Materially Affects Interests", 5]]
+      }
+    },
+    "score_interpretation": "partial LAIF-model signal; diagnostic interpretation only, not a legal verdict, and requires evidence/authority verification before any governance conclusion is drawn.",
+    "score_justification": {
+      "assessment_mode": "external_framework",
+      "evidence_trace_context": "Evidence traces support exact source presence where available but do not prove implementation.",
+      "formal_fail_boundary": "High conceptual, sector, or evidence proximity cannot override formal LAIF-native failure.",
+      "interpretation": "partial LAIF-model signal; diagnostic interpretation only, not a legal verdict, and requires evidence/authority verification before any governance conclusion is drawn.",
+      "not_certification": true,
+      "not_legal_determination": true,
+      "overall_band": "partial LAIF-model signal",
+      "overall_score": 53,
+      "remediation_context": "Remediation patches are diagnostic unless separately adopted by an authority.",
+      "sector_profile_context": "Sector profiles contextualize diagnostics but do not create sector compliance gates."
+    },
+    "score_trace": {
+      "auditability": {"reason": "Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.", "score": 60, "signals_fired": ["numbered traceable requirements", "evidence / documentation requirements", "review / monitoring mechanisms"], "signals_missing": ["multiple mandatory obligations (shall … shall)", "specific, measurable obligations"], "weight_rationale": "20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA)."},
+      "conceptual": {"reason": "Partial conceptual coverage (66/100): 8 of 12 signals matched. Key gaps: explainability / interpretability, proportionality.", "score": 66, "signals_fired": ["human rights / fundamental interests", "transparency", "accountability", "human oversight", "safety", "contestability / redress", "risk governance", "fairness / labour / non-discrimination"], "signals_missing": ["explainability / interpretability", "proportionality", "reversibility / modifiability", "traceability / responsibility"], "weight_rationale": "20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One)."},
+      "enforceability": {"reason": "Strong enforceability coverage (80/100): 4 of 5 signals matched. Strongest contributors: mandatory language (shall), named responsible parties.", "score": 80, "signals_fired": ["mandatory language (shall)", "named responsible parties", "enforcement consequences / penalties", "non-discretionary operational mandates"], "signals_missing": ["risk-proportionate thresholds"], "weight_rationale": "20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three)."},
+      "structural": {"reason": "Weak structural coverage (49/100): only 6 of 10 signals matched. Principal gaps: risk stratification / proportionality, non-amendable constitutional hierarchy, self-application clause (Part Seven).", "score": 49, "signals_fired": ["numbered sub-requirements", "mandatory obligation language (shall)", "full lifecycle scope declared", "operational mechanisms defined", "review / monitoring mechanisms", "threshold gate conditions (all must pass simultaneously)"], "signals_missing": ["risk stratification / proportionality", "non-amendable constitutional hierarchy", "self-application clause (Part Seven)", "named decision instrument (Coherence Test / PDCA)"], "weight_rationale": "25% weight. Governance architecture is the primary carrier of LAIF compliance. Without a non-amendable constitutional hierarchy, threshold gate conditions (Integrity Layer precondition), and named decision instruments (Coherence Test / PDCA), all other provisions are operationally revisable — the core failure LAIF is designed to prevent (LAIF v1.2 Parts One, Two, Seven)."},
+      "terminology": {"reason": "No terminology signals present — none of the 7 expected signals matched. This dimension is absent from the document.", "score": 0, "signals_fired": [], "signals_missing": ["Coupling", "Coherence Test", "Integrity Layer", "Structural Transparency", "Structural Honesty", "Structural Containment", "Materially Affects Interests"], "weight_rationale": "15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1)."}
+    },
+    "sector_gaming_reason": "No sector gaming indicators detected.",
+    "sector_gaming_risk": "LOW",
+    "sector_label": "Government Service Delivery",
+    "sector_profile": "government_service_delivery",
+    "sector_profile_diagnostic_signals": ["benefit", "eligibility", "resident", "appeal", "public service"],
+    "sector_profile_evidence_cautions": ["Do not infer statutory authority or legal validity from service vocabulary alone.", "Use reviewer-confirmation fallback unless source text contains exact reasons, record, or appeal language."],
+    "sector_profile_governance_force_emphasis": ["actor", "trigger", "protected interest", "evidence", "reversibility", "escalation", "auditability"],
+    "sector_profile_label": "Government Service Delivery",
+    "sector_profile_purpose": "Diagnose AI governance for benefits, licensing, eligibility, enforcement, and other citizen-facing administrative services.",
+    "sector_profile_remediation_themes": ["Name the service-delivery policy owner and records/review support roles.", "Tie automated eligibility or service decisions to reasons, appeal, and correction pathways.", "Capture service-impact records and decision logs without inventing unavailable source evidence."],
+    "sector_relevant_interests": ["accurate and non-arbitrary service eligibility decisions", "procedural fairness, reasons, and administrative review", "continuity of public services and service-impact transparency", "records integrity for affected individuals and oversight bodies"],
+    "sector_remediation_priority": ["For service-delivery decisions, identify the protected public interest, decision trigger, reasons-for-decision record, administrative review pathway, and records-retention owner.", "Assign a service-delivery policy owner with administrative review and records authority support for evidence, correction, and escalation controls."],
+    "sector_risk_alignment": 80,
+    "sector_specific_findings": ["Risk signal present: service eligibility / entitlement decision", "Risk signal present: affected service user population", "Risk signal present: review / reasons pathway", "Risk signal present: service-delivery operational actor", "Risk signal absent: records / decision trace context", "Evidence present: review pathway record", "Evidence present: service-impact record", "Evidence gap: reasons-for-decision record", "Evidence gap: case / decision record", "Evidence gap: exception / human review log"],
+    "sector_used": "government_service_delivery",
+    "source_sha256": "46739dfc1af256961458d3b73fa4d6f4b447b38eaa72efd80966463818be68ab",
+    "source_type": "uploaded_document",
+    "strengths": ["Expresses: human rights / fundamental interests", "Expresses: transparency", "Expresses: accountability", "Expresses: human oversight", "Expresses: safety", "Expresses: contestability / redress", "Expresses: risk governance", "Expresses: fairness / labour / non-discrimination", "Structure: numbered sub-requirements", "Structure: mandatory obligation language (shall)", "Structure: full lifecycle scope declared", "Structure: operational mechanisms defined", "Structure: review / monitoring mechanisms", "Auditability: numbered traceable requirements", "Auditability: evidence / documentation requirements", "Auditability: review / monitoring mechanisms", "Enforceability: mandatory language (shall)", "Enforceability: named responsible parties", "Enforceability: enforcement consequences / penalties", "Enforceability: non-discretionary operational mandates"],
+    "strong_laif_compliance": "FAIL",
+    "structural_depth": "WEAK",
+    "structural_score": 49,
+    "structured_findings": [
+      {"evidence": "The canonical term 'Coupling' does not appear in the document.", "impact": "Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).", "recommended_action": "Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).", "severity": "HIGH", "title": "Coupling not structurally declared — no restriction paired with a human interest"},
+      {"evidence": "Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.", "impact": "Formal LAIF compliance is binary. Missing any single required construct = FAIL regardless of overall readiness score. These constructs are structurally necessary — they cannot be satisfied by partial presence.", "recommended_action": "Add the missing constructs substantively — each must be meaningfully implemented, not merely cited. Implement in this priority order: Coupling → Coherence Test → Integrity Layer → constitutional hierarchy → self-application clause.", "severity": "HIGH", "title": "Formal compliance gate not satisfied — 8 required construct(s) absent"}
+    ],
+    "structured_remediation_steps": [],
+    "terminology_score": 0
+  },
+  "extraction_metadata": {
+    "error_count": 0,
+    "errors": [],
+    "extracted_characters": 145542,
+    "extraction_confidence": "medium",
+    "extractor_requested": "auto",
+    "extractor_used": "pypdf",
+    "input_file_name": "2023-24283.pdf",
+    "input_path": "/home/runner/work/LAIF/LAIF/laif_inputs/processed/20260511T062417596632Z__2023-24283/source/2023-24283.pdf",
+    "input_path_original": "laif_inputs/processed/20260511T062417596632Z__2023-24283/source/2023-24283.pdf",
+    "minimum_extracted_characters": 20,
+    "network_access_used": false,
+    "ocr_performed": false,
+    "original_file_name": "2023-24283.pdf",
+    "original_file_stem": "2023-24283",
+    "safe_output_stem": "2023-24283",
+    "source_sha256": "46739dfc1af256961458d3b73fa4d6f4b447b38eaa72efd80966463818be68ab",
+    "warning_count": 2,
+    "warnings": ["Docling extractor requested but docling is not installed.", "MarkItDown extractor requested but markitdown is not installed."]
+  },
+  "processing_metadata": {
+    "input_file_name": "2023-24283.pdf",
+    "input_path": "/home/runner/work/LAIF/LAIF/laif_inputs/processed/20260511T062417596632Z__2023-24283/source/2023-24283.pdf",
+    "input_path_original": "laif_inputs/processed/20260511T062417596632Z__2023-24283/source/2023-24283.pdf",
+    "json_output_path": "laif_inputs/processed/20260511T062417596632Z__2023-24283/reports/2023-24283.laif.json",
+    "markdown_output_path": "laif_inputs/processed/20260511T062417596632Z__2023-24283/reports/2023-24283.laif.md",
+    "original_file_name": "2023-24283.pdf",
+    "original_file_stem": "2023-24283",
+    "processed_at_utc": "2026-05-11T06:24:18Z",
+    "safe_output_stem": "2023-24283",
+    "source_sha256": "46739dfc1af256961458d3b73fa4d6f4b447b38eaa72efd80966463818be68ab"
+  }
+}
