@@ -1941,18 +1941,34 @@ def _directionality_penalty(text, score):
 # deterministic diagnostics. They do not change scoring weights, formal
 # LAIF-native validation, or validate.py behavior.
 
+DOCUMENT_TYPE_PRECEDENCE = (
+    "binding_legal_instrument",
+    "executive_policy_directive",
+    "voluntary_risk_framework",
+    "sector_assurance_checklist",
+    "technical_standard",
+    "public_sector_policy",
+    "procurement_assessment_form",
+    "implementation_guide",
+    "internal_policy",
+    "vendor_compliance_submission",
+    "unknown_governance_document",
+)
+
 _DOCUMENT_TYPE_PATTERNS = [
-    ("binding_legal_instrument", (r"\bregulation\b", r"\bharmonised rules\b", r"\bofficial journal\b", r"\bmarket surveillance\b", r"\bconformity assessment\b")),
-    ("executive_policy_directive", (r"\bexecutive order\b", r"\bpresident\b", r"\bsecretary of\b", r"\bfederal agencies\b", r"\bshall\b.{0,80}\bagenc")),
+    ("binding_legal_instrument", (r"\bregulation\b", r"\bharmonised rules\b", r"\bartificial intelligence act\b", r"\bofficial journal\b", r"\bmarket surveillance\b", r"\bconformity assessment\b", r"\bproviders?\b", r"\bdeployers?\b", r"\bpost-market monitoring\b", r"\bserious incident reporting\b")),
+    ("executive_policy_directive", (r"\bexecutive order\b", r"\bpresident\b", r"\bsecretar(?:y|ies)\b", r"\bfederal agencies\b", r"\bagency heads?\b", r"\bshall\b.{0,80}\bagenc")),
     ("voluntary_risk_framework", (r"\brisk management framework\b", r"\bvoluntary framework\b", r"\bvoluntary\b", r"\bgovern, map, measure, and manage\b", r"\bnon-sector-specific\b", r"\buse-case agnostic\b")),
-    ("sector_assurance_checklist", (r"\bassurance checklist\b", r"\bdtac\b", r"\bdigital technology assessment criteria\b", r"\bclinical safety case\b", r"\bhazard log\b", r"\bdcb0129\b")),
-    ("procurement_assessment_form", (r"\bprocurement\b", r"\bassessment form\b", r"\bvendor\b", r"\bsupplier\b", r"\bcontract\b")),
+    ("sector_assurance_checklist", (r"\bassurance checklist\b", r"\bdtac\b", r"\bdigital technology assessment criteria\b", r"\bclinical safety(?: case| officer)?\b", r"\bhazard log\b", r"\bdcb0129\b", r"\bpatient care\b", r"\bnhs\b")),
     ("technical_standard", (r"\biso/iec\b", r"\btechnical standard\b", r"\bstandard specifies\b", r"\brequirements and guidance\b")),
-    ("public_sector_policy", (r"\bpolicy for the responsible use of ai in government\b", r"\bresponsible use of ai in government\b", r"\bpublic servants?\b.{0,80}\bai\b", r"\bgovernment(?: agencies)?\b.{0,80}\bhuman review\b", r"\bdisclose ai use\b", r"\bagencies must\b", r"\baccountable officials?\b", r"\bai use register\b", r"\bdigital transformation agency\b", r"\bdta\b")),
+    ("public_sector_policy", (r"\bpolicy for the responsible use of ai in government\b", r"\bresponsible use of ai in government\b", r"\bpublic servants?\s+must\b", r"\bgovernment agencies\s+and\s+public servants\s+must\b", r"\bgovernment agencies\s+must\b", r"\bagencies must disclose\b", r"\bresponsible ai use by agencies\b", r"\bai use registers?\b", r"\bhuman review\b", r"\baccountable officials?\b", r"\bdigital transformation agency\b", r"\bdta\b", r"\bpublic sector policy\b")),
+    ("procurement_assessment_form", (r"\bprocurement\b", r"\bassessment form\b", r"\bvendor\b", r"\bsupplier\b", r"\bcontract\b")),
     ("implementation_guide", (r"\bimplementation guide\b", r"\bplaybook\b", r"\bguidance for implementing\b", r"\bhow to implement\b")),
     ("internal_policy", (r"\binternal policy\b", r"\bdepartment policy\b", r"\bcompany policy\b", r"\borganizational policy\b")),
     ("vendor_compliance_submission", (r"\bvendor submission\b", r"\bcompliance submission\b", r"\battestation\b", r"\bsupplier response\b")),
 ]
+
+_DOCUMENT_TYPE_PRECEDENCE_RANK = {doc_type: idx for idx, doc_type in enumerate(DOCUMENT_TYPE_PRECEDENCE)}
 
 _DOCUMENT_TYPE_FORCE = {
     "binding_legal_instrument": "Binding legal instrument with public-law force where adopted; operational closure depends on delegated controls, evidence, and enforcement machinery.",
@@ -1990,33 +2006,83 @@ _ROLLBACK_GAP_RE = re.compile(r"\b(rollback|reversib|fallback|withdraw|suspend|s
 _RESIDUAL_RISK_RE = re.compile(r"\b(residual risk|remaining risk|risk acceptance|risk treatment|mitigation)\b", re.IGNORECASE)
 
 
+def _document_type_pattern_hits(haystack, doc_type, patterns):
+    hits = sum(1 for pat in patterns if re.search(pat, haystack, re.IGNORECASE))
+    if doc_type == "binding_legal_instrument":
+        if not any(anchor in haystack for anchor in ("regulation laying down", "harmonised rules", "artificial intelligence act", "official journal")):
+            return 0
+        return hits if hits >= 2 else 0
+    if doc_type == "executive_policy_directive":
+        if "executive order" in haystack:
+            return max(hits, 2)
+        return hits if hits >= 2 and ("federal agencies" in haystack or "agency head" in haystack) else 0
+    if doc_type == "voluntary_risk_framework":
+        if "risk management framework" in haystack and any(term in haystack for term in ("voluntary", "govern, map, measure", "non-sector-specific", "use-case agnostic")):
+            return max(hits, 2)
+        return hits if hits >= 3 else 0
+    if doc_type == "sector_assurance_checklist":
+        if "digital technology assessment criteria" in haystack or "dtac" in haystack:
+            return max(hits, 2)
+        return hits if hits >= 2 and any(term in haystack for term in ("clinical safety", "dcb0129", "hazard log")) else 0
+    if doc_type == "technical_standard":
+        return hits if hits >= 1 else 0
+    if doc_type == "public_sector_policy":
+        return hits if _strong_public_sector_policy_hits(haystack) >= 2 else 0
+    return hits if hits >= 1 else 0
+
+
+def _strong_public_sector_policy_hits(haystack):
+    """Count operating-policy signals; generic government/legal mentions do not count."""
+    strong_terms = (
+        "policy for the responsible use of ai in government",
+        "responsible use of ai in government",
+        "public servants must",
+        "government agencies must",
+        "agencies must disclose",
+        "responsible ai use by agencies",
+        "ai use register",
+        "ai use registers",
+        "human review",
+        "accountable official",
+        "accountable officials",
+        "digital transformation agency",
+        "public sector policy",
+    )
+    hits = sum(haystack.count(term) for term in strong_terms)
+    if re.search(r"\bdta\b", haystack):
+        hits += 1
+    return hits
+
+
 def classify_document_type(text, name="", source_type=""):
-    """Classify document type independently from sector routing."""
+    """Classify document type with deterministic precedence independent of sector routing."""
     haystack = f"{name or ''} {source_type or ''} {text or ''}".lower()
-    eu_terms = (
-        "regulation laying down harmonised rules", "harmonised rules on artificial intelligence",
-        "artificial intelligence act", "high-risk ai systems", "provider", "deployer",
-        "conformity assessment", "market surveillance", "official journal",
-        "general-purpose ai model", "placing on the market",
-    )
-    public_policy_terms = (
-        "policy for the responsible use of ai in government", "responsible use of ai in government",
-        "public servants", "government agencies", "agencies must", "accountable officials",
-        "human review", "disclose ai use", "ai use register", "public sector",
-        "digital transformation agency", "dta",
-    )
-    eu_hits = sum(haystack.count(term) for term in eu_terms)
-    public_policy_hits = sum(haystack.count(term) for term in public_policy_terms)
-    if eu_hits >= 2 and ("harmonised rules" in haystack or "artificial intelligence act" in haystack or "regulation laying down" in haystack):
-        return "binding_legal_instrument"
-    if public_policy_hits >= 2:
-        return "public_sector_policy"
-    scores = []
+    candidates = []
     for doc_type, patterns in _DOCUMENT_TYPE_PATTERNS:
-        score = sum(1 for pat in patterns if re.search(pat, haystack, re.IGNORECASE))
-        scores.append((score, doc_type))
-    best_score, best_type = max(scores, key=lambda item: (item[0], -[dt for dt, _ in _DOCUMENT_TYPE_PATTERNS].index(item[1])))
-    return best_type if best_score else "unknown_governance_document"
+        score = _document_type_pattern_hits(haystack, doc_type, patterns)
+        if score:
+            candidates.append((score, doc_type))
+    if not candidates:
+        return "unknown_governance_document"
+    # Precedence is authoritative: stronger identities override public-sector policy
+    # even when public-sector operating-policy vocabulary is also present.
+    return min(candidates, key=lambda item: _DOCUMENT_TYPE_PRECEDENCE_RANK[item[1]])[1]
+
+
+def dominant_sector_for_document(text, document_type, requested_sector="auto"):
+    """Route broad documents by document identity before keyword-sector fallbacks."""
+    if requested_sector and requested_sector != "auto":
+        return requested_sector
+    lowered = (text or "").lower()
+    if document_type in {"binding_legal_instrument", "voluntary_risk_framework"}:
+        return "general_ai_governance"
+    if document_type == "executive_policy_directive":
+        return "government_service_delivery" if any(term in lowered for term in ("federal agencies", "agency heads", "secretaries", "public service")) else "general_ai_governance"
+    if document_type == "sector_assurance_checklist" and any(term in lowered for term in ("clinical", "patient", "nhs", "dcb0129", "hazard log")):
+        return "clinical_ai"
+    if document_type == "public_sector_policy":
+        return "government_service_delivery" if _strong_public_sector_policy_hits(lowered) >= 2 else "general_ai_governance"
+    return "general_ai_governance"
 
 
 def _quality_label(score, strong=75, moderate=50, limited=25):
@@ -2367,7 +2433,9 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     # Sector analysis
     # Source: LAIF_Compliance_Toolkit.txt §7.5 — PDCA tiering by sector/stakes;
     # Toolkit §1.2 — Materially Affects Interests is the sector gateway test.
-    profile_key = _sector_profile_key(sector)
+    early_document_type = classify_document_type(text, name, source_type)
+    resolved_sector = dominant_sector_for_document(text, early_document_type, sector) if sector == "auto" else sector
+    profile_key = _sector_profile_key(resolved_sector)
     profile = _sector_profile_metadata(profile_key)
     profile_signals = _sector_profile_signals(text, profile_key)
 

@@ -496,5 +496,98 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertEqual(runner.sha256_file(path), hashlib.sha256(path.read_bytes()).hexdigest())
 
 
+    def test_phase_3z_document_type_precedence_expected_classifications(self) -> None:
+        samples = {
+            "nist": (
+                "Artificial Intelligence Risk Management Framework. This voluntary framework helps organizations govern, map, measure, and manage AI risks. It is non-sector-specific and use-case agnostic.",
+                "voluntary_risk_framework",
+                {"general_ai_governance"},
+            ),
+            "eu": (
+                "Regulation laying down harmonised rules on artificial intelligence. The Artificial Intelligence Act sets obligations for providers and deployers of high-risk AI systems, conformity assessment, technical documentation, post-market monitoring, market surveillance, general-purpose AI model duties, and serious incident reporting. It also mentions employment and workers.",
+                "binding_legal_instrument",
+                {"general_ai_governance"},
+            ),
+            "eo": (
+                "Executive Order on Safe, Secure, and Trustworthy Artificial Intelligence. Federal agencies shall develop guidance, manage risks, protect privacy, report implementation, and assign responsibilities to Secretaries and agency heads.",
+                "executive_policy_directive",
+                {"government_service_delivery", "general_ai_governance"},
+            ),
+            "dtac": (
+                "Digital Technology Assessment Criteria. Clinical safety DCB0129, clinical safety case, hazard log, Clinical Safety Officer, patient care, NHS data protection, technical security, and interoperability.",
+                "sector_assurance_checklist",
+                {"clinical_ai"},
+            ),
+            "policy": (
+                "Policy for the responsible use of AI in government. Government agencies and public servants must disclose AI use, ensure human review, maintain AI use registers, monitor implementation, retain accountability records, and manage exceptions and incidents.",
+                "public_sector_policy",
+                {"government_service_delivery", "general_ai_governance"},
+            ),
+        }
+        for name, (text, expected_type, expected_sectors) in samples.items():
+            with self.subTest(name=name):
+                result = assess(name, "policy", text, assessment_mode="external_framework", sector="auto")
+                self.assertEqual(result["document_type"], expected_type)
+                self.assertIn(runner.auto_sector(text), expected_sectors)
+                self.assertIn(result["sector_profile"], expected_sectors)
+        self.assertNotEqual(assess("eu", "policy", samples["eu"][0], assessment_mode="external_framework", sector="auto")["document_type"], "public_sector_policy")
+        self.assertNotEqual(runner.auto_sector(samples["eu"][0]), "employment_hr_ai")
+        self.assertNotEqual(runner.auto_sector(samples["eo"][0]), "employment_hr_ai")
+        self.assertNotEqual(runner.auto_sector(samples["policy"][0]), "procurement_vendor_governance")
+        self.assertNotEqual(runner.auto_sector(samples["policy"][0]), "employment_hr_ai")
+
+    def test_phase_3z_public_sector_policy_does_not_override_stronger_identities(self) -> None:
+        public_terms = " Government agencies must disclose AI use, ensure human review, and maintain an AI use register."
+        stronger = {
+            "eu": ("Regulation laying down harmonised rules on artificial intelligence. The Artificial Intelligence Act sets obligations for providers and deployers, conformity assessment, market surveillance." + public_terms, "binding_legal_instrument"),
+            "eo": ("Executive Order on Safe, Secure, and Trustworthy Artificial Intelligence. Federal agencies shall report implementation to Secretaries and agency heads." + public_terms, "executive_policy_directive"),
+            "nist": ("Artificial Intelligence Risk Management Framework. This voluntary framework helps organizations govern, map, measure, and manage AI risks. It is non-sector-specific and use-case agnostic." + public_terms, "voluntary_risk_framework"),
+            "dtac": ("Digital Technology Assessment Criteria. Clinical safety DCB0129, clinical safety case, hazard log, Clinical Safety Officer, patient care." + public_terms, "sector_assurance_checklist"),
+        }
+        for name, (text, expected) in stronger.items():
+            with self.subTest(name=name):
+                self.assertEqual(assess(name, "policy", text, assessment_mode="external_framework", sector="auto")["document_type"], expected)
+
+    def test_phase_3z_bad_quote_fragments_are_only_low_confidence_candidates(self) -> None:
+        bad_fragments = [
+            "To combat this risk, the Federal Government will ensure that the collection,",
+            "The assessment must be documented and take",
+            "The notification shall contain the conclusions of the assessment of the quality management syste m and the reasoned",
+            "AI-g enerated cont ent has undergone",
+            "Certain commercial entities, equipment, or materials may be identified in this document in order to describe",
+            "monitoring, will help ensure that AI systems function as intended, are",
+            "the development or use of the model causes a ser ious incident, the general-pur pose AI model provid er should",
+            "requirements agencies must follow.",
+        ]
+        good_quote = (
+            "Government agencies must maintain records of AI use, ensure human review for decisions that materially affect people, "
+            "monitor implementation outcomes, and retain evidence of accountability, disclosure, exception handling, and incident response."
+        )
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "quality.txt"
+            out = root / "out"
+            path.write_text("\n\n".join(bad_fragments + [good_quote]), encoding="utf-8")
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            primary = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
+            low = bundle.get("low_confidence_quote_candidates", [])
+            low_text = "\n".join(q["exact_quote"] for q in low)
+            for bad in bad_fragments:
+                self.assertNotIn(bad, primary)
+                self.assertIn(bad, low_text)
+            self.assertTrue(all(q.get("low_confidence_reason") or q.get("quote_quality_reason") for q in low))
+            self.assertIn("Government agencies must maintain records of AI use", primary)
+
+    def test_phase_3z_no_external_ai_api_network_patterns_added(self) -> None:
+        haystack = "\n".join(
+            path.read_text(encoding="utf-8")
+            for root in (REPO_ROOT / "scripts", REPO_ROOT / "tests")
+            for path in root.rglob("*.py")
+        ) + (REPO_ROOT / "assessment_engine.py").read_text(encoding="utf-8")
+        forbidden = ("op" + "enai", "anth" + "ropic", "gem" + "ini", "google" + ".generativeai", "requests" + ".post", "ht" + "tpx", "urllib" + ".request")
+        self.assertFalse(any(token in haystack for token in forbidden))
+
+
 if __name__ == "__main__":
     unittest.main()

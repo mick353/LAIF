@@ -276,5 +276,34 @@ class GithubActionsDocumentProcessingTests(unittest.TestCase):
             self.assertEqual(latest["batch_run_id"], seen[-1])
 
 
+    def test_phase_3z_batch_report_identifies_strongest_source_roles(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            pending = root / "pending"
+            pending.mkdir()
+            (pending / "eu.txt").write_text(
+                "Regulation laying down harmonised rules on artificial intelligence. The Artificial Intelligence Act sets obligations for providers and deployers of high-risk AI systems, conformity assessment, technical documentation, post-market monitoring, market surveillance, general-purpose AI model duties, and serious incident reporting.",
+                encoding="utf-8",
+            )
+            (pending / "nist.txt").write_text(
+                "Artificial Intelligence Risk Management Framework. This voluntary framework helps organizations govern, map, measure, and manage AI risks. It is non-sector-specific and use-case agnostic. Organizations should document risks, assign accountability, monitor AI systems, review outcomes, manage incidents, and maintain evidence of risk management activities.",
+                encoding="utf-8",
+            )
+            (pending / "policy.txt").write_text(
+                "Policy for the responsible use of AI in government. Government agencies and public servants must disclose AI use, ensure human review, maintain AI use registers, monitor implementation, retain accountability records, and manage exceptions and incidents.",
+                encoding="utf-8",
+            )
+            (pending / "dtac.txt").write_text(
+                "Digital Technology Assessment Criteria. Clinical safety DCB0129, clinical safety case, hazard log, Clinical Safety Officer, patient care, NHS data protection, technical security, and interoperability.",
+                encoding="utf-8",
+            )
+            summary = self.run_batch(root, "--max-files", "4")
+            report = Path(summary["batch_institutional_outputs"]["batch_institutional_report"]).read_text(encoding="utf-8")
+            self.assertIn("Strongest legal source:** eu.txt", report)
+            self.assertIn("Strongest voluntary governance design source:** nist.txt", report)
+            self.assertIn("Strongest public-sector operating policy:** policy.txt", report)
+            self.assertIn("Strongest clinical/sector assurance source:** dtac.txt", report)
+
+
 if __name__ == "__main__":
     unittest.main()

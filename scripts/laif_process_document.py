@@ -23,7 +23,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from assessment_engine import assess, generate_markdown_report
+from assessment_engine import assess, classify_document_type, generate_markdown_report
 
 MIN_EXTRACTED_CHARACTERS = 20
 DEFAULT_OUTPUT_DIR = "laif_outputs"
@@ -262,14 +262,17 @@ EU_AI_ACT_SIGNAL_TERMS = (
 PUBLIC_SECTOR_POLICY_SIGNAL_TERMS = (
     "policy for the responsible use of ai in government",
     "responsible use of ai in government",
-    "public servants",
-    "government agencies",
-    "agencies must",
+    "public servants must",
+    "government agencies must",
+    "agencies must disclose",
+    "responsible ai use by agencies",
+    "accountable official",
     "accountable officials",
     "human review",
     "disclose ai use",
     "ai use register",
-    "public sector",
+    "ai use registers",
+    "public sector policy",
     "digital transformation agency",
     "dta",
 )
@@ -284,6 +287,22 @@ def eu_ai_act_broad_legal_signal(text: str) -> bool:
 
 def public_sector_policy_signal(text: str) -> bool:
     return _term_hits(text, PUBLIC_SECTOR_POLICY_SIGNAL_TERMS) >= 2
+
+
+def executive_policy_directive_signal(text: str) -> bool:
+    lowered = (text or "").lower()
+    return "executive order" in lowered and any(term in lowered for term in ("federal agencies", "agency heads", "secretaries", "secretary"))
+
+
+def voluntary_risk_framework_signal(text: str) -> bool:
+    lowered = (text or "").lower()
+    return "risk management framework" in lowered and any(term in lowered for term in ("voluntary", "govern, map, measure", "non-sector-specific", "use-case agnostic"))
+
+
+def sector_assurance_checklist_signal(text: str) -> bool:
+    lowered = (text or "").lower()
+    clinical_hits = _term_hits(lowered, ("clinical", "patient", "nhs", "dcb0129", "hazard log", "clinical safety case"))
+    return ("digital technology assessment criteria" in lowered or "dtac" in lowered or clinical_hits >= 2) and clinical_hits >= 1
 
 
 def broad_governance_framework_signal(text: str) -> bool:
@@ -309,10 +328,17 @@ def broad_governance_framework_signal(text: str) -> bool:
 
 def auto_sector(text: str) -> str:
     lowered = text.lower()
-    if eu_ai_act_broad_legal_signal(text):
+    doc_type = classify_document_type(text)
+    if doc_type in {"binding_legal_instrument", "voluntary_risk_framework"}:
         return "general_ai_governance"
-    if public_sector_policy_signal(text):
+    if doc_type == "executive_policy_directive" or executive_policy_directive_signal(text):
+        return "government_service_delivery" if any(term in lowered for term in ("federal agencies", "agency heads", "secretaries", "secretary")) else "general_ai_governance"
+    if doc_type == "sector_assurance_checklist" or sector_assurance_checklist_signal(text):
+        return "clinical_ai"
+    if doc_type == "public_sector_policy" or public_sector_policy_signal(text):
         return "government_service_delivery"
+    if eu_ai_act_broad_legal_signal(text) or voluntary_risk_framework_signal(text):
+        return "general_ai_governance"
     if broad_governance_framework_signal(text):
         return "general_ai_governance"
     patterns: list[tuple[str, Iterable[str]]] = [
@@ -474,8 +500,8 @@ STRONG_QUOTE_TERMS = (
 )
 ACTION_QUOTE_TERMS = STRONG_QUOTE_TERMS + ("manage", "assign", "maintain", "protect", "report", "disclose")
 BOILERPLATE_QUOTE_RE = re.compile(r"(difficulties with accessing|accessibility|contact us|support@|@\w|email:|telephone|copyright|isbn|all rights reserved|certain commercial entities, equipment, or materials may be identified)", re.IGNORECASE)
-GENERIC_FRAGMENT_RE = re.compile(r"^(?:requirements agencies must follow|monitoring, will help ensure|this document in order to describe)\.?$", re.IGNORECASE)
-PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:ser ious|general-pur pose|provid er|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment)\b", re.IGNORECASE)
+GENERIC_FRAGMENT_RE = re.compile(r"(?:requirements agencies must follow|monitoring, will help ensure|this document in order to describe|to combat this risk, the federal government will ensure that the collection|the assessment must be documented and take|the notification shall contain the conclusions of the assessment)", re.IGNORECASE)
+PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:ser ious|general-pur pose|provid er|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment|syste m|g enerated|cont ent)\b", re.IGNORECASE)
 INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|should|must|shall|will)\s*$", re.IGNORECASE)
 TOC_QUOTE_RE = re.compile(r"^\s*(?:\d+(?:\.\d+)*\s+){0,2}[A-Z][A-Za-z&/ -]{2,70}\s+\d{1,4}\s*$")
 TITLE_ONLY_RE = re.compile(r"^[A-Z][A-Za-z0-9&/:,() -]{8,80}$")
@@ -582,7 +608,7 @@ def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
         return 20, "insufficient alphabetic governance content"
     if TITLE_ONLY_RE.match(clean) and len(clean.split()) <= 8 and not any(t in lower for t in ACTION_QUOTE_TERMS):
         return 20, "title or isolated heading without governance action"
-    if re.match(r"^[a-z,;:]", clean) or INCOMPLETE_END_RE.search(clean):
+    if re.match(r"^[a-z,;:]", clean) or clean.endswith(",") or INCOMPLETE_END_RE.search(clean):
         return 25, "incomplete sentence or clause fragment"
     dimensions = _quote_signal_dimensions(clean)
     if len(clean) < 80 and not any(t in norm_lower for t in ("shall", "must", "requires", "required", "ensure", "implement")):
