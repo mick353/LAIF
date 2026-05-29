@@ -369,6 +369,361 @@ def append_index(output_dir: Path, record: dict) -> None:
         handle.write(json.dumps(record, sort_keys=True) + "\n")
 
 
+
+SIGNAL_CATEGORIES: list[tuple[str, tuple[str, ...], str]] = [
+    ("risk management", ("risk management", "risk assessment", "risk", "govern", "map", "measure", "manage"), "source_risk_management"),
+    ("human oversight", ("human oversight", "human review", "override", "intervention", "clinician review"), "operational_control"),
+    ("clinical safety", ("clinical safety", "patient", "hazard log", "safety case", "DCB0129"), "sector_safety"),
+    ("technical security", ("secure", "security", "resilient", "cybersecurity"), "technical_control"),
+    ("data protection", ("data protection", "data governance", "data quality"), "data_governance"),
+    ("privacy", ("privacy", "privacy-enhanced", "confidentiality"), "privacy_control"),
+    ("audit/documentation", ("audit", "documentation", "document", "evidence", "record", "traceability"), "evidence_artifact"),
+    ("monitoring/review", ("monitor", "review", "evaluate", "assessment"), "monitoring_review"),
+    ("incident reporting", ("incident", "reporting", "safety incident"), "incident_response"),
+    ("accountability/owner", ("accountability", "accountable", "owner", "responsible", "assign"), "ownership"),
+    ("enforcement/consequence", ("enforcement", "consequence", "penalty", "shall", "must"), "enforcement"),
+    ("lifecycle/change control", ("lifecycle", "change control", "change", "release"), "lifecycle_control"),
+    ("rollback/fallback", ("rollback", "fallback", "fail-safe"), "fallback"),
+    ("residual risk", ("residual risk", "accepted risk", "risk acceptance"), "residual_risk"),
+    ("appeal/redress/contestability", ("appeal", "redress", "contestability", "contest", "administrative review"), "redress"),
+    ("procurement/supplier assurance", ("procurement", "supplier", "vendor", "contract", "assurance"), "supplier_assurance"),
+    ("interoperability", ("interoperability", "interoperate", "integration"), "interoperability"),
+    ("bias/discrimination/fairness", ("bias", "discrimination", "fairness", "fair", "non-discrimination"), "fairness"),
+]
+
+GAP_BLUEPRINTS = [
+    ("evidence_presence_without_sufficiency", "Evidence is requested but sufficiency is not closed", "high"),
+    ("obligation_without_owner", "Obligation is present without a named operational owner", "high"),
+    ("risk_without_closure_gate", "Risk language lacks a closure gate", "high"),
+    ("monitoring_without_threshold", "Monitoring lacks thresholds and escalation", "medium"),
+    ("policy_without_enforcement_consequence", "Policy language lacks enforcement consequence", "medium"),
+    ("safety_case_without_live_review", "Safety case lacks live review cadence", "high"),
+    ("supplier_duty_without_deployer_acceptance", "Supplier duty lacks deployer acceptance evidence", "medium"),
+    ("incident_reporting_without_redress", "Incident reporting lacks affected-person redress", "high"),
+    ("lifecycle_without_change_control", "Lifecycle language lacks change-control artifact", "medium"),
+    ("residual_risk_without_acceptance", "Residual risk lacks acceptance authority", "medium"),
+    ("framework_guidance_without_implementation_artifact", "Framework guidance lacks implementation artifact", "high"),
+    ("legal_obligation_without_operational_mapping", "Legal obligation lacks operational mapping", "high"),
+]
+
+NOISE_RE = re.compile(r"(?:[A-Za-z]{1}\s){8,}|[\ufffd]{2,}|(?:\b\w\b\s*){12,}")
+
+
+def _sentence_spans(text: str) -> list[tuple[int, int, str]]:
+    spans: list[tuple[int, int, str]] = []
+    for match in re.finditer(r"[^.!?\n]*(?:[.!?]|\n|$)", text):
+        sent = match.group(0).strip()
+        if len(sent) < 20:
+            continue
+        start = text.find(sent, match.start())
+        if start >= 0:
+            spans.append((start, start + len(sent), sent))
+    if not spans and text.strip():
+        snippet = text.strip()[:500]
+        start = text.find(snippet)
+        spans.append((start, start + len(snippet), snippet))
+    return spans
+
+
+def _is_low_confidence_quote(quote: str, extraction: dict) -> tuple[bool, str]:
+    if extraction.get("extraction_confidence") == "low":
+        return True, "extractor reported low confidence"
+    if NOISE_RE.search(quote) or len(re.findall(r"[A-Za-z]", quote)) < max(10, len(quote) // 4):
+        return True, "possible PDF extraction noise or malformed fragment"
+    return False, ""
+
+
+def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: dict) -> list[dict]:
+    records: list[dict] = []
+    seen: set[tuple[int, int, str]] = set()
+    lowered_text = text.lower()
+    spans = _sentence_spans(text)
+    for category, terms, repair_field in SIGNAL_CATEGORIES:
+        best: tuple[int, int, str] | None = None
+        for start, end, sentence in spans:
+            lo = sentence.lower()
+            if any(term.lower() in lo for term in terms):
+                best = (start, end, sentence)
+                break
+        if best is None:
+            for term in terms:
+                idx = lowered_text.find(term.lower())
+                if idx >= 0:
+                    start = max(0, text.rfind(".", 0, idx) + 1)
+                    if start == 0:
+                        start = max(0, idx - 160)
+                    end_dot = text.find(".", idx)
+                    end = end_dot + 1 if end_dot >= 0 else min(len(text), idx + 320)
+                    sentence = text[start:end].strip()
+                    best = (text.find(sentence, start), text.find(sentence, start) + len(sentence), sentence)
+                    break
+        if best is None:
+            continue
+        start, end, quote = best
+        if (start, end, category) in seen or quote not in text:
+            continue
+        low, reason = _is_low_confidence_quote(quote, extraction)
+        if low:
+            # Exclude low-confidence/noisy fragments from the primary quote bank.
+            continue
+        seen.add((start, end, category))
+        context_start = max(0, start - 160)
+        context_end = min(len(text), end + 160)
+        records.append({
+            "quote_id": f"Q{len(records)+1:03d}",
+            "source_file": processing.get("stored_source_path") or processing.get("input_path"),
+            "original_file_name": processing.get("original_file_name"),
+            "source_sha256": processing.get("source_sha256"),
+            "document_type": assessment.get("document_type", "unknown_governance_document"),
+            "sector_profile": assessment.get("sector_profile", "general_ai_governance"),
+            "signal_category": category,
+            "exact_quote": quote,
+            "surrounding_context": text[context_start:context_end].strip(),
+            "start_offset": start,
+            "end_offset": end,
+            "extraction_confidence": extraction.get("extraction_confidence", "unknown"),
+            "why_it_matters": f"This is deterministic source evidence for {category} analysis.",
+            "what_it_proves": f"The document contains language relevant to {category}.",
+            "what_it_does_not_prove": "It does not prove implementation, sufficiency, legal validity, certification, or operational adoption.",
+            "linked_governance_repair_field": repair_field,
+            "linked_gap_ids": [],
+            "low_confidence_reason": "",
+        })
+        if len(records) >= 12:
+            break
+    if not records:
+        for start, end, quote in spans[:1]:
+            low, reason = _is_low_confidence_quote(quote, extraction)
+            if low or quote not in text:
+                continue
+            records.append({
+                "quote_id": "Q001", "source_file": processing.get("stored_source_path") or processing.get("input_path"),
+                "original_file_name": processing.get("original_file_name"), "source_sha256": processing.get("source_sha256"),
+                "document_type": assessment.get("document_type", "unknown_governance_document"), "sector_profile": assessment.get("sector_profile", "general_ai_governance"),
+                "signal_category": "audit/documentation", "exact_quote": quote, "surrounding_context": quote,
+                "start_offset": start, "end_offset": end, "extraction_confidence": extraction.get("extraction_confidence", "unknown"),
+                "why_it_matters": "Fallback exact source excerpt for reviewer orientation.",
+                "what_it_proves": "The quoted text exists in the extracted source.",
+                "what_it_does_not_prove": "It does not prove implementation, sufficiency, legal validity, certification, or operational adoption.",
+                "linked_governance_repair_field": "source_excerpt", "linked_gap_ids": [], "low_confidence_reason": "",
+            })
+    return records
+
+
+def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> list[dict]:
+    quote_ids = [q["quote_id"] for q in quote_bank[:3]]
+    scores = {k: assessment.get(k) for k in ("structural_score", "terminology_score", "conceptual_proximity_score", "auditability_score", "enforceability_score", "overall_readiness_score")}
+    doc_type = assessment.get("document_type", "unknown_governance_document")
+    gaps: list[dict] = []
+    for idx, (gap_type, title, severity) in enumerate(GAP_BLUEPRINTS[:6], 1):
+        if gap_type == "safety_case_without_live_review" and assessment.get("sector_profile") != "clinical_ai":
+            continue
+        if gap_type == "supplier_duty_without_deployer_acceptance" and assessment.get("sector_profile") != "procurement_vendor_governance":
+            continue
+        gap_id = f"GAP-{idx:03d}"
+        gaps.append({
+            "gap_id": gap_id,
+            "gap_title": title,
+            "severity": severity,
+            "gap_type": gap_type,
+            "document_type": doc_type,
+            "source_evidence_quote_ids": quote_ids,
+            "related_scores": scores,
+            "related_governance_repair_fields": ["operational_closure", "evidence_sufficiency", "governance_force"],
+            "operational_meaning": "The document may create a governance expectation, but an institution still needs owner, artifact, threshold, cadence, and decision consequence evidence.",
+            "failure_mode": "Paper compliance without live operational control.",
+            "affected_stakeholders": assessment.get("sector_relevant_interests", [])[:3] or ["affected people", "operators", "assurance reviewers"],
+            "required_control_ids": [f"CTRL-{idx:03d}"],
+            "reviewer_note": "Confirm whether implementation artifacts outside this source document close the gap.",
+        })
+    if not gaps:
+        gaps.append({
+            "gap_id": "GAP-001", "gap_title": "Framework guidance lacks implementation artifact", "severity": "high",
+            "gap_type": "framework_guidance_without_implementation_artifact", "document_type": doc_type,
+            "source_evidence_quote_ids": quote_ids, "related_scores": scores,
+            "related_governance_repair_fields": ["implementation_artifact"],
+            "operational_meaning": "Source language must be translated into an auditable operating control.",
+            "failure_mode": "Guidance is cited as assurance without proof of adoption.",
+            "affected_stakeholders": ["affected people", "assurance reviewers"], "required_control_ids": ["CTRL-001"],
+            "reviewer_note": "Require local evidence before relying on this document as an assurance mechanism.",
+        })
+    for quote in quote_bank:
+        quote["linked_gap_ids"] = [gap["gap_id"] for gap in gaps if quote["quote_id"] in gap["source_evidence_quote_ids"]]
+    return gaps
+
+
+def build_failure_pathways(gaps: list[dict], quote_bank: list[dict]) -> list[dict]:
+    pathways: list[dict] = []
+    for idx, gap in enumerate(gaps[:3], 1):
+        ctrl = gap.get("required_control_ids", [f"CTRL-{idx:03d}"])[0]
+        pathways.append({
+            "pathway_id": f"PATH-{idx:03d}",
+            "title": f"{gap['gap_title']} failure pathway",
+            "severity": gap.get("severity", "medium"),
+            "steps": [
+                "A source document states or implies a governance expectation.",
+                "The institution treats the expectation as assurance evidence.",
+                "No operational owner, threshold, evidence artifact, or decision consequence is verified.",
+                "An AI-enabled decision or deployment proceeds under paperwork compliance.",
+                "Harm, unfairness, security exposure, or assurance failure can occur without a reliable audit trail.",
+            ],
+            "source_evidence_quote_ids": gap.get("source_evidence_quote_ids", []),
+            "triggering_gap_ids": [gap["gap_id"]],
+            "likely_institutional_failure": "Paperwork compliance without live operational control.",
+            "consequence": "The reviewer cannot prove that the stated governance expectation controlled the real decision pathway.",
+            "required_controls": [ctrl],
+            "detection_signal": "Missing or stale owner sign-off, control evidence, threshold breach log, or review record.",
+            "escalation_gate": "Pause deployment or reliance until the required artifact and accountable owner are confirmed.",
+        })
+    return pathways
+
+
+def build_control_recommendations(gaps: list[dict], pathways: list[dict], quote_bank: list[dict]) -> list[dict]:
+    controls: list[dict] = []
+    path_by_gap = {gap_id: p["pathway_id"] for p in pathways for gap_id in p.get("triggering_gap_ids", [])}
+    for idx, gap in enumerate(gaps, 1):
+        control_id = gap.get("required_control_ids", [f"CTRL-{idx:03d}"])[0]
+        controls.append({
+            "control_id": control_id,
+            "control_name": f"Operational closure control for {gap['gap_type'].replace('_', ' ')}",
+            "priority": "immediate" if gap.get("severity") == "high" else "near_term",
+            "risk_addressed": gap.get("failure_mode"),
+            "source_evidence_quote_ids": gap.get("source_evidence_quote_ids", []),
+            "linked_gap_ids": [gap["gap_id"]],
+            "linked_failure_pathways": [path_by_gap.get(gap["gap_id"])] if path_by_gap.get(gap["gap_id"]) else [],
+            "owner": "Named accountable business, clinical, procurement, legal, security, or assurance owner for the controlled decision pathway.",
+            "required_artifact": "Signed control record linking source requirement, local procedure, evidence file, threshold, reviewer, and decision outcome.",
+            "minimum_evidence": "Current owner sign-off, implementation artifact, threshold log, review cadence record, and exception/escalation register.",
+            "implementation_steps": [
+                "Map the quoted source expectation to a local operational requirement.",
+                "Assign a named owner and independent reviewer.",
+                "Define trigger, threshold, evidence artifact, cadence, and stop/go consequence.",
+                "Record review outcomes and exceptions in an auditable register.",
+            ],
+            "trigger": "New deployment, material model/process change, supplier update, incident, threshold breach, or scheduled assurance review.",
+            "threshold": "No deployment or continued reliance when required evidence is absent, stale, contradicted, or owner-unapproved.",
+            "cadence": "Before deployment, after material change, after incident, and at least quarterly while in operational use.",
+            "decision_consequence": "Proceed only with complete evidence; otherwise pause, remediate, escalate, or reject supplier/system use.",
+            "residual_risk_if_not_implemented": "The institution may rely on governance language that does not control real-world decisions or harms.",
+            "suggested_template_row": f"{control_id} | owner | artifact | trigger | threshold | cadence | decision consequence | quote IDs {', '.join(gap.get('source_evidence_quote_ids', []))}",
+        })
+    return controls
+
+
+def _md_list(items: list[str], empty: str = "Reviewer confirmation required.") -> str:
+    return "\n".join(f"- {item}" for item in items) if items else f"- {empty}"
+
+
+def build_institutional_report(processing: dict, extraction: dict, assessment: dict, quote_bank: list[dict], gaps: list[dict], pathways: list[dict], controls: list[dict]) -> str:
+    mode = assessment.get("assessment_mode")
+    doc_type = assessment.get("document_type", "unknown_governance_document")
+    force = assessment.get("governance_force_profile") or assessment.get("governance_force_summary") or "source governance force requires reviewer confirmation"
+    lines = [
+        f"# Institutional Governance Assessment — {processing.get('original_file_name')}", "",
+        "## Executive finding", "",
+    ]
+    if mode == "external_framework":
+        lines.append("This document is assessed as an external governance source for governance repair, institutional force, operational closure, and systemic failure pathways. It is suitable as source evidence where adopted, but it is not by itself a complete assurance mechanism unless owners, artifacts, thresholds, cadence, and decision consequences are implemented.")
+    else:
+        lines.append("This document is assessed in LAIF-native mode. Formal LAIF-native certification remains governed by the deterministic LAIF validation boundary shown in the technical appendix.")
+    lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Document type:** {doc_type}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}", f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", "- **Recommended use:** source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.", "- **Not sufficient for:** standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", "## Key quoted evidence", ""]
+    for q in quote_bank[:6]:
+        lines.append(f"- **{q['quote_id']} — {q['signal_category']}:** “{q['exact_quote']}”")
+    if not quote_bank:
+        lines.append("- No high-confidence primary quotes were extracted; use the technical appendix and source text review before relying on evidence.")
+    lines += ["", "## What the document controls well", "", _md_list(assessment.get("strengths", [])[:8], "No deterministic strengths detected."), "", "## What the document does not control", ""]
+    lines.append(_md_list([g["gap_title"] + f" ({g['gap_id']})" for g in gaps[:8]]))
+    lines += ["", "## Hidden failure pathways", "", "Failure pathway summaries below show how paperwork compliance can proceed without live operational control.", ""]
+    for pth in pathways:
+        lines.append(f"### {pth['pathway_id']} — {pth['title']}")
+        lines.append("")
+        lines.append(_md_list(pth.get("steps", [])))
+        lines.append(f"- **Escalation gate:** {pth.get('escalation_gate')}")
+        lines.append("")
+    lines += ["## Operational gap analysis", ""]
+    for gap in gaps:
+        lines.append(f"- **{gap['gap_id']} ({gap['severity']}):** {gap['operational_meaning']} Evidence: {', '.join(gap.get('source_evidence_quote_ids', [])) or 'review required'}.")
+    lines += ["", "## Priority remediation roadmap", ""]
+    for ctrl in controls[:8]:
+        lines.append(f"- **{ctrl['priority']} — {ctrl['control_id']}:** {ctrl['control_name']}; owner: {ctrl['owner']}; artifact: {ctrl['required_artifact']}")
+    lines += ["", "## Control implementation templates", "", "| Control ID | Owner | Required artifact | Trigger | Threshold | Cadence | Decision consequence |", "| --- | --- | --- | --- | --- | --- | --- |"]
+    for ctrl in controls[:8]:
+        lines.append(f"| {ctrl['control_id']} | {ctrl['owner']} | {ctrl['required_artifact']} | {ctrl['trigger']} | {ctrl['threshold']} | {ctrl['cadence']} | {ctrl['decision_consequence']} |")
+    lines += ["", "## Residual risk if no action is taken", "", "The failure pathway is paperwork compliance without live operational control: governance language may be cited while real decisions proceed without verified owner authority, implementation artifacts, thresholds, escalation gates, or affected-person redress.", "", "## Technical appendix pointer", "", f"See `{processing.get('safe_output_stem')}.technical_appendix.md` for processing metadata, source identity, scoring table, evidence traces, remediation patches, LAIF-native construct coverage, and certification boundary.", ""]
+    return "\n".join(lines)
+
+
+def build_technical_appendix(processing: dict, extraction: dict, assessment: dict, quote_bank: list[dict], gaps: list[dict], pathways: list[dict], controls: list[dict]) -> str:
+    scores = ["structural_score", "terminology_score", "conceptual_proximity_score", "auditability_score", "enforceability_score", "overall_readiness_score"]
+    lines = [f"# Technical Appendix — {processing.get('original_file_name')}", "", "## Document metadata", ""]
+    for key in ("original_file_name", "source_sha256", "safe_output_stem"):
+        lines.append(f"- **{key}:** {processing.get(key)}")
+    lines += ["", "## Processing metadata", ""]
+    for key in ("processed_at_utc", "input_path_original", "original_pending_path", "stored_source_path", "runner_input_path", "markdown_output_path", "json_output_path"):
+        lines.append(f"- **{key}:** {processing.get(key)}")
+    lines += ["", "## Extraction metadata", ""]
+    for key in ("extractor_requested", "extractor_used", "extraction_confidence", "extracted_characters", "warning_count", "warnings", "error_count", "errors", "network_access_used"):
+        lines.append(f"- **{key}:** {extraction.get(key)}")
+    lines += ["", "## Scoring table", "", "| Score | Value |", "| --- | --- |"]
+    for key in scores:
+        lines.append(f"| {key} | {assessment.get(key)} |")
+    lines += ["", "## Governance repair fields", "", "```json", json.dumps({k: assessment.get(k) for k in assessment if k.startswith('governance_') or k in ('document_type','assessment_mode')}, indent=2, sort_keys=True), "```", "", "## Evidence traces", "", "```json", json.dumps(assessment.get("evidence_traces", []), indent=2, sort_keys=True), "```", "", "## Remediation patches", "", "```json", json.dumps(assessment.get("remediation_patches", []), indent=2, sort_keys=True), "```", "", "## LAIF-native construct coverage", "", "```json", json.dumps(assessment.get("construct_coverage", {}), indent=2, sort_keys=True), "```", "", "## Formal LAIF-native certification boundary", ""]
+    if assessment.get("assessment_mode") == "external_framework":
+        lines.append("Formal LAIF-native certification: Not claimed / not applicable to this external-framework assessment. Construct coverage is internal diagnostic data only.")
+    else:
+        lines.append(f"Formal LAIF-native certification: {assessment.get('formal_laif_native_compliance', assessment.get('formal_laif_compliance'))}")
+    lines += ["", "## Low-confidence extraction/noise findings", "", f"- Low-confidence extraction noise: {assessment.get('low_confidence_extraction_noise', {})}", f"- Runner warnings: {extraction.get('warnings', [])}", "", "## Warnings/errors", "", f"- Warnings: {extraction.get('warnings', [])}", f"- Errors: {extraction.get('errors', [])}", ""]
+    return "\n".join(lines)
+
+
+def build_ai_prompt() -> str:
+    return """# AI Analyst Prompt\n\nUse only the provided quote bank, diagnostics, and source excerpts. Do not invent quotes, obligations, legal claims, scores, documents, actors, or controls. Do not treat LAIF-native failure as the headline for external-framework documents. Produce institutional governance analysis for senior governance, legal, procurement, public-sector, clinical safety, or AI assurance reviewers. Preserve all source references and quote IDs. For each major recommendation, link to quote IDs, gap IDs, and control IDs. If evidence is insufficient, say so. Do not claim legal validity/invalidity. Do not claim certification unless provided by deterministic LAIF data. Include a technical appendix.\n"""
+
+
+def build_validation_rules() -> str:
+    return """# AI Report Validation Rules\n\n- Every quote must exist in `quote_bank`.\n- Every recommendation must map to a gap/control ID.\n- No invented legal obligations.\n- No invented citation.\n- No unsupported certification or legal-validity claim.\n- Required sections must be present.\n- Technical appendix must be preserved.\n- Low-confidence evidence must not be used as primary support.\n"""
+
+
+def write_institutional_outputs(output_dir: Path, processing: dict, extraction: dict, assessment: dict, extracted_text: str) -> dict:
+    quote_bank = build_quote_bank(extracted_text, processing, extraction, assessment)
+    gaps = build_governance_gap_register(assessment, quote_bank)
+    pathways = build_failure_pathways(gaps, quote_bank)
+    controls = build_control_recommendations(gaps, pathways, quote_bank)
+    bundle = {
+        "document_metadata": {"original_file_name": processing.get("original_file_name"), "source_sha256": processing.get("source_sha256"), "document_type": assessment.get("document_type"), "sector_profile": assessment.get("sector_profile")},
+        "processing_metadata": processing,
+        "extraction_metadata": extraction,
+        "governance_repair_fields": {k: assessment.get(k) for k in assessment if k.startswith("governance_")},
+        "scores": {k: assessment.get(k) for k in ("structural_score", "terminology_score", "conceptual_proximity_score", "auditability_score", "enforceability_score", "overall_readiness_score")},
+        "quote_bank": quote_bank,
+        "gap_register": gaps,
+        "failure_pathways": pathways,
+        "control_recommendations": controls,
+        "extraction_warnings": extraction.get("warnings", []),
+        "low_confidence_evidence_flags": [q for q in quote_bank if q.get("low_confidence_reason")],
+        "technical_appendix_data": {"construct_coverage": assessment.get("construct_coverage", {}), "formal_laif_native_compliance": assessment.get("formal_laif_native_compliance", assessment.get("formal_laif_compliance")), "evidence_traces": assessment.get("evidence_traces", []), "remediation_patches": assessment.get("remediation_patches", [])},
+    }
+    analyst_dir = output_dir / "analyst"
+    analyst_dir.mkdir(parents=True, exist_ok=True)
+    stem = processing["safe_output_stem"]
+    (output_dir / f"{stem}.institutional_report.md").write_text(build_institutional_report(processing, extraction, assessment, quote_bank, gaps, pathways, controls), encoding="utf-8")
+    (output_dir / f"{stem}.technical_appendix.md").write_text(build_technical_appendix(processing, extraction, assessment, quote_bank, gaps, pathways, controls), encoding="utf-8")
+    json_dump(analyst_dir / "analyst_bundle.json", bundle)
+    with (analyst_dir / "quote_bank.jsonl").open("w", encoding="utf-8") as handle:
+        for quote in quote_bank:
+            handle.write(json.dumps(quote, sort_keys=True) + "\n")
+    quote_md = ["# Quote Bank", ""]
+    for q in quote_bank:
+        quote_md += [f"## {q['quote_id']} — {q['signal_category']}", "", f"> {q['exact_quote']}", "", f"- **Why it matters:** {q['why_it_matters']}", f"- **What it does not prove:** {q['what_it_does_not_prove']}", ""]
+    (analyst_dir / "quote_bank.md").write_text("\n".join(quote_md), encoding="utf-8")
+    json_dump(analyst_dir / "governance_gap_register.json", {"gaps": gaps})
+    json_dump(analyst_dir / "failure_pathways.json", {"failure_pathways": pathways})
+    json_dump(analyst_dir / "control_recommendations.json", {"control_recommendations": controls})
+    (analyst_dir / "AI_ANALYST_PROMPT.md").write_text(build_ai_prompt(), encoding="utf-8")
+    json_dump(analyst_dir / "AI_ANALYST_INPUT_BUNDLE.json", bundle)
+    (analyst_dir / "AI_REPORT_VALIDATION_RULES.md").write_text(build_validation_rules(), encoding="utf-8")
+    return {"quote_bank": quote_bank, "gap_register": gaps, "failure_pathways": pathways, "control_recommendations": controls, "analyst_bundle": bundle}
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Extract a local document and run the LAIF assessment report wrapper.")
     parser.add_argument("input_file", type=Path, help="Local input document path")
@@ -466,6 +821,15 @@ def run(args: argparse.Namespace) -> int:
             Path(processing["markdown_output_path"]).write_text(markdown_report, encoding="utf-8")
         if args.json_output:
             json_dump(Path(processing["json_output_path"]), payload)
+        analyst_outputs = write_institutional_outputs(args.output_dir, processing, extraction_metadata, assessment, extraction.text)
+        payload["institutional_analyst_outputs"] = {
+            "quote_bank_count": len(analyst_outputs["quote_bank"]),
+            "gap_count": len(analyst_outputs["gap_register"]),
+            "failure_pathway_count": len(analyst_outputs["failure_pathways"]),
+            "control_recommendation_count": len(analyst_outputs["control_recommendations"]),
+        }
+        if args.json_output:
+            json_dump(Path(processing["json_output_path"]), payload)
         append_index(args.output_dir, index_record(processing, extraction_metadata, assessment, input_path, document_name))
 
     print(f"Original input path: {input_path_original}")
@@ -484,6 +848,9 @@ def run(args: argparse.Namespace) -> int:
             print(f"Markdown report: {processing['markdown_output_path']}")
         if args.json_output:
             print(f"JSON report: {processing['json_output_path']}")
+        print(f"Institutional report: {args.output_dir / (processing['safe_output_stem'] + '.institutional_report.md')}")
+        print(f"Technical appendix: {args.output_dir / (processing['safe_output_stem'] + '.technical_appendix.md')}")
+        print(f"Analyst bundle: {args.output_dir / 'analyst' / 'analyst_bundle.json'}")
         print(f"Processing index: {args.output_dir / INDEX_FILE_NAME}")
     if args.print_report:
         print("\n" + markdown_report)

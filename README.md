@@ -204,3 +204,7 @@ The workflow defaults to `commit_outputs=false`, so outputs remain in the workfl
 ## Governance repair reporting for external frameworks
 
 LAIF external-framework mode is a governance repair and systemic failure detection assessment, not a requirement that governments or external standards imitate LAIF-native form. External reports now lead with **LAIF Governance Repair Assessment** and evaluate document type, governance force, systemic repair value, operational closure, evidence sufficiency, accountability closure, lifecycle control, residual-risk control, implementation gaps, and failure-pathway risk. Formal LAIF-native certification remains valid for LAIF-native documents; for external-framework documents it is shown only as technical appendix / internal diagnostic construct coverage. See `docs/governance/GOVERNANCE_REPAIR_REPORTING.md`.
+
+### Phase 3W institutional analyst reporting
+
+Local document processing now emits an institutional governance assessment, separate technical appendix, deterministic quote bank, governance gap register, failure pathways, practical control recommendations, and an AI-ready analyst bundle. These artifacts are generated without external model API calls and are intended to help governance, legal, procurement, public-sector, clinical safety, and assurance reviewers translate source frameworks into operational controls.

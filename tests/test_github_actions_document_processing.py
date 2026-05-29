@@ -105,6 +105,36 @@ class GithubActionsDocumentProcessingTests(unittest.TestCase):
                 self.assertEqual(metadata["stored_source_path"], success["stored_source_path"])
                 self.assertEqual(metadata["runner_input_path"], success["runner_input_path"])
 
+
+    def test_batch_institutional_outputs_generated_and_compare_types(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            pending = root / "pending"
+            pending.mkdir()
+            (pending / "NIST sample.txt").write_text(
+                "AI Risk Management Framework voluntary non-sector-specific use-case agnostic govern map measure manage trustworthy AI. Organizations should document risks, assign accountability, monitor systems, and retain evidence.",
+                encoding="utf-8",
+            )
+            (pending / "DTAC sample.txt").write_text(
+                "Digital Technology Assessment Criteria clinical safety DCB0129 clinical safety case hazard log patient care NHS data protection interoperability. Suppliers must provide evidence and safety documentation.",
+                encoding="utf-8",
+            )
+            summary = self.run_batch(root, "--max-files", "5")
+            self.assertEqual(summary["success_count"], 2)
+            self.assertEqual(len(list((root / "processed").glob("*/reports/*.institutional_report.md"))), 2)
+            self.assertTrue(list((root / "processed").glob("*/reports/*.technical_appendix.md")))
+            self.assertTrue(list((root / "processed").glob("*/reports/analyst/analyst_bundle.json")))
+            batch_report = root / "batch_institutional_report.md"
+            self.assertTrue(batch_report.exists())
+            text = batch_report.read_text(encoding="utf-8")
+            self.assertIn("Governance force comparison", text)
+            self.assertIn("Document type summary", text)
+            self.assertIn("NIST sample.txt", text)
+            self.assertIn("DTAC sample.txt", text)
+            for name in ("portfolio_gap_register.json", "portfolio_control_roadmap.md", "batch_quote_bank.md", "batch_ai_prompt.md", "batch_ai_input_bundle.json"):
+                self.assertTrue((root / name).exists(), name)
+            self.assertIn("batch_institutional_outputs", summary)
+
     def test_move_mode_removes_pending_source_after_success(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

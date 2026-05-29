@@ -136,9 +136,57 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
             path.write_text(STRONG_EXTERNAL_TEXT, encoding="utf-8")
             self.run_cli([str(path), "--output-dir", str(out)])
             payload = json.loads(next(out.glob("*.laif.json")).read_text(encoding="utf-8"))
-            self.assertEqual(set(payload), {"processing_metadata", "extraction_metadata", "assessment_result"})
+            self.assertEqual(set(payload), {"processing_metadata", "extraction_metadata", "assessment_result", "institutional_analyst_outputs"})
             self.assertIn("processed_at_utc", payload["processing_metadata"])
             self.assertIn("source_sha256", payload["extraction_metadata"])
+
+
+    def test_institutional_analyst_outputs_generated_and_quote_exactness(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "sample.txt"
+            out = root / "out"
+            source_text = STRONG_EXTERNAL_TEXT + " Organizations should document risks, assign accountability, monitor AI systems, review outcomes, manage incidents, and maintain evidence."
+            path.write_text(source_text, encoding="utf-8")
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+
+            institutional = next(out.glob("*.institutional_report.md"))
+            appendix = next(out.glob("*.technical_appendix.md"))
+            analyst = out / "analyst"
+            self.assertTrue(institutional.exists())
+            self.assertTrue(appendix.exists())
+            for name in (
+                "analyst_bundle.json",
+                "quote_bank.jsonl",
+                "quote_bank.md",
+                "governance_gap_register.json",
+                "failure_pathways.json",
+                "control_recommendations.json",
+                "AI_ANALYST_PROMPT.md",
+                "AI_ANALYST_INPUT_BUNDLE.json",
+                "AI_REPORT_VALIDATION_RULES.md",
+            ):
+                self.assertTrue((analyst / name).exists(), name)
+
+            md = institutional.read_text(encoding="utf-8")
+            for heading in ("Executive finding", "Key quoted evidence", "Operational gap", "Failure pathway", "Control implementation", "Residual risk"):
+                self.assertIn(heading, md)
+            self.assertNotIn("Formal LAIF-native compliance: FAIL", md[:1200])
+            self.assertIn("LAIF-native construct coverage", appendix.read_text(encoding="utf-8"))
+
+            bundle = json.loads((analyst / "analyst_bundle.json").read_text(encoding="utf-8"))
+            self.assertTrue(bundle["quote_bank"])
+            self.assertTrue(bundle["gap_register"])
+            self.assertTrue(bundle["failure_pathways"][0]["steps"])
+            for quote in bundle["quote_bank"]:
+                self.assertIn(quote["exact_quote"], source_text)
+            controls = bundle["control_recommendations"]
+            for control in controls:
+                for key in ("owner", "required_artifact", "minimum_evidence", "trigger", "threshold", "cadence", "decision_consequence"):
+                    self.assertTrue(control[key])
+            prompt = (analyst / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
+            self.assertIn("Do not invent quotes", prompt)
+            self.assertIn("Do not claim legal validity/invalidity", prompt)
 
     def test_relative_input_from_different_cwd_preserves_original_and_resolves_identity(self) -> None:
         with tempfile.TemporaryDirectory() as td:
