@@ -108,3 +108,8 @@ Public-facing rendering requirements are defined in [Public Report Template](PUB
 ## Phase 3S System QA Release Audit Reference
 
 See [SYSTEM_QA_RELEASE_AUDIT.md](SYSTEM_QA_RELEASE_AUDIT.md) for the release-readiness audit boundary covering validation/certification separation, diagnostic modes, evidence, remediation, sector profiles, calibration, public reporting, protected artifacts, and verified corpus limits. That audit is documentation/test-only and does not change runtime behavior.
+
+
+## Phase 3V external-framework interpretation
+
+External-framework scores are interpreted as governance repair signals. They do not require the source document to be LAIF-native and they do not convert an external legal, policy, assurance, or technical instrument into LAIF-native certification. The front-facing interpretation emphasizes systemic repair value, operational closure, evidence sufficiency, accountability closure, lifecycle control, residual-risk closure, implementation readiness, and failure-pathway risk. Formal LAIF-native construct coverage remains available in the technical appendix / internal diagnostic boundary. See `GOVERNANCE_REPAIR_REPORTING.md` and the Phase 3S System QA Release Audit Reference in `SYSTEM_QA_RELEASE_AUDIT.md`.

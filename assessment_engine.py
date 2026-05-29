@@ -1935,6 +1935,220 @@ def _directionality_penalty(text, score):
     return score, False
 
 
+
+# ── Phase 3V governance repair reporting helpers ─────────────────────────────
+# These helpers derive external-framework presentation fields from existing
+# deterministic diagnostics. They do not change scoring weights, formal
+# LAIF-native validation, or validate.py behavior.
+
+_DOCUMENT_TYPE_PATTERNS = [
+    ("binding_legal_instrument", (r"\bregulation\b", r"\bharmonised rules\b", r"\bofficial journal\b", r"\bmarket surveillance\b", r"\bconformity assessment\b")),
+    ("executive_policy_directive", (r"\bexecutive order\b", r"\bpresident\b", r"\bsecretary of\b", r"\bfederal agencies\b", r"\bshall\b.{0,80}\bagenc")),
+    ("voluntary_risk_framework", (r"\brisk management framework\b", r"\bvoluntary framework\b", r"\bvoluntary\b", r"\bgovern, map, measure, and manage\b", r"\bnon-sector-specific\b", r"\buse-case agnostic\b")),
+    ("sector_assurance_checklist", (r"\bassurance checklist\b", r"\bdtac\b", r"\bdigital technology assessment criteria\b", r"\bclinical safety case\b", r"\bhazard log\b", r"\bdcb0129\b")),
+    ("procurement_assessment_form", (r"\bprocurement\b", r"\bassessment form\b", r"\bvendor\b", r"\bsupplier\b", r"\bcontract\b")),
+    ("technical_standard", (r"\biso/iec\b", r"\btechnical standard\b", r"\bstandard specifies\b", r"\brequirements and guidance\b")),
+    ("implementation_guide", (r"\bimplementation guide\b", r"\bplaybook\b", r"\bguidance for implementing\b", r"\bhow to implement\b")),
+    ("internal_policy", (r"\binternal policy\b", r"\bdepartment policy\b", r"\bcompany policy\b", r"\borganizational policy\b")),
+    ("vendor_compliance_submission", (r"\bvendor submission\b", r"\bcompliance submission\b", r"\battestation\b", r"\bsupplier response\b")),
+]
+
+_DOCUMENT_TYPE_FORCE = {
+    "binding_legal_instrument": "Binding legal instrument with public-law force where adopted; operational closure depends on delegated controls, evidence, and enforcement machinery.",
+    "executive_policy_directive": "Executive policy directive with administrative force over named agencies or executive functions; implementation depends on agency ownership and follow-through controls.",
+    "voluntary_risk_framework": "Voluntary risk-management framework; high guidance value but limited force unless incorporated into contracts, regulation, assurance, or internal policy gates.",
+    "sector_assurance_checklist": "Sector assurance checklist; useful for assurance triage where mapped to accountable reviewers, evidence artifacts, and pass/fail gates.",
+    "procurement_assessment_form": "Procurement assessment form; force arises through procurement conditions, contract clauses, supplier obligations, and audit rights.",
+    "technical_standard": "Technical standard; force depends on adoption by regulation, contract, certification scheme, or institutional policy.",
+    "implementation_guide": "Implementation guide; operational value depends on conversion into mandatory owners, controls, evidence, and review gates.",
+    "internal_policy": "Internal policy; force depends on organizational authority, accountable owners, monitoring, and consequences.",
+    "vendor_compliance_submission": "Vendor compliance submission; value depends on independent verification, contract remedies, audit rights, and evidence review.",
+    "unknown_governance_document": "Governance document with unclear authority; reviewer must establish institutional force, accountable owner, and evidence basis before reliance.",
+}
+
+_DOC_TYPE_USE = {
+    "binding_legal_instrument": ("Regulatory/legal governance mapping, enforcement-design review, and systemic failure-pathway analysis.", "Not sufficient by itself as implementation evidence, operational assurance, or LAIF-native certification."),
+    "executive_policy_directive": ("Agency implementation planning, executive control mapping, and accountability-gap review.", "Not sufficient by itself as proof that agencies implemented, audited, or sustained the required controls."),
+    "voluntary_risk_framework": ("Governance program design, procurement reference, assurance planning, and control-gap analysis.", "Not sufficient by itself as binding compliance, operational evidence, or certification."),
+    "sector_assurance_checklist": ("Assurance triage, reviewer workflow design, and sector-specific evidence requests.", "Not sufficient without source evidence, accountable reviewer sign-off, and operational gate criteria."),
+    "procurement_assessment_form": ("Procurement due diligence, supplier evidence requests, and contract-control design.", "Not sufficient without contract terms, audit rights, verification evidence, and remedies."),
+    "technical_standard": ("Technical control mapping and conformity planning.", "Not sufficient unless adopted by an authority, assurance scheme, contract, or internal gate."),
+    "implementation_guide": ("Operational planning and control-design support.", "Not sufficient until converted into mandatory controls, owners, evidence, and lifecycle review."),
+    "internal_policy": ("Institutional governance review and operational control mapping.", "Not sufficient without implementation records, monitoring, accountability, and escalation evidence."),
+    "vendor_compliance_submission": ("Supplier assurance review and evidence triage.", "Not sufficient without independent verification, source artifacts, audit access, and remedies."),
+    "unknown_governance_document": ("Preliminary governance triage and document classification review.", "Not sufficient for reliance until authority, scope, controls, and evidence are confirmed."),
+}
+
+_OWNER_GAP_RE = re.compile(r"\b(owner|responsible|accountable|authority|officer|agency|provider|deployer)\b", re.IGNORECASE)
+_GATE_GAP_RE = re.compile(r"\b(gate|approval|authori[sz]ation|shall not|before deployment|pre-deployment|conformity assessment|sign[- ]off)\b", re.IGNORECASE)
+_EVIDENCE_GAP_RE = re.compile(r"\b(evidence|record|documentation|trace|log|audit|report)\b", re.IGNORECASE)
+_LIFECYCLE_GAP_RE = re.compile(r"\b(lifecycle|monitor|review|post-market|post deployment|incident|change management)\b", re.IGNORECASE)
+_ROLLBACK_GAP_RE = re.compile(r"\b(rollback|reversib|fallback|withdraw|suspend|stop|decommission)\b", re.IGNORECASE)
+_RESIDUAL_RISK_RE = re.compile(r"\b(residual risk|remaining risk|risk acceptance|risk treatment|mitigation)\b", re.IGNORECASE)
+
+
+def classify_document_type(text, name="", source_type=""):
+    """Classify document type independently from sector routing."""
+    haystack = f"{name or ''} {source_type or ''} {text or ''}".lower()
+    scores = []
+    for doc_type, patterns in _DOCUMENT_TYPE_PATTERNS:
+        score = sum(1 for pat in patterns if re.search(pat, haystack, re.IGNORECASE))
+        scores.append((score, doc_type))
+    best_score, best_type = max(scores, key=lambda item: (item[0], -[dt for dt, _ in _DOCUMENT_TYPE_PATTERNS].index(item[1])))
+    return best_type if best_score else "unknown_governance_document"
+
+
+def _quality_label(score, strong=75, moderate=50, limited=25):
+    if score >= strong:
+        return "Strong"
+    if score >= moderate:
+        return "Moderate"
+    if score >= limited:
+        return "Limited"
+    return "Weak"
+
+
+def _risk_label(score):
+    if score >= 70:
+        return "High"
+    if score >= 40:
+        return "Medium"
+    return "Low"
+
+
+def _gap_absent(text, regex):
+    return not bool(regex.search(text or ""))
+
+
+def _build_governance_repair_fields(result, text):
+    evidence_count = len(result.get("evidence_traces", []))
+    patches = result.get("remediation_patches", [])
+    high_patch_count = sum(1 for p in patches if str(p.get("severity", "")).upper() == "HIGH")
+    formal_fail = result.get("formal_laif_native_compliance", result.get("formal_laif_compliance")) == "FAIL"
+    conceptual = result.get("conceptual_proximity_score", 0)
+    audit = result.get("auditability_score", 0)
+    enforce = result.get("enforceability_score", 0)
+    structural = result.get("structural_score", 0)
+    sector_alignment = result.get("sector_risk_alignment", 0)
+
+    owner_gap = _gap_absent(text, _OWNER_GAP_RE)
+    gate_gap = _gap_absent(text, _GATE_GAP_RE)
+    evidence_gap = _gap_absent(text, _EVIDENCE_GAP_RE) or evidence_count == 0
+    lifecycle_gap = _gap_absent(text, _LIFECYCLE_GAP_RE)
+    rollback_gap = _gap_absent(text, _ROLLBACK_GAP_RE)
+    residual_gap = _gap_absent(text, _RESIDUAL_RISK_RE)
+
+    evidence_score = min(100, round(0.70 * audit + min(evidence_count, 5) * 6 - (20 if evidence_gap else 0)))
+    operational_score = min(100, max(0, round(0.55 * structural + 0.25 * enforce + 20 - high_patch_count * 8 - sum([owner_gap, gate_gap, lifecycle_gap]) * 10)))
+    accountability_score = min(100, max(0, round(0.65 * enforce + 20 - sum([owner_gap, gate_gap]) * 15)))
+    lifecycle_score = min(100, max(0, round(0.60 * structural + 0.25 * audit + 15 - sum([lifecycle_gap, rollback_gap]) * 15)))
+    residual_score = min(100, max(0, round(0.55 * audit + 0.25 * enforce + 20 - sum([residual_gap, rollback_gap]) * 15)))
+    implementation_gap_score = min(100, max(0, round(0.40 * operational_score + 0.30 * evidence_score + 0.30 * accountability_score)))
+
+    signal_strength = round(0.30 * conceptual + 0.25 * enforce + 0.25 * audit + 0.20 * operational_score)
+    systemic_label = _quality_label(signal_strength)
+    control_gap_count = sum([owner_gap, gate_gap, evidence_gap, lifecycle_gap, rollback_gap, residual_gap])
+    failure_risk_score = min(100, max(0, round((conceptual * 0.35) + (sector_alignment * 0.20) + control_gap_count * 10 + high_patch_count * 8 - (audit + enforce) * 0.10)))
+
+    doc_type = result.get("document_type") or classify_document_type(text, result.get("document_name"), result.get("source_type"))
+    recommended_use, not_sufficient_for = _DOC_TYPE_USE.get(doc_type, _DOC_TYPE_USE["unknown_governance_document"])
+    control_gaps = []
+    if owner_gap:
+        control_gaps.append("assign accountable owner")
+    if gate_gap:
+        control_gaps.append("define decision/release gate")
+    if evidence_gap:
+        control_gaps.append("link evidence artifact")
+    if lifecycle_gap:
+        control_gaps.append("add lifecycle monitoring/review")
+    if rollback_gap:
+        control_gaps.append("add rollback/fallback control")
+    if residual_gap:
+        control_gaps.append("document residual-risk acceptance and review")
+    if not control_gaps:
+        control_gaps.append("verify source authority and implementation records")
+
+    return {
+        "document_type": doc_type,
+        "recommended_use": recommended_use,
+        "not_sufficient_for": not_sufficient_for,
+        "governance_force_profile": _DOCUMENT_TYPE_FORCE.get(doc_type, _DOCUMENT_TYPE_FORCE["unknown_governance_document"]),
+        "systemic_repair_value": systemic_label,
+        "operational_closure_rating": _quality_label(operational_score),
+        "evidence_sufficiency_rating": _quality_label(evidence_score),
+        "accountability_closure_rating": _quality_label(accountability_score),
+        "lifecycle_control_rating": _quality_label(lifecycle_score),
+        "residual_risk_control_rating": _quality_label(residual_score),
+        "implementation_gap_rating": _quality_label(implementation_gap_score),
+        "failure_pathway_risk": _risk_label(failure_risk_score),
+        "priority_repair_actions": control_gaps[:5],
+        "governance_repair_signal_basis": {
+            "auditability_score": audit,
+            "enforceability_score": enforce,
+            "conceptual_proximity_score": conceptual,
+            "structural_score": structural,
+            "evidence_trace_count": evidence_count,
+            "remediation_patch_count": len(patches),
+            "high_severity_patch_count": high_patch_count,
+            "formal_laif_native_compliance": result.get("formal_laif_native_compliance"),
+            "sector_profile": result.get("sector_profile"),
+            "sector_risk_alignment": sector_alignment,
+            "detected_control_gaps": control_gaps,
+        },
+    }
+
+
+def _fragment_quality(fragment):
+    text = " ".join(str(fragment or "").split())
+    if len(text) < 45:
+        return False, "fragment_too_short"
+    chars = [ch for ch in text if not ch.isspace()]
+    if not chars:
+        return False, "empty_fragment"
+    alpha_ratio = sum(ch.isalpha() for ch in chars) / max(len(chars), 1)
+    if alpha_ratio < 0.62:
+        return False, "low_alphabetic_ratio"
+    tokens = re.findall(r"[A-Za-z]+", text)
+    if len(tokens) < 7:
+        return False, "insufficient_meaningful_tokens"
+    shortish = sum(1 for tok in tokens if len(tok) <= 2)
+    if shortish / max(len(tokens), 1) > 0.35:
+        return False, "glyph_fragmentation"
+    if re.search(r"(?:[A-Za-z]\s){5,}[A-Za-z]", fragment or ""):
+        return False, "excessive_glyph_spacing"
+    if re.search(r"[^\w\s.,;:()\[\]{}'\"/–—-]{3,}", text):
+        return False, "line_or_glyph_corruption"
+    lower = text.lower()
+    if lower.startswith(("his regulation", "al law", "ithout ", "tion,", "ment,")):
+        return False, "broken_extraction_debris"
+    context_terms = ("coupling", "coherence", "integrity", "transparency", "honesty", "containment", "accountability", "oversight", "audit", "evidence", "risk", "govern", "obligation", "shall", "must", "review")
+    if not any(term in lower for term in context_terms):
+        return False, "no_meaningful_governance_context"
+    return True, "primary_confidence"
+
+
+def _filter_paraphrase_violations(paraphrase):
+    primary = {}
+    noise = []
+    for term, violations in (paraphrase or {}).items():
+        kept = []
+        for phrase, ctx in violations:
+            ok_phrase, reason_phrase = _fragment_quality(phrase)
+            ok_ctx, reason_ctx = _fragment_quality(ctx)
+            if ok_phrase or ok_ctx:
+                kept.append((phrase, ctx))
+            else:
+                noise.append({
+                    "term": term,
+                    "phrase": phrase,
+                    "context": ctx,
+                    "classification": "low_confidence_extraction_noise",
+                    "reason": reason_ctx or reason_phrase,
+                })
+        if kept:
+            primary[term] = kept
+    return primary, noise
+
 # ── Core assessment function ──────────────────────────────────────────────────
 
 def _resolve_assessment_mode(requested_mode, name, source_type, formal_pass):
@@ -2062,11 +2276,12 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     ]
     formal_pass = all(present for _, present in formal_checks)
 
-    paraphrase = {}
+    raw_paraphrase = {}
     for guard in PARAPHRASE_GUARDS:
         v = find_paraphrase_violations(text, guard)
         if v:
-            paraphrase[guard["term"]] = v
+            raw_paraphrase[guard["term"]] = v
+    paraphrase, low_confidence_extraction_noise = _filter_paraphrase_violations(raw_paraphrase)
 
     # Strengths — signals that fired in conceptual + general structural +
     # auditability + enforceability rubrics (not LAIF-specific structural,
@@ -2232,6 +2447,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         "overall_readiness_score":    overall,
         "remediation_effort":         effort,
         "paraphrase_violations":      paraphrase,
+        "low_confidence_extraction_noise": low_confidence_extraction_noise,
         "strengths":                  strengths,
         "gaps":                       gaps,
         "primary_failure_modes":      failure_modes,
@@ -2244,7 +2460,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
             "enforceability":{"fired": e_fired, "missed": e_missed},
         },
         # Sector fields
-        "sector_used":                 sector,
+        "sector_used":                 profile_key,
         "sector_label":                profile["label"],
         "sector_relevant_interests":   profile["relevant_interests"],
         "sector_specific_findings":    sector_specific_findings,
@@ -2291,6 +2507,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     result["dimension_justifications"]     = _dimension_justification_records(result)
     result["calibration_cautions"]         = _calibration_cautions(result)
     result["gaming_risk_notes"]            = _score_gaming_risk_notes(result)
+    result.update(_build_governance_repair_fields(result, text))
     return result
 
 
@@ -3351,7 +3568,7 @@ def _public_report_status_label(result):
     if native == "PASS":
         return "LAIF-native certification: PASS"
     if mode == "external_framework":
-        return "LAIF-native certification: FAIL / not LAIF-native / canonical remediation required"
+        return "LAIF-native certification: Not claimed / not applicable to this external-framework assessment."
     return "LAIF-native certification: FAIL / canonical remediation required"
 
 
@@ -3463,17 +3680,18 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             if status in {"gap / requires review", "requires reviewer confirmation"}:
                 force_counter[component] += 1
 
-    lines.append("# LAIF Institutional Structural Governance Assessment Report")
+    lines.append("# LAIF Governance Repair Assessment")
     p(f"**Report date:** {report_date}  ")
     p("**Framework:** LAIF v1.2 · Compliance Toolkit v1.1  ")
-    p("**Report architecture:** Public report template — Phase 3R  ")
+    p("**Report architecture:** Governance Repair Assessment public template — Phase 3V  ")
     p("**Validator boundary:** validate.py enforcement remains unchanged; this report renders existing assessment results only.  ")
     p()
 
     h(2, "Report Scope and Boundary")
     h(3, "Result Boundary / How to Read This Report")
-    p("This public report is a diagnostic LAIF-model output for institutional review.")
-    p("External framework structural assessment is diagnostic, not certification. External-framework report sections are diagnostic, not certification, and do not certify LAIF-native compliance unless the LAIF-native certification gate separately passes.")
+    p("This public report is a governance repair and systemic failure-pathway diagnostic for institutional review.")
+    p("This assessment measures governance repair adequacy and operational control closure. It does not require the source document to imitate LAIF-native form.")
+    p("External-framework mode assesses governance repair adequacy, operational closure, evidence sufficiency, accountability closure, lifecycle control, residual-risk closure, implementation readiness, and failure-pathway risk.")
     p("This report does not determine legal validity, enforceability, safety status, procurement eligibility, clinical authority, HR authority, education authority, or regulatory acceptance.")
     p("Not LAIF-native is certification-channel wording only; it is not a legal-validity or governance-validity determination.")
     p("Evidence traces preserve exact-source and reviewer-confirmation boundaries; trace presence does not prove implementation.")
@@ -3483,8 +3701,8 @@ def generate_markdown_report(assessments, report_date="May 2026"):
 
     h(2, "Executive Brief")
     p(f"- **Total documents assessed:** {count}")
-    p(f"- **LAIF-native certification summary:** {count - len(native_failures)}/{count} PASS; {len(native_failures)}/{count} FAIL / not LAIF-native / canonical remediation required where applicable.")
-    p(f"- **External-framework diagnostic status:** {external_count}/{count} rendered as diagnostic, not certification.")
+    p(f"- **External-framework governance repair assessments:** {external_count}/{count} rendered as governance repair diagnostics, not LAIF-native certification.")
+    p(f"- **LAIF-native certification summary:** {count - len(native_failures)}/{count} PASS; {len(native_failures)}/{count} FAIL where LAIF-native certification is claimed/applicable.")
     p(f"- **Average overall readiness:** {avg('overall_readiness_score')}/100")
     p(f"- **Average conceptual proximity:** {avg('conceptual_proximity_score')}/100")
     p(f"- **Average sector alignment:** {avg('sector_risk_alignment')}/100")
@@ -3537,8 +3755,54 @@ def generate_markdown_report(assessments, report_date="May 2026"):
             ["Source URL", r.get("source_url", "") or "not provided"],
             ["Provenance", r.get("provenance", "") or "not provided"],
         ]
+        if r.get("assessment_mode") == "external_framework":
+            overview.extend([
+                ["Document type", r.get("document_type", "unknown_governance_document")],
+                ["Original file name", r.get("original_file_name", "not provided") or "not provided"],
+                ["Source SHA-256", r.get("source_sha256", "not provided") or "not provided"],
+            ])
         table(["Field", "Value"], overview)
         p()
+        if r.get("assessment_mode") == "external_framework":
+            h(4, "Governance Repair Profile")
+            table(
+                ["Field", "Value"],
+                [
+                    ["document_type", r.get("document_type", "unknown_governance_document")],
+                    ["recommended_use", r.get("recommended_use", "reviewer confirmation required")],
+                    ["not_sufficient_for", r.get("not_sufficient_for", "reviewer confirmation required")],
+                    ["governance_force_profile", r.get("governance_force_profile", "reviewer confirmation required")],
+                    ["systemic_repair_value", r.get("systemic_repair_value", "reviewer confirmation required")],
+                    ["operational_closure_rating", r.get("operational_closure_rating", "reviewer confirmation required")],
+                    ["evidence_sufficiency_rating", r.get("evidence_sufficiency_rating", "reviewer confirmation required")],
+                    ["accountability_closure_rating", r.get("accountability_closure_rating", "reviewer confirmation required")],
+                    ["lifecycle_control_rating", r.get("lifecycle_control_rating", "reviewer confirmation required")],
+                    ["residual_risk_control_rating", r.get("residual_risk_control_rating", "reviewer confirmation required")],
+                    ["implementation_gap_rating", r.get("implementation_gap_rating", "reviewer confirmation required")],
+                    ["failure_pathway_risk", r.get("failure_pathway_risk", "reviewer confirmation required")],
+                    ["priority_repair_actions", _compact_list(r.get("priority_repair_actions", []), limit=5)],
+                ],
+            )
+            p("This assessment measures governance repair adequacy and operational control closure. It does not require the source document to imitate LAIF-native form.")
+            p()
+            h(4, "Operational Closure Findings")
+            p(f"- **Operational closure:** {r.get('operational_closure_rating', 'reviewer confirmation required')}")
+            p(f"- **Accountability closure:** {r.get('accountability_closure_rating', 'reviewer confirmation required')}")
+            p(f"- **Lifecycle control:** {r.get('lifecycle_control_rating', 'reviewer confirmation required')}")
+            p(f"- **Residual-risk closure:** {r.get('residual_risk_control_rating', 'reviewer confirmation required')}")
+            p()
+            h(4, "Evidence Sufficiency Findings")
+            p(f"- **Evidence sufficiency:** {r.get('evidence_sufficiency_rating', 'reviewer confirmation required')}")
+            p(f"- **Evidence trace count:** {len(r.get('evidence_traces', []))}")
+            p()
+            h(4, "Implementation Gap Findings")
+            p(f"- **Implementation gap rating:** {r.get('implementation_gap_rating', 'reviewer confirmation required')}")
+            p(f"- **Priority repair actions:** {_compact_list(r.get('priority_repair_actions', []), limit=5)}")
+            p()
+            h(4, "Failure-Pathway Risk Findings")
+            p(f"- **Failure-pathway risk:** {r.get('failure_pathway_risk', 'reviewer confirmation required')}")
+            p("- **Reviewer next step:** confirm what the document actually controls, what it only appears to control, where systemic governance failure could still occur, and which operational controls must be assigned to a government, regulator, procurement team, or assurance reviewer.")
+            p()
         if any(r.get(k) for k in ("provenance", "source_note", "source_url", "citation", "intended_use")):
             h(5, "Provenance / Source Basis")
             p(f"- **Source note:** {r.get('source_note', 'not provided') or 'not provided'}")
@@ -3549,7 +3813,10 @@ def generate_markdown_report(assessments, report_date="May 2026"):
         h(4, "Mode / Boundary Notice")
         p("Legal / authority boundary: diagnostic LAIF-model assessment only; reviewer confirmation required.")
         p(_report_boundary_notice(r))
-        p(f"Public status label: **{_public_report_status_label(r)}**.")
+        if r.get("assessment_mode") == "external_framework":
+            p("Public status label: **Governance repair assessment — external-framework diagnostic.**")
+        else:
+            p(f"Public status label: **{_public_report_status_label(r)}**.")
         p()
 
         h(4, "Executive Diagnostic Summary")
@@ -3568,6 +3835,11 @@ def generate_markdown_report(assessments, report_date="May 2026"):
         p("- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.")
         p()
 
+        if r.get("assessment_mode") == "external_framework":
+            h(4, "Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage")
+            p("Formal LAIF-native compliance details below are internal diagnostics for construct coverage only, not the headline finding for this external-framework assessment.")
+            p(f"LAIF-native certification: Not claimed / not applicable to this external-framework assessment.")
+            p()
         h(4, "Scorecard")
         p("Signals detected and Signals not detected are public labels only; raw detection patterns are not shown.")
         table(
@@ -3603,6 +3875,7 @@ def generate_markdown_report(assessments, report_date="May 2026"):
 
         h(4, "Sector / Institutional Context")
         p(f"- **Sector profile:** {r.get('sector_profile_label', r.get('sector_label', r.get('sector_used', 'general')))}")
+        p(f"- **Sector profile key:** {r.get('sector_profile', r.get('sector_used', 'general_ai_governance'))}")
         p(f"- **Profile-specific remediation themes:** {_compact_list(r.get('sector_profile_remediation_themes', []))}")
         p(f"- **Profile-specific evidence cautions:** {_compact_list(r.get('sector_profile_evidence_cautions', []))}")
         p("- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.")

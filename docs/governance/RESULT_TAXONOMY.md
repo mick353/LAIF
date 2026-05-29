@@ -86,3 +86,8 @@ Public-facing rendering requirements are defined in [Public Report Template](PUB
 ## Phase 3S System QA Release Audit Reference
 
 See [SYSTEM_QA_RELEASE_AUDIT.md](SYSTEM_QA_RELEASE_AUDIT.md) for the release-readiness audit boundary covering validation/certification separation, diagnostic modes, evidence, remediation, sector profiles, calibration, public reporting, protected artifacts, and verified corpus limits. That audit is documentation/test-only and does not change runtime behavior.
+
+
+## Phase 3V governance repair fields
+
+External-framework JSON and markdown outputs include a governance repair profile: `document_type`, `recommended_use`, `not_sufficient_for`, `governance_force_profile`, `systemic_repair_value`, `operational_closure_rating`, `evidence_sufficiency_rating`, `accountability_closure_rating`, `lifecycle_control_rating`, `residual_risk_control_rating`, `implementation_gap_rating`, `failure_pathway_risk`, and `priority_repair_actions`. These fields are deterministic presentation mappings from existing diagnostic scores, evidence traces, remediation patches, formal flags, sector signals, and detected gaps; they do not alter scoring weights or formal validation. See `GOVERNANCE_REPAIR_REPORTING.md` and the Phase 3S System QA Release Audit Reference in `SYSTEM_QA_RELEASE_AUDIT.md`.

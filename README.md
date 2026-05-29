@@ -199,3 +199,8 @@ Governance documentation and tests do not alter LAIF assessment/scoring semantic
 LAIF includes a manual GitHub Actions workflow, **LAIF Process Pending Documents**, for Phase 3U batch processing. Add supported files (`.txt`, `.md`, `.markdown`, `.docx`, `.pdf`) to `laif_inputs/pending/`, run the workflow from the Actions tab, and download the artifact containing `laif_inputs/processed/**`, `laif_inputs/failed/**`, `laif_inputs/batch_summaries/**`, and `laif_batch_summary.json`.
 
 The workflow defaults to `commit_outputs=false`, so outputs remain in the workflow artifact unless explicitly committed. If `commit_outputs=true` is selected, processed/failed sources and batch summaries become repository history; do not use that mode for sensitive documents in public or broadly shared repositories. Each batch writes the latest summary to `laif_batch_summary.json` and permanent history to `laif_inputs/batch_summaries/<batch_run_id>.json`.
+
+
+## Governance repair reporting for external frameworks
+
+LAIF external-framework mode is a governance repair and systemic failure detection assessment, not a requirement that governments or external standards imitate LAIF-native form. External reports now lead with **LAIF Governance Repair Assessment** and evaluate document type, governance force, systemic repair value, operational closure, evidence sufficiency, accountability closure, lifecycle control, residual-risk control, implementation gaps, and failure-pathway risk. Formal LAIF-native certification remains valid for LAIF-native documents; for external-framework documents it is shown only as technical appendix / internal diagnostic construct coverage. See `docs/governance/GOVERNANCE_REPAIR_REPORTING.md`.

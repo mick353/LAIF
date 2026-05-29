@@ -142,3 +142,8 @@ For repository-hosted batch operation, Phase 3U provides the manual **LAIF Proce
 The batch workflow is an orchestration wrapper around this Phase 3T runner. It shells to `scripts/laif_process_document.py` for each supported file and preserves the same extraction, assessment, output, and boundary behavior documented above. It does not import or alter the assessment engine, and it does not write to repository-root `reports/`.
 
 Each batch writes a latest summary pointer at `laif_batch_summary.json` and a permanent timestamped history file at `laif_inputs/batch_summaries/<batch_run_id>.json`. The timestamped summaries record successes, failures, skips, duplicate SHA-256 decisions, workflow input values, and output locations.
+
+
+## Phase 3V path identity and repair reporting
+
+The document runner preserves `original_pending_path`, `stored_source_path`, and `runner_input_path` when provided by batch processing. External-framework markdown reports lead with governance repair reporting and include original file identity plus source hash metadata so duplicate stems with different extensions remain distinguishable. See `GOVERNANCE_REPAIR_REPORTING.md` and the Phase 3S System QA Release Audit Reference in `SYSTEM_QA_RELEASE_AUDIT.md`.

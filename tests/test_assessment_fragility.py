@@ -96,7 +96,7 @@ class PublicReportTemplateHardeningTests(unittest.TestCase):
     def test_public_report_includes_required_phase_3r_sections(self):
         report = generate_markdown_report([self._result()], report_date="May 2026")
         for section in (
-            "LAIF Institutional Structural Governance Assessment Report",
+            "LAIF Governance Repair Assessment",
             "Report Scope and Boundary",
             "Executive Brief",
             "Method Summary",
@@ -425,10 +425,10 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             "Limits",
             "Legal / authority boundary",
             "LAIF-native certification",
-            "External framework structural assessment",
+            "External-framework mode assesses governance repair adequacy",
             "diagnostic",
-            "not LAIF-native / canonical remediation required",
-            "not certification",
+            "Not claimed / not applicable to this external-framework assessment",
+            "not LAIF-native certification",
             "Common LAIF diagnostic gaps",
             "Governance-force patterns",
             "Remediation themes",
@@ -1404,6 +1404,7 @@ class SystemReleaseAuditTests(unittest.TestCase):
         Path("docs/governance/EVIDENCE_TRACE_MODEL.md"),
         Path("docs/governance/CALIBRATION_SCORE_JUSTIFICATION.md"),
         Path("docs/governance/PUBLIC_REPORT_TEMPLATE.md"),
+        Path("docs/governance/GOVERNANCE_REPAIR_REPORTING.md"),
     )
     PHASE_3S_EXTERNAL_DOCUMENT = """
 Article 12. Providers shall implement risk management, transparency,
@@ -1427,6 +1428,19 @@ administrative appeal records must be retained.
         "dimension_justifications",
         "calibration_cautions",
         "gaming_risk_notes",
+        "document_type",
+        "recommended_use",
+        "not_sufficient_for",
+        "governance_force_profile",
+        "systemic_repair_value",
+        "operational_closure_rating",
+        "evidence_sufficiency_rating",
+        "accountability_closure_rating",
+        "lifecycle_control_rating",
+        "residual_risk_control_rating",
+        "implementation_gap_rating",
+        "failure_pathway_risk",
+        "priority_repair_actions",
     )
 
     def _external_result(self, document_text=None, sector="government_service_delivery"):
