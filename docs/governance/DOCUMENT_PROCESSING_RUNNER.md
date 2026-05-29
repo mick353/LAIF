@@ -147,3 +147,7 @@ Each batch writes a latest summary pointer at `laif_batch_summary.json` and a pe
 ## Phase 3V path identity and repair reporting
 
 The document runner preserves `original_pending_path`, `stored_source_path`, and `runner_input_path` when provided by batch processing. External-framework markdown reports lead with governance repair reporting and include original file identity plus source hash metadata so duplicate stems with different extensions remain distinguishable. See `GOVERNANCE_REPAIR_REPORTING.md` and the Phase 3S System QA Release Audit Reference in `SYSTEM_QA_RELEASE_AUDIT.md`.
+
+## Phase 3W institutional analyst outputs
+
+The single-document runner now writes institutional analyst reports and AI-ready bundle files beside the existing `.laif.md` and `.laif.json` outputs. These outputs are deterministic local artifacts and do not call external model APIs. For external-framework mode, the institutional report leads with governance repair, operational gaps, failure pathways, and control recommendations rather than LAIF-native failure.

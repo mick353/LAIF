@@ -207,6 +207,109 @@ def process_one(source: Path, args: argparse.Namespace) -> dict:
     return {"status": "failed", "run_id": run_id, "source_path": str(source), "original_pending_path": str(source), "stored_source_path": metadata["stored_source_path"], "runner_input_path": metadata["runner_input_path"], "original_file_name": source.name, "source_sha256": source_hash, "metadata_path": str(metadata_path), "error_path": str(failed_run_dir / "error.txt")}
 
 
+
+def _load_document_bundle(success: dict) -> dict:
+    reports_dir = Path(success.get("reports_dir", ""))
+    bundle_path = reports_dir / "analyst" / "analyst_bundle.json"
+    payload: dict = {"success": success, "bundle": {}, "institutional_reports": []}
+    if bundle_path.exists():
+        try:
+            payload["bundle"] = json.loads(bundle_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            payload["bundle"] = {}
+    payload["institutional_reports"] = [str(p) for p in sorted(reports_dir.glob("*.institutional_report.md"))]
+    payload["technical_appendices"] = [str(p) for p in sorted(reports_dir.glob("*.technical_appendix.md"))]
+    return payload
+
+
+def write_batch_institutional_outputs(summary: dict, args: argparse.Namespace) -> dict:
+    docs = [_load_document_bundle(success) for success in summary.get("successes", [])]
+    output_root = args.output_summary.parent if args.output_summary.parent != Path("") else Path(".")
+    output_root.mkdir(parents=True, exist_ok=True)
+    batch_id = summary.get("batch_run_id")
+    all_quotes = []
+    all_gaps = []
+    all_controls = []
+    doc_rows = []
+    type_counts: dict[str, int] = {}
+    force_rows = []
+    for doc in docs:
+        bundle = doc.get("bundle", {})
+        meta = bundle.get("document_metadata", {})
+        doc_type = meta.get("document_type", "unknown_governance_document")
+        type_counts[doc_type] = type_counts.get(doc_type, 0) + 1
+        quotes = bundle.get("quote_bank", [])
+        gaps = bundle.get("gap_register", [])
+        controls = bundle.get("control_recommendations", [])
+        all_quotes.extend(quotes)
+        for gap in gaps:
+            row = dict(gap)
+            row["source_document"] = meta.get("original_file_name")
+            all_gaps.append(row)
+        for ctrl in controls:
+            row = dict(ctrl)
+            row["source_document"] = meta.get("original_file_name")
+            all_controls.append(row)
+        doc_rows.append({
+            "file": meta.get("original_file_name") or doc.get("success", {}).get("original_file_name"),
+            "document_type": doc_type,
+            "sector_profile": meta.get("sector_profile"),
+            "institutional_reports": doc.get("institutional_reports", []),
+            "technical_appendices": doc.get("technical_appendices", []),
+            "quote_count": len(quotes),
+            "gap_count": len(gaps),
+            "control_count": len(controls),
+        })
+        force_rows.append(f"- **{doc_rows[-1]['file']}:** {doc_type}; sector {doc_rows[-1]['sector_profile']}; quotes {len(quotes)}; gaps {len(gaps)}.")
+    common_gap_types = sorted({gap.get("gap_type", "unknown") for gap in all_gaps})
+    strongest = max(doc_rows, key=lambda r: (r["quote_count"], -r["gap_count"]), default={})
+    weakest = max(doc_rows, key=lambda r: r["gap_count"], default={})
+    report_lines = [
+        f"# Batch Institutional Governance Report — {batch_id}", "",
+        "## Batch identity", "",
+        f"- **Batch run ID:** {batch_id}", f"- **Processed at UTC:** {summary.get('processed_at_utc')}", f"- **Success count:** {summary.get('success_count')}", f"- **Failed count:** {summary.get('failed_count')}", "",
+        "## Processed file list", "",
+    ]
+    for row in doc_rows:
+        report_lines.append(f"- {row['file']} — {row['document_type']} — institutional reports: {', '.join(row['institutional_reports'])}")
+    report_lines += ["", "## Document type summary", "", json.dumps(type_counts, indent=2, sort_keys=True), "", "## Governance force comparison", ""]
+    report_lines.extend(force_rows or ["- No successful documents were available for comparison."])
+    report_lines += ["", "## Strongest document by function", "", f"- {strongest.get('file', 'n/a')} — strongest deterministic evidence density in this batch.", "", "## Weakest document by operational closure", "", f"- {weakest.get('file', 'n/a')} — highest number of operational gaps requiring closure.", "", "## Common gaps across portfolio", ""]
+    report_lines.extend([f"- {gap_type}" for gap_type in common_gap_types] or ["- No common gaps detected."])
+    report_lines += ["", "## Cross-document failure pathways", "", "- Portfolio-level failure can occur when multiple source documents are cited as assurance while no combined owner, evidence register, threshold, cadence, or escalation model is implemented.", "", "## Priority implementation roadmap", ""]
+    for ctrl in all_controls[:10]:
+        report_lines.append(f"- **{ctrl.get('control_id')} ({ctrl.get('priority')}):** {ctrl.get('control_name')} — source: {ctrl.get('source_document')}")
+    report_lines += ["", "## Recommended combined operating model", "", "Create a single portfolio control register linking each source document to accountable owners, implementation artifacts, quote IDs, gap IDs, control IDs, review cadence, thresholds, escalation gates, and decision consequences.", "", "## Links/paths to each document institutional report", ""]
+    for row in doc_rows:
+        for report in row.get("institutional_reports", []):
+            report_lines.append(f"- {report}")
+    paths = {
+        "batch_institutional_report": output_root / "batch_institutional_report.md",
+        "portfolio_gap_register": output_root / "portfolio_gap_register.json",
+        "portfolio_control_roadmap": output_root / "portfolio_control_roadmap.md",
+        "batch_quote_bank": output_root / "batch_quote_bank.md",
+        "batch_ai_prompt": output_root / "batch_ai_prompt.md",
+        "batch_ai_input_bundle": output_root / "batch_ai_input_bundle.json",
+    }
+    paths["batch_institutional_report"].write_text("\n".join(report_lines) + "\n", encoding="utf-8")
+    json_dump(paths["portfolio_gap_register"], {"batch_run_id": batch_id, "gaps": all_gaps})
+    roadmap = ["# Portfolio Control Roadmap", ""] + [f"- **{c.get('control_id')} ({c.get('priority')}):** {c.get('control_name')} — owner: {c.get('owner')} — source: {c.get('source_document')}" for c in all_controls]
+    paths["portfolio_control_roadmap"].write_text("\n".join(roadmap) + "\n", encoding="utf-8")
+    quote_md = ["# Batch Quote Bank", ""]
+    for q in all_quotes:
+        quote_md += [f"## {q.get('quote_id')} — {q.get('original_file_name')} — {q.get('signal_category')}", "", f"> {q.get('exact_quote')}", ""]
+    paths["batch_quote_bank"].write_text("\n".join(quote_md), encoding="utf-8")
+    paths["batch_ai_prompt"].write_text("# Batch AI Analyst Prompt\n\nUse only the provided deterministic batch AI input bundle, quote IDs, gap IDs, control IDs, and source metadata. Do not invent quotes, legal claims, obligations, scores, documents, actors, controls, certifications, or legal-validity conclusions.\n", encoding="utf-8")
+    json_dump(paths["batch_ai_input_bundle"], {"batch_metadata": summary, "documents": doc_rows, "quote_bank": all_quotes, "portfolio_gap_register": all_gaps, "portfolio_control_roadmap": all_controls})
+    # Also copy batch-level outputs into a subdirectory under the timestamped summaries
+    # area for workflow artifacts without polluting the historical summary JSON glob.
+    artifact_dir = args.batch_summaries_dir / f"{batch_id}_institutional_artifacts"
+    artifact_dir.mkdir(parents=True, exist_ok=True)
+    for name, path in paths.items():
+        target = artifact_dir / path.name
+        shutil.copyfile(path, target)
+    return {name: str(path) for name, path in paths.items()}
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Process pending LAIF input documents as a deterministic batch.")
     parser.add_argument("--pending-dir", type=Path, default=Path("laif_inputs/pending"))
@@ -288,6 +391,7 @@ def run(args: argparse.Namespace) -> int:
         "failures": failures,
         "skipped": skipped,
     }
+    summary["batch_institutional_outputs"] = write_batch_institutional_outputs(summary, args)
     json_dump(timestamped_summary_path, summary)
     json_dump(args.output_summary, summary)
     print(json.dumps(summary, indent=2, sort_keys=True))
