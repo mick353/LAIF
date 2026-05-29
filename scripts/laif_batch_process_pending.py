@@ -268,8 +268,8 @@ def write_batch_institutional_outputs(summary: dict, args: argparse.Namespace) -
 
     strongest_legal = _first_doc("binding_legal_instrument")
     strongest_voluntary = _first_doc("voluntary_risk_framework")
-    strongest_sector = _first_doc("sector_assurance_checklist")
-    weakest_operational = max(doc_rows, key=lambda r: (r["gap_count"], -r["control_count"]), default={})
+    strongest_public_policy = _first_doc("public_sector_policy", "internal_policy", "implementation_guide")
+    strongest_clinical_sector = _first_doc("sector_assurance_checklist")
     urgent_gap = common_gap_types[0] if common_gap_types else "portfolio evidence sufficiency and operational closure"
     matrix_rows = []
     for row in doc_rows:
@@ -306,9 +306,9 @@ def write_batch_institutional_outputs(summary: dict, args: argparse.Namespace) -
         "", "## Portfolio source roles", "",
         f"- **Strongest legal source:** {strongest_legal.get('file', 'none detected')}.",
         f"- **Strongest voluntary governance design source:** {strongest_voluntary.get('file', 'none detected')}.",
-        f"- **Strongest sector assurance source:** {strongest_sector.get('file', 'none detected')}.",
-        f"- **Weakest operational closure risk:** {weakest_operational.get('file', 'n/a')} — review the highest open gap/control burden, not quote volume alone.",
-        f"- **Most urgent cross-document control gap:** {urgent_gap}.",
+        f"- **Strongest public-sector operating policy:** {strongest_public_policy.get('file', 'none detected')}.",
+        f"- **Strongest clinical/sector assurance source:** {strongest_clinical_sector.get('file', 'none detected')}.",
+        f"- **Most urgent common control gap:** {urgent_gap}.",
         "", "## Common gaps across portfolio", "",
     ]
     report_lines.extend([f"- {gap_type}" for gap_type in common_gap_types] or ["- No common gaps detected."])

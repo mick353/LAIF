@@ -1948,7 +1948,7 @@ _DOCUMENT_TYPE_PATTERNS = [
     ("sector_assurance_checklist", (r"\bassurance checklist\b", r"\bdtac\b", r"\bdigital technology assessment criteria\b", r"\bclinical safety case\b", r"\bhazard log\b", r"\bdcb0129\b")),
     ("procurement_assessment_form", (r"\bprocurement\b", r"\bassessment form\b", r"\bvendor\b", r"\bsupplier\b", r"\bcontract\b")),
     ("technical_standard", (r"\biso/iec\b", r"\btechnical standard\b", r"\bstandard specifies\b", r"\brequirements and guidance\b")),
-    ("public_sector_policy", (r"\bpolicy for the responsible use of ai in government\b", r"\bresponsible use of ai in government\b", r"\bpublic servants?\b.{0,80}\bai\b", r"\bgovernment\b.{0,80}\bhuman review\b", r"\bdisclose ai use\b")),
+    ("public_sector_policy", (r"\bpolicy for the responsible use of ai in government\b", r"\bresponsible use of ai in government\b", r"\bpublic servants?\b.{0,80}\bai\b", r"\bgovernment(?: agencies)?\b.{0,80}\bhuman review\b", r"\bdisclose ai use\b", r"\bagencies must\b", r"\baccountable officials?\b", r"\bai use register\b", r"\bdigital transformation agency\b", r"\bdta\b")),
     ("implementation_guide", (r"\bimplementation guide\b", r"\bplaybook\b", r"\bguidance for implementing\b", r"\bhow to implement\b")),
     ("internal_policy", (r"\binternal policy\b", r"\bdepartment policy\b", r"\bcompany policy\b", r"\borganizational policy\b")),
     ("vendor_compliance_submission", (r"\bvendor submission\b", r"\bcompliance submission\b", r"\battestation\b", r"\bsupplier response\b")),
@@ -1993,6 +1993,24 @@ _RESIDUAL_RISK_RE = re.compile(r"\b(residual risk|remaining risk|risk acceptance
 def classify_document_type(text, name="", source_type=""):
     """Classify document type independently from sector routing."""
     haystack = f"{name or ''} {source_type or ''} {text or ''}".lower()
+    eu_terms = (
+        "regulation laying down harmonised rules", "harmonised rules on artificial intelligence",
+        "artificial intelligence act", "high-risk ai systems", "provider", "deployer",
+        "conformity assessment", "market surveillance", "official journal",
+        "general-purpose ai model", "placing on the market",
+    )
+    public_policy_terms = (
+        "policy for the responsible use of ai in government", "responsible use of ai in government",
+        "public servants", "government agencies", "agencies must", "accountable officials",
+        "human review", "disclose ai use", "ai use register", "public sector",
+        "digital transformation agency", "dta",
+    )
+    eu_hits = sum(haystack.count(term) for term in eu_terms)
+    public_policy_hits = sum(haystack.count(term) for term in public_policy_terms)
+    if eu_hits >= 2 and ("harmonised rules" in haystack or "artificial intelligence act" in haystack or "regulation laying down" in haystack):
+        return "binding_legal_instrument"
+    if public_policy_hits >= 2:
+        return "public_sector_policy"
     scores = []
     for doc_type, patterns in _DOCUMENT_TYPE_PATTERNS:
         score = sum(1 for pat in patterns if re.search(pat, haystack, re.IGNORECASE))

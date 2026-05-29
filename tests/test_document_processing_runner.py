@@ -218,6 +218,34 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertTrue(all(q["quote_quality_score"] >= 70 for q in bundle["quote_bank"]))
             self.assertIn("low_confidence_quote_candidates", bundle)
 
+    def test_phase_3y_real_bad_quotes_are_not_primary_evidence(self) -> None:
+        bad_fragments = [
+            "Certain commercial entities, equipment, or materials may be identified in this document in order to describe",
+            "monitoring, will help ensure that AI systems function as intended, are",
+            "the development or use of the model causes a ser ious incident, the general-pur pose AI model provid er should",
+            "requirements agencies must follow.",
+        ]
+        good_quote = (
+            "Agencies must maintain records of AI use, ensure human review for decisions that materially affect people, "
+            "monitor implementation outcomes, and retain evidence of accountability, disclosure, and exception handling."
+        )
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "policy_like.txt"
+            out = root / "out"
+            path.write_text("\n\n".join(bad_fragments + [good_quote]), encoding="utf-8")
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            primary = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
+            low = bundle.get("low_confidence_quote_candidates", [])
+            low_text = "\n".join(q["exact_quote"] for q in low)
+            for bad in bad_fragments:
+                self.assertNotIn(bad, primary)
+                self.assertIn(bad, low_text)
+            self.assertTrue(all(q.get("low_confidence_reason") or q.get("quote_quality_reason") for q in low))
+            self.assertIn("Agencies must maintain records of AI use", primary)
+
+
     def test_phase_3x_document_classification_and_sector_routing(self) -> None:
         eo_like = "Executive Order on Safe, Secure, and Trustworthy Artificial Intelligence. Federal agencies shall develop guidance, manage risks, protect privacy, and report implementation."
         eu_like = "Regulation laying down harmonised rules on artificial intelligence, high-risk AI systems, providers, deployers, conformity assessment, market surveillance."
@@ -225,15 +253,33 @@ If you are having difficulties with accessing this document, please email: suppo
         dtac_like = "Digital Technology Assessment Criteria clinical safety DCB0129 clinical safety case hazard log patient care NHS data protection interoperability."
 
         self.assertNotEqual(runner.auto_sector(eo_like), "employment_hr_ai")
-        self.assertEqual(runner.auto_sector(eu_like), "general_ai_governance")
+        eu_with_workers = eu_like + " The source also mentions employment, workers, labour, recruitment, and workplace rights."
+        self.assertEqual(runner.auto_sector(eu_with_workers), "general_ai_governance")
+        self.assertNotEqual(runner.auto_sector(eu_with_workers), "employment_hr_ai")
+        self.assertIn(runner.auto_sector(policy_like), {"government_service_delivery", "general_ai_governance"})
         self.assertNotEqual(runner.auto_sector(policy_like), "employment_hr_ai")
         self.assertNotEqual(runner.auto_sector(policy_like), "procurement_vendor_governance")
         self.assertEqual(runner.auto_sector(dtac_like), "clinical_ai")
 
         self.assertEqual(assess("eo", "policy", eo_like, assessment_mode="external_framework", sector="auto")["document_type"], "executive_policy_directive")
-        self.assertEqual(assess("eu", "policy", eu_like, assessment_mode="external_framework", sector="auto")["document_type"], "binding_legal_instrument")
-        self.assertIn(assess("policy", "policy", policy_like, assessment_mode="external_framework", sector="auto")["document_type"], {"public_sector_policy", "internal_policy", "implementation_guide"})
+        self.assertEqual(assess("eu", "policy", eu_with_workers, assessment_mode="external_framework", sector="auto")["document_type"], "binding_legal_instrument")
+        self.assertEqual(assess("policy", "policy", policy_like, assessment_mode="external_framework", sector="auto")["document_type"], "public_sector_policy")
         self.assertEqual(assess("dtac", "policy", dtac_like, assessment_mode="external_framework", sector="auto")["document_type"], "sector_assurance_checklist")
+
+        policy_result = assess("Australian Government AI Policy", "policy", policy_like, assessment_mode="external_framework", sector=runner.auto_sector(policy_like))
+        policy_assessment = dict(policy_result)
+        policy_assessment["sector_profile"] = runner.auto_sector(policy_like)
+        policy_quotes = [{"quote_id": "Q001"}]
+        policy_gaps = runner.build_governance_gap_register(policy_assessment, policy_quotes)
+        policy_controls = runner.build_control_recommendations(policy_gaps, [], policy_quotes)
+        self.assertTrue(any(c["control_name"] in {"Public Sector AI Use Register", "Human Review and Accountability Evidence Log"} for c in policy_controls))
+        self.assertIn("public-sector operating policy", runner.executive_thesis(policy_assessment, policy_gaps, policy_controls))
+
+        eu_result = assess("EU AI Act", "policy", eu_with_workers, assessment_mode="external_framework", sector=runner.auto_sector(eu_with_workers))
+        eu_gaps = runner.build_governance_gap_register(eu_result, [{"quote_id": "Q001"}])
+        eu_controls = runner.build_control_recommendations(eu_gaps, [], [{"quote_id": "Q001"}])
+        self.assertTrue(any(c["control_name"] in {"Provider/Deployer Obligation Mapping Register", "High-Risk AI Evidence and Technical Documentation Gate"} for c in eu_controls))
+        self.assertIn("high-force legal source", runner.executive_thesis(eu_result, eu_gaps, eu_controls))
 
     def test_phase_3x_executive_finding_and_document_specific_controls(self) -> None:
         nist_text = "AI Risk Management Framework voluntary non-sector-specific use-case agnostic govern map measure manage trustworthy AI. Organizations should document risks, assign accountability, monitor AI systems, review outcomes, manage incidents, and maintain evidence of risk management activities."
