@@ -135,6 +135,32 @@ class GithubActionsDocumentProcessingTests(unittest.TestCase):
                 self.assertTrue((root / name).exists(), name)
             self.assertIn("batch_institutional_outputs", summary)
 
+
+    def test_phase_3x_batch_report_uses_governance_force_matrix_language(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            pending = root / "pending"
+            pending.mkdir()
+            (pending / "eu.txt").write_text(
+                "Regulation laying down harmonised rules on artificial intelligence, high-risk AI systems, providers, deployers, conformity assessment, market surveillance. Providers shall maintain technical documentation, monitor incidents, and ensure evidence for post-market review.",
+                encoding="utf-8",
+            )
+            (pending / "nist.txt").write_text(
+                "AI Risk Management Framework voluntary non-sector-specific use-case agnostic govern map measure manage trustworthy AI. Organizations should document risks, assign accountability, monitor AI systems, review outcomes, manage incidents, and maintain evidence of risk management activities.",
+                encoding="utf-8",
+            )
+            summary = self.run_batch(root, "--max-files", "5")
+            report_path = Path(summary["batch_institutional_outputs"]["batch_institutional_report"])
+            report = report_path.read_text(encoding="utf-8")
+            self.assertIn("Governance-force matrix", report)
+            self.assertIn("Legal force", report)
+            self.assertIn("Evidence sufficiency", report)
+            self.assertIn("Strongest legal source", report)
+            self.assertIn("Strongest voluntary governance design source", report)
+            self.assertIn("Most urgent cross-document control gap", report)
+            self.assertIn("Recommended combined operating model", report)
+            self.assertNotIn("strongest deterministic evidence density", report)
+
     def test_move_mode_removes_pending_source_after_success(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

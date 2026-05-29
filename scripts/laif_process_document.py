@@ -242,6 +242,7 @@ def broad_governance_framework_signal(text: str) -> bool:
         "harmonised rules", "artificial intelligence act", "conformity assessment", "market surveillance",
         "regulation laying down", "executive order", "federal agencies", "providers", "deployers",
         "trustworthy ai", "govern map measure manage", "govern, map, measure, and manage",
+        "responsible use of ai in government", "public servants", "federal agencies",
     )
     legal_terms = ("regulation", "article", "official journal", "conformity", "provider", "deployer", "market surveillance")
     framework_hits = sum(lowered.count(term) for term in broad_terms)
@@ -262,7 +263,7 @@ def auto_sector(text: str) -> str:
         ("procurement_vendor_governance", ("procurement", "vendor", "contract", "supplier", "service level", "audit access")),
         ("employment_hr_ai", ("employment", "hiring", "hr", "human resources", "candidate", "adverse action")),
         ("education_ai", ("education", "student", "academic", "school", "accessibility", "learning")),
-        ("government_service_delivery", ("public service", "service delivery", "administrative review", "benefit", "caseworker")),
+        ("government_service_delivery", ("public service", "public sector", "government", "public servants", "service delivery", "administrative review", "benefit", "caseworker")),
         ("departmental_ai_development", ("software development", "release", "pipeline", "model register", "rollback", "architecture")),
     ]
     scores = [(sum(lowered.count(term) for term in terms), sector) for sector, terms in patterns]
@@ -408,6 +409,18 @@ GAP_BLUEPRINTS = [
 
 NOISE_RE = re.compile(r"(?:[A-Za-z]{1}\s){8,}|[\ufffd]{2,}|(?:\b\w\b\s*){12,}")
 
+STRONG_QUOTE_TERMS = (
+    "shall", "must", "requires", "require", "ensure", "establish", "implement",
+    "monitor", "review", "risk", "oversight", "accountability", "accountable",
+    "evidence", "documentation", "document", "incident", "safety", "privacy",
+    "security", "conformity", "assessment", "control", "audit", "record",
+)
+ACTION_QUOTE_TERMS = STRONG_QUOTE_TERMS + ("manage", "assign", "maintain", "protect", "report", "disclose")
+BOILERPLATE_QUOTE_RE = re.compile(r"(difficulties with accessing|accessibility|contact us|support@|@\w|email:|telephone|copyright|isbn|all rights reserved)", re.IGNORECASE)
+TOC_QUOTE_RE = re.compile(r"^\s*(?:\d+(?:\.\d+)*\s+){0,2}[A-Z][A-Za-z&/ -]{2,70}\s+\d{1,4}\s*$")
+TITLE_ONLY_RE = re.compile(r"^[A-Z][A-Za-z0-9&/:,() -]{8,80}$")
+BROKEN_GLYPH_RE = re.compile(r"\b[A-Za-z]{1,3}(?:\s+[A-Za-z]{1,3}){4,}\b|\b(?:la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment)\b", re.IGNORECASE)
+
 
 def _sentence_spans(text: str) -> list[tuple[int, int, str]]:
     spans: list[tuple[int, int, str]] = []
@@ -425,12 +438,69 @@ def _sentence_spans(text: str) -> list[tuple[int, int, str]]:
     return spans
 
 
-def _is_low_confidence_quote(quote: str, extraction: dict) -> tuple[bool, str]:
+def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
+    """Score candidate evidence before it can enter the primary quote bank."""
+    clean = " ".join((quote or "").split())
+    lower = clean.lower()
     if extraction.get("extraction_confidence") == "low":
-        return True, "extractor reported low confidence"
-    if NOISE_RE.search(quote) or len(re.findall(r"[A-Za-z]", quote)) < max(10, len(quote) // 4):
-        return True, "possible PDF extraction noise or malformed fragment"
-    return False, ""
+        return 20, "extractor reported low confidence"
+    if not clean:
+        return 0, "empty quote"
+    if BOILERPLATE_QUOTE_RE.search(clean):
+        return 10, "support, contact, email, or accessibility boilerplate"
+    if TOC_QUOTE_RE.match(clean):
+        return 10, "table of contents or page-number fragment"
+    if NOISE_RE.search(clean) or BROKEN_GLYPH_RE.search(clean):
+        return 15, "possible PDF extraction noise, glyph spacing, or malformed fragment"
+    if len(re.findall(r"[A-Za-z]", clean)) < max(10, len(clean) // 4):
+        return 20, "insufficient alphabetic governance content"
+    if TITLE_ONLY_RE.match(clean) and len(clean.split()) <= 8 and not any(t in lower for t in ACTION_QUOTE_TERMS):
+        return 20, "title or isolated heading without governance action"
+    if len(clean) < 80 and not any(t in lower for t in ("shall", "must", "requires", "required", "ensure", "implement")):
+        return 35, "short fragment without strong obligation or control phrase"
+    if not any(t in lower for t in ACTION_QUOTE_TERMS):
+        return 35, "no governance action, obligation, risk, evidence, or control term"
+    if not re.search(r"\b(shall|must|should|requires?|ensure|establish|implement|monitor|review|manage|document|assign|maintain|protect|report|disclose|is|are|be)\b", lower):
+        return 35, "no verb/action term explaining a governance signal"
+    score = 70
+    if len(clean) >= 80:
+        score += 10
+    if any(t in lower for t in ("shall", "must", "requires", "ensure", "implement", "conformity", "incident", "evidence")):
+        score += 10
+    if any(t in lower for t in ("owner", "accountability", "monitor", "review", "risk", "documentation", "safety", "privacy", "security")):
+        score += 5
+    return min(score, 95), "primary evidence: governance action or claim with control relevance"
+
+
+def _is_low_confidence_quote(quote: str, extraction: dict) -> tuple[bool, str]:
+    score, reason = quote_quality(quote, extraction)
+    return score < 70, reason
+
+
+def _candidate_quote_record(quote_id: str, start: int, end: int, quote: str, processing: dict, extraction: dict, assessment: dict, category: str, repair_field: str) -> dict:
+    score, reason = quote_quality(quote, extraction)
+    return {
+        "quote_id": quote_id,
+        "source_file": processing.get("stored_source_path") or processing.get("input_path"),
+        "original_file_name": processing.get("original_file_name"),
+        "source_sha256": processing.get("source_sha256"),
+        "document_type": assessment.get("document_type", "unknown_governance_document"),
+        "sector_profile": assessment.get("sector_profile", "general_ai_governance"),
+        "signal_category": category,
+        "exact_quote": quote,
+        "surrounding_context": quote,
+        "start_offset": start,
+        "end_offset": end,
+        "extraction_confidence": extraction.get("extraction_confidence", "unknown"),
+        "why_it_matters": f"Candidate source evidence for {category} analysis.",
+        "what_it_proves": f"The document contains language potentially relevant to {category}.",
+        "what_it_does_not_prove": "It does not prove implementation, sufficiency, legal validity, certification, or operational adoption.",
+        "linked_governance_repair_field": repair_field,
+        "linked_gap_ids": [],
+        "low_confidence_reason": reason if score < 70 else "",
+        "quote_quality_score": score,
+        "quote_quality_reason": reason,
+    }
 
 
 def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: dict) -> list[dict]:
@@ -462,8 +532,8 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
         start, end, quote = best
         if (start, end, category) in seen or quote not in text:
             continue
-        low, reason = _is_low_confidence_quote(quote, extraction)
-        if low:
+        score, reason = quote_quality(quote, extraction)
+        if score < 70:
             # Exclude low-confidence/noisy fragments from the primary quote bank.
             continue
         seen.add((start, end, category))
@@ -488,13 +558,15 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
             "linked_governance_repair_field": repair_field,
             "linked_gap_ids": [],
             "low_confidence_reason": "",
+            "quote_quality_score": score,
+            "quote_quality_reason": reason,
         })
         if len(records) >= 12:
             break
     if not records:
         for start, end, quote in spans[:1]:
-            low, reason = _is_low_confidence_quote(quote, extraction)
-            if low or quote not in text:
+            score, reason = quote_quality(quote, extraction)
+            if score < 70 or quote not in text:
                 continue
             records.append({
                 "quote_id": "Q001", "source_file": processing.get("stored_source_path") or processing.get("input_path"),
@@ -506,9 +578,113 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
                 "what_it_proves": "The quoted text exists in the extracted source.",
                 "what_it_does_not_prove": "It does not prove implementation, sufficiency, legal validity, certification, or operational adoption.",
                 "linked_governance_repair_field": "source_excerpt", "linked_gap_ids": [], "low_confidence_reason": "",
+                "quote_quality_score": score, "quote_quality_reason": reason,
             })
     return records
 
+
+def build_low_confidence_quote_candidates(text: str, processing: dict, extraction: dict, assessment: dict, limit: int = 12) -> list[dict]:
+    candidates: list[dict] = []
+    seen_quotes: set[str] = set()
+    for start, end, quote in _sentence_spans(text):
+        score, reason = quote_quality(quote, extraction)
+        compact = " ".join(quote.split())
+        if score >= 70 or compact in seen_quotes:
+            continue
+        if not any(term in compact.lower() for term in ACTION_QUOTE_TERMS + ("artificial intelligence", "secure", "resilient")) and score > 15:
+            continue
+        seen_quotes.add(compact)
+        candidates.append(_candidate_quote_record(f"LQ{len(candidates)+1:03d}", start, end, quote, processing, extraction, assessment, "low-confidence candidate", "source_excerpt"))
+        if len(candidates) >= limit:
+            break
+    return candidates
+
+
+
+def document_profile_key(assessment: dict) -> str:
+    if assessment.get("document_profile_key"):
+        return assessment["document_profile_key"]
+    doc_type = assessment.get("document_type", "unknown_governance_document")
+    sector = assessment.get("sector_profile", "general_ai_governance")
+    text_force = str(assessment.get("governance_force_profile") or assessment.get("governance_force_summary") or "").lower()
+    if sector == "clinical_ai" or doc_type == "sector_assurance_checklist":
+        return "dtac"
+    if doc_type == "binding_legal_instrument":
+        return "eu_ai_act"
+    if doc_type == "executive_policy_directive":
+        return "eo_14110"
+    if doc_type == "public_sector_policy" or sector == "government_service_delivery":
+        return "australian_policy"
+    if doc_type == "voluntary_risk_framework" or "risk-management framework" in text_force or "risk management framework" in text_force:
+        return "nist"
+    return doc_type
+
+
+def document_specific_gap_title(gap_type: str, fallback: str, assessment: dict) -> str:
+    profile = document_profile_key(assessment)
+    titles = {
+        "nist": {
+            "framework_guidance_without_implementation_artifact": "NIST guidance requires implementation artifact before assurance reliance",
+            "risk_without_closure_gate": "NIST risk guidance requires a risk closure gate before operational reliance",
+            "evidence_presence_without_sufficiency": "NIST trustworthiness evidence requires sufficiency criteria before assurance reliance",
+        },
+        "eu_ai_act": {
+            "legal_obligation_without_operational_mapping": "EU AI Act legal obligation requires local provider/deployer evidence mapping",
+            "evidence_presence_without_sufficiency": "EU AI Act technical documentation requires evidence sufficiency gate",
+            "monitoring_without_threshold": "EU AI Act monitoring obligation requires local threshold and escalation workflow",
+        },
+        "eo_14110": {
+            "obligation_without_owner": "EO 14110 agency direction requires accountable implementation owner",
+            "monitoring_without_threshold": "EO 14110 reporting expectation requires implementation tracking threshold",
+            "policy_without_enforcement_consequence": "EO 14110 agency policy force requires escalation consequence",
+        },
+        "dtac": {
+            "evidence_presence_without_sufficiency": "DTAC evidence submission requires sufficiency and live review gate",
+            "safety_case_without_live_review": "DTAC clinical safety case requires live review and hazard-log ownership",
+            "risk_without_closure_gate": "DTAC transferred clinical risk requires acceptance gate",
+        },
+        "australian_policy": {
+            "obligation_without_owner": "Public sector AI policy requires accountable owner for responsible use",
+            "evidence_presence_without_sufficiency": "Public sector AI use records require evidence sufficiency and disclosure control",
+            "policy_without_enforcement_consequence": "Government AI policy requires exception and incident escalation consequence",
+        },
+    }
+    return titles.get(profile, {}).get(gap_type, fallback)
+
+
+def control_name_for_gap(gap: dict) -> str:
+    profile = document_profile_key(gap)
+    names = {
+        "nist": ["AI Risk Management Implementation Register", "Trustworthiness Evidence Acceptance Matrix", "AI Risk Monitoring and Review Gate"],
+        "eu_ai_act": ["Provider/Deployer Obligation Mapping Register", "High-Risk AI Evidence and Technical Documentation Gate", "Post-Market Monitoring and Incident Escalation Control"],
+        "eo_14110": ["Agency AI Directive Implementation Tracker", "Federal AI Safety and Security Evidence Register", "Agency Accountability and Reporting Gate"],
+        "dtac": ["Clinical Safety Live Assurance Register", "DTAC Evidence Sufficiency Matrix", "Transferred Clinical Risk Acceptance Register"],
+        "australian_policy": ["Public Sector AI Use Register", "Human Review and Accountability Evidence Log", "AI Use Disclosure and Exception Register"],
+    }
+    idx = max(0, int(gap.get("gap_id", "GAP-001").split("-")[-1]) - 1)
+    options = names.get(profile)
+    if options:
+        return options[idx % len(options)]
+    return f"Operational closure control for {gap['gap_type'].replace('_', ' ')}"
+
+
+def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -> str:
+    doc_type = assessment.get("document_type", "unknown_governance_document")
+    force = assessment.get("governance_force_profile") or assessment.get("governance_force_summary") or "governance force requires reviewer confirmation"
+    profile = document_profile_key(assessment)
+    base = {
+        "voluntary_risk_framework": "This document is valuable as a governance design framework, but it does not itself create binding implementation gates, evidence acceptance rules, or operational enforcement consequences.",
+        "binding_legal_instrument": "This document has high legal force, but operational assurance depends on converting obligations into provider/deployer controls, evidence registers, review gates, and enforcement workflows.",
+        "executive_policy_directive": "This document creates executive direction and agency expectations, but systemic repair depends on agency implementation tracking, ownership, evidence collection, and escalation consequences.",
+        "sector_assurance_checklist": "This document is useful as a sector assurance screen, but it must be tied to live review, evidence sufficiency, residual risk acceptance, and deployment consequences.",
+        "public_sector_policy": "This document is useful as public-sector operating policy, but it must be tested for accountable owners, disclosure records, human review evidence, exceptions, incidents, and implementation monitoring.",
+        "implementation_guide": "This document is useful as implementation guidance, but it must be converted into accountable owners, mandatory artifacts, thresholds, review cadence, and stop/go consequences.",
+        "internal_policy": "This document is useful as institutional operating policy, but assurance depends on implementation records, owner accountability, monitoring, exceptions, incidents, and escalation evidence.",
+    }.get(doc_type, "This document is useful as a governance source, but institutional reliance depends on proof of operational closure, accountable ownership, evidence sufficiency, and decision consequences.")
+    area = (assessment.get("strengths") or ["governance signal requires reviewer confirmation"])[0]
+    gap = gaps[0]["gap_title"] if gaps else "operational closure requires reviewer confirmation"
+    action = controls[0]["control_name"] if controls else "create an accountable implementation register"
+    return f"{base} Classified as `{doc_type}` with governance force `{force}`. Strongest detected control area: {area}. Principal operational gap: {gap}. Recommended next action: implement {action}."
 
 def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> list[dict]:
     quote_ids = [q["quote_id"] for q in quote_bank[:3]]
@@ -523,10 +699,12 @@ def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> l
         gap_id = f"GAP-{idx:03d}"
         gaps.append({
             "gap_id": gap_id,
-            "gap_title": title,
+            "gap_title": document_specific_gap_title(gap_type, title, assessment),
             "severity": severity,
             "gap_type": gap_type,
             "document_type": doc_type,
+            "sector_profile": assessment.get("sector_profile"),
+            "document_profile_key": document_profile_key(assessment),
             "source_evidence_quote_ids": quote_ids,
             "related_scores": scores,
             "related_governance_repair_fields": ["operational_closure", "evidence_sufficiency", "governance_force"],
@@ -538,8 +716,10 @@ def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> l
         })
     if not gaps:
         gaps.append({
-            "gap_id": "GAP-001", "gap_title": "Framework guidance lacks implementation artifact", "severity": "high",
+            "gap_id": "GAP-001", "gap_title": document_specific_gap_title("framework_guidance_without_implementation_artifact", "Framework guidance lacks implementation artifact", assessment), "severity": "high",
             "gap_type": "framework_guidance_without_implementation_artifact", "document_type": doc_type,
+            "sector_profile": assessment.get("sector_profile"),
+            "document_profile_key": document_profile_key(assessment),
             "source_evidence_quote_ids": quote_ids, "related_scores": scores,
             "related_governance_repair_fields": ["implementation_artifact"],
             "operational_meaning": "Source language must be translated into an auditable operating control.",
@@ -585,7 +765,7 @@ def build_control_recommendations(gaps: list[dict], pathways: list[dict], quote_
         control_id = gap.get("required_control_ids", [f"CTRL-{idx:03d}"])[0]
         controls.append({
             "control_id": control_id,
-            "control_name": f"Operational closure control for {gap['gap_type'].replace('_', ' ')}",
+            "control_name": control_name_for_gap(gap),
             "priority": "immediate" if gap.get("severity") == "high" else "near_term",
             "risk_addressed": gap.get("failure_mode"),
             "source_evidence_quote_ids": gap.get("source_evidence_quote_ids", []),
@@ -623,7 +803,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         "## Executive finding", "",
     ]
     if mode == "external_framework":
-        lines.append("This document is assessed as an external governance source for governance repair, institutional force, operational closure, and systemic failure pathways. It is suitable as source evidence where adopted, but it is not by itself a complete assurance mechanism unless owners, artifacts, thresholds, cadence, and decision consequences are implemented.")
+        lines.append(executive_thesis(assessment, gaps, controls))
     else:
         lines.append("This document is assessed in LAIF-native mode. Formal LAIF-native certification remains governed by the deterministic LAIF validation boundary shown in the technical appendix.")
     lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Document type:** {doc_type}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}", f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", "- **Recommended use:** source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.", "- **Not sufficient for:** standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", "## Key quoted evidence", ""]
@@ -653,7 +833,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     return "\n".join(lines)
 
 
-def build_technical_appendix(processing: dict, extraction: dict, assessment: dict, quote_bank: list[dict], gaps: list[dict], pathways: list[dict], controls: list[dict]) -> str:
+def build_technical_appendix(processing: dict, extraction: dict, assessment: dict, quote_bank: list[dict], gaps: list[dict], pathways: list[dict], controls: list[dict], low_confidence_quote_candidates: list[dict] | None = None) -> str:
     scores = ["structural_score", "terminology_score", "conceptual_proximity_score", "auditability_score", "enforceability_score", "overall_readiness_score"]
     lines = [f"# Technical Appendix — {processing.get('original_file_name')}", "", "## Document metadata", ""]
     for key in ("original_file_name", "source_sha256", "safe_output_stem"):
@@ -672,12 +852,29 @@ def build_technical_appendix(processing: dict, extraction: dict, assessment: dic
         lines.append("Formal LAIF-native certification: Not claimed / not applicable to this external-framework assessment. Construct coverage is internal diagnostic data only.")
     else:
         lines.append(f"Formal LAIF-native certification: {assessment.get('formal_laif_native_compliance', assessment.get('formal_laif_compliance'))}")
-    lines += ["", "## Low-confidence extraction/noise findings", "", f"- Low-confidence extraction noise: {assessment.get('low_confidence_extraction_noise', {})}", f"- Runner warnings: {extraction.get('warnings', [])}", "", "## Warnings/errors", "", f"- Warnings: {extraction.get('warnings', [])}", f"- Errors: {extraction.get('errors', [])}", ""]
+    lines += ["", "## Low-confidence extraction/noise findings", "", f"- Low-confidence extraction noise: {assessment.get('low_confidence_extraction_noise', {})}", f"- Runner warnings: {extraction.get('warnings', [])}", "", "## Low-confidence quote candidates", "", "```json", json.dumps(low_confidence_quote_candidates or [], indent=2, sort_keys=True), "```", "", "## Warnings/errors", "", f"- Warnings: {extraction.get('warnings', [])}", f"- Errors: {extraction.get('errors', [])}", ""]
     return "\n".join(lines)
 
 
 def build_ai_prompt() -> str:
-    return """# AI Analyst Prompt\n\nUse only the provided quote bank, diagnostics, and source excerpts. Do not invent quotes, obligations, legal claims, scores, documents, actors, or controls. Do not treat LAIF-native failure as the headline for external-framework documents. Produce institutional governance analysis for senior governance, legal, procurement, public-sector, clinical safety, or AI assurance reviewers. Preserve all source references and quote IDs. For each major recommendation, link to quote IDs, gap IDs, and control IDs. If evidence is insufficient, say so. Do not claim legal validity/invalidity. Do not claim certification unless provided by deterministic LAIF data. Include a technical appendix.\n"""
+    return """# AI Analyst Prompt
+
+Use only the provided deterministic analyst bundle, high-quality `quote_bank`, diagnostics, and source excerpts. Do not invent quotes, obligations, legal claims, scores, documents, actors, controls, certifications, or legal-validity conclusions.
+
+## Required analyst approach
+
+- Lead with a document-specific thesis that names the document type, governance force, strongest control area, principal operational gap, and next action.
+- Use quote IDs only from the high-quality `quote_bank` as primary support.
+- Do not cite `low_confidence_quote_candidates` as primary evidence; mention them only in a technical caveat if useful.
+- Convert generic controls into client-ready implementation actions with owner, artifact, threshold, cadence, and decision consequence.
+- Explain failure pathways in plain institutional terms: what breaks, who owns it, what evidence is missing, and what decision should stop.
+- Distinguish legal force from operational force. A legal or policy source may be authoritative while still lacking local implementation evidence.
+- Distinguish evidence presence from evidence sufficiency. A requested document, record, or quote is not proof that evidence is current, complete, reviewed, or accepted.
+- Include an executive version and a technical appendix.
+- Do not treat LAIF-native failure as the headline for external-framework documents.
+- Preserve all source references and quote IDs. For each major recommendation, link to quote IDs, gap IDs, and control IDs.
+- If evidence is insufficient, say so. Do not claim legal validity/invalidity. Do not claim certification unless provided by deterministic LAIF data.
+"""
 
 
 def build_validation_rules() -> str:
@@ -686,6 +883,7 @@ def build_validation_rules() -> str:
 
 def write_institutional_outputs(output_dir: Path, processing: dict, extraction: dict, assessment: dict, extracted_text: str) -> dict:
     quote_bank = build_quote_bank(extracted_text, processing, extraction, assessment)
+    low_confidence_quote_candidates = build_low_confidence_quote_candidates(extracted_text, processing, extraction, assessment)
     gaps = build_governance_gap_register(assessment, quote_bank)
     pathways = build_failure_pathways(gaps, quote_bank)
     controls = build_control_recommendations(gaps, pathways, quote_bank)
@@ -701,20 +899,21 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
         "control_recommendations": controls,
         "extraction_warnings": extraction.get("warnings", []),
         "low_confidence_evidence_flags": [q for q in quote_bank if q.get("low_confidence_reason")],
+        "low_confidence_quote_candidates": low_confidence_quote_candidates,
         "technical_appendix_data": {"construct_coverage": assessment.get("construct_coverage", {}), "formal_laif_native_compliance": assessment.get("formal_laif_native_compliance", assessment.get("formal_laif_compliance")), "evidence_traces": assessment.get("evidence_traces", []), "remediation_patches": assessment.get("remediation_patches", [])},
     }
     analyst_dir = output_dir / "analyst"
     analyst_dir.mkdir(parents=True, exist_ok=True)
     stem = processing["safe_output_stem"]
     (output_dir / f"{stem}.institutional_report.md").write_text(build_institutional_report(processing, extraction, assessment, quote_bank, gaps, pathways, controls), encoding="utf-8")
-    (output_dir / f"{stem}.technical_appendix.md").write_text(build_technical_appendix(processing, extraction, assessment, quote_bank, gaps, pathways, controls), encoding="utf-8")
+    (output_dir / f"{stem}.technical_appendix.md").write_text(build_technical_appendix(processing, extraction, assessment, quote_bank, gaps, pathways, controls, low_confidence_quote_candidates), encoding="utf-8")
     json_dump(analyst_dir / "analyst_bundle.json", bundle)
     with (analyst_dir / "quote_bank.jsonl").open("w", encoding="utf-8") as handle:
         for quote in quote_bank:
             handle.write(json.dumps(quote, sort_keys=True) + "\n")
     quote_md = ["# Quote Bank", ""]
     for q in quote_bank:
-        quote_md += [f"## {q['quote_id']} — {q['signal_category']}", "", f"> {q['exact_quote']}", "", f"- **Why it matters:** {q['why_it_matters']}", f"- **What it does not prove:** {q['what_it_does_not_prove']}", ""]
+        quote_md += [f"## {q['quote_id']} — {q['signal_category']}", "", f"> {q['exact_quote']}", "", f"- **Why it matters:** {q['why_it_matters']}", f"- **Quote quality:** {q.get('quote_quality_score')} — {q.get('quote_quality_reason')}", f"- **What it does not prove:** {q['what_it_does_not_prove']}", ""]
     (analyst_dir / "quote_bank.md").write_text("\n".join(quote_md), encoding="utf-8")
     json_dump(analyst_dir / "governance_gap_register.json", {"gaps": gaps})
     json_dump(analyst_dir / "failure_pathways.json", {"failure_pathways": pathways})
@@ -722,7 +921,7 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
     (analyst_dir / "AI_ANALYST_PROMPT.md").write_text(build_ai_prompt(), encoding="utf-8")
     json_dump(analyst_dir / "AI_ANALYST_INPUT_BUNDLE.json", bundle)
     (analyst_dir / "AI_REPORT_VALIDATION_RULES.md").write_text(build_validation_rules(), encoding="utf-8")
-    return {"quote_bank": quote_bank, "gap_register": gaps, "failure_pathways": pathways, "control_recommendations": controls, "analyst_bundle": bundle}
+    return {"quote_bank": quote_bank, "gap_register": gaps, "failure_pathways": pathways, "control_recommendations": controls, "analyst_bundle": bundle, "low_confidence_quote_candidates": low_confidence_quote_candidates}
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Extract a local document and run the LAIF assessment report wrapper.")
