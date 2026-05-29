@@ -235,8 +235,61 @@ def extract_document(path: Path, extractor: str = "auto") -> ExtractionResult:
     raise ExtractionError("Unable to extract document text. Attempted extractors: " + attempted)
 
 
+def _term_hits(text: str, terms: Iterable[str]) -> int:
+    lowered = (text or "").lower()
+    return sum(lowered.count(term.lower()) for term in terms)
+
+
+EU_AI_ACT_SIGNAL_TERMS = (
+    "regulation laying down harmonised rules",
+    "harmonised rules on artificial intelligence",
+    "artificial intelligence act",
+    "high-risk ai systems",
+    "provider",
+    "providers",
+    "deployer",
+    "deployers",
+    "conformity assessment",
+    "market surveillance",
+    "official journal",
+    "general-purpose ai model",
+    "placing on the market",
+    "post-market monitoring",
+    "technical documentation",
+    "serious incident reporting",
+)
+
+PUBLIC_SECTOR_POLICY_SIGNAL_TERMS = (
+    "policy for the responsible use of ai in government",
+    "responsible use of ai in government",
+    "public servants",
+    "government agencies",
+    "agencies must",
+    "accountable officials",
+    "human review",
+    "disclose ai use",
+    "ai use register",
+    "public sector",
+    "digital transformation agency",
+    "dta",
+)
+
+
+def eu_ai_act_broad_legal_signal(text: str) -> bool:
+    lowered = (text or "").lower()
+    hits = _term_hits(lowered, EU_AI_ACT_SIGNAL_TERMS)
+    employment_hits = _term_hits(lowered, ("employment", "worker", "workers", "labour", "recruitment", "workplace rights"))
+    return hits >= 2 and ("harmonised rules" in lowered or "artificial intelligence act" in lowered or "regulation laying down" in lowered or hits >= employment_hits + 2)
+
+
+def public_sector_policy_signal(text: str) -> bool:
+    return _term_hits(text, PUBLIC_SECTOR_POLICY_SIGNAL_TERMS) >= 2
+
+
 def broad_governance_framework_signal(text: str) -> bool:
     lowered = (text or "").lower()
+    if eu_ai_act_broad_legal_signal(text):
+        return True
     broad_terms = (
         "risk management framework", "voluntary framework", "non-sector-specific", "use-case agnostic",
         "harmonised rules", "artificial intelligence act", "conformity assessment", "market surveillance",
@@ -256,6 +309,10 @@ def broad_governance_framework_signal(text: str) -> bool:
 
 def auto_sector(text: str) -> str:
     lowered = text.lower()
+    if eu_ai_act_broad_legal_signal(text):
+        return "general_ai_governance"
+    if public_sector_policy_signal(text):
+        return "government_service_delivery"
     if broad_governance_framework_signal(text):
         return "general_ai_governance"
     patterns: list[tuple[str, Iterable[str]]] = [
@@ -263,7 +320,7 @@ def auto_sector(text: str) -> str:
         ("procurement_vendor_governance", ("procurement", "vendor", "contract", "supplier", "service level", "audit access")),
         ("employment_hr_ai", ("employment", "hiring", "hr", "human resources", "candidate", "adverse action")),
         ("education_ai", ("education", "student", "academic", "school", "accessibility", "learning")),
-        ("government_service_delivery", ("public service", "public sector", "government", "public servants", "service delivery", "administrative review", "benefit", "caseworker")),
+        ("government_service_delivery", ("public service", "public sector", "government", "government agencies", "agencies must", "public servants", "accountable officials", "ai use register", "service delivery", "administrative review", "benefit", "caseworker")),
         ("departmental_ai_development", ("software development", "release", "pipeline", "model register", "rollback", "architecture")),
     ]
     scores = [(sum(lowered.count(term) for term in terms), sector) for sector, terms in patterns]
@@ -416,10 +473,13 @@ STRONG_QUOTE_TERMS = (
     "security", "conformity", "assessment", "control", "audit", "record",
 )
 ACTION_QUOTE_TERMS = STRONG_QUOTE_TERMS + ("manage", "assign", "maintain", "protect", "report", "disclose")
-BOILERPLATE_QUOTE_RE = re.compile(r"(difficulties with accessing|accessibility|contact us|support@|@\w|email:|telephone|copyright|isbn|all rights reserved)", re.IGNORECASE)
+BOILERPLATE_QUOTE_RE = re.compile(r"(difficulties with accessing|accessibility|contact us|support@|@\w|email:|telephone|copyright|isbn|all rights reserved|certain commercial entities, equipment, or materials may be identified)", re.IGNORECASE)
+GENERIC_FRAGMENT_RE = re.compile(r"^(?:requirements agencies must follow|monitoring, will help ensure|this document in order to describe)\.?$", re.IGNORECASE)
+PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:ser ious|general-pur pose|provid er|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment)\b", re.IGNORECASE)
+INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|should|must|shall|will)\s*$", re.IGNORECASE)
 TOC_QUOTE_RE = re.compile(r"^\s*(?:\d+(?:\.\d+)*\s+){0,2}[A-Z][A-Za-z&/ -]{2,70}\s+\d{1,4}\s*$")
 TITLE_ONLY_RE = re.compile(r"^[A-Z][A-Za-z0-9&/:,() -]{8,80}$")
-BROKEN_GLYPH_RE = re.compile(r"\b[A-Za-z]{1,3}(?:\s+[A-Za-z]{1,3}){4,}\b|\b(?:la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment)\b", re.IGNORECASE)
+BROKEN_GLYPH_RE = re.compile(r"\b[A-Za-z]{1,3}(?:\s+[A-Za-z]{1,3}){4,}\b", re.IGNORECASE)
 
 
 def _sentence_spans(text: str) -> list[tuple[int, int, str]]:
@@ -438,16 +498,82 @@ def _sentence_spans(text: str) -> list[tuple[int, int, str]]:
     return spans
 
 
+def _normalized_for_quality(quote: str) -> str:
+    clean = " ".join((quote or "").split())
+    repairs = {
+        "ser ious": "serious",
+        "general-pur pose": "general-purpose",
+        "provid er": "provider",
+        "la ying": "laying",
+    }
+    lowered = clean
+    for bad, fixed in repairs.items():
+        lowered = re.sub(re.escape(bad), fixed, lowered, flags=re.IGNORECASE)
+    return lowered
+
+
+def _quote_signal_dimensions(quote: str) -> set[str]:
+    lower = _normalized_for_quality(quote).lower()
+    dimensions: set[str] = set()
+    if re.search(r"\b(provider|providers|deployer|deployers|agency|agencies|organisation|organization|department|supplier|clinician|public servants?|responsible party|accountable officials?)\b", lower):
+        dimensions.add("actor")
+    if re.search(r"\b(shall|must|should|required|requires?|ensure|establish|implement|maintain|monitor|review|document|report|assess|disclose|manage)\b", lower):
+        dimensions.add("action")
+    if re.search(r"\b(risk|evidence|documentation|oversight|accountability|incident|safety|privacy|security|conformity|assessment|register|record|review|redress|technical documentation|human review)\b", lower):
+        dimensions.add("object")
+    if re.search(r"\b(before deployment|post-market|incident|harm|audit|assurance|approval|monitoring|escalation|exception|deployment|review)\b", lower):
+        dimensions.add("context")
+    return dimensions
+
+
+def _profile_quote_terms(assessment: dict) -> tuple[str, ...]:
+    profile = document_profile_key(assessment) if isinstance(assessment, dict) else ""
+    by_profile = {
+        "nist": ("risk management framework", "govern", "map", "measure", "manage", "trustworthy ai", "valid", "reliable", "safe", "secure", "accountable", "transparent", "fair", "document risks", "monitor", "review"),
+        "eu_ai_act": ("providers", "deployers", "high-risk ai systems", "risk management system", "technical documentation", "conformity assessment", "post-market monitoring", "serious incident reporting", "human oversight", "general-purpose ai model"),
+        "eo_14110": ("agencies shall", "secretary", "agency", "safety", "security standards", "report", "implementation", "privacy", "civil rights", "labour", "competition", "accountability"),
+        "dtac": ("clinical safety case", "hazard log", "dcb0129", "clinical safety officer", "data protection", "technical security", "interoperability", "evidence submission"),
+        "australian_policy": ("agencies must", "public servants", "responsible ai use", "human review", "disclose ai use", "ai use register", "accountability record", "exception", "incident reporting"),
+    }
+    return by_profile.get(profile, ())
+
+
+def _profile_quote_score(sentence: str, assessment: dict) -> int:
+    lower = sentence.lower()
+    return sum(1 for term in _profile_quote_terms(assessment) if term in lower)
+
+
+def _expanded_sentence_window(text: str, start: int, end: int) -> tuple[int, int, str]:
+    para_start = text.rfind("\n\n", 0, start)
+    para_start = 0 if para_start < 0 else para_start + 2
+    para_end = text.find("\n\n", end)
+    para_end = len(text) if para_end < 0 else para_end
+    sent_start = max(para_start, text.rfind(".", para_start, start) + 1, text.rfind("!", para_start, start) + 1, text.rfind("?", para_start, start) + 1)
+    sent_ends = [idx for idx in (text.find(".", end), text.find("!", end), text.find("?", end)) if idx >= 0]
+    sent_end = min(sent_ends) + 1 if sent_ends else para_end
+    expanded = text[sent_start:sent_end].strip()
+    expanded_start = text.find(expanded, sent_start) if expanded else start
+    if expanded and expanded_start >= 0:
+        return expanded_start, expanded_start + len(expanded), expanded
+    return start, end, text[start:end].strip()
+
+
 def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
     """Score candidate evidence before it can enter the primary quote bank."""
     clean = " ".join((quote or "").split())
     lower = clean.lower()
+    normalized = _normalized_for_quality(clean)
+    norm_lower = normalized.lower()
     if extraction.get("extraction_confidence") == "low":
         return 20, "extractor reported low confidence"
     if not clean:
         return 0, "empty quote"
     if BOILERPLATE_QUOTE_RE.search(clean):
-        return 10, "support, contact, email, or accessibility boilerplate"
+        return 10, "generic disclaimer or identification boilerplate"
+    if GENERIC_FRAGMENT_RE.search(clean):
+        return 15, "generic incomplete fragment without governance context"
+    if PDF_INTR_WORD_DAMAGE_RE.search(clean):
+        return 15, "PDF intra-word spacing damage in candidate quote"
     if TOC_QUOTE_RE.match(clean):
         return 10, "table of contents or page-number fragment"
     if NOISE_RE.search(clean) or BROKEN_GLYPH_RE.search(clean):
@@ -456,20 +582,23 @@ def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
         return 20, "insufficient alphabetic governance content"
     if TITLE_ONLY_RE.match(clean) and len(clean.split()) <= 8 and not any(t in lower for t in ACTION_QUOTE_TERMS):
         return 20, "title or isolated heading without governance action"
-    if len(clean) < 80 and not any(t in lower for t in ("shall", "must", "requires", "required", "ensure", "implement")):
+    if re.match(r"^[a-z,;:]", clean) or INCOMPLETE_END_RE.search(clean):
+        return 25, "incomplete sentence or clause fragment"
+    dimensions = _quote_signal_dimensions(clean)
+    if len(clean) < 80 and not any(t in norm_lower for t in ("shall", "must", "requires", "required", "ensure", "implement")):
         return 35, "short fragment without strong obligation or control phrase"
-    if not any(t in lower for t in ACTION_QUOTE_TERMS):
+    if not any(t in norm_lower for t in ACTION_QUOTE_TERMS):
         return 35, "no governance action, obligation, risk, evidence, or control term"
-    if not re.search(r"\b(shall|must|should|requires?|ensure|establish|implement|monitor|review|manage|document|assign|maintain|protect|report|disclose|is|are|be)\b", lower):
-        return 35, "no verb/action term explaining a governance signal"
-    score = 70
-    if len(clean) >= 80:
-        score += 10
-    if any(t in lower for t in ("shall", "must", "requires", "ensure", "implement", "conformity", "incident", "evidence")):
-        score += 10
-    if any(t in lower for t in ("owner", "accountability", "monitor", "review", "risk", "documentation", "safety", "privacy", "security")):
+    if not re.search(r"\b(shall|must|should|requires?|ensure|establish|implement|monitor|review|manage|document|assign|maintain|protect|report|disclose)\b", norm_lower):
+        return 35, "no institutional action or obligation verb explaining a governance signal"
+    if len(dimensions) < 2:
+        return 45, "quote lacks enough actor/action/object/context structure for primary evidence"
+    score = 70 + len(dimensions) * 5
+    if len(clean) >= 120:
         score += 5
-    return min(score, 95), "primary evidence: governance action or claim with control relevance"
+    if any(t in norm_lower for t in ("shall", "must", "requires", "ensure", "implement", "conformity", "incident", "evidence")):
+        score += 5
+    return min(score, 95), "primary evidence: complete governance action with actor/control context"
 
 
 def _is_low_confidence_quote(quote: str, extraction: dict) -> tuple[bool, str]:
@@ -510,22 +639,21 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
     spans = _sentence_spans(text)
     for category, terms, repair_field in SIGNAL_CATEGORIES:
         best: tuple[int, int, str] | None = None
+        matching_spans: list[tuple[int, int, str]] = []
         for start, end, sentence in spans:
             lo = sentence.lower()
             if any(term.lower() in lo for term in terms):
-                best = (start, end, sentence)
-                break
+                matching_spans.append((start, end, sentence))
+        if matching_spans:
+            best = max(matching_spans, key=lambda item: (_profile_quote_score(item[2], assessment), quote_quality(item[2], extraction)[0], len(item[2])))
         if best is None:
             for term in terms:
                 idx = lowered_text.find(term.lower())
                 if idx >= 0:
-                    start = max(0, text.rfind(".", 0, idx) + 1)
-                    if start == 0:
-                        start = max(0, idx - 160)
-                    end_dot = text.find(".", idx)
-                    end = end_dot + 1 if end_dot >= 0 else min(len(text), idx + 320)
-                    sentence = text[start:end].strip()
-                    best = (text.find(sentence, start), text.find(sentence, start) + len(sentence), sentence)
+                    start = max(0, idx - 160)
+                    end = min(len(text), idx + 320)
+                    start, end, sentence = _expanded_sentence_window(text, start, end)
+                    best = (start, end, sentence)
                     break
         if best is None:
             continue
@@ -659,7 +787,7 @@ def control_name_for_gap(gap: dict) -> str:
         "eu_ai_act": ["Provider/Deployer Obligation Mapping Register", "High-Risk AI Evidence and Technical Documentation Gate", "Post-Market Monitoring and Incident Escalation Control"],
         "eo_14110": ["Agency AI Directive Implementation Tracker", "Federal AI Safety and Security Evidence Register", "Agency Accountability and Reporting Gate"],
         "dtac": ["Clinical Safety Live Assurance Register", "DTAC Evidence Sufficiency Matrix", "Transferred Clinical Risk Acceptance Register"],
-        "australian_policy": ["Public Sector AI Use Register", "Human Review and Accountability Evidence Log", "AI Use Disclosure and Exception Register"],
+        "australian_policy": ["Public Sector AI Use Register", "Human Review and Accountability Evidence Log", "AI Use Disclosure and Exception Register", "Agency AI Incident and Exception Register", "Public Sector AI Monitoring and Assurance Gate"],
     }
     idx = max(0, int(gap.get("gap_id", "GAP-001").split("-")[-1]) - 1)
     options = names.get(profile)
@@ -674,10 +802,10 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
     profile = document_profile_key(assessment)
     base = {
         "voluntary_risk_framework": "This document is valuable as a governance design framework, but it does not itself create binding implementation gates, evidence acceptance rules, or operational enforcement consequences.",
-        "binding_legal_instrument": "This document has high legal force, but operational assurance depends on converting obligations into provider/deployer controls, evidence registers, review gates, and enforcement workflows.",
+        "binding_legal_instrument": "The EU AI Act is a high-force legal source, but it still requires local provider/deployer obligation mapping, evidence registers, and post-market monitoring workflows before it becomes operational assurance.",
         "executive_policy_directive": "This document creates executive direction and agency expectations, but systemic repair depends on agency implementation tracking, ownership, evidence collection, and escalation consequences.",
         "sector_assurance_checklist": "This document is useful as a sector assurance screen, but it must be tied to live review, evidence sufficiency, residual risk acceptance, and deployment consequences.",
-        "public_sector_policy": "This document is useful as public-sector operating policy, but it must be tested for accountable owners, disclosure records, human review evidence, exceptions, incidents, and implementation monitoring.",
+        "public_sector_policy": "The Australian Government AI policy is a public-sector operating policy. Its value depends on whether agencies maintain AI use registers, disclosure evidence, human review logs, exception records, and incident/escalation pathways.",
         "implementation_guide": "This document is useful as implementation guidance, but it must be converted into accountable owners, mandatory artifacts, thresholds, review cadence, and stop/go consequences.",
         "internal_policy": "This document is useful as institutional operating policy, but assurance depends on implementation records, owner accountability, monitoring, exceptions, incidents, and escalation evidence.",
     }.get(doc_type, "This document is useful as a governance source, but institutional reliance depends on proof of operational closure, accountable ownership, evidence sufficiency, and decision consequences.")
@@ -866,6 +994,11 @@ Use only the provided deterministic analyst bundle, high-quality `quote_bank`, d
 - Lead with a document-specific thesis that names the document type, governance force, strongest control area, principal operational gap, and next action.
 - Use quote IDs only from the high-quality `quote_bank` as primary support.
 - Do not cite `low_confidence_quote_candidates` as primary evidence; mention them only in a technical caveat if useful.
+- Do not cite incomplete fragments, heading-only quotes, boilerplate, or extraction-damaged fragments.
+- If available quotes are weak, state that the deterministic quote bank is insufficient and request better source extraction.
+- Use a document-specific thesis, not generic LAIF language.
+- Do not invent missing source context to rescue weak quotes.
+- Distinguish “source says X” from “institution has implemented X.”
 - Convert generic controls into client-ready implementation actions with owner, artifact, threshold, cadence, and decision consequence.
 - Explain failure pathways in plain institutional terms: what breaks, who owns it, what evidence is missing, and what decision should stop.
 - Distinguish legal force from operational force. A legal or policy source may be authoritative while still lacking local implementation evidence.

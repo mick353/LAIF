@@ -149,6 +149,10 @@ class GithubActionsDocumentProcessingTests(unittest.TestCase):
                 "AI Risk Management Framework voluntary non-sector-specific use-case agnostic govern map measure manage trustworthy AI. Organizations should document risks, assign accountability, monitor AI systems, review outcomes, manage incidents, and maintain evidence of risk management activities.",
                 encoding="utf-8",
             )
+            (pending / "policy.txt").write_text(
+                "Policy for the responsible use of AI in government. Government agencies and public servants must disclose AI use, ensure human review, maintain AI use registers, monitor implementation, retain accountability records, and manage exceptions and incidents.",
+                encoding="utf-8",
+            )
             summary = self.run_batch(root, "--max-files", "5")
             report_path = Path(summary["batch_institutional_outputs"]["batch_institutional_report"])
             report = report_path.read_text(encoding="utf-8")
@@ -157,7 +161,8 @@ class GithubActionsDocumentProcessingTests(unittest.TestCase):
             self.assertIn("Evidence sufficiency", report)
             self.assertIn("Strongest legal source", report)
             self.assertIn("Strongest voluntary governance design source", report)
-            self.assertIn("Most urgent cross-document control gap", report)
+            self.assertIn("Strongest public-sector operating policy", report)
+            self.assertIn("Most urgent common control gap", report)
             self.assertIn("Recommended combined operating model", report)
             self.assertNotIn("strongest deterministic evidence density", report)
 
