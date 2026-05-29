@@ -106,7 +106,7 @@ def move_source(source: Path, destination_dir: Path) -> Path:
     return destination
 
 
-def run_phase_3t(source_path: Path, reports_dir: Path, mode: str, sector: str, extractor: str) -> subprocess.CompletedProcess[str]:
+def run_phase_3t(source_path: Path, reports_dir: Path, mode: str, sector: str, extractor: str, original_pending_path: Path | str = "", stored_source_path: Path | str = "") -> subprocess.CompletedProcess[str]:
     command = [
         sys.executable,
         str(PHASE_3T_RUNNER),
@@ -119,6 +119,10 @@ def run_phase_3t(source_path: Path, reports_dir: Path, mode: str, sector: str, e
         sector,
         "--extractor",
         extractor,
+        "--original-pending-path",
+        str(original_pending_path or source_path),
+        "--stored-source-path",
+        str(stored_source_path or source_path),
     ]
     return subprocess.run(command, text=True, capture_output=True, check=False)
 
@@ -153,7 +157,7 @@ def process_one(source: Path, args: argparse.Namespace) -> dict:
     started = utc_now_iso()
 
     copied_source = copy_source(source, source_dir)
-    completed = run_phase_3t(copied_source, reports_dir, args.mode, args.sector, args.extractor)
+    completed = run_phase_3t(copied_source, reports_dir, args.mode, args.sector, args.extractor, source, copied_source)
     finished = utc_now_iso()
     metadata = {
         "status": "success" if completed.returncode == 0 else "failed",
@@ -162,11 +166,14 @@ def process_one(source: Path, args: argparse.Namespace) -> dict:
         "finished_at_utc": finished,
         "processed_at_utc": finished,
         "original_source_path": str(source),
+        "original_pending_path": str(source),
         "stored_source_path": str(copied_source),
+        "runner_input_path": str(copied_source),
         "reports_dir": str(reports_dir),
         "metadata_dir": str(metadata_dir),
         "source_sha256": source_hash,
         "source_file_name": source.name,
+        "original_file_name": source.name,
         "mode": args.mode,
         "sector": args.sector,
         "extractor": args.extractor,
@@ -183,7 +190,7 @@ def process_one(source: Path, args: argparse.Namespace) -> dict:
         elif args.commit_mode == "archive":
             write_archive_manifest(run_dir, source, copied_source, source_hash)
         metadata_path = write_run_metadata(metadata_dir, metadata)
-        return {"status": "success", "run_id": run_id, "source_path": str(source), "source_sha256": source_hash, "metadata_path": str(metadata_path), "reports_dir": str(reports_dir)}
+        return {"status": "success", "run_id": run_id, "source_path": str(source), "original_pending_path": str(source), "stored_source_path": str(copied_source), "runner_input_path": str(copied_source), "original_file_name": source.name, "source_sha256": source_hash, "metadata_path": str(metadata_path), "reports_dir": str(reports_dir)}
 
     failed_run_dir = args.failed_dir / run_id
     if failed_run_dir.exists():
@@ -193,10 +200,11 @@ def process_one(source: Path, args: argparse.Namespace) -> dict:
     failed_metadata_dir = failed_run_dir / "metadata"
     (failed_run_dir / "error.txt").write_text((completed.stderr or completed.stdout or "Document processing failed.").strip() + "\n", encoding="utf-8")
     metadata["stored_source_path"] = str(failed_run_dir / "source" / source.name)
+    metadata["runner_input_path"] = str(failed_run_dir / "source" / source.name)
     metadata["reports_dir"] = str(failed_run_dir / "reports")
     metadata["metadata_dir"] = str(failed_metadata_dir)
     metadata_path = write_run_metadata(failed_metadata_dir, metadata)
-    return {"status": "failed", "run_id": run_id, "source_path": str(source), "source_sha256": source_hash, "metadata_path": str(metadata_path), "error_path": str(failed_run_dir / "error.txt")}
+    return {"status": "failed", "run_id": run_id, "source_path": str(source), "original_pending_path": str(source), "stored_source_path": metadata["stored_source_path"], "runner_input_path": metadata["runner_input_path"], "original_file_name": source.name, "source_sha256": source_hash, "metadata_path": str(metadata_path), "error_path": str(failed_run_dir / "error.txt")}
 
 
 def build_parser() -> argparse.ArgumentParser:

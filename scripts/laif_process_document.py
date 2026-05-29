@@ -100,6 +100,15 @@ def extract_builtin(path: Path) -> ExtractionResult:
     return ExtractionResult(text=text, extractor_used="builtin", extraction_confidence="high")
 
 
+def extract_text_fallback(path: Path) -> ExtractionResult:
+    """Read UTF-8 text from a non-text extension for deterministic tests/smokes."""
+    try:
+        text = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        text = path.read_text(encoding="utf-8-sig")
+    return ExtractionResult(text=text, extractor_used="text-fallback", extraction_confidence="low", warnings=["non-text extension decoded as UTF-8 text"])
+
+
 def extract_docling(path: Path) -> ExtractionResult:
     try:
         from docling.document_converter import DocumentConverter
@@ -203,6 +212,7 @@ def extract_document(path: Path, extractor: str = "auto") -> ExtractionResult:
         attempts.append(("python-docx", extract_python_docx))
     if suffix == ".pdf":
         attempts.append(("pypdf", extract_pypdf))
+        attempts.append(("text-fallback", extract_text_fallback))
 
     for name, func in attempts:
         result, warning = _attempt(name, func, path)
@@ -225,10 +235,30 @@ def extract_document(path: Path, extractor: str = "auto") -> ExtractionResult:
     raise ExtractionError("Unable to extract document text. Attempted extractors: " + attempted)
 
 
+def broad_governance_framework_signal(text: str) -> bool:
+    lowered = (text or "").lower()
+    broad_terms = (
+        "risk management framework", "voluntary framework", "non-sector-specific", "use-case agnostic",
+        "harmonised rules", "artificial intelligence act", "conformity assessment", "market surveillance",
+        "regulation laying down", "executive order", "federal agencies", "providers", "deployers",
+        "trustworthy ai", "govern map measure manage", "govern, map, measure, and manage",
+    )
+    legal_terms = ("regulation", "article", "official journal", "conformity", "provider", "deployer", "market surveillance")
+    framework_hits = sum(lowered.count(term) for term in broad_terms)
+    legal_hits = sum(lowered.count(term) for term in legal_terms)
+    employment_hits = sum(lowered.count(term) for term in ("employment", "worker", "workers", "hiring", "candidate", "hr"))
+    clinical_hits = sum(lowered.count(term) for term in ("clinical", "patient", "clinician", "nhs", "dcb0129", "hazard log"))
+    if clinical_hits >= 2:
+        return False
+    return framework_hits >= 1 or (legal_hits >= 3 and legal_hits >= employment_hits)
+
+
 def auto_sector(text: str) -> str:
     lowered = text.lower()
+    if broad_governance_framework_signal(text):
+        return "general_ai_governance"
     patterns: list[tuple[str, Iterable[str]]] = [
-        ("clinical_ai", ("clinical", "patient", "clinician", "diagnosis", "medical", "healthcare", "safety incident")),
+        ("clinical_ai", ("clinical", "patient", "clinician", "diagnosis", "medical", "healthcare", "safety incident", "dcb0129", "hazard log", "nhs")),
         ("procurement_vendor_governance", ("procurement", "vendor", "contract", "supplier", "service level", "audit access")),
         ("employment_hr_ai", ("employment", "hiring", "hr", "human resources", "candidate", "adverse action")),
         ("education_ai", ("education", "student", "academic", "school", "accessibility", "learning")),
@@ -238,7 +268,6 @@ def auto_sector(text: str) -> str:
     scores = [(sum(lowered.count(term) for term in terms), sector) for sector, terms in patterns]
     best_score, best_sector = max(scores, key=lambda item: (item[0], -patterns.index((item[1], next(t for s, t in patterns if s == item[1])))))
     return best_sector if best_score > 0 else "general_ai_governance"
-
 
 def resolve_assessment_mode(mode: str) -> str:
     return "laif_native_certification" if mode == "laif_native" else "external_framework"
@@ -254,11 +283,16 @@ def build_processing_metadata(
     safe_output_stem: str,
     markdown_enabled: bool,
     json_enabled: bool,
+    original_pending_path: str = "",
+    stored_source_path: str = "",
 ) -> dict:
     return {
         "processed_at_utc": processed_at_utc,
         "input_path_original": input_path_original,
         "input_path": str(input_path),
+        "runner_input_path": str(input_path),
+        "original_pending_path": original_pending_path or input_path_original,
+        "stored_source_path": stored_source_path or str(input_path),
         "input_file_name": input_path.name,
         "original_file_name": input_path.name,
         "original_file_stem": input_path.stem,
@@ -275,7 +309,9 @@ def markdown_metadata_block(processing: dict, extraction: dict, assessment: dict
         "",
         f"- **Processed at UTC / processed_at_utc:** {processing['processed_at_utc']}",
         f"- **Original input path:** {processing['input_path_original']}",
-        f"- **Resolved input path:** {processing['input_path']}",
+        f"- **Resolved input path / runner_input_path:** {processing['runner_input_path']}",
+        f"- **Original pending path / original_pending_path:** {processing['original_pending_path']}",
+        f"- **Stored source path / stored_source_path:** {processing['stored_source_path']}",
         f"- **Original file name:** {processing['original_file_name']}",
         f"- **Source SHA-256:** {processing['source_sha256']}",
         f"- **Extractor used:** {extraction['extractor_used']}",
@@ -302,6 +338,9 @@ def index_record(processing: dict, extraction: dict, assessment: dict, input_pat
         "original_file_name": processing["original_file_name"],
         "input_path_original": processing["input_path_original"],
         "input_path": str(input_path),
+        "runner_input_path": processing.get("runner_input_path", str(input_path)),
+        "original_pending_path": processing.get("original_pending_path", processing.get("input_path_original")),
+        "stored_source_path": processing.get("stored_source_path", str(input_path)),
         "source_sha256": processing["source_sha256"],
         "safe_output_stem": processing["safe_output_stem"],
         "markdown_output_path": processing["markdown_output_path"],
@@ -309,6 +348,7 @@ def index_record(processing: dict, extraction: dict, assessment: dict, input_pat
         "document_name": document_name,
         "assessment_mode": assessment.get("assessment_mode"),
         "sector_profile": assessment.get("sector_profile"),
+        "document_type": assessment.get("document_type"),
         "formal_laif_native_compliance": assessment.get("formal_laif_native_compliance", assessment.get("formal_laif_compliance")),
         "overall_readiness_score": assessment.get("overall_readiness_score", assessment.get("overall_score")),
         "evidence_trace_count": len(assessment.get("evidence_traces", [])),
@@ -345,6 +385,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--fail-on-warnings", action="store_true")
     parser.add_argument("--print-report", action="store_true")
     parser.add_argument("--no-write", action="store_true", help="Do not write markdown, JSON, or processing index outputs")
+    parser.add_argument("--original-pending-path", default="", help="Original pending/source path before archival copy, for batch identity metadata")
+    parser.add_argument("--stored-source-path", default="", help="Archived source path retained by batch processing, for identity metadata")
     return parser
 
 
@@ -370,10 +412,15 @@ def run(args: argparse.Namespace) -> int:
         safe_output_stem=output_stem,
         markdown_enabled=args.markdown,
         json_enabled=args.json_output,
+        original_pending_path=args.original_pending_path,
+        stored_source_path=args.stored_source_path,
     )
     extraction_metadata = {
         "input_path_original": input_path_original,
         "input_path": str(input_path),
+        "runner_input_path": str(input_path),
+        "original_pending_path": args.original_pending_path or input_path_original,
+        "stored_source_path": args.stored_source_path or str(input_path),
         "input_file_name": input_path.name,
         "original_file_name": input_path.name,
         "original_file_stem": input_path.stem,
@@ -400,6 +447,9 @@ def run(args: argparse.Namespace) -> int:
         assessment_mode=resolve_assessment_mode(args.mode),
         source_sha256=source_hash,
         original_file_name=input_path.name,
+        original_pending_path=args.original_pending_path or input_path_original,
+        stored_source_path=args.stored_source_path or str(input_path),
+        runner_input_path=str(input_path),
         processed_at_utc=processed_at,
     )
     base_report = generate_markdown_report([assessment])

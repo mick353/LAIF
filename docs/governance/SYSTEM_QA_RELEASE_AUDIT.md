@@ -138,3 +138,8 @@ Final release audit finding: no release-blocking defect is identified by this au
 ## Phase 3U orchestration boundary
 
 Phase 3U GitHub Actions batch document processing is orchestration only. It preserves LAIF semantic, scoring, certification, validation, governance, protected-artifact, and verified-corpus boundaries by shelling to the Phase 3T document runner for individual documents and by avoiding any change to `assessment_engine.py`, `validate.py`, governance scripts, protected manifests, verified artifacts, or root-level generated reports.
+
+
+## Phase 3V governance repair reporting audit note
+
+Phase 3V preserves `validate.py`, formal LAIF-native validation, and scoring weights while changing external-framework presentation. External-framework reports lead with governance repair assessment fields and move LAIF-native certification wording into a technical appendix / internal diagnostic boundary.

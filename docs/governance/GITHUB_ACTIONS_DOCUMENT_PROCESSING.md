@@ -118,3 +118,8 @@ Phase 3U shells to `scripts/laif_process_document.py` for each supported documen
 ## Non-goals
 
 Phase 3U does not change scoring, formal LAIF-native compliance, certification gates, validation behavior, `assessment_engine.py`, `validate.py`, governance scripts, protected artifacts, verified corpus files, manifests, or root-level generated reports.
+
+
+## Phase 3V batch identity and external-framework doctrine
+
+Batch processing remains infrastructure: pending inputs are archived under processed/failed run directories and summaries preserve `original_pending_path`, `stored_source_path`, `runner_input_path`, `original_file_name`, and source hash. External-framework outputs are governance repair assessments rather than LAIF-native failure headlines. See `GOVERNANCE_REPAIR_REPORTING.md` and the Phase 3S System QA Release Audit Reference in `SYSTEM_QA_RELEASE_AUDIT.md`.

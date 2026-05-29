@@ -82,6 +82,29 @@ class GithubActionsDocumentProcessingTests(unittest.TestCase):
             self.assertEqual(summary["pending_dir"], str(root / "pending"))
             self.assertEqual(summary["batch_summaries_dir"], str(root / "batch_summaries"))
 
+    def test_batch_summary_and_metadata_preserve_path_identity_and_duplicate_stems(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            pending = root / "pending"
+            pending.mkdir()
+            first = pending / "NIST.AI.100-1.txt"
+            second = pending / "NIST.AI.100-1.md"
+            first.write_text(STRONG_TEXT + " pdf", encoding="utf-8")
+            second.write_text(STRONG_TEXT + " docx", encoding="utf-8")
+            summary = self.run_batch(root, "--max-files", "2")
+            self.assertEqual(summary["success_count"], 2)
+            names = {item["original_file_name"] for item in summary["successes"]}
+            self.assertEqual(names, {"NIST.AI.100-1.txt", "NIST.AI.100-1.md"})
+            for success in summary["successes"]:
+                self.assertTrue(success.get("original_pending_path"))
+                self.assertTrue(success.get("stored_source_path"))
+                self.assertTrue(success.get("runner_input_path"))
+                metadata = json.loads(Path(success["metadata_path"]).read_text(encoding="utf-8"))
+                self.assertEqual(metadata["original_file_name"], success["original_file_name"])
+                self.assertEqual(metadata["original_pending_path"], success["original_pending_path"])
+                self.assertEqual(metadata["stored_source_path"], success["stored_source_path"])
+                self.assertEqual(metadata["runner_input_path"], success["runner_input_path"])
+
     def test_move_mode_removes_pending_source_after_success(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

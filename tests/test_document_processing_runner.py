@@ -103,6 +103,9 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
         self.assertEqual(runner.auto_sector("clinical patient clinician safety incident"), "clinical_ai")
         self.assertEqual(runner.auto_sector("procurement vendor contract audit access"), "procurement_vendor_governance")
         self.assertEqual(runner.auto_sector("general transparency accountability governance"), "general_ai_governance")
+        self.assertEqual(runner.auto_sector("AI Risk Management Framework voluntary non-sector-specific use-case agnostic govern map measure manage trustworthy AI."), "general_ai_governance")
+        self.assertEqual(runner.auto_sector("Regulation laying down harmonised rules on artificial intelligence high-risk AI systems providers deployers conformity assessment market surveillance employment workers."), "general_ai_governance")
+        self.assertEqual(runner.auto_sector("Digital health technology clinical safety DCB0129 clinical safety case hazard log patient care NHS data protection interoperability."), "clinical_ai")
 
     def test_no_write_writes_no_outputs_and_no_index(self) -> None:
         with tempfile.TemporaryDirectory() as td:
@@ -248,6 +251,52 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
         result = assess("external", "policy", STRONG_EXTERNAL_TEXT, assessment_mode="external_framework")
         self.assertEqual(result["assessment_mode"], "external_framework")
         self.assertEqual(result["formal_laif_native_compliance"], "FAIL")
+
+    def test_external_framework_report_reframed_as_governance_repair(self) -> None:
+        result = assess("external", "policy", STRONG_EXTERNAL_TEXT, assessment_mode="external_framework")
+        report = generate_markdown_report([result])
+        front = report.split("Technical Appendix", 1)[0]
+        self.assertIn("LAIF Governance Repair Assessment", report)
+        self.assertIn("Governance Repair Profile", report)
+        self.assertIn("Operational Closure Findings", report)
+        self.assertIn("Evidence Sufficiency Findings", report)
+        self.assertIn("Failure-Pathway Risk Findings", report)
+        self.assertIn("document_type", report)
+        self.assertIn("recommended_use", report)
+        self.assertIn("not_sufficient_for", report)
+        self.assertIn("systemic_repair_value", result)
+        self.assertIn("failure_pathway_risk", result)
+        self.assertNotIn("Formal LAIF-native compliance: FAIL", front)
+        self.assertNotIn("LAIF-native certification: Not claimed / not applicable", front)
+        self.assertIn("Technical Appendix", report)
+        self.assertIn("Internal Diagnostic Boundary", report)
+        self.assertIn("LAIF-native certification: Not claimed / not applicable to this external-framework assessment.", report)
+
+    def test_laif_native_mode_preserves_formal_certification_behavior(self) -> None:
+        result = assess("laif native fixture", "policy", STRONG_EXTERNAL_TEXT, assessment_mode="laif_native_certification")
+        report = generate_markdown_report([result])
+        self.assertEqual(result["assessment_mode"], "laif_native_certification")
+        self.assertEqual(result["formal_laif_native_compliance"], "FAIL")
+        self.assertIn("LAIF-native certification: FAIL / canonical remediation required", report)
+
+    def test_document_type_classification_examples(self) -> None:
+        cases = [
+            ("Regulation laying down harmonised rules on artificial intelligence high-risk AI systems providers deployers conformity assessment market surveillance.", "binding_legal_instrument"),
+            ("Executive Order 14110 directs federal agencies and the Secretary of Commerce to manage safe secure trustworthy artificial intelligence.", "executive_policy_directive"),
+            ("Artificial Intelligence Risk Management Framework voluntary framework govern, map, measure, and manage AI risks non-sector-specific use-case agnostic.", "voluntary_risk_framework"),
+            ("DTAC Digital Technology Assessment Criteria clinical safety case DCB0129 hazard log patient care NHS.", "sector_assurance_checklist"),
+        ]
+        for text, expected in cases:
+            with self.subTest(expected=expected):
+                self.assertEqual(assess(expected, "policy", text, assessment_mode="external_framework")["document_type"], expected)
+
+    def test_malformed_pdf_fragments_are_not_primary_paraphrase_findings(self) -> None:
+        text = "his Regulation, without there being scope... al law that may give effect..."
+        result = assess("malformed", "pdf", text, assessment_mode="external_framework")
+        self.assertEqual(result["paraphrase_violations"], {})
+        report = generate_markdown_report([result])
+        self.assertNotIn("Paraphrase violation", report)
+        self.assertNotIn("Forbidden paraphrase", report)
 
     def test_exact_evidence_traces_satisfy_matched_text_slice(self) -> None:
         result = assess("external", "policy", STRONG_EXTERNAL_TEXT, assessment_mode="external_framework")
