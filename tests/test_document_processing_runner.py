@@ -188,6 +188,75 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
             self.assertIn("Do not invent quotes", prompt)
             self.assertIn("Do not claim legal validity/invalidity", prompt)
 
+
+    def test_phase_3x_quote_quality_rejects_non_primary_fragments(self) -> None:
+        text = """
+Artificial Intelligence Risk Management
+
+3 Secure and Resilient 15
+
+By la ying down those r ules providers shall maintain conformity assessment evidence and monitor incidents for high-risk AI systems.
+
+Trustworthy AI systems should be valid and reliable, safe, secure and resilient, accountable and transparent, explainable and interpretable, privacy-enhanced, and fair with harmful bias managed. Organizations should document risks, assign accountability, monitor AI systems, review outcomes, manage incidents, and maintain evidence of risk management activities.
+
+If you are having difficulties with accessing this document, please email: support@example.com.
+"""
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "nist_like.txt"
+            out = root / "out"
+            path.write_text(text, encoding="utf-8")
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            quotes = [q["exact_quote"] for q in bundle["quote_bank"]]
+            joined = "\n".join(quotes)
+            self.assertNotIn("Artificial Intelligence Risk Management", quotes)
+            self.assertNotIn("3 Secure and Resilient 15", joined)
+            self.assertNotIn("support@example.com", joined)
+            self.assertNotIn("By la ying down those r ules", joined)
+            self.assertTrue(any("Trustworthy AI systems should be valid and reliable" in q for q in quotes))
+            self.assertTrue(all(q["quote_quality_score"] >= 70 for q in bundle["quote_bank"]))
+            self.assertIn("low_confidence_quote_candidates", bundle)
+
+    def test_phase_3x_document_classification_and_sector_routing(self) -> None:
+        eo_like = "Executive Order on Safe, Secure, and Trustworthy Artificial Intelligence. Federal agencies shall develop guidance, manage risks, protect privacy, and report implementation."
+        eu_like = "Regulation laying down harmonised rules on artificial intelligence, high-risk AI systems, providers, deployers, conformity assessment, market surveillance."
+        policy_like = "Policy for the responsible use of AI in government. Public servants must use AI responsibly, disclose AI use, ensure human review, manage risks, and maintain accountability records."
+        dtac_like = "Digital Technology Assessment Criteria clinical safety DCB0129 clinical safety case hazard log patient care NHS data protection interoperability."
+
+        self.assertNotEqual(runner.auto_sector(eo_like), "employment_hr_ai")
+        self.assertEqual(runner.auto_sector(eu_like), "general_ai_governance")
+        self.assertNotEqual(runner.auto_sector(policy_like), "employment_hr_ai")
+        self.assertNotEqual(runner.auto_sector(policy_like), "procurement_vendor_governance")
+        self.assertEqual(runner.auto_sector(dtac_like), "clinical_ai")
+
+        self.assertEqual(assess("eo", "policy", eo_like, assessment_mode="external_framework", sector="auto")["document_type"], "executive_policy_directive")
+        self.assertEqual(assess("eu", "policy", eu_like, assessment_mode="external_framework", sector="auto")["document_type"], "binding_legal_instrument")
+        self.assertIn(assess("policy", "policy", policy_like, assessment_mode="external_framework", sector="auto")["document_type"], {"public_sector_policy", "internal_policy", "implementation_guide"})
+        self.assertEqual(assess("dtac", "policy", dtac_like, assessment_mode="external_framework", sector="auto")["document_type"], "sector_assurance_checklist")
+
+    def test_phase_3x_executive_finding_and_document_specific_controls(self) -> None:
+        nist_text = "AI Risk Management Framework voluntary non-sector-specific use-case agnostic govern map measure manage trustworthy AI. Organizations should document risks, assign accountability, monitor AI systems, review outcomes, manage incidents, and maintain evidence of risk management activities."
+        dtac_text = "Digital Technology Assessment Criteria clinical safety DCB0129 clinical safety case hazard log patient care NHS data protection interoperability. Clinical teams must document safety cases, maintain hazard logs, review incidents, and ensure evidence supports deployment decisions."
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            nist = root / "nist.txt"
+            dtac = root / "dtac.txt"
+            nist_out = root / "nist_out"
+            dtac_out = root / "dtac_out"
+            nist.write_text(nist_text, encoding="utf-8")
+            dtac.write_text(dtac_text, encoding="utf-8")
+            self.run_cli([str(nist), "--output-dir", str(nist_out), "--mode", "external_framework", "--sector", "auto"])
+            self.run_cli([str(dtac), "--output-dir", str(dtac_out), "--mode", "external_framework", "--sector", "auto"])
+            nist_report = next(nist_out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            self.assertIn("valuable as a governance design framework", nist_report)
+            self.assertIn("Classified as `voluntary_risk_framework`", nist_report)
+            self.assertNotIn("This document is assessed as an external governance source", nist_report)
+            nist_controls = json.loads((nist_out / "analyst" / "control_recommendations.json").read_text(encoding="utf-8"))["control_recommendations"]
+            dtac_controls = json.loads((dtac_out / "analyst" / "control_recommendations.json").read_text(encoding="utf-8"))["control_recommendations"]
+            self.assertTrue(any("AI Risk Management Implementation Register" == c["control_name"] for c in nist_controls))
+            self.assertTrue(any("Clinical Safety" in c["control_name"] or "DTAC" in c["control_name"] for c in dtac_controls))
+
     def test_relative_input_from_different_cwd_preserves_original_and_resolves_identity(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

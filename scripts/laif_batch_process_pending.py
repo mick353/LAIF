@@ -262,8 +262,32 @@ def write_batch_institutional_outputs(summary: dict, args: argparse.Namespace) -
         })
         force_rows.append(f"- **{doc_rows[-1]['file']}:** {doc_type}; sector {doc_rows[-1]['sector_profile']}; quotes {len(quotes)}; gaps {len(gaps)}.")
     common_gap_types = sorted({gap.get("gap_type", "unknown") for gap in all_gaps})
-    strongest = max(doc_rows, key=lambda r: (r["quote_count"], -r["gap_count"]), default={})
-    weakest = max(doc_rows, key=lambda r: r["gap_count"], default={})
+
+    def _first_doc(*types: str) -> dict:
+        return next((row for row in doc_rows if row.get("document_type") in types), {})
+
+    strongest_legal = _first_doc("binding_legal_instrument")
+    strongest_voluntary = _first_doc("voluntary_risk_framework")
+    strongest_sector = _first_doc("sector_assurance_checklist")
+    weakest_operational = max(doc_rows, key=lambda r: (r["gap_count"], -r["control_count"]), default={})
+    urgent_gap = common_gap_types[0] if common_gap_types else "portfolio evidence sufficiency and operational closure"
+    matrix_rows = []
+    for row in doc_rows:
+        dt = row.get("document_type")
+        matrix_rows.append(
+            "| {file} | {legal} | {policy} | {assurance} | {operational} | {evidence} | {lifecycle} | {accountability} | {redress} | {readiness} |".format(
+                file=row.get("file"),
+                legal="high" if dt == "binding_legal_instrument" else "limited",
+                policy="high" if dt in {"executive_policy_directive", "public_sector_policy", "internal_policy"} else "medium" if dt == "binding_legal_instrument" else "limited",
+                assurance="high" if dt in {"sector_assurance_checklist", "procurement_assessment_form"} else "medium" if dt == "technical_standard" else "limited",
+                operational="requires local closure" if row.get("gap_count", 0) else "review required",
+                evidence="quote-backed, sufficiency not presumed" if row.get("quote_count", 0) else "source review required",
+                lifecycle="requires monitoring/change gate",
+                accountability="requires named owner/sign-off",
+                redress="requires redress/contestability mapping",
+                readiness="ready for control mapping, not standalone assurance",
+            )
+        )
     report_lines = [
         f"# Batch Institutional Governance Report — {batch_id}", "",
         "## Batch identity", "",
@@ -272,14 +296,26 @@ def write_batch_institutional_outputs(summary: dict, args: argparse.Namespace) -
     ]
     for row in doc_rows:
         report_lines.append(f"- {row['file']} — {row['document_type']} — institutional reports: {', '.join(row['institutional_reports'])}")
-    report_lines += ["", "## Document type summary", "", json.dumps(type_counts, indent=2, sort_keys=True), "", "## Governance force comparison", ""]
+    report_lines += ["", "## Document type summary", "", json.dumps(type_counts, indent=2, sort_keys=True), "", "## Governance-force matrix", "", "| Document | Legal force | Policy force | Assurance/procurement force | Operational closure | Evidence sufficiency | Lifecycle control | Accountability closure | Redress/contestability | Implementation readiness |", "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
+    report_lines.extend(matrix_rows or ["| n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |"] )
+    report_lines += [
+        "", "## Governance force comparison", "",
+    ]
     report_lines.extend(force_rows or ["- No successful documents were available for comparison."])
-    report_lines += ["", "## Strongest document by function", "", f"- {strongest.get('file', 'n/a')} — strongest deterministic evidence density in this batch.", "", "## Weakest document by operational closure", "", f"- {weakest.get('file', 'n/a')} — highest number of operational gaps requiring closure.", "", "## Common gaps across portfolio", ""]
+    report_lines += [
+        "", "## Portfolio source roles", "",
+        f"- **Strongest legal source:** {strongest_legal.get('file', 'none detected')}.",
+        f"- **Strongest voluntary governance design source:** {strongest_voluntary.get('file', 'none detected')}.",
+        f"- **Strongest sector assurance source:** {strongest_sector.get('file', 'none detected')}.",
+        f"- **Weakest operational closure risk:** {weakest_operational.get('file', 'n/a')} — review the highest open gap/control burden, not quote volume alone.",
+        f"- **Most urgent cross-document control gap:** {urgent_gap}.",
+        "", "## Common gaps across portfolio", "",
+    ]
     report_lines.extend([f"- {gap_type}" for gap_type in common_gap_types] or ["- No common gaps detected."])
     report_lines += ["", "## Cross-document failure pathways", "", "- Portfolio-level failure can occur when multiple source documents are cited as assurance while no combined owner, evidence register, threshold, cadence, or escalation model is implemented.", "", "## Priority implementation roadmap", ""]
     for ctrl in all_controls[:10]:
         report_lines.append(f"- **{ctrl.get('control_id')} ({ctrl.get('priority')}):** {ctrl.get('control_name')} — source: {ctrl.get('source_document')}")
-    report_lines += ["", "## Recommended combined operating model", "", "Create a single portfolio control register linking each source document to accountable owners, implementation artifacts, quote IDs, gap IDs, control IDs, review cadence, thresholds, escalation gates, and decision consequences.", "", "## Links/paths to each document institutional report", ""]
+    report_lines += ["", "## Recommended combined operating model", "", "Create a combined operating model with a legal-obligation map, policy implementation tracker, sector assurance register, evidence sufficiency matrix, lifecycle review gate, named accountability sign-off, redress/contestability pathway, and implementation-readiness dashboard. Link each source document to accountable owners, implementation artifacts, quote IDs, gap IDs, control IDs, review cadence, thresholds, escalation gates, and decision consequences.", "", "## Links/paths to each document institutional report", ""]
     for row in doc_rows:
         for report in row.get("institutional_reports", []):
             report_lines.append(f"- {report}")
