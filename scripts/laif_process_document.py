@@ -502,7 +502,7 @@ STRONG_QUOTE_TERMS = (
 ACTION_QUOTE_TERMS = STRONG_QUOTE_TERMS + ("manage", "assign", "maintain", "protect", "report", "disclose")
 BOILERPLATE_QUOTE_RE = re.compile(r"(difficulties with accessing|accessibility|contact us|support@|@\w|email:|telephone|copyright|isbn|all rights reserved|certain commercial entities, equipment, or materials may be identified)", re.IGNORECASE)
 GENERIC_FRAGMENT_RE = re.compile(r"(?:requirements agencies must follow|monitoring, will help ensure|this document in order to describe|to combat this risk, the federal government will ensure that the collection|the assessment must be documented and take|the notification shall contain the conclusions of the assessment|by la ying down those r ules)", re.IGNORECASE)
-PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:super vision|inv estig ation|enf or cement|monitor ing|obliga tion|ar ticle|ser ious|general-pur pose|g eneral-pur pose|provid er|provid ed|ensur ing|har monisation|uni on|f alsifi ed|accompanie d|r isk|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment|syste ms?|g enerated|cont ent|ai-g enerated|f or|exper ience|regard ing|marke t|comp et ent author ity|author ity|comp et ent|super visory|notifi cation|docu mentation|imple mentation|imple ment|assess ment|require ments|deci sions?)\b", re.IGNORECASE)
+PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:super vision|inv estig ation|enf or cement|monitor ing|obliga tion|ar ticle|ser ious|general-pur pose|g eneral-pur pose|provid er|provid ed|ensur ing|har monisation|uni on|f alsifi ed|accompanie d|r isk|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment|syste ms?|g enerated|cont ent|ai-g enerated|f or|exper ience|regard ing|marke t|post-mark et|impro ving|cor rective|classif ied|inter preted|ite rative|r un|f ocused|mitiga tion|comp et ent author ity|author ity|comp et ent|super visory|notifi cation|docu mentation|imple mentation|imple ment|assess ment|require ments|deci sions?)\b", re.IGNORECASE)
 INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|take|taken|should|must|shall|will|through|within|including|regarding|by|from|under|related\s+to|in\s+relation\s+to|as\s+part\s+of|in\s+order\s+to)\s*$", re.IGNORECASE)
 TOC_QUOTE_RE = re.compile(r"^\s*(?:\d+(?:\.\d+)*\s+){0,2}[A-Z][A-Za-z&/ -]{2,70}\s+\d{1,4}\s*$")
 TITLE_ONLY_RE = re.compile(r"^[A-Z][A-Za-z0-9&/:,() -]{8,80}$")
@@ -893,14 +893,36 @@ def build_extraction_quality_profile(extracted_text: str, extraction: dict, quot
     primary_count = len(quote_bank or [])
     confidence = extraction.get("extraction_confidence", "unknown")
     low_confidence_extractor = confidence == "low" and extraction.get("extractor_used") != "text-fallback"
-    if low_confidence_extractor or damaged_token_density >= 0.03 or (verification_count >= 4 and primary_count == 0):
+    poor_damage_threshold = 0.03
+    limited_damage_threshold = 0.005
+    damaged_or_incomplete_count = verification_count + incomplete_count + final_gate_failure_count
+    damaged_or_incomplete_dominant = verification_count > primary_count or (primary_count == 0 and damaged_or_incomplete_count > 0)
+    repeated_damaged_evidence = damaged_or_incomplete_count >= 3 or (low_count >= 4 and damaged_token_density >= limited_damage_threshold)
+    final_gate_failures_high = final_gate_failure_count >= max(3, primary_count * 2) and damaged_token_density >= limited_damage_threshold
+    verification_damage_high = verification_count >= 3 and damaged_token_density >= limited_damage_threshold
+    if (
+        low_confidence_extractor
+        or (damaged_token_density >= poor_damage_threshold and repeated_damaged_evidence and damaged_or_incomplete_dominant)
+        or (verification_count >= 4 and primary_count == 0)
+        or final_gate_failures_high
+        or verification_damage_high
+        or (repeated_damaged_evidence and damaged_token_density >= limited_damage_threshold and damaged_or_incomplete_dominant)
+    ):
         level = "poor"
-    elif verification_count or damaged_token_density >= 0.005 or incomplete_quote_density >= 0.25 or final_gate_failure_count:
+    elif verification_count or damaged_token_density >= limited_damage_threshold or incomplete_quote_density >= 0.25 or final_gate_failure_count:
         level = "limited" if primary_count == 0 else "moderate"
     elif low_count > primary_count * 2 and low_count >= 4:
         level = "moderate"
     else:
         level = "high"
+
+    clean_primary_count = len(_gate_passing_primary_quotes(quote_bank or []))
+    if level == "poor":
+        primary_quote_eligible = False
+    elif level == "limited":
+        primary_quote_eligible = clean_primary_count >= 2 and not damaged_or_incomplete_dominant
+    else:
+        primary_quote_eligible = clean_primary_count > 0
     warning = ""
     action = "Primary quotes may be used normally while retaining exact extracted source traces."
     if level in {"limited", "poor"}:
@@ -911,7 +933,7 @@ def build_extraction_quality_profile(extracted_text: str, extraction: dict, quot
         action = "Use primary_quote_evidence for clean quotation and verify extraction-impaired passages against the source before quoting them as clean text."
     return {
         "extraction_quality_level": level,
-        "primary_quote_eligible": primary_count > 0,
+        "primary_quote_eligible": primary_quote_eligible,
         "verification_required_evidence_present": verification_count > 0,
         "source_text_reliability_warning": warning,
         "damaged_token_density": damaged_token_density,
@@ -1263,7 +1285,7 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
                 continue
             score, reason = quote_quality(quote, extraction)
             display_fields = _quote_display_fields(quote)
-            if score < PRIMARY_QUOTE_QUALITY_THRESHOLD or not display_fields["quote_display_normalized"] or _incomplete_quote_reason(display_fields["display_quote"]):
+            if score < PRIMARY_QUOTE_QUALITY_THRESHOLD or _incomplete_quote_reason(display_fields["display_quote"]):
                 continue
             context_start = max(0, start - 160)
             context_end = min(len(text), end + 160)
@@ -1560,13 +1582,17 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     else:
         lines.append("This document is assessed in LAIF-native mode. Formal LAIF-native certification remains governed by the deterministic LAIF validation boundary shown in the technical appendix.")
     lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Document type:** {doc_type}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}", f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", "- **Recommended use:** source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.", "- **Not sufficient for:** standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", "## Key quoted evidence", ""]
-    primary_quotes = _gate_passing_primary_quotes(quote_bank)
-    for q in primary_quotes[:6]:
-        quote_text = q.get("display_quote") or q["exact_quote"]
-        lines.append(f"- **{q['quote_id']} — {q['signal_category']}:** “{quote_text}”")
+    primary_quote_eligible = True if extraction_quality_profile is None else bool(extraction_quality_profile.get("primary_quote_eligible"))
+    primary_quotes = _gate_passing_primary_quotes(quote_bank) if primary_quote_eligible else []
+    if primary_quote_eligible:
+        for q in primary_quotes[:6]:
+            quote_text = q.get("display_quote") or q["exact_quote"]
+            lines.append(f"- **{q['quote_id']} — {q['signal_category']}:** “{quote_text}”")
     verification_required_evidence = verification_required_evidence or []
     if not primary_quotes:
-        if verification_required_evidence:
+        if not primary_quote_eligible:
+            lines.append("- No high-confidence complete primary quotes are presented because source text extraction quality is limited or poor. Evidence-bearing extracted passages are retained below as source-verification-required evidence and in the analyst bundle.")
+        elif verification_required_evidence:
             lines.append("- No high-confidence complete primary quotes were extracted. Evidence-bearing extracted passages are retained below as source-verification-required evidence and in the analyst bundle.")
         else:
             lines.append("- No high-confidence complete primary quotes were extracted; use the technical appendix and source text review before relying on quote-grade evidence.")
@@ -1645,7 +1671,8 @@ Use only the provided deterministic analyst bundle, high-quality `quote_bank`, d
 ## Required analyst approach
 
 - Lead with a document-specific thesis that names the document type, governance force, strongest control area, principal operational gap, and next action.
-- Use `primary_quote_evidence` records in `quote_bank` for clean quotation.
+- Use `primary_quote_evidence` records in `quote_bank` for clean quotation only when `extraction_quality_profile.primary_quote_eligible` is true.
+- If `extraction_quality_profile.primary_quote_eligible` is false, do not use `quote_bank` as clean primary evidence; rely on document diagnostics and discuss extraction-impaired passages only as verification-required evidence.
 - Use `display_quote` for prose quotations from `quote_bank` in the executive narrative, and cite the quote ID. Preserve `exact_quote` as the audit trace to the extracted source substring.
 - You may discuss `verification_required_extracted_evidence` as evidence-bearing but extraction-impaired source text.
 - Do not present verification-required extracted text as a clean direct quotation.
@@ -1682,6 +1709,7 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
     gaps = build_governance_gap_register(assessment, quote_bank)
     pathways = build_failure_pathways(gaps, quote_bank)
     controls = build_control_recommendations(gaps, pathways, quote_bank)
+    primary_quote_eligible = bool(extraction_quality_profile.get("primary_quote_eligible"))
     bundle = {
         "document_metadata": {"original_file_name": processing.get("original_file_name"), "source_sha256": processing.get("source_sha256"), "document_type": assessment.get("document_type"), "sector_profile": assessment.get("sector_profile")},
         "processing_metadata": processing,
@@ -1691,6 +1719,7 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
         "quote_bank": quote_bank,
         "verification_required_extracted_evidence": verification_required_evidence,
         "extraction_quality_profile": extraction_quality_profile,
+        "primary_quote_eligible": primary_quote_eligible,
         "evidence_tiering_policy": {
             "tier_1": "primary_quote_evidence",
             "tier_2": "verification_required_extracted_evidence",
@@ -1714,7 +1743,13 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
         for quote in quote_bank:
             handle.write(json.dumps(quote, sort_keys=True) + "\n")
     quote_md = ["# Quote Bank", "", "Primary quote evidence only. Verification-required extracted evidence is listed separately and must not be treated as clean direct quotation.", ""]
-    for q in _gate_passing_primary_quotes(quote_bank):
+    if not primary_quote_eligible:
+        quote_md += [
+            "Primary quote evidence is unavailable or limited because the extraction quality profile marks `primary_quote_eligible` as false.",
+            "Use `verification_required_evidence.md` for evidence-bearing extracted passages that require source verification before clean quotation use.",
+            "",
+        ]
+    for q in (_gate_passing_primary_quotes(quote_bank) if primary_quote_eligible else []):
         display_quote = q.get("display_quote") or q["exact_quote"]
         quote_md += [
             f"## {q['quote_id']} — {q['signal_category']}",
@@ -1769,8 +1804,11 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
     json_dump(analyst_dir / "governance_gap_register.json", {"gaps": gaps})
     json_dump(analyst_dir / "failure_pathways.json", {"failure_pathways": pathways})
     json_dump(analyst_dir / "control_recommendations.json", {"control_recommendations": controls})
+    ai_bundle = dict(bundle)
+    if not primary_quote_eligible:
+        ai_bundle["primary_quote_policy_note"] = "Primary quote evidence is ineligible for AI clean-primary use because extraction_quality_profile.primary_quote_eligible is false; use verification_required_extracted_evidence only with source-verification caveats."
     (analyst_dir / "AI_ANALYST_PROMPT.md").write_text(build_ai_prompt(), encoding="utf-8")
-    json_dump(analyst_dir / "AI_ANALYST_INPUT_BUNDLE.json", bundle)
+    json_dump(analyst_dir / "AI_ANALYST_INPUT_BUNDLE.json", ai_bundle)
     (analyst_dir / "AI_REPORT_VALIDATION_RULES.md").write_text(build_validation_rules(), encoding="utf-8")
     return {"quote_bank": quote_bank, "verification_required_extracted_evidence": verification_required_evidence, "extraction_quality_profile": extraction_quality_profile, "gap_register": gaps, "failure_pathways": pathways, "control_recommendations": controls, "analyst_bundle": bundle, "low_confidence_quote_candidates": low_confidence_quote_candidates}
 
