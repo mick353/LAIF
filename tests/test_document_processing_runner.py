@@ -762,6 +762,50 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertIn("Display quote", quote_bank_md)
             self.assertIn("Raw exact quote", quote_bank_md)
 
+    def test_phase_3z3_display_quote_repairs_and_incomplete_quote_handling(self) -> None:
+        damaged = "Providers must ensure that users have appropriate exper ience with AI syste ms regard ing placing on the marke t and supervision by the comp et ent author ity."
+        bad_incident = "This policy requires agencies to provide a way to manage AI incidents through"
+        bad_training = "Agencies must implement mandatory training for all staff on responsible AI use within"
+        good_incident = "This policy requires agencies to provide a way to manage AI incidents through documented escalation pathways, accountable owners, review thresholds, and evidence records."
+        good_training = "Agencies must implement mandatory training for all staff on responsible AI use within defined onboarding, annual refresher, and role-specific assurance processes."
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "Policy for the responsible use of AI in Government 2.0_0.pdf"
+            out = root / "out"
+            path.write_text("\n\n".join([damaged, bad_incident, bad_training, good_incident, good_training]), encoding="utf-8")
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            primary_exact = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
+            primary_display = "\n".join(q.get("display_quote", q["exact_quote"]) for q in bundle["quote_bank"])
+            low = bundle.get("low_confidence_quote_candidates", [])
+            low_exact = "\n".join(q["exact_quote"] for q in low)
+            low_reasons = "\n".join(q.get("low_confidence_reason", "") for q in low)
+
+            self.assertIn("exper ience", primary_exact)
+            self.assertIn("AI syste ms", primary_exact)
+            self.assertIn("comp et ent author ity", primary_exact)
+            self.assertIn(
+                "Providers must ensure that users have appropriate experience with AI systems regarding placing on the market and supervision by the competent authority.",
+                primary_display,
+            )
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            self.assertIn("experience with AI systems", report)
+            self.assertIn("competent authority", report)
+            for damaged_fragment in ("exper ience", "syste ms", "regard ing", "marke t", "comp et ent author ity"):
+                self.assertNotIn(damaged_fragment, report)
+
+            self.assertNotIn(bad_incident + "\n\n", primary_exact)
+            self.assertNotIn(bad_training + "\n\n", primary_exact)
+            self.assertIn(bad_incident, low_exact)
+            self.assertIn(bad_training, low_exact)
+            self.assertIn("incomplete quote could not be expanded", low_reasons)
+            self.assertIn(good_incident, primary_exact)
+            self.assertIn(good_training, primary_exact)
+            good_incident_quote = next(q for q in bundle["quote_bank"] if q["exact_quote"] == good_incident)
+            good_training_quote = next(q for q in bundle["quote_bank"] if q["exact_quote"] == good_training)
+            self.assertEqual(good_incident_quote["display_quote"], good_incident)
+            self.assertEqual(good_training_quote["display_quote"], good_training)
+
     def test_phase_3z1_real_artifact_profile_smoke(self) -> None:
         cases = {
             "2023-24283.pdf": ("Executive Order on Safe, Secure, and Trustworthy Artificial Intelligence. Federal agencies shall develop guidance, manage risks, protect privacy, report implementation, and assign responsibilities to Secretaries and agency heads.", "executive_policy_directive", {"government_service_delivery", "general_ai_governance"}),
