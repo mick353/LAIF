@@ -934,6 +934,93 @@ If you are having difficulties with accessing this document, please email: suppo
             for fragment in bad_fragments:
                 self.assertNotIn(fragment, ai_display)
 
+    def test_phase_3z6_complete_evidence_proposition_gate(self) -> None:
+        bad_fragments = [
+            "In order to ensure that providers of high-risk AI systems can take into account the experience on the use of high-risk",
+            "The risk management measures referred to in paragraph 2, point (d), shall be such that the relevant residual risk",
+            "To above should dra w up documentation of the assessment before that system is placed on the market or put into",
+            "This process should ensure that the provider",
+        ]
+        good_quotes = [
+            "Providers of high-risk AI systems shall establish, implement, document and maintain a risk management system throughout the lifecycle of the AI system.",
+            "The risk management measures referred to in paragraph 2, point (d), shall be such that the relevant residual risk associated with each hazard is judged acceptable.",
+            "This process should ensure that the provider documents the assessment before the system is placed on the market or put into service.",
+            "T o that end, appropr iate human oversight measures should be identifie d by the pro vider of the system bef ore its placing on the market or putting into ser vice.",
+        ]
+        expected_reason = "final primary quote admission gate failed: incomplete evidence proposition"
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "OJ_L_202401689_EN_TXT.pdf"
+            out = root / "out"
+            path.write_text("\n\n".join(bad_fragments + good_quotes), encoding="utf-8")
+
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            primary_display_values = [q.get("display_quote", q["exact_quote"]) for q in bundle["quote_bank"]]
+            primary_display = "\n".join(primary_display_values)
+            primary_exact = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
+            low = bundle.get("low_confidence_quote_candidates", [])
+            low_exact = "\n".join(q.get("exact_quote", "") for q in low)
+            low_reasons = "\n".join(q.get("low_confidence_reason", "") for q in low)
+
+            for bad in bad_fragments:
+                self.assertNotIn(bad, primary_display_values)
+                self.assertIn(bad, low_exact)
+            self.assertIn(expected_reason, low_reasons)
+
+            self.assertIn("Providers of high-risk AI systems shall establish", primary_display)
+            self.assertIn("residual risk associated with each hazard is judged acceptable", primary_display)
+            self.assertIn("provider documents the assessment before the system is placed on the market or put into service", primary_display)
+            self.assertIn("appropriate human oversight measures should be identified by the provider", primary_display)
+            self.assertIn("T o that end", primary_exact)
+
+            repaired_quote = next(q for q in bundle["quote_bank"] if "appropriate human oversight measures should be identified by the provider" in q.get("display_quote", ""))
+            self.assertNotIn("T o", repaired_quote["display_quote"])
+            self.assertNotIn("appropr iate", repaired_quote["display_quote"])
+            self.assertTrue(repaired_quote["raw_exact_quote_retained"])
+
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            report_quote_lines = [line for line in report.splitlines() if line.startswith("- **Q")]
+            for bad in bad_fragments:
+                self.assertFalse(any(line.endswith(f"“{bad}”") for line in report_quote_lines))
+            self.assertIn("Providers of high-risk AI systems shall establish", report)
+            self.assertIn("appropriate human oversight measures should be identified by the provider", report)
+
+            quote_bank_md = (out / "analyst" / "quote_bank.md").read_text(encoding="utf-8")
+            primary_display_lines = [line[2:] for line in quote_bank_md.splitlines() if line.startswith("> ")]
+            for bad in bad_fragments:
+                self.assertNotIn(bad, primary_display_lines)
+
+            ai_bundle = json.loads((out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            ai_display_values = [q.get("display_quote", q["exact_quote"]) for q in ai_bundle["quote_bank"]]
+            for bad in bad_fragments:
+                self.assertNotIn(bad, ai_display_values)
+
+    def test_phase_3z6_institutional_report_warns_when_no_complete_primary_quotes_remain(self) -> None:
+        bad_fragments = [
+            "This process should ensure that the provider",
+            "To above should dra w up documentation of the assessment before that system is placed on the market or put into",
+        ]
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "OJ_L_202401689_EN_TXT.pdf"
+            out = root / "out"
+            path.write_text("\n\n".join(bad_fragments), encoding="utf-8")
+
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            self.assertEqual(bundle["quote_bank"], [])
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            self.assertIn(
+                "No high-confidence complete primary quotes were extracted; use the technical appendix and source text review before relying on evidence.",
+                report,
+            )
+            low_reasons = "\n".join(q.get("low_confidence_reason", "") for q in bundle.get("low_confidence_quote_candidates", []))
+            self.assertIn("final primary quote admission gate failed: incomplete evidence proposition", low_reasons)
+
     def test_phase_3z5_validator_blocks_high_scoring_damaged_display_quote(self) -> None:
         record = {
             "exact_quote": "Providers of high-risk AI syste ms placed on the Union marke t shall repor t any serious incident to the competent authority.",
