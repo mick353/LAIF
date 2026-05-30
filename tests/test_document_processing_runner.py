@@ -667,6 +667,101 @@ If you are having difficulties with accessing this document, please email: suppo
                 self.assertIn(good, primary)
             self.assertTrue(all(q.get("low_confidence_reason") or q.get("quote_quality_reason") for q in low))
 
+
+    def test_phase_3z2_display_quote_trace_and_repair(self) -> None:
+        damaged = "Super vision, inv estig ation, enf or cement and monitor ing in respect of providers of general-purpose AI models shall be carried out by the competent authority."
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "OJ_L_202401689_EN_TXT.pdf"
+            out = root / "out"
+            path.write_text(damaged, encoding="utf-8")
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            quote = bundle["quote_bank"][0]
+            self.assertIn("Super vision, inv estig ation", quote["exact_quote"])
+            self.assertIn(quote["exact_quote"], path.read_text(encoding="utf-8"))
+            self.assertIn("Supervision, investigation, enforcement and monitoring", quote["display_quote"])
+            self.assertTrue(quote["quote_display_normalized"])
+            self.assertTrue(quote["raw_exact_quote_retained"])
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            self.assertIn("Supervision, investigation, enforcement and monitoring", report)
+            self.assertNotIn("Super vision, inv estig ation", report)
+            prompt = (out / "analyst" / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
+            self.assertIn("Use `display_quote` for prose", prompt)
+            self.assertIn("Preserve `exact_quote`", prompt)
+
+    def test_phase_3z2_eu_damaged_legal_quote_display_accepted(self) -> None:
+        damaged = "The obliga tion set out in this Ar ticle shall not apply to providers of general-purpose AI models that are released under a free and open-source licence."
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "OJ_L_202401689_EN_TXT.pdf"
+            out = root / "out"
+            path.write_text(damaged, encoding="utf-8")
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            primary_exact = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
+            primary_display = "\n".join(q["display_quote"] for q in bundle["quote_bank"])
+            self.assertIn("The obliga tion set out in this Ar ticle", primary_exact)
+            self.assertIn("The obligation set out in this Article shall not apply", primary_display)
+
+    def test_phase_3z2_incomplete_nist_quote_downgraded_and_complete_quote_accepted(self) -> None:
+        bad = "After completing the MANAGE function, plans for prioritizing risk and regular monitoring"
+        good = "After completing the MANAGE function, plans for prioritizing risk and regular monitoring are documented, reviewed periodically, and assigned to organizational roles."
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "NIST.AI.100-1.docx"
+            out = root / "out"
+            path.write_text("\n\n".join([bad, good]), encoding="utf-8")
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            primary_exact = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
+            primary_display = "\n".join(q["display_quote"] for q in bundle["quote_bank"])
+            low_text = "\n".join(q["exact_quote"] for q in bundle.get("low_confidence_quote_candidates", []))
+            self.assertNotIn(bad + "\n\n", primary_exact)
+            self.assertIn(bad, low_text)
+            self.assertIn("incomplete quote could not be expanded", "\n".join(q.get("low_confidence_reason", "") for q in bundle.get("low_confidence_quote_candidates", [])))
+            self.assertIn("plans for prioritizing risk and regular monitoring are documented", primary_display)
+            complete = next(q for q in bundle["quote_bank"] if "are documented" in q["exact_quote"])
+            self.assertEqual(complete["display_quote"], complete["exact_quote"])
+            self.assertFalse(complete["quote_display_normalized"])
+
+    def test_phase_3z2_damaged_fragments_remain_low_confidence(self) -> None:
+        fragments = [
+            "AI-g enerated cont ent has undergone",
+            "When implementing the r isk management system as provid ed",
+            "Uni on har monisation legislation listed in Section A of Annex I apply , provid ers shall be responsible f or ensur ing",
+        ]
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "OJ_L_202401689_EN_TXT.pdf"
+            out = root / "out"
+            path.write_text("\n\n".join(fragments), encoding="utf-8")
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            primary = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
+            low = bundle.get("low_confidence_quote_candidates", [])
+            low_text = "\n".join(q["exact_quote"] for q in low)
+            for fragment in fragments:
+                self.assertNotIn(fragment, primary)
+                self.assertIn(fragment, low_text)
+            reasons = "\n".join(q.get("low_confidence_reason", "") for q in low)
+            self.assertTrue("extraction-damaged spacing could not be safely normalised" in reasons or "incomplete quote could not be expanded" in reasons)
+
+    def test_phase_3z2_ai_input_bundle_and_quote_bank_markdown_include_display_trace(self) -> None:
+        damaged = "Super vision, inv estig ation, enf or cement and monitor ing in respect of providers of general-purpose AI models shall be carried out by the competent authority."
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "OJ_L_202401689_EN_TXT.pdf"
+            out = root / "out"
+            path.write_text(damaged, encoding="utf-8")
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+            ai_bundle = json.loads((out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            self.assertIn("exact_quote", ai_bundle["quote_bank"][0])
+            self.assertIn("display_quote", ai_bundle["quote_bank"][0])
+            quote_bank_md = (out / "analyst" / "quote_bank.md").read_text(encoding="utf-8")
+            self.assertIn("Display quote", quote_bank_md)
+            self.assertIn("Raw exact quote", quote_bank_md)
+
     def test_phase_3z1_real_artifact_profile_smoke(self) -> None:
         cases = {
             "2023-24283.pdf": ("Executive Order on Safe, Secure, and Trustworthy Artificial Intelligence. Federal agencies shall develop guidance, manage risks, protect privacy, report implementation, and assign responsibilities to Secretaries and agency heads.", "executive_policy_directive", {"government_service_delivery", "general_ai_governance"}),

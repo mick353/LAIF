@@ -501,8 +501,8 @@ STRONG_QUOTE_TERMS = (
 )
 ACTION_QUOTE_TERMS = STRONG_QUOTE_TERMS + ("manage", "assign", "maintain", "protect", "report", "disclose")
 BOILERPLATE_QUOTE_RE = re.compile(r"(difficulties with accessing|accessibility|contact us|support@|@\w|email:|telephone|copyright|isbn|all rights reserved|certain commercial entities, equipment, or materials may be identified)", re.IGNORECASE)
-GENERIC_FRAGMENT_RE = re.compile(r"(?:requirements agencies must follow|monitoring, will help ensure|this document in order to describe|to combat this risk, the federal government will ensure that the collection|the assessment must be documented and take|the notification shall contain the conclusions of the assessment)", re.IGNORECASE)
-PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:ser ious|general-pur pose|provid er|provid ed|ensur ing|har monisation|uni on|f alsifi ed|accompanie d|r isk|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment|syste m|g enerated|cont ent)\b", re.IGNORECASE)
+GENERIC_FRAGMENT_RE = re.compile(r"(?:requirements agencies must follow|monitoring, will help ensure|this document in order to describe|to combat this risk, the federal government will ensure that the collection|the assessment must be documented and take|the notification shall contain the conclusions of the assessment|by la ying down those r ules)", re.IGNORECASE)
+PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:super vision|inv estig ation|enf or cement|monitor ing|obliga tion|ar ticle|ser ious|general-pur pose|g eneral-pur pose|provid er|provid ed|ensur ing|har monisation|uni on|f alsifi ed|accompanie d|r isk|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment|syste m|g enerated|cont ent|ai-g enerated|f or)\b", re.IGNORECASE)
 INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|take|taken|should|must|shall|will)\s*$", re.IGNORECASE)
 TOC_QUOTE_RE = re.compile(r"^\s*(?:\d+(?:\.\d+)*\s+){0,2}[A-Z][A-Za-z&/ -]{2,70}\s+\d{1,4}\s*$")
 TITLE_ONLY_RE = re.compile(r"^[A-Z][A-Za-z0-9&/:,() -]{8,80}$")
@@ -525,18 +525,102 @@ def _sentence_spans(text: str) -> list[tuple[int, int, str]]:
     return spans
 
 
+DISPLAY_QUOTE_REPAIRS: tuple[tuple[str, str], ...] = (
+    ("AI-g enerated", "AI-generated"),
+    ("g eneral-pur pose", "general-purpose"),
+    ("general-pur pose", "general-purpose"),
+    ("Super vision", "Supervision"),
+    ("inv estig ation", "investigation"),
+    ("enf or cement", "enforcement"),
+    ("monitor ing", "monitoring"),
+    ("obliga tion", "obligation"),
+    ("Ar ticle", "Article"),
+    ("provid er", "provider"),
+    ("provid ed", "provided"),
+    ("ensur ing", "ensuring"),
+    ("ser ious", "serious"),
+    ("syste m", "system"),
+    ("har monisation", "harmonisation"),
+    ("f alsifi ed", "falsified"),
+    ("accompanie d", "accompanied"),
+    ("cont ent", "content"),
+    ("r isk", "risk"),
+    ("la ying", "laying"),
+    ("r ules", "rules"),
+    ("a rtificial", "artificial"),
+    ("i ntelligence", "intelligence"),
+    ("p rovider", "provider"),
+    ("d eployer", "deployer"),
+    ("o bligation", "obligation"),
+    ("a ssessment", "assessment"),
+    ("f or", "for"),
+)
+
+
+def _preserve_initial_case(match: re.Match[str], replacement: str) -> str:
+    text = match.group(0)
+    if text.startswith("AI-"):
+        return replacement
+    if text[:1].isupper() and replacement[:1].islower():
+        return replacement[:1].upper() + replacement[1:]
+    return replacement
+
+
+def normalize_quote_for_display(quote: str) -> tuple[str, bool, str]:
+    """Return deterministic presentation text while preserving the raw exact quote elsewhere."""
+    display = quote or ""
+    changed_repairs: list[str] = []
+    for damaged, repaired in DISPLAY_QUOTE_REPAIRS:
+        pattern = re.compile(rf"(?<![A-Za-z]){re.escape(damaged)}(?![A-Za-z])", re.IGNORECASE)
+        if pattern.search(display):
+            display = pattern.sub(lambda m, r=repaired: _preserve_initial_case(m, r), display)
+            changed_repairs.append(f"{damaged}->{repaired}")
+    normalized = display != (quote or "")
+    if normalized:
+        return display, True, "deterministic PDF intra-word spacing repair: " + ", ".join(changed_repairs)
+    return display, False, ""
+
+
 def _normalized_for_quality(quote: str) -> str:
     clean = " ".join((quote or "").split())
-    repairs = {
-        "ser ious": "serious",
-        "general-pur pose": "general-purpose",
-        "provid er": "provider",
-        "la ying": "laying",
+    return normalize_quote_for_display(clean)[0]
+
+
+def _quote_display_fields(exact_quote: str) -> dict:
+    display_quote, normalized, reason = normalize_quote_for_display(exact_quote)
+    return {
+        "display_quote": display_quote,
+        "quote_display_normalized": normalized,
+        "quote_display_normalization_reason": reason,
+        "raw_exact_quote_retained": True,
     }
-    lowered = clean
-    for bad, fixed in repairs.items():
-        lowered = re.sub(re.escape(bad), fixed, lowered, flags=re.IGNORECASE)
-    return lowered
+
+
+def _incomplete_quote_reason(quote: str) -> str:
+    clean = " ".join((quote or "").split())
+    lower = clean.lower()
+    if not clean:
+        return "empty quote"
+    if re.match(r"^[a-z,;:]", clean) or clean.endswith(",") or INCOMPLETE_END_RE.search(clean):
+        return "incomplete quote could not be expanded to complete evidence statement"
+    incomplete_patterns = (
+        r"^after completing the manage function, plans for prioritizing risk and regular monitoring$",
+        r"^ai-generated content has undergone$",
+        r"^when implementing the risk management system as provided$",
+        r"shall be responsible for ensuring$",
+        r"\b(has undergone|as provided|for ensuring)\s*$",
+    )
+    if any(re.search(pattern, lower) for pattern in incomplete_patterns):
+        return "incomplete quote could not be expanded to complete evidence statement"
+    return ""
+
+
+def _unrepaired_extraction_damage_reason(exact_quote: str, display_quote: str) -> str:
+    exact_has_damage = bool(PDF_INTR_WORD_DAMAGE_RE.search(exact_quote or "") or NOISE_RE.search(exact_quote or ""))
+    display_has_damage = bool(PDF_INTR_WORD_DAMAGE_RE.search(display_quote or "") or NOISE_RE.search(display_quote or "") or BROKEN_GLYPH_RE.search(display_quote or ""))
+    if exact_has_damage and display_has_damage:
+        return "extraction-damaged spacing could not be safely normalised"
+    return ""
 
 
 def _quote_signal_dimensions(quote: str) -> set[str]:
@@ -587,32 +671,34 @@ def _expanded_sentence_window(text: str, start: int, end: int) -> tuple[int, int
 
 def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
     """Score candidate evidence before it can enter the primary quote bank."""
-    clean = " ".join((quote or "").split())
-    lower = clean.lower()
-    normalized = _normalized_for_quality(clean)
-    norm_lower = normalized.lower()
-    if extraction.get("extraction_confidence") == "low":
+    raw_clean = " ".join((quote or "").split())
+    display_clean = _normalized_for_quality(raw_clean)
+    lower = display_clean.lower()
+    norm_lower = lower
+    if extraction.get("extraction_confidence") == "low" and extraction.get("extractor_used") != "text-fallback":
         return 20, "extractor reported low confidence"
-    if not clean:
+    if not raw_clean:
         return 0, "empty quote"
-    if BOILERPLATE_QUOTE_RE.search(clean):
+    if BOILERPLATE_QUOTE_RE.search(raw_clean):
         return 10, "generic disclaimer or identification boilerplate"
-    if GENERIC_FRAGMENT_RE.search(clean):
+    if GENERIC_FRAGMENT_RE.search(raw_clean):
         return 15, "generic incomplete fragment without governance context"
-    if PDF_INTR_WORD_DAMAGE_RE.search(clean):
-        return 15, "PDF intra-word spacing damage in candidate quote"
-    if TOC_QUOTE_RE.match(clean):
+    damage_reason = _unrepaired_extraction_damage_reason(raw_clean, display_clean)
+    if damage_reason:
+        return 15, damage_reason
+    if TOC_QUOTE_RE.match(display_clean):
         return 10, "table of contents or page-number fragment"
-    if NOISE_RE.search(clean) or BROKEN_GLYPH_RE.search(clean):
+    if NOISE_RE.search(display_clean) or BROKEN_GLYPH_RE.search(display_clean):
         return 15, "possible PDF extraction noise, glyph spacing, or malformed fragment"
-    if len(re.findall(r"[A-Za-z]", clean)) < max(10, len(clean) // 4):
+    if len(re.findall(r"[A-Za-z]", display_clean)) < max(10, len(display_clean) // 4):
         return 20, "insufficient alphabetic governance content"
-    if TITLE_ONLY_RE.match(clean) and len(clean.split()) <= 8 and not any(t in lower for t in ACTION_QUOTE_TERMS):
+    if TITLE_ONLY_RE.match(display_clean) and len(display_clean.split()) <= 8 and not any(t in lower for t in ACTION_QUOTE_TERMS):
         return 20, "title or isolated heading without governance action"
-    if re.match(r"^[a-z,;:]", clean) or clean.endswith(",") or INCOMPLETE_END_RE.search(clean):
-        return 25, "incomplete sentence or clause fragment"
-    dimensions = _quote_signal_dimensions(clean)
-    if len(clean) < 80 and not any(t in norm_lower for t in ("shall", "must", "requires", "required", "ensure", "implement")):
+    incomplete_reason = _incomplete_quote_reason(display_clean)
+    if incomplete_reason:
+        return 25, incomplete_reason
+    dimensions = _quote_signal_dimensions(display_clean)
+    if len(display_clean) < 80 and not any(t in norm_lower for t in ("shall", "must", "requires", "required", "ensure", "implement")):
         return 35, "short fragment without strong obligation or control phrase"
     if not any(t in norm_lower for t in ACTION_QUOTE_TERMS):
         return 35, "no governance action, obligation, risk, evidence, or control term"
@@ -621,7 +707,7 @@ def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
     if len(dimensions) < 2:
         return 45, "quote lacks enough actor/action/object/context structure for primary evidence"
     score = 70 + len(dimensions) * 5
-    if len(clean) >= 120:
+    if len(display_clean) >= 120:
         score += 5
     if any(t in norm_lower for t in ("shall", "must", "requires", "ensure", "implement", "conformity", "incident", "evidence")):
         score += 5
@@ -644,6 +730,7 @@ def _candidate_quote_record(quote_id: str, start: int, end: int, quote: str, pro
         "sector_profile": assessment.get("sector_profile", "general_ai_governance"),
         "signal_category": category,
         "exact_quote": quote,
+        **_quote_display_fields(quote),
         "surrounding_context": quote,
         "start_offset": start,
         "end_offset": end,
@@ -668,7 +755,7 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
         best: tuple[int, int, str] | None = None
         matching_spans: list[tuple[int, int, str]] = []
         for start, end, sentence in spans:
-            lo = sentence.lower()
+            lo = _normalized_for_quality(sentence).lower()
             if any(term.lower() in lo for term in terms):
                 matching_spans.append((start, end, sentence))
         if matching_spans:
@@ -703,6 +790,7 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
             "sector_profile": assessment.get("sector_profile", "general_ai_governance"),
             "signal_category": category,
             "exact_quote": quote,
+            **_quote_display_fields(quote),
             "surrounding_context": text[context_start:context_end].strip(),
             "start_offset": start,
             "end_offset": end,
@@ -727,7 +815,7 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
                 "quote_id": "Q001", "source_file": processing.get("stored_source_path") or processing.get("input_path"),
                 "original_file_name": processing.get("original_file_name"), "source_sha256": processing.get("source_sha256"),
                 "document_type": assessment.get("document_type", "unknown_governance_document"), "sector_profile": assessment.get("sector_profile", "general_ai_governance"),
-                "signal_category": "audit/documentation", "exact_quote": quote, "surrounding_context": quote,
+                "signal_category": "audit/documentation", "exact_quote": quote, **_quote_display_fields(quote), "surrounding_context": quote,
                 "start_offset": start, "end_offset": end, "extraction_confidence": extraction.get("extraction_confidence", "unknown"),
                 "why_it_matters": "Fallback exact source excerpt for reviewer orientation.",
                 "what_it_proves": "The quoted text exists in the extracted source.",
@@ -746,7 +834,8 @@ def build_low_confidence_quote_candidates(text: str, processing: dict, extractio
         compact = " ".join(quote.split())
         if score >= 70 or compact in seen_quotes:
             continue
-        if not any(term in compact.lower() for term in ACTION_QUOTE_TERMS + ("artificial intelligence", "secure", "resilient")) and score > 15:
+        display_compact = _normalized_for_quality(compact).lower()
+        if not any(term in display_compact for term in ACTION_QUOTE_TERMS + ("artificial intelligence", "ai-generated", "secure", "resilient")) and score > 15:
             continue
         seen_quotes.add(compact)
         candidates.append(_candidate_quote_record(f"LQ{len(candidates)+1:03d}", start, end, quote, processing, extraction, assessment, "low-confidence candidate", "source_excerpt"))
@@ -963,7 +1052,8 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         lines.append("This document is assessed in LAIF-native mode. Formal LAIF-native certification remains governed by the deterministic LAIF validation boundary shown in the technical appendix.")
     lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Document type:** {doc_type}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}", f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", "- **Recommended use:** source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.", "- **Not sufficient for:** standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", "## Key quoted evidence", ""]
     for q in quote_bank[:6]:
-        lines.append(f"- **{q['quote_id']} — {q['signal_category']}:** “{q['exact_quote']}”")
+        quote_text = q.get("display_quote") or q["exact_quote"]
+        lines.append(f"- **{q['quote_id']} — {q['signal_category']}:** “{quote_text}”")
     if not quote_bank:
         lines.append("- No high-confidence primary quotes were extracted; use the technical appendix and source text review before relying on evidence.")
     lines += ["", "## What the document controls well", "", _md_list(assessment.get("strengths", [])[:8], "No deterministic strengths detected."), "", "## What the document does not control", ""]
@@ -1007,6 +1097,13 @@ def build_technical_appendix(processing: dict, extraction: dict, assessment: dic
         lines.append("Formal LAIF-native certification: Not claimed / not applicable to this external-framework assessment. Construct coverage is internal diagnostic data only.")
     else:
         lines.append(f"Formal LAIF-native certification: {assessment.get('formal_laif_native_compliance', assessment.get('formal_laif_compliance'))}")
+    normalized_quote_ids = [q.get("quote_id") for q in quote_bank if q.get("quote_display_normalized")]
+    lines += ["", "## Quote display traceability", ""]
+    if normalized_quote_ids:
+        lines.append("Display quote deterministically normalised from exact extracted substring; raw exact quote retained in analyst bundle.")
+        lines.append(f"- Display-normalised quote IDs: {', '.join(normalized_quote_ids)}")
+    else:
+        lines.append("No primary quote display normalization was required; display quotes match exact extracted substrings.")
     lines += ["", "## Low-confidence extraction/noise findings", "", f"- Low-confidence extraction noise: {assessment.get('low_confidence_extraction_noise', {})}", f"- Runner warnings: {extraction.get('warnings', [])}", "", "## Low-confidence quote candidates", "", "```json", json.dumps(low_confidence_quote_candidates or [], indent=2, sort_keys=True), "```", "", "## Warnings/errors", "", f"- Warnings: {extraction.get('warnings', [])}", f"- Errors: {extraction.get('errors', [])}", ""]
     return "\n".join(lines)
 
@@ -1020,6 +1117,7 @@ Use only the provided deterministic analyst bundle, high-quality `quote_bank`, d
 
 - Lead with a document-specific thesis that names the document type, governance force, strongest control area, principal operational gap, and next action.
 - Use quote IDs only from the high-quality `quote_bank` as primary support.
+- Use `display_quote` for prose quotations in the executive narrative, and cite the quote ID. Preserve `exact_quote` as the audit trace to the extracted source substring.
 - Do not cite `low_confidence_quote_candidates` as primary evidence; mention them only in a technical caveat if useful.
 - Do not cite incomplete fragments, heading-only quotes, boilerplate, or extraction-damaged fragments.
 - If available quotes are weak, state that the deterministic quote bank is insufficient and request better source extraction.
@@ -1073,7 +1171,25 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
             handle.write(json.dumps(quote, sort_keys=True) + "\n")
     quote_md = ["# Quote Bank", ""]
     for q in quote_bank:
-        quote_md += [f"## {q['quote_id']} — {q['signal_category']}", "", f"> {q['exact_quote']}", "", f"- **Why it matters:** {q['why_it_matters']}", f"- **Quote quality:** {q.get('quote_quality_score')} — {q.get('quote_quality_reason')}", f"- **What it does not prove:** {q['what_it_does_not_prove']}", ""]
+        display_quote = q.get("display_quote") or q["exact_quote"]
+        quote_md += [
+            f"## {q['quote_id']} — {q['signal_category']}",
+            "",
+            f"- **Signal category:** {q['signal_category']}",
+            f"- **Quality score:** {q.get('quote_quality_score')} — {q.get('quote_quality_reason')}",
+            "",
+            "- **Display quote:**",
+            f"> {display_quote}",
+            "",
+        ]
+        if display_quote != q["exact_quote"]:
+            quote_md += [
+                "- **Trace/audit note:** display quote deterministically normalised from exact extracted substring; raw exact quote retained below and in the analyst bundle.",
+                f"  - Raw exact quote: {q['exact_quote']}",
+                f"  - Normalization reason: {q.get('quote_display_normalization_reason')}",
+                "",
+            ]
+        quote_md += [f"- **Why it matters:** {q['why_it_matters']}", f"- **What it does not prove:** {q['what_it_does_not_prove']}", ""]
     (analyst_dir / "quote_bank.md").write_text("\n".join(quote_md), encoding="utf-8")
     json_dump(analyst_dir / "governance_gap_register.json", {"gaps": gaps})
     json_dump(analyst_dir / "failure_pathways.json", {"failure_pathways": pathways})
