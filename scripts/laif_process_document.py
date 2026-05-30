@@ -652,6 +652,110 @@ def unresolved_split_word_damage(display_quote: str) -> tuple[bool, str]:
         return True, SPLIT_WORD_DAMAGE_REASON
     return False, ""
 
+PRIMARY_QUOTE_QUALITY_THRESHOLD = 70
+FINAL_PRIMARY_GATE_PREFIX = "final primary quote admission gate failed"
+
+
+def validate_primary_quote_record(record: dict) -> tuple[bool, str]:
+    """Final hard admission gate for primary evidence quote records.
+
+    This validator runs only after exact/display quote fields, display
+    normalisation metadata, quote quality fields, and low-confidence metadata
+    exist.  It is deliberately independent from quote-quality scoring so no
+    damaged or incomplete record can leak into primary evidence rendering.
+    """
+    display_quote = " ".join(str(record.get("display_quote") or record.get("exact_quote") or "").split())
+    exact_quote = " ".join(str(record.get("exact_quote") or "").split())
+    if not display_quote:
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: empty display quote"
+    if not exact_quote:
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: missing exact quote trace"
+    if record.get("raw_exact_quote_retained") is not True:
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: raw exact quote trace was not retained"
+
+    score = record.get("quote_quality_score")
+    try:
+        score_value = int(score)
+    except (TypeError, ValueError):
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: missing quote quality score"
+    if score_value < PRIMARY_QUOTE_QUALITY_THRESHOLD:
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: quote quality score below primary threshold"
+
+    low_confidence_reason = str(record.get("low_confidence_reason") or "").strip()
+    if low_confidence_reason:
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: low-confidence reason present: {low_confidence_reason}"
+
+    unresolved_damage, unresolved_reason = unresolved_split_word_damage(display_quote)
+    if unresolved_damage:
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: {unresolved_reason}"
+
+    incomplete_reason = _incomplete_quote_reason(display_quote)
+    if incomplete_reason:
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: {incomplete_reason}"
+
+    if NOISE_RE.search(display_quote) or BROKEN_GLYPH_RE.search(display_quote):
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: obvious PDF spacing artefact remains in display quote"
+    if re.search(r"\b[A-Za-z]{1,2}\s+[A-Za-z]{1,2}\s+[A-Za-z]{1,2}\b", display_quote):
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: display quote is unreadable as a normal institutional quote"
+
+    display_letters = re.findall(r"[A-Za-z]", display_quote)
+    if len(display_letters) < max(10, len(display_quote) // 4):
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: display quote lacks readable institutional text"
+
+    lower = display_quote.lower()
+    if not any(term in lower for term in ACTION_QUOTE_TERMS):
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: quote cannot support a complete source-says proposition"
+    if not re.search(r"\b(shall|must|should|requires?|ensure|establish|implement|monitor|review|manage|document|assign|maintain|protect|report|disclose)\b", lower):
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: quote cannot support a complete source-says proposition"
+    if len(_quote_signal_dimensions(display_quote)) < 2:
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: quote lacks enough actor/action/object/context structure for primary evidence"
+
+    # Incident-report extraction damage has proven especially prone to clean-looking
+    # but semantically brittle repairs. Keep the raw evidence visible in the
+    # low-confidence trace unless the final source text was already clean.
+    exact_lower = exact_quote.lower()
+    if "repor t" in exact_lower and ("syste ms" in exact_lower or "marke t" in exact_lower):
+        return False, f"{FINAL_PRIMARY_GATE_PREFIX}: raw incident-report evidence retains multiple PDF split-word artefacts requiring source review"
+
+    return True, ""
+
+
+def _append_final_gate_reason(record: dict, reason: str) -> dict:
+    gated = dict(record)
+    gated.setdefault("display_quote", gated.get("exact_quote", ""))
+    gated.setdefault("quote_display_normalized", False)
+    gated.setdefault("quote_display_normalization_reason", "")
+    gated["raw_exact_quote_retained"] = True
+    existing = str(gated.get("low_confidence_reason") or "").strip()
+    if existing and reason not in existing:
+        gated["low_confidence_reason"] = f"{existing}; {reason}"
+    else:
+        gated["low_confidence_reason"] = reason
+    return gated
+
+
+def _finalize_primary_quote_bank(records: list[dict], low_confidence_quote_candidates: list[dict] | None = None) -> list[dict]:
+    primary: list[dict] = []
+    seen_low: set[str] = {q.get("exact_quote", "") for q in (low_confidence_quote_candidates or [])}
+    for record in records:
+        ok, reason = validate_primary_quote_record(record)
+        if ok:
+            primary.append(record)
+            continue
+        gated = _append_final_gate_reason(record, reason)
+        exact_quote = gated.get("exact_quote", "")
+        if low_confidence_quote_candidates is not None and exact_quote not in seen_low:
+            gated["quote_id"] = f"LQ{len(low_confidence_quote_candidates)+1:03d}"
+            low_confidence_quote_candidates.append(gated)
+            seen_low.add(exact_quote)
+    for idx, record in enumerate(primary, start=1):
+        record["quote_id"] = f"Q{idx:03d}"
+    return primary
+
+
+def _gate_passing_primary_quotes(quote_bank: list[dict]) -> list[dict]:
+    return [quote for quote in quote_bank if validate_primary_quote_record(quote)[0]]
+
 def _preserve_initial_case(match: re.Match[str], replacement: str) -> str:
     text = match.group(0)
     if text.startswith("AI-"):
@@ -855,7 +959,7 @@ def _candidate_quote_record(quote_id: str, start: int, end: int, quote: str, pro
     }
 
 
-def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: dict) -> list[dict]:
+def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: dict, low_confidence_quote_candidates: list[dict] | None = None) -> list[dict]:
     records: list[dict] = []
     seen: set[tuple[int, int, str]] = set()
     lowered_text = text.lower()
@@ -885,7 +989,7 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
         if (start, end, category) in seen or quote not in text:
             continue
         score, reason = quote_quality(quote, extraction)
-        if score < 70:
+        if score < PRIMARY_QUOTE_QUALITY_THRESHOLD:
             # Exclude low-confidence/noisy fragments from the primary quote bank.
             continue
         seen.add((start, end, category))
@@ -922,7 +1026,7 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
                 continue
             score, reason = quote_quality(quote, extraction)
             display_fields = _quote_display_fields(quote)
-            if score < 70 or not display_fields["quote_display_normalized"] or _incomplete_quote_reason(display_fields["display_quote"]):
+            if score < PRIMARY_QUOTE_QUALITY_THRESHOLD or not display_fields["quote_display_normalized"] or _incomplete_quote_reason(display_fields["display_quote"]):
                 continue
             context_start = max(0, start - 160)
             context_end = min(len(text), end + 160)
@@ -959,7 +1063,7 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
         for start, end, quote in spans[:1]:
             start, end, quote = _expand_incomplete_candidate(text, start, end, quote)
             score, reason = quote_quality(quote, extraction)
-            if score < 70 or quote not in text:
+            if score < PRIMARY_QUOTE_QUALITY_THRESHOLD or quote not in text:
                 continue
             records.append({
                 "quote_id": "Q001", "source_file": processing.get("stored_source_path") or processing.get("input_path"),
@@ -973,7 +1077,7 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
                 "linked_governance_repair_field": "source_excerpt", "linked_gap_ids": [], "low_confidence_reason": "",
                 "quote_quality_score": score, "quote_quality_reason": reason,
             })
-    return records
+    return _finalize_primary_quote_bank(records, low_confidence_quote_candidates)
 
 
 def build_low_confidence_quote_candidates(text: str, processing: dict, extraction: dict, assessment: dict, limit: int = 12) -> list[dict]:
@@ -982,7 +1086,7 @@ def build_low_confidence_quote_candidates(text: str, processing: dict, extractio
     for start, end, quote in _sentence_spans(text):
         score, reason = quote_quality(quote, extraction)
         compact = " ".join(quote.split())
-        if score >= 70 or compact in seen_quotes:
+        if score >= PRIMARY_QUOTE_QUALITY_THRESHOLD or compact in seen_quotes:
             continue
         display_compact = _normalized_for_quality(compact).lower()
         if not any(term in display_compact for term in ACTION_QUOTE_TERMS + ("artificial intelligence", "ai-generated", "secure", "resilient")) and score > 15:
@@ -1201,10 +1305,11 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     else:
         lines.append("This document is assessed in LAIF-native mode. Formal LAIF-native certification remains governed by the deterministic LAIF validation boundary shown in the technical appendix.")
     lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Document type:** {doc_type}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}", f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", "- **Recommended use:** source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.", "- **Not sufficient for:** standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", "## Key quoted evidence", ""]
-    for q in quote_bank[:6]:
+    primary_quotes = _gate_passing_primary_quotes(quote_bank)
+    for q in primary_quotes[:6]:
         quote_text = q.get("display_quote") or q["exact_quote"]
         lines.append(f"- **{q['quote_id']} — {q['signal_category']}:** “{quote_text}”")
-    if not quote_bank:
+    if not primary_quotes:
         lines.append("- No high-confidence primary quotes were extracted; use the technical appendix and source text review before relying on evidence.")
     lines += ["", "## What the document controls well", "", _md_list(assessment.get("strengths", [])[:8], "No deterministic strengths detected."), "", "## What the document does not control", ""]
     lines.append(_md_list([g["gap_title"] + f" ({g['gap_id']})" for g in gaps[:8]]))
@@ -1290,8 +1395,9 @@ def build_validation_rules() -> str:
 
 
 def write_institutional_outputs(output_dir: Path, processing: dict, extraction: dict, assessment: dict, extracted_text: str) -> dict:
-    quote_bank = build_quote_bank(extracted_text, processing, extraction, assessment)
     low_confidence_quote_candidates = build_low_confidence_quote_candidates(extracted_text, processing, extraction, assessment)
+    quote_bank = build_quote_bank(extracted_text, processing, extraction, assessment, low_confidence_quote_candidates)
+    quote_bank = _finalize_primary_quote_bank(quote_bank, low_confidence_quote_candidates)
     gaps = build_governance_gap_register(assessment, quote_bank)
     pathways = build_failure_pathways(gaps, quote_bank)
     controls = build_control_recommendations(gaps, pathways, quote_bank)
@@ -1320,7 +1426,7 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
         for quote in quote_bank:
             handle.write(json.dumps(quote, sort_keys=True) + "\n")
     quote_md = ["# Quote Bank", ""]
-    for q in quote_bank:
+    for q in _gate_passing_primary_quotes(quote_bank):
         display_quote = q.get("display_quote") or q["exact_quote"]
         quote_md += [
             f"## {q['quote_id']} — {q['signal_category']}",
