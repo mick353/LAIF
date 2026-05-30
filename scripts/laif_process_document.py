@@ -529,6 +529,16 @@ DISPLAY_QUOTE_REPAIRS: tuple[tuple[str, str], ...] = (
     ("AI-g enerated", "AI-generated"),
     ("g eneral-pur pose", "general-purpose"),
     ("general-pur pose", "general-purpose"),
+    ("T o", "To"),
+    ("appropr iate", "appropriate"),
+    ("identifie d", "identified"),
+    ("pro vider", "provider"),
+    ("bef ore", "before"),
+    ("ser vice", "service"),
+    ("repor t", "report"),
+    ("managem ent", "management"),
+    ("refer red", "referred"),
+    ("suc h", "such"),
     ("Super vision", "Supervision"),
     ("inv estig ation", "investigation"),
     ("enf or cement", "enforcement"),
@@ -572,6 +582,75 @@ DISPLAY_QUOTE_REPAIRS: tuple[tuple[str, str], ...] = (
     ("f or", "for"),
 )
 
+
+
+SPLIT_WORD_DAMAGE_REASON = "display quote contains unresolved PDF split-word extraction damage"
+SPLIT_WORD_ALLOWED_TOKENS = {
+    "ai", "eu", "us", "uk", "iso", "nist", "act", "article", "risk",
+    "to", "of", "in", "on", "by", "for", "and", "or", "the", "a", "an",
+    "be", "its", "it", "as", "has", "have", "not", "shall", "must", "should",
+    "will", "may", "can", "under", "within", "through",
+}
+SPLIT_WORD_COMMON_SUFFIXES = (
+    "ed", "ing", "ion", "tion", "sion", "ment", "ity", "er", "or", "age",
+    "ice", "ate", "ive", "al", "ent", "ant", "ure", "ary", "ence", "ance",
+)
+SPLIT_WORD_COMMON_PREFIXES = (
+    "appropr", "identifie", "pro", "bef", "ser", "rep", "managem",
+    "refer", "suc", "dam", "provid", "assess", "imple", "govern",
+    "document", "monitor", "supervis", "author", "compet", "notifi",
+)
+GOVERNANCE_JOINED_TERMS = {
+    "appropriate", "identified", "provider", "before", "service", "report",
+    "management", "referred", "such", "damage", "assessment", "implementation",
+    "documentation", "monitoring", "supervision", "authority", "competent",
+    "notification", "requirements", "decisions", "obligation", "incident",
+    "governance", "conformity", "oversight", "artificial", "intelligence",
+}
+
+
+def unresolved_split_word_damage(display_quote: str) -> tuple[bool, str]:
+    """Detect likely unresolved PDF intra-word split damage in display text.
+
+    The detector is intentionally heuristic and generic: it looks for unnatural
+    adjacent alphabetic chunks that resemble one word after deterministic display
+    repairs have already run, while allowing ordinary short governance words and
+    acronyms such as AI, EU, US, UK, ISO, NIST, Act, and Article.
+    """
+    clean = " ".join((display_quote or "").split())
+    if not clean:
+        return False, ""
+
+    suspicious: list[str] = []
+    if re.search(r"(?:^|[.!?]\s+)[A-Za-z]\s+[a-z](?=\s)", clean):
+        suspicious.append("sentence-start single-letter split")
+
+    tokens = list(re.finditer(r"[A-Za-z]+", clean))
+    for left, right in zip(tokens, tokens[1:]):
+        if clean[left.end():right.start()] != " ":
+            continue
+        left_text = left.group(0)
+        right_text = right.group(0)
+        left_lower = left_text.lower()
+        right_lower = right_text.lower()
+        if left_lower in SPLIT_WORD_ALLOWED_TOKENS or right_lower in SPLIT_WORD_ALLOWED_TOKENS:
+            continue
+        if left_text.isupper() or right_text.isupper():
+            continue
+        joined = left_lower + right_lower
+        if len(joined) < 6:
+            continue
+        suffix_like = len(right_lower) <= 5 and right_lower.endswith(SPLIT_WORD_COMMON_SUFFIXES)
+        prefix_like = left_lower in SPLIT_WORD_COMMON_PREFIXES
+        governance_join = joined in GOVERNANCE_JOINED_TERMS
+        short_tail = len(right_lower) <= 2 and len(left_lower) >= 4
+        balanced_chunks = 2 <= len(left_lower) <= 8 and 2 <= len(right_lower) <= 5 and governance_join
+        if governance_join or (prefix_like and (suffix_like or len(right_lower) <= 5)) or (short_tail and prefix_like) or balanced_chunks:
+            suspicious.append(f"{left_text} {right_text}")
+
+    if suspicious:
+        return True, SPLIT_WORD_DAMAGE_REASON
+    return False, ""
 
 def _preserve_initial_case(match: re.Match[str], replacement: str) -> str:
     text = match.group(0)
@@ -713,6 +792,9 @@ def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
     damage_reason = _unrepaired_extraction_damage_reason(raw_clean, display_clean)
     if damage_reason:
         return 15, damage_reason
+    unresolved_damage, unresolved_reason = unresolved_split_word_damage(display_clean)
+    if unresolved_damage:
+        return 15, unresolved_reason
     if TOC_QUOTE_RE.match(display_clean):
         return 10, "table of contents or page-number fragment"
     if NOISE_RE.search(display_clean) or BROKEN_GLYPH_RE.search(display_clean):
