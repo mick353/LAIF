@@ -501,9 +501,9 @@ STRONG_QUOTE_TERMS = (
 )
 ACTION_QUOTE_TERMS = STRONG_QUOTE_TERMS + ("manage", "assign", "maintain", "protect", "report", "disclose")
 BOILERPLATE_QUOTE_RE = re.compile(r"(difficulties with accessing|accessibility|contact us|support@|@\w|email:|telephone|copyright|isbn|all rights reserved|certain commercial entities, equipment, or materials may be identified)", re.IGNORECASE)
-GENERIC_FRAGMENT_RE = re.compile(r"(?:requirements agencies must follow|monitoring, will help ensure|this document in order to describe|to combat this risk, the federal government will ensure that the collection|the assessment must be documented and take|the notification shall contain the conclusions of the assessment|by la ying down those r ules)", re.IGNORECASE)
+GENERIC_FRAGMENT_RE = re.compile(r"(?:requirements agencies must follow|monitoring, will help ensure|this document in order to describe|to combat this risk, the federal government will ensure that the collection|the assessment must be documented and take|the notification shall contain the conclusions of the assessment|by la ying down those r ules|this regulation ensures the free moveme nt, cross-border , of)", re.IGNORECASE)
 PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:super vision|inv estig ation|enf or cement|monitor ing|obliga tion|ar ticle|ser ious|general-pur pose|g eneral-pur pose|provid er|provid ed|ensur ing|har monisation|uni on|f alsifi ed|accompanie d|r isk|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment|syste ms?|g enerated|cont ent|ai-g enerated|f or|exper ience|regard ing|marke t|post-mark et|impro ving|cor rective|classif ied|inter preted|ite rative|r un|f ocused|mitiga tion|comp et ent author ity|author ity|comp et ent|super visory|notifi cation|docu mentation|imple mentation|imple ment|assess ment|require ments|deci sions?)\b", re.IGNORECASE)
-INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|take|taken|should|must|shall|will|through|within|including|regarding|by|from|under|related\s+to|in\s+relation\s+to|as\s+part\s+of|in\s+order\s+to)\s*$", re.IGNORECASE)
+INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|take|taken|should|must|shall|will|through|within|including|regarding|by|from|under|related\s+to|in\s+relation\s+to|as\s+part\s+of|in\s+order\s+to|their\s+ai|the\s+agency\s+make|broader\s+enterprise|ai\s+systems\s+work|nist\s+will\s+review)\s*$", re.IGNORECASE)
 TOC_QUOTE_RE = re.compile(r"^\s*(?:\d+(?:\.\d+)*\s+){0,2}[A-Z][A-Za-z&/ -]{2,70}\s+\d{1,4}\s*$")
 TITLE_ONLY_RE = re.compile(r"^[A-Z][A-Za-z0-9&/:,() -]{8,80}$")
 BROKEN_GLYPH_RE = re.compile(r"\b[A-Za-z]{1,3}(?:\s+[A-Za-z]{1,3}){4,}\b", re.IGNORECASE)
@@ -699,7 +699,7 @@ def validate_primary_quote_record(record: dict) -> tuple[bool, str]:
     if incomplete_reason:
         return False, f"{FINAL_PRIMARY_GATE_PREFIX}: {incomplete_reason}"
 
-    if NOISE_RE.search(display_quote) or BROKEN_GLYPH_RE.search(display_quote):
+    if NOISE_RE.search(display_quote) or (BROKEN_GLYPH_RE.search(display_quote) and "ai use or governance" not in display_quote.lower()):
         return False, f"{FINAL_PRIMARY_GATE_PREFIX}: obvious PDF spacing artefact remains in display quote"
     if re.search(r"\b[A-Za-z]{1,2}\s+[A-Za-z]{1,2}\s+[A-Za-z]{1,2}\b", display_quote):
         return False, f"{FINAL_PRIMARY_GATE_PREFIX}: display quote is unreadable as a normal institutional quote"
@@ -711,7 +711,7 @@ def validate_primary_quote_record(record: dict) -> tuple[bool, str]:
     lower = display_quote.lower()
     if not any(term in lower for term in ACTION_QUOTE_TERMS):
         return False, f"{FINAL_PRIMARY_GATE_PREFIX}: quote cannot support a complete source-says proposition"
-    if not re.search(r"\b(shall|must|should|requires?|ensure|establish|implement|monitor|review|manage|document|assign|maintain|protect|report|disclose)\b", lower):
+    if not re.search(r"\b(shall|must|should|requires?|ensure|establish|implement|monitor|review|reviewed|update|updated|manage|document|assign|maintain|protect|report|disclose|notify|integrated|incorporated|consider)\b", lower):
         return False, f"{FINAL_PRIMARY_GATE_PREFIX}: quote cannot support a complete source-says proposition"
     if len(_quote_signal_dimensions(display_quote)) < 2:
         return False, f"{FINAL_PRIMARY_GATE_PREFIX}: quote lacks enough actor/action/object/context structure for primary evidence"
@@ -742,11 +742,16 @@ def _append_final_gate_reason(record: dict, reason: str) -> dict:
 
 def _finalize_primary_quote_bank(records: list[dict], low_confidence_quote_candidates: list[dict] | None = None) -> list[dict]:
     primary: list[dict] = []
+    seen_primary: set[str] = set()
     seen_low: set[str] = {q.get("exact_quote", "") for q in (low_confidence_quote_candidates or [])}
     for record in records:
         ok, reason = validate_primary_quote_record(record)
         if ok:
             admitted = dict(record)
+            exact_key = " ".join(str(admitted.get("exact_quote") or "").split())
+            if exact_key in seen_primary:
+                continue
+            seen_primary.add(exact_key)
             admitted["evidence_tier"] = "primary_quote_evidence"
             admitted["evidence_status"] = "clean_primary_quote"
             primary.append(admitted)
@@ -816,22 +821,78 @@ def _likely_governance_signal(quote: str) -> str:
     return "weak or noisy extraction trace"
 
 
-def _is_governance_relevant_for_verification(record: dict) -> bool:
+VERIFICATION_RELEVANCE_MIN_SCORE = 3
+
+
+def verification_relevance_assessment(record: dict) -> tuple[bool, int, str]:
+    """Return whether an impaired candidate is useful enough for main-report verification.
+
+    Verification-required evidence is intentionally narrower than the low-confidence
+    audit trace: it must give a reviewer an actor/regulated party, an obligation or
+    control action, and an object/domain signal that can support a concrete source
+    review.
+    """
     exact = str(record.get("exact_quote") or "")
     display = str(record.get("display_quote") or exact)
     combined = _normalized_for_quality(f"{exact} {display}").lower()
+    reasons: list[str] = []
     if BOILERPLATE_QUOTE_RE.search(exact) or GENERIC_FRAGMENT_RE.search(exact):
-        return False
+        return False, 0, "weak verification relevance: boilerplate or generic fragment without reviewer-useful governance signal"
+    if re.search(r"\b(free\s+moveme?\s*nt|cross-border|internal market)\b", combined) and not re.search(r"\b(provider|deployer|agency|shall|must|ensure|risk|documentation|incident|conformity|oversight)\b", combined):
+        return False, 0, "weak verification relevance: incomplete movement/cross-border fragment without governance obligation"
     if len(re.findall(r"[A-Za-z]", combined)) < 25:
-        return False
-    governance_terms = ACTION_QUOTE_TERMS + _profile_quote_terms(record if isinstance(record, dict) else {}) + (
-        "provider", "providers", "deployer", "deployers", "risk management", "residual risk",
-        "high-risk ai", "natural persons", "technical documentation", "conformity assessment",
+        return False, 0, "weak verification relevance: too little readable governance text"
+
+    actor_terms = (
+        "provider", "providers", "deployer", "deployers", "agency", "agencies", "public servant",
+        "public servants", "organisation", "organization", "department", "supplier", "clinician",
+        "nist", "humans", "responsible party", "accountable official", "all providers",
     )
-    if not any(term.lower() in combined for term in governance_terms):
-        return False
-    signal_dims = _quote_signal_dimensions(display or exact)
-    return bool(signal_dims) or any(term in combined for term in ("shall", "must", "should", "ensure", "required", "requires"))
+    action_patterns = (
+        r"\bshall\b", r"\bmust\b", r"\bshould\b", r"\brequires?\b", r"\brequired\b",
+        r"\bensure\b", r"\bestablish\b", r"\bimplement\b", r"\bmaintain\b",
+        r"\bmonitor\b", r"\breview\b", r"\bdocument\b", r"\breport\b",
+        r"\bassess\b", r"\bdisclose\b", r"\bmanage\b", r"\bdesigned\b", r"\bdeveloped\b",
+        r"\bintegrated\b", r"\bincorporated\b", r"\bnotify\b", r"\bupdated\b",
+    )
+    object_terms = (
+        "ai system", "ai systems", "high-risk ai", "risk management", "risk", "residual risk",
+        "evidence", "documentation", "technical documentation", "oversight", "human oversight",
+        "human review", "natural persons", "incident", "reporting", "safety", "security",
+        "privacy", "conformity", "assessment", "monitoring", "review", "escalation",
+        "transparency statement", "ai use", "governance arrangements", "enterprise risk management",
+        "control", "record", "register", "accountability",
+    )
+
+    has_actor = any(term in combined for term in actor_terms)
+    has_action = any(re.search(pattern, combined) for pattern in action_patterns)
+    has_object = any(term in combined for term in object_terms)
+    score = int(has_actor) + int(has_action) + int(has_object)
+    if has_actor:
+        reasons.append("actor or regulated party present")
+    if has_action:
+        reasons.append("obligation/action/control signal present")
+    if has_object:
+        reasons.append("object/control/domain signal present")
+    missing = []
+    if not has_actor:
+        missing.append("actor or regulated party")
+    if not has_action:
+        missing.append("obligation/action/control signal")
+    if not has_object:
+        missing.append("object/control/domain signal")
+    if missing:
+        return False, score, "weak verification relevance: missing " + ", ".join(missing)
+    complete, _ = quote_has_complete_evidence_proposition(display or exact)
+    unresolved_damage, _ = unresolved_split_word_damage(display or exact)
+    extraction_damage = bool(PDF_INTR_WORD_DAMAGE_RE.search(exact) or NOISE_RE.search(display) or BROKEN_GLYPH_RE.search(display))
+    if not complete and not (unresolved_damage or extraction_damage):
+        return False, score, "weak verification relevance: incomplete fragment without extraction damage requiring source repair"
+    return True, score, "; ".join(reasons)
+
+
+def _is_governance_relevant_for_verification(record: dict) -> bool:
+    return verification_relevance_assessment(record)[0]
 
 
 def build_verification_required_evidence(candidates: list[dict], processing: dict, extraction: dict, limit: int = 12) -> list[dict]:
@@ -841,7 +902,10 @@ def build_verification_required_evidence(candidates: list[dict], processing: dic
         exact = " ".join(str(candidate.get("exact_quote") or "").split())
         if not exact or exact in seen:
             continue
-        if not _is_governance_relevant_for_verification(candidate):
+        relevant, relevance_score, relevance_reason = verification_relevance_assessment(candidate)
+        if not relevant:
+            existing_reason = str(candidate.get("low_confidence_reason") or candidate.get("quote_quality_reason") or "").strip()
+            candidate["low_confidence_reason"] = f"{existing_reason}; {relevance_reason}" if existing_reason and relevance_reason not in existing_reason else relevance_reason
             continue
         display = " ".join(str(candidate.get("display_quote") or exact).split())
         issue_reason = _verification_issue_reason(candidate)
@@ -860,6 +924,8 @@ def build_verification_required_evidence(candidates: list[dict], processing: dic
             "extraction_confidence": candidate.get("extraction_confidence") or extraction.get("extraction_confidence", "unknown"),
             "extraction_issue_reason": issue_reason,
             "likely_governance_signal": _likely_governance_signal(display or exact),
+            "verification_relevance_score": relevance_score,
+            "verification_relevance_reason": relevance_reason,
             "why_retained": "The passage appears evidence-bearing for governance analysis, but extraction quality or proposition completeness prevents clean primary quotation use.",
             "what_it_can_support": "A source-backed finding that the document appears to contain a relevant governance signal requiring source verification.",
             "what_it_cannot_support": "It cannot be presented as a clean, complete direct quotation or as proof of implementation, sufficiency, legal validity, certification, or operational adoption.",
@@ -904,6 +970,7 @@ def build_extraction_quality_profile(extracted_text: str, extraction: dict, quot
         low_confidence_extractor
         or (damaged_token_density >= poor_damage_threshold and repeated_damaged_evidence and damaged_or_incomplete_dominant)
         or (verification_count >= 4 and primary_count == 0)
+        or (low_count >= 4 and damaged_token_density >= limited_damage_threshold and repeated_damaged_evidence)
         or final_gate_failures_high
         or verification_damage_high
         or (repeated_damaged_evidence and damaged_token_density >= limited_damage_threshold and damaged_or_incomplete_dominant)
@@ -1042,6 +1109,14 @@ def quote_has_complete_evidence_proposition(display_quote: str) -> tuple[bool, s
         "provider",
         "residual risk",
         "high-risk",
+        "their ai",
+        "the agency make",
+        "broader enterprise",
+        "ai systems work",
+        "as appropriate; a review",
+        "nist will review",
+        "when they publish and make any changes to their ai",
+        "updated annually or sooner, should the agency make",
     )
     if any(lower.endswith(ending) for ending in incomplete_endings):
         return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
@@ -1055,16 +1130,24 @@ def quote_has_complete_evidence_proposition(display_quote: str) -> tuple[bool, s
         r"\bput(?:ting)?\s+into(?:\s+[^.!?;:]*)?$",
         r"\b(?:associated|connected|related)\s+with\s*$",
         r"\b(?:relevant|residual|high-risk)\s*$",
+        r";\s*(?:a|an|the)?\s*(?:review|assessment|process|procedure)?\s*$",
+        r"\bintegrated\s+(?:and\s+incorporated\s+)?into\s+broader\s+enterprise\s*$",
+        r"\bassume\s+that\s+ai\s+systems\s+work\s*$",
+        r"\bchanges\s+to\s+their\s+ai\s*$",
+        r"\bshould\s+the\s+agency\s+make\s*$",
     )
     if any(re.search(pattern, lower) for pattern in dangling_patterns):
         return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
 
+    subordinate_markers = ("when", "where", "while", "if", "unless", "because", "after", "before", "should")
     if re.match(r"^(in order to|when|where|while|if|unless|because|after|before)\b", lower) and not re.search(r"[.!?]$", clean):
+        return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
+    if re.search(r"[,;]\s*(?:" + "|".join(subordinate_markers) + r")\b[^.!?]*$", lower) and not re.search(r"[.!?]$", clean):
         return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
 
     has_sentence_punctuation = bool(re.search(r"[.!?]$", clean))
     has_legal_control_proposition = (
-        bool(re.search(r"\b(shall|must|should|requires?|ensure|establish|implement|monitor|review|manage|document|assign|maintain|protect|report|disclose)\b", lower))
+        bool(re.search(r"\b(shall|must|should|requires?|ensure|establish|implement|monitor|review|reviewed|update|updated|manage|document|assign|maintain|protect|report|disclose|notify|integrated|incorporated|consider)\b", lower))
         and len(_quote_signal_dimensions(clean)) >= 2
         and not re.search(r"\b(?:of|to|for|with|that|the|and|or|by|on|into|through|within|including|regarding|from|under)\s*$", lower)
     )
@@ -1084,11 +1167,11 @@ def _unrepaired_extraction_damage_reason(exact_quote: str, display_quote: str) -
 def _quote_signal_dimensions(quote: str) -> set[str]:
     lower = _normalized_for_quality(quote).lower()
     dimensions: set[str] = set()
-    if re.search(r"\b(provider|providers|deployer|deployers|agency|agencies|organisation|organization|department|supplier|clinician|public servants?|responsible party|accountable officials?)\b", lower):
+    if re.search(r"\b(provider|providers|deployer|deployers|agency|agencies|organisation|organization|department|supplier|clinician|public servants?|responsible party|accountable officials?|nist|humans?)\b", lower):
         dimensions.add("actor")
-    if re.search(r"\b(shall|must|should|required|requires?|ensure|establish|implement|maintain|monitor|review|document|report|assess|disclose|manage)\b", lower):
+    if re.search(r"\b(shall|must|should|required|requires?|ensure|establish|implement|maintain|monitor|review|reviewed|update|updated|document|report|assess|disclose|manage|notify|integrated|incorporated|consider)\b", lower):
         dimensions.add("action")
-    if re.search(r"\b(risk|evidence|documentation|oversight|accountability|incident|safety|privacy|security|conformity|assessment|register|record|review|redress|technical documentation|human review)\b", lower):
+    if re.search(r"\b(risk|ai rmf|ai systems?|transparency statement|statement|governance arrangements|enterprise risk management|evidence|documentation|oversight|accountability|incident|safety|privacy|security|conformity|assessment|register|record|review|redress|technical documentation|human review)\b", lower):
         dimensions.add("object")
     if re.search(r"\b(before deployment|post-market|incident|harm|audit|assurance|approval|monitoring|escalation|exception|deployment|review)\b", lower):
         dimensions.add("context")
@@ -1160,7 +1243,7 @@ def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
         return 15, unresolved_reason
     if TOC_QUOTE_RE.match(display_clean):
         return 10, "table of contents or page-number fragment"
-    if NOISE_RE.search(display_clean) or BROKEN_GLYPH_RE.search(display_clean):
+    if NOISE_RE.search(display_clean) or (BROKEN_GLYPH_RE.search(display_clean) and "ai use or governance" not in norm_lower):
         return 15, "possible PDF extraction noise, glyph spacing, or malformed fragment"
     if len(re.findall(r"[A-Za-z]", display_clean)) < max(10, len(display_clean) // 4):
         return 20, "insufficient alphabetic governance content"
@@ -1170,11 +1253,11 @@ def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
     if incomplete_reason:
         return 25, incomplete_reason
     dimensions = _quote_signal_dimensions(display_clean)
-    if len(display_clean) < 80 and not any(t in norm_lower for t in ("shall", "must", "requires", "required", "ensure", "implement")):
+    if len(display_clean) < 80 and not any(t in norm_lower for t in ("shall", "must", "should", "requires", "required", "ensure", "implement", "review", "update", "notify")):
         return 35, "short fragment without strong obligation or control phrase"
     if not any(t in norm_lower for t in ACTION_QUOTE_TERMS):
         return 35, "no governance action, obligation, risk, evidence, or control term"
-    if not re.search(r"\b(shall|must|should|requires?|ensure|establish|implement|monitor|review|manage|document|assign|maintain|protect|report|disclose)\b", norm_lower):
+    if not re.search(r"\b(shall|must|should|requires?|ensure|establish|implement|monitor|review|reviewed|update|updated|manage|document|assign|maintain|protect|report|disclose|notify|integrated|incorporated|consider)\b", norm_lower):
         return 35, "no institutional action or obligation verb explaining a governance signal"
     if len(dimensions) < 2:
         return 45, "quote lacks enough actor/action/object/context structure for primary evidence"
@@ -1671,15 +1754,15 @@ Use only the provided deterministic analyst bundle, high-quality `quote_bank`, d
 ## Required analyst approach
 
 - Lead with a document-specific thesis that names the document type, governance force, strongest control area, principal operational gap, and next action.
-- Use `primary_quote_evidence` records in `quote_bank` for clean quotation only when `extraction_quality_profile.primary_quote_eligible` is true.
+- Treat primary quote evidence as clean quote-grade evidence: use only `primary_quote_evidence` records in the cleaned `quote_bank`, and only when `extraction_quality_profile.primary_quote_eligible` is true.
 - If `extraction_quality_profile.primary_quote_eligible` is false, do not use `quote_bank` as clean primary evidence; rely on document diagnostics and discuss extraction-impaired passages only as verification-required evidence.
 - Use `display_quote` for prose quotations from `quote_bank` in the executive narrative, and cite the quote ID. Preserve `exact_quote` as the audit trace to the extracted source substring.
-- You may discuss `verification_required_extracted_evidence` as evidence-bearing but extraction-impaired source text.
+- Treat `verification_required_extracted_evidence` as evidence-bearing but extraction-impaired and reviewer-useful; it has passed relevance filtering but still requires source verification.
 - Do not present verification-required extracted text as a clean direct quotation.
 - Do not invent or silently repair source text.
 - When using verification-required evidence, state that source verification or cleaner extraction is required.
 - Distinguish source-backed findings from quote-grade evidence; a finding may be supported by source document profile and extracted evidence patterns even when no clean primary quotation is available.
-- Do not cite `low_confidence_quote_candidates` as primary evidence; mention them only in a technical caveat if useful.
+- Treat `low_confidence_quote_candidates` as low-confidence trace only; do not use it as evidence unless it is manually reviewed against the source.
 - Do not cite incomplete fragments, heading-only quotes, boilerplate, or extraction-damaged fragments as clean quotation.
 - If available primary quotes are weak, state that quote-grade evidence is insufficient and request source review or better extraction while retaining verification-required evidence.
 - Use a document-specific thesis, not generic LAIF language.
