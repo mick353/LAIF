@@ -1019,7 +1019,7 @@ If you are having difficulties with accessing this document, please email: suppo
                 report,
             )
             self.assertIn("## Extracted evidence requiring source verification", report)
-            self.assertIn("Source verification required", report)
+            self.assertIn("No extraction-impaired governance evidence required source-verification tiering", report)
             low_reasons = "\n".join(q.get("low_confidence_reason", "") for q in bundle.get("low_confidence_quote_candidates", []))
             self.assertIn("final primary quote admission gate failed: incomplete evidence proposition", low_reasons)
 
@@ -1092,7 +1092,8 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertNotIn(damaged_relevant, primary_display)
             self.assertNotIn(incomplete_relevant, primary_display)
             self.assertIn(damaged_relevant, verification_exact)
-            self.assertIn(incomplete_relevant, verification_exact)
+            self.assertNotIn(incomplete_relevant, verification_exact)
+            self.assertIn(incomplete_relevant, low_exact)
             self.assertNotIn(boilerplate, verification_exact)
             self.assertTrue(boilerplate in low_exact or boilerplate not in verification_exact)
             self.assertTrue(all(q.get("evidence_status") == "source_verification_required" for q in verification))
@@ -1106,11 +1107,10 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertIn("## Extracted evidence requiring source verification", report)
             self.assertIn("Source verification required", report)
             self.assertIn(damaged_relevant, report)
-            self.assertIn(incomplete_relevant, report)
+            self.assertNotIn(incomplete_relevant, report)
             self.assertNotIn("Certain commercial entities", report)
 
             issue_reasons = "\n".join(q.get("extraction_issue_reason", "") for q in verification)
-            self.assertIn("incomplete evidence proposition", issue_reasons)
             self.assertIn("split-word extraction damage", issue_reasons)
 
     def test_phase_3aa_extraction_quality_profile_and_ai_bundle_policy(self) -> None:
@@ -1203,7 +1203,7 @@ If you are having difficulties with accessing this document, please email: suppo
                 self.assertNotIn(damaged, key_section)
             verification_section = report.split("## Extracted evidence requiring source verification", 1)[1]
             self.assertIn("impro ving", verification_section)
-            self.assertIn("mitiga tion", verification_section)
+            self.assertNotIn("mitiga tion", key_section)
 
     def test_phase_3aa1_clean_source_still_renders_primary_quotes(self) -> None:
         clean_quotes = [
@@ -1274,6 +1274,80 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertIn("extraction_quality_profile.primary_quote_eligible", prompt)
             self.assertIn("do not use `quote_bank` as clean primary evidence", prompt)
             self.assertIn("Do not present verification-required extracted text as a clean direct quotation", prompt)
+
+
+    def test_phase_3aa2_evidence_relevance_and_quote_boundaries(self) -> None:
+        weak_scrap = "This Regulation ensures the free moveme nt, cross-border , of"
+        useful_damaged = "Providers shall ensure that AI systems intended to interac t directly with natural persons are designed and developed in"
+        clean_primary = "Providers of high-risk AI systems shall establish, implement, document and maintain a risk management system throughout the lifecycle of the AI system."
+        bad_primary = [
+            "NIST will review the AI RMF and update it as appropriate; a review",
+            "AI risk management efforts should consider that humans may assume that AI systems work",
+            "AI risk management should be integrated and incorporated into broader enterprise",
+            "Agencies must notify the DTA when they publish and make any changes to their AI",
+            "The statement must be reviewed and updated annually or sooner, should the agency make",
+        ]
+        good_primary = [
+            "NIST will review the AI RMF periodically and update it as appropriate.",
+            "AI risk management efforts should consider that humans may assume that AI systems work as intended, even when system limitations require active monitoring and review.",
+            "AI risk management should be integrated and incorporated into broader enterprise risk management processes.",
+            "Agencies must notify the DTA when they publish and make any changes to their AI transparency statement.",
+            "The statement must be reviewed and updated annually or sooner, should the agency make material changes to its AI use or governance arrangements.",
+        ]
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "mixed_quality.txt"
+            out = root / "out"
+            path.write_text("\n\n".join([weak_scrap, useful_damaged, clean_primary] + bad_primary + good_primary), encoding="utf-8")
+
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            primary_exact = [q.get("exact_quote", "") for q in bundle.get("quote_bank", [])]
+            verification = bundle.get("verification_required_extracted_evidence", [])
+            verification_exact = [q.get("exact_quote", "") for q in verification]
+            low_exact = [q.get("exact_quote", "") for q in bundle.get("low_confidence_quote_candidates", [])]
+
+            self.assertIn(clean_primary, primary_exact)
+            self.assertNotIn(weak_scrap, primary_exact)
+            self.assertNotIn(weak_scrap, verification_exact)
+            self.assertIn(weak_scrap, low_exact)
+
+            self.assertNotIn(useful_damaged, primary_exact)
+            self.assertIn(useful_damaged, verification_exact)
+            useful_record = next(q for q in verification if q.get("exact_quote") == useful_damaged)
+            self.assertTrue(useful_record.get("likely_governance_signal"))
+            self.assertTrue(useful_record.get("reviewer_instruction"))
+            self.assertGreaterEqual(useful_record.get("verification_relevance_score", 0), 3)
+            self.assertIn("actor or regulated party", useful_record.get("verification_relevance_reason", ""))
+
+            for bad in bad_primary:
+                self.assertNotIn(bad, primary_exact)
+                self.assertNotIn(bad, verification_exact)
+                self.assertIn(bad, low_exact)
+            for good in good_primary:
+                self.assertIn(good, primary_exact)
+
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            key_section = report.split("## Key quoted evidence", 1)[1].split("## Extracted evidence requiring source verification", 1)[0]
+            verification_section = report.split("## Extracted evidence requiring source verification", 1)[1].split("## What the document controls well", 1)[0]
+            self.assertIn(clean_primary, key_section)
+            self.assertIn(useful_damaged, verification_section)
+            self.assertNotIn(weak_scrap, report)
+            for bad in bad_primary:
+                self.assertNotIn(f"“{bad}”", key_section)
+            for good in good_primary:
+                self.assertIn(good, key_section)
+
+            ai_bundle = json.loads((out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            self.assertEqual([q.get("exact_quote", "") for q in ai_bundle.get("quote_bank", [])], primary_exact)
+            self.assertEqual([q.get("exact_quote", "") for q in ai_bundle.get("verification_required_extracted_evidence", [])], verification_exact)
+            self.assertIn("low_confidence_quote_candidates", ai_bundle)
+
+            prompt = (out / "analyst" / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
+            self.assertIn("clean quote-grade evidence", prompt)
+            self.assertIn("reviewer-useful", prompt)
+            self.assertIn("low-confidence trace only", prompt)
 
     def test_phase_3z_no_external_ai_api_network_patterns_added(self) -> None:
         haystack = "\n".join(
