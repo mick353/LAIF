@@ -210,6 +210,7 @@ def extract_document(path: Path, extractor: str = "auto") -> ExtractionResult:
     attempts.extend((("docling", extract_docling), ("markitdown", extract_markitdown)))
     if suffix == ".docx":
         attempts.append(("python-docx", extract_python_docx))
+        attempts.append(("text-fallback", extract_text_fallback))
     if suffix == ".pdf":
         attempts.append(("pypdf", extract_pypdf))
         attempts.append(("text-fallback", extract_text_fallback))
@@ -501,8 +502,8 @@ STRONG_QUOTE_TERMS = (
 ACTION_QUOTE_TERMS = STRONG_QUOTE_TERMS + ("manage", "assign", "maintain", "protect", "report", "disclose")
 BOILERPLATE_QUOTE_RE = re.compile(r"(difficulties with accessing|accessibility|contact us|support@|@\w|email:|telephone|copyright|isbn|all rights reserved|certain commercial entities, equipment, or materials may be identified)", re.IGNORECASE)
 GENERIC_FRAGMENT_RE = re.compile(r"(?:requirements agencies must follow|monitoring, will help ensure|this document in order to describe|to combat this risk, the federal government will ensure that the collection|the assessment must be documented and take|the notification shall contain the conclusions of the assessment)", re.IGNORECASE)
-PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:ser ious|general-pur pose|provid er|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment|syste m|g enerated|cont ent)\b", re.IGNORECASE)
-INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|should|must|shall|will)\s*$", re.IGNORECASE)
+PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:ser ious|general-pur pose|provid er|provid ed|ensur ing|har monisation|uni on|f alsifi ed|accompanie d|r isk|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment|syste m|g enerated|cont ent)\b", re.IGNORECASE)
+INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|take|taken|should|must|shall|will)\s*$", re.IGNORECASE)
 TOC_QUOTE_RE = re.compile(r"^\s*(?:\d+(?:\.\d+)*\s+){0,2}[A-Z][A-Za-z&/ -]{2,70}\s+\d{1,4}\s*$")
 TITLE_ONLY_RE = re.compile(r"^[A-Z][A-Za-z0-9&/:,() -]{8,80}$")
 BROKEN_GLYPH_RE = re.compile(r"\b[A-Za-z]{1,3}(?:\s+[A-Za-z]{1,3}){4,}\b", re.IGNORECASE)
@@ -1110,7 +1111,7 @@ def run(args: argparse.Namespace) -> int:
     if args.fail_on_warnings and extraction.warnings:
         raise ExtractionError("Extraction produced warnings and --fail-on-warnings was set: " + "; ".join(extraction.warnings))
 
-    selected_sector = auto_sector(extraction.text) if args.sector == "auto" else args.sector
+    selected_sector = args.sector
     document_name = args.document_name or input_path.stem
     processed_at = utc_now_iso()
     source_hash = sha256_file(input_path)
