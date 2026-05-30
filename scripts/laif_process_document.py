@@ -654,6 +654,7 @@ def unresolved_split_word_damage(display_quote: str) -> tuple[bool, str]:
 
 PRIMARY_QUOTE_QUALITY_THRESHOLD = 70
 FINAL_PRIMARY_GATE_PREFIX = "final primary quote admission gate failed"
+INCOMPLETE_EVIDENCE_PROPOSITION_REASON = f"{FINAL_PRIMARY_GATE_PREFIX}: incomplete evidence proposition"
 
 
 def validate_primary_quote_record(record: dict) -> tuple[bool, str]:
@@ -688,6 +689,10 @@ def validate_primary_quote_record(record: dict) -> tuple[bool, str]:
     unresolved_damage, unresolved_reason = unresolved_split_word_damage(display_quote)
     if unresolved_damage:
         return False, f"{FINAL_PRIMARY_GATE_PREFIX}: {unresolved_reason}"
+
+    has_complete_proposition, proposition_reason = quote_has_complete_evidence_proposition(display_quote)
+    if not has_complete_proposition:
+        return False, proposition_reason
 
     incomplete_reason = _incomplete_quote_reason(display_quote)
     if incomplete_reason:
@@ -802,6 +807,8 @@ def _incomplete_quote_reason(quote: str) -> str:
         return "empty quote"
     if re.match(r"^[a-z,;:]", clean) or clean.endswith(",") or INCOMPLETE_END_RE.search(clean):
         return "incomplete quote could not be expanded to complete evidence statement"
+    if not quote_has_complete_evidence_proposition(clean)[0]:
+        return "incomplete quote could not be expanded to complete evidence statement"
     incomplete_patterns = (
         r"^after completing the manage function, plans for prioritizing risk and regular monitoring$",
         r"^ai-generated content has undergone$",
@@ -813,6 +820,69 @@ def _incomplete_quote_reason(quote: str) -> str:
         return "incomplete quote could not be expanded to complete evidence statement"
     return ""
 
+
+
+def quote_has_complete_evidence_proposition(display_quote: str) -> tuple[bool, str]:
+    """Return whether display text can stand alone as primary evidence.
+
+    The primary evidence surface must let a reviewer understand the full
+    source-says proposition without supplying missing continuation text from
+    the source. This catches readable but semantically dangling fragments after
+    display normalisation and before any report/analyst primary rendering.
+    """
+    clean = " ".join((display_quote or "").split())
+    if not clean:
+        return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
+    lower = clean.lower().strip(" \\\"“”'")
+
+    if re.match(r"^to above should\b", lower):
+        return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
+    if re.search(r"\bdra\s+w\b", lower):
+        return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
+
+    incomplete_endings = (
+        "on the use of high-risk",
+        "before that system is placed on the market or put into",
+        "shall be such that the relevant residual risk",
+        "should ensure that the provider",
+        "ensure that the provider",
+        "take into account",
+        "placed on",
+        "put into",
+        "the provider",
+        "provider",
+        "residual risk",
+        "high-risk",
+    )
+    if any(lower.endswith(ending) for ending in incomplete_endings):
+        return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
+
+    dangling_patterns = (
+        r"\b(can|may|must|shall|should|will|would|could)\s*$",
+        r"\b(in order to|so as to|with a view to|for the purpose of)\s+[^.!?;:]*$",
+        r"\b(ensure|ensures|ensuring|requires?|required|referred to|such that)\s+(?:the\s+)?$",
+        r"\b(?:take|taken|taking)\s+into\s+account(?:\s+[^.!?;:]*)?$",
+        r"\b(?:placed|placing)\s+on(?:\s+[^.!?;:]*)?$",
+        r"\bput(?:ting)?\s+into(?:\s+[^.!?;:]*)?$",
+        r"\b(?:associated|connected|related)\s+with\s*$",
+        r"\b(?:relevant|residual|high-risk)\s*$",
+    )
+    if any(re.search(pattern, lower) for pattern in dangling_patterns):
+        return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
+
+    if re.match(r"^(in order to|when|where|while|if|unless|because|after|before)\b", lower) and not re.search(r"[.!?]$", clean):
+        return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
+
+    has_sentence_punctuation = bool(re.search(r"[.!?]$", clean))
+    has_legal_control_proposition = (
+        bool(re.search(r"\b(shall|must|should|requires?|ensure|establish|implement|monitor|review|manage|document|assign|maintain|protect|report|disclose)\b", lower))
+        and len(_quote_signal_dimensions(clean)) >= 2
+        and not re.search(r"\b(?:of|to|for|with|that|the|and|or|by|on|into|through|within|including|regarding|from|under)\s*$", lower)
+    )
+    if not has_sentence_punctuation and not has_legal_control_proposition:
+        return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
+
+    return True, ""
 
 def _unrepaired_extraction_damage_reason(exact_quote: str, display_quote: str) -> str:
     exact_has_damage = bool(PDF_INTR_WORD_DAMAGE_RE.search(exact_quote or "") or NOISE_RE.search(exact_quote or ""))
@@ -1086,13 +1156,31 @@ def build_low_confidence_quote_candidates(text: str, processing: dict, extractio
     for start, end, quote in _sentence_spans(text):
         score, reason = quote_quality(quote, extraction)
         compact = " ".join(quote.split())
+        display_compact_for_gate = normalize_quote_for_display(compact)[0]
+        has_complete_proposition, proposition_reason = quote_has_complete_evidence_proposition(display_compact_for_gate)
+        if not has_complete_proposition:
+            if reason and proposition_reason not in reason:
+                reason = f"{reason}; {proposition_reason}"
+            else:
+                reason = proposition_reason
+            score = min(score, PRIMARY_QUOTE_QUALITY_THRESHOLD - 1)
         if score >= PRIMARY_QUOTE_QUALITY_THRESHOLD or compact in seen_quotes:
             continue
         display_compact = _normalized_for_quality(compact).lower()
         if not any(term in display_compact for term in ACTION_QUOTE_TERMS + ("artificial intelligence", "ai-generated", "secure", "resilient")) and score > 15:
             continue
         seen_quotes.add(compact)
-        candidates.append(_candidate_quote_record(f"LQ{len(candidates)+1:03d}", start, end, quote, processing, extraction, assessment, "low-confidence candidate", "source_excerpt"))
+        candidate = _candidate_quote_record(f"LQ{len(candidates)+1:03d}", start, end, quote, processing, extraction, assessment, "low-confidence candidate", "source_excerpt")
+        if not has_complete_proposition:
+            existing_reason = str(candidate.get("low_confidence_reason") or reason).strip()
+            if existing_reason and proposition_reason not in existing_reason:
+                candidate_reason = f"{existing_reason}; {proposition_reason}"
+            else:
+                candidate_reason = proposition_reason
+            candidate["low_confidence_reason"] = candidate_reason
+            candidate["quote_quality_score"] = min(int(candidate.get("quote_quality_score") or score), PRIMARY_QUOTE_QUALITY_THRESHOLD - 1)
+            candidate["quote_quality_reason"] = candidate_reason
+        candidates.append(candidate)
         if len(candidates) >= limit:
             break
     return candidates
@@ -1310,7 +1398,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         quote_text = q.get("display_quote") or q["exact_quote"]
         lines.append(f"- **{q['quote_id']} — {q['signal_category']}:** “{quote_text}”")
     if not primary_quotes:
-        lines.append("- No high-confidence primary quotes were extracted; use the technical appendix and source text review before relying on evidence.")
+        lines.append("- No high-confidence complete primary quotes were extracted; use the technical appendix and source text review before relying on evidence.")
     lines += ["", "## What the document controls well", "", _md_list(assessment.get("strengths", [])[:8], "No deterministic strengths detected."), "", "## What the document does not control", ""]
     lines.append(_md_list([g["gap_title"] + f" ({g['gap_id']})" for g in gaps[:8]]))
     lines += ["", "## Hidden failure pathways", "", "Failure pathway summaries below show how paperwork compliance can proceed without live operational control.", ""]
