@@ -644,8 +644,9 @@ def unresolved_split_word_damage(display_quote: str) -> tuple[bool, str]:
         prefix_like = left_lower in SPLIT_WORD_COMMON_PREFIXES
         governance_join = joined in GOVERNANCE_JOINED_TERMS
         short_tail = len(right_lower) <= 2 and len(left_lower) >= 4
+        single_letter_tail = len(right_lower) == 1 and len(left_lower) >= 5
         balanced_chunks = 2 <= len(left_lower) <= 8 and 2 <= len(right_lower) <= 5 and governance_join
-        if governance_join or (prefix_like and (suffix_like or len(right_lower) <= 5)) or (short_tail and prefix_like) or balanced_chunks:
+        if governance_join or (prefix_like and (suffix_like or len(right_lower) <= 5)) or (short_tail and prefix_like) or single_letter_tail or balanced_chunks:
             suspicious.append(f"{left_text} {right_text}")
 
     if suspicious:
@@ -745,18 +746,184 @@ def _finalize_primary_quote_bank(records: list[dict], low_confidence_quote_candi
     for record in records:
         ok, reason = validate_primary_quote_record(record)
         if ok:
-            primary.append(record)
+            admitted = dict(record)
+            admitted["evidence_tier"] = "primary_quote_evidence"
+            admitted["evidence_status"] = "clean_primary_quote"
+            primary.append(admitted)
             continue
         gated = _append_final_gate_reason(record, reason)
         exact_quote = gated.get("exact_quote", "")
         if low_confidence_quote_candidates is not None and exact_quote not in seen_low:
             gated["quote_id"] = f"LQ{len(low_confidence_quote_candidates)+1:03d}"
+            gated["evidence_tier"] = "low_confidence_extraction_trace"
             low_confidence_quote_candidates.append(gated)
             seen_low.add(exact_quote)
     for idx, record in enumerate(primary, start=1):
         record["quote_id"] = f"Q{idx:03d}"
+        record["evidence_id"] = record["quote_id"]
     return primary
 
+
+
+def _verification_issue_reason(record: dict) -> str:
+    exact = " ".join(str(record.get("exact_quote") or "").split())
+    display = " ".join(str(record.get("display_quote") or exact).split())
+    reasons: list[str] = []
+    unresolved_damage, unresolved_reason = unresolved_split_word_damage(display)
+    if unresolved_damage:
+        reasons.append(unresolved_reason)
+    damage_reason = _unrepaired_extraction_damage_reason(exact, display)
+    if damage_reason:
+        reasons.append(damage_reason)
+    has_complete, proposition_reason = quote_has_complete_evidence_proposition(display)
+    if not has_complete:
+        reasons.append(proposition_reason)
+    incomplete_reason = _incomplete_quote_reason(display)
+    if incomplete_reason:
+        reasons.append(incomplete_reason)
+    if NOISE_RE.search(display) or BROKEN_GLYPH_RE.search(display):
+        reasons.append("obvious PDF spacing artefact or malformed extraction")
+    gate_ok, gate_reason = validate_primary_quote_record(record)
+    if not gate_ok:
+        reasons.append(gate_reason)
+    low_reason = str(record.get("low_confidence_reason") or "").strip()
+    if low_reason:
+        reasons.append(low_reason)
+    deduped: list[str] = []
+    for reason in reasons:
+        reason = reason.strip()
+        if reason and reason not in deduped:
+            deduped.append(reason)
+    return " / ".join(deduped) or "source-text verification required before primary quotation use"
+
+
+def _likely_governance_signal(quote: str) -> str:
+    lower = _normalized_for_quality(quote).lower()
+    if "provider" in lower and ("natural person" in lower or "interact" in lower):
+        return "provider obligation / human interaction transparency control"
+    if "risk management" in lower or "residual risk" in lower:
+        return "risk management obligation / residual risk control"
+    if "technical documentation" in lower or "document" in lower:
+        return "documentation / auditability control"
+    if "incident" in lower or "report" in lower:
+        return "incident reporting / post-market monitoring control"
+    if "human oversight" in lower or "human review" in lower:
+        return "human oversight / review control"
+    if "conformity" in lower or "assessment" in lower:
+        return "conformity assessment / assurance control"
+    if any(term in lower for term in ("shall", "must", "should", "ensure", "establish", "implement", "monitor", "review", "manage")):
+        return "governance obligation / institutional control signal"
+    return "weak or noisy extraction trace"
+
+
+def _is_governance_relevant_for_verification(record: dict) -> bool:
+    exact = str(record.get("exact_quote") or "")
+    display = str(record.get("display_quote") or exact)
+    combined = _normalized_for_quality(f"{exact} {display}").lower()
+    if BOILERPLATE_QUOTE_RE.search(exact) or GENERIC_FRAGMENT_RE.search(exact):
+        return False
+    if len(re.findall(r"[A-Za-z]", combined)) < 25:
+        return False
+    governance_terms = ACTION_QUOTE_TERMS + _profile_quote_terms(record if isinstance(record, dict) else {}) + (
+        "provider", "providers", "deployer", "deployers", "risk management", "residual risk",
+        "high-risk ai", "natural persons", "technical documentation", "conformity assessment",
+    )
+    if not any(term.lower() in combined for term in governance_terms):
+        return False
+    signal_dims = _quote_signal_dimensions(display or exact)
+    return bool(signal_dims) or any(term in combined for term in ("shall", "must", "should", "ensure", "required", "requires"))
+
+
+def build_verification_required_evidence(candidates: list[dict], processing: dict, extraction: dict, limit: int = 12) -> list[dict]:
+    verification: list[dict] = []
+    seen: set[str] = set()
+    for candidate in candidates:
+        exact = " ".join(str(candidate.get("exact_quote") or "").split())
+        if not exact or exact in seen:
+            continue
+        if not _is_governance_relevant_for_verification(candidate):
+            continue
+        display = " ".join(str(candidate.get("display_quote") or exact).split())
+        issue_reason = _verification_issue_reason(candidate)
+        record = {
+            "evidence_id": f"VQ{len(verification)+1:03d}",
+            "evidence_tier": "verification_required_extracted_evidence",
+            "evidence_status": "source_verification_required",
+            "exact_quote": exact,
+            "display_quote": display,
+            "raw_exact_quote_retained": True,
+            "source_file": candidate.get("source_file") or processing.get("stored_source_path") or processing.get("input_path"),
+            "original_file_name": candidate.get("original_file_name") or processing.get("original_file_name"),
+            "source_sha256": candidate.get("source_sha256") or processing.get("source_sha256"),
+            "start_offset": candidate.get("start_offset"),
+            "end_offset": candidate.get("end_offset"),
+            "extraction_confidence": candidate.get("extraction_confidence") or extraction.get("extraction_confidence", "unknown"),
+            "extraction_issue_reason": issue_reason,
+            "likely_governance_signal": _likely_governance_signal(display or exact),
+            "why_retained": "The passage appears evidence-bearing for governance analysis, but extraction quality or proposition completeness prevents clean primary quotation use.",
+            "what_it_can_support": "A source-backed finding that the document appears to contain a relevant governance signal requiring source verification.",
+            "what_it_cannot_support": "It cannot be presented as a clean, complete direct quotation or as proof of implementation, sufficiency, legal validity, certification, or operational adoption.",
+            "reviewer_instruction": "Review the original source document or a cleaner text extraction before treating this passage as a clean quotation.",
+        }
+        verification.append(record)
+        seen.add(exact)
+        if len(verification) >= limit:
+            break
+    return verification
+
+
+def build_extraction_quality_profile(extracted_text: str, extraction: dict, quote_bank: list[dict], verification_required_evidence: list[dict], low_confidence_quote_candidates: list[dict]) -> dict:
+    text = extracted_text or ""
+    token_count = max(1, len(re.findall(r"\S+", text)))
+    damaged_hits = len(PDF_INTR_WORD_DAMAGE_RE.findall(text)) + len(NOISE_RE.findall(text)) + len(BROKEN_GLYPH_RE.findall(text))
+    damaged_token_density = round(damaged_hits / token_count, 6)
+    incomplete_count = 0
+    final_gate_failure_count = 0
+    for candidate in low_confidence_quote_candidates or []:
+        display = candidate.get("display_quote") or candidate.get("exact_quote") or ""
+        if not quote_has_complete_evidence_proposition(display)[0] or _incomplete_quote_reason(display):
+            incomplete_count += 1
+        reason = str(candidate.get("low_confidence_reason") or candidate.get("quote_quality_reason") or "")
+        if FINAL_PRIMARY_GATE_PREFIX in reason:
+            final_gate_failure_count += 1
+    quote_candidate_count = max(1, len(quote_bank) + len(verification_required_evidence) + len(low_confidence_quote_candidates or []))
+    incomplete_quote_density = round(incomplete_count / quote_candidate_count, 6)
+    verification_count = len(verification_required_evidence or [])
+    low_count = len(low_confidence_quote_candidates or [])
+    primary_count = len(quote_bank or [])
+    confidence = extraction.get("extraction_confidence", "unknown")
+    low_confidence_extractor = confidence == "low" and extraction.get("extractor_used") != "text-fallback"
+    if low_confidence_extractor or damaged_token_density >= 0.03 or (verification_count >= 4 and primary_count == 0):
+        level = "poor"
+    elif verification_count or damaged_token_density >= 0.005 or incomplete_quote_density >= 0.25 or final_gate_failure_count:
+        level = "limited" if primary_count == 0 else "moderate"
+    elif low_count > primary_count * 2 and low_count >= 4:
+        level = "moderate"
+    else:
+        level = "high"
+    warning = ""
+    action = "Primary quotes may be used normally while retaining exact extracted source traces."
+    if level in {"limited", "poor"}:
+        warning = "Extraction quality limits clean primary quotation use but does not invalidate the source document or deterministic source-backed findings."
+        action = "Review the original source document or produce a cleaner text extraction before treating verification-required passages as clean quotations."
+    elif verification_count:
+        warning = "Some evidence-bearing extracted passages require source verification before clean quotation use."
+        action = "Use primary_quote_evidence for clean quotation and verify extraction-impaired passages against the source before quoting them as clean text."
+    return {
+        "extraction_quality_level": level,
+        "primary_quote_eligible": primary_count > 0,
+        "verification_required_evidence_present": verification_count > 0,
+        "source_text_reliability_warning": warning,
+        "damaged_token_density": damaged_token_density,
+        "incomplete_quote_density": incomplete_quote_density,
+        "final_gate_failure_count": final_gate_failure_count,
+        "verification_required_count": verification_count,
+        "low_confidence_quote_count": low_count,
+        "primary_quote_count": primary_count,
+        "extractor_used": extraction.get("extractor_used", "unknown"),
+        "extraction_confidence": confidence,
+        "recommended_user_action": action,
+    }
 
 def _gate_passing_primary_quotes(quote_bank: list[dict]) -> list[dict]:
     return [quote for quote in quote_bank if validate_primary_quote_record(quote)[0]]
@@ -1380,7 +1547,7 @@ def _md_list(items: list[str], empty: str = "Reviewer confirmation required.") -
     return "\n".join(f"- {item}" for item in items) if items else f"- {empty}"
 
 
-def build_institutional_report(processing: dict, extraction: dict, assessment: dict, quote_bank: list[dict], gaps: list[dict], pathways: list[dict], controls: list[dict]) -> str:
+def build_institutional_report(processing: dict, extraction: dict, assessment: dict, quote_bank: list[dict], gaps: list[dict], pathways: list[dict], controls: list[dict], verification_required_evidence: list[dict] | None = None, extraction_quality_profile: dict | None = None) -> str:
     mode = assessment.get("assessment_mode")
     doc_type = assessment.get("document_type", "unknown_governance_document")
     force = assessment.get("governance_force_profile") or assessment.get("governance_force_summary") or "source governance force requires reviewer confirmation"
@@ -1397,8 +1564,27 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     for q in primary_quotes[:6]:
         quote_text = q.get("display_quote") or q["exact_quote"]
         lines.append(f"- **{q['quote_id']} — {q['signal_category']}:** “{quote_text}”")
+    verification_required_evidence = verification_required_evidence or []
     if not primary_quotes:
-        lines.append("- No high-confidence complete primary quotes were extracted; use the technical appendix and source text review before relying on evidence.")
+        if verification_required_evidence:
+            lines.append("- No high-confidence complete primary quotes were extracted. Evidence-bearing extracted passages are retained below as source-verification-required evidence and in the analyst bundle.")
+        else:
+            lines.append("- No high-confidence complete primary quotes were extracted; use the technical appendix and source text review before relying on quote-grade evidence.")
+    lines += ["", "## Extracted evidence requiring source verification", ""]
+    if verification_required_evidence:
+        for evidence in verification_required_evidence[:6]:
+            text = evidence.get("display_quote") or evidence.get("exact_quote") or ""
+            lines += [
+                f"- **{evidence.get('evidence_id')} — Source verification required:**",
+                f"  - Extracted text: “{text}”",
+                f"  - Issue: {evidence.get('extraction_issue_reason')}",
+                f"  - Likely governance signal: {evidence.get('likely_governance_signal')}",
+                f"  - Reviewer instruction: {evidence.get('reviewer_instruction')}",
+            ]
+    else:
+        lines.append("- No extraction-impaired governance evidence required source-verification tiering.")
+    if extraction_quality_profile and extraction_quality_profile.get("source_text_reliability_warning"):
+        lines += ["", f"**Extraction quality note:** {extraction_quality_profile.get('source_text_reliability_warning')}"]
     lines += ["", "## What the document controls well", "", _md_list(assessment.get("strengths", [])[:8], "No deterministic strengths detected."), "", "## What the document does not control", ""]
     lines.append(_md_list([g["gap_title"] + f" ({g['gap_id']})" for g in gaps[:8]]))
     lines += ["", "## Hidden failure pathways", "", "Failure pathway summaries below show how paperwork compliance can proceed without live operational control.", ""]
@@ -1421,7 +1607,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     return "\n".join(lines)
 
 
-def build_technical_appendix(processing: dict, extraction: dict, assessment: dict, quote_bank: list[dict], gaps: list[dict], pathways: list[dict], controls: list[dict], low_confidence_quote_candidates: list[dict] | None = None) -> str:
+def build_technical_appendix(processing: dict, extraction: dict, assessment: dict, quote_bank: list[dict], gaps: list[dict], pathways: list[dict], controls: list[dict], low_confidence_quote_candidates: list[dict] | None = None, verification_required_evidence: list[dict] | None = None, extraction_quality_profile: dict | None = None) -> str:
     scores = ["structural_score", "terminology_score", "conceptual_proximity_score", "auditability_score", "enforceability_score", "overall_readiness_score"]
     lines = [f"# Technical Appendix — {processing.get('original_file_name')}", "", "## Document metadata", ""]
     for key in ("original_file_name", "source_sha256", "safe_output_stem"):
@@ -1447,7 +1633,7 @@ def build_technical_appendix(processing: dict, extraction: dict, assessment: dic
         lines.append(f"- Display-normalised quote IDs: {', '.join(normalized_quote_ids)}")
     else:
         lines.append("No primary quote display normalization was required; display quotes match exact extracted substrings.")
-    lines += ["", "## Low-confidence extraction/noise findings", "", f"- Low-confidence extraction noise: {assessment.get('low_confidence_extraction_noise', {})}", f"- Runner warnings: {extraction.get('warnings', [])}", "", "## Low-confidence quote candidates", "", "```json", json.dumps(low_confidence_quote_candidates or [], indent=2, sort_keys=True), "```", "", "## Warnings/errors", "", f"- Warnings: {extraction.get('warnings', [])}", f"- Errors: {extraction.get('errors', [])}", ""]
+    lines += ["", "## Extraction quality profile", "", "```json", json.dumps(extraction_quality_profile or {}, indent=2, sort_keys=True), "```", "", "## Verification-required extracted evidence", "", "```json", json.dumps(verification_required_evidence or [], indent=2, sort_keys=True), "```", "", "## Low-confidence extraction/noise findings", "", f"- Low-confidence extraction noise: {assessment.get('low_confidence_extraction_noise', {})}", f"- Runner warnings: {extraction.get('warnings', [])}", "", "## Low-confidence quote candidates", "", "```json", json.dumps(low_confidence_quote_candidates or [], indent=2, sort_keys=True), "```", "", "## Warnings/errors", "", f"- Warnings: {extraction.get('warnings', [])}", f"- Errors: {extraction.get('errors', [])}", ""]
     return "\n".join(lines)
 
 
@@ -1459,11 +1645,16 @@ Use only the provided deterministic analyst bundle, high-quality `quote_bank`, d
 ## Required analyst approach
 
 - Lead with a document-specific thesis that names the document type, governance force, strongest control area, principal operational gap, and next action.
-- Use quote IDs only from the high-quality `quote_bank` as primary support.
-- Use `display_quote` for prose quotations in the executive narrative, and cite the quote ID. Preserve `exact_quote` as the audit trace to the extracted source substring.
+- Use `primary_quote_evidence` records in `quote_bank` for clean quotation.
+- Use `display_quote` for prose quotations from `quote_bank` in the executive narrative, and cite the quote ID. Preserve `exact_quote` as the audit trace to the extracted source substring.
+- You may discuss `verification_required_extracted_evidence` as evidence-bearing but extraction-impaired source text.
+- Do not present verification-required extracted text as a clean direct quotation.
+- Do not invent or silently repair source text.
+- When using verification-required evidence, state that source verification or cleaner extraction is required.
+- Distinguish source-backed findings from quote-grade evidence; a finding may be supported by source document profile and extracted evidence patterns even when no clean primary quotation is available.
 - Do not cite `low_confidence_quote_candidates` as primary evidence; mention them only in a technical caveat if useful.
-- Do not cite incomplete fragments, heading-only quotes, boilerplate, or extraction-damaged fragments.
-- If available quotes are weak, state that the deterministic quote bank is insufficient and request better source extraction.
+- Do not cite incomplete fragments, heading-only quotes, boilerplate, or extraction-damaged fragments as clean quotation.
+- If available primary quotes are weak, state that quote-grade evidence is insufficient and request source review or better extraction while retaining verification-required evidence.
 - Use a document-specific thesis, not generic LAIF language.
 - Do not invent missing source context to rescue weak quotes.
 - Distinguish “source says X” from “institution has implemented X.”
@@ -1486,6 +1677,8 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
     low_confidence_quote_candidates = build_low_confidence_quote_candidates(extracted_text, processing, extraction, assessment)
     quote_bank = build_quote_bank(extracted_text, processing, extraction, assessment, low_confidence_quote_candidates)
     quote_bank = _finalize_primary_quote_bank(quote_bank, low_confidence_quote_candidates)
+    verification_required_evidence = build_verification_required_evidence(low_confidence_quote_candidates, processing, extraction)
+    extraction_quality_profile = build_extraction_quality_profile(extracted_text, extraction, quote_bank, verification_required_evidence, low_confidence_quote_candidates)
     gaps = build_governance_gap_register(assessment, quote_bank)
     pathways = build_failure_pathways(gaps, quote_bank)
     controls = build_control_recommendations(gaps, pathways, quote_bank)
@@ -1496,6 +1689,13 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
         "governance_repair_fields": {k: assessment.get(k) for k in assessment if k.startswith("governance_")},
         "scores": {k: assessment.get(k) for k in ("structural_score", "terminology_score", "conceptual_proximity_score", "auditability_score", "enforceability_score", "overall_readiness_score")},
         "quote_bank": quote_bank,
+        "verification_required_extracted_evidence": verification_required_evidence,
+        "extraction_quality_profile": extraction_quality_profile,
+        "evidence_tiering_policy": {
+            "tier_1": "primary_quote_evidence",
+            "tier_2": "verification_required_extracted_evidence",
+            "tier_3": "low_confidence_extraction_trace",
+        },
         "gap_register": gaps,
         "failure_pathways": pathways,
         "control_recommendations": controls,
@@ -1507,13 +1707,13 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
     analyst_dir = output_dir / "analyst"
     analyst_dir.mkdir(parents=True, exist_ok=True)
     stem = processing["safe_output_stem"]
-    (output_dir / f"{stem}.institutional_report.md").write_text(build_institutional_report(processing, extraction, assessment, quote_bank, gaps, pathways, controls), encoding="utf-8")
-    (output_dir / f"{stem}.technical_appendix.md").write_text(build_technical_appendix(processing, extraction, assessment, quote_bank, gaps, pathways, controls, low_confidence_quote_candidates), encoding="utf-8")
+    (output_dir / f"{stem}.institutional_report.md").write_text(build_institutional_report(processing, extraction, assessment, quote_bank, gaps, pathways, controls, verification_required_evidence, extraction_quality_profile), encoding="utf-8")
+    (output_dir / f"{stem}.technical_appendix.md").write_text(build_technical_appendix(processing, extraction, assessment, quote_bank, gaps, pathways, controls, low_confidence_quote_candidates, verification_required_evidence, extraction_quality_profile), encoding="utf-8")
     json_dump(analyst_dir / "analyst_bundle.json", bundle)
     with (analyst_dir / "quote_bank.jsonl").open("w", encoding="utf-8") as handle:
         for quote in quote_bank:
             handle.write(json.dumps(quote, sort_keys=True) + "\n")
-    quote_md = ["# Quote Bank", ""]
+    quote_md = ["# Quote Bank", "", "Primary quote evidence only. Verification-required extracted evidence is listed separately and must not be treated as clean direct quotation.", ""]
     for q in _gate_passing_primary_quotes(quote_bank):
         display_quote = q.get("display_quote") or q["exact_quote"]
         quote_md += [
@@ -1534,14 +1734,45 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
                 "",
             ]
         quote_md += [f"- **Why it matters:** {q['why_it_matters']}", f"- **What it does not prove:** {q['what_it_does_not_prove']}", ""]
+    if verification_required_evidence:
+        quote_md += ["", "# Extracted evidence requiring source verification", ""]
+        for evidence in verification_required_evidence:
+            quote_md += [
+                f"## {evidence['evidence_id']} — Source verification required",
+                "",
+                f"- **Status:** {evidence['evidence_status']}",
+                f"- **Issue:** {evidence['extraction_issue_reason']}",
+                f"- **Likely governance signal:** {evidence['likely_governance_signal']}",
+                "",
+                f"- **Extracted text:** {evidence.get('display_quote') or evidence.get('exact_quote')}",
+                "",
+                f"- **Reviewer instruction:** {evidence['reviewer_instruction']}",
+                "",
+            ]
     (analyst_dir / "quote_bank.md").write_text("\n".join(quote_md), encoding="utf-8")
+    verification_md = ["# Verification-Required Extracted Evidence", ""]
+    if verification_required_evidence:
+        for evidence in verification_required_evidence:
+            verification_md += [
+                f"## {evidence['evidence_id']} — Source verification required",
+                "",
+                f"- **Exact quote retained:** {evidence['exact_quote']}",
+                f"- **Display quote:** {evidence.get('display_quote')}",
+                f"- **Issue:** {evidence['extraction_issue_reason']}",
+                f"- **Likely governance signal:** {evidence['likely_governance_signal']}",
+                f"- **Reviewer instruction:** {evidence['reviewer_instruction']}",
+                "",
+            ]
+    else:
+        verification_md.append("No verification-required extracted evidence records were generated.")
+    (analyst_dir / "verification_required_evidence.md").write_text("\n".join(verification_md), encoding="utf-8")
     json_dump(analyst_dir / "governance_gap_register.json", {"gaps": gaps})
     json_dump(analyst_dir / "failure_pathways.json", {"failure_pathways": pathways})
     json_dump(analyst_dir / "control_recommendations.json", {"control_recommendations": controls})
     (analyst_dir / "AI_ANALYST_PROMPT.md").write_text(build_ai_prompt(), encoding="utf-8")
     json_dump(analyst_dir / "AI_ANALYST_INPUT_BUNDLE.json", bundle)
     (analyst_dir / "AI_REPORT_VALIDATION_RULES.md").write_text(build_validation_rules(), encoding="utf-8")
-    return {"quote_bank": quote_bank, "gap_register": gaps, "failure_pathways": pathways, "control_recommendations": controls, "analyst_bundle": bundle, "low_confidence_quote_candidates": low_confidence_quote_candidates}
+    return {"quote_bank": quote_bank, "verification_required_extracted_evidence": verification_required_evidence, "extraction_quality_profile": extraction_quality_profile, "gap_register": gaps, "failure_pathways": pathways, "control_recommendations": controls, "analyst_bundle": bundle, "low_confidence_quote_candidates": low_confidence_quote_candidates}
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Extract a local document and run the LAIF assessment report wrapper.")

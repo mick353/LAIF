@@ -1015,9 +1015,11 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertEqual(bundle["quote_bank"], [])
             report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
             self.assertIn(
-                "No high-confidence complete primary quotes were extracted; use the technical appendix and source text review before relying on evidence.",
+                "No high-confidence complete primary quotes were extracted. Evidence-bearing extracted passages are retained below as source-verification-required evidence and in the analyst bundle.",
                 report,
             )
+            self.assertIn("## Extracted evidence requiring source verification", report)
+            self.assertIn("Source verification required", report)
             low_reasons = "\n".join(q.get("low_confidence_reason", "") for q in bundle.get("low_confidence_quote_candidates", []))
             self.assertIn("final primary quote admission gate failed: incomplete evidence proposition", low_reasons)
 
@@ -1066,6 +1068,87 @@ If you are having difficulties with accessing this document, please email: suppo
                     meta = bundle["document_metadata"]
                     self.assertEqual(meta["document_type"], expected_type)
                     self.assertIn(meta["sector_profile"], expected_sectors)
+
+    def test_phase_3aa_evidence_tiering_mixed_source_behavior(self) -> None:
+        clean_quote = "Providers of high-risk AI systems shall establish, implement, document and maintain a risk management system throughout the lifecycle of the AI system."
+        damaged_relevant = "Providers shall ensure that AI systems intended to interac t directly with natural persons are designed and developed in"
+        incomplete_relevant = "The risk management measures referred to in paragraph 2, point (d), shall be such that the relevant residual risk"
+        boilerplate = "Certain commercial entities, equipment, or materials may be identified in this document in order to describe"
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "OJ_L_202401689_EN_TXT.pdf"
+            out = root / "out"
+            path.write_text("\n\n".join([clean_quote, damaged_relevant, incomplete_relevant, boilerplate]), encoding="utf-8")
+
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            primary_display = "\n".join(q.get("display_quote", q["exact_quote"]) for q in bundle["quote_bank"])
+            verification = bundle.get("verification_required_extracted_evidence", [])
+            verification_exact = "\n".join(q.get("exact_quote", "") for q in verification)
+            low_exact = "\n".join(q.get("exact_quote", "") for q in bundle.get("low_confidence_quote_candidates", []))
+
+            self.assertIn(clean_quote, primary_display)
+            self.assertNotIn(damaged_relevant, primary_display)
+            self.assertNotIn(incomplete_relevant, primary_display)
+            self.assertIn(damaged_relevant, verification_exact)
+            self.assertIn(incomplete_relevant, verification_exact)
+            self.assertNotIn(boilerplate, verification_exact)
+            self.assertTrue(boilerplate in low_exact or boilerplate not in verification_exact)
+            self.assertTrue(all(q.get("evidence_status") == "source_verification_required" for q in verification))
+            self.assertTrue(all(q.get("raw_exact_quote_retained") is True for q in verification))
+            self.assertTrue(all(q.get("likely_governance_signal") for q in verification))
+            self.assertTrue(all(q.get("reviewer_instruction") for q in verification))
+
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            self.assertIn("## Key quoted evidence", report)
+            self.assertIn(clean_quote, report)
+            self.assertIn("## Extracted evidence requiring source verification", report)
+            self.assertIn("Source verification required", report)
+            self.assertIn(damaged_relevant, report)
+            self.assertIn(incomplete_relevant, report)
+            self.assertNotIn("Certain commercial entities", report)
+
+            issue_reasons = "\n".join(q.get("extraction_issue_reason", "") for q in verification)
+            self.assertIn("incomplete evidence proposition", issue_reasons)
+            self.assertIn("split-word extraction damage", issue_reasons)
+
+    def test_phase_3aa_extraction_quality_profile_and_ai_bundle_policy(self) -> None:
+        noisy = "Providers shall ensure that AI systems intended to interac t directly with natural persons are designed and developed in"
+        clean = "Providers of high-risk AI systems shall establish, implement, document and maintain a risk management system throughout the lifecycle of the AI system."
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            noisy_path = root / "OJ_L_202401689_EN_TXT.pdf"
+            clean_path = root / "clean_OJ_L_202401689_EN_TXT.pdf"
+            noisy_out = root / "noisy_out"
+            clean_out = root / "clean_out"
+            noisy_path.write_text(noisy, encoding="utf-8")
+            clean_path.write_text(clean, encoding="utf-8")
+
+            self.run_cli([str(noisy_path), "--output-dir", str(noisy_out), "--mode", "external_framework", "--sector", "auto"])
+            self.run_cli([str(clean_path), "--output-dir", str(clean_out), "--mode", "external_framework", "--sector", "auto"])
+
+            noisy_bundle = json.loads((noisy_out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            noisy_profile = noisy_bundle.get("extraction_quality_profile") or {}
+            self.assertIn(noisy_profile.get("extraction_quality_level"), {"limited", "poor"})
+            self.assertTrue(noisy_profile.get("verification_required_evidence_present"))
+            self.assertFalse(noisy_profile.get("primary_quote_eligible"))
+            self.assertIn("cleaner text extraction", noisy_profile.get("recommended_user_action", ""))
+            self.assertIn("verification_required_extracted_evidence", noisy_bundle)
+            self.assertIn("quote_bank", noisy_bundle)
+            self.assertIn("low_confidence_quote_candidates", noisy_bundle)
+
+            clean_bundle = json.loads((clean_out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            clean_profile = clean_bundle.get("extraction_quality_profile") or {}
+            self.assertIn(clean_profile.get("extraction_quality_level"), {"high", "moderate"})
+            self.assertTrue(clean_profile.get("primary_quote_eligible"))
+            self.assertEqual(clean_bundle.get("verification_required_extracted_evidence"), [])
+
+            prompt = (noisy_out / "analyst" / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
+            self.assertIn("primary_quote_evidence", prompt)
+            self.assertIn("verification_required_extracted_evidence", prompt)
+            self.assertIn("Do not present verification-required extracted text as a clean direct quotation", prompt)
+            self.assertIn("Do not invent or silently repair source text", prompt)
 
     def test_phase_3z_no_external_ai_api_network_patterns_added(self) -> None:
         haystack = "\n".join(
