@@ -1015,7 +1015,7 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertEqual(bundle["quote_bank"], [])
             report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
             self.assertIn(
-                "No high-confidence complete primary quotes were extracted. Evidence-bearing extracted passages are retained below as source-verification-required evidence and in the analyst bundle.",
+                "No high-confidence complete primary quotes are presented because source text extraction quality is limited or poor. Evidence-bearing extracted passages are retained below as source-verification-required evidence and in the analyst bundle.",
                 report,
             )
             self.assertIn("## Extracted evidence requiring source verification", report)
@@ -1149,6 +1149,131 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertIn("verification_required_extracted_evidence", prompt)
             self.assertIn("Do not present verification-required extracted text as a clean direct quotation", prompt)
             self.assertIn("Do not invent or silently repair source text", prompt)
+
+
+    def test_phase_3aa1_poor_extraction_policy_overrides_primary_quote_count(self) -> None:
+        bad_fragments = [
+            "(155) In order to ensure that providers of high-risk AI systems can take into account the experience on the use of high-risk AI systems for impro ving their systems and the design and development process or can take any possible cor rective action in a timely manner, all providers should have a post-mark et monitoring system in place.",
+            "(63) The fact that an AI system is classif ied as a high-risk AI system under this Regulation should not be inter preted as",
+            "(65) The risk-management system should consist of a continuous, ite rative process that is planned and r un throughout",
+            "Codes of practice should also be f ocused on specific risk assessment and mitiga tion measures.",
+        ]
+        superficially_valid_primary = "Providers of high-risk AI systems shall establish, implement, document and maintain a risk management system throughout the lifecycle of the AI system."
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "OJ_L_202401689_EN_TXT.pdf"
+            out = root / "out"
+            path.write_text("\n\n".join([*bad_fragments, superficially_valid_primary]), encoding="utf-8")
+
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            profile = bundle["extraction_quality_profile"]
+            self.assertEqual(profile["extraction_quality_level"], "poor")
+            self.assertGreater(profile["primary_quote_count"], 0)
+            self.assertFalse(profile["primary_quote_eligible"])
+            self.assertTrue(bundle.get("verification_required_extracted_evidence"))
+
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            self.assertIn("## Key quoted evidence", report)
+            self.assertIn("No high-confidence complete primary quotes are presented because source text extraction quality is limited or poor", report)
+            self.assertIn("## Extracted evidence requiring source verification", report)
+            key_section = report.split("## Key quoted evidence", 1)[1].split("## Extracted evidence requiring source verification", 1)[0]
+            self.assertNotIn("- **Q", key_section)
+            self.assertNotIn(superficially_valid_primary, key_section)
+
+    def test_phase_3aa1_eu_damaged_fragments_not_rendered_as_key_quoted_evidence_when_poor(self) -> None:
+        bad_fragments = [
+            "(155) In order to ensure that providers of high-risk AI systems can take into account the experience on the use of high-risk AI systems for impro ving their systems and the design and development process or can take any possible cor rective action in a timely manner, all providers should have a post-mark et monitoring system in place.",
+            "(63) The fact that an AI system is classif ied as a high-risk AI system under this Regulation should not be inter preted as",
+            "(65) The risk-management system should consist of a continuous, ite rative process that is planned and r un throughout",
+            "Codes of practice should also be f ocused on specific risk assessment and mitiga tion measures.",
+        ]
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "OJ_L_202401689_EN_TXT.pdf"
+            out = root / "out"
+            path.write_text("\n\n".join(bad_fragments), encoding="utf-8")
+
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            key_section = report.split("## Key quoted evidence", 1)[1].split("## Extracted evidence requiring source verification", 1)[0]
+            for damaged in ["impro ving", "cor rective", "post-mark et", "classif ied", "inter preted", "ite rative", "r un", "f ocused", "mitiga tion"]:
+                self.assertNotIn(damaged, key_section)
+            verification_section = report.split("## Extracted evidence requiring source verification", 1)[1]
+            self.assertIn("impro ving", verification_section)
+            self.assertIn("mitiga tion", verification_section)
+
+    def test_phase_3aa1_clean_source_still_renders_primary_quotes(self) -> None:
+        clean_quotes = [
+            "Providers of high-risk AI systems shall establish, implement, document and maintain a risk management system throughout the lifecycle of the AI system.",
+            "Providers shall keep the technical documentation up to date and retain evidence necessary to demonstrate conformity with applicable requirements.",
+        ]
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "clean_governance.txt"
+            out = root / "out"
+            path.write_text("\n\n".join(clean_quotes), encoding="utf-8")
+
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            profile = bundle["extraction_quality_profile"]
+            self.assertIn(profile["extraction_quality_level"], {"high", "moderate"})
+            self.assertTrue(profile["primary_quote_eligible"])
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            self.assertIn(clean_quotes[0], report)
+            self.assertIn("technical documentation up to date", report)
+
+    def test_phase_3aa1_mixed_moderate_renders_clean_primary_and_verification_required(self) -> None:
+        clean_quotes = [
+            "Providers of high-risk AI systems shall establish, implement, document and maintain a risk management system throughout the lifecycle of the AI system.",
+            "Providers shall keep the technical documentation up to date and retain evidence necessary to demonstrate conformity with applicable requirements.",
+        ]
+        damaged_quote = "Providers shall ensure that AI systems intended to interac t directly with natural persons are designed and developed in"
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "mixed_governance.txt"
+            out = root / "out"
+            path.write_text("\n\n".join([*clean_quotes, damaged_quote]), encoding="utf-8")
+
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            profile = bundle["extraction_quality_profile"]
+            self.assertEqual(profile["extraction_quality_level"], "moderate")
+            self.assertTrue(profile["primary_quote_eligible"])
+            self.assertTrue(bundle.get("verification_required_extracted_evidence"))
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            key_section = report.split("## Key quoted evidence", 1)[1].split("## Extracted evidence requiring source verification", 1)[0]
+            verification_section = report.split("## Extracted evidence requiring source verification", 1)[1]
+            self.assertIn(clean_quotes[0], key_section)
+            self.assertIn("technical documentation up to date", key_section)
+            self.assertIn(damaged_quote, verification_section)
+
+    def test_phase_3aa1_ai_bundle_policy_when_primary_quote_ineligible(self) -> None:
+        noisy = "Providers shall ensure that AI systems intended to interac t directly with natural persons are designed and developed in"
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "OJ_L_202401689_EN_TXT.pdf"
+            out = root / "out"
+            path.write_text(noisy, encoding="utf-8")
+
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+
+            ai_bundle = json.loads((out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            profile = ai_bundle["extraction_quality_profile"]
+            self.assertFalse(profile["primary_quote_eligible"])
+            self.assertFalse(ai_bundle["primary_quote_eligible"])
+            self.assertIn("quote_bank", ai_bundle)
+            self.assertTrue(ai_bundle.get("verification_required_extracted_evidence"))
+            self.assertIn("primary_quote_policy_note", ai_bundle)
+
+            prompt = (out / "analyst" / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
+            self.assertIn("extraction_quality_profile.primary_quote_eligible", prompt)
+            self.assertIn("do not use `quote_bank` as clean primary evidence", prompt)
+            self.assertIn("Do not present verification-required extracted text as a clean direct quotation", prompt)
 
     def test_phase_3z_no_external_ai_api_network_patterns_added(self) -> None:
         haystack = "\n".join(
