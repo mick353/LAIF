@@ -806,6 +806,69 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertEqual(good_incident_quote["display_quote"], good_incident)
             self.assertEqual(good_training_quote["display_quote"], good_training)
 
+    def test_phase_3z4_generic_quote_readability_gate(self) -> None:
+        repairable = "T o that end, appropr iate human oversight measures should be identifie d by the pro vider of the system bef ore its placing on the market or putting into ser vice."
+        unresolved = "The risk managem ent measures refer red to shall be suc h that unresolvedsplit dam age remains."
+        clean = "Providers of high-risk AI systems shall establish, implement, document and maintain a risk management system throughout the lifecycle of the AI system."
+        bad_through = "This policy requires agencies to provide a way to manage AI incidents through"
+        bad_within = "Agencies must implement mandatory training for all staff on responsible AI use within"
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "OJ_L_202401689_EN_TXT.pdf"
+            out = root / "out"
+            path.write_text("\n\n".join([repairable, unresolved, clean, bad_through, bad_within]), encoding="utf-8")
+
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            primary_display = "\n".join(q.get("display_quote", q["exact_quote"]) for q in bundle["quote_bank"])
+            primary_exact = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
+            low = bundle.get("low_confidence_quote_candidates", [])
+            low_exact = "\n".join(q.get("exact_quote", "") for q in low)
+            low_reasons = "\n".join(q.get("low_confidence_reason", "") for q in low)
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+
+            self.assertIn("To that end, appropriate human oversight measures should be identified by the provider", primary_display)
+            self.assertIn("T o that end", primary_exact)
+            self.assertIn(clean, primary_display)
+            self.assertNotIn("unresolvedsplit dam age", primary_display)
+            self.assertIn(unresolved, low_exact)
+            self.assertIn("display quote contains unresolved PDF split-word extraction damage", low_reasons)
+            self.assertIn(bad_through, low_exact)
+            self.assertIn(bad_within, low_exact)
+            self.assertIn("incomplete quote could not be expanded", low_reasons)
+
+            unresolved_candidate = next(q for q in low if q.get("exact_quote") == unresolved)
+            self.assertIn("display_quote", unresolved_candidate)
+            self.assertTrue(unresolved_candidate["raw_exact_quote_retained"])
+            self.assertIn("quote_quality_reason", unresolved_candidate)
+
+            self.assertIn("appropriate human oversight measures", report)
+            self.assertIn("Providers of high-risk AI systems shall establish", primary_display)
+            for damaged_fragment in (
+                "T o",
+                "appropr iate",
+                "identifie d",
+                "pro vider",
+                "bef ore",
+                "ser vice",
+                "repor t",
+                "managem ent",
+                "refer red",
+                "suc h",
+            ):
+                self.assertNotIn(damaged_fragment, primary_display)
+                self.assertNotIn(damaged_fragment, report)
+
+    def test_phase_3z4_unresolved_split_word_detector_allows_clean_governance_terms(self) -> None:
+        clean = "AI, EU, US, UK, ISO and NIST guidance under the Act and Article provisions refers to risk management for providers."
+        damaged = "Providers shall repor t incidents and maintain dam age records for oversight."
+        self.assertEqual(runner.unresolved_split_word_damage(clean), (False, ""))
+        self.assertEqual(
+            runner.unresolved_split_word_damage(damaged),
+            (True, "display quote contains unresolved PDF split-word extraction damage"),
+        )
+
     def test_phase_3z1_real_artifact_profile_smoke(self) -> None:
         cases = {
             "2023-24283.pdf": ("Executive Order on Safe, Secure, and Trustworthy Artificial Intelligence. Federal agencies shall develop guidance, manage risks, protect privacy, report implementation, and assign responsibilities to Secretaries and agency heads.", "executive_policy_directive", {"government_service_delivery", "general_ai_governance"}),
