@@ -860,6 +860,96 @@ If you are having difficulties with accessing this document, please email: suppo
                 self.assertNotIn(damaged_fragment, primary_display)
                 self.assertNotIn(damaged_fragment, report)
 
+    def test_phase_3z5_final_primary_evidence_admission_gate(self) -> None:
+        damaged_incident = "Providers of high-risk AI syste ms placed on the Union marke t shall repor t any serious incident to the competent authority."
+        repairable_risk = "The risk managem ent measures refer red to shall be suc h that risks are mitigated."
+        incomplete = "This policy requires agencies to provide a way to manage AI incidents through"
+        clean = "Providers of high-risk AI systems shall establish, implement, document and maintain a risk management system throughout the lifecycle of the AI system."
+        safely_repaired = "T o that end, appropr iate human oversight measures should be identifie d by the pro vider of the system bef ore its placing on the market or putting into ser vice."
+        bad_fragments = (
+            "syste ms",
+            "marke t",
+            "repor t",
+            "managem ent",
+            "refer red",
+            "suc h",
+            "T o",
+            "appropr iate",
+            "identifie d",
+            "pro vider",
+            "bef ore",
+            "ser vice",
+        )
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "OJ_L_202401689_EN_TXT.pdf"
+            out = root / "out"
+            path.write_text("\n\n".join([damaged_incident, repairable_risk, incomplete, clean, safely_repaired]), encoding="utf-8")
+
+            self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
+
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            primary_display = "\n".join(q.get("display_quote", q["exact_quote"]) for q in bundle["quote_bank"])
+            primary_exact = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
+            low = bundle.get("low_confidence_quote_candidates", [])
+            low_exact = "\n".join(q.get("exact_quote", "") for q in low)
+            low_reasons = "\n".join(q.get("low_confidence_reason", "") for q in low)
+
+            for fragment in bad_fragments:
+                self.assertNotIn(fragment, primary_display)
+            self.assertNotIn(damaged_incident, primary_exact)
+            self.assertIn(damaged_incident, low_exact)
+            self.assertIn(incomplete, low_exact)
+            self.assertIn("final primary quote admission gate failed", low_reasons)
+            self.assertIn("incomplete quote could not be expanded", low_reasons)
+
+            self.assertIn(clean, primary_display)
+            clean_quote = next(q for q in bundle["quote_bank"] if q.get("display_quote") == clean)
+            self.assertEqual(clean_quote["display_quote"], clean_quote["exact_quote"])
+            self.assertTrue(clean_quote["raw_exact_quote_retained"])
+
+            repaired_quote = next(q for q in bundle["quote_bank"] if "appropriate human oversight measures should be identified by the provider" in q.get("display_quote", ""))
+            self.assertIn("T o that end", repaired_quote["exact_quote"])
+            self.assertNotIn("T o", repaired_quote["display_quote"])
+            self.assertTrue(repaired_quote["raw_exact_quote_retained"])
+
+            damaged_candidate = next(q for q in low if q.get("exact_quote") == damaged_incident)
+            self.assertIn("exact_quote", damaged_candidate)
+            self.assertIn("display_quote", damaged_candidate)
+            self.assertTrue(damaged_candidate["raw_exact_quote_retained"])
+
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            for fragment in bad_fragments:
+                self.assertNotIn(fragment, report)
+            self.assertIn("Providers of high-risk AI systems shall establish", report)
+            self.assertIn("appropriate human oversight measures should be identified by the provider", report)
+
+            quote_bank_md = (out / "analyst" / "quote_bank.md").read_text(encoding="utf-8")
+            primary_display_lines = "\n".join(line for line in quote_bank_md.splitlines() if line.startswith("> "))
+            for fragment in bad_fragments:
+                self.assertNotIn(fragment, primary_display_lines)
+
+            ai_bundle = json.loads((out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            ai_display = "\n".join(q.get("display_quote", q["exact_quote"]) for q in ai_bundle["quote_bank"])
+            for fragment in bad_fragments:
+                self.assertNotIn(fragment, ai_display)
+
+    def test_phase_3z5_validator_blocks_high_scoring_damaged_display_quote(self) -> None:
+        record = {
+            "exact_quote": "Providers of high-risk AI syste ms placed on the Union marke t shall repor t any serious incident to the competent authority.",
+            "display_quote": "Providers of high-risk AI syste ms placed on the Union marke t shall repor t any serious incident to the competent authority.",
+            "quote_display_normalized": False,
+            "quote_display_normalization_reason": "",
+            "raw_exact_quote_retained": True,
+            "quote_quality_score": 95,
+            "quote_quality_reason": "primary evidence: complete governance action with actor/control context",
+            "low_confidence_reason": "",
+        }
+        ok, reason = runner.validate_primary_quote_record(record)
+        self.assertFalse(ok)
+        self.assertIn("final primary quote admission gate failed", reason)
+        self.assertIn("display quote contains unresolved PDF split-word extraction damage", reason)
+
     def test_phase_3z4_unresolved_split_word_detector_allows_clean_governance_terms(self) -> None:
         clean = "AI, EU, US, UK, ISO and NIST guidance under the Act and Article provisions refers to risk management for providers."
         damaged = "Providers shall repor t incidents and maintain dam age records for oversight."
