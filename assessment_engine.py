@@ -2054,8 +2054,42 @@ def _strong_public_sector_policy_hits(haystack):
     return hits
 
 
+def _identity_document_type(text, name="", source_type=""):
+    """Resolve known real-artifact identities from filename/title/source anchors."""
+    identity_haystack = f"{name or ''} {source_type or ''}".lower()
+    full_haystack = f"{identity_haystack} {text or ''}".lower()
+    compact_identity = re.sub(r"[^a-z0-9]+", " ", identity_haystack).strip()
+
+    if (
+        "oj_l_202401689" in identity_haystack
+        or "artificial intelligence act" in full_haystack
+        or "regulation laying down harmonised rules on artificial intelligence" in full_haystack
+    ):
+        return "binding_legal_instrument"
+    if (
+        "2023-24283" in identity_haystack
+        or ("executive order" in full_haystack and "safe, secure, and trustworthy artificial intelligence" in full_haystack)
+    ):
+        return "executive_policy_directive"
+    if (
+        "nist.ai.100-1" in identity_haystack
+        or "nist ai 100 1" in compact_identity
+        or "ai rmf" in full_haystack
+        or "artificial intelligence risk management framework" in full_haystack
+    ):
+        return "voluntary_risk_framework"
+    if "dtac" in identity_haystack or "digital technology assessment criteria" in full_haystack:
+        return "sector_assurance_checklist"
+    if "policy for the responsible use of ai in government" in full_haystack:
+        return "public_sector_policy"
+    return None
+
+
 def classify_document_type(text, name="", source_type=""):
-    """Classify document type with deterministic precedence independent of sector routing."""
+    """Classify document type with identity anchors before precedence-ranked text patterns."""
+    identity = _identity_document_type(text, name, source_type)
+    if identity:
+        return identity
     haystack = f"{name or ''} {source_type or ''} {text or ''}".lower()
     candidates = []
     for doc_type, patterns in _DOCUMENT_TYPE_PATTERNS:
@@ -2064,22 +2098,22 @@ def classify_document_type(text, name="", source_type=""):
             candidates.append((score, doc_type))
     if not candidates:
         return "unknown_governance_document"
-    # Precedence is authoritative: stronger identities override public-sector policy
-    # even when public-sector operating-policy vocabulary is also present.
+    # Precedence is authoritative for text-pattern classification; public-sector
+    # policy cannot override stronger legal/directive/framework/checklist signals.
     return min(candidates, key=lambda item: _DOCUMENT_TYPE_PRECEDENCE_RANK[item[1]])[1]
 
 
-def dominant_sector_for_document(text, document_type, requested_sector="auto"):
-    """Route broad documents by document identity before keyword-sector fallbacks."""
+def dominant_sector_for_document(text, document_type, requested_sector="auto", name=""):
+    """Route broad documents by final document type before keyword-sector fallbacks."""
     if requested_sector and requested_sector != "auto":
         return requested_sector
-    lowered = (text or "").lower()
+    lowered = f"{name or ''} {text or ''}".lower()
     if document_type in {"binding_legal_instrument", "voluntary_risk_framework"}:
         return "general_ai_governance"
     if document_type == "executive_policy_directive":
-        return "government_service_delivery" if any(term in lowered for term in ("federal agencies", "agency heads", "secretaries", "public service")) else "general_ai_governance"
-    if document_type == "sector_assurance_checklist" and any(term in lowered for term in ("clinical", "patient", "nhs", "dcb0129", "hazard log")):
-        return "clinical_ai"
+        return "government_service_delivery" if any(term in lowered for term in ("federal agencies", "agency heads", "secretaries", "public service", "executive order")) else "general_ai_governance"
+    if document_type == "sector_assurance_checklist":
+        return "clinical_ai" if any(term in lowered for term in ("clinical", "patient", "nhs", "dcb0129", "hazard log", "dtac")) else "general_ai_governance"
     if document_type == "public_sector_policy":
         return "government_service_delivery" if _strong_public_sector_policy_hits(lowered) >= 2 else "general_ai_governance"
     return "general_ai_governance"
@@ -2433,8 +2467,9 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     # Sector analysis
     # Source: LAIF_Compliance_Toolkit.txt §7.5 — PDCA tiering by sector/stakes;
     # Toolkit §1.2 — Materially Affects Interests is the sector gateway test.
-    early_document_type = classify_document_type(text, name, source_type)
-    resolved_sector = dominant_sector_for_document(text, early_document_type, sector) if sector == "auto" else sector
+    identity_name = " ".join(str(part) for part in (name, source_type, meta.get("original_file_name", ""), meta.get("original_pending_path", ""), meta.get("stored_source_path", ""), meta.get("runner_input_path", "")) if part)
+    early_document_type = classify_document_type(text, identity_name, source_type)
+    resolved_sector = dominant_sector_for_document(text, early_document_type, sector, identity_name) if sector == "auto" else sector
     profile_key = _sector_profile_key(resolved_sector)
     profile = _sector_profile_metadata(profile_key)
     profile_signals = _sector_profile_signals(text, profile_key)

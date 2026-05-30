@@ -136,6 +136,33 @@ class GithubActionsDocumentProcessingTests(unittest.TestCase):
             self.assertIn("batch_institutional_outputs", summary)
 
 
+
+    def test_phase_3z1_batch_preserves_real_filename_identity_classification(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            pending = root / "pending"
+            pending.mkdir()
+            (pending / "NIST.AI.100-1.docx").write_text(
+                "Artificial Intelligence Risk Management Framework. This voluntary framework helps organizations govern, map, measure, and manage AI risks. It is non-sector-specific and use-case agnostic.",
+                encoding="utf-8",
+            )
+            (pending / "DTAC_Form_2.0_February_2026.docx").write_text(
+                "Digital Technology Assessment Criteria. Clinical safety DCB0129, clinical safety case, hazard log, Clinical Safety Officer, patient care, NHS data protection, technical security, and interoperability.",
+                encoding="utf-8",
+            )
+            summary = self.run_batch(root, "--max-files", "2")
+            self.assertEqual(summary["success_count"], 2)
+            expected = {
+                "NIST.AI.100-1.docx": ("voluntary_risk_framework", "general_ai_governance"),
+                "DTAC_Form_2.0_February_2026.docx": ("sector_assurance_checklist", "clinical_ai"),
+            }
+            for success in summary["successes"]:
+                bundle = json.loads((Path(success["reports_dir"]) / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+                meta = bundle["document_metadata"]
+                expected_type, expected_sector = expected[success["original_file_name"]]
+                self.assertEqual(meta["document_type"], expected_type)
+                self.assertEqual(meta["sector_profile"], expected_sector)
+
     def test_phase_3x_batch_report_uses_governance_force_matrix_language(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
