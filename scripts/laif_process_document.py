@@ -463,7 +463,7 @@ SIGNAL_CATEGORIES: list[tuple[str, tuple[str, ...], str]] = [
     ("data protection", ("data protection", "data governance", "data quality"), "data_governance"),
     ("privacy", ("privacy", "privacy-enhanced", "confidentiality"), "privacy_control"),
     ("audit/documentation", ("audit", "documentation", "document", "evidence", "record", "traceability"), "evidence_artifact"),
-    ("monitoring/review", ("monitor", "review", "evaluate", "assessment"), "monitoring_review"),
+    ("monitoring/review", ("monitor", "review", "evaluate", "assessment", "supervision"), "monitoring_review"),
     ("incident reporting", ("incident", "reporting", "safety incident"), "incident_response"),
     ("accountability/owner", ("accountability", "accountable", "owner", "responsible", "assign"), "ownership"),
     ("enforcement/consequence", ("enforcement", "consequence", "penalty", "shall", "must"), "enforcement"),
@@ -502,8 +502,8 @@ STRONG_QUOTE_TERMS = (
 ACTION_QUOTE_TERMS = STRONG_QUOTE_TERMS + ("manage", "assign", "maintain", "protect", "report", "disclose")
 BOILERPLATE_QUOTE_RE = re.compile(r"(difficulties with accessing|accessibility|contact us|support@|@\w|email:|telephone|copyright|isbn|all rights reserved|certain commercial entities, equipment, or materials may be identified)", re.IGNORECASE)
 GENERIC_FRAGMENT_RE = re.compile(r"(?:requirements agencies must follow|monitoring, will help ensure|this document in order to describe|to combat this risk, the federal government will ensure that the collection|the assessment must be documented and take|the notification shall contain the conclusions of the assessment|by la ying down those r ules)", re.IGNORECASE)
-PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:super vision|inv estig ation|enf or cement|monitor ing|obliga tion|ar ticle|ser ious|general-pur pose|g eneral-pur pose|provid er|provid ed|ensur ing|har monisation|uni on|f alsifi ed|accompanie d|r isk|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment|syste m|g enerated|cont ent|ai-g enerated|f or)\b", re.IGNORECASE)
-INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|take|taken|should|must|shall|will)\s*$", re.IGNORECASE)
+PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:super vision|inv estig ation|enf or cement|monitor ing|obliga tion|ar ticle|ser ious|general-pur pose|g eneral-pur pose|provid er|provid ed|ensur ing|har monisation|uni on|f alsifi ed|accompanie d|r isk|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment|syste ms?|g enerated|cont ent|ai-g enerated|f or|exper ience|regard ing|marke t|comp et ent author ity|author ity|comp et ent|super visory|notifi cation|docu mentation|imple mentation|imple ment|assess ment|require ments|deci sions?)\b", re.IGNORECASE)
+INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|take|taken|should|must|shall|will|through|within|including|regarding|by|from|under|related\s+to|in\s+relation\s+to|as\s+part\s+of|in\s+order\s+to)\s*$", re.IGNORECASE)
 TOC_QUOTE_RE = re.compile(r"^\s*(?:\d+(?:\.\d+)*\s+){0,2}[A-Z][A-Za-z&/ -]{2,70}\s+\d{1,4}\s*$")
 TITLE_ONLY_RE = re.compile(r"^[A-Z][A-Za-z0-9&/:,() -]{8,80}$")
 BROKEN_GLYPH_RE = re.compile(r"\b[A-Za-z]{1,3}(?:\s+[A-Za-z]{1,3}){4,}\b", re.IGNORECASE)
@@ -533,6 +533,22 @@ DISPLAY_QUOTE_REPAIRS: tuple[tuple[str, str], ...] = (
     ("inv estig ation", "investigation"),
     ("enf or cement", "enforcement"),
     ("monitor ing", "monitoring"),
+    ("exper ience", "experience"),
+    ("syste ms", "systems"),
+    ("regard ing", "regarding"),
+    ("marke t", "market"),
+    ("comp et ent author ity", "competent authority"),
+    ("author ity", "authority"),
+    ("comp et ent", "competent"),
+    ("super visory", "supervisory"),
+    ("notifi cation", "notification"),
+    ("docu mentation", "documentation"),
+    ("imple mentation", "implementation"),
+    ("imple ment", "implement"),
+    ("assess ment", "assessment"),
+    ("require ments", "requirements"),
+    ("deci sions", "decisions"),
+    ("deci sion", "decision"),
     ("obliga tion", "obligation"),
     ("Ar ticle", "Article"),
     ("provid er", "provider"),
@@ -669,6 +685,17 @@ def _expanded_sentence_window(text: str, start: int, end: int) -> tuple[int, int
     return start, end, text[start:end].strip()
 
 
+def _expand_incomplete_candidate(text: str, start: int, end: int, quote: str) -> tuple[int, int, str]:
+    """Expand bridge-ending evidence only to source sentence/paragraph boundaries."""
+    display_quote = _normalized_for_quality(quote)
+    if not _incomplete_quote_reason(display_quote):
+        return start, end, quote
+    expanded_start, expanded_end, expanded_quote = _expanded_sentence_window(text, start, end)
+    expanded_display = _normalized_for_quality(expanded_quote)
+    if (expanded_start, expanded_end, expanded_quote) != (start, end, quote) and not _incomplete_quote_reason(expanded_display):
+        return expanded_start, expanded_end, expanded_quote
+    return start, end, quote
+
 def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
     """Score candidate evidence before it can enter the primary quote bank."""
     raw_clean = " ".join((quote or "").split())
@@ -772,6 +799,7 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
         if best is None:
             continue
         start, end, quote = best
+        start, end, quote = _expand_incomplete_candidate(text, start, end, quote)
         if (start, end, category) in seen or quote not in text:
             continue
         score, reason = quote_quality(quote, extraction)
@@ -806,8 +834,48 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
         })
         if len(records) >= 12:
             break
+    if len(records) < 12:
+        for start, end, quote in spans:
+            if any(existing["exact_quote"] == quote for existing in records):
+                continue
+            score, reason = quote_quality(quote, extraction)
+            display_fields = _quote_display_fields(quote)
+            if score < 70 or not display_fields["quote_display_normalized"] or _incomplete_quote_reason(display_fields["display_quote"]):
+                continue
+            context_start = max(0, start - 160)
+            context_end = min(len(text), end + 160)
+            records.append({
+                "quote_id": f"Q{len(records)+1:03d}",
+                "source_file": processing.get("stored_source_path") or processing.get("input_path"),
+                "original_file_name": processing.get("original_file_name"),
+                "source_sha256": processing.get("source_sha256"),
+                "document_type": assessment.get("document_type", "unknown_governance_document"),
+                "sector_profile": assessment.get("sector_profile", "general_ai_governance"),
+                "signal_category": "display-normalised source evidence",
+                "exact_quote": quote,
+                **display_fields,
+                "surrounding_context": text[context_start:context_end].strip(),
+                "start_offset": start,
+                "end_offset": end,
+                "extraction_confidence": extraction.get("extraction_confidence", "unknown"),
+                "why_it_matters": "This source evidence required deterministic display normalisation while retaining exact extracted text.",
+                "what_it_proves": "The document contains a complete governance signal affected by repairable PDF intra-word spacing.",
+                "what_it_does_not_prove": "It does not prove implementation, sufficiency, legal validity, certification, or operational adoption.",
+                "linked_governance_repair_field": "source_excerpt",
+                "linked_gap_ids": [],
+                "low_confidence_reason": "",
+                "quote_quality_score": score,
+                "quote_quality_reason": reason,
+            })
+            if len(records) >= 12:
+                break
+    if records:
+        records = sorted(records, key=lambda record: 0 if record.get("quote_display_normalized") else 1)
+        for idx, record in enumerate(records, start=1):
+            record["quote_id"] = f"Q{idx:03d}"
     if not records:
         for start, end, quote in spans[:1]:
+            start, end, quote = _expand_incomplete_candidate(text, start, end, quote)
             score, reason = quote_quality(quote, extraction)
             if score < 70 or quote not in text:
                 continue
