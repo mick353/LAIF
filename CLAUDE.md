@@ -2,7 +2,10 @@
 
 ## Repository Overview
 
-This is a **documentation-only repository** for the Law-Aligned Intelligence Framework (LAIF), a constitutional-level governance standard for AI systems. There is no source code. All files are governance documents in `.docx` or `.txt` format.
+This repository holds the Law-Aligned Intelligence Framework (LAIF), a constitutional-level governance standard for AI systems, in two layers:
+
+1. **The governance corpus** — the framework documents in `.docx` and `.txt` format (the "constitution" and its applied instruments).
+2. **A Python enforcement toolchain** — a validation harness, an assessment engine that scores external governance documents against LAIF, a two-tier assessment corpus with machine-verified provenance, and test suites. Plain Python 3, standard library only — no third-party dependencies.
 
 - **Version**: LAIF v1.2 | Compliance Toolkit v1.1
 - **Date**: April 2026
@@ -15,18 +18,31 @@ This is a **documentation-only repository** for the Law-Aligned Intelligence Fra
 ```
 LAIF/
 ├── LAIF-Law-Aligned_Intelligence_Framework.txt   # Navigation index / START HERE
-├── README.md                                      # One-line project description
+├── README.md                                      # Project overview
 │
+│  # Governance corpus (each .docx has a matching .txt export for search/programmatic access)
 ├── LAIF_Executive_Brief.docx          # 2-min overview; START HERE for new readers
 ├── LAIF_Public_Article.docx           # 5–7 min public-facing governance audit article
-│
 ├── LAIF_v1.2.docx                     # CORE: The principal framework text (the "constitution")
-│
 ├── LAIF_PDCA_GPT4_Clinical.docx       # Applied PDCA: GPT-4 Clinical Documentation Assistant
 ├── LAIF_Case_Analysis.docx            # Retrospective analysis across 8 AI governance failures
 ├── LAIF_Compliance_Toolkit.docx       # Operational definitions and standards (v1.1)
 ├── LAIF_Policy_Paper.docx             # Academic/policy paper: Coupling, Consistency, Reversibility
-└── LAIF REGULATORY INTEGRATION GUIDE.docx  # Step-by-step EU AI Act + US federal integration
+├── LAIF REGULATORY INTEGRATION GUIDE.docx  # Step-by-step EU AI Act + US federal integration
+│
+│  # Enforcement toolchain (Python 3, stdlib only)
+├── laif_spec.py             # Canonical spec: terms, forbidden paraphrases, Integrity Layer, tiers
+├── validate.py              # 9-check validation harness over the .txt corpus (exit 1 on rule failure)
+├── assessment_engine.py     # 5-dimension scoring engine + markdown report generator
+├── sample_documents.py      # Assessment corpus tier 2: REPRESENTATIVE_EXCERPT (illustrative)
+├── official_documents.py    # Assessment corpus tier 1: OFFICIAL_EXCERPT (verbatim, SHA-256-pinned; citable)
+├── corpus_manifest.md       # Provenance rules and per-document manifest for both corpus tiers
+├── test_adversarial.py      # 82 adversarial tests against the guards and depth checks
+├── test_provenance.py       # 48 provenance checks enforcing citability claims
+├── test_real_world.py       # Assessment run over both corpora → reports/laif_real_world_assessment.md
+│
+├── docs/supporting/         # Verbatim ingested source texts (EO 14110, OECD, NIST AI 100-1, NHS DTAC)
+└── reports/                 # Generated assessment report (deterministic; regenerate, don't hand-edit)
 ```
 
 ### Conceptual Document Hierarchy
@@ -141,21 +157,52 @@ LAIF v1.2 explicitly incorporates and integrates with:
 
 ## Working in This Repository
 
-### There Is No Build System
+### Commands — Run All Three Before Any Commit
 
-This is a pure documentation repository. There are no:
-- Build scripts, Makefiles, or CI pipelines
-- Package managers (npm, pip, etc.)
-- Test suites
-- Code linters
+There is no build step, package manager, or CI pipeline — the toolchain is plain
+Python 3 standard library. The pre-commit gate is these three commands, all of
+which must exit 0:
 
-Workflow is entirely manual document editing and version management via git.
+```bash
+python3 validate.py           # 9-check harness over the .txt corpus (rule failures = exit 1)
+python3 test_adversarial.py   # 82 adversarial tests on guards and structural-depth checks
+python3 test_provenance.py    # 48 checks enforcing corpus citability claims
+```
+
+To regenerate the assessment report (also acts as an integration test):
+
+```bash
+python3 test_real_world.py    # writes reports/laif_real_world_assessment.md
+```
+
+The report must be deterministic: running it twice must produce no diff. Never
+hand-edit `reports/` output — change the engine or corpus and regenerate.
+
+### Corpus Provenance Rules (Machine-Enforced)
+
+The assessment corpus has two evidence tiers (full rules in `corpus_manifest.md`):
+
+- **`official_documents.py` (OFFICIAL_EXCERPT, citable)** — text is extracted
+  verbatim at import from committed source files in `docs/supporting/` via unique
+  start/end markers and pinned by SHA-256. Import fails if provenance cannot be
+  proven. To add a document: commit the full verbatim source text to
+  `docs/supporting/` first, then add markers and pin hashes (run the module's
+  `__main__` to compute them).
+- **`sample_documents.py` (REPRESENTATIVE_EXCERPT / SYNTHETIC_TEST_DOCUMENT,
+  not citable)** — every entry must carry all four provenance fields
+  (`provenance`, `source_url`, `source_note`, `intended_use`). Never classify an
+  entry here as OFFICIAL_EXCERPT — `test_provenance.py` fails the build if you do.
+
+Never present results computed from REPRESENTATIVE_EXCERPT text as findings about
+the official source instrument. This is the reporting layer's own A.2 Structural
+Honesty obligation.
 
 ### Editing Documents
 
 - `.docx` files are Microsoft Word format. Edit with Word, LibreOffice, or programmatically with `python-docx`.
-- The `.txt` file is plain text and serves as the navigation index.
-- `README.md` is a brief one-line GitHub description.
+- Each governance document also has a `.txt` export; `validate.py` runs against the `.txt` corpus, so keep both formats in sync when editing.
+- `LAIF-Law-Aligned_Intelligence_Framework.txt` is the navigation index.
+- `docs/supporting/` holds verbatim ingested source texts (strict, no transformation). Editing these files breaks pinned hashes in `official_documents.py` by design — any change there must be re-verified against the authoritative source and re-pinned.
 
 ### Branch Conventions
 
@@ -163,10 +210,11 @@ The repository uses a `main` branch for stable releases. Feature work is done on
 
 ### Commit Style
 
-Commits in this repository are descriptive and file-level:
+Commits are descriptive, scoped to one coherent change, and name the affected
+layer (corpus, toolchain, reporting, docs):
 ```
-Add files via upload
-Initial commit
+Add OFFICIAL_EXCERPT corpus with machine-verified verbatim provenance
+LAIF phase 2 tightening: implicit clarity + primary structural failure line
 ```
 
 ---
