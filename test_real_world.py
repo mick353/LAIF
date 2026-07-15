@@ -2,9 +2,16 @@
 """
 LAIF Real-World Validation — Professional Assessment Engine
 -----------------------------------------------------------
-Applies LAIF v1.2 compliance checks to representative excerpts from
-external AI governance frameworks. Produces:
+Applies LAIF v1.2 compliance checks to external AI governance frameworks
+across two evidence tiers:
 
+  OFFICIAL_EXCERPT       (official_documents.py) — verbatim, hash-pinned
+                          text from committed authoritative sources;
+                          findings are CITABLE against the named documents.
+  REPRESENTATIVE_EXCERPT (sample_documents.py)   — condensed paraphrases;
+                          findings are ILLUSTRATIVE only.
+
+Produces:
   1. Console — per-document scorecards + cross-document summary
   2. File    — reports/laif_real_world_assessment.md
 
@@ -17,7 +24,6 @@ Usage:
 """
 
 import sys
-from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -29,8 +35,13 @@ from assessment_engine import (
     score_bar,
 )
 from sample_documents import DOCUMENTS
+from official_documents import OFFICIAL_DOCUMENTS
+
+# Citable official corpus assessed first; illustrative corpus second.
+ALL_DOCUMENTS = {**OFFICIAL_DOCUMENTS, **DOCUMENTS}
 
 REPORT_PATH = Path(__file__).parent / "reports" / "laif_real_world_assessment.md"
+REPORT_DATE = "July 2026"
 W = 70
 
 
@@ -163,7 +174,9 @@ def _print_scorecard(r):
 
 def _print_summary(results):
     print(f"\n{'=' * W}")
-    print(f"  CROSS-DOCUMENT SUMMARY -- {len(results)} frameworks analysed")
+    citable = [r for r in results if r.get("provenance") == "OFFICIAL_EXCERPT"]
+    print(f"  CROSS-DOCUMENT SUMMARY -- {len(results)} frameworks analysed "
+          f"({len(citable)} citable, {len(results) - len(citable)} illustrative)")
     print(f"{'─' * W}")
 
     failing  = [r for r in results if r["formal_laif_compliance"] == "FAIL"]
@@ -212,16 +225,30 @@ def _print_summary(results):
     print(f"  Avg overall readiness:      {avg_overall}/100")
     print(f"  Avg sector risk alignment:  {avg_sector}/100")
 
+    citable      = [r for r in results if r.get("provenance") == "OFFICIAL_EXCERPT"]
+    illustrative = [r for r in results if r.get("provenance") != "OFFICIAL_EXCERPT"]
+    if citable:
+        cit_fail    = sum(1 for r in citable if r["formal_laif_compliance"] == "FAIL")
+        cit_concept = round(sum(r["conceptual_proximity_score"] for r in citable) / len(citable))
+        cit_term0   = sum(1 for r in citable if r["terminology_score"] == 0)
+        print()
+        print("  CITABLE SUBSET (OFFICIAL_EXCERPT -- verbatim, hash-pinned)")
+        print(f"    Formal compliance:        {len(citable) - cit_fail}/{len(citable)} pass")
+        print(f"    Avg conceptual proximity: {cit_concept}/100")
+        print(f"    Zero LAIF terminology:    {cit_term0}/{len(citable)} documents")
+
     print()
     print("  KEY FINDINGS")
     print(f"    1. {pct_fail}% fail formal compliance -- gap is terminological/structural,")
     print(f"       not conceptual. Intent is broadly present.")
-    print(f"    2. Avg conceptual proximity {avg_conceptual}/100 -- frameworks address the right")
+    if citable:
+        print(f"    2. CITABLE: {cit_fail}/{len(citable)} official verbatim texts (EO 14110, OECD,")
+        print(f"       NIST AI 100-1, NHS DTAC) fail formal LAIF compliance -- this")
+        print(f"       finding is verified against hash-pinned authoritative sources.")
+    print(f"    3. Avg conceptual proximity {avg_conceptual}/100 -- frameworks address the right")
     print(f"       governance dimensions without LAIF structural vocabulary.")
-    print(f"    3. Terminology score 0/100 across general-governance documents -- LAIF")
-    print(f"       canonical terms (Coupling, Integrity Layer, Coherence Test) absent.")
     print(f"    4. Paraphrase violations in {len(paraphrase_docs)}/{len(results)} documents --")
-    print(f"       alignment/connection/linkage used where Coupling is required.")
+    print(f"       forbidden substitutions used where canonical terms are required.")
     print(f"    5. Sector-specific documents show higher risk alignment scores,")
     print(f"       confirming sector profiles correctly contextualise the assessment.")
     print(f"{'=' * W}\n")
@@ -231,16 +258,17 @@ def _print_summary(results):
 
 def main():
     print("╔════════════════════════════════════════════════════════════════════╗")
-    print("║  LAIF Real-World Assessment Engine  ·  May 2026                    ║")
+    print("║  LAIF Real-World Assessment Engine  ·  July 2026                   ║")
     print("║  Sector-aware · Traceable scoring · Spec-aligned                   ║")
-    print("║  validate.py enforcement unchanged                                  ║")
+    print("║  Two-tier evidence: citable official + illustrative corpus         ║")
     print("╚════════════════════════════════════════════════════════════════════╝")
     print("  Formal compliance: binary and strict (validate.py unchanged).")
     print("  Scoring: traceable -- every number answered by fired/missed signals.")
     print("  Sector analysis: contextualised per deployment sector profile.")
+    print("  Provenance: OFFICIAL_EXCERPT entries verified verbatim (hash-pinned).")
 
     results = []
-    for name, doc in DOCUMENTS.items():
+    for name, doc in ALL_DOCUMENTS.items():
         r = assess(
             name=name,
             source_type=doc["source_type"],
@@ -251,6 +279,7 @@ def main():
             citation=doc.get("citation", ""),
             provenance=doc.get("provenance", "REPRESENTATIVE_EXCERPT"),
             source_url=doc.get("source_url", ""),
+            source_file=doc.get("source_file", ""),
             source_note=doc.get("source_note", ""),
             intended_use=doc.get("intended_use", ""),
         )
@@ -260,8 +289,7 @@ def main():
     _print_summary(results)
 
     # Generate and write markdown report
-    report_date = f"May {date.today().year}"
-    md = generate_markdown_report(results, report_date=report_date)
+    md = generate_markdown_report(results, report_date=REPORT_DATE)
     REPORT_PATH.parent.mkdir(exist_ok=True)
     REPORT_PATH.write_text(md, encoding="utf-8")
     print(f"  Markdown report written -> {REPORT_PATH.relative_to(Path(__file__).parent)}")

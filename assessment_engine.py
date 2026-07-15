@@ -1975,24 +1975,50 @@ def generate_markdown_report(assessments, report_date="May 2026"):
         for row in rows:
             lines.append(row_str(row))
 
+    citable      = [r for r in assessments if r.get("provenance") == "OFFICIAL_EXCERPT"]
+    illustrative = [r for r in assessments if r.get("provenance") != "OFFICIAL_EXCERPT"]
+
+    def _avg(rs, key):
+        return round(sum(r[key] for r in rs) / len(rs)) if rs else 0
+
     # ── Header ──────────────────────────────────────────────────────────────
     lines.append("# LAIF Real-World Assessment Report")
     p(f"**Framework version:** LAIF v1.2 · Compliance Toolkit v1.1  ")
     p(f"**Date:** {report_date}  ")
-    p("**Classification:** Governance Assessment — System Hardening Release  ")
+    p("**Classification:** Governance Assessment — Evidence-Anchored Release  ")
     p("**Validator:** validate.py (unchanged — strict formal compliance enforced)  ")
     p("**Scoring:** Traceable per-signal breakdown for every dimension  ")
+    p(f"**Corpus:** {len(assessments)} documents — {len(citable)} OFFICIAL_EXCERPT "
+      f"(verbatim, SHA-256-pinned against committed sources; findings citable) · "
+      f"{len(illustrative)} REPRESENTATIVE_EXCERPT (illustrative only)  ")
+    p("**Provenance enforcement:** test_provenance.py — every citability claim "
+      "is machine-verified  ")
 
     # ── Executive Summary ────────────────────────────────────────────────────
     h(2, "Executive Summary")
     fail_count  = sum(1 for r in assessments if r["formal_laif_compliance"] == "FAIL")
-    avg_overall = round(sum(r["overall_readiness_score"] for r in assessments) / len(assessments))
-    avg_concept = round(sum(r["conceptual_proximity_score"] for r in assessments) / len(assessments))
+    avg_overall = _avg(assessments, "overall_readiness_score")
+    avg_concept = _avg(assessments, "conceptual_proximity_score")
     p(
         f"{fail_count} of {len(assessments)} external AI governance frameworks assessed fail "
         f"formal LAIF v1.2 compliance. Formal compliance is binary and strict — "
         f"all 8 required constructs must be present; no partial credit is awarded."
     )
+    if citable:
+        cit_fail    = sum(1 for r in citable if r["formal_laif_compliance"] == "FAIL")
+        cit_concept = _avg(citable, "conceptual_proximity_score")
+        cit_overall = _avg(citable, "overall_readiness_score")
+        cit_names   = "; ".join(r.get("citation", r["document_name"]) for r in citable)
+        p()
+        p(
+            f"**Citable result (official corpus):** {cit_fail} of {len(citable)} governance "
+            f"instruments assessed from verbatim official text fail formal LAIF v1.2 "
+            f"compliance, with an average conceptual proximity of {cit_concept}/100 and "
+            f"average overall readiness of {cit_overall}/100. Because these excerpts are "
+            f"exact, hash-pinned extracts of the committed authoritative texts, this "
+            f"finding can be stated of the source instruments themselves — subject to the "
+            f"excerpt scope declared per document. Instruments assessed: {cit_names}."
+        )
     p()
     p(
         f"Dimensional scoring reveals that the gap is terminological and structural, not "
@@ -2006,8 +2032,39 @@ def generate_markdown_report(assessments, report_date="May 2026"):
         "**Core finding:** Existing frameworks address the right governance dimensions but do not "
         "enforce them through structural Coupling, the Coherence Test, or the Integrity Layer. "
         "LAIF is measurably stricter. The adoption pathway is terminological and structural, "
-        "not conceptual — the underlying intent is already present."
+        "not conceptual — the underlying intent is already present. This finding now rests on "
+        "two evidence tiers: it was first established on condensed representative excerpts and "
+        "is now confirmed on verbatim official text, which removes the possibility that the "
+        "result was an artefact of paraphrasing."
     )
+
+    # ── Evidence Basis and Citability ────────────────────────────────────────
+    h(2, "Evidence Basis and Citability")
+    p("Every document in the corpus carries a machine-verified provenance classification. "
+      "Findings inherit the citability of the text they were computed from:")
+    p()
+    table(
+        ["Document", "Provenance", "Citable", "Evidence basis"],
+        [
+            [
+                r["document_name"][:52],
+                r.get("provenance", ""),
+                "✅ Yes" if r.get("provenance") == "OFFICIAL_EXCERPT" else "❌ No",
+                (r.get("source_file") or r.get("source_url") or "illustrative document")[:60],
+            ]
+            for r in assessments
+        ]
+    )
+    p()
+    p("**OFFICIAL_EXCERPT** — text extracted verbatim at run time from the committed "
+      "source file using unique start/end markers and pinned by SHA-256 "
+      "(official_documents.py). Any drift in the source file fails the run. "
+      "Assessment results may be cited as findings about the named instrument, "
+      "within the excerpt scope stated on the document's scorecard.")
+    p()
+    p("**REPRESENTATIVE_EXCERPT** — condensed paraphrase capturing governance intent. "
+      "Results characterise the framework style, not the instrument's exact text, and "
+      "must not be presented externally as assessments of the official source.")
 
     # ── Method ──────────────────────────────────────────────────────────────
     h(2, "Method")
@@ -2064,9 +2121,28 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     p("**Remediation Effort:** VERY HIGH (<35) · HIGH (35–59) · MEDIUM (≥60)")
 
     # ── Per-Document Scorecards ───────────────────────────────────────────────
-    h(2, "Per-Document Scorecards")
+    # Citable (official) scorecards first, illustrative second — a reader who
+    # needs defensible findings should not have to filter them out by hand.
+    _scorecard_groups = []
+    if citable:
+        _scorecard_groups.append(
+            ("Per-Document Scorecards — Citable (Official Sources)", citable))
+    if illustrative:
+        _scorecard_groups.append(
+            ("Per-Document Scorecards — Illustrative (Representative Excerpts)",
+             illustrative))
 
-    for r in assessments:
+    for _group_title, _group_docs in _scorecard_groups:
+        h(2, _group_title)
+        for r in _group_docs:
+            _render_scorecard(r, h, p, table)
+
+    _render_cross_document(assessments, citable, illustrative, h, p, table,
+                           report_date)
+    return "\n".join(lines)
+
+
+def _render_scorecard(r, h, p, table):
         h(3, r["document_name"])
         compliance_tag = "✅ PASS" if r["formal_laif_compliance"] == "PASS" else "❌ FAIL"
         strong_tag = {
@@ -2214,6 +2290,19 @@ def generate_markdown_report(assessments, report_date="May 2026"):
                 ]
             )
             p()
+            if (r.get("provenance") == "OFFICIAL_EXCERPT"
+                    and r.get("sector_gaming_risk", "LOW") != "LOW"):
+                p("> **Interpretation caveat (official instrument):** the sector "
+                  "gaming heuristic detects high sector-keyword density with low "
+                  "prose-style governance content. This document is a verified "
+                  "official instrument, so the flag does not indicate keyword "
+                  "stuffing by its publisher — it indicates a *format mismatch*: "
+                  "questionnaire/form-style instruments carry their governance "
+                  "content in assessed criteria rather than declaratory prose, "
+                  "which the density heuristics undercount. The structural gaps "
+                  "reported below remain real; the gaming attribution should not "
+                  "be cited.")
+                p()
 
         p(f"**Source type:** {r['source_type']}  ")
         p(f"**Sector:** {r.get('sector_label', r['sector_used'])}  ")
@@ -2479,8 +2568,85 @@ def generate_markdown_report(assessments, report_date="May 2026"):
         p()
         p("---")
 
+
+def _render_cross_document(assessments, citable, illustrative, h, p, table,
+                           report_date):
+    def _avg(rs, key):
+        return round(sum(r[key] for r in rs) / len(rs)) if rs else 0
+
     # ── Cross-Document Findings ───────────────────────────────────────────────
     h(2, "Cross-Document Findings")
+
+    if citable and illustrative:
+        h(3, "Citable vs Illustrative Corpus Comparison")
+        p("Averages by evidence tier. Convergence between tiers indicates the core "
+          "finding is not an artefact of paraphrasing; divergence localises where "
+          "condensation altered the signal.")
+        p()
+        table(
+            ["Evidence tier", "n", "Str", "Ter", "Con", "Aud", "Enf", "OVR",
+             "Formal FAIL"],
+            [
+                [
+                    "OFFICIAL_EXCERPT (citable)", len(citable),
+                    _avg(citable, "structural_score"),
+                    _avg(citable, "terminology_score"),
+                    _avg(citable, "conceptual_proximity_score"),
+                    _avg(citable, "auditability_score"),
+                    _avg(citable, "enforceability_score"),
+                    _avg(citable, "overall_readiness_score"),
+                    f"{sum(1 for r in citable if r['formal_laif_compliance'] == 'FAIL')}"
+                    f"/{len(citable)}",
+                ],
+                [
+                    "REPRESENTATIVE_EXCERPT (illustrative)", len(illustrative),
+                    _avg(illustrative, "structural_score"),
+                    _avg(illustrative, "terminology_score"),
+                    _avg(illustrative, "conceptual_proximity_score"),
+                    _avg(illustrative, "auditability_score"),
+                    _avg(illustrative, "enforceability_score"),
+                    _avg(illustrative, "overall_readiness_score"),
+                    f"{sum(1 for r in illustrative if r['formal_laif_compliance'] == 'FAIL')}"
+                    f"/{len(illustrative)}",
+                ],
+            ]
+        )
+        p()
+        cit_term_all_zero = all(r["terminology_score"] == 0 for r in citable)
+        if cit_term_all_zero:
+            p("- **Terminology absence confirmed on official text:** every citable "
+              "document scores 0/100 on LAIF canonical terminology. The terminology "
+              "gap observed on paraphrased excerpts is a property of the source "
+              "instruments themselves, not of the paraphrasing.")
+        _delta_con = (_avg(citable, "conceptual_proximity_score")
+                      - _avg(illustrative, "conceptual_proximity_score"))
+        if _delta_con > 0:
+            p(f"- **Official full text scores higher on conceptual proximity "
+              f"(+{_delta_con} avg):** verbatim instruments carry more of their own "
+              f"governance substance than condensed paraphrases preserve — meaning "
+              f"the illustrative corpus, if anything, *understated* how close real "
+              f"frameworks already are to LAIF's conceptual content.")
+        elif _delta_con < 0:
+            p(f"- **Official full text scores lower on conceptual proximity "
+              f"({_delta_con} avg):** condensation concentrated governance language; "
+              f"verbatim text dilutes it across procedural material.")
+        _delta_aud = (_avg(citable, "auditability_score")
+                      - _avg(illustrative, "auditability_score"))
+        if _delta_aud > 0:
+            p(f"- **Official instruments are more auditable than their paraphrases "
+              f"suggested (+{_delta_aud} avg):** real instruments carry numbered "
+              f"obligations, evidence requirements, and review mechanisms that "
+              f"condensation strips out.")
+        _cit_gaming = [r for r in citable if r.get("sector_gaming_risk", "LOW") != "LOW"]
+        if _cit_gaming:
+            _names = ", ".join(r["document_name"].split(" — ")[0] for r in _cit_gaming)
+            p(f"- **Heuristic limitation surfaced by official text ({_names}):** "
+              f"the sector gaming detector flags form/questionnaire-style official "
+              f"instruments because their governance content lives in assessed "
+              f"criteria, not declaratory prose. On verified official instruments "
+              f"the flag must be read as a format-mismatch diagnostic, not a "
+              f"gaming attribution (see the per-document interpretation caveat).")
+        p()
 
     h(3, "Score Comparison")
     table(
@@ -2576,26 +2742,48 @@ def generate_markdown_report(assessments, report_date="May 2026"):
     p("5. **Scoring traceability enables targeted remediation.** Per-signal breakdowns "
       "show precisely which structural elements are missing, enabling prioritised fixes "
       "rather than wholesale document rewrites.")
+    p()
+    p("6. **Evidence tier determines what may be claimed.** Findings from the official "
+      "corpus may be presented externally as assessments of the named instruments "
+      "(within the stated excerpt scope); findings from the representative corpus may "
+      "only characterise framework styles. Conflating the two tiers would itself fail "
+      "LAIF A.2 Structural Honesty — the reporting layer is held to the same standard "
+      "it audits.")
 
     # ── Recommended Next Steps ────────────────────────────────────────────────
     h(2, "Recommended Next Development Steps")
-    p("1. **Article-level LAIF–EU AI Act mapping:** Map LAIF Provisions to EU AI Act articles "
+    p("1. **Complete the official corpus with the EU AI Act:** the EU AI Act entry is "
+      "still a REPRESENTATIVE_EXCERPT — its findings are illustrative only. Ingest the "
+      "Official Journal text of Regulation (EU) 2024/1689 (Articles 9, 13, 14 at "
+      "minimum) into docs/supporting/ and add a hash-pinned OFFICIAL_EXCERPT entry, "
+      "making the EU baseline citable like the other four instruments.")
+    p()
+    p("2. **Article-level LAIF–EU AI Act mapping:** Map LAIF Provisions to EU AI Act articles "
       "to formalise the adoption pathway for the EU regulatory context.")
     p()
-    p("2. **LAIF–NIST RMF function mapping:** Map Coherence Test questions to NIST RMF "
+    p("3. **LAIF–NIST RMF function mapping:** Map Coherence Test questions to NIST RMF "
       "functions (Govern, Map, Measure, Manage) to enable LAIF adoption within existing "
-      "US governance infrastructure.")
+      "US governance infrastructure. The citable NIST AI 100-1 assessment in this report "
+      "identifies the precise GOVERN/MAP subcategories where Coupling declarations "
+      "would attach.")
     p()
-    p("3. **Sector-specific PDCA templates:** Produce PDCA-Full templates pre-populated "
+    p("4. **Sector-specific PDCA templates:** Produce PDCA-Full templates pre-populated "
       "with sector-appropriate Coupling declarations, evidence artefact checklists, and "
-      "Coherence Test documentation guidance.")
+      "Coherence Test documentation guidance. The DTAC v2.0 assessment shows the natural "
+      "insertion point for clinical AI: DTAC's C1 clinical-safety gate already operates "
+      "as a threshold precondition — a Coupling declaration per criterion would upgrade "
+      "it toward Integrity Layer semantics without restructuring the form.")
     p()
-    p("4. **Score threshold calibration:** As more documents are assessed, calibrate "
+    p("5. **Score threshold calibration:** As more documents are assessed, calibrate "
       "remediation effort thresholds against actual adoption timelines.")
+    p()
+    p("6. **Keep provenance enforcement in the pre-commit gate:** run "
+      "`python3 test_provenance.py` alongside validate.py and the adversarial suite "
+      "before every release, so no OFFICIAL_EXCERPT claim can silently decay as "
+      "source files evolve.")
 
     p()
     p("---")
     p(f"*LAIF v1.2 · Compliance Toolkit v1.1 · {report_date} · Governance Audit Series*")
-    p("*Generated by `test_real_world.py` — validate.py enforcement unchanged*")
-
-    return "\n".join(lines)
+    p("*Generated by `test_real_world.py` — validate.py enforcement unchanged · "
+      "provenance verified by `test_provenance.py`*")
