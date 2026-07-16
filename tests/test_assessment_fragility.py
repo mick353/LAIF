@@ -270,7 +270,17 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             "terminological — no canonical LAIF terms present",
             result["primary_failure_modes"],
         )
-        self.assertTrue(any(gap.startswith("Canonical LAIF terms absent:") for gap in result["gaps"]))
+        # External-vocabulary documents receive certification-channel wording,
+        # never deficiency wording ("Canonical LAIF terms absent" is reserved
+        # for documents that use or claim LAIF vocabulary).
+        self.assertTrue(any(
+            gap.startswith("LAIF-native vocabulary not used")
+            or gap.startswith("Canonical LAIF terms absent:")
+            for gap in result["gaps"]
+        ))
+        self.assertFalse(any(
+            gap.startswith("Canonical LAIF terms absent:") for gap in result["gaps"]
+        ))
         self.assertIn("score_breakdown", result)
         self.assertGreater(len(result["score_breakdown"]["conceptual"]["fired"]), 0)
 
