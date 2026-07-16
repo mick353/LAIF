@@ -10,9 +10,9 @@
 ## Executive Summary
 10 of 10 external AI governance frameworks assessed fail formal LAIF v1.2 compliance. Formal compliance is binary and strict — all 8 required constructs must be present; no partial credit is awarded.
 
-**Citable result (official corpus):** 4 of 4 governance instruments assessed from verbatim official text fail formal LAIF v1.2 compliance, with an average conceptual proximity of 53/100 and average overall readiness of 37/100. Because these excerpts are exact, hash-pinned extracts of the committed authoritative texts, this finding can be stated of the source instruments themselves — subject to the excerpt scope declared per document. Instruments assessed: Executive Order 14110, 88 FR 75191 (Nov 1, 2023), FR Doc. 2023-24283; OECD Recommendation of the Council on Artificial Intelligence, OECD/LEGAL/0449, adopted 22 May 2019, amended 3 May 2024; NIST AI 100-1, Artificial Intelligence Risk Management Framework (AI RMF 1.0), January 2023, https://doi.org/10.6028/NIST.AI.100-1; Digital Technology Assessment Criteria for Health and Social Care (DTAC) v2.0, NHS England, 24 February 2026.
+**Citable result (official corpus):** 4 of 4 governance instruments assessed from verbatim official text fail formal LAIF v1.2 compliance, with an average conceptual proximity of 53/100 and average overall readiness of 42/100. Because these excerpts are exact, hash-pinned extracts of the committed authoritative texts, this finding can be stated of the source instruments themselves — subject to the excerpt scope declared per document. Instruments assessed: Executive Order 14110, 88 FR 75191 (Nov 1, 2023), FR Doc. 2023-24283; OECD Recommendation of the Council on Artificial Intelligence, OECD/LEGAL/0449, adopted 22 May 2019, amended 3 May 2024; NIST AI 100-1, Artificial Intelligence Risk Management Framework (AI RMF 1.0), January 2023, https://doi.org/10.6028/NIST.AI.100-1; Digital Technology Assessment Criteria for Health and Social Care (DTAC) v2.0, NHS England, 24 February 2026.
 
-Dimensional scoring reveals that the gap is terminological and structural, not conceptual. Documents achieve an average conceptual proximity score of 51/100 and an average overall readiness score of 36/100, indicating that the underlying governance intent is broadly present — expressed through different vocabulary and structural frameworks.
+Dimensional scoring reveals that the gap is terminological and structural, not conceptual. Documents achieve an average conceptual proximity score of 51/100 and an average overall readiness score of 39/100, indicating that the underlying governance intent is broadly present — expressed through different vocabulary and structural frameworks.
 
 **Core finding:** Existing frameworks address the right governance dimensions but do not enforce them through structural Coupling, the Coherence Test, or the Integrity Layer. LAIF is measurably stricter. The adoption pathway is terminological and structural, not conceptual — the underlying intent is already present. This finding now rests on two evidence tiers: it was first established on condensed representative excerpts and is now confirmed on verbatim official text, which removes the possibility that the result was an artefact of paraphrasing.
 
@@ -37,9 +37,9 @@ Every document in the corpus carries a machine-verified provenance classificatio
 **REPRESENTATIVE_EXCERPT** — condensed paraphrase capturing governance intent. Results characterise the framework style, not the instrument's exact text, and must not be presented externally as assessments of the official source.
 
 ## Method
-Each document was assessed against three complementary layers:
+Each document was assessed against five complementary layers:
 
-**Layer 1 — Formal LAIF compliance (binary):** 8 required constructs — Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles, non-amendable clause, self-application clause, Integrity Layer FINDING block, Coherence Test FINDING block. All 8 must be present. Enforced by validate.py (unchanged).
+**Layer 1 — LAIF-native form (binary formal gate):** 8 required constructs — Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles, non-amendable clause, self-application clause, Integrity Layer FINDING block, Coherence Test FINDING block. All 8 must be present. Enforced by validate.py (unchanged). This gate measures whether a document is *written as a LAIF instrument* — external frameworks are expected to fail it, and that verdict says nothing about their substance (see Layer 5).
 
 **Layer 2 — Dimensional scoring (traceable):** Five dimensions scored 0–100 with per-signal breakdown. Every score is accompanied by the signals that fired (earned points) and those that did not. This answers 'why this number?' for every dimension.
 
@@ -50,7 +50,11 @@ Each document was assessed against three complementary layers:
 - **Contradiction detection**: detects co-presence of claimed Integrity Layer properties and language that contradicts them (LAIF v1.2 A.2 Structural Honesty)
 - **Sector gaming risk** (LOW / MEDIUM / HIGH): detects high sector keyword density without substantive governance content (LAIF v1.2 Q2 Consistency)
 
+**Layer 5 — Functional alignment (substance independent of vocabulary):** each core construct (Coupling, Integrity Layer, Consistency, Reversibility, Self-Application) is assessed for its *substance* in the document's own vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (≥2 independent signal families), PARTIAL, or ABSENT. Grounded in LAIF v1.2 Part Eight (equivalent structural diligence through alternative documented means) and the Regulatory Integration Guide's SATISFIES/EXTENDS methodology. LAIF is the measuring instrument here, not an authority over other instruments' vocabulary: a document is never penalised for expressing LAIF's requirements in its own words, and never credited for using LAIF's words without the substance.
+
 **Strong compliance verdict:** STRONG PASS requires formal PASS + STRUCTURAL Coupling + no contradictions. A formal PASS with shallow Coupling = WEAK PASS, not a strong compliance claim.
+
+**Overall alignment verdict:** LAIF-NATIVE (STRONG/WEAK/HOLLOW) for documents written in canonical form, qualified by structural depth; FUNCTIONALLY ALIGNED for documents whose Coupling substance plus at least 4 of 5 core constructs are functionally present without contradictions; PARTIALLY ALIGNED (at least one construct present in some form); STRUCTURALLY UNALIGNED.
 
 ## Scope, Limitations, and Fair Reading
 This report is held to LAIF's own A.2 Structural Honesty standard, which requires its claims to be bounded as precisely as its findings. Five bounds apply to everything below:
@@ -88,12 +92,13 @@ This report is held to LAIF's own A.2 Structural Honesty standard, which require
 
 
 #### Executive Assessment
-> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 42/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 46/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
-**Overall Readiness:** 42/100  
-**Deployment Risk Tier:** 🟠 **HIGH**  
+**LAIF Alignment:** 🔴 **STRUCTURALLY UNALIGNED** — LAIF's distinctive structural mechanisms not detected in any form; conceptual overlap, where present, is measured separately by the Conceptual Proximity dimension  
+**Overall Readiness:** 46/100  
+**Deployment Risk Tier:** 🟠 **HIGH** — *distance from LAIF-native certification, not a judgement of the instrument against its own objectives*  
 **Remediation Effort:** HIGH
-**Primary structural failure:** obligations are defined without enforceable protections for affected individuals.
+**Primary structural gap:** obligations are defined without enforceable protections for affected individuals.
 
 > ⚠️ **This document may appear compliant but lacks the structural guarantees required for reliable governance.** A document can score moderately on readiness metrics while still failing every structural precondition that makes governance obligations enforceable.
 
@@ -108,6 +113,7 @@ This report is held to LAIF's own A.2 Structural Honesty standard, which require
 **Key strengths:**
 - Moderate conceptual proximity (57/100): key LAIF-aligned governance concepts are present, indicating partial substantive alignment with LAIF's foundational principles.
 - Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
+- Strong enforceability (60/100): mandatory language, named responsible parties, and enforcement consequences are present.
 
 **Position Assessment:**
 
@@ -143,13 +149,25 @@ No implicit coupling signals detected. The document does not express protective 
 This document imposes obligations but does not structurally protect the people those obligations are meant to serve. Obligations can be weakened or removed independently of the protections they were intended to provide.
 
 
+#### Functional Alignment (Substance Independent of Vocabulary)
+Each core LAIF construct assessed for substance in the document's own vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (substance present, ≥2 independent signal families), PARTIAL (1 family), ABSENT. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
+
+| Construct        | Verdict  | Signal families detected |
+| ---------------- | -------- | ------------------------ |
+| Coupling         | ❌ ABSENT | —                        |
+| Integrity Layer  | ❌ ABSENT | —                        |
+| Consistency      | ❌ ABSENT | —                        |
+| Reversibility    | ❌ ABSENT | —                        |
+| Self-Application | ❌ ABSENT | —                        |
+
+
 #### Minimal Upgrade Path (No System Rewrite Required)
 To achieve formal LAIF Coupling compliance without restructuring the entire document:
 
 1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
 2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
-3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
-4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+3. **Explicitly declare the pairing** — state that neither the restriction nor its paired protection may be weakened without the other. The canonical form is 'Coupling between [restriction] and [human interest]'; the same structure expressed in the document's own vocabulary is equally valid with a documented equivalence mapping (Regulatory Integration Guide Part One).
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language so neither can be downgraded in isolation.
 
 
 
@@ -217,7 +235,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Auditability — 60/100** ██████░░░░
 
-**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall/must pairs), specific, measurable obligations.
 
 **Signals detected:**
 *Governance signals:*
@@ -226,29 +244,29 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 - review / monitoring mechanisms (+20 pts)
 
 **Signals missing:**
-- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- multiple mandatory obligations (shall/must pairs) (missed 20 pts)
 - specific, measurable obligations (missed 20 pts)
 
 **Dimension significance:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
 
-**Enforceability — 40/100** ████░░░░░░
+**Enforceability — 60/100** ██████░░░░
 
-**Why:** Weak enforceability coverage (40/100): only 2 of 5 signals matched. Principal gaps: risk-proportionate thresholds, enforcement consequences / penalties, non-discretionary operational mandates.
+**Why:** Partial enforceability coverage (60/100): 3 of 5 signals matched. Key gaps: risk-proportionate thresholds, non-discretionary operational mandates.
 
 **Signals detected:**
 *Governance signals:*
-- mandatory language (shall) (+20 pts)
+- mandatory language (shall/must) (+20 pts)
+- enforcement consequences / penalties (+20 pts)
 *Structural signals:*
 - named responsible parties (+20 pts)
 
 **Signals missing:**
 - risk-proportionate thresholds (missed 20 pts)
-- enforcement consequences / penalties (missed 20 pts)
 - non-discretionary operational mandates (missed 20 pts)
 
 **Dimension significance:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
 
-**Overall Readiness — 42/100** ████░░░░░░
+**Overall Readiness — 46/100** █████░░░░░
 
 **Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
@@ -325,9 +343,9 @@ None detected.
 
 #### Structured Findings
 **🔴 [HIGH] Coupling not structurally declared — no restriction paired with a human interest**
-- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Evidence:* Neither the canonical term 'Coupling' nor a functional equivalent of the structural pairing was detected in the document.
 - *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
-- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1) — or express the same pairing in the document's own vocabulary with a documented equivalence mapping.
 
 **🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
 - *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
@@ -374,10 +392,11 @@ None detected.
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 39/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
+**LAIF Alignment:** 🟡 **PARTIALLY ALIGNED** — some LAIF constructs present in substance or in form  
 **Overall Readiness:** 39/100  
-**Deployment Risk Tier:** 🔴 **CRITICAL**  
+**Deployment Risk Tier:** 🔴 **CRITICAL** — *distance from LAIF-native certification, not a judgement of the instrument against its own objectives*  
 **Remediation Effort:** HIGH
-**Primary structural failure:** protections are suggested but not structurally bound to obligations.
+**Primary structural gap:** protections are suggested but not structurally bound to obligations.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
@@ -439,13 +458,25 @@ This document signals protective intent. However, an operator could modify speci
 Explicitly pair each restriction with the human interest it protects. Ensure both carry equivalent normative force — neither can be weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
 
 
+#### Functional Alignment (Substance Independent of Vocabulary)
+Each core LAIF construct assessed for substance in the document's own vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (substance present, ≥2 independent signal families), PARTIAL (1 family), ABSENT. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
+
+| Construct        | Verdict   | Signal families detected      |
+| ---------------- | --------- | ----------------------------- |
+| Coupling         | ❌ ABSENT  | —                             |
+| Integrity Layer  | 🟡 PARTIAL | meaningful account of outputs |
+| Consistency      | ❌ ABSENT  | —                             |
+| Reversibility    | 🟡 PARTIAL | reversal capacity preserved   |
+| Self-Application | ❌ ABSENT  | —                             |
+
+
 #### Minimal Upgrade Path (No System Rewrite Required)
 To achieve formal LAIF Coupling compliance without restructuring the entire document:
 
 1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
 2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
-3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
-4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+3. **Explicitly declare the pairing** — state that neither the restriction nor its paired protection may be weakened without the other. The canonical form is 'Coupling between [restriction] and [human interest]'; the same structure expressed in the document's own vocabulary is equally valid with a documented equivalence mapping (Regulatory Integration Guide Part One).
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language so neither can be downgraded in isolation.
 
 *Note: implicit coupling signals already present (see above) — the governance intent is established. This upgrade is terminological and structural, not conceptual.*
 
@@ -514,7 +545,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Auditability — 60/100** ██████░░░░
 
-**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall/must pairs), specific, measurable obligations.
 
 **Signals detected:**
 *Governance signals:*
@@ -523,21 +554,21 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 - review / monitoring mechanisms (+20 pts)
 
 **Signals missing:**
-- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- multiple mandatory obligations (shall/must pairs) (missed 20 pts)
 - specific, measurable obligations (missed 20 pts)
 
 **Dimension significance:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
 
 **Enforceability — 20/100** ██░░░░░░░░
 
-**Why:** Weak enforceability coverage (20/100): only 1 of 5 signals matched. Principal gaps: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties.
+**Why:** Weak enforceability coverage (20/100): only 1 of 5 signals matched. Principal gaps: mandatory language (shall/must), risk-proportionate thresholds, enforcement consequences / penalties.
 
 **Signals detected:**
 *Structural signals:*
 - named responsible parties (+20 pts)
 
 **Signals missing:**
-- mandatory language (shall) (missed 20 pts)
+- mandatory language (shall/must) (missed 20 pts)
 - risk-proportionate thresholds (missed 20 pts)
 - enforcement consequences / penalties (missed 20 pts)
 - non-discretionary operational mandates (missed 20 pts)
@@ -623,9 +654,9 @@ None detected.
 
 #### Structured Findings
 **🔴 [HIGH] Coupling not structurally declared — no restriction paired with a human interest**
-- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Evidence:* Neither the canonical term 'Coupling' nor a functional equivalent of the structural pairing was detected in the document.
 - *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
-- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1) — or express the same pairing in the document's own vocabulary with a documented equivalence mapping.
 
 **🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
 - *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
@@ -638,9 +669,9 @@ None detected.
 - *Recommended action:* Target the missed signals for this dimension: mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously). The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
 
 **🟡 [MEDIUM] Low Enforceability score (20/100)**
-- *Evidence:* Score 20/100. Key missed signals: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties.
+- *Evidence:* Score 20/100. Key missed signals: mandatory language (shall/must), risk-proportionate thresholds, enforcement consequences / penalties.
 - *Impact:* Without enforceable obligations, regulatory bodies cannot hold operators accountable for governance failures. The standard is aspirational rather than operationally binding — no party can be required to comply.
-- *Recommended action:* Target the missed signals for this dimension: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
+- *Recommended action:* Target the missed signals for this dimension: mandatory language (shall/must), risk-proportionate thresholds, enforcement consequences / penalties. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
 
 
 
@@ -682,10 +713,11 @@ None detected.
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 48/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
+**LAIF Alignment:** 🟡 **PARTIALLY ALIGNED** — some LAIF constructs present in substance or in form  
 **Overall Readiness:** 48/100  
-**Deployment Risk Tier:** 🟠 **HIGH**  
+**Deployment Risk Tier:** 🟠 **HIGH** — *distance from LAIF-native certification, not a judgement of the instrument against its own objectives*  
 **Remediation Effort:** HIGH
-**Primary structural failure:** obligations are defined without enforceable protections for affected individuals.
+**Primary structural gap:** obligations are defined without enforceable protections for affected individuals.
 
 > ⚠️ **This document may appear compliant but lacks the structural guarantees required for reliable governance.** A document can score moderately on readiness metrics while still failing every structural precondition that makes governance obligations enforceable.
 
@@ -736,13 +768,25 @@ No implicit coupling signals detected. The document does not express protective 
 This document imposes obligations but does not structurally protect the people those obligations are meant to serve. Obligations can be weakened or removed independently of the protections they were intended to provide.
 
 
+#### Functional Alignment (Substance Independent of Vocabulary)
+Each core LAIF construct assessed for substance in the document's own vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (substance present, ≥2 independent signal families), PARTIAL (1 family), ABSENT. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
+
+| Construct        | Verdict   | Signal families detected    |
+| ---------------- | --------- | --------------------------- |
+| Coupling         | ❌ ABSENT  | —                           |
+| Integrity Layer  | ❌ ABSENT  | —                           |
+| Consistency      | ❌ ABSENT  | —                           |
+| Reversibility    | 🟡 PARTIAL | reversal capacity preserved |
+| Self-Application | ❌ ABSENT  | —                           |
+
+
 #### Minimal Upgrade Path (No System Rewrite Required)
 To achieve formal LAIF Coupling compliance without restructuring the entire document:
 
 1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
 2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
-3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
-4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+3. **Explicitly declare the pairing** — state that neither the restriction nor its paired protection may be weakened without the other. The canonical form is 'Coupling between [restriction] and [human interest]'; the same structure expressed in the document's own vocabulary is equally valid with a documented equivalence mapping (Regulatory Integration Guide Part One).
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language so neither can be downgraded in isolation.
 
 
 
@@ -811,7 +855,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Auditability — 60/100** ██████░░░░
 
-**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall/must pairs), specific, measurable obligations.
 
 **Signals detected:**
 *Governance signals:*
@@ -820,18 +864,18 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 - review / monitoring mechanisms (+20 pts)
 
 **Signals missing:**
-- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- multiple mandatory obligations (shall/must pairs) (missed 20 pts)
 - specific, measurable obligations (missed 20 pts)
 
 **Dimension significance:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
 
 **Enforceability — 80/100** ████████░░
 
-**Why:** Strong enforceability coverage (80/100): 4 of 5 signals matched. Strongest contributors: mandatory language (shall), named responsible parties.
+**Why:** Strong enforceability coverage (80/100): 4 of 5 signals matched. Strongest contributors: mandatory language (shall/must), named responsible parties.
 
 **Signals detected:**
 *Governance signals:*
-- mandatory language (shall) (+20 pts)
+- mandatory language (shall/must) (+20 pts)
 - risk-proportionate thresholds (+20 pts)
 - enforcement consequences / penalties (+20 pts)
 *Structural signals:*
@@ -920,9 +964,9 @@ None detected.
 
 #### Structured Findings
 **🔴 [HIGH] Coupling not structurally declared — no restriction paired with a human interest**
-- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Evidence:* Neither the canonical term 'Coupling' nor a functional equivalent of the structural pairing was detected in the document.
 - *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
-- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1) — or express the same pairing in the document's own vocabulary with a documented equivalence mapping.
 
 **🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
 - *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
@@ -967,12 +1011,13 @@ None detected.
 
 
 #### Executive Assessment
-> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 20/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 36/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
-**Overall Readiness:** 20/100  
-**Deployment Risk Tier:** 🔴 **CRITICAL**  
-**Remediation Effort:** VERY HIGH
-**Primary structural failure:** obligations are defined without enforceable protections for affected individuals.
+**LAIF Alignment:** 🟡 **PARTIALLY ALIGNED** — some LAIF constructs present in substance or in form  
+**Overall Readiness:** 36/100  
+**Deployment Risk Tier:** 🔴 **CRITICAL** — *distance from LAIF-native certification, not a judgement of the instrument against its own objectives*  
+**Remediation Effort:** HIGH
+**Primary structural gap:** obligations are defined without enforceable protections for affected individuals.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
@@ -980,11 +1025,13 @@ None detected.
 
 **Key risks:**
 - Coupling not structurally declared: no governance restriction is paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
-- High sector gaming risk: sector keyword density is elevated while substantive governance content is low (overall 20/100). This pattern would not produce just outcomes at the individual-decision scale — failing Q2 Consistency. (LAIF v1.2 Principle 5)
+- Medium sector gaming risk: sector vocabulary present without underlying governance intent. Conceptual proximity is 24/100, below the level expected for genuine sector alignment.
 - Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Missing any single construct = FAIL regardless of overall readiness score.
 
 **Key strengths:**
 - Strong sector risk alignment (80/100): the document addresses the materially relevant human interests for the Clinical AI Deployment deployment context.
+- Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
+- Strong enforceability (80/100): mandatory language, named responsible parties, and enforcement consequences are present.
 
 **Position Assessment:**
 
@@ -1008,9 +1055,9 @@ However, the following are not structurally enforced:
 | Dimension                       | Verdict |
 | ------------------------------- | ------- |
 | Formal compliance (binary gate) | FAIL    |
-| Structural depth                | HOLLOW  |
+| Structural depth                | WEAK    |
 | Structural contradictions       | NONE    |
-| Sector gaming risk              | HIGH    |
+| Sector gaming risk              | MEDIUM  |
 | Final verdict                   | FAIL    |
 
 > **Interpretation caveat (official instrument):** the sector gaming heuristic detects high sector-keyword density with low prose-style governance content. This document is a verified official instrument, so the flag does not indicate keyword stuffing by its publisher — it indicates a *format mismatch*: questionnaire/form-style instruments carry their governance content in assessed criteria rather than declaratory prose, which the density heuristics undercount. The structural gaps reported below remain real; the gaming attribution should not be cited.
@@ -1025,13 +1072,25 @@ No implicit coupling signals detected. The document does not express protective 
 This document imposes obligations but does not structurally protect the people those obligations are meant to serve. Obligations can be weakened or removed independently of the protections they were intended to provide.
 
 
+#### Functional Alignment (Substance Independent of Vocabulary)
+Each core LAIF construct assessed for substance in the document's own vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (substance present, ≥2 independent signal families), PARTIAL (1 family), ABSENT. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
+
+| Construct        | Verdict   | Signal families detected     |
+| ---------------- | --------- | ---------------------------- |
+| Coupling         | ❌ ABSENT  | —                            |
+| Integrity Layer  | 🟡 PARTIAL | all-must-pass threshold gate |
+| Consistency      | ❌ ABSENT  | —                            |
+| Reversibility    | ❌ ABSENT  | —                            |
+| Self-Application | ❌ ABSENT  | —                            |
+
+
 #### Minimal Upgrade Path (No System Rewrite Required)
 To achieve formal LAIF Coupling compliance without restructuring the entire document:
 
 1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
 2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
-3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
-4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+3. **Explicitly declare the pairing** — state that neither the restriction nor its paired protection may be weakened without the other. The canonical form is 'Coupling between [restriction] and [human interest]'; the same structure expressed in the document's own vocabulary is equally valid with a documented equivalence mapping (Regulatory Integration Guide Part One).
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language so neither can be downgraded in isolation.
 
 
 
@@ -1096,39 +1155,40 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Dimension significance:** 20% weight. Measures whether the document's governance intent is substantively aligned with LAIF, independent of vocabulary. High conceptual proximity with low structural or terminology scores signals a document expressing the right values through different vocabulary — adoption pathway is shorter. Low conceptual proximity indicates a more fundamental governance gap (LAIF v1.2 Part One).
 
-**Auditability — 40/100** ████░░░░░░
+**Auditability — 60/100** ██████░░░░
 
-**Why:** Weak auditability coverage (40/100): only 2 of 5 signals matched. Principal gaps: multiple mandatory obligations (shall … shall), numbered traceable requirements, review / monitoring mechanisms.
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: numbered traceable requirements, review / monitoring mechanisms.
 
 **Signals detected:**
 *Governance signals:*
+- multiple mandatory obligations (shall/must pairs) (+20 pts)
 - evidence / documentation requirements (+20 pts)
 - specific, measurable obligations (+20 pts)
 
 **Signals missing:**
-- multiple mandatory obligations (shall … shall) (missed 20 pts)
 - numbered traceable requirements (missed 20 pts)
 - review / monitoring mechanisms (missed 20 pts)
 
 **Dimension significance:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
 
-**Enforceability — 20/100** ██░░░░░░░░
+**Enforceability — 80/100** ████████░░
 
-**Why:** Weak enforceability coverage (20/100): only 1 of 5 signals matched. Principal gaps: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties.
+**Why:** Strong enforceability coverage (80/100): 4 of 5 signals matched. Strongest contributors: mandatory language (shall/must), named responsible parties.
 
 **Signals detected:**
+*Governance signals:*
+- mandatory language (shall/must) (+20 pts)
+- risk-proportionate thresholds (+20 pts)
 *Structural signals:*
 - named responsible parties (+20 pts)
+- non-discretionary operational mandates (+20 pts)
 
 **Signals missing:**
-- mandatory language (shall) (missed 20 pts)
-- risk-proportionate thresholds (missed 20 pts)
 - enforcement consequences / penalties (missed 20 pts)
-- non-discretionary operational mandates (missed 20 pts)
 
 **Dimension significance:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
 
-**Overall Readiness — 20/100** ██░░░░░░░░
+**Overall Readiness — 36/100** ████░░░░░░
 
 **Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
@@ -1185,8 +1245,10 @@ None detected.
 - Expresses: risk governance
 - Structure: full lifecycle scope declared
 - Structure: operational mechanisms defined
+- Auditability: multiple mandatory obligations (shall/must pairs)
 - Auditability: evidence / documentation requirements
 - Auditability: specific, measurable obligations
+- Enforceability: mandatory language (shall/must)
 - Enforceability: named responsible parties
 
 
@@ -1196,26 +1258,25 @@ None detected.
 - LAIF structural element missing: non-amendable constitutional hierarchy
 - LAIF structural element missing: self-application clause (Part Seven)
 - LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
-- Sector gaming risk [HIGH]: Sector risk alignment 80% vs overall readiness 20/100. High keyword density without substantive governance — consistent with sector keyword stuffing. A genuinely sector-appropriate document would score higher on conceptual proximity and auditability (LAIF v1.2 Q2 Consistency).
+- Sector gaming risk [MEDIUM]: Sector alignment 80% but conceptual proximity 24/100. Sector-specific vocabulary present without underlying governance intent. May indicate sector-optimised keyword selection rather than substantive coverage.
 
 
 #### Primary Failure Modes
 - structural — constitutional hierarchy not declared
 - terminological — no canonical LAIF terms present
 - conceptual — LAIF-like concepts insufficiently expressed
-- enforceability — insufficient mandatory operational requirements
 
 
 #### Structured Findings
 **🔴 [HIGH] Coupling not structurally declared — no restriction paired with a human interest**
-- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Evidence:* Neither the canonical term 'Coupling' nor a functional equivalent of the structural pairing was detected in the document.
 - *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
-- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1) — or express the same pairing in the document's own vocabulary with a documented equivalence mapping.
 
-**🔴 [HIGH] High sector gaming risk detected**
-- *Evidence:* Sector risk alignment 80% vs overall readiness 20/100. High keyword density without substantive governance — consistent with sector keyword stuffing. A genuinely sector-appropriate document would score higher on conceptual proximity and auditability (LAIF v1.2 Q2 Consistency).
-- *Impact:* High sector keyword density with low substantive governance content is inconsistent with genuine compliance. Keyword selection without governance substance would not produce just outcomes at the individual-decision scale — failing Q2 Consistency (LAIF v1.2 Principle 5).
-- *Recommended action:* Increase substantive coverage: add concrete obligations (auditability), named responsible parties (enforceability), and structural Coupling declarations. Sector keywords must be the vocabulary of genuine governance intent, not a substitute for it.
+**🟡 [MEDIUM] Medium sector gaming risk — vocabulary present without governance intent**
+- *Evidence:* Sector alignment 80% but conceptual proximity 24/100. Sector-specific vocabulary present without underlying governance intent. May indicate sector-optimised keyword selection rather than substantive coverage.
+- *Impact:* Sector-specific vocabulary without underlying conceptual coverage suggests keyword optimisation. Conceptual proximity should be ≥40 for credible sector alignment.
+- *Recommended action:* Pair each sector-specific risk indicator with a substantive governance measure — obligation, monitoring mechanism, or Coupling declaration.
 
 **🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
 - *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
@@ -1231,11 +1292,6 @@ None detected.
 - *Evidence:* Score 24/100. Key missed signals: human rights / fundamental interests, transparency, explainability / interpretability.
 - *Impact:* Low conceptual proximity indicates the document's governance intent is not substantially aligned with LAIF values. The adoption gap is more fundamental than terminology — substantive governance redesign is required, not just terminological substitution.
 - *Recommended action:* Target the missed signals for this dimension: human rights / fundamental interests, transparency, explainability / interpretability. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
-
-**🟡 [MEDIUM] Low Enforceability score (20/100)**
-- *Evidence:* Score 20/100. Key missed signals: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties.
-- *Impact:* Without enforceable obligations, regulatory bodies cannot hold operators accountable for governance failures. The standard is aspirational rather than operationally binding — no party can be required to comply.
-- *Recommended action:* Target the missed signals for this dimension: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
 
 
 
@@ -1279,10 +1335,11 @@ None detected.
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 44/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
+**LAIF Alignment:** 🟡 **PARTIALLY ALIGNED** — some LAIF constructs present in substance or in form  
 **Overall Readiness:** 44/100  
-**Deployment Risk Tier:** 🟠 **HIGH**  
+**Deployment Risk Tier:** 🟠 **HIGH** — *distance from LAIF-native certification, not a judgement of the instrument against its own objectives*  
 **Remediation Effort:** HIGH
-**Primary structural failure:** obligations are defined without enforceable protections for affected individuals.
+**Primary structural gap:** obligations are defined without enforceable protections for affected individuals.
 
 > ⚠️ **This document may appear compliant but lacks the structural guarantees required for reliable governance.** A document can score moderately on readiness metrics while still failing every structural precondition that makes governance obligations enforceable.
 
@@ -1333,13 +1390,25 @@ No implicit coupling signals detected. The document does not express protective 
 This document imposes obligations but does not structurally protect the people those obligations are meant to serve. Obligations can be weakened or removed independently of the protections they were intended to provide.
 
 
+#### Functional Alignment (Substance Independent of Vocabulary)
+Each core LAIF construct assessed for substance in the document's own vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (substance present, ≥2 independent signal families), PARTIAL (1 family), ABSENT. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
+
+| Construct        | Verdict   | Signal families detected                                         |
+| ---------------- | --------- | ---------------------------------------------------------------- |
+| Coupling         | ❌ ABSENT  | —                                                                |
+| Integrity Layer  | 🟡 PARTIAL | meaningful account of outputs, bounded operation with escalation |
+| Consistency      | ❌ ABSENT  | —                                                                |
+| Reversibility    | ❌ ABSENT  | —                                                                |
+| Self-Application | ❌ ABSENT  | —                                                                |
+
+
 #### Minimal Upgrade Path (No System Rewrite Required)
 To achieve formal LAIF Coupling compliance without restructuring the entire document:
 
 1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
 2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
-3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
-4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+3. **Explicitly declare the pairing** — state that neither the restriction nor its paired protection may be weakened without the other. The canonical form is 'Coupling between [restriction] and [human interest]'; the same structure expressed in the document's own vocabulary is equally valid with a documented equivalence mapping (Regulatory Integration Guide Part One).
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language so neither can be downgraded in isolation.
 
 
 
@@ -1408,7 +1477,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Auditability — 60/100** ██████░░░░
 
-**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall/must pairs), specific, measurable obligations.
 
 **Signals detected:**
 *Governance signals:*
@@ -1417,7 +1486,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 - review / monitoring mechanisms (+20 pts)
 
 **Signals missing:**
-- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- multiple mandatory obligations (shall/must pairs) (missed 20 pts)
 - specific, measurable obligations (missed 20 pts)
 
 **Dimension significance:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
@@ -1428,7 +1497,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Signals detected:**
 *Governance signals:*
-- mandatory language (shall) (+20 pts)
+- mandatory language (shall/must) (+20 pts)
 - risk-proportionate thresholds (+20 pts)
 *Structural signals:*
 - non-discretionary operational mandates (+20 pts)
@@ -1518,9 +1587,9 @@ None detected.
 
 #### Structured Findings
 **🔴 [HIGH] Coupling not structurally declared — no restriction paired with a human interest**
-- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Evidence:* Neither the canonical term 'Coupling' nor a functional equivalent of the structural pairing was detected in the document.
 - *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
-- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1) — or express the same pairing in the document's own vocabulary with a documented equivalence mapping.
 
 **🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
 - *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
@@ -1565,12 +1634,13 @@ None detected.
 
 
 #### Executive Assessment
-> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 30/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 34/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
-**Overall Readiness:** 30/100  
-**Deployment Risk Tier:** 🔴 **CRITICAL**  
+**LAIF Alignment:** 🔴 **STRUCTURALLY UNALIGNED** — LAIF's distinctive structural mechanisms not detected in any form; conceptual overlap, where present, is measured separately by the Conceptual Proximity dimension  
+**Overall Readiness:** 34/100  
+**Deployment Risk Tier:** 🔴 **CRITICAL** — *distance from LAIF-native certification, not a judgement of the instrument against its own objectives*  
 **Remediation Effort:** VERY HIGH
-**Primary structural failure:** obligations are defined without enforceable protections for affected individuals.
+**Primary structural gap:** obligations are defined without enforceable protections for affected individuals.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
@@ -1579,7 +1649,6 @@ None detected.
 **Key risks:**
 - Coupling not structurally declared: no governance restriction is paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
 - Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Missing any single construct = FAIL regardless of overall readiness score.
-- Low enforceability (20/100): mandatory language ('shall'), named responsible parties, and enforcement consequences are largely absent. Governance provisions are aspirational rather than operationally binding.
 
 **Key strengths:**
 - Good auditability (60/100): numbered requirements, evidence mandates, and monitoring mechanisms are present — obligations can be externally verified.
@@ -1618,13 +1687,25 @@ No implicit coupling signals detected. The document does not express protective 
 This document imposes obligations but does not structurally protect the people those obligations are meant to serve. Obligations can be weakened or removed independently of the protections they were intended to provide.
 
 
+#### Functional Alignment (Substance Independent of Vocabulary)
+Each core LAIF construct assessed for substance in the document's own vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (substance present, ≥2 independent signal families), PARTIAL (1 family), ABSENT. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
+
+| Construct        | Verdict  | Signal families detected |
+| ---------------- | -------- | ------------------------ |
+| Coupling         | ❌ ABSENT | —                        |
+| Integrity Layer  | ❌ ABSENT | —                        |
+| Consistency      | ❌ ABSENT | —                        |
+| Reversibility    | ❌ ABSENT | —                        |
+| Self-Application | ❌ ABSENT | —                        |
+
+
 #### Minimal Upgrade Path (No System Rewrite Required)
 To achieve formal LAIF Coupling compliance without restructuring the entire document:
 
 1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
 2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
-3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
-4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+3. **Explicitly declare the pairing** — state that neither the restriction nor its paired protection may be weakened without the other. The canonical form is 'Coupling between [restriction] and [human interest]'; the same structure expressed in the document's own vocabulary is equally valid with a documented equivalence mapping (Regulatory Integration Guide Part One).
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language so neither can be downgraded in isolation.
 
 
 
@@ -1692,7 +1773,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Auditability — 60/100** ██████░░░░
 
-**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall/must pairs), specific, measurable obligations.
 
 **Signals detected:**
 *Governance signals:*
@@ -1701,28 +1782,29 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 - review / monitoring mechanisms (+20 pts)
 
 **Signals missing:**
-- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- multiple mandatory obligations (shall/must pairs) (missed 20 pts)
 - specific, measurable obligations (missed 20 pts)
 
 **Dimension significance:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
 
-**Enforceability — 20/100** ██░░░░░░░░
+**Enforceability — 40/100** ████░░░░░░
 
-**Why:** Weak enforceability coverage (20/100): only 1 of 5 signals matched. Principal gaps: mandatory language (shall), named responsible parties, risk-proportionate thresholds.
+**Why:** Weak enforceability coverage (40/100): only 2 of 5 signals matched. Principal gaps: mandatory language (shall/must), risk-proportionate thresholds, non-discretionary operational mandates.
 
 **Signals detected:**
 *Governance signals:*
 - enforcement consequences / penalties (+20 pts)
+*Structural signals:*
+- named responsible parties (+20 pts)
 
 **Signals missing:**
-- mandatory language (shall) (missed 20 pts)
-- named responsible parties (missed 20 pts)
+- mandatory language (shall/must) (missed 20 pts)
 - risk-proportionate thresholds (missed 20 pts)
 - non-discretionary operational mandates (missed 20 pts)
 
 **Dimension significance:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
 
-**Overall Readiness — 30/100** ███░░░░░░░
+**Overall Readiness — 34/100** ███░░░░░░░
 
 **Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
@@ -1798,14 +1880,13 @@ None detected.
 - structural — constitutional hierarchy not declared
 - terminological — no canonical LAIF terms present
 - conceptual — LAIF-like concepts insufficiently expressed
-- enforceability — insufficient mandatory operational requirements
 
 
 #### Structured Findings
 **🔴 [HIGH] Coupling not structurally declared — no restriction paired with a human interest**
-- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Evidence:* Neither the canonical term 'Coupling' nor a functional equivalent of the structural pairing was detected in the document.
 - *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
-- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1) — or express the same pairing in the document's own vocabulary with a documented equivalence mapping.
 
 **🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
 - *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
@@ -1816,11 +1897,6 @@ None detected.
 - *Evidence:* Score 26/100. Key missed signals: mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
 - *Impact:* Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
 - *Recommended action:* Target the missed signals for this dimension: mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously). The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
-
-**🟡 [MEDIUM] Low Enforceability score (20/100)**
-- *Evidence:* Score 20/100. Key missed signals: mandatory language (shall), named responsible parties, risk-proportionate thresholds.
-- *Impact:* Without enforceable obligations, regulatory bodies cannot hold operators accountable for governance failures. The standard is aspirational rather than operationally binding — no party can be required to comply.
-- *Recommended action:* Target the missed signals for this dimension: mandatory language (shall), named responsible parties, risk-proportionate thresholds. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
 
 
 
@@ -1862,10 +1938,11 @@ None detected.
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 22/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
+**LAIF Alignment:** 🟡 **PARTIALLY ALIGNED** — some LAIF constructs present in substance or in form  
 **Overall Readiness:** 22/100  
-**Deployment Risk Tier:** 🔴 **CRITICAL**  
+**Deployment Risk Tier:** 🔴 **CRITICAL** — *distance from LAIF-native certification, not a judgement of the instrument against its own objectives*  
 **Remediation Effort:** VERY HIGH
-**Primary structural failure:** protections are suggested but not structurally bound to obligations.
+**Primary structural gap:** protections are suggested but not structurally bound to obligations.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
@@ -1927,13 +2004,25 @@ This document signals protective intent. However, an operator could modify speci
 Explicitly pair each restriction with the human interest it protects. Ensure both carry equivalent normative force — neither can be weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
 
 
+#### Functional Alignment (Substance Independent of Vocabulary)
+Each core LAIF construct assessed for substance in the document's own vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (substance present, ≥2 independent signal families), PARTIAL (1 family), ABSENT. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
+
+| Construct        | Verdict   | Signal families detected      |
+| ---------------- | --------- | ----------------------------- |
+| Coupling         | ❌ ABSENT  | —                             |
+| Integrity Layer  | 🟡 PARTIAL | meaningful account of outputs |
+| Consistency      | ❌ ABSENT  | —                             |
+| Reversibility    | ❌ ABSENT  | —                             |
+| Self-Application | ❌ ABSENT  | —                             |
+
+
 #### Minimal Upgrade Path (No System Rewrite Required)
 To achieve formal LAIF Coupling compliance without restructuring the entire document:
 
 1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
 2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
-3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
-4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+3. **Explicitly declare the pairing** — state that neither the restriction nor its paired protection may be weakened without the other. The canonical form is 'Coupling between [restriction] and [human interest]'; the same structure expressed in the document's own vocabulary is equally valid with a documented equivalence mapping (Regulatory Integration Guide Part One).
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language so neither can be downgraded in isolation.
 
 *Note: implicit coupling signals already present (see above) — the governance intent is established. This upgrade is terminological and structural, not conceptual.*
 
@@ -2005,7 +2094,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 **Why:** No auditability signals present — none of the 5 expected signals matched. This dimension is absent from the document.
 
 **Signals missing:**
-- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- multiple mandatory obligations (shall/must pairs) (missed 20 pts)
 - numbered traceable requirements (missed 20 pts)
 - evidence / documentation requirements (missed 20 pts)
 - review / monitoring mechanisms (missed 20 pts)
@@ -2015,14 +2104,14 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Enforceability — 20/100** ██░░░░░░░░
 
-**Why:** Weak enforceability coverage (20/100): only 1 of 5 signals matched. Principal gaps: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties.
+**Why:** Weak enforceability coverage (20/100): only 1 of 5 signals matched. Principal gaps: mandatory language (shall/must), risk-proportionate thresholds, enforcement consequences / penalties.
 
 **Signals detected:**
 *Structural signals:*
 - named responsible parties (+20 pts)
 
 **Signals missing:**
-- mandatory language (shall) (missed 20 pts)
+- mandatory language (shall/must) (missed 20 pts)
 - risk-proportionate thresholds (missed 20 pts)
 - enforcement consequences / penalties (missed 20 pts)
 - non-discretionary operational mandates (missed 20 pts)
@@ -2109,9 +2198,9 @@ None detected.
 
 #### Structured Findings
 **🔴 [HIGH] Coupling not structurally declared — no restriction paired with a human interest**
-- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Evidence:* Neither the canonical term 'Coupling' nor a functional equivalent of the structural pairing was detected in the document.
 - *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
-- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1) — or express the same pairing in the document's own vocabulary with a documented equivalence mapping.
 
 **🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
 - *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
@@ -2124,14 +2213,14 @@ None detected.
 - *Recommended action:* Target the missed signals for this dimension: numbered sub-requirements, mandatory obligation language (shall), risk stratification / proportionality. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
 
 **🔴 [HIGH] Low Auditability score (0/100)**
-- *Evidence:* Score 0/100. Key missed signals: multiple mandatory obligations (shall … shall), numbered traceable requirements, evidence / documentation requirements.
+- *Evidence:* Score 0/100. Key missed signals: multiple mandatory obligations (shall/must pairs), numbered traceable requirements, evidence / documentation requirements.
 - *Impact:* Without numbered, traceable obligations, a PDCA auditor has no objective basis to verify compliance — compliance claims rest on assertions rather than verifiable evidence. External audit cannot proceed.
-- *Recommended action:* Target the missed signals for this dimension: multiple mandatory obligations (shall … shall), numbered traceable requirements, evidence / documentation requirements. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
+- *Recommended action:* Target the missed signals for this dimension: multiple mandatory obligations (shall/must pairs), numbered traceable requirements, evidence / documentation requirements. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
 
 **🟡 [MEDIUM] Low Enforceability score (20/100)**
-- *Evidence:* Score 20/100. Key missed signals: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties.
+- *Evidence:* Score 20/100. Key missed signals: mandatory language (shall/must), risk-proportionate thresholds, enforcement consequences / penalties.
 - *Impact:* Without enforceable obligations, regulatory bodies cannot hold operators accountable for governance failures. The standard is aspirational rather than operationally binding — no party can be required to comply.
-- *Recommended action:* Target the missed signals for this dimension: mandatory language (shall), risk-proportionate thresholds, enforcement consequences / penalties. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
+- *Recommended action:* Target the missed signals for this dimension: mandatory language (shall/must), risk-proportionate thresholds, enforcement consequences / penalties. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
 
 
 
@@ -2173,10 +2262,11 @@ None detected.
 #### Executive Assessment
 > This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 50/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
+**LAIF Alignment:** 🟡 **PARTIALLY ALIGNED** — some LAIF constructs present in substance or in form  
 **Overall Readiness:** 50/100  
-**Deployment Risk Tier:** 🟠 **HIGH**  
+**Deployment Risk Tier:** 🟠 **HIGH** — *distance from LAIF-native certification, not a judgement of the instrument against its own objectives*  
 **Remediation Effort:** HIGH
-**Primary structural failure:** obligations are defined without enforceable protections for affected individuals.
+**Primary structural gap:** obligations are defined without enforceable protections for affected individuals.
 
 > ⚠️ **This document may appear compliant but lacks the structural guarantees required for reliable governance.** A document can score moderately on readiness metrics while still failing every structural precondition that makes governance obligations enforceable.
 
@@ -2203,9 +2293,9 @@ However, the following are not structurally enforced:
 **Result:** Conceptually aligned, structurally incomplete
 
 **What Must Be Fixed First:**
-1. **Forbidden paraphrase of 'Coupling' detected: «engage with industry, civil society, and other stakeholders to develop guidelines, standards, method»** — Replace the forbidden term with 'Coupling' at every occurrence. For 'Coupling' specifically, also add: the named human interest, the paired restriction, and a statement of equivalent normative force on both sides (Toolkit §2 B.1; LAIF v1.2 Principle 2).
-2. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
-3. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+2. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
+3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
 #### Compliance Summary
@@ -2227,13 +2317,25 @@ No implicit coupling signals detected. The document does not express protective 
 This document imposes obligations but does not structurally protect the people those obligations are meant to serve. Obligations can be weakened or removed independently of the protections they were intended to provide.
 
 
+#### Functional Alignment (Substance Independent of Vocabulary)
+Each core LAIF construct assessed for substance in the document's own vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (substance present, ≥2 independent signal families), PARTIAL (1 family), ABSENT. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
+
+| Construct        | Verdict   | Signal families detected            |
+| ---------------- | --------- | ----------------------------------- |
+| Coupling         | 🟡 PARTIAL | restriction paired with named stake |
+| Integrity Layer  | 🟡 PARTIAL | meaningful account of outputs       |
+| Consistency      | ❌ ABSENT  | —                                   |
+| Reversibility    | ❌ ABSENT  | —                                   |
+| Self-Application | ❌ ABSENT  | —                                   |
+
+
 #### Minimal Upgrade Path (No System Rewrite Required)
 To achieve formal LAIF Coupling compliance without restructuring the entire document:
 
 1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
 2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
-3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
-4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+3. **Explicitly declare the pairing** — state that neither the restriction nor its paired protection may be weakened without the other. The canonical form is 'Coupling between [restriction] and [human interest]'; the same structure expressed in the document's own vocabulary is equally valid with a documented equivalence mapping (Regulatory Integration Guide Part One).
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language so neither can be downgraded in isolation.
 
 
 
@@ -2302,7 +2404,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Auditability — 60/100** ██████░░░░
 
-**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall/must pairs), specific, measurable obligations.
 
 **Signals detected:**
 *Governance signals:*
@@ -2311,18 +2413,18 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 - review / monitoring mechanisms (+20 pts)
 
 **Signals missing:**
-- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- multiple mandatory obligations (shall/must pairs) (missed 20 pts)
 - specific, measurable obligations (missed 20 pts)
 
 **Dimension significance:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
 
 **Enforceability — 80/100** ████████░░
 
-**Why:** Strong enforceability coverage (80/100): 4 of 5 signals matched. Strongest contributors: mandatory language (shall), named responsible parties.
+**Why:** Strong enforceability coverage (80/100): 4 of 5 signals matched. Strongest contributors: mandatory language (shall/must), named responsible parties.
 
 **Signals detected:**
 *Governance signals:*
-- mandatory language (shall) (+20 pts)
+- mandatory language (shall/must) (+20 pts)
 - risk-proportionate thresholds (+20 pts)
 *Structural signals:*
 - named responsible parties (+20 pts)
@@ -2379,9 +2481,9 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 - ❌ incident reporting mechanism
 
 
-#### Paraphrase Violations
-**Guard: Coupling** — 3 violation(s)  
-*Source: LAIF v1.2 Principle 2; validate.py context-aware guard*
+#### Terminology Divergence (Informational)
+This document does not use or claim LAIF canonical vocabulary, so the following are divergence notes for equivalence-mapping purposes — **not** violations:
+**Near-'Coupling' wording** — 3 instance(s)  
 > …engage with industry, civil society, and other stakeholders to develop guidelines, standards, methodologies, and related…
 > …orrection, and redress for affected individuals.  Section 7 — Supporting Workers  Agencies shall ensure that AI deployme…
 
@@ -2405,20 +2507,19 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 - LAIF structural element missing: non-amendable constitutional hierarchy
 - LAIF structural element missing: self-application clause (Part Seven)
 - LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
-- Paraphrase violation — forbidden substitution of 'Coupling' (3 instance(s)): engage with industry, civil society, and other stakeholders …; orrection, and redress for affected individuals.  Section 7 …
+- Terminology divergence (informational) — 'Coupling'-adjacent wording used in the document's own vocabulary (3 instance(s)): engage with industry, civil society, and other stakeholders …; orrection, and redress for affected individuals.  Section 7 …. Not a violation: this document does not use or claim LAIF canonical terminology.
 
 
 #### Primary Failure Modes
 - structural — constitutional hierarchy not declared
 - terminological — no canonical LAIF terms present
-- terminological (paraphrase) — forbidden substitutions detected
 
 
 #### Structured Findings
 **🔴 [HIGH] Coupling not structurally declared — no restriction paired with a human interest**
-- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Evidence:* Neither the canonical term 'Coupling' nor a functional equivalent of the structural pairing was detected in the document.
 - *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
-- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1) — or express the same pairing in the document's own vocabulary with a documented equivalence mapping.
 
 **🟡 [MEDIUM] Paraphrase violation: forbidden substitution of 'Coupling'**
 - *Evidence:* 3 instance(s). Example: «engage with industry, civil society, and other stakeholders to develop guidelines, standards, method»
@@ -2438,31 +2539,27 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 
 #### Remediation Plan (ordered by impact)
-**1. Problem:** Forbidden paraphrase of 'Coupling' detected: «engage with industry, civil society, and other stakeholders to develop guidelines, standards, method»
-   **Why it matters:** 'Coupling' is a structurally load-bearing canonical term. Informal substitutes do not carry the enforcement obligation the term requires. Using 'alignment' or 'connection' where 'Coupling' is required leaves each restriction without a mandatory paired protection (Toolkit §1).
-   **Concrete fix:** Replace the forbidden term with 'Coupling' at every occurrence. For 'Coupling' specifically, also add: the named human interest, the paired restriction, and a statement of equivalent normative force on both sides (Toolkit §2 B.1; LAIF v1.2 Principle 2).
-
-**2. Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+**1. Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
    **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
    **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
 
-**3. Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
+**2. Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
 
-**4. Problem:** Integrity Layer not declared as a deployment precondition.
+**3. Problem:** Integrity Layer not declared as a deployment precondition.
    **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
    **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
-**5. Problem:** Constitutional hierarchy not declared (structural score 35/100). Missing: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy.
+**4. Problem:** Constitutional hierarchy not declared (structural score 35/100). Missing: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy.
    **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
-**6. Problem:** Introduce structural Coupling for each governance provision — not addressed in this document.
+**5. Problem:** Introduce structural Coupling for each governance provision — not addressed in this document.
    **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).
 
-**7. Problem:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.
+**6. Problem:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.
    **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
    **Concrete fix:** Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).
 
@@ -2476,12 +2573,13 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 
 #### Executive Assessment
-> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 29/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 35/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
-**Overall Readiness:** 29/100  
-**Deployment Risk Tier:** 🔴 **CRITICAL**  
-**Remediation Effort:** VERY HIGH
-**Primary structural failure:** obligations are defined without enforceable protections for affected individuals.
+**LAIF Alignment:** 🟡 **PARTIALLY ALIGNED** — some LAIF constructs present in substance or in form  
+**Overall Readiness:** 35/100  
+**Deployment Risk Tier:** 🔴 **CRITICAL** — *distance from LAIF-native certification, not a judgement of the instrument against its own objectives*  
+**Remediation Effort:** HIGH
+**Primary structural gap:** obligations are defined without enforceable protections for affected individuals.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
@@ -2489,11 +2587,11 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Key risks:**
 - Coupling not structurally declared: no governance restriction is paired with a named human interest. Each restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) failure = automatic failure of the full Coherence Test. (LAIF v1.2 Principle 2)
-- High sector gaming risk: sector keyword density is elevated while substantive governance content is low (overall 29/100). This pattern would not produce just outcomes at the individual-decision scale — failing Q2 Consistency. (LAIF v1.2 Principle 5)
 - Formal compliance gate not satisfied: 8 required construct(s) absent — Coupling, Integrity Layer, Coherence Test. Missing any single construct = FAIL regardless of overall readiness score.
 
 **Key strengths:**
 - Strong sector risk alignment (80/100): the document addresses the materially relevant human interests for the Clinical AI Deployment deployment context.
+- Strong enforceability (60/100): mandatory language, named responsible parties, and enforcement consequences are present.
 
 **Position Assessment:**
 
@@ -2514,9 +2612,9 @@ However, the following are not structurally enforced:
 | Dimension                       | Verdict |
 | ------------------------------- | ------- |
 | Formal compliance (binary gate) | FAIL    |
-| Structural depth                | HOLLOW  |
+| Structural depth                | WEAK    |
 | Structural contradictions       | NONE    |
-| Sector gaming risk              | HIGH    |
+| Sector gaming risk              | LOW     |
 | Final verdict                   | FAIL    |
 
 **Source type:** sector_policy  
@@ -2529,13 +2627,25 @@ No implicit coupling signals detected. The document does not express protective 
 This document imposes obligations but does not structurally protect the people those obligations are meant to serve. Obligations can be weakened or removed independently of the protections they were intended to provide.
 
 
+#### Functional Alignment (Substance Independent of Vocabulary)
+Each core LAIF construct assessed for substance in the document's own vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (substance present, ≥2 independent signal families), PARTIAL (1 family), ABSENT. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
+
+| Construct        | Verdict   | Signal families detected                                         |
+| ---------------- | --------- | ---------------------------------------------------------------- |
+| Coupling         | ❌ ABSENT  | —                                                                |
+| Integrity Layer  | 🟡 PARTIAL | meaningful account of outputs, bounded operation with escalation |
+| Consistency      | ❌ ABSENT  | —                                                                |
+| Reversibility    | 🟡 PARTIAL | reversal capacity preserved                                      |
+| Self-Application | ❌ ABSENT  | —                                                                |
+
+
 #### Minimal Upgrade Path (No System Rewrite Required)
 To achieve formal LAIF Coupling compliance without restructuring the entire document:
 
 1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
 2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
-3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
-4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+3. **Explicitly declare the pairing** — state that neither the restriction nor its paired protection may be weakened without the other. The canonical form is 'Coupling between [restriction] and [human interest]'; the same structure expressed in the document's own vocabulary is equally valid with a documented equivalence mapping (Regulatory Integration Guide Part One).
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language so neither can be downgraded in isolation.
 
 
 
@@ -2576,9 +2686,9 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Dimension significance:** 15% weight. Canonical LAIF terms are structurally load-bearing: 'Coupling' is not equivalent to 'alignment'; 'Integrity Layer' is not equivalent to 'integrity requirements'. Each term carries a specific enforcement obligation that informal equivalents do not. Lower weight because terminology alone is necessary but not sufficient for compliance (Toolkit §1).
 
-**Conceptual Proximity — 23/100** ██░░░░░░░░
+**Conceptual Proximity — 31/100** ███░░░░░░░
 
-**Why:** Weak conceptual coverage (23/100): only 3 of 12 signals matched. Principal gaps: human rights / fundamental interests, explainability / interpretability, accountability.
+**Why:** Weak conceptual coverage (31/100): only 4 of 12 signals matched. Principal gaps: human rights / fundamental interests, accountability, proportionality.
 
 **Signals detected:**
 *Human interest signals:*
@@ -2586,10 +2696,11 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 *Governance signals:*
 - transparency (+8 pts)
 - human oversight (+8 pts)
+*Structural signals:*
+- explainability / interpretability (+8 pts)
 
 **Signals missing:**
 - human rights / fundamental interests (missed 10 pts)
-- explainability / interpretability (missed 8 pts)
 - accountability (missed 8 pts)
 - proportionality (missed 8 pts)
 - contestability / redress (missed 9 pts)
@@ -2602,7 +2713,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Auditability — 40/100** ████░░░░░░
 
-**Why:** Weak auditability coverage (40/100): only 2 of 5 signals matched. Principal gaps: multiple mandatory obligations (shall … shall), numbered traceable requirements, specific, measurable obligations.
+**Why:** Weak auditability coverage (40/100): only 2 of 5 signals matched. Principal gaps: multiple mandatory obligations (shall/must pairs), numbered traceable requirements, specific, measurable obligations.
 
 **Signals detected:**
 *Governance signals:*
@@ -2610,30 +2721,30 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 - review / monitoring mechanisms (+20 pts)
 
 **Signals missing:**
-- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- multiple mandatory obligations (shall/must pairs) (missed 20 pts)
 - numbered traceable requirements (missed 20 pts)
 - specific, measurable obligations (missed 20 pts)
 
 **Dimension significance:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
 
-**Enforceability — 40/100** ████░░░░░░
+**Enforceability — 60/100** ██████░░░░
 
-**Why:** Weak enforceability coverage (40/100): only 2 of 5 signals matched. Principal gaps: named responsible parties, risk-proportionate thresholds, enforcement consequences / penalties.
+**Why:** Partial enforceability coverage (60/100): 3 of 5 signals matched. Key gaps: risk-proportionate thresholds, enforcement consequences / penalties.
 
 **Signals detected:**
 *Governance signals:*
-- mandatory language (shall) (+20 pts)
+- mandatory language (shall/must) (+20 pts)
 *Structural signals:*
+- named responsible parties (+20 pts)
 - non-discretionary operational mandates (+20 pts)
 
 **Signals missing:**
-- named responsible parties (missed 20 pts)
 - risk-proportionate thresholds (missed 20 pts)
 - enforcement consequences / penalties (missed 20 pts)
 
 **Dimension significance:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
 
-**Overall Readiness — 29/100** ███░░░░░░░
+**Overall Readiness — 35/100** ████░░░░░░
 
 **Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
@@ -2687,6 +2798,7 @@ None detected.
 
 #### Strengths
 - Expresses: transparency
+- Expresses: explainability / interpretability
 - Expresses: human oversight
 - Expresses: safety
 - Structure: mandatory obligation language (shall)
@@ -2694,8 +2806,7 @@ None detected.
 - Structure: review / monitoring mechanisms
 - Auditability: evidence / documentation requirements
 - Auditability: review / monitoring mechanisms
-- Enforceability: mandatory language (shall)
-- Enforceability: non-discretionary operational mandates
+- Enforceability: mandatory language (shall/must)
 
 
 #### Gaps
@@ -2703,7 +2814,6 @@ None detected.
 - LAIF structural element missing: non-amendable constitutional hierarchy
 - LAIF structural element missing: self-application clause (Part Seven)
 - LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
-- Sector gaming risk [HIGH]: Sector risk alignment 80% vs overall readiness 29/100. High keyword density without substantive governance — consistent with sector keyword stuffing. A genuinely sector-appropriate document would score higher on conceptual proximity and auditability (LAIF v1.2 Q2 Consistency).
 
 
 #### Primary Failure Modes
@@ -2714,14 +2824,9 @@ None detected.
 
 #### Structured Findings
 **🔴 [HIGH] Coupling not structurally declared — no restriction paired with a human interest**
-- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Evidence:* Neither the canonical term 'Coupling' nor a functional equivalent of the structural pairing was detected in the document.
 - *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
-- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
-
-**🔴 [HIGH] High sector gaming risk detected**
-- *Evidence:* Sector risk alignment 80% vs overall readiness 29/100. High keyword density without substantive governance — consistent with sector keyword stuffing. A genuinely sector-appropriate document would score higher on conceptual proximity and auditability (LAIF v1.2 Q2 Consistency).
-- *Impact:* High sector keyword density with low substantive governance content is inconsistent with genuine compliance. Keyword selection without governance substance would not produce just outcomes at the individual-decision scale — failing Q2 Consistency (LAIF v1.2 Principle 5).
-- *Recommended action:* Increase substantive coverage: add concrete obligations (auditability), named responsible parties (enforceability), and structural Coupling declarations. Sector keywords must be the vocabulary of genuine governance intent, not a substitute for it.
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1) — or express the same pairing in the document's own vocabulary with a documented equivalence mapping.
 
 **🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
 - *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
@@ -2732,11 +2837,6 @@ None detected.
 - *Evidence:* Score 35/100. Key missed signals: numbered sub-requirements, risk stratification / proportionality, operational mechanisms defined.
 - *Impact:* Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
 - *Recommended action:* Target the missed signals for this dimension: numbered sub-requirements, risk stratification / proportionality, operational mechanisms defined. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
-
-**🟡 [MEDIUM] Low Conceptual coverage score (23/100)**
-- *Evidence:* Score 23/100. Key missed signals: human rights / fundamental interests, explainability / interpretability, accountability.
-- *Impact:* Low conceptual proximity indicates the document's governance intent is not substantially aligned with LAIF values. The adoption gap is more fundamental than terminology — substantive governance redesign is required, not just terminological substitution.
-- *Recommended action:* Target the missed signals for this dimension: human rights / fundamental interests, explainability / interpretability, accountability. The weight rationale for this dimension is detailed in the Scores and Signal Breakdown section above.
 
 
 
@@ -2775,12 +2875,13 @@ None detected.
 
 
 #### Executive Assessment
-> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 35/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
+> This document fails formal LAIF v1.2 compliance. Required constructs absent: all 8 required constructs. Overall readiness score: 39/100. Formal compliance is binary — partial presence of required constructs does not constitute compliance.
 
-**Overall Readiness:** 35/100  
-**Deployment Risk Tier:** 🔴 **CRITICAL**  
+**LAIF Alignment:** 🟡 **PARTIALLY ALIGNED** — some LAIF constructs present in substance or in form  
+**Overall Readiness:** 39/100  
+**Deployment Risk Tier:** 🔴 **CRITICAL** — *distance from LAIF-native certification, not a judgement of the instrument against its own objectives*  
 **Remediation Effort:** HIGH
-**Primary structural failure:** protections are suggested but not structurally bound to obligations.
+**Primary structural gap:** protections are suggested but not structurally bound to obligations.
 
 **Root cause:** Primary structural gap: Coupling not structurally declared.
 
@@ -2842,13 +2943,25 @@ This document signals protective intent. However, an operator could modify speci
 Explicitly pair each restriction with the human interest it protects. Ensure both carry equivalent normative force — neither can be weakened in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).
 
 
+#### Functional Alignment (Substance Independent of Vocabulary)
+Each core LAIF construct assessed for substance in the document's own vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (substance present, ≥2 independent signal families), PARTIAL (1 family), ABSENT. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
+
+| Construct        | Verdict   | Signal families detected      |
+| ---------------- | --------- | ----------------------------- |
+| Coupling         | ❌ ABSENT  | —                             |
+| Integrity Layer  | 🟡 PARTIAL | meaningful account of outputs |
+| Consistency      | ❌ ABSENT  | —                             |
+| Reversibility    | 🟡 PARTIAL | reversal capacity preserved   |
+| Self-Application | ❌ ABSENT  | —                             |
+
+
 #### Minimal Upgrade Path (No System Rewrite Required)
 To achieve formal LAIF Coupling compliance without restructuring the entire document:
 
 1. **Identify each restriction** — list every 'shall not' or operational constraint in the document.
 2. **Identify the affected human interest** — for each restriction, state the specific human interest it protects (e.g. 'patient safety', 'worker's right to explanation').
-3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] and [human interest]: neither may be weakened without the other.'
-4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language ('shall') so neither can be downgraded in isolation.
+3. **Explicitly declare the pairing** — state that neither the restriction nor its paired protection may be weakened without the other. The canonical form is 'Coupling between [restriction] and [human interest]'; the same structure expressed in the document's own vocabulary is equally valid with a documented equivalence mapping (Regulatory Integration Guide Part One).
+4. **Ensure equivalent normative force** — both sides of the pair must use the same mandatory language so neither can be downgraded in isolation.
 
 *Note: implicit coupling signals already present (see above) — the governance intent is established. This upgrade is terminological and structural, not conceptual.*
 
@@ -2917,7 +3030,7 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 
 **Auditability — 60/100** ██████░░░░
 
-**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall … shall), specific, measurable obligations.
+**Why:** Partial auditability coverage (60/100): 3 of 5 signals matched. Key gaps: multiple mandatory obligations (shall/must pairs), specific, measurable obligations.
 
 **Signals detected:**
 *Governance signals:*
@@ -2926,29 +3039,29 @@ To achieve formal LAIF Coupling compliance without restructuring the entire docu
 - review / monitoring mechanisms (+20 pts)
 
 **Signals missing:**
-- multiple mandatory obligations (shall … shall) (missed 20 pts)
+- multiple mandatory obligations (shall/must pairs) (missed 20 pts)
 - specific, measurable obligations (missed 20 pts)
 
 **Dimension significance:** 20% weight. LAIF obligations must be independently verifiable. Numbered requirements, evidence documentation mandates, and monitoring mechanisms are the operational artefacts that allow a PDCA auditor to confirm compliance. Without them, compliance claims cannot be externally assessed (Toolkit §2 PDCA).
 
-**Enforceability — 40/100** ████░░░░░░
+**Enforceability — 60/100** ██████░░░░
 
-**Why:** Weak enforceability coverage (40/100): only 2 of 5 signals matched. Principal gaps: named responsible parties, risk-proportionate thresholds, enforcement consequences / penalties.
+**Why:** Partial enforceability coverage (60/100): 3 of 5 signals matched. Key gaps: risk-proportionate thresholds, enforcement consequences / penalties.
 
 **Signals detected:**
 *Governance signals:*
-- mandatory language (shall) (+20 pts)
+- mandatory language (shall/must) (+20 pts)
 *Structural signals:*
+- named responsible parties (+20 pts)
 - non-discretionary operational mandates (+20 pts)
 
 **Signals missing:**
-- named responsible parties (missed 20 pts)
 - risk-proportionate thresholds (missed 20 pts)
 - enforcement consequences / penalties (missed 20 pts)
 
 **Dimension significance:** 20% weight. A governance standard that cannot be enforced is an aspiration, not a constraint. Mandatory language ('shall'), named responsible parties, and enforcement consequences are the minimum conditions for operational enforceability. Voluntary frameworks characteristically score low here regardless of conceptual quality (LAIF v1.2 Part Three).
 
-**Overall Readiness — 35/100** ████░░░░░░
+**Overall Readiness — 39/100** ████░░░░░░
 
 **Why:** Weighted sum of the five dimensions above — Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + Auditability×0.20 + Enforceability×0.20. A document achieves overall readiness by addressing governance architecture, canonical terminology, substantive intent, verifiability, and enforceability simultaneously. Weakness in any single dimension constrains the overall score proportionally.
 
@@ -3028,9 +3141,9 @@ None detected.
 
 #### Structured Findings
 **🔴 [HIGH] Coupling not structurally declared — no restriction paired with a human interest**
-- *Evidence:* The canonical term 'Coupling' does not appear in the document.
+- *Evidence:* Neither the canonical term 'Coupling' nor a functional equivalent of the structural pairing was detected in the document.
 - *Impact:* Every governance restriction can be weakened in isolation without triggering a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test failure. Integrity Layer precondition cannot be satisfied without Coupling (LAIF v1.2 Principle 2).
-- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1).
+- *Recommended action:* Declare structural Coupling for each governance restriction: name the specific human interest at stake and pair it with a protection of equivalent normative force (Toolkit §2 B.1) — or express the same pairing in the document's own vocabulary with a documented equivalence mapping.
 
 **🔴 [HIGH] Formal compliance gate not satisfied — 8 required construct(s) absent**
 - *Evidence:* Missing: Coupling, Integrity Layer, Coherence Test, PART ONE / Foundational Principles and 4 others.
@@ -3079,57 +3192,56 @@ Averages by evidence tier. Convergence between tiers indicates the core finding 
 
 | Evidence tier                         | n | Str | Ter | Con | Aud | Enf | OVR | Formal FAIL |
 | ------------------------------------- | - | --- | --- | --- | --- | --- | --- | ----------- |
-| OFFICIAL_EXCERPT (citable)            | 4 | 30  | 0   | 53  | 55  | 40  | 37  | 4/4         |
-| REPRESENTATIVE_EXCERPT (illustrative) | 6 | 30  | 0   | 49  | 47  | 43  | 35  | 6/6         |
+| OFFICIAL_EXCERPT (citable)            | 4 | 30  | 0   | 53  | 60  | 60  | 42  | 4/4         |
+| REPRESENTATIVE_EXCERPT (illustrative) | 6 | 30  | 0   | 50  | 47  | 53  | 37  | 6/6         |
 
 - **Terminology absence confirmed on official text:** every citable document scores 0/100 on LAIF canonical terminology. The terminology gap observed on paraphrased excerpts is a property of the source instruments themselves, not of the paraphrasing.
-- **Official full text scores higher on conceptual proximity (+4 avg):** verbatim instruments carry more of their own governance substance than condensed paraphrases preserve — meaning the illustrative corpus, if anything, *understated* how close real frameworks already are to LAIF's conceptual content.
-- **Official instruments are more auditable than their paraphrases suggested (+8 avg):** real instruments carry numbered obligations, evidence requirements, and review mechanisms that condensation strips out.
+- **Official full text scores higher on conceptual proximity (+3 avg):** verbatim instruments carry more of their own governance substance than condensed paraphrases preserve — meaning the illustrative corpus, if anything, *understated* how close real frameworks already are to LAIF's conceptual content.
+- **Official instruments are more auditable than their paraphrases suggested (+13 avg):** real instruments carry numbered obligations, evidence requirements, and review mechanisms that condensation strips out.
 - **Heuristic limitation surfaced by official text (NHS England DTAC v2.0 (February 2026)):** the sector gaming detector flags form/questionnaire-style official instruments because their governance content lives in assessed criteria, not declaratory prose. On verified official instruments the flag must be read as a format-mismatch diagnostic, not a gaming attribution (see the per-document interpretation caveat).
 
 
 ### Score Comparison
 | Document                               | Str | Ter | Con | Aud | Enf | OVR | Sector Alignment |
 | -------------------------------------- | --- | --- | --- | --- | --- | --- | ---------------- |
-| US Executive Order 14110 — §2 Principl | 43  | 0   | 57  | 60  | 40  | 42  | 20%              |
+| US Executive Order 14110 — §2 Principl | 43  | 0   | 57  | 60  | 60  | 46  | 20%              |
 | OECD Recommendation on AI (OECD/LEGAL/ | 26  | 0   | 84  | 60  | 20  | 39  | 40%              |
 | NIST AI RMF 1.0 (NIST AI 100-1) — GOVE | 41  | 0   | 47  | 60  | 80  | 48  | 80%              |
-| NHS England DTAC v2.0 (February 2026)  | 12  | 0   | 24  | 40  | 20  | 20  | 80%              |
+| NHS England DTAC v2.0 (February 2026)  | 12  | 0   | 24  | 60  | 80  | 36  | 80%              |
 | EU AI Act — Art. 9, 13 & 14            | 41  | 0   | 49  | 60  | 60  | 44  | 60%              |
-| NIST AI RMF — Govern & Map Functions   | 26  | 0   | 39  | 60  | 20  | 30  | 40%              |
+| NIST AI RMF — Govern & Map Functions   | 26  | 0   | 39  | 60  | 40  | 34  | 40%              |
 | OECD AI Principles (2019, rev. 2024)   | 12  | 0   | 76  | 0   | 20  | 22  | 60%              |
 | US Executive Order 14110 — §4 Safety & | 35  | 0   | 66  | 60  | 80  | 50  | 100%             |
-| NHS England — AI in Clinical Decision  | 35  | 0   | 23  | 40  | 40  | 29  | 80%              |
-| TUC/CIPD — Framework for Fair AI in Em | 28  | 0   | 41  | 60  | 40  | 35  | 80%              |
+| NHS England — AI in Clinical Decision  | 35  | 0   | 31  | 40  | 60  | 35  | 80%              |
+| TUC/CIPD — Framework for Fair AI in Em | 28  | 0   | 41  | 60  | 60  | 39  | 80%              |
 
 
-### Deployment Risk Tier Summary
-| Document                               | Risk Tier | Overall | Compliance | Provenance             |
-| -------------------------------------- | --------- | ------- | ---------- | ---------------------- |
-| OECD Recommendation on AI (OECD/LEGAL/ | CRITICAL  | 39/100  | FAIL       | OFFICIAL_EXCERPT       |
-| NHS England DTAC v2.0 (February 2026)  | CRITICAL  | 20/100  | FAIL       | OFFICIAL_EXCERPT       |
-| NIST AI RMF — Govern & Map Functions   | CRITICAL  | 30/100  | FAIL       | REPRESENTATIVE_EXCERPT |
-| OECD AI Principles (2019, rev. 2024)   | CRITICAL  | 22/100  | FAIL       | REPRESENTATIVE_EXCERPT |
-| NHS England — AI in Clinical Decision  | CRITICAL  | 29/100  | FAIL       | REPRESENTATIVE_EXCERPT |
-| TUC/CIPD — Framework for Fair AI in Em | CRITICAL  | 35/100  | FAIL       | REPRESENTATIVE_EXCERPT |
-| US Executive Order 14110 — §2 Principl | HIGH      | 42/100  | FAIL       | OFFICIAL_EXCERPT       |
-| NIST AI RMF 1.0 (NIST AI 100-1) — GOVE | HIGH      | 48/100  | FAIL       | OFFICIAL_EXCERPT       |
-| EU AI Act — Art. 9, 13 & 14            | HIGH      | 44/100  | FAIL       | REPRESENTATIVE_EXCERPT |
-| US Executive Order 14110 — §4 Safety & | HIGH      | 50/100  | FAIL       | REPRESENTATIVE_EXCERPT |
+### Alignment and Risk Tier Summary
+| Document                               | LAIF Alignment         | Risk Tier | Overall | Formal Gate | Provenance             |
+| -------------------------------------- | ---------------------- | --------- | ------- | ----------- | ---------------------- |
+| OECD Recommendation on AI (OECD/LEGAL/ | PARTIALLY ALIGNED      | CRITICAL  | 39/100  | FAIL        | OFFICIAL_EXCERPT       |
+| NHS England DTAC v2.0 (February 2026)  | PARTIALLY ALIGNED      | CRITICAL  | 36/100  | FAIL        | OFFICIAL_EXCERPT       |
+| NIST AI RMF — Govern & Map Functions   | STRUCTURALLY UNALIGNED | CRITICAL  | 34/100  | FAIL        | REPRESENTATIVE_EXCERPT |
+| OECD AI Principles (2019, rev. 2024)   | PARTIALLY ALIGNED      | CRITICAL  | 22/100  | FAIL        | REPRESENTATIVE_EXCERPT |
+| NHS England — AI in Clinical Decision  | PARTIALLY ALIGNED      | CRITICAL  | 35/100  | FAIL        | REPRESENTATIVE_EXCERPT |
+| TUC/CIPD — Framework for Fair AI in Em | PARTIALLY ALIGNED      | CRITICAL  | 39/100  | FAIL        | REPRESENTATIVE_EXCERPT |
+| US Executive Order 14110 — §2 Principl | STRUCTURALLY UNALIGNED | HIGH      | 46/100  | FAIL        | OFFICIAL_EXCERPT       |
+| NIST AI RMF 1.0 (NIST AI 100-1) — GOVE | PARTIALLY ALIGNED      | HIGH      | 48/100  | FAIL        | OFFICIAL_EXCERPT       |
+| EU AI Act — Art. 9, 13 & 14            | PARTIALLY ALIGNED      | HIGH      | 44/100  | FAIL        | REPRESENTATIVE_EXCERPT |
+| US Executive Order 14110 — §4 Safety & | PARTIALLY ALIGNED      | HIGH      | 50/100  | FAIL        | REPRESENTATIVE_EXCERPT |
 
-**Risk tier derivation** (matches `_deployment_risk_tier()`, Toolkit §7): LOW = STRONG PASS (all Integrity Layer and Coherence Test conditions met); otherwise MODERATE = overall ≥70; HIGH = overall 40–69; CRITICAL = overall <40.
+**Risk tier derivation** (matches `_deployment_risk_tier()`, Toolkit §7): LOW = STRONG PASS (all Integrity Layer and Coherence Test conditions met); otherwise MODERATE = overall ≥70; HIGH = overall 40–69; CRITICAL = overall <40. The tier expresses distance from LAIF-native certification. Read it together with the LAIF Alignment column: a FUNCTIONALLY ALIGNED document at HIGH tier needs terminological and documentary work, not substantive governance redesign.
 
 - High conceptual proximity (≥60): OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (official text), OECD AI Principles (2019, rev. 2024), US Executive Order 14110 — §4 Safety & §7 Workers — LAIF-like intent expressed through own vocabulary.
 - Paraphrase violations: US Executive Order 14110 — §4 Safety & §7 Workers — forbidden substitution of LAIF canonical terms.
-- Low enforceability (<40): OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (official text), NHS England DTAC v2.0 (February 2026) — Introduction & C1 Clinical Safety (official text), NIST AI RMF — Govern & Map Functions, OECD AI Principles (2019, rev. 2024) — voluntary/declaratory frameworks without binding mandates.
+- Low enforceability (<40): OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (official text), OECD AI Principles (2019, rev. 2024) — voluntary/declaratory frameworks without binding mandates.
 
 ## Common Failure Modes
 - **structural — constitutional hierarchy not declared** — 10/10 documents
 - **terminological — no canonical LAIF terms present** — 10/10 documents
-- **enforceability — insufficient mandatory operational requirements** — 4/10 documents
 - **conceptual — LAIF-like concepts insufficiently expressed** — 3/10 documents
+- **enforceability — insufficient mandatory operational requirements** — 2/10 documents
 - **auditability — obligations not checkable or traceable** — 1/10 documents
-- **terminological (paraphrase) — forbidden substitutions detected** — 1/10 documents
 
 The universal failure mode is terminological: no external framework uses LAIF canonical terms. However, the absence of structural Coupling is the more consequential gap — without it, restrictions are not structurally paired with proportionate protections, and neither can be defended as structurally required by the other (LAIF v1.2 Principle 2).
 

@@ -107,19 +107,19 @@ TERMINOLOGY_RUBRIC = [
 # and Integrity Layer conditions; scored without requiring LAIF vocabulary.
 CONCEPTUAL_RUBRIC = [
     # Q1 Coupling proxy — specific human interest identification
-    (10, r"\bhuman rights\b|\bfundamental rights\b|\bhuman interests?\b",
+    (10, r"\bhuman rights\b|\bfundamental rights\b|\bhuman interests?\b|\bperson.level stakes?\b|\baffected persons?\b|\bbeneficiar",
          "human rights / fundamental interests"),
     # Integrity Layer A.1 proxy — transparency requirements
-    (8,  r"\btransparency\b|\btransparent\b",
+    (8,  r"\btransparency\b|\btransparent\b|\bmeaningful account\b|\bshows? its work\b",
          "transparency"),
     # Integrity Layer A.1 proxy — explainability / meaningful account
-    (8,  r"\bexplainability\b|\binterpret\b|\bmeaningful\s+(?:explanation|information)\b",
+    (8,  r"\bexplainability\b|\binterpret\b|\bmeaningful\s+(?:explanation|information)\b|explain (?:any|each|every) decision|\bin plain language\b|words you can understand",
          "explainability / interpretability"),
     # Q1 Coupling proxy — accountability for decisions affecting interests
-    (8,  r"\baccountability\b|\baccountable\b",
+    (8,  r"\baccountability\b|\baccountable\b|records? sufficient for audit|\bauditors?\b",
          "accountability"),
     # Integrity Layer A.3 + Q1 Coupling — human oversight of AI decisions
-    (8,  r"\boversight\b|\bhuman determination\b|\bhuman.in.the.loop\b",
+    (8,  r"\boversight\b|\bhuman determination\b|\bhuman.in.the.loop\b|escalat\w+ to a human|human (?:being )?must approve|independent review\w*",
          "human oversight"),
     # Q2 Consistency proxy — proportionality across scales and actors
     (8,  r"\bproportionat|\brisk.{0,5}(?:level|proportion)",
@@ -131,7 +131,7 @@ CONCEPTUAL_RUBRIC = [
     (9,  r"\bcontest\w*\b|\bappeal\b|\bchallenge\b|\bredress\b|\bremedies\b",
          "contestability / redress"),
     # Q3 Reversibility proxy — modifiability of decisions and consequences
-    (8,  r"\b(?:revers|modif|correct)\w*\b.{0,80}\b(?:decision|outcome|consequence|policy)\b",
+    (8,  r"\b(?:revers|modif|correct)\w*\b.{0,80}\b(?:decision|outcome|consequence|policy)\b|power to reverse|can always appeal",
          "reversibility / modifiability"),
     # Q1/Q2 proxy — risk governance as structured process
     (8,  r"\brisk\s+(?:management|assessment|governance|control)\b",
@@ -144,10 +144,15 @@ CONCEPTUAL_RUBRIC = [
          "fairness / labour / non-discrimination"),
 ]
 
+# Register note: mandatory force is expressed as "shall" in legal drafting,
+# "must" in standards/plain drafting, and "we will / will not" in first-person
+# public commitments. All three registers carry binding intent; rubrics accept
+# each so that register alone cannot suppress an auditability or
+# enforceability signal (QA finding F4 — register bias).
 AUDITABILITY_RUBRIC = [
-    (20, r"\bshall\b.{1,300}\bshall\b",
-         "multiple mandatory obligations (shall … shall)"),
-    (20, r"\bArticle\s+\d+|GOVERN\s+\d+\.\d+|Section\s+\d+",
+    (20, r"\bshall\b.{1,300}\bshall\b|\bmust\b.{1,300}\bmust\b",
+         "multiple mandatory obligations (shall/must pairs)"),
+    (20, r"\bArticle\s+\d+|GOVERN\s+\d+\.\d+|Section\s+\d+|Part\s+\d+\b",
          "numbered traceable requirements"),
     (20, r"\b(?:document|record|evidence|technical documentation|certif|report)\b",
          "evidence / documentation requirements"),
@@ -158,15 +163,15 @@ AUDITABILITY_RUBRIC = [
 ]
 
 ENFORCEABILITY_RUBRIC = [
-    (20, r"\bshall\b",
-         "mandatory language (shall)"),
-    (20, r"\b(?:provider|deployer|operator|agenc(?:y|ies)|responsible\s+part(?:y|ies)|actors?)\b",
+    (20, r"\bshall\b|\bmust\b|\bwe\s+will\s+(?:never|not)\b",
+         "mandatory language (shall/must)"),
+    (20, r"\b(?:provider|deployer|operator|agenc(?:y|ies)|responsible\s+part(?:y|ies)|actors?|authorit(?:y|ies)|organisations?)\b",
          "named responsible parties"),
-    (20, r"\bproportionate\b|\bdegree\s+of\s+risk\b|\blevel\s+of\s+risk\b|\bhigher.risk\b",
+    (20, r"\bproportionate\b|\bdegree\s+of\s+risk\b|\blevel\s+of\s+risk\b|\bhigher.risk\b|commensurate\s+with\b",
          "risk-proportionate thresholds"),
-    (20, r"\b(?:penalty|sanction|fine|infringement|non.compliance|consequence)\b",
+    (20, r"\b(?:penalty|sanction|fine|infringement|non.compliance|consequence|suspension|suspended|revok)\w*\b",
          "enforcement consequences / penalties"),
-    (20, r"\bshall\s+(?:not\s+)?(?:ensure|establish|implement|maintain|provide|design|develop|assess)\b",
+    (20, r"\b(?:shall|must)\s+(?:not\s+)?(?:ensure|establish|implement|maintain|provide|design|develop|assess|approve|produce|operate|name|document)\b",
          "non-discretionary operational mandates"),
 ]
 
@@ -339,21 +344,245 @@ def _implicit_coupling_signals(text):
     return {"found": bool(matches), "matches": matches}
 
 
-def _coupling_state(existing_verdict, implicit):
+def _coupling_state(existing_verdict, implicit, functional_coupling="ABSENT"):
     """
-    Synthesise coupling state from explicit verdict and implicit signal scan.
+    Synthesise coupling state from explicit verdict, functional substance
+    detection, and implicit signal scan.
 
     STRUCTURAL — explicit Coupling declared with structural indicators (full credit)
-    IMPLICIT   — Coupling absent/shallow but implicit protective intent detected
-    ABSENT     — no Coupling and no implicit coupling signals found
+    FUNCTIONAL — Coupling substance fully expressed in the document's own
+                 vocabulary (>=2 independent signal families), without the
+                 canonical term. Not LAIF-native, but the pairing exists.
+    IMPLICIT   — protective intent detected without structural pairing
+    ABSENT     — no Coupling, no functional substance, no implicit signals
 
-    Source: LAIF v1.2 Principle 2; adoption guidance distinguishes intent from form.
+    Source: LAIF v1.2 Principle 2; Part Eight burden-of-proof (equivalent
+    structural diligence through alternative documented means); Regulatory
+    Integration Guide Part One (SATISFIES/EXTENDS methodology).
     """
     if existing_verdict == "STRUCTURAL":
         return "STRUCTURAL"
+    if functional_coupling == "FUNCTIONAL":
+        return "FUNCTIONAL"
     if implicit["found"]:
         return "IMPLICIT"
     return "ABSENT"
+
+
+# ── Functional construct detection ────────────────────────────────────────────
+# Source: LAIF v1.2 Part Eight (burden of proof) — a presumption of structural
+# non-compliance is rebuttable by "evidence of equivalent structural diligence
+# conducted through alternative documented means". Source: Regulatory
+# Integration Guide Part One — LAIF's own integration methodology grades
+# external instruments SATISFIES / EXTENDS in their native vocabulary.
+#
+# LAIF is the measuring instrument, not the authority over other instruments'
+# vocabulary: what the principal text requires of Coupling, the Integrity
+# Layer, Consistency, Reversibility, and Self-Application is SUBSTANTIVE, and
+# this layer detects that substance regardless of register or terminology.
+#
+# Verdict per construct:
+#   DECLARED   — canonical LAIF construct present (LAIF-native form)
+#   FUNCTIONAL — >= 2 independent signal families matched: the substance is
+#                expressed in the document's own vocabulary
+#   PARTIAL    — exactly 1 family matched
+#   ABSENT     — no canonical form and no substance signals
+# The >=2-family rule prevents a single boilerplate phrase from earning
+# functional credit; negation and contradiction downgrades are handled by the
+# structural-depth layer, which applies to this layer's inputs unchanged.
+
+FUNCTIONAL_CONSTRUCT_FAMILIES = {
+    # LAIF v1.2 Principle 2 / §111–113: named specific interest + pairing +
+    # equivalent normative force + mutual non-weakening.
+    "Coupling": [
+        ("restriction paired with named stake", [
+            r"(?:restriction|obligation|constraint|prohibition|rule|limit)\w*\b.{0,220}\b(?:exists?\s+to|designed\s+to|serves?\s+to|in\s+order\s+to)\s+(?:protect|serve|secure|safeguard)\b.{0,160}\b(?:interest|stake|right|dignity|safety|patient|worker|person|beneficiar)",
+            r"(?:when\s+we\s+restrict|every\s+rule\s+we\s+impose)\b.{0,200}\b(?:protect|who\s+that\s+protects)",
+            r"protect\w*\s+the\s+\w+(?:'s|’s)?\s+(?:stake|interest|right)s?\s+in\b",
+            r"(?:name|state|identify)\w*,?\s+(?:with\s+specificity,?\s+)?the\s+(?:specific\s+)?(?:person.level\s+stake|human\s+interest|interest)\b",
+            r"(?:connection|linkage|link)\s+between\b.{0,140}\bobligations?\b.{0,140}\b(?:protections?|rights)\b",
+            r"shall\s+not\s+sever\b.{0,140}\b(?:linkage|connection|pairing)\b",
+        ]),
+        ("mutual weakening lock", [
+            r"neither\b.{0,160}\b(?:weaken|remove|repeal|suspend|modif|drop)\w*\b.{0,120}\bwithout\s+the\s+other",
+            r"\bstand\s+or\s+fall\s+together\b",
+            r"never\s+(?:quietly\s+)?drop\s+the\s+protection\b.{0,100}\b(?:keep|rule)",
+            r"(?:restriction|rule|protection)\b.{0,140}\b(?:may|can)\s*not\s+be\s+(?:weakened|removed|dropped|repealed|suspended)\b.{0,120}\bwithout\b",
+        ]),
+        ("equivalent protective force", [
+            r"(?:protection|safeguard)\w*\b.{0,160}\bas\s+(?:enforceable|strong|effective|accessible|precise)\b.{0,60}\bas\b",
+            r"\bsame\s+legal\s+(?:strength|force)\b",
+            r"\bjust\s+as\s+strong\s+as\s+the\s+rule\b",
+            r"\bequivalent\s+(?:normative\s+)?force\b",
+        ]),
+    ],
+    # LAIF v1.2 Part Two / Toolkit §1.3–1.5: threshold gate + the three
+    # precondition substances.
+    "Integrity Layer": [
+        ("all-must-pass threshold gate", [
+            r"all\s+(?:three|four|five|of\s+the\s+following)\b.{0,160}\b(?:must|shall)\s+be\s+(?:satisfied|met|true)",
+            r"\b(?:three|four)\s+things\s+must\s+all\s+be\s+true\b",
+            r"partial\s+satisfaction\b.{0,100}\b(?:failure|fails)",
+            r"\bsatisfied\s+simultaneously\b|\bsimultaneously\b.{0,140}\bbefore\s+(?:any\s+)?deployment",
+            r"must\s+meet\s+(?:these|all)\s+criteria\s+to\s+pass\b",
+        ]),
+        ("meaningful account of outputs", [
+            r"(?:produce|provide|give)\w*\b.{0,80}\b(?:meaningful|comprehensible)\s+account\b",
+            r"explain\s+(?:any|each|every)\s+decision\b",
+            r"\bshow(?:s)?\s+its\s+work\b",
+            r"(?:confidence|uncertainty)\b.{0,140}\b(?:material\s+)?limitations\b",
+            r"interpret\s+the\s+system.s\s+outputs?\b|meaningful\s+(?:explanations?|information)\b",
+            r"disclos\w+\b.{0,120}\bmaterial\s+limitations\b",
+        ]),
+        ("stated-vs-implemented correspondence", [
+            r"(?:stated|documented)\b.{0,80}\bobjectives?\b.{0,140}\bcorrespond\b",
+            r"really\s+does\s+what\s+we\s+say\s+it\s+does\b",
+            r"perform\w*\s+consistently\s+whether\s+or\s+not\b",
+            r"verified\s+by\s+independent\s+review\w*\b|checked\s+by\s+independent\s+review\w*\b",
+        ]),
+        ("bounded operation with escalation", [
+            r"operate\w*\s+within\s+documented\s+bound",
+            r"stays?\s+inside\s+the\s+limits\b",
+            r"(?:surface|escalat|refer)\w*\b.{0,100}\bout.of.scope\b",
+            r"escalat\w+\s+to\s+a\s+human\b",
+            r"shall\s+not\s+autonomously\s+initiate\b",
+            r"within\s+(?:its|their)\s+(?:validated|approved|defined|intended)\s+(?:indication|purpose|scope)\b",
+            r"within\s+the\s+scope\s+of\s+(?:its|their)\s+intended\s+purpose\b",
+        ]),
+    ],
+    # LAIF v1.2 Principle 5 / Q2: scale-invariant reasoning.
+    "Consistency": [
+        ("scale-invariant reasoning", [
+            r"\bsmallest\s+comparable\b|\blargest\s+comparable\b",
+            r"\bat\s+smaller\s+and\s+larger\s+scales\b|defensible\b.{0,140}\b(?:smaller|larger)\s+scales?\b",
+            r"two.person\s+team\s+or\s+a\s+global\b|regardless\s+of\s+(?:size|scale)\b",
+        ]),
+        ("universal application check", [
+            r"\bapplied\s+universally\b|\buniversal\s+application\b",
+            r"aggregate\s+result\w*\b.{0,100}\bacceptable\b",
+            r"differential\s+treatment\b.{0,140}\bjustif",
+        ]),
+    ],
+    # LAIF v1.2 Provision D1 / Q3: reversal capacity + authorisation gate.
+    "Reversibility": [
+        ("authorisation before irreversible action", [
+            r"irreversible\b.{0,220}\b(?:without|prior\s+to|before)\b.{0,100}\b(?:authoris|authoriz|approv)",
+            r"(?:permanently\s+affect|could\s+permanently)\b.{0,180}\b(?:approve|authoris|authoriz|senior)",
+            r"(?:authoris|authoriz)\w+\b.{0,140}\bcommensurate\s+with\b.{0,80}\bpermanence\b",
+        ]),
+        ("reversal capacity preserved", [
+            r"(?:capacity|power|right|authority)\s+to\s+(?:reverse|overturn|modify)\b",
+            r"appeal\s+to\b.{0,100}\b(?:person|reviewer|body)\b.{0,100}\b(?:reverse|overturn)",
+            r"future\s+(?:actors|decision.makers)\b.{0,140}\b(?:reverse|modify)",
+            r"can\s+be\s+(?:overridden|reversed|repaired)\b|overridden,\s+repaired",
+            r"suspend\w*\b.{0,60}\b(?:roll\w*\s*back|recall|revoke)|rolling\s+back\b",
+            r"supersede,?\s+disengage,?\s+or\s+deactivate",
+            r"decommission\w*\b.{0,80}\bsafely\b|phasing\s+out\b.{0,60}\bsafely\b",
+        ]),
+    ],
+    # LAIF v1.2 Part Seven: the framework binds the governance actor itself.
+    "Self-Application": [
+        ("framework binds the governing actor", [
+            r"applies?\s+to\s+(?:the\s+)?(?:regulatory\s+)?authority\s+itself\b",
+            r"applies?\s+to\s+us\s+as\s+an?\s+organisation\b|just\s+as\s+much\s+as\s+to\s+our\s+systems\b",
+            r"(?:authority|regulator)\b.{0,140}\b(?:document|demonstrate)\w*\s+its\s+own\s+compliance\b",
+            r"same\s+(?:evidentiary\s+)?standard\s+it\s+demands\b",
+        ]),
+        ("recourse against the governing actor", [
+            r"affected\s+by\s+the\s+authority(?:'s|’s)\s+decisions?\b.{0,140}\b(?:appeal|review)",
+            r"independent\s+reviewer\b.{0,100}\bpower\s+to\s+reverse\b",
+        ]),
+    ],
+}
+
+# Canonical-form (DECLARED) detection per functional construct. For Coupling,
+# the bare term is NOT a declaration (that is SHALLOW under _coupling_quality);
+# DECLARED requires the structural verdict.
+# (pattern, case_sensitive). Single generic words (Consistency, Reversibility)
+# are matched case-sensitively as terms of art — lowercase everyday usage
+# ("brings clarity and consistency") is not a LAIF declaration.
+_FUNCTIONAL_DECLARED_CHECKS = {
+    "Integrity Layer":  (r"\bIntegrity Layer\b", False),
+    "Consistency":      (r"\bConsistency\b", True),
+    "Reversibility":    (r"\bReversibility\b", True),
+    "Self-Application": (r"PART SEVEN|self.application|applies to regulatory", False),
+}
+
+# The family that defines a construct: without it, functional credit is capped
+# at PARTIAL no matter how many supporting families match. Coupling IS the
+# pairing; the Integrity Layer IS an all-must-pass precondition gate.
+_FUNCTIONAL_REQUIRED_FAMILY = {
+    "Coupling":        "restriction paired with named stake",
+    "Integrity Layer": "all-must-pass threshold gate",
+}
+
+
+def _functional_alignment(text, coupling_quality):
+    """
+    Per-construct functional alignment verdicts with evidence excerpts.
+
+    Returns {construct: {"verdict", "families", "evidence"}}.
+    """
+    out = {}
+    for construct, families in FUNCTIONAL_CONSTRUCT_FAMILIES.items():
+        fam_hits, evidence = [], []
+        for fam_name, pats in families:
+            for pat in pats:
+                m = re.search(pat, text, re.IGNORECASE | re.DOTALL)
+                if m:
+                    fam_hits.append(fam_name)
+                    lo = max(0, m.start() - 20)
+                    hi = min(len(text), m.end() + 40)
+                    evidence.append(text[lo:hi].replace("\n", " ").strip()[:160])
+                    break
+
+        if construct == "Coupling":
+            declared = coupling_quality == "STRUCTURAL"
+        else:
+            pat, case_sensitive = _FUNCTIONAL_DECLARED_CHECKS[construct]
+            declared = bool(re.search(pat, text) if case_sensitive
+                            else re.search(pat, text, re.IGNORECASE))
+
+        required = _FUNCTIONAL_REQUIRED_FAMILY.get(construct)
+        has_required = required is None or required in fam_hits
+        if declared:
+            verdict = "DECLARED"
+        elif len(fam_hits) >= 2 and has_required:
+            verdict = "FUNCTIONAL"
+        elif len(fam_hits) >= 1:
+            verdict = "PARTIAL"
+        else:
+            verdict = "ABSENT"
+        out[construct] = {
+            "verdict":  verdict,
+            "families": fam_hits,
+            "evidence": evidence[:3],
+        }
+    return out
+
+
+def _laif_alignment_verdict(formal_pass, depth, functional, contradictions):
+    """
+    Overall alignment verdict — the audience-facing conclusion.
+
+    LAIF-NATIVE (STRONG/WEAK/HOLLOW) — written in LAIF's canonical form;
+        qualifier is the structural-depth verdict.
+    FUNCTIONALLY ALIGNED — not LAIF-native, but Coupling substance plus at
+        least 4 of 5 core constructs are functionally present and nothing
+        contradicts them. The adoption distance is terminological.
+    PARTIALLY ALIGNED — some constructs present functionally or partially.
+    STRUCTURALLY UNALIGNED — no construct detectable in any form.
+    """
+    if formal_pass:
+        return f"LAIF-NATIVE ({depth})"
+    ok = lambda c: functional[c]["verdict"] in ("DECLARED", "FUNCTIONAL")
+    n_ok = sum(ok(c) for c in functional)
+    if ok("Coupling") and n_ok >= 4 and not contradictions:
+        return "FUNCTIONALLY ALIGNED"
+    n_any = sum(functional[c]["verdict"] != "ABSENT" for c in functional)
+    if n_any >= 1:
+        return "PARTIALLY ALIGNED"
+    return "STRUCTURALLY UNALIGNED"
 
 
 # ── Contradiction detection ────────────────────────────────────────────────────
@@ -450,6 +679,26 @@ CONTRADICTION_CHECKS = [
 ]
 
 
+# A claimed property and its negation only contradict each other if they are
+# about the same subject matter. Document-wide co-presence produced false
+# accusations on long texts (a doc REGULATING irreversible actions was flagged
+# as dishonest about reversibility). Two safeguards:
+#   (1) proximity — the negating language must appear near a claim occurrence;
+#   (2) governing context — language that REGULATES the adverse condition
+#       ("no system shall initiate ... irreversible ... without authorisation")
+#       is compliance with Provision D1, not a contradiction of it.
+CONTRADICTION_PROXIMITY = 600
+
+_GOVERNING_CONTEXT_PAT = re.compile(
+    r"(?:shall\s+not|must\s+not|may\s+not|no\s+system\s+shall|is\s+prohibited|"
+    r"without\s+(?:prior\s+|documented\s+|appropriate\s+|explicit\s+)*(?:authoris|authoriz|approval)|"
+    r"requires?\s+(?:prior\s+|documented\s+|senior\s+)*(?:authoris|authoriz|approval|sign.off)|"
+    r"triggering\s+the\s+(?:appropriate\s+)?authoris|"
+    r"(?:human|senior)\s+(?:being\s+)?must\s+approve)",
+    re.IGNORECASE,
+)
+
+
 def _contradiction_check(text):
     """
     Detect contradictions between claimed LAIF properties and document content.
@@ -461,15 +710,25 @@ def _contradiction_check(text):
     """
     findings = []
     for check in CONTRADICTION_CHECKS:
-        if not re.search(check["trigger"], text, re.IGNORECASE):
+        trigger_positions = [
+            m.start() for m in re.finditer(check["trigger"], text, re.IGNORECASE)
+        ]
+        if not trigger_positions:
             continue
         for pat, desc in check["adversaries"]:
-            m = re.search(pat, text, re.IGNORECASE)
-            if m:
+            for m in re.finditer(pat, text, re.IGNORECASE):
+                if not any(abs(m.start() - t) <= CONTRADICTION_PROXIMITY
+                           for t in trigger_positions):
+                    continue
+                lo = max(0, m.start() - 160)
+                hi = min(len(text), m.end() + 160)
+                if _GOVERNING_CONTEXT_PAT.search(text[lo:hi]):
+                    continue
                 start = max(0, m.start() - 100)
                 end   = min(len(text), m.end() + 100)
                 ctx   = text[start:end].replace("\n", " ").strip()
                 findings.append((check["property"], desc, ctx[:200]))
+                break
     return findings
 
 
@@ -936,12 +1195,23 @@ def _executive_summary(result):
             miss_str = ", ".join(missing[:4]) + f" and {len(missing) - 4} others"
         else:
             miss_str = ", ".join(missing) if missing else "see formal checks detail"
-        verdict = (
-            f"This document fails formal LAIF v1.2 compliance. Required constructs absent: "
-            f"{miss_str}. Overall readiness score: {overall}/100. "
-            f"Formal compliance is binary — partial presence of required constructs does not "
-            f"constitute compliance."
-        )
+        _la = result.get("laif_alignment", "")
+        if _la == "FUNCTIONALLY ALIGNED":
+            verdict = (
+                f"This document is not written in LAIF-native form ({miss_str} not present "
+                f"as canonical constructs), so it does not pass the formal LAIF v1.2 gate — "
+                f"but its substance is FUNCTIONALLY ALIGNED: the structural requirements "
+                f"behind those constructs are expressed in the document's own vocabulary. "
+                f"Overall readiness score: {overall}/100. The distance to LAIF certification "
+                f"is terminological and documentary, not substantive."
+            )
+        else:
+            verdict = (
+                f"This document fails formal LAIF v1.2 compliance. Required constructs absent: "
+                f"{miss_str}. Overall readiness score: {overall}/100. "
+                f"Formal compliance is binary — partial presence of required constructs does not "
+                f"constitute compliance."
+            )
 
     # ── Key risks (up to 3) ──────────────────────────────────────────────────
     risks = []
@@ -951,6 +1221,14 @@ def _executive_summary(result):
             "Coupling failure mode. The framework actively disclaims the structural pairing "
             "requirement, making it impossible to satisfy the Coherence Test Q1. "
             "(LAIF v1.2 Principle 2)"
+        )
+    elif result.get("coupling_state") == "FUNCTIONAL":
+        risks.append(
+            "Coupling not declared in LAIF-native form. The pairing of restrictions with "
+            "named protections IS functionally expressed in the document's own vocabulary; "
+            "LAIF certification would require either a canonical declaration or a documented "
+            "equivalence mapping. The distance is terminological, not substantive. "
+            "(LAIF v1.2 Principle 2; Part Eight; Regulatory Integration Guide Part One)"
         )
     elif cq in ("SHALLOW", "ABSENT"):
         risks.append(
@@ -1053,6 +1331,9 @@ def _executive_summary(result):
     # ── Root cause — always "Primary structural gap: X" ─────────────────────
     if sc == "STRONG PASS":
         why = "Primary structural gap: none — full structural compliance confirmed."
+    elif result.get("coupling_state") == "FUNCTIONAL":
+        why = ("Primary structural gap: LAIF-native declaration absent — Coupling "
+               "substance is functionally present in the document's own vocabulary.")
     elif cq in ("ABSENT", "SHALLOW", "NEGATED"):
         why = "Primary structural gap: Coupling not structurally declared."
     elif contras:
@@ -1080,11 +1361,20 @@ def _executive_summary(result):
 
     if cs == "STRUCTURAL":
         position_result = "Structurally compliant with LAIF"
+    elif cs == "FUNCTIONAL":
+        position_result = ("Functionally aligned with LAIF in its own vocabulary — "
+                           "not LAIF-native")
     else:
         position_result = "Conceptually aligned, structurally incomplete"
 
     not_enforced = []
-    if cs != "STRUCTURAL":
+    if cs == "FUNCTIONAL":
+        not_enforced.append(
+            "LAIF-native Coupling declaration absent — the pairing exists in the "
+            "document's own vocabulary; certification requires canonical declaration "
+            "or documented equivalence mapping"
+        )
+    elif cs != "STRUCTURAL":
         not_enforced.append("Coupling not structurally declared — restrictions not bound to human interests")
     if not cc.get("Coherence Test"):
         not_enforced.append("Coherence Test not applied — Q1/Q2/Q3 not documented")
@@ -1118,12 +1408,42 @@ def _structured_findings(result):
     overall  = result["overall_readiness_score"]
     fcd      = result.get("formal_checks_detail", [])
 
+    cstate   = result.get("coupling_state", "ABSENT")
+    func     = result.get("functional_alignment", {})
+
     # ── Coupling quality ──────────────────────────────────────────────────────
-    if cq == "ABSENT":
+    if cstate == "FUNCTIONAL":
+        fam = ", ".join(func.get("Coupling", {}).get("families", []))
+        ev  = "; ".join(func.get("Coupling", {}).get("evidence", [])[:2])
+        findings.append({
+            "title":    "Coupling substance functionally present — not declared in LAIF-native form",
+            "severity": "MEDIUM",
+            "evidence": (
+                f"Structural pairing expressed in the document's own vocabulary "
+                f"(signal families: {fam}). Example: «{ev[:180]}»"
+            ),
+            "impact":   (
+                "The substantive requirement of LAIF v1.2 Principle 2 — restrictions bound "
+                "to named human interests with protections of comparable force — is expressed "
+                "in this document's own terms. What is missing is the LAIF-native declaration "
+                "needed for LAIF certification, not the protection itself. Under LAIF v1.2 "
+                "Part Eight this constitutes rebuttal evidence of equivalent structural "
+                "diligence through alternative documented means."
+            ),
+            "recommended_action": (
+                "Two equally valid paths: (a) for LAIF certification, restate the existing "
+                "pairings using the canonical Coupling declaration (Toolkit §2 B.1); or "
+                "(b) retain the document's own vocabulary and record a documented equivalence "
+                "mapping to LAIF Section B.1, per the Regulatory Integration Guide's "
+                "SATISFIES/EXTENDS methodology."
+            ),
+        })
+    elif cq == "ABSENT":
         findings.append({
             "title":    "Coupling not structurally declared — no restriction paired with a human interest",
             "severity": "HIGH",
-            "evidence": "The canonical term 'Coupling' does not appear in the document.",
+            "evidence": "Neither the canonical term 'Coupling' nor a functional equivalent "
+                        "of the structural pairing was detected in the document.",
             "impact":   (
                 "Every governance restriction can be weakened in isolation without triggering "
                 "a corresponding protection failure. Q1 (Coupling) = automatic Coherence Test "
@@ -1133,7 +1453,8 @@ def _structured_findings(result):
             "recommended_action": (
                 "Declare structural Coupling for each governance restriction: name the specific "
                 "human interest at stake and pair it with a protection of equivalent normative "
-                "force (Toolkit §2 B.1)."
+                "force (Toolkit §2 B.1) — or express the same pairing in the document's own "
+                "vocabulary with a documented equivalence mapping."
             ),
         })
     elif cq == "SHALLOW":
@@ -1325,28 +1646,57 @@ def _structured_remediation(result):
     recommended_remediation_steps retained separately for console output.
     """
     steps = []
+    _cstate = result.get("coupling_state", "ABSENT")
+    _func   = result.get("functional_alignment", {})
 
-    # 1 — Paraphrase violations (most specific, highest immediate impact)
-    for term, violations in result["paraphrase_violations"].items():
-        for _, ctx in violations[:1]:
-            snippet = ctx.replace("\n", " ").strip()[:100]
-            steps.append({
-                "problem": (
-                    f"Forbidden paraphrase of '{term}' detected: «{snippet}»"
-                ),
-                "why_it_matters": (
-                    f"'{term}' is a structurally load-bearing canonical term. Informal "
-                    f"substitutes do not carry the enforcement obligation the term requires. "
-                    f"Using 'alignment' or 'connection' where 'Coupling' is required leaves "
-                    f"each restriction without a mandatory paired protection (Toolkit §1)."
-                ),
-                "concrete_fix": (
-                    f"Replace the forbidden term with '{term}' at every occurrence. "
-                    f"For 'Coupling' specifically, also add: the named human interest, "
-                    f"the paired restriction, and a statement of equivalent normative force "
-                    f"on both sides (Toolkit §2 B.1; LAIF v1.2 Principle 2)."
-                ),
-            })
+    # 1 — Paraphrase violations (most specific, highest immediate impact).
+    # DIVERGENCE_NOTE documents (own vocabulary, no LAIF claim) skip this —
+    # their path is equivalence mapping, not term substitution.
+    if result.get("paraphrase_classification", "VIOLATION") == "VIOLATION":
+        for term, violations in result["paraphrase_violations"].items():
+            for _, ctx in violations[:1]:
+                snippet = ctx.replace("\n", " ").strip()[:100]
+                steps.append({
+                    "problem": (
+                        f"Forbidden paraphrase of '{term}' detected: «{snippet}»"
+                    ),
+                    "why_it_matters": (
+                        f"'{term}' is a structurally load-bearing canonical term. Informal "
+                        f"substitutes do not carry the enforcement obligation the term requires. "
+                        f"Using 'alignment' or 'connection' where 'Coupling' is required leaves "
+                        f"each restriction without a mandatory paired protection (Toolkit §1)."
+                    ),
+                    "concrete_fix": (
+                        f"Replace the forbidden term with '{term}' at every occurrence. "
+                        f"For 'Coupling' specifically, also add: the named human interest, "
+                        f"the paired restriction, and a statement of equivalent normative force "
+                        f"on both sides (Toolkit §2 B.1; LAIF v1.2 Principle 2)."
+                    ),
+                })
+
+    # 1b — Functionally aligned documents: the top action is a choice of path,
+    # stated before any construct-level gap items.
+    if _cstate == "FUNCTIONAL":
+        fam = ", ".join(_func.get("Coupling", {}).get("families", []))
+        steps.append({
+            "problem": (
+                "Coupling substance present in the document's own vocabulary "
+                f"({fam}) but not declared in LAIF-native form"
+            ),
+            "why_it_matters": (
+                "LAIF certification requires the canonical declaration, but the "
+                "protective structure itself already exists. Treating this as a "
+                "substantive failure would misstate the document (LAIF v1.2 Part Eight "
+                "recognises equivalent structural diligence through alternative "
+                "documented means)."
+            ),
+            "concrete_fix": (
+                "Either restate the existing pairings as canonical Coupling declarations "
+                "(Toolkit §2 B.1), or record a documented equivalence mapping to PDCA "
+                "Section B.1 per the Regulatory Integration Guide — both paths are valid; "
+                "the choice belongs to the document's owner."
+            ),
+        })
 
     # 2 — Coupling
     cq = result["coupling_quality"]
@@ -1490,9 +1840,14 @@ def _remediation(result):
     with a protection of equivalent normative force).
     """
     steps = []
+    _cstate = result.get("coupling_state", "ABSENT")
+    _para_violation = result.get("paraphrase_classification", "VIOLATION") == "VIOLATION"
 
-    # 1 — Paraphrase violations (specific rewrites, highest impact)
-    if result["paraphrase_violations"]:
+    # 1 — Paraphrase violations (specific rewrites, highest impact). Only for
+    # documents that use or claim LAIF vocabulary; for external instruments in
+    # their own vocabulary the same detections are informational divergence
+    # notes, handled by the equivalence-mapping step below.
+    if result["paraphrase_violations"] and _para_violation:
         for term, violations in result["paraphrase_violations"].items():
             for _, ctx in violations[:2]:
                 snippet = ctx.replace("\n", " ").strip()[:120]
@@ -1508,15 +1863,30 @@ def _remediation(result):
                     f"Toolkit §2 B.1)."
                 )
 
-    # 2 — Coupling declaration (core LAIF requirement, always needed when missing)
-    if not result["construct_coverage"].get("Coupling"):
+    # 2 — Coupling (core LAIF requirement). Two distinct situations:
+    #     substance functionally present → the gap is the LAIF-native
+    #     declaration, and equivalence mapping is an equally valid path;
+    #     substance absent → the pairing itself must be built.
+    if _cstate == "FUNCTIONAL":
+        steps.append(
+            "Coupling substance is already present in this document's own vocabulary. "
+            "Choose one of two equally valid paths: (a) for LAIF certification, restate "
+            "the existing restriction-protection pairings as canonical Coupling "
+            "declarations (Toolkit §2 B.1); or (b) retain the document's vocabulary and "
+            "record a documented equivalence mapping to LAIF PDCA Section B.1, following "
+            "the Regulatory Integration Guide's SATISFIES/EXTENDS methodology. No "
+            "substantive redesign is required (LAIF v1.2 Part Eight — equivalent "
+            "structural diligence)."
+        )
+    elif not result["construct_coverage"].get("Coupling"):
         steps.append(
             "Declare structural Coupling for each governance restriction: explicitly identify "
             "the specific human interest at stake (not a category — name it with specificity, "
             "e.g. 'the patient's interest in receiving treatment decisions based on accurate "
             "clinical assessment') and pair it with a protection of equivalent normative force. "
             "The restriction and its paired protection must not be capable of being weakened in "
-            "isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+            "isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1). The pairing may be expressed "
+            "in the document's own vocabulary — what is required is the structure, not the word."
         )
 
     # 3 — Coherence Test (always needed when missing)
@@ -1659,6 +2029,27 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         if v:
             paraphrase[guard["term"]] = v
 
+    # Paraphrase guard scope. The guards exist to stop drift INSIDE documents
+    # that use LAIF's canonical vocabulary or claim LAIF alignment. An external
+    # instrument written entirely in its own vocabulary is not "violating" LAIF
+    # terminology — it never adopted it. For such documents the same detections
+    # are reported as a terminology divergence note (informational), not a
+    # violation. validate.py's enforcement over the LAIF corpus is unchanged.
+    # "Claiming LAIF" means using LAIF's distinctive vocabulary — not merely
+    # sharing generic legal phrases ("cannot be amended") with it. Coupling is
+    # matched case-sensitively: as a term of art it is capitalised; lowercase
+    # engineering "coupling" is not a LAIF claim.
+    claims_laif = bool(
+        re.search(r"\bLAIF\b|\bCoupling\b", text)
+        or re.search(
+            r"\bCoherence Test\b|\bIntegrity Layer\b"
+            r"|\bStructural (?:Transparency|Honesty|Containment)\b"
+            r"|\bPre.Deployment Coherence Assessment\b|\bPDCA\b",
+            text, re.IGNORECASE,
+        )
+    )
+    paraphrase_classification = "VIOLATION" if claims_laif else "DIVERGENCE_NOTE"
+
     # Strengths — signals that fired in conceptual + general structural +
     # auditability + enforceability rubrics (not LAIF-specific structural,
     # which external frameworks are not expected to contain)
@@ -1691,10 +2082,18 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         examples = "; ".join(
             v[1].replace("\n", " ")[:60] + "…" for v in violations[:2]
         )
-        gaps.append(
-            f"Paraphrase violation — forbidden substitution of '{guard_term}' "
-            f"({len(violations)} instance(s)): {examples}"
-        )
+        if paraphrase_classification == "VIOLATION":
+            gaps.append(
+                f"Paraphrase violation — forbidden substitution of '{guard_term}' "
+                f"({len(violations)} instance(s)): {examples}"
+            )
+        else:
+            gaps.append(
+                f"Terminology divergence (informational) — '{guard_term}'-adjacent "
+                f"wording used in the document's own vocabulary "
+                f"({len(violations)} instance(s)): {examples}. Not a violation: "
+                f"this document does not use or claim LAIF canonical terminology."
+            )
 
     # Primary failure modes
     failure_modes = []
@@ -1703,7 +2102,7 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         failure_modes.append("structural — constitutional hierarchy not declared")
     if t == 0:
         failure_modes.append("terminological — no canonical LAIF terms present")
-    if paraphrase:
+    if paraphrase and paraphrase_classification == "VIOLATION":
         failure_modes.append("terminological (paraphrase) — forbidden substitutions detected")
     if c < 40:
         failure_modes.append("conceptual — LAIF-like concepts insufficiently expressed")
@@ -1753,6 +2152,13 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
     gaming_level, gaming_reason = _sector_gaming_risk(sector_risk_alignment, overall, c)
     depth                = _structural_depth(cq, contradictions, gaming_level, formal_pass)
 
+    # Functional alignment — substance detection independent of vocabulary.
+    # Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
+    functional      = _functional_alignment(text, cq)
+    func_coupling   = functional["Coupling"]["verdict"]
+    laif_alignment  = _laif_alignment_verdict(formal_pass, depth, functional,
+                                              contradictions)
+
     # Strong compliance: formal gate PASS + genuine structural depth.
     # A hollow document that passes the formal gate but has SHALLOW/NEGATED Coupling
     # or contradictions is a WEAK PASS — not a STRONG PASS.
@@ -1798,7 +2204,10 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         "coupling_quality_reason":    cq_reason,
         "coupling_quality_evidence":  cq_evidence,
         "implicit_coupling":          implicit_coupling,
-        "coupling_state":             _coupling_state(cq, implicit_coupling),
+        "coupling_state":             _coupling_state(cq, implicit_coupling,
+                                                      func_coupling),
+        "functional_alignment":       functional,
+        "laif_alignment":             laif_alignment,
         "contradictions":             contradictions,
         "sector_gaming_risk":         gaming_level,
         "sector_gaming_reason":       gaming_reason,
@@ -1811,6 +2220,7 @@ def assess(name, source_type, text, sector="general_ai_governance", **meta):
         "overall_readiness_score":    overall,
         "remediation_effort":         effort,
         "paraphrase_violations":      paraphrase,
+        "paraphrase_classification":  paraphrase_classification,
         "strengths":                  strengths,
         "gaps":                       gaps,
         "primary_failure_modes":      failure_modes,
@@ -1887,6 +2297,13 @@ def _practical_meaning_exec(result):
         return (
             "This document states governance commitments that are contradicted by other "
             "provisions — protections appear present but are negated in effect."
+        )
+    if cs == "FUNCTIONAL":
+        return (
+            "This document expresses the structural protections LAIF requires, in its own "
+            "vocabulary. It is not written in LAIF-native form, so it cannot be certified "
+            "against LAIF as-is — but the adoption distance is terminological and "
+            "documentary, not substantive."
         )
     if cs == "ABSENT":
         return (
@@ -2068,12 +2485,15 @@ def generate_markdown_report(assessments, report_date="July 2026"):
 
     # ── Method ──────────────────────────────────────────────────────────────
     h(2, "Method")
-    p("Each document was assessed against three complementary layers:")
+    p("Each document was assessed against five complementary layers:")
     p()
-    p("**Layer 1 — Formal LAIF compliance (binary):** 8 required constructs — Coupling, "
+    p("**Layer 1 — LAIF-native form (binary formal gate):** 8 required constructs — Coupling, "
       "Integrity Layer, Coherence Test, PART ONE / Foundational Principles, non-amendable "
       "clause, self-application clause, Integrity Layer FINDING block, Coherence Test "
-      "FINDING block. All 8 must be present. Enforced by validate.py (unchanged).")
+      "FINDING block. All 8 must be present. Enforced by validate.py (unchanged). "
+      "This gate measures whether a document is *written as a LAIF instrument* — external "
+      "frameworks are expected to fail it, and that verdict says nothing about their "
+      "substance (see Layer 5).")
     p()
     p("**Layer 2 — Dimensional scoring (traceable):** Five dimensions scored 0–100 with "
       "per-signal breakdown. Every score is accompanied by the signals that fired (earned "
@@ -2093,9 +2513,25 @@ def generate_markdown_report(assessments, report_date="July 2026"):
     p("- **Sector gaming risk** (LOW / MEDIUM / HIGH): detects high sector keyword "
       "density without substantive governance content (LAIF v1.2 Q2 Consistency)")
     p()
+    p("**Layer 5 — Functional alignment (substance independent of vocabulary):** each "
+      "core construct (Coupling, Integrity Layer, Consistency, Reversibility, "
+      "Self-Application) is assessed for its *substance* in the document's own "
+      "vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (≥2 independent signal "
+      "families), PARTIAL, or ABSENT. Grounded in LAIF v1.2 Part Eight (equivalent "
+      "structural diligence through alternative documented means) and the Regulatory "
+      "Integration Guide's SATISFIES/EXTENDS methodology. LAIF is the measuring "
+      "instrument here, not an authority over other instruments' vocabulary: a "
+      "document is never penalised for expressing LAIF's requirements in its own "
+      "words, and never credited for using LAIF's words without the substance.")
+    p()
     p("**Strong compliance verdict:** STRONG PASS requires formal PASS + STRUCTURAL "
       "Coupling + no contradictions. A formal PASS with shallow Coupling = WEAK PASS, "
       "not a strong compliance claim.")
+    p()
+    p("**Overall alignment verdict:** LAIF-NATIVE (STRONG/WEAK/HOLLOW) for documents "
+      "written in canonical form, qualified by structural depth; FUNCTIONALLY ALIGNED "
+      "for documents whose Coupling substance plus at least 4 of 5 core constructs are "
+      "functionally present without contradictions; PARTIALLY ALIGNED (at least one construct present in some form); STRUCTURALLY UNALIGNED.")
 
     # ── Scope and Fair Reading ───────────────────────────────────────────────
     h(2, "Scope, Limitations, and Fair Reading")
@@ -2225,20 +2661,40 @@ def _render_scorecard(r, h, p, table):
         "MODERATE": "🟡 **MODERATE**",
         "LOW":      "🟢 **LOW**",
     }.get(risk_tier, f"**{risk_tier}**")
+    _alignment = r.get("laif_alignment", "")
+    _alignment_badge = {
+        "FUNCTIONALLY ALIGNED": "🟢 **FUNCTIONALLY ALIGNED** — LAIF's structural "
+                                "requirements are expressed in the document's own "
+                                "vocabulary; adoption distance is terminological",
+        "PARTIALLY ALIGNED":    "🟡 **PARTIALLY ALIGNED** — some LAIF constructs "
+                                "present in substance or in form",
+        "STRUCTURALLY UNALIGNED": "🔴 **STRUCTURALLY UNALIGNED** — LAIF's distinctive "
+                                  "structural mechanisms not detected in any form; "
+                                  "conceptual overlap, where present, is measured "
+                                  "separately by the Conceptual Proximity dimension",
+    }.get(_alignment, f"**{_alignment}**" if _alignment else "")
     if es:
         h(4, "Executive Assessment")
         p(f"> {es.get('verdict', '')}")
         p()
+        if _alignment_badge:
+            p(f"**LAIF Alignment:** {_alignment_badge}  ")
         p(f"**Overall Readiness:** {r['overall_readiness_score']}/100  ")
-        p(f"**Deployment Risk Tier:** {risk_tier_badge}  ")
+        p(f"**Deployment Risk Tier:** {risk_tier_badge} — *distance from LAIF-native "
+          f"certification, not a judgement of the instrument against its own "
+          f"objectives*  ")
         p(f"**Remediation Effort:** {r['remediation_effort']}")
 
-        # Primary structural failure — priority: Coupling > Coherence Test > Integrity Layer > contradictions
+        # Primary structural gap — priority: Coupling > Coherence Test > Integrity Layer > contradictions
         _cstate_es = r.get("coupling_state", "ABSENT")
         _cq_es     = r.get("coupling_quality", "ABSENT")
         _sc_es     = r.get("strong_laif_compliance", "FAIL")
         if _sc_es == "STRONG PASS":
             _psf = None
+        elif _cstate_es == "FUNCTIONAL":
+            _psf = ("none at the substantive level — the pairing of restrictions with "
+                    "protections is functionally expressed; the gap is the LAIF-native "
+                    "declaration required for certification.")
         elif _cstate_es == "ABSENT":
             _psf = ("obligations are defined without enforceable protections "
                     "for affected individuals.")
@@ -2255,12 +2711,15 @@ def _render_scorecard(r, h, p, table):
         else:
             _psf = ("required LAIF constructs are absent from the governance structure.")
         if _psf:
-            p(f"**Primary structural failure:** {_psf}")
+            p(f"**Primary structural gap:** {_psf}")
         p()
 
-        # False sense of compliance warning
+        # False sense of compliance warning — only when the substance is NOT
+        # functionally present; warning a functionally aligned document that it
+        # "lacks structural guarantees" would misstate it.
         if (r["overall_readiness_score"] > 40
-                and r.get("strong_laif_compliance") != "STRONG PASS"):
+                and r.get("strong_laif_compliance") != "STRONG PASS"
+                and _cstate_es not in ("STRUCTURAL", "FUNCTIONAL")):
             p("> ⚠️ **This document may appear compliant but lacks the structural "
               "guarantees required for reliable governance.** A document can score "
               "moderately on readiness metrics while still failing every structural "
@@ -2355,6 +2814,31 @@ def _render_scorecard(r, h, p, table):
         p(f"**Coupling:** STRUCTURALLY DECLARED ✅")
         if cq_ev:
             p(f"  Evidence: «{cq_ev[:150]}»")
+    elif cstate == "FUNCTIONAL":
+        _fc = r.get("functional_alignment", {}).get("Coupling", {})
+        p(f"**Coupling:** FUNCTIONALLY PRESENT (document's own vocabulary) 🟢 — "
+          f"not declared in LAIF-native form")
+        p()
+        p("**Functional pairing evidence** "
+          f"(signal families: {', '.join(_fc.get('families', []))}):")
+        for excerpt in _fc.get("evidence", []):
+            p(f"- «{excerpt}»")
+        p()
+        p("**Interpretation:**  ")
+        p("The substantive requirement of LAIF v1.2 Principle 2 — each restriction "
+          "bound to a named human interest with a protection of comparable force — "
+          "is expressed in this document's own terms. Under LAIF v1.2 Part Eight, "
+          "this constitutes evidence of equivalent structural diligence through "
+          "alternative documented means. What is absent is the LAIF-native "
+          "declaration required for LAIF certification — a terminological and "
+          "documentary step, not a substantive redesign.")
+        p()
+        p("**Two valid paths forward:**  ")
+        p("1. *Adopt canonical form* — restate the existing pairings as Coupling "
+          "declarations (Toolkit §2 B.1), or")
+        p("2. *Document equivalence* — retain this vocabulary and record a mapping "
+          "to LAIF PDCA Section B.1, per the Regulatory Integration Guide's "
+          "SATISFIES/EXTENDS methodology. The choice belongs to the document's owner.")
     elif cstate == "IMPLICIT":
         p(f"**Coupling:** NOT STRUCTURALLY DECLARED (implicit signals present) ❌")
         if cq_val == "NEGATED" and cq_ev:
@@ -2411,8 +2895,43 @@ def _render_scorecard(r, h, p, table):
           "are present in letter but absent in effect.")
         p()
 
+    # ── Functional Alignment (construct-by-construct) ────────────────────
+    func = r.get("functional_alignment", {})
+    if func:
+        h(4, "Functional Alignment (Substance Independent of Vocabulary)")
+        p("Each core LAIF construct assessed for substance in the document's own "
+          "vocabulary — DECLARED (LAIF-native form), FUNCTIONAL (substance present, "
+          "≥2 independent signal families), PARTIAL (1 family), ABSENT. "
+          "Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.")
+        p()
+        _fverdict_badge = {"DECLARED": "✅ DECLARED", "FUNCTIONAL": "🟢 FUNCTIONAL",
+                           "PARTIAL": "🟡 PARTIAL", "ABSENT": "❌ ABSENT"}
+        table(
+            ["Construct", "Verdict", "Signal families detected"],
+            [
+                [c, _fverdict_badge.get(v["verdict"], v["verdict"]),
+                 ", ".join(v["families"]) or "—"]
+                for c, v in func.items()
+            ]
+        )
+        p()
+
     # ── Minimal Upgrade Path (STEP 7) ────────────────────────────────────
-    if cstate != "STRUCTURAL":
+    if cstate == "FUNCTIONAL":
+        h(4, "Certification Path (Substance Already Present)")
+        p("This document already expresses the structural pairing LAIF requires. "
+          "To make that recognisable for LAIF certification, choose either path:")
+        p()
+        p("- **Path A — adopt canonical form:** restate each existing "
+          "restriction-protection pairing as a Coupling declaration "
+          "(Toolkit §2 B.1). Mechanical rewording; no substantive change.")
+        p("- **Path B — document equivalence:** retain the document's own "
+          "vocabulary and record a clause-by-clause mapping to LAIF PDCA "
+          "Section B.1, following the Regulatory Integration Guide's "
+          "SATISFIES/EXTENDS methodology (the same method LAIF uses for the "
+          "EU AI Act and NIST AI RMF).")
+        p()
+    elif cstate != "STRUCTURAL":
         h(4, "Minimal Upgrade Path (No System Rewrite Required)")
         p("To achieve formal LAIF Coupling compliance without restructuring the "
           "entire document:")
@@ -2422,10 +2941,13 @@ def _render_scorecard(r, h, p, table):
         p("2. **Identify the affected human interest** — for each restriction, state "
           "the specific human interest it protects (e.g. 'patient safety', "
           "'worker's right to explanation').")
-        p("3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] "
-          "and [human interest]: neither may be weakened without the other.'")
+        p("3. **Explicitly declare the pairing** — state that neither the restriction "
+          "nor its paired protection may be weakened without the other. The canonical "
+          "form is 'Coupling between [restriction] and [human interest]'; the same "
+          "structure expressed in the document's own vocabulary is equally valid with "
+          "a documented equivalence mapping (Regulatory Integration Guide Part One).")
         p("4. **Ensure equivalent normative force** — both sides of the pair must use "
-          "the same mandatory language ('shall') so neither can be downgraded in isolation.")
+          "the same mandatory language so neither can be downgraded in isolation.")
         p()
         if ic.get("found"):
             p("*Note: implicit coupling signals already present (see above) — the "
@@ -2545,12 +3067,24 @@ def _render_scorecard(r, h, p, table):
             p(f"- ❌ {f.replace('Evidence gap: ', '')}")
     p()
 
-    # Paraphrase violations
-    if r["paraphrase_violations"]:
+    # Paraphrase detections — VIOLATION for documents using/claiming LAIF
+    # vocabulary; informational divergence note for external instruments in
+    # their own vocabulary.
+    _pv_is_violation = r.get("paraphrase_classification", "VIOLATION") == "VIOLATION"
+    if r["paraphrase_violations"] and _pv_is_violation:
         h(4, "Paraphrase Violations")
         for term, vs in r["paraphrase_violations"].items():
             p(f"**Guard: {term}** — {len(vs)} violation(s)  ")
             p(f"*Source: LAIF v1.2 Principle 2; validate.py context-aware guard*")
+            for _, ctx in vs[:2]:
+                p(f"> …{ctx.replace(chr(10), ' ')[:120]}…")
+    elif r["paraphrase_violations"]:
+        h(4, "Terminology Divergence (Informational)")
+        p("This document does not use or claim LAIF canonical vocabulary, so the "
+          "following are divergence notes for equivalence-mapping purposes — "
+          "**not** violations:")
+        for term, vs in r["paraphrase_violations"].items():
+            p(f"**Near-'{term}' wording** — {len(vs)} instance(s)  ")
             for _, ctx in vs[:2]:
                 p(f"> …{ctx.replace(chr(10), ' ')[:120]}…")
     else:
@@ -2705,14 +3239,15 @@ def _render_cross_document(assessments, citable, illustrative, h, p, table,
     )
     p()
 
-    h(3, "Deployment Risk Tier Summary")
+    h(3, "Alignment and Risk Tier Summary")
     tier_order = {"CRITICAL": 0, "HIGH": 1, "MODERATE": 2, "LOW": 3}
     table(
-        ["Document", "Risk Tier", "Overall", "Compliance", "Provenance"],
+        ["Document", "LAIF Alignment", "Risk Tier", "Overall", "Formal Gate", "Provenance"],
         sorted(
             [
                 [
                     r["document_name"][:38],
+                    r.get("laif_alignment", ""),
                     r.get("deployment_risk_tier", "HIGH"),
                     f"{r['overall_readiness_score']}/100",
                     r.get("strong_laif_compliance", "FAIL"),
@@ -2720,14 +3255,17 @@ def _render_cross_document(assessments, citable, illustrative, h, p, table,
                 ]
                 for r in assessments
             ],
-            key=lambda row: tier_order.get(row[1], 9)
+            key=lambda row: tier_order.get(row[2], 9)
         )
     )
     p()
     p("**Risk tier derivation** (matches `_deployment_risk_tier()`, "
       "Toolkit §7): LOW = STRONG PASS (all Integrity Layer and Coherence Test "
       "conditions met); otherwise MODERATE = overall ≥70; HIGH = overall 40–69; "
-      "CRITICAL = overall <40.")
+      "CRITICAL = overall <40. The tier expresses distance from LAIF-native "
+      "certification. Read it together with the LAIF Alignment column: a "
+      "FUNCTIONALLY ALIGNED document at HIGH tier needs terminological and "
+      "documentary work, not substantive governance redesign.")
     p()
 
     high_conceptual = [r for r in assessments if r["conceptual_proximity_score"] >= 60]

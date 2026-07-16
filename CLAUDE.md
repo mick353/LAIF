@@ -39,6 +39,7 @@ LAIF/
 ├── corpus_manifest.md       # Provenance rules and per-document manifest for both corpus tiers
 ├── test_adversarial.py      # 82 adversarial tests against the guards and depth checks
 ├── test_provenance.py       # 48 provenance checks enforcing citability claims
+├── test_semantic_fidelity.py # 37 checks against false negatives (substance w/o vocabulary) and false positives
 ├── test_real_world.py       # Assessment run over both corpora → reports/laif_real_world_assessment.md
 │
 ├── docs/supporting/         # Verbatim ingested source texts (EO 14110, OECD, NIST AI 100-1, NHS DTAC)
@@ -164,9 +165,10 @@ Python 3 standard library. The pre-commit gate is these three commands, all of
 which must exit 0:
 
 ```bash
-python3 validate.py           # 9-check harness over the .txt corpus (rule failures = exit 1)
-python3 test_adversarial.py   # 82 adversarial tests on guards and structural-depth checks
-python3 test_provenance.py    # 48 checks enforcing corpus citability claims
+python3 validate.py                 # 9-check harness over the .txt corpus (rule failures = exit 1)
+python3 test_adversarial.py         # 82 adversarial tests on guards and structural-depth checks
+python3 test_provenance.py          # 48 checks enforcing corpus citability claims
+python3 test_semantic_fidelity.py   # 37 checks: substance never outranked by vocabulary; no false accusations
 ```
 
 To regenerate the assessment report (also acts as an integration test):
@@ -196,6 +198,33 @@ The assessment corpus has two evidence tiers (full rules in `corpus_manifest.md`
 Never present results computed from REPRESENTATIVE_EXCERPT text as findings about
 the official source instrument. This is the reporting layer's own A.2 Structural
 Honesty obligation.
+
+### Semantic Fidelity Rules (Machine-Enforced)
+
+LAIF is the measuring instrument, not an authority over other instruments'
+vocabulary. `assessment_engine.py` therefore measures on two independent axes,
+and both must be preserved by any change:
+
+- **LAIF-native form** (formal gate, binary) — is the document written as a
+  LAIF instrument? External frameworks are expected to fail this; that verdict
+  says nothing about their substance.
+- **Functional alignment** (per-construct) — is the *substance* of Coupling,
+  the Integrity Layer, Consistency, Reversibility, and Self-Application
+  expressed in the document's own vocabulary? Grounded in LAIF v1.2 Part Eight
+  (equivalent structural diligence) and the Regulatory Integration Guide's
+  SATISFIES/EXTENDS methodology.
+
+Hard invariants (enforced by `test_semantic_fidelity.py`):
+1. A document expressing LAIF's structural substance in its own vocabulary is
+   never described as lacking protection, and never ranked below a
+   vocabulary-only shell on any substance axis.
+2. Language that *regulates* a hazard ("no irreversible action without
+   authorisation") is never flagged as a Structural Honesty contradiction.
+3. Paraphrase detections on documents that neither use nor claim LAIF
+   vocabulary are informational divergence notes, not violations
+   (validate.py's strict enforcement over LAIF's own corpus is unchanged).
+4. Register never suppresses substance: "must"/"we will" carry the same
+   signal weight as "shall".
 
 ### Editing Documents
 

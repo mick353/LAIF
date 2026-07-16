@@ -69,14 +69,17 @@ Beyond the governance corpus, the repository ships a Python toolchain (stdlib on
 | `sample_documents.py` | Illustrative corpus — representative paraphrases (not citable) |
 | `test_provenance.py` | 48 machine-enforced checks on every citability claim |
 | `test_adversarial.py` | 82 adversarial tests on the guards and depth checks |
+| `test_semantic_fidelity.py` | 37 checks guaranteeing substance is never outranked by vocabulary and no document is falsely accused |
 | `test_real_world.py` | Runs the full assessment → `reports/laif_real_world_assessment.md` |
 
-**Headline citable finding:** all four official instruments assessed from verbatim text fail formal LAIF v1.2 compliance while averaging 53/100 conceptual proximity — real-world frameworks address the right governance dimensions but do not enforce them through structural Coupling, the Coherence Test, or the Integrity Layer.
+The engine measures on two independent axes: **LAIF-native form** (is the document written as a LAIF instrument — external frameworks are expected to fail this) and **functional alignment** (is the *substance* of Coupling, the Integrity Layer, Consistency, Reversibility, and Self-Application expressed in the document's own vocabulary — grounded in LAIF v1.2 Part Eight and the Regulatory Integration Guide's SATISFIES/EXTENDS methodology). A document is never penalised for expressing LAIF's requirements in its own words, and never credited for using LAIF's words without the substance.
+
+**Headline citable finding:** all four official instruments assessed from verbatim text fail the LAIF-native formal gate while averaging 53/100 conceptual proximity, and three of four are PARTIALLY ALIGNED at the construct level — real-world frameworks address the right governance dimensions, and partially express LAIF's structural mechanisms in their own idioms, but none enforces them through structural Coupling, the Coherence Test, or the Integrity Layer.
 
 Run everything:
 
 ```bash
-python3 validate.py && python3 test_adversarial.py && python3 test_provenance.py && python3 test_real_world.py
+python3 validate.py && python3 test_adversarial.py && python3 test_provenance.py && python3 test_semantic_fidelity.py && python3 test_real_world.py
 ```
 
 ---
