@@ -290,10 +290,10 @@ Each required LAIF-native construct remains necessary for certification; each re
 
 
 #### Diagnostic Gaps
-- Canonical LAIF terms absent: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
-- LAIF structural element missing: non-amendable constitutional hierarchy
-- LAIF structural element missing: self-application clause (Part Seven)
-- LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
+- Structural mechanism not detected in any vocabulary: non-amendable constitutional hierarchy
+- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
 #### Remediation Priorities
@@ -666,11 +666,11 @@ Each required LAIF-native construct remains necessary for certification; each re
 
 
 #### Diagnostic Gaps
-- Canonical LAIF terms absent: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
-- LAIF structural element missing: threshold gate conditions (all must pass simultaneously)
-- LAIF structural element missing: non-amendable constitutional hierarchy
-- LAIF structural element missing: self-application clause (Part Seven)
-- LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
+- Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
+- Structural mechanism not detected in any vocabulary: non-amendable constitutional hierarchy
+- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
 #### Remediation Priorities
@@ -1043,11 +1043,11 @@ Each required LAIF-native construct remains necessary for certification; each re
 
 
 #### Diagnostic Gaps
-- Canonical LAIF terms absent: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
-- LAIF structural element missing: threshold gate conditions (all must pass simultaneously)
-- LAIF structural element missing: non-amendable constitutional hierarchy
-- LAIF structural element missing: self-application clause (Part Seven)
-- LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
+- Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
+- Structural mechanism not detected in any vocabulary: non-amendable constitutional hierarchy
+- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
 #### Remediation Priorities
@@ -1420,11 +1420,11 @@ Each required LAIF-native construct remains necessary for certification; each re
 
 
 #### Diagnostic Gaps
-- Canonical LAIF terms absent: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
-- LAIF structural element missing: threshold gate conditions (all must pass simultaneously)
-- LAIF structural element missing: non-amendable constitutional hierarchy
-- LAIF structural element missing: self-application clause (Part Seven)
-- LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
+- Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
+- Structural mechanism not detected in any vocabulary: non-amendable constitutional hierarchy
+- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 - Sector gaming risk [MEDIUM]: Sector alignment 80% but conceptual proximity 24/100. Sector-specific vocabulary present without underlying governance intent. May indicate sector-optimised keyword selection rather than substantive coverage.
 
 
@@ -1798,11 +1798,11 @@ Each required LAIF-native construct remains necessary for certification; each re
 
 
 #### Diagnostic Gaps
-- Canonical LAIF terms absent: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
-- LAIF structural element missing: threshold gate conditions (all must pass simultaneously)
-- LAIF structural element missing: non-amendable constitutional hierarchy
-- LAIF structural element missing: self-application clause (Part Seven)
-- LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
+- Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
+- Structural mechanism not detected in any vocabulary: non-amendable constitutional hierarchy
+- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
 #### Remediation Priorities
@@ -2175,11 +2175,11 @@ Each required LAIF-native construct remains necessary for certification; each re
 
 
 #### Diagnostic Gaps
-- Canonical LAIF terms absent: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
-- LAIF structural element missing: threshold gate conditions (all must pass simultaneously)
-- LAIF structural element missing: non-amendable constitutional hierarchy
-- LAIF structural element missing: self-application clause (Part Seven)
-- LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
+- Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
+- Structural mechanism not detected in any vocabulary: non-amendable constitutional hierarchy
+- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
 #### Remediation Priorities
@@ -2550,11 +2550,11 @@ Each required LAIF-native construct remains necessary for certification; each re
 
 
 #### Diagnostic Gaps
-- Canonical LAIF terms absent: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
-- LAIF structural element missing: threshold gate conditions (all must pass simultaneously)
-- LAIF structural element missing: non-amendable constitutional hierarchy
-- LAIF structural element missing: self-application clause (Part Seven)
-- LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
+- Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
+- Structural mechanism not detected in any vocabulary: non-amendable constitutional hierarchy
+- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
 #### Remediation Priorities
@@ -2927,11 +2927,11 @@ Each required LAIF-native construct remains necessary for certification; each re
 
 
 #### Diagnostic Gaps
-- Canonical LAIF terms absent: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
-- LAIF structural element missing: threshold gate conditions (all must pass simultaneously)
-- LAIF structural element missing: non-amendable constitutional hierarchy
-- LAIF structural element missing: self-application clause (Part Seven)
-- LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
+- Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
+- Structural mechanism not detected in any vocabulary: non-amendable constitutional hierarchy
+- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 - Terminology divergence (informational) — 'Coupling'-adjacent wording used in the document's own vocabulary (3 instance(s)): engage with industry, civil society, and other stakeholders …; orrection, and redress for affected individuals.  Section 7 …. Not a violation: this document does not use or claim LAIF canonical terminology.
 
 
@@ -3305,10 +3305,10 @@ Each required LAIF-native construct remains necessary for certification; each re
 
 
 #### Diagnostic Gaps
-- Canonical LAIF terms absent: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
-- LAIF structural element missing: non-amendable constitutional hierarchy
-- LAIF structural element missing: self-application clause (Part Seven)
-- LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
+- Structural mechanism not detected in any vocabulary: non-amendable constitutional hierarchy
+- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
 #### Remediation Priorities
@@ -3681,11 +3681,11 @@ Each required LAIF-native construct remains necessary for certification; each re
 
 
 #### Diagnostic Gaps
-- Canonical LAIF terms absent: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
-- LAIF structural element missing: threshold gate conditions (all must pass simultaneously)
-- LAIF structural element missing: non-amendable constitutional hierarchy
-- LAIF structural element missing: self-application clause (Part Seven)
-- LAIF structural element missing: named decision instrument (Coherence Test / PDCA)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
+- Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
+- Structural mechanism not detected in any vocabulary: non-amendable constitutional hierarchy
+- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
 #### Remediation Priorities

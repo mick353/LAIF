@@ -343,6 +343,21 @@ check("not a judgement of the document against its own objectives"
       "SF6.4",
       "unaligned verdicts always carry the fair-reading disclaimer")
 
+_deficiency_wording_clean = True
+for rr in (s1, s3, s4):
+    for g in rr.get("gaps", []):
+        if g.startswith("Canonical LAIF terms absent") or \
+           g.startswith("LAIF structural element missing"):
+            _deficiency_wording_clean = False
+check(_deficiency_wording_clean, "SF6.5",
+      "external-vocabulary documents never receive deficiency-worded "
+      "vocabulary gaps (certification-channel wording only)")
+
+check(any("substance functionally present" in g for g in s1.get("gaps", [])
+          if "self-application" in g), "SF6.6",
+      "a functionally-present construct is reported as present, "
+      "never as missing")
+
 
 # ── Summary ───────────────────────────────────────────────────────────────────
 

@@ -120,7 +120,7 @@ Beyond the governance corpus, the repository ships a Python toolchain (stdlib on
 | `sample_documents.py` | Illustrative corpus — representative paraphrases (not citable) |
 | `test_provenance.py` | 48 machine-enforced checks on every citability claim |
 | `test_adversarial.py` | 82 adversarial tests on the guards and depth checks |
-| `test_semantic_fidelity.py` | 41 checks guaranteeing substance is never outranked by vocabulary and no document is falsely accused |
+| `test_semantic_fidelity.py` | 43 checks guaranteeing substance is never outranked by vocabulary and no document is falsely accused |
 | `test_real_world.py` | Runs the full assessment → `reports/laif_real_world_assessment.md` |
 
 The engine measures on two independent axes: **LAIF-native form** (is the document written as a LAIF instrument — external frameworks are expected to fail this) and **functional alignment** (is the *substance* of Coupling, the Integrity Layer, Consistency, Reversibility, and Self-Application expressed in the document's own vocabulary — grounded in LAIF v1.2 Part Eight and the Regulatory Integration Guide's SATISFIES/EXTENDS methodology). A document is never penalised for expressing LAIF's requirements in its own words, and never credited for using LAIF's words without the substance.

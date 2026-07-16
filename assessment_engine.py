@@ -2812,16 +2812,14 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         if re.search(pat, text, re.IGNORECASE):
             strengths.append(f"Enforceability: {label}")
 
-    # Gaps — missing LAIF-specific elements
+    # Gaps. LAIF-native distance items (vocabulary, canonical structural
+    # markers) are appended LATER, after the functional-alignment layer has
+    # run — so that a construct whose substance was detected in the document's
+    # own vocabulary is reported as such, and external instruments get
+    # certification-channel wording rather than deficiency wording.
     gaps = []
     missing_terms = [lbl for _, pat, lbl in TERMINOLOGY_RUBRIC
                      if not re.search(pat, text, re.IGNORECASE)]
-    if missing_terms:
-        gaps.append("Canonical LAIF terms absent: " + ", ".join(missing_terms))
-
-    for _, pat, lbl in STRUCTURAL_RUBRIC[6:]:
-        if not re.search(pat, text, re.IGNORECASE):
-            gaps.append(f"LAIF structural element missing: {lbl}")
 
     for guard_term, violations in paraphrase.items():
         examples = "; ".join(
@@ -2908,6 +2906,47 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     func_coupling   = functional["Coupling"]["verdict"]
     laif_alignment  = _laif_alignment_verdict(formal_pass, depth, functional,
                                               contradictions)
+
+    # LAIF-native distance notes — deferred from the gap builder above so
+    # they can be worded per channel and per functional verdict. For
+    # documents that use or claim LAIF vocabulary these are compliance
+    # gaps; for external instruments they are certification-distance
+    # diagnostics, never deficiency claims (fair-reading bound 1).
+    if missing_terms:
+        if claims_laif:
+            gaps.insert(0, "Canonical LAIF terms absent: " + ", ".join(missing_terms))
+        else:
+            gaps.insert(0,
+                "LAIF-native vocabulary not used — expected for an external "
+                "instrument; certification-channel distance, not a deficiency: "
+                + ", ".join(missing_terms)
+            )
+    _signal_construct = {
+        "threshold gate conditions (all must pass simultaneously)": "Integrity Layer",
+        "self-application clause (Part Seven)":                     "Self-Application",
+        "named decision instrument (Coherence Test / PDCA)":        "__branding__",
+    }
+    _native_gap_lines = []
+    for _, _pat, _lbl in STRUCTURAL_RUBRIC[6:]:
+        if re.search(_pat, text, re.IGNORECASE):
+            continue
+        _mapped = _signal_construct.get(_lbl)
+        if _mapped == "__branding__" and not claims_laif:
+            _native_gap_lines.append(
+                f"LAIF-native marker not present (branding, not substance): {_lbl}")
+        elif (_mapped and _mapped != "__branding__"
+                and functional.get(_mapped, {}).get("verdict")
+                in ("FUNCTIONAL", "DECLARED")):
+            _native_gap_lines.append(
+                f"{_lbl}: substance functionally present in the document's own "
+                f"vocabulary; LAIF-native declaration absent "
+                f"(certification-channel note)")
+        elif claims_laif:
+            _native_gap_lines.append(f"LAIF structural element missing: {_lbl}")
+        else:
+            _native_gap_lines.append(
+                f"Structural mechanism not detected in any vocabulary: {_lbl}")
+    gaps[1:1] = _native_gap_lines
 
     # Strong compliance: formal gate PASS + genuine structural depth.
     # A hollow document that passes the formal gate but has SHALLOW/NEGATED Coupling
