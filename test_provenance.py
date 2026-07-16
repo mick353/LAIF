@@ -42,8 +42,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from official_documents import OFFICIAL_DOCUMENTS, REPO
 from sample_documents import DOCUMENTS
+from laif_spec import PROVENANCE_CLASSES
 
-VALID_PROVENANCE = {"OFFICIAL_EXCERPT", "REPRESENTATIVE_EXCERPT", "SYNTHETIC_TEST_DOCUMENT"}
+VALID_PROVENANCE = set(PROVENANCE_CLASSES)
 JOINER = "\n\n[…]\n\n"
 MIN_EXCERPT_CHARS = 1000
 

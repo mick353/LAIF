@@ -1956,7 +1956,7 @@ def _group_signals(signals):
 
 # ── Markdown report generator ─────────────────────────────────────────────────
 
-def generate_markdown_report(assessments, report_date="May 2026"):
+def generate_markdown_report(assessments, report_date="July 2026"):
     lines = []
 
     def h(level, text):
@@ -2097,6 +2097,44 @@ def generate_markdown_report(assessments, report_date="May 2026"):
       "Coupling + no contradictions. A formal PASS with shallow Coupling = WEAK PASS, "
       "not a strong compliance claim.")
 
+    # ── Scope and Fair Reading ───────────────────────────────────────────────
+    h(2, "Scope, Limitations, and Fair Reading")
+    p("This report is held to LAIF's own A.2 Structural Honesty standard, which "
+      "requires its claims to be bounded as precisely as its findings. Five bounds "
+      "apply to everything below:")
+    p()
+    p("1. **A FAIL verdict measures distance from LAIF, not the quality of the "
+      "instrument.** The Coherence Test and Integrity Layer are deliberately stricter "
+      "than any assessed framework's own success criteria. A CRITICAL deployment-risk "
+      "tier means \"deploying under this instrument alone would leave LAIF's "
+      "structural preconditions unmet\" — it is not a judgement that the instrument "
+      "fails its authors' purposes, and it must never be quoted as one.")
+    p()
+    p("2. **Findings are bounded by excerpt scope.** Official-corpus verdicts hold "
+      "for the excerpted sections declared on each scorecard, not for unexcerpted "
+      "parts of the instruments. A construct absent from the excerpt could in "
+      "principle exist elsewhere in the source; the excerpts were chosen as the "
+      "sections where such constructs would canonically live.")
+    p()
+    p("3. **Signals are lexical, not interpretive.** Dimension scores derive from "
+      "documented pattern rubrics over the text. They detect the presence or absence "
+      "of structural language; they do not evaluate whether present language is "
+      "well-implemented in practice. Traceability (every fired and missed signal is "
+      "listed) is the compensating control — any scoring decision can be audited "
+      "back to its evidence.")
+    p()
+    p("4. **Format affects prose-based signals.** Form/questionnaire-style "
+      "instruments (e.g. DTAC) encode governance in assessed criteria rather than "
+      "declaratory prose, which prose rubrics undercount. Affected scorecards carry "
+      "an explicit interpretation caveat, and those specific attributions are marked "
+      "non-citable.")
+    p()
+    p("5. **The corpus is a governance sample, not a census.** Ten documents — four "
+      "citable, six illustrative — spanning binding regulation, executive direction, "
+      "voluntary frameworks, international principles, and sector instruments. "
+      "Cross-document averages characterise this corpus; they are not population "
+      "estimates for \"all AI governance\".")
+
     # ── Scoring Model ────────────────────────────────────────────────────────
     h(2, "Scoring Model")
     table(
@@ -2143,430 +2181,430 @@ def generate_markdown_report(assessments, report_date="May 2026"):
 
 
 def _render_scorecard(r, h, p, table):
-        h(3, r["document_name"])
-        compliance_tag = "✅ PASS" if r["formal_laif_compliance"] == "PASS" else "❌ FAIL"
-        strong_tag = {
-            "STRONG PASS": "✅✅ STRONG PASS",
-            "WEAK PASS":   "⚠️ WEAK PASS (formal gate passed; structural depth insufficient)",
-            "FAIL":        "❌ FAIL",
-        }.get(r.get("strong_laif_compliance", "FAIL"), "❌ FAIL")
-        depth_tag = {
-            "STRONG": "🟢 STRONG",
-            "WEAK":   "🟡 WEAK",
-            "HOLLOW": "🔴 HOLLOW",
-        }.get(r.get("structural_depth", "WEAK"), "⚪ UNKNOWN")
+    h(3, r["document_name"])
+    compliance_tag = "✅ PASS" if r["formal_laif_compliance"] == "PASS" else "❌ FAIL"
+    strong_tag = {
+        "STRONG PASS": "✅✅ STRONG PASS",
+        "WEAK PASS":   "⚠️ WEAK PASS (formal gate passed; structural depth insufficient)",
+        "FAIL":        "❌ FAIL",
+    }.get(r.get("strong_laif_compliance", "FAIL"), "❌ FAIL")
+    depth_tag = {
+        "STRONG": "🟢 STRONG",
+        "WEAK":   "🟡 WEAK",
+        "HOLLOW": "🔴 HOLLOW",
+    }.get(r.get("structural_depth", "WEAK"), "⚪ UNKNOWN")
 
-        # ── Provenance notice ────────────────────────────────────────────────
-        provenance = r.get("provenance", "")
-        source_note = r.get("source_note", "")
-        source_url  = r.get("source_url", "")
-        intended_use = r.get("intended_use", "")
-        if provenance:
-            prov_badges = {
-                "OFFICIAL_EXCERPT":          "> ✅ **OFFICIAL_EXCERPT** — text verified verbatim from the authoritative source.",
-                "REPRESENTATIVE_EXCERPT":    "> ⚠️ **REPRESENTATIVE_EXCERPT** — condensed paraphrase or illustrative excerpt. "
-                                              "Not verbatim. Not citable as the primary source.",
-                "SYNTHETIC_TEST_DOCUMENT":   "> 🔬 **SYNTHETIC_TEST_DOCUMENT** — constructed for adversarial/stress-testing. "
-                                              "Does not represent any real-world governance document.",
-            }
-            p(prov_badges.get(provenance, f"> Provenance: {provenance}"))
-            if source_note:
-                p(f"> {source_note}")
-            if source_url:
-                p(f"> Source: {source_url}")
-            if intended_use:
-                p(f"> Intended use: {intended_use}")
-            p()
-
-        # ── Executive Assessment block ────────────────────────────────────────
-        es = r.get("executive_summary", {})
-        risk_tier = r.get("deployment_risk_tier", "HIGH")
-        risk_tier_badge = {
-            "CRITICAL": "🔴 **CRITICAL**",
-            "HIGH":     "🟠 **HIGH**",
-            "MODERATE": "🟡 **MODERATE**",
-            "LOW":      "🟢 **LOW**",
-        }.get(risk_tier, f"**{risk_tier}**")
-        if es:
-            h(4, "Executive Assessment")
-            p(f"> {es.get('verdict', '')}")
-            p()
-            p(f"**Overall Readiness:** {r['overall_readiness_score']}/100  ")
-            p(f"**Deployment Risk Tier:** {risk_tier_badge}  ")
-            p(f"**Remediation Effort:** {r['remediation_effort']}")
-
-            # Primary structural failure — priority: Coupling > Coherence Test > Integrity Layer > contradictions
-            _cstate_es = r.get("coupling_state", "ABSENT")
-            _cq_es     = r.get("coupling_quality", "ABSENT")
-            _sc_es     = r.get("strong_laif_compliance", "FAIL")
-            if _sc_es == "STRONG PASS":
-                _psf = None
-            elif _cstate_es == "ABSENT":
-                _psf = ("obligations are defined without enforceable protections "
-                        "for affected individuals.")
-            elif _cstate_es == "IMPLICIT":
-                _psf = ("protections are suggested but not structurally bound to obligations.")
-            elif not r.get("construct_coverage", {}).get("Coherence Test"):
-                _psf = ("no mechanism ensures decisions remain consistent across scale.")
-            elif not r.get("construct_coverage", {}).get("Integrity Layer"):
-                _psf = ("deployment preconditions (Integrity Layer) are not declared "
-                        "or enforced.")
-            elif r.get("contradictions"):
-                _psf = ("the document's own provisions contradict the protections it claims "
-                        "to provide.")
-            else:
-                _psf = ("required LAIF constructs are absent from the governance structure.")
-            if _psf:
-                p(f"**Primary structural failure:** {_psf}")
-            p()
-
-            # False sense of compliance warning
-            if (r["overall_readiness_score"] > 40
-                    and r.get("strong_laif_compliance") != "STRONG PASS"):
-                p("> ⚠️ **This document may appear compliant but lacks the structural "
-                  "guarantees required for reliable governance.** A document can score "
-                  "moderately on readiness metrics while still failing every structural "
-                  "precondition that makes governance obligations enforceable.")
-                p()
-
-            p(f"**Root cause:** {es.get('why', '')}")
-            p()
-
-            # STEP 4 — What this means in practice
-            _practical = _practical_meaning_exec(r)
-            if _practical:
-                p(f"**What this means in practice:** {_practical}")
-                p()
-
-            if es.get("risks"):
-                p("**Key risks:**")
-                for risk in es["risks"]:
-                    p(f"- {risk}")
-                p()
-            if es.get("strengths"):
-                p("**Key strengths:**")
-                for strength in es["strengths"]:
-                    p(f"- {strength}")
-                p()
-            # Position Assessment (STEP 6)
-            pa = es.get("position_assessment", {})
-            if pa:
-                p("**Position Assessment:**")
-                p()
-                if pa.get("contains"):
-                    p("This document contains:")
-                    for item in pa["contains"]:
-                        p(f"- {item}")
-                    p()
-                if pa.get("not_enforced"):
-                    p("However, the following are not structurally enforced:")
-                    for item in pa["not_enforced"]:
-                        p(f"- {item}")
-                    p()
-                p(f"**Result:** {pa.get('result', '')}")
-                p()
-            # What Must Be Fixed First — top 3 structured remediation steps
-            srem = r.get("structured_remediation_steps", [])
-            if srem:
-                p("**What Must Be Fixed First:**")
-                for i, step in enumerate(srem[:3], 1):
-                    prob = step.get("problem", "")
-                    fix  = step.get("concrete_fix", "")
-                    p(f"{i}. **{prob}** — {fix}" if prob else f"{i}. {fix}")
-                p()
-
-        # ── Compliance Summary table ─────────────────────────────────────────
-        cs = r.get("compliance_summary", {})
-        if cs:
-            h(4, "Compliance Summary")
-            table(
-                ["Dimension", "Verdict"],
-                [
-                    ["Formal compliance (binary gate)", cs.get("formal", "—")],
-                    ["Structural depth",                cs.get("structural_depth", "—")],
-                    ["Structural contradictions",       cs.get("contradictions", "—")],
-                    ["Sector gaming risk",              cs.get("sector_gaming", "—")],
-                    ["Final verdict",                   cs.get("final", "—")],
-                ]
-            )
-            p()
-            if (r.get("provenance") == "OFFICIAL_EXCERPT"
-                    and r.get("sector_gaming_risk", "LOW") != "LOW"):
-                p("> **Interpretation caveat (official instrument):** the sector "
-                  "gaming heuristic detects high sector-keyword density with low "
-                  "prose-style governance content. This document is a verified "
-                  "official instrument, so the flag does not indicate keyword "
-                  "stuffing by its publisher — it indicates a *format mismatch*: "
-                  "questionnaire/form-style instruments carry their governance "
-                  "content in assessed criteria rather than declaratory prose, "
-                  "which the density heuristics undercount. The structural gaps "
-                  "reported below remain real; the gaming attribution should not "
-                  "be cited.")
-                p()
-
-        p(f"**Source type:** {r['source_type']}  ")
-        p(f"**Sector:** {r.get('sector_label', r['sector_used'])}  ")
-
-        # ── Coupling state block (STEP 5) ────────────────────────────────────
-        cstate  = r.get("coupling_state", "ABSENT")
-        cq_val  = r.get("coupling_quality", "ABSENT")
-        cq_ev   = r.get("coupling_quality_evidence", "")
-        ic      = r.get("implicit_coupling", {})
-
-        if cstate == "STRUCTURAL":
-            p(f"**Coupling:** STRUCTURALLY DECLARED ✅")
-            if cq_ev:
-                p(f"  Evidence: «{cq_ev[:150]}»")
-        elif cstate == "IMPLICIT":
-            p(f"**Coupling:** NOT STRUCTURALLY DECLARED (implicit signals present) ❌")
-            if cq_val == "NEGATED" and cq_ev:
-                p(f"  Evidence of negation: «{cq_ev[:150]}»")
-            p()
-            p("**Implicit signals detected:**")
-            for excerpt in ic.get("matches", []):
-                p(f"- «{excerpt}»")
-            p()
-            p("**Interpretation:**  ")
-            p("These statements indicate recognition of responsibility or protection, "
-              "but do not explicitly bind restrictions to protected human interests.")
-            p()
-            p("**Why this matters:**  ")
-            p("IMPLICIT coupling signals indicate intent, but do NOT provide enforceable "
-              "structural guarantees. The obligations and protections are not formally "
-              "bound, meaning protections can be removed without affecting obligations. "
-              "This does not constitute partial compliance — the structural requirement "
-              "is absent regardless of expressed intent.")
-            p()
-            p("**Practical meaning:**  ")
-            p("This document signals protective intent. However, an operator could modify "
-              "specific obligations without being required to maintain the corresponding "
-              "protections. The governance intent is present; the structural enforceability "
-              "is not.")
-            p()
-            p("**Fix:**  ")
-            p("Explicitly pair each restriction with the human interest it protects. "
-              "Ensure both carry equivalent normative force — neither can be weakened "
-              "in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).")
-        else:  # ABSENT
-            p(f"**Coupling:** NOT STRUCTURALLY DECLARED (no signals detected) ❌")
-            p()
-            p("No implicit coupling signals detected. The document does not express "
-              "protective intent in a form that can be structurally upgraded via "
-              "terminological revision alone.")
-            p()
-            p("**Practical meaning:**  ")
-            p("This document imposes obligations but does not structurally protect the "
-              "people those obligations are meant to serve. Obligations can be weakened "
-              "or removed independently of the protections they were intended to provide.")
-        p()
-        if r.get("contradictions"):
-            p("**⚠️ Structural Contradictions Detected:**")
-            for prop, desc, ctx in r["contradictions"]:
-                p(f"- [{prop}] {desc}")
-                if ctx:
-                    p(f"  Evidence: «{ctx[:150]}»")
-            p()
-            p("**Practical meaning:**  ")
-            p("This document simultaneously claims to provide certain protections and "
-              "contains language that removes them. A governance framework with internal "
-              "contradictions cannot provide reliable assurance — the stated protections "
-              "are present in letter but absent in effect.")
-            p()
-
-        # ── Minimal Upgrade Path (STEP 7) ────────────────────────────────────
-        if cstate != "STRUCTURAL":
-            h(4, "Minimal Upgrade Path (No System Rewrite Required)")
-            p("To achieve formal LAIF Coupling compliance without restructuring the "
-              "entire document:")
-            p()
-            p("1. **Identify each restriction** — list every 'shall not' or operational "
-              "constraint in the document.")
-            p("2. **Identify the affected human interest** — for each restriction, state "
-              "the specific human interest it protects (e.g. 'patient safety', "
-              "'worker's right to explanation').")
-            p("3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] "
-              "and [human interest]: neither may be weakened without the other.'")
-            p("4. **Ensure equivalent normative force** — both sides of the pair must use "
-              "the same mandatory language ('shall') so neither can be downgraded in isolation.")
-            p()
-            if ic.get("found"):
-                p("*Note: implicit coupling signals already present (see above) — the "
-                  "governance intent is established. This upgrade is terminological and "
-                  "structural, not conceptual.*")
-            p()
-
-        # Scores with signal traceability
-        h(4, "Scores and Signal Breakdown")
-        bd = r["score_breakdown"]
-        st = r.get("score_trace", {})
-        for dim_key, dim_label, score_key in [
-            ("structural",    "Structural",           "structural_score"),
-            ("terminology",   "Terminology",          "terminology_score"),
-            ("conceptual",    "Conceptual Proximity", "conceptual_proximity_score"),
-            ("auditability",  "Auditability",         "auditability_score"),
-            ("enforceability","Enforceability",       "enforceability_score"),
-        ]:
-            score  = r[score_key]
-            trace  = st.get(dim_key, {})
-            fired  = bd[dim_key]["fired"]
-            missed = bd[dim_key]["missed"]
-
-            p(f"**{dim_label} — {score}/100** {score_bar(score)}")
-            p()
-            if trace.get("reason"):
-                p(f"**Why:** {trace['reason']}")
-                p()
-            if fired:
-                grp = _group_signals(fired)
-                p("**Signals detected:**")
-                if grp["human_interest"]:
-                    p("*Human interest signals:*")
-                    for label, w in grp["human_interest"]:
-                        p(f"- {label} (+{w} pts)")
-                if grp["governance"]:
-                    p("*Governance signals:*")
-                    for label, w in grp["governance"]:
-                        p(f"- {label} (+{w} pts)")
-                if grp["structural"]:
-                    p("*Structural signals:*")
-                    for label, w in grp["structural"]:
-                        p(f"- {label} (+{w} pts)")
-                p()
-            if missed:
-                p("**Signals missing:**")
-                for label, w in missed:
-                    p(f"- {label} (missed {w} pts)")
-                p()
-            if trace.get("weight_rationale"):
-                p(f"**Dimension significance:** {trace['weight_rationale']}")
-                p()
-
-        overall_bar = score_bar(r["overall_readiness_score"])
-        p(f"**Overall Readiness — {r['overall_readiness_score']}/100** {overall_bar}")
-        p()
-        p(
-            "**Why:** Weighted sum of the five dimensions above — "
-            "Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + "
-            "Auditability×0.20 + Enforceability×0.20. "
-            "A document achieves overall readiness by addressing governance architecture, "
-            "canonical terminology, substantive intent, verifiability, and enforceability "
-            "simultaneously. Weakness in any single dimension constrains the overall score "
-            "proportionally."
-        )
+    # ── Provenance notice ────────────────────────────────────────────────
+    provenance = r.get("provenance", "")
+    source_note = r.get("source_note", "")
+    source_url  = r.get("source_url", "")
+    intended_use = r.get("intended_use", "")
+    if provenance:
+        prov_badges = {
+            "OFFICIAL_EXCERPT":          "> ✅ **OFFICIAL_EXCERPT** — text verified verbatim from the authoritative source.",
+            "REPRESENTATIVE_EXCERPT":    "> ⚠️ **REPRESENTATIVE_EXCERPT** — condensed paraphrase or illustrative excerpt. "
+                                          "Not verbatim. Not citable as the primary source.",
+            "SYNTHETIC_TEST_DOCUMENT":   "> 🔬 **SYNTHETIC_TEST_DOCUMENT** — constructed for adversarial/stress-testing. "
+                                          "Does not represent any real-world governance document.",
+        }
+        p(prov_badges.get(provenance, f"> Provenance: {provenance}"))
+        if source_note:
+            p(f"> {source_note}")
+        if source_url:
+            p(f"> Source: {source_url}")
+        if intended_use:
+            p(f"> Intended use: {intended_use}")
         p()
 
-        # Construct coverage
-        h(4, "Construct Coverage")
+    # ── Executive Assessment block ────────────────────────────────────────
+    es = r.get("executive_summary", {})
+    risk_tier = r.get("deployment_risk_tier", "HIGH")
+    risk_tier_badge = {
+        "CRITICAL": "🔴 **CRITICAL**",
+        "HIGH":     "🟠 **HIGH**",
+        "MODERATE": "🟡 **MODERATE**",
+        "LOW":      "🟢 **LOW**",
+    }.get(risk_tier, f"**{risk_tier}**")
+    if es:
+        h(4, "Executive Assessment")
+        p(f"> {es.get('verdict', '')}")
+        p()
+        p(f"**Overall Readiness:** {r['overall_readiness_score']}/100  ")
+        p(f"**Deployment Risk Tier:** {risk_tier_badge}  ")
+        p(f"**Remediation Effort:** {r['remediation_effort']}")
+
+        # Primary structural failure — priority: Coupling > Coherence Test > Integrity Layer > contradictions
+        _cstate_es = r.get("coupling_state", "ABSENT")
+        _cq_es     = r.get("coupling_quality", "ABSENT")
+        _sc_es     = r.get("strong_laif_compliance", "FAIL")
+        if _sc_es == "STRONG PASS":
+            _psf = None
+        elif _cstate_es == "ABSENT":
+            _psf = ("obligations are defined without enforceable protections "
+                    "for affected individuals.")
+        elif _cstate_es == "IMPLICIT":
+            _psf = ("protections are suggested but not structurally bound to obligations.")
+        elif not r.get("construct_coverage", {}).get("Coherence Test"):
+            _psf = ("no mechanism ensures decisions remain consistent across scale.")
+        elif not r.get("construct_coverage", {}).get("Integrity Layer"):
+            _psf = ("deployment preconditions (Integrity Layer) are not declared "
+                    "or enforced.")
+        elif r.get("contradictions"):
+            _psf = ("the document's own provisions contradict the protections it claims "
+                    "to provide.")
+        else:
+            _psf = ("required LAIF constructs are absent from the governance structure.")
+        if _psf:
+            p(f"**Primary structural failure:** {_psf}")
+        p()
+
+        # False sense of compliance warning
+        if (r["overall_readiness_score"] > 40
+                and r.get("strong_laif_compliance") != "STRONG PASS"):
+            p("> ⚠️ **This document may appear compliant but lacks the structural "
+              "guarantees required for reliable governance.** A document can score "
+              "moderately on readiness metrics while still failing every structural "
+              "precondition that makes governance obligations enforceable.")
+            p()
+
+        p(f"**Root cause:** {es.get('why', '')}")
+        p()
+
+        # STEP 4 — What this means in practice
+        _practical = _practical_meaning_exec(r)
+        if _practical:
+            p(f"**What this means in practice:** {_practical}")
+            p()
+
+        if es.get("risks"):
+            p("**Key risks:**")
+            for risk in es["risks"]:
+                p(f"- {risk}")
+            p()
+        if es.get("strengths"):
+            p("**Key strengths:**")
+            for strength in es["strengths"]:
+                p(f"- {strength}")
+            p()
+        # Position Assessment (STEP 6)
+        pa = es.get("position_assessment", {})
+        if pa:
+            p("**Position Assessment:**")
+            p()
+            if pa.get("contains"):
+                p("This document contains:")
+                for item in pa["contains"]:
+                    p(f"- {item}")
+                p()
+            if pa.get("not_enforced"):
+                p("However, the following are not structurally enforced:")
+                for item in pa["not_enforced"]:
+                    p(f"- {item}")
+                p()
+            p(f"**Result:** {pa.get('result', '')}")
+            p()
+        # What Must Be Fixed First — top 3 structured remediation steps
+        srem = r.get("structured_remediation_steps", [])
+        if srem:
+            p("**What Must Be Fixed First:**")
+            for i, step in enumerate(srem[:3], 1):
+                prob = step.get("problem", "")
+                fix  = step.get("concrete_fix", "")
+                p(f"{i}. **{prob}** — {fix}" if prob else f"{i}. {fix}")
+            p()
+
+    # ── Compliance Summary table ─────────────────────────────────────────
+    cs = r.get("compliance_summary", {})
+    if cs:
+        h(4, "Compliance Summary")
         table(
-            ["Construct", "Present", "LAIF Source"],
+            ["Dimension", "Verdict"],
             [
-                (k, "✅ Yes" if v else "❌ No",
-                 {"Coupling":                "v1.2 Principle 2; Toolkit §2 B.1",
-                  "Coherence Test":          "v1.2 Part One",
-                  "Integrity Layer":         "v1.2 Part Two",
-                  "Structural Transparency": "Toolkit §1.3 (A.1)",
-                  "Structural Honesty":      "Toolkit §1.4 (A.2)",
-                  "Structural Containment":  "Toolkit §1.5 (A.3)",
-                  "Consistency":             "v1.2 Principle 5",
-                  "Reversibility":           "v1.2 Provision D1"}.get(k, "v1.2"))
-                for k, v in r["construct_coverage"].items()
+                ["Formal compliance (binary gate)", cs.get("formal", "—")],
+                ["Structural depth",                cs.get("structural_depth", "—")],
+                ["Structural contradictions",       cs.get("contradictions", "—")],
+                ["Sector gaming risk",              cs.get("sector_gaming", "—")],
+                ["Final verdict",                   cs.get("final", "—")],
             ]
         )
         p()
+        if (r.get("provenance") == "OFFICIAL_EXCERPT"
+                and r.get("sector_gaming_risk", "LOW") != "LOW"):
+            p("> **Interpretation caveat (official instrument):** the sector "
+              "gaming heuristic detects high sector-keyword density with low "
+              "prose-style governance content. This document is a verified "
+              "official instrument, so the flag does not indicate keyword "
+              "stuffing by its publisher — it indicates a *format mismatch*: "
+              "questionnaire/form-style instruments carry their governance "
+              "content in assessed criteria rather than declaratory prose, "
+              "which the density heuristics undercount. The structural gaps "
+              "reported below remain real; the gaming attribution should not "
+              "be cited.")
+            p()
 
-        # Sector section
-        h(4, "Sector Context")
-        p(f"**Sector:** {r.get('sector_label', r['sector_used'])}  ")
-        p(f"**Sector risk alignment:** {r['sector_risk_alignment']}/100  ")
+    p(f"**Source type:** {r['source_type']}  ")
+    p(f"**Sector:** {r.get('sector_label', r['sector_used'])}  ")
+
+    # ── Coupling state block (STEP 5) ────────────────────────────────────
+    cstate  = r.get("coupling_state", "ABSENT")
+    cq_val  = r.get("coupling_quality", "ABSENT")
+    cq_ev   = r.get("coupling_quality_evidence", "")
+    ic      = r.get("implicit_coupling", {})
+
+    if cstate == "STRUCTURAL":
+        p(f"**Coupling:** STRUCTURALLY DECLARED ✅")
+        if cq_ev:
+            p(f"  Evidence: «{cq_ev[:150]}»")
+    elif cstate == "IMPLICIT":
+        p(f"**Coupling:** NOT STRUCTURALLY DECLARED (implicit signals present) ❌")
+        if cq_val == "NEGATED" and cq_ev:
+            p(f"  Evidence of negation: «{cq_ev[:150]}»")
         p()
-        p("**Relevant human interests (Toolkit §1.2 — Materially Affects Interests):**")
-        for interest in r["sector_relevant_interests"]:
-            p(f"- {interest}")
+        p("**Implicit signals detected:**")
+        for excerpt in ic.get("matches", []):
+            p(f"- «{excerpt}»")
+        p()
+        p("**Interpretation:**  ")
+        p("These statements indicate recognition of responsibility or protection, "
+          "but do not explicitly bind restrictions to protected human interests.")
+        p()
+        p("**Why this matters:**  ")
+        p("IMPLICIT coupling signals indicate intent, but do NOT provide enforceable "
+          "structural guarantees. The obligations and protections are not formally "
+          "bound, meaning protections can be removed without affecting obligations. "
+          "This does not constitute partial compliance — the structural requirement "
+          "is absent regardless of expressed intent.")
+        p()
+        p("**Practical meaning:**  ")
+        p("This document signals protective intent. However, an operator could modify "
+          "specific obligations without being required to maintain the corresponding "
+          "protections. The governance intent is present; the structural enforceability "
+          "is not.")
+        p()
+        p("**Fix:**  ")
+        p("Explicitly pair each restriction with the human interest it protects. "
+          "Ensure both carry equivalent normative force — neither can be weakened "
+          "in isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1).")
+    else:  # ABSENT
+        p(f"**Coupling:** NOT STRUCTURALLY DECLARED (no signals detected) ❌")
+        p()
+        p("No implicit coupling signals detected. The document does not express "
+          "protective intent in a form that can be structurally upgraded via "
+          "terminological revision alone.")
+        p()
+        p("**Practical meaning:**  ")
+        p("This document imposes obligations but does not structurally protect the "
+          "people those obligations are meant to serve. Obligations can be weakened "
+          "or removed independently of the protections they were intended to provide.")
+    p()
+    if r.get("contradictions"):
+        p("**⚠️ Structural Contradictions Detected:**")
+        for prop, desc, ctx in r["contradictions"]:
+            p(f"- [{prop}] {desc}")
+            if ctx:
+                p(f"  Evidence: «{ctx[:150]}»")
+        p()
+        p("**Practical meaning:**  ")
+        p("This document simultaneously claims to provide certain protections and "
+          "contains language that removes them. A governance framework with internal "
+          "contradictions cannot provide reliable assurance — the stated protections "
+          "are present in letter but absent in effect.")
         p()
 
-        h(4, "Sector-Specific Findings")
-        risk_present = [f for f in r["sector_specific_findings"] if f.startswith("Risk signal present")]
-        risk_absent  = [f for f in r["sector_specific_findings"] if f.startswith("Risk signal absent")]
-        evid_present = [f for f in r["sector_specific_findings"] if f.startswith("Evidence present")]
-        evid_gap     = [f for f in r["sector_specific_findings"] if f.startswith("Evidence gap")]
-        if risk_present:
-            p("*Risk indicators detected:*")
-            for f in risk_present:
-                p(f"- ✅ {f.replace('Risk signal present: ', '')}")
-        if risk_absent:
-            p("*Risk indicators absent:*")
-            for f in risk_absent:
-                p(f"- ⚪ {f.replace('Risk signal absent: ', '')}")
-        if evid_present:
-            p("*Expected evidence artefacts present:*")
-            for f in evid_present:
-                p(f"- ✅ {f.replace('Evidence present: ', '')}")
-        if evid_gap:
-            p("*Evidence gaps:*")
-            for f in evid_gap:
-                p(f"- ❌ {f.replace('Evidence gap: ', '')}")
+    # ── Minimal Upgrade Path (STEP 7) ────────────────────────────────────
+    if cstate != "STRUCTURAL":
+        h(4, "Minimal Upgrade Path (No System Rewrite Required)")
+        p("To achieve formal LAIF Coupling compliance without restructuring the "
+          "entire document:")
+        p()
+        p("1. **Identify each restriction** — list every 'shall not' or operational "
+          "constraint in the document.")
+        p("2. **Identify the affected human interest** — for each restriction, state "
+          "the specific human interest it protects (e.g. 'patient safety', "
+          "'worker's right to explanation').")
+        p("3. **Explicitly declare the pairing** — add: 'Coupling between [restriction] "
+          "and [human interest]: neither may be weakened without the other.'")
+        p("4. **Ensure equivalent normative force** — both sides of the pair must use "
+          "the same mandatory language ('shall') so neither can be downgraded in isolation.")
+        p()
+        if ic.get("found"):
+            p("*Note: implicit coupling signals already present (see above) — the "
+              "governance intent is established. This upgrade is terminological and "
+              "structural, not conceptual.*")
         p()
 
-        # Paraphrase violations
-        if r["paraphrase_violations"]:
-            h(4, "Paraphrase Violations")
-            for term, vs in r["paraphrase_violations"].items():
-                p(f"**Guard: {term}** — {len(vs)} violation(s)  ")
-                p(f"*Source: LAIF v1.2 Principle 2; validate.py context-aware guard*")
-                for _, ctx in vs[:2]:
-                    p(f"> …{ctx.replace(chr(10), ' ')[:120]}…")
-        else:
-            h(4, "Paraphrase Violations")
-            p("None detected.")
-        p()
+    # Scores with signal traceability
+    h(4, "Scores and Signal Breakdown")
+    bd = r["score_breakdown"]
+    st = r.get("score_trace", {})
+    for dim_key, dim_label, score_key in [
+        ("structural",    "Structural",           "structural_score"),
+        ("terminology",   "Terminology",          "terminology_score"),
+        ("conceptual",    "Conceptual Proximity", "conceptual_proximity_score"),
+        ("auditability",  "Auditability",         "auditability_score"),
+        ("enforceability","Enforceability",       "enforceability_score"),
+    ]:
+        score  = r[score_key]
+        trace  = st.get(dim_key, {})
+        fired  = bd[dim_key]["fired"]
+        missed = bd[dim_key]["missed"]
 
-        # Strengths
-        h(4, "Strengths")
-        for s in r["strengths"][:10]:
-            p(f"- {s}")
+        p(f"**{dim_label} — {score}/100** {score_bar(score)}")
         p()
+        if trace.get("reason"):
+            p(f"**Why:** {trace['reason']}")
+            p()
+        if fired:
+            grp = _group_signals(fired)
+            p("**Signals detected:**")
+            if grp["human_interest"]:
+                p("*Human interest signals:*")
+                for label, w in grp["human_interest"]:
+                    p(f"- {label} (+{w} pts)")
+            if grp["governance"]:
+                p("*Governance signals:*")
+                for label, w in grp["governance"]:
+                    p(f"- {label} (+{w} pts)")
+            if grp["structural"]:
+                p("*Structural signals:*")
+                for label, w in grp["structural"]:
+                    p(f"- {label} (+{w} pts)")
+            p()
+        if missed:
+            p("**Signals missing:**")
+            for label, w in missed:
+                p(f"- {label} (missed {w} pts)")
+            p()
+        if trace.get("weight_rationale"):
+            p(f"**Dimension significance:** {trace['weight_rationale']}")
+            p()
 
-        # Gaps
-        h(4, "Gaps")
-        for g in r["gaps"]:
-            p(f"- {g}")
-        p()
+    overall_bar = score_bar(r["overall_readiness_score"])
+    p(f"**Overall Readiness — {r['overall_readiness_score']}/100** {overall_bar}")
+    p()
+    p(
+        "**Why:** Weighted sum of the five dimensions above — "
+        "Structural×0.25 + Terminology×0.15 + Conceptual Proximity×0.20 + "
+        "Auditability×0.20 + Enforceability×0.20. "
+        "A document achieves overall readiness by addressing governance architecture, "
+        "canonical terminology, substantive intent, verifiability, and enforceability "
+        "simultaneously. Weakness in any single dimension constrains the overall score "
+        "proportionally."
+    )
+    p()
 
-        # Failure modes
-        h(4, "Primary Failure Modes")
-        for fm in r["primary_failure_modes"]:
-            p(f"- {fm}")
-        p()
+    # Construct coverage
+    h(4, "Construct Coverage")
+    table(
+        ["Construct", "Present", "LAIF Source"],
+        [
+            (k, "✅ Yes" if v else "❌ No",
+             {"Coupling":                "v1.2 Principle 2; Toolkit §2 B.1",
+              "Coherence Test":          "v1.2 Part One",
+              "Integrity Layer":         "v1.2 Part Two",
+              "Structural Transparency": "Toolkit §1.3 (A.1)",
+              "Structural Honesty":      "Toolkit §1.4 (A.2)",
+              "Structural Containment":  "Toolkit §1.5 (A.3)",
+              "Consistency":             "v1.2 Principle 5",
+              "Reversibility":           "v1.2 Provision D1"}.get(k, "v1.2"))
+            for k, v in r["construct_coverage"].items()
+        ]
+    )
+    p()
 
-        # ── Structured Findings ─────────────────────────────────────────────
-        h(4, "Structured Findings")
-        sfindings = r.get("structured_findings", [])
-        if sfindings:
-            for fi in sfindings:
-                sev = fi.get("severity", "MEDIUM")
-                sev_icon = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}.get(sev, "⚪")
-                p(f"**{sev_icon} [{sev}] {fi.get('title', '')}**")
-                p(f"- *Evidence:* {fi.get('evidence', '')}")
-                p(f"- *Impact:* {fi.get('impact', '')}")
-                p(f"- *Recommended action:* {fi.get('recommended_action', '')}")
-                p()
-        else:
-            p("No structured findings generated.")
-        p()
+    # Sector section
+    h(4, "Sector Context")
+    p(f"**Sector:** {r.get('sector_label', r['sector_used'])}  ")
+    p(f"**Sector risk alignment:** {r['sector_risk_alignment']}/100  ")
+    p()
+    p("**Relevant human interests (Toolkit §1.2 — Materially Affects Interests):**")
+    for interest in r["sector_relevant_interests"]:
+        p(f"- {interest}")
+    p()
 
-        # ── Remediation (Problem / Why it matters / Concrete fix) ────────────
-        h(4, "Remediation Plan (ordered by impact)")
-        srem = r.get("structured_remediation_steps", [])
-        if srem:
-            for i, step in enumerate(srem, 1):
-                p(f"**{i}. Problem:** {step.get('problem', '')}")
-                p(f"   **Why it matters:** {step.get('why_it_matters', '')}")
-                p(f"   **Concrete fix:** {step.get('concrete_fix', '')}")
-                p()
-        else:
-            p("No structured remediation steps generated.")
-        p()
-        p("---")
+    h(4, "Sector-Specific Findings")
+    risk_present = [f for f in r["sector_specific_findings"] if f.startswith("Risk signal present")]
+    risk_absent  = [f for f in r["sector_specific_findings"] if f.startswith("Risk signal absent")]
+    evid_present = [f for f in r["sector_specific_findings"] if f.startswith("Evidence present")]
+    evid_gap     = [f for f in r["sector_specific_findings"] if f.startswith("Evidence gap")]
+    if risk_present:
+        p("*Risk indicators detected:*")
+        for f in risk_present:
+            p(f"- ✅ {f.replace('Risk signal present: ', '')}")
+    if risk_absent:
+        p("*Risk indicators absent:*")
+        for f in risk_absent:
+            p(f"- ⚪ {f.replace('Risk signal absent: ', '')}")
+    if evid_present:
+        p("*Expected evidence artefacts present:*")
+        for f in evid_present:
+            p(f"- ✅ {f.replace('Evidence present: ', '')}")
+    if evid_gap:
+        p("*Evidence gaps:*")
+        for f in evid_gap:
+            p(f"- ❌ {f.replace('Evidence gap: ', '')}")
+    p()
+
+    # Paraphrase violations
+    if r["paraphrase_violations"]:
+        h(4, "Paraphrase Violations")
+        for term, vs in r["paraphrase_violations"].items():
+            p(f"**Guard: {term}** — {len(vs)} violation(s)  ")
+            p(f"*Source: LAIF v1.2 Principle 2; validate.py context-aware guard*")
+            for _, ctx in vs[:2]:
+                p(f"> …{ctx.replace(chr(10), ' ')[:120]}…")
+    else:
+        h(4, "Paraphrase Violations")
+        p("None detected.")
+    p()
+
+    # Strengths
+    h(4, "Strengths")
+    for s in r["strengths"][:10]:
+        p(f"- {s}")
+    p()
+
+    # Gaps
+    h(4, "Gaps")
+    for g in r["gaps"]:
+        p(f"- {g}")
+    p()
+
+    # Failure modes
+    h(4, "Primary Failure Modes")
+    for fm in r["primary_failure_modes"]:
+        p(f"- {fm}")
+    p()
+
+    # ── Structured Findings ─────────────────────────────────────────────
+    h(4, "Structured Findings")
+    sfindings = r.get("structured_findings", [])
+    if sfindings:
+        for fi in sfindings:
+            sev = fi.get("severity", "MEDIUM")
+            sev_icon = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}.get(sev, "⚪")
+            p(f"**{sev_icon} [{sev}] {fi.get('title', '')}**")
+            p(f"- *Evidence:* {fi.get('evidence', '')}")
+            p(f"- *Impact:* {fi.get('impact', '')}")
+            p(f"- *Recommended action:* {fi.get('recommended_action', '')}")
+            p()
+    else:
+        p("No structured findings generated.")
+    p()
+
+    # ── Remediation (Problem / Why it matters / Concrete fix) ────────────
+    h(4, "Remediation Plan (ordered by impact)")
+    srem = r.get("structured_remediation_steps", [])
+    if srem:
+        for i, step in enumerate(srem, 1):
+            p(f"**{i}. Problem:** {step.get('problem', '')}")
+            p(f"   **Why it matters:** {step.get('why_it_matters', '')}")
+            p(f"   **Concrete fix:** {step.get('concrete_fix', '')}")
+            p()
+    else:
+        p("No structured remediation steps generated.")
+    p()
+    p("---")
 
 
 def _render_cross_document(assessments, citable, illustrative, h, p, table,

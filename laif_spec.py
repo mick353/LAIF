@@ -97,6 +97,18 @@ FRAMEWORK_TIERS = {
     3: "Operational Standards (Toolkit — can be revised without amending Tier 1/2)",
 }
 
+# ── Corpus provenance classifications ────────────────────────────────────────
+# Source: corpus_manifest.md — evidence tiers for the assessment corpus.
+# OFFICIAL_EXCERPT is the only citable class and is machine-enforced:
+# official_documents.py proves verbatim extraction at import (markers +
+# SHA-256), and test_provenance.py independently re-verifies every claim.
+
+PROVENANCE_CLASSES = {
+    "OFFICIAL_EXCERPT":        "Verbatim, hash-pinned extract of a committed authoritative source. Citable within stated excerpt scope.",
+    "REPRESENTATIVE_EXCERPT":  "Condensed paraphrase or illustrative excerpt. Not verbatim; not citable as the primary source.",
+    "SYNTHETIC_TEST_DOCUMENT": "Constructed for adversarial/stress-testing. Represents no real-world governance document.",
+}
+
 # ── Deployment risk tier labels ───────────────────────────────────────────────
 # Source: LAIF_Compliance_Toolkit.txt §7 — Tiering by stakes and structural depth.
 # These are the four tiers produced by _deployment_risk_tier() in assessment_engine.py.

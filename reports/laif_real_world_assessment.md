@@ -52,6 +52,19 @@ Each document was assessed against three complementary layers:
 
 **Strong compliance verdict:** STRONG PASS requires formal PASS + STRUCTURAL Coupling + no contradictions. A formal PASS with shallow Coupling = WEAK PASS, not a strong compliance claim.
 
+## Scope, Limitations, and Fair Reading
+This report is held to LAIF's own A.2 Structural Honesty standard, which requires its claims to be bounded as precisely as its findings. Five bounds apply to everything below:
+
+1. **A FAIL verdict measures distance from LAIF, not the quality of the instrument.** The Coherence Test and Integrity Layer are deliberately stricter than any assessed framework's own success criteria. A CRITICAL deployment-risk tier means "deploying under this instrument alone would leave LAIF's structural preconditions unmet" — it is not a judgement that the instrument fails its authors' purposes, and it must never be quoted as one.
+
+2. **Findings are bounded by excerpt scope.** Official-corpus verdicts hold for the excerpted sections declared on each scorecard, not for unexcerpted parts of the instruments. A construct absent from the excerpt could in principle exist elsewhere in the source; the excerpts were chosen as the sections where such constructs would canonically live.
+
+3. **Signals are lexical, not interpretive.** Dimension scores derive from documented pattern rubrics over the text. They detect the presence or absence of structural language; they do not evaluate whether present language is well-implemented in practice. Traceability (every fired and missed signal is listed) is the compensating control — any scoring decision can be audited back to its evidence.
+
+4. **Format affects prose-based signals.** Form/questionnaire-style instruments (e.g. DTAC) encode governance in assessed criteria rather than declaratory prose, which prose rubrics undercount. Affected scorecards carry an explicit interpretation caveat, and those specific attributions are marked non-citable.
+
+5. **The corpus is a governance sample, not a census.** Ten documents — four citable, six illustrative — spanning binding regulation, executive direction, voluntary frameworks, international principles, and sector instruments. Cross-document averages characterise this corpus; they are not population estimates for "all AI governance".
+
 ## Scoring Model
 | Dimension            | Weight | LAIF Source                | Description                                                              |
 | -------------------- | ------ | -------------------------- | ------------------------------------------------------------------------ |
