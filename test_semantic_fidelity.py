@@ -301,6 +301,49 @@ for name, doc in OFFICIAL_DOCUMENTS.items():
           f"{short}… alignment verdict in expected range ({r['laif_alignment']})")
 
 
+# ── GROUP SF6 — Plain-language reading integrity ─────────────────────────────
+
+section("GROUP SF6 — Plain-language reading (framework-free narrative)")
+
+_LAIF_VOCAB = ("LAIF", "Coupling", "Integrity Layer", "Coherence Test",
+               "Structural Transparency", "Structural Honesty",
+               "Structural Containment", "PDCA")
+
+
+def _plain_text(r):
+    return " ".join(r.get("plain_reading", []))
+
+
+check("fastened to the people they serve" in _plain_text(s1)
+      and "receive nothing they can hold" not in _plain_text(s1), "SF6.1",
+      "S1 plain reading affirms the pairing; never denies protection")
+
+check("borrows the vocabulary" in _plain_text(s2), "SF6.2",
+      "S2 shell plain reading says words-without-machinery")
+
+_vocab_clean = True
+for rr in (s1, s2, s3, s4, s5):
+    if any(term in _plain_text(rr) for term in _LAIF_VOCAB):
+        _vocab_clean = False
+for name, doc in OFFICIAL_DOCUMENTS.items():
+    rr = assess(name=name, source_type=doc["source_type"], text=doc["text"],
+                sector=doc.get("sector", "general_ai_governance"),
+                provenance=doc["provenance"])
+    if any(term in _plain_text(rr) for term in _LAIF_VOCAB):
+        _vocab_clean = False
+    if not rr.get("plain_reading"):
+        _vocab_clean = False
+check(_vocab_clean, "SF6.3",
+      "plain readings exist for all documents and contain no framework vocabulary")
+
+check("not a judgement of the document against its own objectives"
+      in _plain_text(assess(
+          name="eo", source_type="executive_directive",
+          text=OFFICIAL_DOCUMENTS[next(iter(OFFICIAL_DOCUMENTS))]["text"])),
+      "SF6.4",
+      "unaligned verdicts always carry the fair-reading disclaimer")
+
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 
 print(f"\n{'═' * 70}")

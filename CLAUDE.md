@@ -39,7 +39,7 @@ LAIF/
 ├── corpus_manifest.md       # Provenance rules and per-document manifest for both corpus tiers
 ├── test_adversarial.py      # 82 adversarial tests against the guards and depth checks
 ├── test_provenance.py       # 48 provenance checks enforcing citability claims
-├── test_semantic_fidelity.py # 37 checks against false negatives (substance w/o vocabulary) and false positives
+├── test_semantic_fidelity.py # 41 checks against false negatives (substance w/o vocabulary) and false positives
 ├── test_real_world.py       # Assessment run over both corpora → reports/laif_real_world_assessment.md
 │
 ├── docs/supporting/         # Verbatim ingested source texts (EO 14110, OECD, NIST AI 100-1, NHS DTAC)
@@ -168,7 +168,7 @@ which must exit 0:
 python3 validate.py                 # 9-check harness over the .txt corpus (rule failures = exit 1)
 python3 test_adversarial.py         # 82 adversarial tests on guards and structural-depth checks
 python3 test_provenance.py          # 48 checks enforcing corpus citability claims
-python3 test_semantic_fidelity.py   # 37 checks: substance never outranked by vocabulary; no false accusations
+python3 test_semantic_fidelity.py   # 41 checks: substance never outranked by vocabulary; no false accusations
 ```
 
 To regenerate the assessment report (also acts as an integration test):

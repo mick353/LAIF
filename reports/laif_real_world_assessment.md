@@ -130,6 +130,22 @@ However, the following are not structurally enforced:
 3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement below is generated from a specific fired or missed signal in the scorecard — none of it is editorial.*
+
+In plain terms, this document is a statement of values followed by a tasking list — named officials receive instructions and deadlines. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, answerability for outcomes, human oversight of the system, safety and more.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** whatever its other merits, none of the deeper protective architecture — promises fastened to people, rules that bind the rule-maker, guarantees that survive a change of author — is present in any form. That is not a judgement of the document against its own objectives; it is a statement of what a person could and could not rely on this text for.
+
+
 #### Compliance Summary
 | Dimension                       | Verdict |
 | ------------------------------- | ------- |
@@ -427,6 +443,22 @@ However, the following are not structurally enforced:
 1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
 2. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
 3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+
+
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement below is generated from a specific fired or missed signal in the scorecard — none of it is editorial.*
+
+In plain terms, this document is an intergovernmental commitment — principles that governments endorse and are expected, but not compelled, to implement. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, explanations people can understand, answerability for outcomes, human oversight of the system and more.
+
+It expresses a clear intention to protect people, but the promises are not fastened to the people they serve: a specific rule could be weakened or dropped without visibly breaking a commitment to any identifiable person.
+
+It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: it gestures at correction and rollback, but not as a guaranteed capacity, and everything it creates can be undone by its author's successor.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
 
 
 #### Compliance Summary
@@ -749,6 +781,22 @@ However, the following are not structurally enforced:
 3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement below is generated from a specific fired or missed signal in the scorecard — none of it is editorial.*
+
+In plain terms, this document is a voluntary playbook — structured practices an organisation may adopt, with no binding force of its own. It clearly names the things it exists to protect: openness about how decisions are made, answerability for outcomes, human oversight of the system, matching rules to the size of the risk, safety and more.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: it gestures at correction and rollback, but not as a guaranteed capacity, and everything it creates can be undone by its author's successor.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
+
+
 #### Compliance Summary
 | Dimension                       | Verdict |
 | ------------------------------- | ------- |
@@ -1049,6 +1097,22 @@ However, the following are not structurally enforced:
 1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
 2. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
 3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+
+
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement below is generated from a specific fired or missed signal in the scorecard — none of it is editorial.*
+
+In plain terms, this document is a sector instrument — operational requirements for a specific deployment context. It clearly names the things it exists to protect: safety, the ability to challenge decisions, structured risk management.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
+
+To its credit, the administrative machinery is real: evidence and documentation duties, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
 
 
 #### Compliance Summary
@@ -1371,6 +1435,22 @@ However, the following are not structurally enforced:
 3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement below is generated from a specific fired or missed signal in the scorecard — none of it is editorial.*
+
+In plain terms, this document is binding law — it imposes obligations on identified parties, enforceable through the legal system. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, explanations people can understand, human oversight of the system, safety and more.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
+
+
 #### Compliance Summary
 | Dimension                       | Verdict |
 | ------------------------------- | ------- |
@@ -1666,6 +1746,22 @@ However, the following are not structurally enforced:
 1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
 2. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
 3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+
+
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement below is generated from a specific fired or missed signal in the scorecard — none of it is editorial.*
+
+In plain terms, this document is a voluntary playbook — structured practices an organisation may adopt, with no binding force of its own. It clearly names the things it exists to protect: openness about how decisions are made, answerability for outcomes, human oversight of the system, safety, structured risk management.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** whatever its other merits, none of the deeper protective architecture — promises fastened to people, rules that bind the rule-maker, guarantees that survive a change of author — is present in any form. That is not a judgement of the document against its own objectives; it is a statement of what a person could and could not rely on this text for.
 
 
 #### Compliance Summary
@@ -1973,6 +2069,20 @@ However, the following are not structurally enforced:
 1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
 2. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
 3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+
+
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement below is generated from a specific fired or missed signal in the scorecard — none of it is editorial.*
+
+In plain terms, this document is an intergovernmental commitment — principles that governments endorse and are expected, but not compelled, to implement. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, explanations people can understand, answerability for outcomes, human oversight of the system and more.
+
+It expresses a clear intention to protect people, but the promises are not fastened to the people they serve: a specific rule could be weakened or dropped without visibly breaking a commitment to any identifiable person.
+
+It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
 
 
 #### Compliance Summary
@@ -2298,6 +2408,22 @@ However, the following are not structurally enforced:
 3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement below is generated from a specific fired or missed signal in the scorecard — none of it is editorial.*
+
+In plain terms, this document is a statement of values followed by a tasking list — named officials receive instructions and deadlines. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, answerability for outcomes, human oversight of the system, matching rules to the size of the risk and more.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
+
+
 #### Compliance Summary
 | Dimension                       | Verdict |
 | ------------------------------- | ------- |
@@ -2608,6 +2734,22 @@ However, the following are not structurally enforced:
 3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement below is generated from a specific fired or missed signal in the scorecard — none of it is editorial.*
+
+In plain terms, this document is a sector instrument — operational requirements for a specific deployment context. It clearly names the things it exists to protect: openness about how decisions are made, explanations people can understand, human oversight of the system, safety.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: it gestures at correction and rollback, but not as a guaranteed capacity, and everything it creates can be undone by its author's successor.
+
+To its credit, the administrative machinery is real: evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
+
+
 #### Compliance Summary
 | Dimension                       | Verdict |
 | ------------------------------- | ------- |
@@ -2912,6 +3054,22 @@ However, the following are not structurally enforced:
 1. **Structural Coupling not declared — the term 'Coupling' is absent.** — For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
 2. **Coherence Test not applied — no Q1/Q2/Q3 documentation present.** — Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
 3. **Integrity Layer not declared as a deployment precondition.** — Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+
+
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement below is generated from a specific fired or missed signal in the scorecard — none of it is editorial.*
+
+In plain terms, this document is a sector instrument — operational requirements for a specific deployment context. It clearly names the things it exists to protect: openness about how decisions are made, explanations people can understand, answerability for outcomes, the ability to challenge decisions, fairness and non-discrimination.
+
+It expresses a clear intention to protect people, but the promises are not fastened to the people they serve: a specific rule could be weakened or dropped without visibly breaking a commitment to any identifiable person.
+
+It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: it gestures at correction and rollback, but not as a guaranteed capacity, and everything it creates can be undone by its author's successor.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
 
 
 #### Compliance Summary
