@@ -2,7 +2,10 @@
 
 ## Repository Overview
 
-This repository contains the Law-Aligned Intelligence Framework (LAIF), a constitutional-level governance standard for AI systems. It holds governance documents in `.docx` and `.txt` format, ingested source documents for assessment, Python assessment tooling, and authoritative assessment reports.
+This repository holds the Law-Aligned Intelligence Framework (LAIF), a constitutional-level governance standard for AI systems, in two layers:
+
+1. **The governance corpus** — the framework documents in `.docx` and `.txt` format (the "constitution" and its applied instruments).
+2. **A Python enforcement toolchain** — a validation harness, an assessment engine that scores external governance documents against LAIF, a two-tier assessment corpus with machine-verified provenance, and test suites. Plain Python 3, standard library only — no third-party dependencies.
 
 - **Version**: LAIF v1.2 | Compliance Toolkit v1.1
 - **Date**: April 2026
@@ -17,11 +20,11 @@ LAIF/
 ├── LAIF-Law-Aligned_Intelligence_Framework.txt   # Navigation index / START HERE
 ├── README.md                                      # Project description and contents
 ├── CLAUDE.md                                      # This file — AI assistant guidance
-├── corpus_manifest.md                             # Provenance classifications for assessed docs
 │
+│  # Governance corpus (each .docx has a matching .txt export for search/programmatic access)
 ├── LAIF_Executive_Brief.docx / .txt   # 2-min overview; START HERE for new readers
 ├── LAIF_Public_Article.docx / .txt    # 5–7 min public-facing governance audit article
-├── LAIF_v1.2.docx / .txt             # CORE: The principal framework text (the "constitution")
+├── LAIF_v1.2.docx / .txt              # CORE: The principal framework text (the "constitution")
 ├── LAIF_PDCA_GPT4_Clinical.docx / .txt        # Applied PDCA: GPT-4 Clinical Documentation Assistant
 ├── LAIF_Case_Analysis.docx / .txt             # Retrospective analysis across 8 AI governance failures
 ├── LAIF_Compliance_Toolkit.docx / .txt        # Operational definitions and standards (v1.1)
@@ -29,21 +32,25 @@ LAIF/
 ├── LAIF REGULATORY INTEGRATION GUIDE.docx     # Step-by-step EU AI Act + US federal integration
 │   └── LAIF_Regulatory_Integration_Guide.txt
 │
-├── docs/supporting/                             # Ingested full-text source documents (Strict Source Mode)
-│   ├── 51a29205-OECD_Legal_Instruments.md       # OECD Recommendation on AI (OECD/LEGAL/0449)
-│   ├── b0ef43db-202324283.md                    # US Executive Order 14110
-│   ├── 5f667a6f-NIST.AI.1001.md                # NIST AI 100-1 (AI RMF 1.0)
-│   └── 55eccce3-DTAC_Form_2.0_February_2026.md # NHS England DTAC v2.0
+│  # Enforcement toolchain (Python 3, stdlib only)
+├── laif_spec.py             # Canonical spec: terms, forbidden paraphrases, Integrity Layer, tiers, provenance classes
+├── validate.py              # Validation harness over the .txt corpus (exit 1 on rule failure)
+├── assessment_engine.py     # Scoring engine, functional-alignment layer, governance-repair reporting
+├── sample_documents.py      # Assessment corpus tier 2: REPRESENTATIVE_EXCERPT (illustrative)
+├── official_documents.py    # Assessment corpus tier 1: OFFICIAL_EXCERPT (verbatim, SHA-256-pinned; citable)
+├── corpus_manifest.md       # Provenance rules and per-document manifest for both corpus tiers
+├── test_adversarial.py      # Adversarial tests against the guards and depth checks
+├── test_provenance.py       # Provenance checks enforcing citability claims
+├── test_semantic_fidelity.py # Semantic-fidelity invariants (substance vs vocabulary; no false accusations)
+├── test_real_world.py       # Assessment run over both corpora → reports/laif_real_world_assessment.md
+├── scripts/                 # Batch document processing + governance tooling
+├── tests/                   # Governance, fragility, and processing-runner suites
 │
-├── reports/
-│   └── laif_full_assessment.md                  # AUTHORITATIVE: full corpus assessment, model v1.1
-│
-├── assessment_engine.py                         # LAIF assessment logic
-├── laif_spec.py                                 # Framework specification
-├── sample_documents.py                          # Assessment corpus (see corpus_manifest.md)
-├── validate.py                                  # Validation utilities
-├── test_adversarial.py                          # Adversarial test suite
-└── test_real_world.py                           # Real-world document test suite
+├── docs/supporting/         # Verbatim ingested source texts (EO 14110, OECD, NIST AI 100-1, NHS DTAC)
+├── docs/governance/         # Contributor-facing process policy (merge, rollback, protected artifacts)
+├── docs/verified/           # Evidence traces and verified ingestion manifests
+├── laif_inputs/             # Batch-processing input/processed queues
+└── reports/                 # Generated assessment reports (deterministic; regenerate, don't hand-edit)
 ```
 
 ### Conceptual Document Hierarchy
@@ -160,15 +167,88 @@ LAIF v1.2 explicitly incorporates and integrates with:
 
 ## Working in This Repository
 
+### Commands — The Pre-Commit Gate
+
+The toolchain is plain Python 3 standard library (no package manager needed);
+CI (.github/workflows/ci.yml) runs the same gate. All of these must exit 0
+before any commit:
+
+```bash
+python3 validate.py                 # validation harness over the .txt corpus (rule failures = exit 1)
+python3 test_adversarial.py         # adversarial tests on guards and structural-depth checks
+python3 test_provenance.py          # provenance checks enforcing corpus citability claims
+python3 test_semantic_fidelity.py   # semantic-fidelity invariants: substance never outranked by vocabulary
+python3 tests/test_governance.py    # governance/reporting suite
+python3 tests/test_assessment_fragility.py          # fragility suite
+python3 tests/test_document_processing_runner.py    # batch runner suite
+python3 tests/test_github_actions_document_processing.py  # CI processing suite
+```
+
+To regenerate the assessment report (also acts as an integration test):
+
+```bash
+python3 test_real_world.py    # writes reports/laif_real_world_assessment.md
+```
+
+The report must be deterministic: running it twice must produce no diff. Never
+hand-edit `reports/` output — change the engine or corpus and regenerate.
+
+### Corpus Provenance Rules (Machine-Enforced)
+
+The assessment corpus has two evidence tiers (full rules in `corpus_manifest.md`):
+
+- **`official_documents.py` (OFFICIAL_EXCERPT, citable)** — text is extracted
+  verbatim at import from committed source files in `docs/supporting/` via unique
+  start/end markers and pinned by SHA-256. Import fails if provenance cannot be
+  proven. To add a document: commit the full verbatim source text to
+  `docs/supporting/` first, then add markers and pin hashes (run the module's
+  `__main__` to compute them).
+- **`sample_documents.py` (REPRESENTATIVE_EXCERPT / SYNTHETIC_TEST_DOCUMENT,
+  not citable)** — every entry must carry all four provenance fields
+  (`provenance`, `source_url`, `source_note`, `intended_use`). Never classify an
+  entry here as OFFICIAL_EXCERPT — `test_provenance.py` fails the build if you do.
+
+Never present results computed from REPRESENTATIVE_EXCERPT text as findings about
+the official source instrument. This is the reporting layer's own A.2 Structural
+Honesty obligation.
+
+### Semantic Fidelity Rules (Machine-Enforced)
+
+LAIF is the measuring instrument, not an authority over other instruments'
+vocabulary. `assessment_engine.py` therefore measures on two independent axes,
+and both must be preserved by any change:
+
+- **LAIF-native form** (formal gate, binary) — is the document written as a
+  LAIF instrument? External frameworks are expected to fail this; that verdict
+  says nothing about their substance.
+- **Functional alignment** (per-construct) — is the *substance* of Coupling,
+  the Integrity Layer, Consistency, Reversibility, and Self-Application
+  expressed in the document's own vocabulary? Grounded in LAIF v1.2 Part Eight
+  (equivalent structural diligence) and the Regulatory Integration Guide's
+  SATISFIES/EXTENDS methodology.
+
+Hard invariants (enforced by `test_semantic_fidelity.py`):
+1. A document expressing LAIF's structural substance in its own vocabulary is
+   never described as lacking protection, and never ranked below a
+   vocabulary-only shell on any substance axis.
+2. Language that *regulates* a hazard ("no irreversible action without
+   authorisation") is never flagged as a Structural Honesty contradiction.
+3. Paraphrase detections on documents that neither use nor claim LAIF
+   vocabulary are informational divergence notes, not violations
+   (validate.py's strict enforcement over LAIF's own corpus is unchanged).
+4. Register never suppresses substance: "must"/"we will" carry the same
+   signal weight as "shall".
+
 ### Editing Documents
 
 - `.docx` files are Microsoft Word format. Edit with Word, LibreOffice, or programmatically with `python-docx`.
-- `.txt` files are plain-text exports of the `.docx` documents.
-- `README.md` is the public-facing project description.
+- Each governance document also has a `.txt` export; `validate.py` runs against the `.txt` corpus, so keep both formats in sync when editing.
+- `LAIF-Law-Aligned_Intelligence_Framework.txt` is the navigation index; `README.md` is the public-facing project description.
+- `docs/supporting/` holds verbatim ingested source texts (strict, no transformation). Editing these files breaks pinned hashes in `official_documents.py` by design — any change there must be re-verified against the authoritative source and re-pinned.
 
 ### Running Assessment Tools
 
-The Python tooling (`assessment_engine.py`, `validate.py`, test suites) requires no build step — run directly with `python3`. The `corpus_manifest.md` documents provenance classifications for all documents in `sample_documents.py`.
+The Python tooling (`assessment_engine.py`, `validate.py`, test suites, `scripts/`) requires no build step — run directly with `python3`. `corpus_manifest.md` documents provenance classifications for both corpus tiers (`official_documents.py`, `sample_documents.py`).
 
 ---
 
@@ -223,11 +303,12 @@ Any assessment produced from the ingested files in `docs/supporting/` and `LAIF_
 
 ### Commit Style
 
-Commits are descriptive and indicate scope:
+Commits are descriptive, scoped to one coherent change, and name the affected
+layer (corpus, toolchain, reporting, docs):
 
 ```
+Add OFFICIAL_EXCERPT corpus with machine-verified verbatim provenance
 LAIF: full source ingestion (strict, no transformation)
-LAIF: full corpus assessment v1.1 (finalised after merge)
 LAIF: publication-prep pass — formatting, README, governance docs
 ```
 

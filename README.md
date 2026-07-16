@@ -107,6 +107,34 @@ Each document is available in its original `.docx` format and as a plain-text `.
 
 ---
 
+## Programmatic Assessment Toolchain
+
+Beyond the governance corpus, the repository ships a Python toolchain (stdlib only, no dependencies) that operationalises LAIF:
+
+| Component | Role |
+|-----------|------|
+| `laif_spec.py` | Canonical spec — terms, forbidden paraphrases, Integrity Layer, Coherence Test, risk tiers |
+| `validate.py` | 9-check validation harness over the `.txt` corpus (strict, binary) |
+| `assessment_engine.py` | Scores external governance documents on 5 traceable dimensions, with sector profiles, Coupling-quality analysis, contradiction detection, and risk tiering |
+| `official_documents.py` | **Citable corpus** — verbatim, SHA-256-pinned excerpts of EO 14110, the OECD AI Recommendation, NIST AI 100-1, and NHS DTAC v2.0, extracted from committed sources in `docs/supporting/` |
+| `sample_documents.py` | Illustrative corpus — representative paraphrases (not citable) |
+| `test_provenance.py` | 48 machine-enforced checks on every citability claim |
+| `test_adversarial.py` | 82 adversarial tests on the guards and depth checks |
+| `test_semantic_fidelity.py` | 41 checks guaranteeing substance is never outranked by vocabulary and no document is falsely accused |
+| `test_real_world.py` | Runs the full assessment → `reports/laif_real_world_assessment.md` |
+
+The engine measures on two independent axes: **LAIF-native form** (is the document written as a LAIF instrument — external frameworks are expected to fail this) and **functional alignment** (is the *substance* of Coupling, the Integrity Layer, Consistency, Reversibility, and Self-Application expressed in the document's own vocabulary — grounded in LAIF v1.2 Part Eight and the Regulatory Integration Guide's SATISFIES/EXTENDS methodology). A document is never penalised for expressing LAIF's requirements in its own words, and never credited for using LAIF's words without the substance.
+
+**Headline citable finding:** all four official instruments assessed from verbatim text fail the LAIF-native formal gate while averaging 53/100 conceptual proximity, and three of four are PARTIALLY ALIGNED at the construct level — real-world frameworks address the right governance dimensions, and partially express LAIF's structural mechanisms in their own idioms, but none enforces them through structural Coupling, the Coherence Test, or the Integrity Layer.
+
+Run everything:
+
+```bash
+python3 validate.py && python3 test_adversarial.py && python3 test_provenance.py && python3 test_semantic_fidelity.py && python3 test_real_world.py
+```
+
+---
+
 ## Core Concepts at a Glance
 
 ### The Integrity Layer
@@ -154,6 +182,11 @@ LAIF applies to regulatory bodies and governance actors themselves — not only 
 | `LAIF_Compliance_Toolkit.docx` / `.txt` | DOCX + TXT | Operational definitions v1.1 |
 | `LAIF_Policy_Paper.docx` / `.txt` | DOCX + TXT | Academic/policy paper |
 | `LAIF REGULATORY INTEGRATION GUIDE.docx` / `LAIF_Regulatory_Integration_Guide.txt` | DOCX + TXT | Regulatory integration guide |
+| `laif_spec.py`, `validate.py`, `assessment_engine.py` | PY | Enforcement and assessment toolchain |
+| `official_documents.py`, `sample_documents.py`, `corpus_manifest.md` | PY + MD | Two-tier assessment corpus with provenance manifest |
+| `test_provenance.py`, `test_adversarial.py`, `test_real_world.py` | PY | Test suites and report generator |
+| `docs/supporting/` | MD | Verbatim ingested source texts (EO 14110, OECD, NIST AI 100-1, NHS DTAC v2.0) |
+| `reports/laif_real_world_assessment.md` | MD | Generated real-world assessment report (deterministic) |
 | `CLAUDE.md` | MD | AI assistant guidance for this repository |
 | `corpus_manifest.md` | MD | Provenance and citeability classification for all assessed documents |
 
