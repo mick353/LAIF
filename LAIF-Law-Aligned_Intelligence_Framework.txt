@@ -13,9 +13,14 @@ FOR PROOF:
 FOR ADOPTION:
 → 03_APPLICATIONS_AND_INTEGRATION / Regulatory Integration Guide
 
+FOR ENFORCEMENT (machine layer):
+→ validate.py (corpus validation harness) · assessment_engine.py (scoring engine)
+→ official_documents.py + sample_documents.py (two-tier assessment corpus; corpus_manifest.md)
+→ test_provenance.py · test_adversarial.py · test_real_world.py (verification suites)
+
 
 The Law-Aligned Intelligence Framework (LAIF) is a constitutional-level governance standard for AI systems.
 
-It provides a unified test — coupling (alignment between restrictions and protected interests), consistency (applicability across scales), and reversibility (preservation of future decision capacity) — used to evaluate AI deployments, policies, and regulatory decisions.
+It provides a unified test — the Coherence Test — asking three questions of every deployment: Coupling (the structural pairing of each restriction with the specific human interest it protects), Consistency (whether the governance logic holds across all comparable actors and scales), and Reversibility (preservation of future actors' capacity to reverse or modify consequences). It is used to evaluate AI deployments, policies, and regulatory decisions.
 
 LAIF is implemented operationally through the Pre-Deployment Coherence Assessment (PDCA), a structured audit process applied before system deployment.
