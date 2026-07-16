@@ -2686,9 +2686,10 @@ def _render_cross_document(assessments, citable, illustrative, h, p, table,
         )
     )
     p()
-    p("**Risk tier derivation:** CRITICAL = compliance FAIL + overall <35; "
-      "HIGH = compliance FAIL or overall <50; MODERATE = weak/hollow compliance + overall 50–69; "
-      "LOW = STRONG PASS + overall ≥70.")
+    p("**Risk tier derivation** (matches `_deployment_risk_tier()`, "
+      "Toolkit §7): LOW = STRONG PASS (all Integrity Layer and Coherence Test "
+      "conditions met); otherwise MODERATE = overall ≥70; HIGH = overall 40–69; "
+      "CRITICAL = overall <40.")
     p()
 
     high_conceptual = [r for r in assessments if r["conceptual_proximity_score"] >= 60]

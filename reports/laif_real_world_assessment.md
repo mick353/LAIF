@@ -3104,7 +3104,7 @@ Averages by evidence tier. Convergence between tiers indicates the core finding 
 | EU AI Act — Art. 9, 13 & 14            | HIGH      | 44/100  | FAIL       | REPRESENTATIVE_EXCERPT |
 | US Executive Order 14110 — §4 Safety & | HIGH      | 50/100  | FAIL       | REPRESENTATIVE_EXCERPT |
 
-**Risk tier derivation:** CRITICAL = compliance FAIL + overall <35; HIGH = compliance FAIL or overall <50; MODERATE = weak/hollow compliance + overall 50–69; LOW = STRONG PASS + overall ≥70.
+**Risk tier derivation** (matches `_deployment_risk_tier()`, Toolkit §7): LOW = STRONG PASS (all Integrity Layer and Coherence Test conditions met); otherwise MODERATE = overall ≥70; HIGH = overall 40–69; CRITICAL = overall <40.
 
 - High conceptual proximity (≥60): OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (official text), OECD AI Principles (2019, rev. 2024), US Executive Order 14110 — §4 Safety & §7 Workers — LAIF-like intent expressed through own vocabulary.
 - Paraphrase violations: US Executive Order 14110 — §4 Safety & §7 Workers — forbidden substitution of LAIF canonical terms.
