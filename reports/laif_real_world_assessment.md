@@ -53,12 +53,12 @@ Beyond the layers above, each core construct (Coupling, Integrity Layer, Consist
 
 ## Executive Brief
 - **Total documents assessed:** 10 (10 external instruments assessed as governance repair diagnostics, not LAIF-native certification)
-- **Average overall readiness:** 39/100
-- **Average conceptual proximity:** 51/100
+- **Average overall readiness:** 42/100
+- **Average conceptual proximity:** 52/100
 - **Average sector alignment:** 62/100
 - **Citable subset (OFFICIAL_EXCERPT, verbatim hash-pinned):** 4/10 documents; 4/4 not LAIF-native; average conceptual proximity 53/100. These findings may be stated of the named source instruments within excerpt scope.
 - **Functional alignment distribution:** PARTIALLY ALIGNED (8); STRUCTURALLY UNALIGNED (2)
-- **Average calibrated position (external instruments):** 48% of the 81.5-point ceiling achievable without LAIF-native branding — raw scores compress by design and must not be read as percentage grades.
+- **Average calibrated position (external instruments):** 51% of the 81.5-point ceiling achievable without LAIF-native branding — raw scores compress by design and must not be read as percentage grades.
 - **Evidence trace summary:** 188 traces; 188 exact/deterministic; 0 reviewer-confirmation fallback.
 - **Remediation patch summary:** 120 structured patches across assessed documents.
 - **Top governance-force patterns:** mandate (3); consequence (2); escalation (1)
@@ -80,16 +80,16 @@ No legal determination is made; no source is certified through this public templ
 ### Score distribution / deterministic rubric comparison
 | Document                                                         | Mode               | Alignment              | Overall score / band               | Sector profile         | Evidence traces | Patches | Cautions |
 | ---------------------------------------------------------------- | ------------------ | ---------------------- | ---------------------------------- | ---------------------- | --------------- | ------- | -------- |
-| US Executive Order 14110 — §2 Principles, §6 Workers, §7 Civil R | external_framework | STRUCTURALLY UNALIGNED | 46/100 — partial structural signal | General AI Governance  | 19              | 12      | 2        |
+| US Executive Order 14110 — §2 Principles, §6 Workers, §7 Civil R | external_framework | STRUCTURALLY UNALIGNED | 50/100 — partial structural signal | General AI Governance  | 19              | 12      | 2        |
 | OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (of | external_framework | PARTIALLY ALIGNED      | 39/100 — limited structural signal | General AI Governance  | 20              | 12      | 4        |
 | NIST AI RMF 1.0 (NIST AI 100-1) — GOVERN & MAP Functions (offici | external_framework | PARTIALLY ALIGNED      | 48/100 — partial structural signal | General AI Governance  | 20              | 12      | 4        |
 | NHS England DTAC v2.0 (February 2026) — Introduction & C1 Clinic | external_framework | PARTIALLY ALIGNED      | 36/100 — limited structural signal | Clinical AI Deployment | 17              | 12      | 5        |
-| EU AI Act — Art. 9, 13 & 14                                      | external_framework | PARTIALLY ALIGNED      | 44/100 — partial structural signal | General AI Governance  | 20              | 12      | 3        |
+| EU AI Act — Art. 9, 13 & 14                                      | external_framework | PARTIALLY ALIGNED      | 50/100 — partial structural signal | General AI Governance  | 20              | 12      | 3        |
 | NIST AI RMF — Govern & Map Functions                             | external_framework | STRUCTURALLY UNALIGNED | 34/100 — limited structural signal | General AI Governance  | 18              | 12      | 2        |
 | OECD AI Principles (2019, rev. 2024)                             | external_framework | PARTIALLY ALIGNED      | 22/100 — limited structural signal | General AI Governance  | 15              | 12      | 6        |
-| US Executive Order 14110 — §4 Safety & §7 Workers                | external_framework | PARTIALLY ALIGNED      | 50/100 — partial structural signal | General AI Governance  | 20              | 12      | 4        |
-| NHS England — AI in Clinical Decision Support (Policy Framework) | external_framework | PARTIALLY ALIGNED      | 35/100 — limited structural signal | Clinical AI Deployment | 20              | 12      | 5        |
-| TUC/CIPD — Framework for Fair AI in Employment Decisions         | external_framework | PARTIALLY ALIGNED      | 39/100 — limited structural signal | Employment and HR AI   | 19              | 12      | 4        |
+| US Executive Order 14110 — §4 Safety & §7 Workers                | external_framework | PARTIALLY ALIGNED      | 54/100 — partial structural signal | General AI Governance  | 20              | 12      | 4        |
+| NHS England — AI in Clinical Decision Support (Policy Framework) | external_framework | PARTIALLY ALIGNED      | 39/100 — limited structural signal | Clinical AI Deployment | 20              | 12      | 5        |
+| TUC/CIPD — Framework for Fair AI in Employment Decisions         | external_framework | PARTIALLY ALIGNED      | 43/100 — partial structural signal | Employment and HR AI   | 19              | 12      | 3        |
 
 
 ### Common structural gaps (cross-document)
@@ -123,6 +123,8 @@ Reversibility/escalation fixes (10); LAIF-native adoption fixes (10); Immediate 
 | Original file name | not provided                                                                                                                               |
 | Source SHA-256     | not provided                                                                                                                               |
 
+**Document structure detected (6 sections):** Section 2. Policy and Principles · Section 6. Supporting Workers · Section 7. Advancing Equity and Civil Rights · 7.1. Strengthening AI and Civil Rights in the Criminal Justice System · 7.2. Protecting Civil Rights Related to Government Benefits and Progra · 7.3. Strengthening AI and Civil Rights in the Broader Economy
+
 
 #### Plain-Language Reading (framework-free)
 *What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
@@ -149,7 +151,7 @@ To its credit, the administrative machinery is real: numbered, traceable require
 | governance_force_profile      | Executive policy directive with administrative force over named agencies or executive functions; implementation depends on agency ownership and follow-through controls. |
 | systemic_repair_value         | Moderate                                                                                                                                                                 |
 | operational_closure_rating    | Weak                                                                                                                                                                     |
-| evidence_sufficiency_rating   | Moderate                                                                                                                                                                 |
+| evidence_sufficiency_rating   | Strong                                                                                                                                                                   |
 | accountability_closure_rating | Limited                                                                                                                                                                  |
 | lifecycle_control_rating      | Limited                                                                                                                                                                  |
 | residual_risk_control_rating  | Limited                                                                                                                                                                  |
@@ -167,7 +169,7 @@ This assessment measures governance repair adequacy and operational control clos
 
 
 #### Evidence Sufficiency Findings
-- **Evidence sufficiency:** Moderate
+- **Evidence sufficiency:** Strong
 - **Evidence trace count:** 19
 
 
@@ -195,14 +197,14 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 46/100 — partial structural signal
-- **Calibrated position:** 56% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
+- **Overall readiness:** 50/100 — partial structural signal
+- **Calibrated position:** 61% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 57/100
 - **Sector risk alignment:** 20/100
 - **Remediation effort:** HIGH
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +14 more
-- **Governance signal strength:** 46
+- **Governance signal strength:** 50
 - **Structural dimension score:** 43/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** STRUCTURALLY UNALIGNED — LAIF's distinctive structural mechanisms not detected in any form; conceptual overlap is measured separately
@@ -210,13 +212,54 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected |
-| ---------------- | ------- | ------------------------ |
-| Coupling         | ABSENT  | none detected            |
-| Integrity Layer  | ABSENT  | none detected            |
-| Consistency      | ABSENT  | none detected            |
-| Reversibility    | ABSENT  | none detected            |
-| Self-Application | ABSENT  | none detected            |
+| Construct        | Verdict | Signal families detected | Location |
+| ---------------- | ------- | ------------------------ | -------- |
+| Coupling         | ABSENT  | none detected            | —        |
+| Integrity Layer  | ABSENT  | none detected            | —        |
+| Consistency      | ABSENT  | none detected            | —        |
+| Reversibility    | ABSENT  | none detected            | —        |
+| Self-Application | ABSENT  | none detected            | —        |
+
+
+#### Evidence Locator — Where the Signals Live
+Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
+| Dimension      | Signal                                       | Location in document             | Verbatim quote                                                                                                   |
+| -------------- | -------------------------------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Structural     | numbered sub-requirements                    | Section 2. Policy and Principles | «## Section 2. Policy and Principles It is the policy of my Administratio»                                       |
+| Structural     | mandatory obligation language (shall)        | Section 2. Policy and Principles | «(agencies) shall, as appropriate and consistent with applicable law, adhere»                                    |
+| Structural     | operational mechanisms defined               | Section 2. Policy and Principles | «other mechanisms to test, understand, and mitigate risks from these systems»                                    |
+| Conceptual     | human rights / fundamental interests         | Section 2. Policy and Principles | «threatening human rights, and causing other harms. […] ## Section 6. Supporting Wo»                             |
+| Conceptual     | transparency                                 | Section 6. Supporting Workers    | «including transparency, engagement, management, and activity protected under worke»                             |
+| Conceptual     | accountability                               | Section 2. Policy and Principles | «deploying AI accountable to standards that protect against unlawful discrimination a»                           |
+| Auditability   | multiple mandatory obligations (shall/must p | Section 6. Supporting Workers    | «actions shall be taken within 180 days of the date of this order: (i) The Chairman of the Council of Economic…» |
+| Auditability   | numbered traceable requirements              | Section 2. Policy and Principles | «## Section 2. Policy and Principles It is the policy of my Administrati»                                        |
+| Auditability   | evidence / documentation requirements        | Section 6. Supporting Workers    | «and submit a report to the President on the labor-market effects of AI. (ii) T»                                 |
+| Enforceability | mandatory language (shall/must)              | Section 2. Policy and Principles | «(agencies) shall, as appropriate and consistent with applicable law, adhere»                                    |
+| Enforceability | named responsible parties                    | Section 2. Policy and Principles | «and agencies (agencies) shall, as appropriate and consistent with applic»                                       |
+| Enforceability | enforcement consequences / penalties         | Section 2. Policy and Principles | «infringements on privacy, and other harms from AI. Such protections are e»                                      |
+
+
+#### Not Found — and Where It Would Belong
+For each material element the assessment did not detect: what was looked for, confirmation it was absent from the excerpt, and the most natural place in this document's own structure to add it.
+| Layer          | Not detected in this excerpt                | Where it would belong                                                         |
+| -------------- | ------------------------------------------- | ----------------------------------------------------------------------------- |
+| Structural     | full lifecycle scope declared               | attach under 'Section 2. Policy and Principles'                               |
+| Structural     | risk stratification / proportionality       | attach under 'Section 2. Policy and Principles'                               |
+| Auditability   | specific, measurable obligations            | attach under 'Section 2. Policy and Principles'                               |
+| Enforceability | risk-proportionate thresholds               | attach under 'Section 2. Policy and Principles'                               |
+| Enforceability | non-discretionary operational mandates      | attach under 'Section 2. Policy and Principles'                               |
+| Core structure | Coupling substance (any vocabulary)         | most related existing section: 'Section 7. Advancing Equity and Civil Rights' |
+| Core structure | Integrity Layer substance (any vocabulary)  | attach under 'Section 2. Policy and Principles'                               |
+| Core structure | Consistency substance (any vocabulary)      | attach under 'Section 2. Policy and Principles'                               |
+| Core structure | Reversibility substance (any vocabulary)    | attach under 'Section 2. Policy and Principles'                               |
+| Core structure | Self-Application substance (any vocabulary) | attach under 'Section 2. Policy and Principles'                               |
+
+
+#### Attachment Points for Restriction-Protection Pairing
+These obligation sentences are the exact places in this document where a named-beneficiary protection would attach:
+- Under **Section 2. Policy and Principles**: «Artificial Intelligence must be safe and secure.» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
+- Under **Section 6. Supporting Workers**: «Supporting Workers (a) To advance the Government's understanding of AI's implications for workers, the following actions shall be taken with» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
+- Under **7.1. Strengthening AI and Civil Rights in the Criminal Justice System**: «Strengthening AI and Civil Rights in the Criminal Justice System (a) To address unlawful discrimination and other harms that may be exacerba» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -226,14 +269,14 @@ LAIF-native certification: Not claimed / not applicable to this external-framewo
 
 #### Scorecard
 Signals detected and Signals not detected are public labels only; raw detection patterns are not shown.
-| Dimension            | Score  | Fired signal labels                                                                                       | Missed signal labels                                                                                                  |
-| -------------------- | ------ | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Structural           | 43/100 | numbered sub-requirements; mandatory obligation language (shall); operational mechanisms defined; +2 more | full lifecycle scope declared; risk stratification / proportionality; non-amendable constitutional hierarchy; +2 more |
-| Terminology          | 0/100  | none detected                                                                                             | Coupling; Coherence Test; Integrity Layer; +4 more                                                                    |
-| Conceptual proximity | 57/100 | human rights / fundamental interests; transparency; accountability; +4 more                               | explainability / interpretability; proportionality; contestability / redress; +2 more                                 |
-| Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms    | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                   |
-| Enforceability       | 60/100 | mandatory language (shall/must); named responsible parties; enforcement consequences / penalties          | risk-proportionate thresholds; non-discretionary operational mandates                                                 |
-| Overall readiness    | 46/100 | partial structural signal                                                                                 | —                                                                                                                     |
+| Dimension            | Score  | Fired signal labels                                                                                                                | Missed signal labels                                                                                                  |
+| -------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Structural           | 43/100 | numbered sub-requirements; mandatory obligation language (shall); operational mechanisms defined; +2 more                          | full lifecycle scope declared; risk stratification / proportionality; non-amendable constitutional hierarchy; +2 more |
+| Terminology          | 0/100  | none detected                                                                                                                      | Coupling; Coherence Test; Integrity Layer; +4 more                                                                    |
+| Conceptual proximity | 57/100 | human rights / fundamental interests; transparency; accountability; +4 more                                                        | explainability / interpretability; proportionality; contestability / redress; +2 more                                 |
+| Auditability         | 80/100 | multiple mandatory obligations (shall/must pairs); numbered traceable requirements; evidence / documentation requirements; +1 more | specific, measurable obligations                                                                                      |
+| Enforceability       | 60/100 | mandatory language (shall/must); named responsible parties; enforcement consequences / penalties                                   | risk-proportionate thresholds; non-discretionary operational mandates                                                 |
+| Overall readiness    | 50/100 | partial structural signal                                                                                                          | —                                                                                                                     |
 
 
 #### Score Calibration and Justification
@@ -416,6 +459,8 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Original file name | not provided                                                                                                            |
 | Source SHA-256     | not provided                                                                                                            |
 
+**Document structure detected (14 sections):** Section 1: Principles · RECOMMENDS · CALLS ON · UNDERLINES · 1.1. Inclusive growth, sustainable development · Stakeholders should proactively engage in · 1.2. Respect for the rule of law, human rights · 1.3. Transparency and explainability · 1.4. Robustness, security and safety · Mechanisms · …
+
 
 #### Plain-Language Reading (framework-free)
 *What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
@@ -503,13 +548,44 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected      |
-| ---------------- | ------- | ----------------------------- |
-| Coupling         | ABSENT  | none detected                 |
-| Integrity Layer  | PARTIAL | meaningful account of outputs |
-| Consistency      | ABSENT  | none detected                 |
-| Reversibility    | PARTIAL | reversal capacity preserved   |
-| Self-Application | ABSENT  | none detected                 |
+| Construct        | Verdict | Signal families detected      | Location            |
+| ---------------- | ------- | ----------------------------- | ------------------- |
+| Coupling         | ABSENT  | none detected                 | —                   |
+| Integrity Layer  | PARTIAL | meaningful account of outputs | location unresolved |
+| Consistency      | ABSENT  | none detected                 | —                   |
+| Reversibility    | PARTIAL | reversal capacity preserved   | Mechanisms          |
+| Self-Application | ABSENT  | none detected                 | —                   |
+
+
+#### Evidence Locator — Where the Signals Live
+Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
+| Dimension      | Signal                                | Location in document                         | Verbatim quote                                                                         |
+| -------------- | ------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Structural     | numbered sub-requirements             | Section 1: Principles                        | «Section 1: Principles for responsible stewardship of trustworthy AI»                  |
+| Structural     | full lifecycle scope declared         | 1.2. Respect for the rule of law, human righ | «AI system lifecycle. These include non-discrimination and equality, freedom, di»      |
+| Structural     | operational mechanisms defined        | 1.2. Respect for the rule of law, human righ | «implement mechanisms and safeguards, such as capacity for human agency and overs»     |
+| Conceptual     | human rights / fundamental interests  | 1.2. Respect for the rule of law, human righ | «rule of law, human rights and democratic values, including fairness and privacy a) A» |
+| Conceptual     | transparency                          | 1.3. Transparency and explainability         | «art. 1.3. Transparency and explainability AI Actors should commit to transparency»    |
+| Conceptual     | explainability / interpretability     | 1.3. Transparency and explainability         | «and explainability AI Actors should commit to transparency and responsible di»        |
+| Auditability   | numbered traceable requirements       | Section 1: Principles                        | «Section 1: Principles for responsible stewardship of trustworthy AI»                  |
+| Auditability   | evidence / documentation requirements | 2.5. International co-operation for trustwor | «gather the evidence base to assess progress in the implementation of these prin»      |
+| Auditability   | review / monitoring mechanisms        | 2.3. Shaping an enabling interoperable       | «should review and adapt, as appropriate, their policy and regulatory fram»            |
+| Enforceability | named responsible parties             | CALLS ON                                     | «ON all AI actors to promote and implement, according to their respective rol»         |
+
+
+#### Not Found — and Where It Would Belong
+For each material element the assessment did not detect: what was looked for, confirmation it was absent from the excerpt, and the most natural place in this document's own structure to add it.
+| Layer          | Not detected in this excerpt                      | Where it would belong                                                           |
+| -------------- | ------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Structural     | mandatory obligation language (shall)             | no existing section covers this — a new provision is required                   |
+| Structural     | risk stratification / proportionality             | no existing section covers this — a new provision is required                   |
+| Auditability   | multiple mandatory obligations (shall/must pairs) | no existing section covers this — a new provision is required                   |
+| Auditability   | specific, measurable obligations                  | no existing section covers this — a new provision is required                   |
+| Enforceability | mandatory language (shall/must)                   | no existing section covers this — a new provision is required                   |
+| Enforceability | risk-proportionate thresholds                     | no existing section covers this — a new provision is required                   |
+| Core structure | Coupling substance (any vocabulary)               | most related existing section: '1.2. Respect for the rule of law, human rights' |
+| Core structure | Consistency substance (any vocabulary)            | no existing section covers this — a new provision is required                   |
+| Core structure | Self-Application substance (any vocabulary)       | no existing section covers this — a new provision is required                   |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -710,6 +786,8 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Original file name | not provided                                                                                                                       |
 | Source SHA-256     | not provided                                                                                                                       |
 
+**Document structure detected (2 sections):** Govern · Continued on next page
+
 
 #### Plain-Language Reading (framework-free)
 *What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
@@ -797,13 +875,46 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected    |
-| ---------------- | ------- | --------------------------- |
-| Coupling         | ABSENT  | none detected               |
-| Integrity Layer  | ABSENT  | none detected               |
-| Consistency      | ABSENT  | none detected               |
-| Reversibility    | PARTIAL | reversal capacity preserved |
-| Self-Application | ABSENT  | none detected               |
+| Construct        | Verdict | Signal families detected    | Location               |
+| ---------------- | ------- | --------------------------- | ---------------------- |
+| Coupling         | ABSENT  | none detected               | —                      |
+| Integrity Layer  | ABSENT  | none detected               | —                      |
+| Consistency      | ABSENT  | none detected               | —                      |
+| Reversibility    | PARTIAL | reversal capacity preserved | Continued on next page |
+| Self-Application | ABSENT  | none detected               | —                      |
+
+
+#### Evidence Locator — Where the Signals Live
+Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
+| Dimension      | Signal                                | Location in document   | Verbatim quote                                                                          |
+| -------------- | ------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------- |
+| Structural     | numbered sub-requirements             | Govern                 | «\\| GOVERN 1.1: Legal and regulatory requirements involving AI are underst»            |
+| Structural     | mandatory obligation language (shall) | Continued on next page | «“the system shall respect the privacy of its users”) are elicited from and un»         |
+| Structural     | full lifecycle scope declared         | Govern                 | «full product lifecycle and associated processes, including legal and other issues»     |
+| Conceptual     | transparency                          | Govern                 | «can enhance transparency, improve human review processes, and bolster accountability»  |
+| Conceptual     | accountability                        | Govern                 | «and bolster accountability in AI system teams. After putting in place the structures,» |
+| Conceptual     | human oversight                       | Continued on next page | «and oversight of AI systems. \\| \\| GOVERN 4:Organizational teams are commit»         |
+| Auditability   | numbered traceable requirements       | Govern                 | «\\| GOVERN 1.1: Legal and regulatory requirements involving AI are underst»            |
+| Auditability   | evidence / documentation requirements | Continued on next page | «teams document the risks and potential impacts of the AI technology they d»            |
+| Auditability   | review / monitoring mechanisms        | Govern                 | «human review processes, and bolster accountability in AI system teams. A»              |
+| Enforceability | mandatory language (shall/must)       | Continued on next page | «“the system shall respect the privacy of its users”) are elicited from and un»         |
+| Enforceability | named responsible parties             | Govern                 | «Governing authorities can determine the overarching policies that direct an organ»     |
+| Enforceability | risk-proportionate thresholds         | Govern                 | «the needed level of risk management activities based on the organization’s risk tole»  |
+
+
+#### Not Found — and Where It Would Belong
+For each material element the assessment did not detect: what was looked for, confirmation it was absent from the excerpt, and the most natural place in this document's own structure to add it.
+| Layer          | Not detected in this excerpt                         | Where it would belong                                         |
+| -------------- | ---------------------------------------------------- | ------------------------------------------------------------- |
+| Structural     | threshold gate conditions (all must pass simultaneou | no existing section covers this — a new provision is required |
+| Structural     | non-amendable constitutional hierarchy               | no existing section covers this — a new provision is required |
+| Auditability   | multiple mandatory obligations (shall/must pairs)    | no existing section covers this — a new provision is required |
+| Auditability   | specific, measurable obligations                     | no existing section covers this — a new provision is required |
+| Enforceability | non-discretionary operational mandates               | no existing section covers this — a new provision is required |
+| Core structure | Coupling substance (any vocabulary)                  | no existing section covers this — a new provision is required |
+| Core structure | Integrity Layer substance (any vocabulary)           | no existing section covers this — a new provision is required |
+| Core structure | Consistency substance (any vocabulary)               | no existing section covers this — a new provision is required |
+| Core structure | Self-Application substance (any vocabulary)          | no existing section covers this — a new provision is required |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -1004,6 +1115,8 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Original file name | not provided                                                                                                 |
 | Source SHA-256     | not provided                                                                                                 |
 
+**Document structure detected (2 sections):** Introduction · C1 - Clinical safety
+
 
 #### Plain-Language Reading (framework-free)
 *What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
@@ -1091,13 +1204,51 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected     |
-| ---------------- | ------- | ---------------------------- |
-| Coupling         | ABSENT  | none detected                |
-| Integrity Layer  | PARTIAL | all-must-pass threshold gate |
-| Consistency      | ABSENT  | none detected                |
-| Reversibility    | ABSENT  | none detected                |
-| Self-Application | ABSENT  | none detected                |
+| Construct        | Verdict | Signal families detected     | Location     |
+| ---------------- | ------- | ---------------------------- | ------------ |
+| Coupling         | ABSENT  | none detected                | —            |
+| Integrity Layer  | PARTIAL | all-must-pass threshold gate | Introduction |
+| Consistency      | ABSENT  | none detected                | —            |
+| Reversibility    | ABSENT  | none detected                | —            |
+| Self-Application | ABSENT  | none detected                | —            |
+
+
+#### Evidence Locator — Where the Signals Live
+Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
+| Dimension      | Signal                                       | Location in document | Verbatim quote                                                                                                 |
+| -------------- | -------------------------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Structural     | full lifecycle scope declared                | C1 - Clinical safety | «the lifecycle of the product. \\| \\| C1.2.4 \\| Please supply your Clinical Sa»                              |
+| Structural     | operational mechanisms defined               | C1 - Clinical safety | «risk control measures, that are to be addressed as part of the clinical risk mana»                            |
+| Conceptual     | safety                                       | C1 - Clinical safety | «- Clinical safety Establishing that your product is clinically safe to use.»                                  |
+| Conceptual     | contestability / redress                     | C1 - Clinical safety | «can challenge the determination if not in agreement. \\| \\| \\| C1.2.2 \\| Have»                             |
+| Conceptual     | risk governance                              | C1 - Clinical safety | «the clinical risk management, such as a qualified Clinical Safety Officer. Health and ca»                     |
+| Auditability   | multiple mandatory obligations (shall/must p | Introduction         | «DTAC forms must be completed by the manufacturer of a DHT in the first instance. If the manufacturer is not…» |
+| Auditability   | evidence / documentation requirements        | Introduction         | «support your evidence. The core assessment criteria are defined in section C1-C4,»                            |
+| Auditability   | specific, measurable obligations             | C1 - Clinical safety | «the terms as defined in the DCB0129 standard and applicability guidance linked previously.Please note co»     |
+| Enforceability | mandatory language (shall/must)              | Introduction         | «must provide this form in lieu of the older v1.0 form from 6 Apr»                                             |
+| Enforceability | named responsible parties                    | Introduction         | «and care organisations to facilitate assurance of Digital Health Technology produc»                           |
+| Enforceability | risk-proportionate thresholds                | C1 - Clinical safety | «should be commensurate with the scale and clinical functionality of the product and add»                      |
+
+
+#### Not Found — and Where It Would Belong
+For each material element the assessment did not detect: what was looked for, confirmation it was absent from the excerpt, and the most natural place in this document's own structure to add it.
+| Layer          | Not detected in this excerpt                | Where it would belong                                 |
+| -------------- | ------------------------------------------- | ----------------------------------------------------- |
+| Structural     | numbered sub-requirements                   | attach under 'Introduction'                           |
+| Structural     | mandatory obligation language (shall)       | attach under 'Introduction'                           |
+| Auditability   | numbered traceable requirements             | attach under 'Introduction'                           |
+| Auditability   | review / monitoring mechanisms              | attach under 'Introduction'                           |
+| Enforceability | enforcement consequences / penalties        | attach under 'Introduction'                           |
+| Core structure | Coupling substance (any vocabulary)         | most related existing section: 'C1 - Clinical safety' |
+| Core structure | Consistency substance (any vocabulary)      | attach under 'Introduction'                           |
+| Core structure | Reversibility substance (any vocabulary)    | attach under 'Introduction'                           |
+| Core structure | Self-Application substance (any vocabulary) | attach under 'Introduction'                           |
+
+
+#### Attachment Points for Restriction-Protection Pairing
+These obligation sentences are the exact places in this document where a named-beneficiary protection would attach:
+- Under **Introduction**: «Manufacturers must provide this form in lieu of the older v1.» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
+- Under **C1 - Clinical safety**: «If a manufacturer considers that the C1 Clinical Safety is not applicable to the product being assessed, rationale must be submitted detaili» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -1308,11 +1459,13 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Original file name | not provided                                                            |
 | Source SHA-256     | not provided                                                            |
 
+**Document structure detected (3 sections):** Article 9 — Risk Management System · Article 13 — Transparency and Provision of Information to Deployers · Article 14 — Human Oversight
+
 
 #### Plain-Language Reading (framework-free)
 *What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
 
-In plain terms, this document is binding law — it imposes obligations on identified parties, enforceable through the legal system. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, explanations people can understand, human oversight of the system, safety and more.
+In plain terms, this document is binding law — it imposes obligations on identified parties, enforceable through the legal system. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, explanations people can understand, human oversight of the system, matching rules to the size of the risk and more.
 
 Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
 
@@ -1332,9 +1485,9 @@ To its credit, the administrative machinery is real: numbered, traceable require
 | recommended_use               | Preliminary governance triage and document classification review.                                                                               |
 | not_sufficient_for            | Not sufficient for reliance until authority, scope, controls, and evidence are confirmed.                                                       |
 | governance_force_profile      | Governance document with unclear authority; reviewer must establish institutional force, accountable owner, and evidence basis before reliance. |
-| systemic_repair_value         | Limited                                                                                                                                         |
+| systemic_repair_value         | Moderate                                                                                                                                        |
 | operational_closure_rating    | Weak                                                                                                                                            |
-| evidence_sufficiency_rating   | Moderate                                                                                                                                        |
+| evidence_sufficiency_rating   | Strong                                                                                                                                          |
 | accountability_closure_rating | Limited                                                                                                                                         |
 | lifecycle_control_rating      | Limited                                                                                                                                         |
 | residual_risk_control_rating  | Limited                                                                                                                                         |
@@ -1352,7 +1505,7 @@ This assessment measures governance repair adequacy and operational control clos
 
 
 #### Evidence Sufficiency Findings
-- **Evidence sufficiency:** Moderate
+- **Evidence sufficiency:** Strong
 - **Evidence trace count:** 20
 
 
@@ -1380,14 +1533,14 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 44/100 — partial structural signal
-- **Calibrated position:** 54% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
-- **Conceptual proximity:** 49/100
+- **Overall readiness:** 50/100 — partial structural signal
+- **Calibrated position:** 61% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
+- **Conceptual proximity:** 57/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** HIGH
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
-- **Governance signal strength:** 44
+- **Governance signal strength:** 50
 - **Structural dimension score:** 41/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
@@ -1395,13 +1548,53 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected                                         |
-| ---------------- | ------- | ---------------------------------------------------------------- |
-| Coupling         | ABSENT  | none detected                                                    |
-| Integrity Layer  | PARTIAL | meaningful account of outputs; bounded operation with escalation |
-| Consistency      | ABSENT  | none detected                                                    |
-| Reversibility    | ABSENT  | none detected                                                    |
-| Self-Application | ABSENT  | none detected                                                    |
+| Construct        | Verdict | Signal families detected                                         | Location                                 |
+| ---------------- | ------- | ---------------------------------------------------------------- | ---------------------------------------- |
+| Coupling         | ABSENT  | none detected                                                    | —                                        |
+| Integrity Layer  | PARTIAL | meaningful account of outputs; bounded operation with escalation | location unresolved; location unresolved |
+| Consistency      | ABSENT  | none detected                                                    | —                                        |
+| Reversibility    | ABSENT  | none detected                                                    | —                                        |
+| Self-Application | ABSENT  | none detected                                                    | —                                        |
+
+
+#### Evidence Locator — Where the Signals Live
+Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
+| Dimension      | Signal                                       | Location in document                         | Verbatim quote                                                                                             |
+| -------------- | -------------------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Structural     | numbered sub-requirements                    | Article 9 — Risk Management System           | «Oversight Article 9 — Risk Management System 1. A risk management system shall»                           |
+| Structural     | mandatory obligation language (shall)        | Article 9 — Risk Management System           | «system shall be established, implemented, documented and maintained in r»                                 |
+| Structural     | full lifecycle scope declared                | Article 9 — Risk Management System           | «the entire lifecycle of the system. The risk management system shall consist of»                          |
+| Conceptual     | human rights / fundamental interests         | Article 9 — Risk Management System           | «safety or fundamental rights when the system is used in accordance with its intended pur»                 |
+| Conceptual     | transparency                                 | start of document                            | «Management, Transparency, and Human Oversight Article 9 — Risk Management System 1»                       |
+| Conceptual     | explainability / interpretability            | Article 13 — Transparency and Provision of I | «deployers to interpret the system's output and use it appropriately. An appropriat»                       |
+| Auditability   | multiple mandatory obligations (shall/must p | Article 9 — Risk Management System           | «system shall be established, implemented, documented and maintained in relation to high-risk AI systems…» |
+| Auditability   | numbered traceable requirements              | Article 9 — Risk Management System           | «Oversight Article 9 — Risk Management System 1. A risk management system shall»                           |
+| Auditability   | evidence / documentation requirements        | Article 9 — Risk Management System           | «establish technical documentation demonstrating that the high-risk AI system conforms to the»             |
+| Enforceability | mandatory language (shall/must)              | Article 9 — Risk Management System           | «system shall be established, implemented, documented and maintained in r»                                 |
+| Enforceability | risk-proportionate thresholds                | Article 9 — Risk Management System           | «to the degree of risk posed to health, safety or fundamental rights. 2. Risk man»                         |
+| Enforceability | non-discretionary operational mandates       | Article 9 — Risk Management System           | «Providers shall establish technical documentation demonstrating that the high-risk AI»                    |
+
+
+#### Not Found — and Where It Would Belong
+For each material element the assessment did not detect: what was looked for, confirmation it was absent from the excerpt, and the most natural place in this document's own structure to add it.
+| Layer          | Not detected in this excerpt                         | Where it would belong                                         |
+| -------------- | ---------------------------------------------------- | ------------------------------------------------------------- |
+| Structural     | threshold gate conditions (all must pass simultaneou | attach under 'Article 9 — Risk Management System'             |
+| Structural     | non-amendable constitutional hierarchy               | attach under 'Article 9 — Risk Management System'             |
+| Auditability   | specific, measurable obligations                     | attach under 'Article 9 — Risk Management System'             |
+| Enforceability | named responsible parties                            | attach under 'Article 9 — Risk Management System'             |
+| Enforceability | enforcement consequences / penalties                 | attach under 'Article 9 — Risk Management System'             |
+| Core structure | Coupling substance (any vocabulary)                  | attach under 'Article 9 — Risk Management System'             |
+| Core structure | Consistency substance (any vocabulary)               | attach under 'Article 9 — Risk Management System'             |
+| Core structure | Reversibility substance (any vocabulary)             | most related existing section: 'Article 14 — Human Oversight' |
+| Core structure | Self-Application substance (any vocabulary)          | attach under 'Article 9 — Risk Management System'             |
+
+
+#### Attachment Points for Restriction-Protection Pairing
+These obligation sentences are the exact places in this document where a named-beneficiary protection would attach:
+- Under **Article 9 — Risk Management System**: «A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI systems throughout the ent» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
+- Under **Article 13 — Transparency and Provision of Information to Deployers**: «High-risk AI systems shall be designed and developed so as to ensure that their operation is sufficiently transparent to enable deployers to» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
+- Under **Article 14 — Human Oversight**: «Natural persons to whom human oversight is assigned shall be able to understand the capacities and limitations of the high-risk AI system an» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -1411,14 +1604,14 @@ LAIF-native certification: Not claimed / not applicable to this external-framewo
 
 #### Scorecard
 Signals detected and Signals not detected are public labels only; raw detection patterns are not shown.
-| Dimension            | Score  | Fired signal labels                                                                                      | Missed signal labels                                                                                                                            |
-| -------------------- | ------ | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| Structural           | 41/100 | numbered sub-requirements; mandatory obligation language (shall); full lifecycle scope declared; +3 more | threshold gate conditions (all must pass simultaneously); non-amendable constitutional hierarchy; self-application clause (Part Seven); +1 more |
-| Terminology          | 0/100  | none detected                                                                                            | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                              |
-| Conceptual proximity | 49/100 | human rights / fundamental interests; transparency; explainability / interpretability; +3 more           | accountability; proportionality; contestability / redress; +3 more                                                                              |
-| Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms   | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                                             |
-| Enforceability       | 60/100 | mandatory language (shall/must); risk-proportionate thresholds; non-discretionary operational mandates   | named responsible parties; enforcement consequences / penalties                                                                                 |
-| Overall readiness    | 44/100 | partial structural signal                                                                                | —                                                                                                                                               |
+| Dimension            | Score  | Fired signal labels                                                                                                                | Missed signal labels                                                                                                                            |
+| -------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Structural           | 41/100 | numbered sub-requirements; mandatory obligation language (shall); full lifecycle scope declared; +3 more                           | threshold gate conditions (all must pass simultaneously); non-amendable constitutional hierarchy; self-application clause (Part Seven); +1 more |
+| Terminology          | 0/100  | none detected                                                                                                                      | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                              |
+| Conceptual proximity | 57/100 | human rights / fundamental interests; transparency; explainability / interpretability; +4 more                                     | accountability; contestability / redress; reversibility / modifiability; +2 more                                                                |
+| Auditability         | 80/100 | multiple mandatory obligations (shall/must pairs); numbered traceable requirements; evidence / documentation requirements; +1 more | specific, measurable obligations                                                                                                                |
+| Enforceability       | 60/100 | mandatory language (shall/must); risk-proportionate thresholds; non-discretionary operational mandates                             | named responsible parties; enforcement consequences / penalties                                                                                 |
+| Overall readiness    | 50/100 | partial structural signal                                                                                                          | —                                                                                                                                               |
 
 
 #### Score Calibration and Justification
@@ -1426,7 +1619,7 @@ Score justification explains LAIF-model signal strength only. It does not determ
 - **Overall band:** partial structural signal
 - **Formal LAIF-native status:** FAIL
 - **Interpretation boundary:** Formal LAIF-native failure cannot be overridden by high proximity scores.
-- **Calibration / anti-gaming cautions:** 3 — Sector risk alignment materially exceeds overall readiness.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.; Possible keyword or signal density risk; requires structural evidence review. This is not a finding of bad faith and not a legal invalidity claim.
+- **Calibration / anti-gaming cautions:** 3 — High conceptual LAIF-model signal appears with low canonical terminology signal.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.; Possible keyword or signal density risk; requires structural evidence review. This is not a finding of bad faith and not a legal invalidity claim.
 - **Anti-gaming boundary:** fired/missed labels are diagnostic summaries only; reviewers must require structural evidence and must not use this report as a keyword-stuffing recipe.
 
 
@@ -1602,6 +1795,8 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Original file name | not provided                                          |
 | Source SHA-256     | not provided                                          |
 
+**Document structure detected (10 sections):** GOVERN Function · GOVERN 1.1: Policies, processes, procedures, and practices across the · GOVERN 1.2: Accountability, criteria, and processes exist so that appr · GOVERN 2.1: Organisational teams that develop, deploy, evaluate, and a · GOVERN 4.1: Policies and practices are in place to foster a critical t · GOVERN 6.1: Policies and procedures are in place to address AI risks a · MAP Function · MAP 2.2: Scientific findings, expert opinions, public concerns, and · MAP 5.1: Likelihood and magnitude of each identified impact (both po · MAP 5.2: Practices and personnel for supporting the ongoing identifi
+
 
 #### Plain-Language Reading (framework-free)
 *What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
@@ -1689,13 +1884,47 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected |
-| ---------------- | ------- | ------------------------ |
-| Coupling         | ABSENT  | none detected            |
-| Integrity Layer  | ABSENT  | none detected            |
-| Consistency      | ABSENT  | none detected            |
-| Reversibility    | ABSENT  | none detected            |
-| Self-Application | ABSENT  | none detected            |
+| Construct        | Verdict | Signal families detected | Location |
+| ---------------- | ------- | ------------------------ | -------- |
+| Coupling         | ABSENT  | none detected            | —        |
+| Integrity Layer  | ABSENT  | none detected            | —        |
+| Consistency      | ABSENT  | none detected            | —        |
+| Reversibility    | ABSENT  | none detected            | —        |
+| Self-Application | ABSENT  | none detected            | —        |
+
+
+#### Evidence Locator — Where the Signals Live
+Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
+| Dimension      | Signal                                | Location in document                         | Verbatim quote                                                                        |
+| -------------- | ------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Structural     | numbered sub-requirements             | GOVERN 1.1: Policies, processes, procedures, | «lifecycle. GOVERN 1.1: Policies, processes, procedures, and practices across the»    |
+| Structural     | full lifecycle scope declared         | GOVERN Function                              | «the AI lifecycle. GOVERN 1.1: Policies, processes, procedures, and practice»         |
+| Structural     | operational mechanisms defined        | MAP 2.2: Scientific findings, expert opinion | «considered. Mechanisms for independent oversight of AI systems are in place to rev»  |
+| Conceptual     | transparency                          | GOVERN 1.1: Policies, processes, procedures, | «in place, transparent, and implemented effectively. GOVERN 1.2: Accountability,»     |
+| Conceptual     | accountability                        | GOVERN Function                              | «where accountability for AI risk outcomes is distributed across appropriate role»    |
+| Conceptual     | human oversight                       | MAP 2.2: Scientific findings, expert opinion | «independent oversight of AI systems are in place to review performance and ensure»   |
+| Auditability   | numbered traceable requirements       | GOVERN 1.1: Policies, processes, procedures, | «lifecycle. GOVERN 1.1: Policies, processes, procedures, and practices across the»    |
+| Auditability   | evidence / documentation requirements | GOVERN 2.1: Organisational teams that develo | «AI systems document the context in which the AI system will be used as a basis»      |
+| Auditability   | review / monitoring mechanisms        | MAP 2.2: Scientific findings, expert opinion | «in place to review performance and ensure accountability. MAP 5.1: Likelihood»       |
+| Enforceability | named responsible parties             | GOVERN 1.1: Policies, processes, procedures, | «across the organisation related to the mapping, measuring, and managing of AI risks» |
+| Enforceability | enforcement consequences / penalties  | GOVERN 6.1: Policies and procedures are in p | «training or fine-tuning, and data and models from third parties. MAP Functi»         |
+
+
+#### Not Found — and Where It Would Belong
+For each material element the assessment did not detect: what was looked for, confirmation it was absent from the excerpt, and the most natural place in this document's own structure to add it.
+| Layer          | Not detected in this excerpt                      | Where it would belong                                         |
+| -------------- | ------------------------------------------------- | ------------------------------------------------------------- |
+| Structural     | mandatory obligation language (shall)             | no existing section covers this — a new provision is required |
+| Structural     | risk stratification / proportionality             | no existing section covers this — a new provision is required |
+| Auditability   | multiple mandatory obligations (shall/must pairs) | no existing section covers this — a new provision is required |
+| Auditability   | specific, measurable obligations                  | no existing section covers this — a new provision is required |
+| Enforceability | mandatory language (shall/must)                   | no existing section covers this — a new provision is required |
+| Enforceability | risk-proportionate thresholds                     | no existing section covers this — a new provision is required |
+| Core structure | Coupling substance (any vocabulary)               | no existing section covers this — a new provision is required |
+| Core structure | Integrity Layer substance (any vocabulary)        | no existing section covers this — a new provision is required |
+| Core structure | Consistency substance (any vocabulary)            | no existing section covers this — a new provision is required |
+| Core structure | Reversibility substance (any vocabulary)          | no existing section covers this — a new provision is required |
+| Core structure | Self-Application substance (any vocabulary)       | no existing section covers this — a new provision is required |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -1896,6 +2125,8 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Original file name | not provided                                          |
 | Source SHA-256     | not provided                                          |
 
+**Document structure detected (5 sections):** 1. Inclusive growth, sustainable development and well-being · 2. Human-centred values and fairness · 3. Transparency and explainability · 4. Robustness, security and safety · 5. Accountability
+
 
 #### Plain-Language Reading (framework-free)
 *What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
@@ -1981,13 +2212,41 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected      |
-| ---------------- | ------- | ----------------------------- |
-| Coupling         | ABSENT  | none detected                 |
-| Integrity Layer  | PARTIAL | meaningful account of outputs |
-| Consistency      | ABSENT  | none detected                 |
-| Reversibility    | ABSENT  | none detected                 |
-| Self-Application | ABSENT  | none detected                 |
+| Construct        | Verdict | Signal families detected      | Location                           |
+| ---------------- | ------- | ----------------------------- | ---------------------------------- |
+| Coupling         | ABSENT  | none detected                 | —                                  |
+| Integrity Layer  | PARTIAL | meaningful account of outputs | 3. Transparency and explainability |
+| Consistency      | ABSENT  | none detected                 | —                                  |
+| Reversibility    | ABSENT  | none detected                 | —                                  |
+| Self-Application | ABSENT  | none detected                 | —                                  |
+
+
+#### Evidence Locator — Where the Signals Live
+Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
+| Dimension      | Signal                               | Location in document                 | Verbatim quote                                                                          |
+| -------------- | ------------------------------------ | ------------------------------------ | --------------------------------------------------------------------------------------- |
+| Structural     | full lifecycle scope declared        | 2. Human-centred values and fairness | «AI system lifecycle. These include freedom, dignity and autonomy, privacy and d»       |
+| Structural     | operational mechanisms defined       | 2. Human-centred values and fairness | «implement mechanisms and safeguards, including capacity for human determination,»      |
+| Conceptual     | human rights / fundamental interests | 2. Human-centred values and fairness | «rule of law, human rights and democratic values throughout the AI system lifecycle. T» |
+| Conceptual     | transparency                         | 3. Transparency and explainability   | «the art. 3. Transparency and explainability AI actors should commit to transparency»   |
+| Conceptual     | explainability / interpretability    | 3. Transparency and explainability   | «and explainability AI actors should commit to transparency and responsible dis»        |
+| Enforceability | named responsible parties            | 2. Human-centred values and fairness | «fairness AI actors should respect the rule of law, human rights and democratic»        |
+
+
+#### Not Found — and Where It Would Belong
+For each material element the assessment did not detect: what was looked for, confirmation it was absent from the excerpt, and the most natural place in this document's own structure to add it.
+| Layer          | Not detected in this excerpt                      | Where it would belong                                               |
+| -------------- | ------------------------------------------------- | ------------------------------------------------------------------- |
+| Structural     | numbered sub-requirements                         | no existing section covers this — a new provision is required       |
+| Structural     | mandatory obligation language (shall)             | no existing section covers this — a new provision is required       |
+| Auditability   | multiple mandatory obligations (shall/must pairs) | no existing section covers this — a new provision is required       |
+| Auditability   | numbered traceable requirements                   | no existing section covers this — a new provision is required       |
+| Enforceability | mandatory language (shall/must)                   | no existing section covers this — a new provision is required       |
+| Enforceability | risk-proportionate thresholds                     | no existing section covers this — a new provision is required       |
+| Core structure | Coupling substance (any vocabulary)               | most related existing section: '4. Robustness, security and safety' |
+| Core structure | Consistency substance (any vocabulary)            | no existing section covers this — a new provision is required       |
+| Core structure | Reversibility substance (any vocabulary)          | no existing section covers this — a new provision is required       |
+| Core structure | Self-Application substance (any vocabulary)       | no existing section covers this — a new provision is required       |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -2188,6 +2447,8 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Original file name | not provided                                                                                                                               |
 | Source SHA-256     | not provided                                                                                                                               |
 
+**Document structure detected (4 sections):** Section 4.1 — Ensuring the Safety and Security of AI · Section 4.2 — Advancing Transparency and Accountability · Section 4.3 — Evidence and Reporting · Section 7 — Supporting Workers
+
 
 #### Plain-Language Reading (framework-free)
 *What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
@@ -2214,10 +2475,10 @@ To its credit, the administrative machinery is real: numbered, traceable require
 | governance_force_profile      | Executive policy directive with administrative force over named agencies or executive functions; implementation depends on agency ownership and follow-through controls. |
 | systemic_repair_value         | Moderate                                                                                                                                                                 |
 | operational_closure_rating    | Weak                                                                                                                                                                     |
-| evidence_sufficiency_rating   | Moderate                                                                                                                                                                 |
+| evidence_sufficiency_rating   | Strong                                                                                                                                                                   |
 | accountability_closure_rating | Limited                                                                                                                                                                  |
 | lifecycle_control_rating      | Limited                                                                                                                                                                  |
-| residual_risk_control_rating  | Limited                                                                                                                                                                  |
+| residual_risk_control_rating  | Moderate                                                                                                                                                                 |
 | implementation_gap_rating     | Limited                                                                                                                                                                  |
 | failure_pathway_risk          | High                                                                                                                                                                     |
 | priority_repair_actions       | assign accountable owner; define decision/release gate; add rollback/fallback control; document residual-risk acceptance and review                                      |
@@ -2228,11 +2489,11 @@ This assessment measures governance repair adequacy and operational control clos
 - **Operational closure:** Weak
 - **Accountability closure:** Limited
 - **Lifecycle control:** Limited
-- **Residual-risk closure:** Limited
+- **Residual-risk closure:** Moderate
 
 
 #### Evidence Sufficiency Findings
-- **Evidence sufficiency:** Moderate
+- **Evidence sufficiency:** Strong
 - **Evidence trace count:** 20
 
 
@@ -2260,14 +2521,14 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 50/100 — partial structural signal
-- **Calibrated position:** 61% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
+- **Overall readiness:** 54/100 — partial structural signal
+- **Calibrated position:** 66% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 66/100
 - **Sector risk alignment:** 100/100
 - **Remediation effort:** HIGH
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +17 more
-- **Governance signal strength:** 50
+- **Governance signal strength:** 54
 - **Structural dimension score:** 35/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
@@ -2275,13 +2536,51 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected            |
-| ---------------- | ------- | ----------------------------------- |
-| Coupling         | PARTIAL | restriction paired with named stake |
-| Integrity Layer  | PARTIAL | meaningful account of outputs       |
-| Consistency      | ABSENT  | none detected                       |
-| Reversibility    | ABSENT  | none detected                       |
-| Self-Application | ABSENT  | none detected                       |
+| Construct        | Verdict | Signal families detected            | Location                                                |
+| ---------------- | ------- | ----------------------------------- | ------------------------------------------------------- |
+| Coupling         | PARTIAL | restriction paired with named stake | Section 7 — Supporting Workers                          |
+| Integrity Layer  | PARTIAL | meaningful account of outputs       | Section 4.2 — Advancing Transparency and Accountability |
+| Consistency      | ABSENT  | none detected                       | —                                                       |
+| Reversibility    | ABSENT  | none detected                       | —                                                       |
+| Self-Application | ABSENT  | none detected                       | —                                                       |
+
+
+#### Evidence Locator — Where the Signals Live
+Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
+| Dimension      | Signal                                       | Location in document                         | Verbatim quote                                                                                          |
+| -------------- | -------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Structural     | numbered sub-requirements                    | Section 4.1 — Ensuring the Safety and Securi | «30, 2023) Section 4.1 — Ensuring the Safety and Security of AI The Secretary of»                       |
+| Structural     | mandatory obligation language (shall)        | Section 4.1 — Ensuring the Safety and Securi | «of Commerce shall engage with industry, civil society, and other stakeholders»                         |
+| Structural     | risk stratification / proportionality        | Section 4.1 — Ensuring the Safety and Securi | «shall be proportionate to the level of risk posed, with higher-risk applications»                      |
+| Conceptual     | human rights / fundamental interests         | Section 4.1 — Ensuring the Safety and Securi | «values and human rights. Safety standards shall be proportionate to the level of ri»                   |
+| Conceptual     | transparency                                 | Section 4.2 — Advancing Transparency and Acc | «— Advancing Transparency and Accountability Federal agencies using AI in high-stake»                   |
+| Conceptual     | accountability                               | Section 4.2 — Advancing Transparency and Acc | «and Accountability Federal agencies using AI in high-stakes decisions affecti»                         |
+| Auditability   | multiple mandatory obligations (shall/must p | Section 4.1 — Ensuring the Safety and Securi | «of Commerce shall engage with industry, civil society, and other stakeholders to develop guidelines,…» |
+| Auditability   | numbered traceable requirements              | Section 4.1 — Ensuring the Safety and Securi | «30, 2023) Section 4.1 — Ensuring the Safety and Security of AI The Secretary o»                        |
+| Auditability   | evidence / documentation requirements        | Section 4.3 — Evidence and Reporting         | «4.3 — Evidence and Reporting Agencies shall document AI deployment decisi»                             |
+| Enforceability | mandatory language (shall/must)              | Section 4.1 — Ensuring the Safety and Securi | «of Commerce shall engage with industry, civil society, and other stakeholders»                         |
+| Enforceability | named responsible parties                    | Section 4.2 — Advancing Transparency and Acc | «Federal agencies using AI in high-stakes decisions affecting members of the»                           |
+| Enforceability | risk-proportionate thresholds                | Section 4.1 — Ensuring the Safety and Securi | «shall be proportionate to the level of risk posed, with higher-risk applications s»                    |
+
+
+#### Not Found — and Where It Would Belong
+For each material element the assessment did not detect: what was looked for, confirmation it was absent from the excerpt, and the most natural place in this document's own structure to add it.
+| Layer          | Not detected in this excerpt                         | Where it would belong                                               |
+| -------------- | ---------------------------------------------------- | ------------------------------------------------------------------- |
+| Structural     | full lifecycle scope declared                        | attach under 'Section 4.1 — Ensuring the Safety and Security of AI' |
+| Structural     | threshold gate conditions (all must pass simultaneou | attach under 'Section 4.1 — Ensuring the Safety and Security of AI' |
+| Auditability   | specific, measurable obligations                     | attach under 'Section 4.1 — Ensuring the Safety and Security of AI' |
+| Enforceability | enforcement consequences / penalties                 | attach under 'Section 4.1 — Ensuring the Safety and Security of AI' |
+| Core structure | Consistency substance (any vocabulary)               | attach under 'Section 4.1 — Ensuring the Safety and Security of AI' |
+| Core structure | Reversibility substance (any vocabulary)             | attach under 'Section 4.1 — Ensuring the Safety and Security of AI' |
+| Core structure | Self-Application substance (any vocabulary)          | attach under 'Section 4.1 — Ensuring the Safety and Security of AI' |
+
+
+#### Attachment Points for Restriction-Protection Pairing
+These obligation sentences are the exact places in this document where a named-beneficiary protection would attach:
+- Under **Section 4.1 — Ensuring the Safety and Security of AI**: «Safety standards shall be proportionate to the level of risk posed, with higher-risk applications subject to more stringent requirements.» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
+- Under **Section 4.2 — Advancing Transparency and Accountability**: «Advancing Transparency and Accountability Federal agencies using AI in high-stakes decisions affecting members of the public shall design sy» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
+- Under **Section 4.3 — Evidence and Reporting**: «Evidence and Reporting Agencies shall document AI deployment decisions affecting fundamental rights and maintain records sufficient for audi» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -2291,14 +2590,14 @@ LAIF-native certification: Not claimed / not applicable to this external-framewo
 
 #### Scorecard
 Signals detected and Signals not detected are public labels only; raw detection patterns are not shown.
-| Dimension            | Score  | Fired signal labels                                                                                              | Missed signal labels                                                                                                                     |
-| -------------------- | ------ | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Structural           | 35/100 | numbered sub-requirements; mandatory obligation language (shall); risk stratification / proportionality; +2 more | full lifecycle scope declared; threshold gate conditions (all must pass simultaneously); non-amendable constitutional hierarchy; +2 more |
-| Terminology          | 0/100  | none detected                                                                                                    | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                       |
-| Conceptual proximity | 66/100 | human rights / fundamental interests; transparency; accountability; +5 more                                      | explainability / interpretability; reversibility / modifiability; risk governance; +1 more                                               |
-| Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms           | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                                      |
-| Enforceability       | 80/100 | mandatory language (shall/must); named responsible parties; risk-proportionate thresholds; +1 more               | enforcement consequences / penalties                                                                                                     |
-| Overall readiness    | 50/100 | partial structural signal                                                                                        | —                                                                                                                                        |
+| Dimension            | Score  | Fired signal labels                                                                                                                | Missed signal labels                                                                                                                     |
+| -------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Structural           | 35/100 | numbered sub-requirements; mandatory obligation language (shall); risk stratification / proportionality; +2 more                   | full lifecycle scope declared; threshold gate conditions (all must pass simultaneously); non-amendable constitutional hierarchy; +2 more |
+| Terminology          | 0/100  | none detected                                                                                                                      | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                       |
+| Conceptual proximity | 66/100 | human rights / fundamental interests; transparency; accountability; +5 more                                                        | explainability / interpretability; reversibility / modifiability; risk governance; +1 more                                               |
+| Auditability         | 80/100 | multiple mandatory obligations (shall/must pairs); numbered traceable requirements; evidence / documentation requirements; +1 more | specific, measurable obligations                                                                                                         |
+| Enforceability       | 80/100 | mandatory language (shall/must); named responsible parties; risk-proportionate thresholds; +1 more                                 | enforcement consequences / penalties                                                                                                     |
+| Overall readiness    | 54/100 | partial structural signal                                                                                                          | —                                                                                                                                        |
 
 
 #### Score Calibration and Justification
@@ -2483,6 +2782,8 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Original file name | not provided                                                                              |
 | Source SHA-256     | not provided                                                                              |
 
+**Document structure detected (5 sections):** 1. Purpose and Scope · 2. Clinical Validation Requirements · 3. Human Oversight and Clinician Responsibility · 4. Transparency and Patient Rights · 5. Safety and Containment
+
 
 #### Plain-Language Reading (framework-free)
 *What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
@@ -2513,7 +2814,7 @@ To its credit, the administrative machinery is real: evidence and documentation 
 | accountability_closure_rating | Moderate                                                                                                                            |
 | lifecycle_control_rating      | Limited                                                                                                                             |
 | residual_risk_control_rating  | Limited                                                                                                                             |
-| implementation_gap_rating     | Limited                                                                                                                             |
+| implementation_gap_rating     | Moderate                                                                                                                            |
 | failure_pathway_risk          | Medium                                                                                                                              |
 | priority_repair_actions       | add rollback/fallback control; document residual-risk acceptance and review                                                         |
 This assessment measures governance repair adequacy and operational control closure. It does not require the source document to imitate LAIF-native form.
@@ -2532,7 +2833,7 @@ This assessment measures governance repair adequacy and operational control clos
 
 
 #### Implementation Gap Findings
-- **Implementation gap rating:** Limited
+- **Implementation gap rating:** Moderate
 - **Priority repair actions:** add rollback/fallback control; document residual-risk acceptance and review
 
 
@@ -2555,14 +2856,14 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 35/100 — limited structural signal
-- **Calibrated position:** 43% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
+- **Overall readiness:** 39/100 — limited structural signal
+- **Calibrated position:** 48% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 31/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
 - **Structural strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: human oversight; +9 more
-- **Governance signal strength:** 35
+- **Governance signal strength:** 39
 - **Structural dimension score:** 35/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
@@ -2570,13 +2871,53 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected                                         |
-| ---------------- | ------- | ---------------------------------------------------------------- |
-| Coupling         | ABSENT  | none detected                                                    |
-| Integrity Layer  | PARTIAL | meaningful account of outputs; bounded operation with escalation |
-| Consistency      | ABSENT  | none detected                                                    |
-| Reversibility    | PARTIAL | reversal capacity preserved                                      |
-| Self-Application | ABSENT  | none detected                                                    |
+| Construct        | Verdict | Signal families detected                                         | Location                                                      |
+| ---------------- | ------- | ---------------------------------------------------------------- | ------------------------------------------------------------- |
+| Coupling         | ABSENT  | none detected                                                    | —                                                             |
+| Integrity Layer  | PARTIAL | meaningful account of outputs; bounded operation with escalation | 4. Transparency and Patient Rights; 5. Safety and Containment |
+| Consistency      | ABSENT  | none detected                                                    | —                                                             |
+| Reversibility    | PARTIAL | reversal capacity preserved                                      | location unresolved                                           |
+| Self-Application | ABSENT  | none detected                                                    | —                                                             |
+
+
+#### Evidence Locator — Where the Signals Live
+Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
+| Dimension      | Signal                                       | Location in document                         | Verbatim quote                                                                                           |
+| -------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Structural     | mandatory obligation language (shall)        | 2. Clinical Validation Requirements          | «studies shall demonstrate clinical accuracy, sensitivity, and specificity»                              |
+| Structural     | full lifecycle scope declared                | 1. Purpose and Scope                         | «deployment lifecycle from procurement through post-market surveillance. 2. Clin»                        |
+| Structural     | review / monitoring mechanisms               | 3. Human Oversight and Clinician Responsibil | «including review of override rates, adverse events, and equity metrics acros»                           |
+| Conceptual     | transparency                                 | 4. Transparency and Patient Rights           | «4. Transparency and Patient Rights 4.1 Patients shall be informed when AI»                              |
+| Conceptual     | explainability / interpretability            | 4. Transparency and Patient Rights           | «be provided in plain language accessible to patients without clinical training. 4.2 Pati»               |
+| Conceptual     | human oversight                              | 3. Human Oversight and Clinician Responsibil | «3. Human Oversight and Clinician Responsibility 3.1 AI-generated clinical rec»                          |
+| Auditability   | multiple mandatory obligations (shall/must p | 2. Clinical Validation Requirements          | «studies shall demonstrate clinical accuracy, sensitivity, and specificity appropriate to the intended…» |
+| Auditability   | evidence / documentation requirements        | 2. Clinical Validation Requirements          | «maintain technical documentation of validation methodology, datasets used, and performance m»           |
+| Auditability   | review / monitoring mechanisms               | 1. Purpose and Scope                         | «through post-market surveillance. 2. Clinical Validation Requirements 2.1 All»                          |
+| Enforceability | mandatory language (shall/must)              | 2. Clinical Validation Requirements          | «CDSS must undergo prospective clinical validation in the target patie»                                  |
+| Enforceability | named responsible parties                    | 3. Human Oversight and Clinician Responsibil | «decision authority rests with the responsible clinician. No CDSS shall be conf»                         |
+| Enforceability | non-discretionary operational mandates       | 2. Clinical Validation Requirements          | «Providers shall maintain technical documentation of validation methodology, datasets»                   |
+
+
+#### Not Found — and Where It Would Belong
+For each material element the assessment did not detect: what was looked for, confirmation it was absent from the excerpt, and the most natural place in this document's own structure to add it.
+| Layer          | Not detected in this excerpt                | Where it would belong                                                |
+| -------------- | ------------------------------------------- | -------------------------------------------------------------------- |
+| Structural     | numbered sub-requirements                   | most related existing section: '2. Clinical Validation Requirements' |
+| Structural     | risk stratification / proportionality       | attach under '2. Clinical Validation Requirements'                   |
+| Auditability   | numbered traceable requirements             | most related existing section: '2. Clinical Validation Requirements' |
+| Auditability   | specific, measurable obligations            | attach under '2. Clinical Validation Requirements'                   |
+| Enforceability | risk-proportionate thresholds               | attach under '2. Clinical Validation Requirements'                   |
+| Enforceability | enforcement consequences / penalties        | attach under '2. Clinical Validation Requirements'                   |
+| Core structure | Coupling substance (any vocabulary)         | most related existing section: '4. Transparency and Patient Rights'  |
+| Core structure | Consistency substance (any vocabulary)      | most related existing section: '1. Purpose and Scope'                |
+| Core structure | Self-Application substance (any vocabulary) | attach under '2. Clinical Validation Requirements'                   |
+
+
+#### Attachment Points for Restriction-Protection Pairing
+These obligation sentences are the exact places in this document where a named-beneficiary protection would attach:
+- Under **2. Clinical Validation Requirements**: «All AI-enabled CDSS must undergo prospective clinical validation in the target patient population before deployment.» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
+- Under **3. Human Oversight and Clinician Responsibility**: «Post-market surveillance: Trusts shall conduct quarterly performance monitoring of deployed AI systems, including review of override rates, » — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
+- Under **4. Transparency and Patient Rights**: «This information shall be provided in plain language accessible to patients without clinical training.» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -2586,14 +2927,14 @@ LAIF-native certification: Not claimed / not applicable to this external-framewo
 
 #### Scorecard
 Signals detected and Signals not detected are public labels only; raw detection patterns are not shown.
-| Dimension            | Score  | Fired signal labels                                                                                           | Missed signal labels                                                                                                 |
-| -------------------- | ------ | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| Structural           | 35/100 | mandatory obligation language (shall); full lifecycle scope declared; review / monitoring mechanisms; +1 more | numbered sub-requirements; risk stratification / proportionality; operational mechanisms defined; +3 more            |
-| Terminology          | 0/100  | none detected                                                                                                 | Coupling; Coherence Test; Integrity Layer; +4 more                                                                   |
-| Conceptual proximity | 31/100 | transparency; explainability / interpretability; human oversight; +1 more                                     | human rights / fundamental interests; accountability; proportionality; +5 more                                       |
-| Auditability         | 40/100 | evidence / documentation requirements; review / monitoring mechanisms                                         | multiple mandatory obligations (shall/must pairs); numbered traceable requirements; specific, measurable obligations |
-| Enforceability       | 60/100 | mandatory language (shall/must); named responsible parties; non-discretionary operational mandates            | risk-proportionate thresholds; enforcement consequences / penalties                                                  |
-| Overall readiness    | 35/100 | limited structural signal                                                                                     | —                                                                                                                    |
+| Dimension            | Score  | Fired signal labels                                                                                                      | Missed signal labels                                                                                      |
+| -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| Structural           | 35/100 | mandatory obligation language (shall); full lifecycle scope declared; review / monitoring mechanisms; +1 more            | numbered sub-requirements; risk stratification / proportionality; operational mechanisms defined; +3 more |
+| Terminology          | 0/100  | none detected                                                                                                            | Coupling; Coherence Test; Integrity Layer; +4 more                                                        |
+| Conceptual proximity | 31/100 | transparency; explainability / interpretability; human oversight; +1 more                                                | human rights / fundamental interests; accountability; proportionality; +5 more                            |
+| Auditability         | 60/100 | multiple mandatory obligations (shall/must pairs); evidence / documentation requirements; review / monitoring mechanisms | numbered traceable requirements; specific, measurable obligations                                         |
+| Enforceability       | 60/100 | mandatory language (shall/must); named responsible parties; non-discretionary operational mandates                       | risk-proportionate thresholds; enforcement consequences / penalties                                       |
+| Overall readiness    | 39/100 | limited structural signal                                                                                                | —                                                                                                         |
 
 
 #### Score Calibration and Justification
@@ -2776,6 +3117,8 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Original file name | not provided                                                                    |
 | Source SHA-256     | not provided                                                                    |
 
+**Document structure detected (4 sections):** Section 1 — Scope · Section 2 — Employer Obligations · Section 3 — Worker Rights · Section 4 — Accountability
+
 
 #### Plain-Language Reading (framework-free)
 *What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
@@ -2800,13 +3143,13 @@ To its credit, the administrative machinery is real: numbered, traceable require
 | recommended_use               | Public-sector operating policy review, government AI use register design, disclosure/control mapping, and accountability-gap review.                                                             |
 | not_sufficient_for            | Not sufficient without accountable owners, human-review evidence, disclosure records, exception handling, incident tracking, and monitoring consequences.                                        |
 | governance_force_profile      | Public-sector AI policy; force depends on government authority, accountable public-sector owners, disclosure records, human review evidence, exceptions, incidents, and monitoring consequences. |
-| systemic_repair_value         | Limited                                                                                                                                                                                          |
+| systemic_repair_value         | Moderate                                                                                                                                                                                         |
 | operational_closure_rating    | Weak                                                                                                                                                                                             |
-| evidence_sufficiency_rating   | Moderate                                                                                                                                                                                         |
+| evidence_sufficiency_rating   | Strong                                                                                                                                                                                           |
 | accountability_closure_rating | Moderate                                                                                                                                                                                         |
-| lifecycle_control_rating      | Limited                                                                                                                                                                                          |
+| lifecycle_control_rating      | Moderate                                                                                                                                                                                         |
 | residual_risk_control_rating  | Moderate                                                                                                                                                                                         |
-| implementation_gap_rating     | Limited                                                                                                                                                                                          |
+| implementation_gap_rating     | Moderate                                                                                                                                                                                         |
 | failure_pathway_risk          | Medium                                                                                                                                                                                           |
 | priority_repair_actions       | document residual-risk acceptance and review                                                                                                                                                     |
 This assessment measures governance repair adequacy and operational control closure. It does not require the source document to imitate LAIF-native form.
@@ -2815,17 +3158,17 @@ This assessment measures governance repair adequacy and operational control clos
 #### Operational Closure Findings
 - **Operational closure:** Weak
 - **Accountability closure:** Moderate
-- **Lifecycle control:** Limited
+- **Lifecycle control:** Moderate
 - **Residual-risk closure:** Moderate
 
 
 #### Evidence Sufficiency Findings
-- **Evidence sufficiency:** Moderate
+- **Evidence sufficiency:** Strong
 - **Evidence trace count:** 19
 
 
 #### Implementation Gap Findings
-- **Implementation gap rating:** Limited
+- **Implementation gap rating:** Moderate
 - **Priority repair actions:** document residual-risk acceptance and review
 
 
@@ -2848,14 +3191,14 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 39/100 — limited structural signal
-- **Calibrated position:** 48% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
+- **Overall readiness:** 43/100 — partial structural signal
+- **Calibrated position:** 53% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 41/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** HIGH
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Structural strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: accountability; +12 more
-- **Governance signal strength:** 39
+- **Governance signal strength:** 43
 - **Structural dimension score:** 28/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
@@ -2863,13 +3206,52 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected      |
-| ---------------- | ------- | ----------------------------- |
-| Coupling         | ABSENT  | none detected                 |
-| Integrity Layer  | PARTIAL | meaningful account of outputs |
-| Consistency      | ABSENT  | none detected                 |
-| Reversibility    | PARTIAL | reversal capacity preserved   |
-| Self-Application | ABSENT  | none detected                 |
+| Construct        | Verdict | Signal families detected      | Location                         |
+| ---------------- | ------- | ----------------------------- | -------------------------------- |
+| Coupling         | ABSENT  | none detected                 | —                                |
+| Integrity Layer  | PARTIAL | meaningful account of outputs | Section 2 — Employer Obligations |
+| Consistency      | ABSENT  | none detected                 | —                                |
+| Reversibility    | PARTIAL | reversal capacity preserved   | location unresolved              |
+| Self-Application | ABSENT  | none detected                 | —                                |
+
+
+#### Evidence Locator — Where the Signals Live
+Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
+| Dimension      | Signal                                       | Location in document             | Verbatim quote                                                                                              |
+| -------------- | -------------------------------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Structural     | numbered sub-requirements                    | Section 1 — Scope                | «management. Section 1 — Scope This framework applies to AI systems used to infor»                          |
+| Structural     | mandatory obligation language (shall)        | Section 2 — Employer Obligations | «Employers shall notify workers when AI systems are used in employment decis»                               |
+| Structural     | operational mechanisms defined               | Section 2 — Employer Obligations | «logic, safeguards, and appeal processes. Section 3 — Worker Rights 3.1 Righ»                               |
+| Conceptual     | transparency                                 | Section 2 — Employer Obligations | «2.1 Transparency: Employers shall notify workers when AI systems are used in»                              |
+| Conceptual     | explainability / interpretability            | Section 2 — Employer Obligations | «provide a meaningful explanation of the factors and weighting used in any AI-assisted decisi»              |
+| Conceptual     | accountability                               | Section 4 — Accountability       | «Section 4 — Accountability 4.1 Designated AI Accountability Officer: Employers deploy»                     |
+| Auditability   | multiple mandatory obligations (shall/must p | Section 2 — Employer Obligations | «Employers shall notify workers when AI systems are used in employment decisions affecting them and shall…» |
+| Auditability   | numbered traceable requirements              | Section 1 — Scope                | «management. Section 1 — Scope This framework applies to AI systems used to infor»                          |
+| Auditability   | evidence / documentation requirements        | Section 4 — Accountability       | «arise. 4.2 Record-keeping: Employers shall maintain records of AI-assisted em»                             |
+| Enforceability | mandatory language (shall/must)              | Section 2 — Employer Obligations | «Employers shall notify workers when AI systems are used in employment decis»                               |
+| Enforceability | named responsible parties                    | Section 3 — Worker Rights        | «with authority to reverse the AI recommendation. The appeal process shall»                                 |
+| Enforceability | non-discretionary operational mandates       | Section 2 — Employer Obligations | «them and shall provide a meaningful explanation of the factors and weighting used»                         |
+
+
+#### Not Found — and Where It Would Belong
+For each material element the assessment did not detect: what was looked for, confirmation it was absent from the excerpt, and the most natural place in this document's own structure to add it.
+| Layer          | Not detected in this excerpt                | Where it would belong                                             |
+| -------------- | ------------------------------------------- | ----------------------------------------------------------------- |
+| Structural     | full lifecycle scope declared               | most related existing section: 'Section 1 — Scope'                |
+| Structural     | risk stratification / proportionality       | attach under 'Section 2 — Employer Obligations'                   |
+| Auditability   | specific, measurable obligations            | most related existing section: 'Section 2 — Employer Obligations' |
+| Enforceability | risk-proportionate thresholds               | attach under 'Section 2 — Employer Obligations'                   |
+| Enforceability | enforcement consequences / penalties        | attach under 'Section 2 — Employer Obligations'                   |
+| Core structure | Coupling substance (any vocabulary)         | most related existing section: 'Section 3 — Worker Rights'        |
+| Core structure | Consistency substance (any vocabulary)      | most related existing section: 'Section 1 — Scope'                |
+| Core structure | Self-Application substance (any vocabulary) | attach under 'Section 2 — Employer Obligations'                   |
+
+
+#### Attachment Points for Restriction-Protection Pairing
+These obligation sentences are the exact places in this document where a named-beneficiary protection would attach:
+- Under **Section 2 — Employer Obligations**: «Transparency: Employers shall notify workers when AI systems are used in employment decisions affecting them and shall provide a meaningful » — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
+- Under **Section 3 — Worker Rights**: «The appeal process shall be completed within 20 working days.» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
+- Under **Section 4 — Accountability**: «Designated AI Accountability Officer: Employers deploying AI in employment decisions shall designate an individual responsible for complianc» — state here who this obligation protects, and bind the protection so neither can be weakened without the other.
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -2879,22 +3261,22 @@ LAIF-native certification: Not claimed / not applicable to this external-framewo
 
 #### Scorecard
 Signals detected and Signals not detected are public labels only; raw detection patterns are not shown.
-| Dimension            | Score  | Fired signal labels                                                                                       | Missed signal labels                                                                                                                    |
-| -------------------- | ------ | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| Structural           | 28/100 | numbered sub-requirements; mandatory obligation language (shall); operational mechanisms defined; +1 more | full lifecycle scope declared; risk stratification / proportionality; threshold gate conditions (all must pass simultaneously); +3 more |
-| Terminology          | 0/100  | none detected                                                                                             | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                      |
-| Conceptual proximity | 41/100 | transparency; explainability / interpretability; accountability; +2 more                                  | human rights / fundamental interests; human oversight; proportionality; +4 more                                                         |
-| Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms    | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                                     |
-| Enforceability       | 60/100 | mandatory language (shall/must); named responsible parties; non-discretionary operational mandates        | risk-proportionate thresholds; enforcement consequences / penalties                                                                     |
-| Overall readiness    | 39/100 | limited structural signal                                                                                 | —                                                                                                                                       |
+| Dimension            | Score  | Fired signal labels                                                                                                                | Missed signal labels                                                                                                                    |
+| -------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Structural           | 28/100 | numbered sub-requirements; mandatory obligation language (shall); operational mechanisms defined; +1 more                          | full lifecycle scope declared; risk stratification / proportionality; threshold gate conditions (all must pass simultaneously); +3 more |
+| Terminology          | 0/100  | none detected                                                                                                                      | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                      |
+| Conceptual proximity | 41/100 | transparency; explainability / interpretability; accountability; +2 more                                                           | human rights / fundamental interests; human oversight; proportionality; +4 more                                                         |
+| Auditability         | 80/100 | multiple mandatory obligations (shall/must pairs); numbered traceable requirements; evidence / documentation requirements; +1 more | specific, measurable obligations                                                                                                        |
+| Enforceability       | 60/100 | mandatory language (shall/must); named responsible parties; non-discretionary operational mandates                                 | risk-proportionate thresholds; enforcement consequences / penalties                                                                     |
+| Overall readiness    | 43/100 | partial structural signal                                                                                                          | —                                                                                                                                       |
 
 
 #### Score Calibration and Justification
 Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.
-- **Overall band:** limited structural signal
+- **Overall band:** partial structural signal
 - **Formal LAIF-native status:** FAIL
 - **Interpretation boundary:** Formal LAIF-native failure cannot be overridden by high proximity scores.
-- **Calibration / anti-gaming cautions:** 4 — Sector risk alignment materially exceeds overall readiness.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.; Low LAIF-model signal may indicate missing LAIF-model signals, not legal invalidity under the source framework's own authority.; +1 more
+- **Calibration / anti-gaming cautions:** 3 — Sector risk alignment materially exceeds overall readiness.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.; Possible keyword or signal density risk; requires structural evidence review. This is not a finding of bad faith and not a legal invalidity claim.
 - **Anti-gaming boundary:** fired/missed labels are diagnostic summaries only; reviewers must require structural evidence and must not use this report as a keyword-stuffing recipe.
 
 

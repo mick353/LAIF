@@ -140,3 +140,28 @@ excellence looks like for an external document; 90+ is unreachable by design.
 Read the calibrated position, the functional alignment verdict, and the score
 band together. The calibrated position is a comparative figure within the LAIF
 model; like all scores here, it is not a legal finding or a compliance rating.
+
+## Evidence Locator and Placement Guidance
+
+Every per-document assessment carries a source-location layer, all of it
+deterministic text analysis of the assessed excerpt:
+
+- **Document structure map** — the document's own headings, detected from
+  common conventions (markdown, Article/Section/Part, GOVERN n.n, numbered
+  heads).
+- **Evidence Locator** — for every fired rubric signal, a verbatim quote and
+  its location in the document's own structure. Locator and scorer use
+  identical pattern flags; test `SF9.2` enforces exact parity (every fired
+  signal has a location; nothing located was scored as missed).
+- **Not Found — and Where It Would Belong** — for missed signals and ABSENT
+  core structures: confirmation of absence from the excerpt plus the most
+  related existing section (keyword overlap with the document's own headings),
+  falling back to the obligation-bearing section, or an honest "new provision
+  required".
+- **Attachment Points** — the document's own obligation sentences (diversified
+  across sections), quoted with locations, as the exact places a
+  restriction-protection pairing would attach.
+
+Quotes are whitespace-normalised verbatim substrings of the assessed text
+(`SF9.1`); span-window patterns use DOTALL in both scorer and locator so
+hard-wrapped prose earns proximity signals (`SF9.2` guards the parity).

@@ -412,6 +412,42 @@ check(_s1_profile.get("reversibility") == "detected"
                "present in the source (S1 control)")
 
 
+# ── GROUP SF9 — Evidence locator integrity ───────────────────────────────────
+
+section("GROUP SF9 — Evidence locator (quotes, locations, parity, anchors)")
+
+_norm_src = " ".join(S1_SEMANTIC_TWIN.split())
+_quotes_verbatim = True
+for _dim, _rows in s1.get("signal_locations", {}).items():
+    for _row in _rows:
+        _q = _row["quote"].rstrip("…")
+        if _q and _q not in _norm_src:
+            _quotes_verbatim = False
+check(_quotes_verbatim, "SF9.1",
+      "every located quote is a verbatim (whitespace-normalised) substring "
+      "of the source document")
+
+_parity = True
+for _dim in ("structural", "conceptual", "auditability", "enforceability"):
+    _fired_labels = {lbl for lbl, _ in s1["score_breakdown"][_dim]["fired"]}
+    _located_labels = {r["label"] for r in s1["signal_locations"].get(_dim, [])}
+    if _fired_labels != _located_labels:
+        _parity = False
+check(_parity, "SF9.2",
+      "locator and scorer agree exactly: every fired signal has a location, "
+      "no located signal was scored as missed")
+
+_anchors = s1.get("obligation_anchors", [])
+check(len(_anchors) >= 2
+      and len({a["location"] for a in _anchors}) >= 2, "SF9.3",
+      f"obligation anchors found and diversified across sections "
+      f"({len(_anchors)} anchors, {len({a['location'] for a in _anchors})} sections)")
+
+check("Evidence Locator — Where the Signals Live" in _ext_report
+      and "Not Found — and Where It Would Belong" in _ext_report,
+      "SF9.4", "report renders the locator and the not-found guidance")
+
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 
 print(f"\n{'═' * 70}")

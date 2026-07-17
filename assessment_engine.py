@@ -1217,8 +1217,11 @@ def _score_signals(text, rubric):
     Score is sum of fired weights, capped at 100.
     """
     fired, missed = [], []
+    # DOTALL: span patterns (".{1,300}") are proximity windows over the
+    # document, not same-line constraints — hard-wrapped prose must be able
+    # to earn them. The Evidence Locator uses identical flags (parity).
     for w, pat, label in rubric:
-        if re.search(pat, text, re.IGNORECASE):
+        if re.search(pat, text, re.IGNORECASE | re.DOTALL):
             fired.append((label, w))
         else:
             missed.append((label, w))
@@ -2922,9 +2925,22 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     gaming_level, gaming_reason = _sector_gaming_risk(sector_risk_alignment, overall, c)
     depth                = _structural_depth(cq, contradictions, gaming_level, formal_pass)
 
+    # Source location layer — document outline, located signals, obligation
+    # anchors. Lets every finding point INTO the document.
+    _outline          = _document_outline(text)
+    signal_locations  = _located_signals(text, _outline)
+    obligation_anchors = _obligation_anchors(text, _outline)
+
     # Functional alignment — substance detection independent of vocabulary.
     # Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
     functional      = _functional_alignment(text, cq)
+    for _c, _v in functional.items():
+        _v["evidence_locations"] = []
+        for _ev in _v.get("evidence", []):
+            _probe = _ev[:40]
+            _idx = text.find(_probe)
+            _v["evidence_locations"].append(
+                _locate_offset(_idx, _outline) if _idx >= 0 else "location unresolved")
     func_coupling   = functional["Coupling"]["verdict"]
     laif_alignment  = _laif_alignment_verdict(formal_pass, depth, functional,
                                               contradictions)
@@ -3048,6 +3064,9 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
                                                       func_coupling),
         "functional_alignment":       functional,
         "laif_alignment":             laif_alignment,
+        "document_outline":           [lbl for _, lbl in _outline][:14],
+        "signal_locations":           signal_locations,
+        "obligation_anchors":         obligation_anchors,
         "contradictions":             contradictions,
         "sector_gaming_risk":         gaming_level,
         "sector_gaming_reason":       gaming_reason,
@@ -3187,6 +3206,141 @@ def _practical_meaning_exec(result):
         "This document does not yet meet the structural preconditions required to "
         "provide reliable governance assurance for the people it governs."
     )
+
+
+# ── Source location layer ─────────────────────────────────────────────────────
+# Turns character offsets into human-usable locations ("at §6(b)", "under
+# 'C1 - Clinical safety'") so every finding can point INTO the document.
+# Everything here is deterministic text analysis of the assessed source.
+
+_OUTLINE_PATTERNS = [
+    re.compile(r"^#{1,6}\s+(.{3,80})$", re.MULTILINE),                       # markdown headings
+    re.compile(r"^((?:Article|Section|SECTION|Part|PART|Chapter)\s+[\dIVXA-Z]+[^\n]{0,90})$", re.MULTILINE),
+    re.compile(r"^((?:GOVERN|MAP|MEASURE|MANAGE)\s+\d+(?:\.\d+)?:?[^\n]{0,60})", re.MULTILINE),
+    re.compile(r"^(\d+\.\d*\.?\s+[A-Z][^\n]{3,60})$", re.MULTILINE),       # 2.1 Numbered heads
+    re.compile(r"^([A-Z][A-Za-z ]{3,50})\n", re.MULTILINE),                    # bare title lines
+]
+
+
+def _document_outline(text):
+    """Return a deduplicated, offset-ordered [(offset, label)] outline of the
+    document's own structure, detected from common heading conventions."""
+    seen_labels = set()
+    entries = []
+    for pat in _OUTLINE_PATTERNS:
+        for m in pat.finditer(text):
+            label = " ".join(m.group(1).split())[:70].rstrip(" |#-")
+            if len(label) < 4 or label.lower() in seen_labels:
+                continue
+            seen_labels.add(label.lower())
+            entries.append((m.start(), label))
+    entries.sort(key=lambda x: x[0])
+    return entries
+
+
+def _locate_offset(pos, outline):
+    """Nearest document-structure label at or before pos."""
+    best = "start of document"
+    for off, label in outline:
+        if off <= pos:
+            best = label
+        else:
+            break
+    return best
+
+
+def _quote_at(text, start, end, max_len=110):
+    lo = max(0, start - 15)
+    hi = min(len(text), end + 60)
+    tokens = text[lo:hi].split()
+    if lo > 0 and tokens:
+        tokens = tokens[1:]          # drop leading partial word
+    out = " ".join(tokens)
+    if len(out) > max_len:
+        out = out[:max_len].rsplit(" ", 1)[0] + "…"
+    return out
+
+
+def _located_signals(text, outline):
+    """First-match location and verbatim quote for every fired rubric signal,
+    per dimension. Deterministic; quotes are exact substrings of the excerpt
+    window around the match."""
+    out = {}
+    for dim, rubric in (("structural", STRUCTURAL_RUBRIC),
+                        ("terminology", TERMINOLOGY_RUBRIC),
+                        ("conceptual", CONCEPTUAL_RUBRIC),
+                        ("auditability", AUDITABILITY_RUBRIC),
+                        ("enforceability", ENFORCEABILITY_RUBRIC)):
+        rows = []
+        for _, pat, label in rubric:
+            m = re.search(pat, text, re.IGNORECASE | re.DOTALL)
+            if m:
+                rows.append({
+                    "label":    label,
+                    "quote":    _quote_at(text, m.start(), m.end()),
+                    "location": _locate_offset(m.start(), outline),
+                })
+        out[dim] = rows
+    return out
+
+
+# Sentence charclass permits newlines: obligation sentences in hard-wrapped
+# prose span lines; quotes are whitespace-normalised on capture.
+_OBLIGATION_SENTENCE = re.compile(
+    r"[A-Z][^.!?]{10,180}\b(?:shall|must)\b(?:\s+not)?[^.!?]{5,200}[.!?]"
+)
+
+
+def _obligation_anchors(text, outline, limit=3):
+    """Up to `limit` obligation sentences with locations — the exact places a
+    restriction-protection pairing would attach. Diversified: at most one
+    anchor per document section, so guidance spans the document rather than
+    clustering in its first section."""
+    anchors, seen_sections = [], set()
+    spare = None
+    for m in _OBLIGATION_SENTENCE.finditer(text):
+        loc = _locate_offset(m.start(), outline)
+        entry = {"quote": " ".join(m.group(0).split())[:140], "location": loc}
+        if loc in seen_sections:
+            spare = spare or entry
+            continue
+        seen_sections.add(loc)
+        anchors.append(entry)
+        if len(anchors) >= limit:
+            break
+    if not anchors and spare:
+        anchors.append(spare)
+    return anchors
+
+
+_ANCHOR_HINTS = {
+    "Coupling":         "protect rights interest worker patient consumer safety",
+    "Integrity Layer":  "safety security testing evaluation standards oversight",
+    "Consistency":      "scope application definitions general provisions",
+    "Reversibility":    "review monitoring appeal correction redress oversight",
+    "Self-Application": "implementation administration governance authority council",
+}
+
+
+def _suggest_anchor(label, outline, obligation_anchors):
+    """Deterministic suggestion for where a missing element would belong:
+    the document's own section whose title shares vocabulary with the
+    missing signal; else the first obligation sentence's section; else an
+    honest 'new provision required'."""
+    enriched = f"{label} {_ANCHOR_HINTS.get(label.split(' ')[0].strip(), '')} " \
+               f"{_ANCHOR_HINTS.get(label, '')}"
+    words = {w for w in re.split(r"[^a-z]+", enriched.lower()) if len(w) > 3}
+    best, best_score = None, 0
+    for _, sec in outline:
+        sec_words = {w for w in re.split(r"[^a-z]+", sec.lower()) if len(w) > 3}
+        score = len(words & sec_words)
+        if score > best_score:
+            best, best_score = sec, score
+    if best:
+        return f"most related existing section: '{best}'"
+    if obligation_anchors:
+        return f"attach under '{obligation_anchors[0]['location']}'"
+    return "no existing section covers this — a new provision is required"
 
 
 # ── Plain-language reading ────────────────────────────────────────────────────
@@ -4716,6 +4870,13 @@ def generate_markdown_report(assessments, report_date="July 2026"):
             ])
         table(["Field", "Value"], overview)
         p()
+        _doc_outline = r.get("document_outline", [])
+        if _doc_outline:
+            p(f"**Document structure detected ({len(_doc_outline)} sections):** "
+              + " · ".join(_doc_outline[:10])
+              + (" · …" if len(_doc_outline) > 10 else ""))
+            p()
+
         # ── Plain-Language Reading — framework-free narrative, every sentence
         # keyed to a measured signal (see _plain_reading). No LAIF vocabulary.
         _plain = r.get("plain_reading", [])
@@ -4832,9 +4993,11 @@ def generate_markdown_report(assessments, report_date="July 2026"):
               "PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; "
               "Regulatory Integration Guide Part One.")
             table(
-                ["Construct", "Verdict", "Signal families detected"],
+                ["Construct", "Verdict", "Signal families detected", "Location"],
                 [
-                    [c, v.get("verdict", ""), _compact_list(v.get("families", [])) or "none"]
+                    [c, v.get("verdict", ""),
+                     _compact_list(v.get("families", [])),
+                     _compact_list(v.get("evidence_locations", []), limit=2, empty="—")]
                     for c, v in _func.items()
                 ]
             )
@@ -4850,6 +5013,72 @@ def generate_markdown_report(assessments, report_date="July 2026"):
                   "Integration Guide's SATISFIES/EXTENDS methodology. The choice "
                   "belongs to the document's owner.")
             p()
+
+        # ── Evidence Locator — every claim points into the document ─────
+        _locs = r.get("signal_locations", {})
+        if _locs:
+            h(4, "Evidence Locator — Where the Signals Live")
+            p("Verbatim quotes from the assessed text with their locations in the "
+              "document's own structure. Top signals per dimension.")
+            _loc_rows = []
+            for _dim, _dim_label in (("structural", "Structural"),
+                                      ("conceptual", "Conceptual"),
+                                      ("auditability", "Auditability"),
+                                      ("enforceability", "Enforceability")):
+                for _row in _locs.get(_dim, [])[:3]:
+                    _loc_rows.append([
+                        _dim_label,
+                        _safe_markdown_cell(_row["label"])[:44],
+                        _safe_markdown_cell(_row["location"])[:44],
+                        _safe_markdown_cell("«" + _row["quote"] + "»")[:120],
+                    ])
+            if _loc_rows:
+                table(["Dimension", "Signal", "Location in document", "Verbatim quote"],
+                      _loc_rows)
+            p()
+
+            # What was NOT found — and where it would belong
+            h(4, "Not Found — and Where It Would Belong")
+            p("For each material element the assessment did not detect: what was "
+              "looked for, confirmation it was absent from the excerpt, and the "
+              "most natural place in this document's own structure to add it.")
+            _outline_pairs = [(0, lbl) for lbl in r.get("document_outline", [])]
+            _oblig = r.get("obligation_anchors", [])
+            _missing_rows = []
+            _bd = r.get("score_breakdown", {})
+            for _dim, _dim_label in (("structural", "Structural"),
+                                      ("auditability", "Auditability"),
+                                      ("enforceability", "Enforceability")):
+                for _lbl, _w in _bd.get(_dim, {}).get("missed", [])[:2]:
+                    _missing_rows.append([
+                        _dim_label,
+                        _safe_markdown_cell(_lbl)[:52],
+                        _safe_markdown_cell(_suggest_anchor(_lbl, _outline_pairs, _oblig))[:110],
+                    ])
+            for _c, _v in r.get("functional_alignment", {}).items():
+                if _v.get("verdict") == "ABSENT":
+                    _missing_rows.append([
+                        "Core structure",
+                        _safe_markdown_cell(f"{_c} substance (any vocabulary)")[:52],
+                        _safe_markdown_cell(_suggest_anchor(_c, _outline_pairs, _oblig))[:110],
+                    ])
+            if _missing_rows:
+                table(["Layer", "Not detected in this excerpt", "Where it would belong"],
+                      _missing_rows)
+            else:
+                p("All assessed elements were detected.")
+            p()
+
+            # Attachment points for the pairing fix — the exact sentences
+            if _oblig and r.get("coupling_state") in ("ABSENT", "IMPLICIT"):
+                h(4, "Attachment Points for Restriction-Protection Pairing")
+                p("These obligation sentences are the exact places in this document "
+                  "where a named-beneficiary protection would attach:")
+                for _a in _oblig:
+                    p(f"- Under **{_a['location']}**: «{_a['quote']}» — state here who "
+                      f"this obligation protects, and bind the protection so neither "
+                      f"can be weakened without the other.")
+                p()
 
         if r.get("assessment_mode") == "external_framework":
             h(4, "Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage")
