@@ -459,7 +459,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Original file name | not provided                                                                                                            |
 | Source SHA-256     | not provided                                                                                                            |
 
-**Document structure detected (14 sections):** Section 1: Principles · RECOMMENDS · CALLS ON · UNDERLINES · 1.1. Inclusive growth, sustainable development · Stakeholders should proactively engage in · 1.2. Respect for the rule of law, human rights · 1.3. Transparency and explainability · 1.4. Robustness, security and safety · Mechanisms · …
+**Document structure detected (12 sections):** Section 1: Principles · 1.1. Inclusive growth, sustainable development · 1.2. Respect for the rule of law, human rights · 1.3. Transparency and explainability · 1.4. Robustness, security and safety · 1.5. Accountability · Section 2: National · 2.1. Investing in AI research and development · 2.2. Fostering an · 2.3. Shaping an enabling interoperable · …
 
 
 #### Plain-Language Reading (framework-free)
@@ -548,13 +548,13 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected      | Location            |
-| ---------------- | ------- | ----------------------------- | ------------------- |
-| Coupling         | ABSENT  | none detected                 | —                   |
-| Integrity Layer  | PARTIAL | meaningful account of outputs | location unresolved |
-| Consistency      | ABSENT  | none detected                 | —                   |
-| Reversibility    | PARTIAL | reversal capacity preserved   | Mechanisms          |
-| Self-Application | ABSENT  | none detected                 | —                   |
+| Construct        | Verdict | Signal families detected      | Location                             |
+| ---------------- | ------- | ----------------------------- | ------------------------------------ |
+| Coupling         | ABSENT  | none detected                 | —                                    |
+| Integrity Layer  | PARTIAL | meaningful account of outputs | 1.3. Transparency and explainability |
+| Consistency      | ABSENT  | none detected                 | —                                    |
+| Reversibility    | PARTIAL | reversal capacity preserved   | 1.4. Robustness, security and safety |
+| Self-Application | ABSENT  | none detected                 | —                                    |
 
 
 #### Evidence Locator — Where the Signals Live
@@ -570,7 +570,7 @@ Verbatim quotes from the assessed text with their locations in the document's ow
 | Auditability   | numbered traceable requirements       | Section 1: Principles                        | «Section 1: Principles for responsible stewardship of trustworthy AI»                  |
 | Auditability   | evidence / documentation requirements | 2.5. International co-operation for trustwor | «gather the evidence base to assess progress in the implementation of these prin»      |
 | Auditability   | review / monitoring mechanisms        | 2.3. Shaping an enabling interoperable       | «should review and adapt, as appropriate, their policy and regulatory fram»            |
-| Enforceability | named responsible parties             | CALLS ON                                     | «ON all AI actors to promote and implement, according to their respective rol»         |
+| Enforceability | named responsible parties             | Section 1: Principles                        | «ON all AI actors to promote and implement, according to their respective rol»         |
 
 
 #### Not Found — and Where It Would Belong
@@ -786,7 +786,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Original file name | not provided                                                                                                                       |
 | Source SHA-256     | not provided                                                                                                                       |
 
-**Document structure detected (2 sections):** Govern · Continued on next page
+**Document structure detected (1 sections):** Govern
 
 
 #### Plain-Language Reading (framework-free)
@@ -875,31 +875,31 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected    | Location               |
-| ---------------- | ------- | --------------------------- | ---------------------- |
-| Coupling         | ABSENT  | none detected               | —                      |
-| Integrity Layer  | ABSENT  | none detected               | —                      |
-| Consistency      | ABSENT  | none detected               | —                      |
-| Reversibility    | PARTIAL | reversal capacity preserved | Continued on next page |
-| Self-Application | ABSENT  | none detected               | —                      |
+| Construct        | Verdict | Signal families detected    | Location |
+| ---------------- | ------- | --------------------------- | -------- |
+| Coupling         | ABSENT  | none detected               | —        |
+| Integrity Layer  | ABSENT  | none detected               | —        |
+| Consistency      | ABSENT  | none detected               | —        |
+| Reversibility    | PARTIAL | reversal capacity preserved | Govern   |
+| Self-Application | ABSENT  | none detected               | —        |
 
 
 #### Evidence Locator — Where the Signals Live
 Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
-| Dimension      | Signal                                | Location in document   | Verbatim quote                                                                          |
-| -------------- | ------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------- |
-| Structural     | numbered sub-requirements             | Govern                 | «\\| GOVERN 1.1: Legal and regulatory requirements involving AI are underst»            |
-| Structural     | mandatory obligation language (shall) | Continued on next page | «“the system shall respect the privacy of its users”) are elicited from and un»         |
-| Structural     | full lifecycle scope declared         | Govern                 | «full product lifecycle and associated processes, including legal and other issues»     |
-| Conceptual     | transparency                          | Govern                 | «can enhance transparency, improve human review processes, and bolster accountability»  |
-| Conceptual     | accountability                        | Govern                 | «and bolster accountability in AI system teams. After putting in place the structures,» |
-| Conceptual     | human oversight                       | Continued on next page | «and oversight of AI systems. \\| \\| GOVERN 4:Organizational teams are commit»         |
-| Auditability   | numbered traceable requirements       | Govern                 | «\\| GOVERN 1.1: Legal and regulatory requirements involving AI are underst»            |
-| Auditability   | evidence / documentation requirements | Continued on next page | «teams document the risks and potential impacts of the AI technology they d»            |
-| Auditability   | review / monitoring mechanisms        | Govern                 | «human review processes, and bolster accountability in AI system teams. A»              |
-| Enforceability | mandatory language (shall/must)       | Continued on next page | «“the system shall respect the privacy of its users”) are elicited from and un»         |
-| Enforceability | named responsible parties             | Govern                 | «Governing authorities can determine the overarching policies that direct an organ»     |
-| Enforceability | risk-proportionate thresholds         | Govern                 | «the needed level of risk management activities based on the organization’s risk tole»  |
+| Dimension      | Signal                                | Location in document | Verbatim quote                                                                          |
+| -------------- | ------------------------------------- | -------------------- | --------------------------------------------------------------------------------------- |
+| Structural     | numbered sub-requirements             | Govern               | «\\| GOVERN 1.1: Legal and regulatory requirements involving AI are underst»            |
+| Structural     | mandatory obligation language (shall) | Govern               | «“the system shall respect the privacy of its users”) are elicited from and un»         |
+| Structural     | full lifecycle scope declared         | Govern               | «full product lifecycle and associated processes, including legal and other issues»     |
+| Conceptual     | transparency                          | Govern               | «can enhance transparency, improve human review processes, and bolster accountability»  |
+| Conceptual     | accountability                        | Govern               | «and bolster accountability in AI system teams. After putting in place the structures,» |
+| Conceptual     | human oversight                       | Govern               | «and oversight of AI systems. \\| \\| GOVERN 4:Organizational teams are commit»         |
+| Auditability   | numbered traceable requirements       | Govern               | «\\| GOVERN 1.1: Legal and regulatory requirements involving AI are underst»            |
+| Auditability   | evidence / documentation requirements | Govern               | «teams document the risks and potential impacts of the AI technology they d»            |
+| Auditability   | review / monitoring mechanisms        | Govern               | «human review processes, and bolster accountability in AI system teams. A»              |
+| Enforceability | mandatory language (shall/must)       | Govern               | «“the system shall respect the privacy of its users”) are elicited from and un»         |
+| Enforceability | named responsible parties             | Govern               | «Governing authorities can determine the overarching policies that direct an organ»     |
+| Enforceability | risk-proportionate thresholds         | Govern               | «the needed level of risk management activities based on the organization’s risk tole»  |
 
 
 #### Not Found — and Where It Would Belong
@@ -1548,13 +1548,13 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected                                         | Location                                 |
-| ---------------- | ------- | ---------------------------------------------------------------- | ---------------------------------------- |
-| Coupling         | ABSENT  | none detected                                                    | —                                        |
-| Integrity Layer  | PARTIAL | meaningful account of outputs; bounded operation with escalation | location unresolved; location unresolved |
-| Consistency      | ABSENT  | none detected                                                    | —                                        |
-| Reversibility    | ABSENT  | none detected                                                    | —                                        |
-| Self-Application | ABSENT  | none detected                                                    | —                                        |
+| Construct        | Verdict | Signal families detected                                         | Location                                                                                                                                 |
+| ---------------- | ------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Coupling         | ABSENT  | none detected                                                    | —                                                                                                                                        |
+| Integrity Layer  | PARTIAL | meaningful account of outputs; bounded operation with escalation | Article 13 — Transparency and Provision of Information to Deployers; Article 13 — Transparency and Provision of Information to Deployers |
+| Consistency      | ABSENT  | none detected                                                    | —                                                                                                                                        |
+| Reversibility    | ABSENT  | none detected                                                    | —                                                                                                                                        |
+| Self-Application | ABSENT  | none detected                                                    | —                                                                                                                                        |
 
 
 #### Evidence Locator — Where the Signals Live
@@ -2876,7 +2876,7 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 | Coupling         | ABSENT  | none detected                                                    | —                                                             |
 | Integrity Layer  | PARTIAL | meaningful account of outputs; bounded operation with escalation | 4. Transparency and Patient Rights; 5. Safety and Containment |
 | Consistency      | ABSENT  | none detected                                                    | —                                                             |
-| Reversibility    | PARTIAL | reversal capacity preserved                                      | location unresolved                                           |
+| Reversibility    | PARTIAL | reversal capacity preserved                                      | 5. Safety and Containment                                     |
 | Self-Application | ABSENT  | none detected                                                    | —                                                             |
 
 
@@ -3211,7 +3211,7 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 | Coupling         | ABSENT  | none detected                 | —                                |
 | Integrity Layer  | PARTIAL | meaningful account of outputs | Section 2 — Employer Obligations |
 | Consistency      | ABSENT  | none detected                 | —                                |
-| Reversibility    | PARTIAL | reversal capacity preserved   | location unresolved              |
+| Reversibility    | PARTIAL | reversal capacity preserved   | Section 3 — Worker Rights        |
 | Self-Application | ABSENT  | none detected                 | —                                |
 
 

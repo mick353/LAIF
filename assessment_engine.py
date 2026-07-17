@@ -557,6 +557,7 @@ def _functional_alignment(text, coupling_quality):
     out = {}
     for construct, families in FUNCTIONAL_CONSTRUCT_FAMILIES.items():
         fam_hits, evidence = [], []
+        offsets = []
         for fam_name, pats in families:
             for pat in pats:
                 m = re.search(pat, text, re.IGNORECASE | re.DOTALL)
@@ -565,6 +566,7 @@ def _functional_alignment(text, coupling_quality):
                     lo = max(0, m.start() - 20)
                     hi = min(len(text), m.end() + 40)
                     evidence.append(text[lo:hi].replace("\n", " ").strip()[:160])
+                    offsets.append(m.start())
                     break
 
         if construct == "Coupling":
@@ -588,6 +590,7 @@ def _functional_alignment(text, coupling_quality):
             "verdict":  verdict,
             "families": fam_hits,
             "evidence": evidence[:3],
+            "evidence_offsets": offsets[:3],
         }
     return out
 
@@ -2935,12 +2938,10 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     # Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
     functional      = _functional_alignment(text, cq)
     for _c, _v in functional.items():
-        _v["evidence_locations"] = []
-        for _ev in _v.get("evidence", []):
-            _probe = _ev[:40]
-            _idx = text.find(_probe)
-            _v["evidence_locations"].append(
-                _locate_offset(_idx, _outline) if _idx >= 0 else "location unresolved")
+        _v["evidence_locations"] = [
+            _locate_offset(_off, _outline)
+            for _off in _v.get("evidence_offsets", [])
+        ]
     func_coupling   = functional["Coupling"]["verdict"]
     laif_alignment  = _laif_alignment_verdict(formal_pass, depth, functional,
                                               contradictions)
@@ -3218,7 +3219,7 @@ _OUTLINE_PATTERNS = [
     re.compile(r"^((?:Article|Section|SECTION|Part|PART|Chapter)\s+[\dIVXA-Z]+[^\n]{0,90})$", re.MULTILINE),
     re.compile(r"^((?:GOVERN|MAP|MEASURE|MANAGE)\s+\d+(?:\.\d+)?:?[^\n]{0,60})", re.MULTILINE),
     re.compile(r"^(\d+\.\d*\.?\s+[A-Z][^\n]{3,60})$", re.MULTILINE),       # 2.1 Numbered heads
-    re.compile(r"^([A-Z][A-Za-z ]{3,50})\n", re.MULTILINE),                    # bare title lines
+    re.compile(r"^([A-Z][A-Za-z ]{3,50})\n(?=\n)", re.MULTILINE),             # bare titles (blank line follows)
 ]
 
 
