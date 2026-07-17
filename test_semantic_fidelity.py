@@ -378,6 +378,15 @@ check(_cal2.get("achievable_ceiling") == 100.0, "SF7.3",
       f"LAIF-native-channel documents keep the full 100-point scale "
       f"(S2 ceiling = {_cal2.get('achievable_ceiling')})")
 
+from assessment_engine import generate_markdown_report
+_ext_report = generate_markdown_report([s1], report_date="July 2026")
+check("LAIF-native certification summary" not in _ext_report
+      and "no document in this corpus claims or seeks" in _ext_report,
+      "SF7.4", "external-only corpora never headline a certification tally; "
+               "the certification gate is framed as not-a-finding")
+check(_ext_report.startswith("# AI Governance Structural Integrity Assessment"),
+      "SF7.5", "report title leads with the findings, not the framework brand")
+
 
 # ── Summary ───────────────────────────────────────────────────────────────────
 

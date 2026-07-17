@@ -4343,7 +4343,7 @@ def _safe_executive_risk_text(risk):
         (legacy_construct_gate, safe_construct_gate),
         (" = FAIL", " prevents certification"),
         (legacy_final_label, "Executive diagnostic detail"),
-        (legacy_failure_label, "Primary LAIF diagnostic gaps"),
+        (legacy_failure_label, "Primary structural gaps"),
         ("legally invalid", "outside the LAIF-native certification channel"),
         ("governance-invalid", "outside the LAIF-native certification channel"),
         ("governance-worthless", "outside the LAIF-native certification channel"),
@@ -4493,9 +4493,13 @@ def generate_markdown_report(assessments, report_date="July 2026"):
             if status in {"gap / requires review", "requires reviewer confirmation"}:
                 force_counter[component] += 1
 
-    lines.append("# LAIF Governance Repair Assessment")
+    lines.append("# AI Governance Structural Integrity Assessment")
+    p("*How far do these instruments' protections actually reach the people "
+      "they govern — and what would it take to close the distance?*  ")
     p(f"**Report date:** {report_date}  ")
-    p("**Framework:** LAIF v1.2 · Compliance Toolkit v1.1  ")
+    p("**Assessment model:** Law-Aligned Intelligence Framework (LAIF) v1.2 · "
+      "Compliance Toolkit v1.1 — the model is the measuring lens, not the "
+      "subject of the findings; see Method Summary.  ")
     p("**Report architecture:** Governance Repair Assessment public template — Phase 3V  ")
     p("**Validator boundary:** validate.py enforcement remains unchanged; this report renders existing assessment results only.  ")
     p()
@@ -4574,9 +4578,8 @@ def generate_markdown_report(assessments, report_date="July 2026"):
     p()
 
     h(2, "Executive Brief")
-    p(f"- **Total documents assessed:** {count}")
-    p(f"- **External-framework governance repair assessments:** {external_count}/{count} rendered as governance repair diagnostics, not LAIF-native certification.")
-    p(f"- **LAIF-native certification summary:** {count - len(native_failures)}/{count} PASS; {len(native_failures)}/{count} FAIL where LAIF-native certification is claimed/applicable.")
+    p(f"- **Total documents assessed:** {count} ({external_count} external instruments "
+      f"assessed as governance repair diagnostics, not LAIF-native certification)")
     p(f"- **Average overall readiness:** {avg('overall_readiness_score')}/100")
     p(f"- **Average conceptual proximity:** {avg('conceptual_proximity_score')}/100")
     p(f"- **Average sector alignment:** {avg('sector_risk_alignment')}/100")
@@ -4604,6 +4607,14 @@ def generate_markdown_report(assessments, report_date="July 2026"):
     p(f"- **Evidence trace summary:** {evidence_total} traces; {evidence_exact} exact/deterministic; {evidence_fallback} reviewer-confirmation fallback.")
     p(f"- **Remediation patch summary:** {patch_total} structured patches across assessed documents.")
     p(f"- **Top governance-force patterns:** {_compact_list([f'{k} ({v})' for k, v in force_counter.most_common(3)])}")
+    if external_count == count:
+        p("- **Certification channel:** no document in this corpus claims or seeks "
+          "LAIF-native certification, so the certification gate is not a finding "
+          "about these documents; construct coverage remains available in each "
+          "Technical Appendix.")
+    else:
+        p(f"- **LAIF-native certification summary:** {count - len(native_failures)}/{count} PASS; "
+          f"{len(native_failures)}/{count} FAIL where LAIF-native certification is claimed/applicable.")
     p("- **Boundary note:** diagnostic findings require reviewer confirmation and cannot override formal LAIF-native failure.")
     p()
 
@@ -4622,7 +4633,7 @@ def generate_markdown_report(assessments, report_date="July 2026"):
         [_report_document_row(r) for r in assessments],
     )
     p()
-    h(3, "Common LAIF diagnostic gaps")
+    h(3, "Common structural gaps (cross-document)")
     p(_compact_list([gap for r in assessments for gap in r.get("primary_failure_modes", [])]))
     h(3, "Governance-force patterns")
     p(_compact_list([f"{k} ({v})" for k, v in force_counter.most_common(5)]))
@@ -4658,6 +4669,20 @@ def generate_markdown_report(assessments, report_date="July 2026"):
             ])
         table(["Field", "Value"], overview)
         p()
+        # ── Plain-Language Reading — framework-free narrative, every sentence
+        # keyed to a measured signal (see _plain_reading). No LAIF vocabulary.
+        _plain = r.get("plain_reading", [])
+        if _plain:
+            h(4, "Plain-Language Reading (framework-free)")
+            p("*What the measurements found, stated without any of this framework's "
+              "vocabulary. Each statement is generated from a specific fired or "
+              "missed signal — none of it is editorial.*")
+            p()
+            for _para in _plain:
+                p(_para)
+                p()
+
+
         if r.get("assessment_mode") == "external_framework":
             h(4, "Governance Repair Profile")
             table(
@@ -4729,14 +4754,14 @@ def generate_markdown_report(assessments, report_date="July 2026"):
         p(f"- **Conceptual proximity:** {r.get('conceptual_proximity_score', 0)}/100")
         p(f"- **Sector risk alignment:** {r.get('sector_risk_alignment', 0)}/100")
         p(f"- **Remediation effort:** {r.get('remediation_effort', 'unknown')}")
-        p(f"- **Key LAIF-model risks:** {_compact_list(r.get('primary_failure_modes', []))}")
-        p(f"- **Primary LAIF diagnostic gaps:** {_compact_list(r.get('primary_failure_modes', []))}")
+        p(f"- **Key structural risks (assessment model):** {_compact_list(r.get('primary_failure_modes', []))}")
+        p(f"- **Primary structural gaps:** {_compact_list(r.get('primary_failure_modes', []))}")
         if r.get("strengths"):
-            p(f"- **Key LAIF-model strengths:** {_compact_list(r.get('strengths', []))}")
-            p(f"- **LAIF-model strengths:** {_compact_list(r.get('strengths', []))}")
+            p(f"- **Structural strengths:** {_compact_list(r.get('strengths', []))}")
+            p(f"- **Assessment-model strengths:** {_compact_list(r.get('strengths', []))}")
         p(f"- **Governance signal strength:** {r.get('governance_signal_strength', r.get('overall_readiness_score', 0))}")
         p(f"- **Structural depth:** {r.get('structural_depth_score', r.get('structural_score', 0))}")
-        p("- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.")
+        p("- **Position assessment:** diagnostic under the assessment model, not certification.")
         _alignment = r.get("laif_alignment", "")
         if _alignment:
             _align_gloss = {
@@ -4752,19 +4777,6 @@ def generate_markdown_report(assessments, report_date="July 2026"):
             p(f"- **Functional alignment:** {_alignment}"
               + (f" — {_align_gloss}" if _align_gloss else ""))
         p()
-
-        # ── Plain-Language Reading — framework-free narrative, every sentence
-        # keyed to a measured signal (see _plain_reading). No LAIF vocabulary.
-        _plain = r.get("plain_reading", [])
-        if _plain:
-            h(4, "Plain-Language Reading (framework-free)")
-            p("*What the measurements found, stated without any of this framework's "
-              "vocabulary. Each statement is generated from a specific fired or "
-              "missed signal — none of it is editorial.*")
-            p()
-            for _para in _plain:
-                p(_para)
-                p()
 
         # ── Functional Alignment table — substance independent of vocabulary
         _func = r.get("functional_alignment", {})

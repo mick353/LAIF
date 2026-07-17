@@ -1,6 +1,7 @@
-# LAIF Governance Repair Assessment
+# AI Governance Structural Integrity Assessment
+*How far do these instruments' protections actually reach the people they govern — and what would it take to close the distance?*  
 **Report date:** July 2026  
-**Framework:** LAIF v1.2 · Compliance Toolkit v1.1  
+**Assessment model:** Law-Aligned Intelligence Framework (LAIF) v1.2 · Compliance Toolkit v1.1 — the model is the measuring lens, not the subject of the findings; see Method Summary.  
 **Report architecture:** Governance Repair Assessment public template — Phase 3V  
 **Validator boundary:** validate.py enforcement remains unchanged; this report renders existing assessment results only.  
 
@@ -46,9 +47,7 @@ Beyond the layers above, each core construct (Coupling, Integrity Layer, Consist
 
 
 ## Executive Brief
-- **Total documents assessed:** 10
-- **External-framework governance repair assessments:** 10/10 rendered as governance repair diagnostics, not LAIF-native certification.
-- **LAIF-native certification summary:** 0/10 PASS; 10/10 FAIL where LAIF-native certification is claimed/applicable.
+- **Total documents assessed:** 10 (10 external instruments assessed as governance repair diagnostics, not LAIF-native certification)
 - **Average overall readiness:** 39/100
 - **Average conceptual proximity:** 51/100
 - **Average sector alignment:** 62/100
@@ -58,6 +57,7 @@ Beyond the layers above, each core construct (Coupling, Integrity Layer, Consist
 - **Evidence trace summary:** 188 traces; 188 exact/deterministic; 0 reviewer-confirmation fallback.
 - **Remediation patch summary:** 120 structured patches across assessed documents.
 - **Top governance-force patterns:** reviewer confirmation required
+- **Certification channel:** no document in this corpus claims or seeks LAIF-native certification, so the certification gate is not a finding about these documents; construct coverage remains available in each Technical Appendix.
 - **Boundary note:** diagnostic findings require reviewer confirmation and cannot override formal LAIF-native failure.
 
 
@@ -87,7 +87,7 @@ No legal determination is made; no source is certified through this public templ
 | TUC/CIPD — Framework for Fair AI in Employ | external_framework | Not claimed / not applicable to this external-framework assessment. | 39/100 — limited LAIF-model signal | Employment and HR AI   | 19              | 12      | 4        |
 
 
-### Common LAIF diagnostic gaps
+### Common structural gaps (cross-document)
 structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; structural — constitutional hierarchy not declared; +23 more
 
 ### Governance-force patterns
@@ -117,6 +117,22 @@ Reversibility/escalation fixes (10); LAIF-native adoption fixes (10); Immediate 
 | Document type      | executive_policy_directive                                                                                                                 |
 | Original file name | not provided                                                                                                                               |
 | Source SHA-256     | not provided                                                                                                                               |
+
+
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
+
+In plain terms, this document is a statement of values followed by a tasking list — named officials receive instructions and deadlines. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, answerability for outcomes, human oversight of the system, safety and more.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** whatever its other merits, none of the deeper protective architecture — promises fastened to people, rules that bind the rule-maker, guarantees that survive a change of author — is present in any form. That is not a judgement of the document against its own objectives; it is a statement of what a person could and could not rely on this text for.
 
 
 #### Governance Repair Profile
@@ -179,30 +195,14 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 57/100
 - **Sector risk alignment:** 20/100
 - **Remediation effort:** HIGH
-- **Key LAIF-model risks:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
-- **Primary LAIF diagnostic gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
-- **Key LAIF-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +14 more
-- **LAIF-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +14 more
+- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
+- **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +14 more
+- **Assessment-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +14 more
 - **Governance signal strength:** 46
 - **Structural depth:** 43
-- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.
+- **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** STRUCTURALLY UNALIGNED — LAIF's distinctive structural mechanisms not detected in any form; conceptual overlap is measured separately
-
-
-#### Plain-Language Reading (framework-free)
-*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
-
-In plain terms, this document is a statement of values followed by a tasking list — named officials receive instructions and deadlines. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, answerability for outcomes, human oversight of the system, safety and more.
-
-Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
-
-It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
-
-Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
-
-To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
-
-**Fair summary:** whatever its other merits, none of the deeper protective architecture — promises fastened to people, rules that bind the rule-maker, guarantees that survive a change of author — is present in any form. That is not a judgement of the document against its own objectives; it is a statement of what a person could and could not rely on this text for.
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
@@ -496,6 +496,22 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
 | Source SHA-256     | not provided                                                                                                            |
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
+
+In plain terms, this document is an intergovernmental commitment — principles that governments endorse and are expected, but not compelled, to implement. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, explanations people can understand, answerability for outcomes, human oversight of the system and more.
+
+It expresses a clear intention to protect people, but the promises are not fastened to the people they serve: a specific rule could be weakened or dropped without visibly breaking a commitment to any identifiable person.
+
+It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: it gestures at correction and rollback, but not as a guaranteed capacity, and everything it creates can be undone by its author's successor.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
+
+
 #### Governance Repair Profile
 | Field                         | Value                                                                                                                                           |
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -556,30 +572,14 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 84/100
 - **Sector risk alignment:** 40/100
 - **Remediation effort:** HIGH
-- **Key LAIF-model risks:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; enforceability — insufficient mandatory operational requirements
-- **Primary LAIF diagnostic gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; enforceability — insufficient mandatory operational requirements
-- **Key LAIF-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
-- **LAIF-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
+- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; enforceability — insufficient mandatory operational requirements
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; enforceability — insufficient mandatory operational requirements
+- **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
+- **Assessment-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
 - **Governance signal strength:** 39
 - **Structural depth:** 26
-- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.
+- **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
-
-
-#### Plain-Language Reading (framework-free)
-*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
-
-In plain terms, this document is an intergovernmental commitment — principles that governments endorse and are expected, but not compelled, to implement. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, explanations people can understand, answerability for outcomes, human oversight of the system and more.
-
-It expresses a clear intention to protect people, but the promises are not fastened to the people they serve: a specific rule could be weakened or dropped without visibly breaking a commitment to any identifiable person.
-
-It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
-
-Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: it gestures at correction and rollback, but not as a guaranteed capacity, and everything it creates can be undone by its author's successor.
-
-To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery. Whether its tasks were done is checkable — a property many governance documents lack.
-
-**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
@@ -874,6 +874,22 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
 | Source SHA-256     | not provided                                                                                                                       |
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
+
+In plain terms, this document is a voluntary playbook — structured practices an organisation may adopt, with no binding force of its own. It clearly names the things it exists to protect: openness about how decisions are made, answerability for outcomes, human oversight of the system, matching rules to the size of the risk, safety and more.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: it gestures at correction and rollback, but not as a guaranteed capacity, and everything it creates can be undone by its author's successor.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
+
+
 #### Governance Repair Profile
 | Field                         | Value                                                                                                                                                           |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -934,30 +950,14 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 47/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
-- **Key LAIF-model risks:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
-- **Primary LAIF diagnostic gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
-- **Key LAIF-model strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +16 more
-- **LAIF-model strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +16 more
+- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
+- **Structural strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +16 more
+- **Assessment-model strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +16 more
 - **Governance signal strength:** 48
 - **Structural depth:** 41
-- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.
+- **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
-
-
-#### Plain-Language Reading (framework-free)
-*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
-
-In plain terms, this document is a voluntary playbook — structured practices an organisation may adopt, with no binding force of its own. It clearly names the things it exists to protect: openness about how decisions are made, answerability for outcomes, human oversight of the system, matching rules to the size of the risk, safety and more.
-
-Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
-
-It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
-
-Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: it gestures at correction and rollback, but not as a guaranteed capacity, and everything it creates can be undone by its author's successor.
-
-To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
-
-**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
@@ -1252,6 +1252,22 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
 | Source SHA-256     | not provided                                                                                                 |
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
+
+In plain terms, this document is a sector instrument — operational requirements for a specific deployment context. It clearly names the things it exists to protect: safety, the ability to challenge decisions, structured risk management.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
+
+To its credit, the administrative machinery is real: evidence and documentation duties, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
+
+
 #### Governance Repair Profile
 | Field                         | Value                                                                                                                                   |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1312,30 +1328,14 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 24/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
-- **Key LAIF-model risks:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
-- **Primary LAIF diagnostic gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
-- **Key LAIF-model strengths:** Expresses: safety; Expresses: contestability / redress; Expresses: risk governance; +9 more
-- **LAIF-model strengths:** Expresses: safety; Expresses: contestability / redress; Expresses: risk governance; +9 more
+- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
+- **Structural strengths:** Expresses: safety; Expresses: contestability / redress; Expresses: risk governance; +9 more
+- **Assessment-model strengths:** Expresses: safety; Expresses: contestability / redress; Expresses: risk governance; +9 more
 - **Governance signal strength:** 36
 - **Structural depth:** 12
-- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.
+- **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
-
-
-#### Plain-Language Reading (framework-free)
-*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
-
-In plain terms, this document is a sector instrument — operational requirements for a specific deployment context. It clearly names the things it exists to protect: safety, the ability to challenge decisions, structured risk management.
-
-Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
-
-It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
-
-Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
-
-To its credit, the administrative machinery is real: evidence and documentation duties, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
-
-**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
@@ -1631,6 +1631,22 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
 | Source SHA-256     | not provided                                                            |
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
+
+In plain terms, this document is binding law — it imposes obligations on identified parties, enforceable through the legal system. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, explanations people can understand, human oversight of the system, safety and more.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
+
+
 #### Governance Repair Profile
 | Field                         | Value                                                                                                                                           |
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1691,30 +1707,14 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 49/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** HIGH
-- **Key LAIF-model risks:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
-- **Primary LAIF diagnostic gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
-- **Key LAIF-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
-- **LAIF-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
+- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
+- **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
+- **Assessment-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
 - **Governance signal strength:** 44
 - **Structural depth:** 41
-- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.
+- **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
-
-
-#### Plain-Language Reading (framework-free)
-*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
-
-In plain terms, this document is binding law — it imposes obligations on identified parties, enforceable through the legal system. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, explanations people can understand, human oversight of the system, safety and more.
-
-Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
-
-It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
-
-Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
-
-To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
-
-**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
@@ -2009,6 +2009,22 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
 | Source SHA-256     | not provided                                          |
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
+
+In plain terms, this document is a voluntary playbook — structured practices an organisation may adopt, with no binding force of its own. It clearly names the things it exists to protect: openness about how decisions are made, answerability for outcomes, human oversight of the system, safety, structured risk management.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** whatever its other merits, none of the deeper protective architecture — promises fastened to people, rules that bind the rule-maker, guarantees that survive a change of author — is present in any form. That is not a judgement of the document against its own objectives; it is a statement of what a person could and could not rely on this text for.
+
+
 #### Governance Repair Profile
 | Field                         | Value                                                                                                                                                           |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -2069,30 +2085,14 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 39/100
 - **Sector risk alignment:** 40/100
 - **Remediation effort:** VERY HIGH
-- **Key LAIF-model risks:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
-- **Primary LAIF diagnostic gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
-- **Key LAIF-model strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +11 more
-- **LAIF-model strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +11 more
+- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
+- **Structural strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +11 more
+- **Assessment-model strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +11 more
 - **Governance signal strength:** 34
 - **Structural depth:** 26
-- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.
+- **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** STRUCTURALLY UNALIGNED — LAIF's distinctive structural mechanisms not detected in any form; conceptual overlap is measured separately
-
-
-#### Plain-Language Reading (framework-free)
-*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
-
-In plain terms, this document is a voluntary playbook — structured practices an organisation may adopt, with no binding force of its own. It clearly names the things it exists to protect: openness about how decisions are made, answerability for outcomes, human oversight of the system, safety, structured risk management.
-
-Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
-
-It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
-
-Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
-
-To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery. Whether its tasks were done is checkable — a property many governance documents lack.
-
-**Fair summary:** whatever its other merits, none of the deeper protective architecture — promises fastened to people, rules that bind the rule-maker, guarantees that survive a change of author — is present in any form. That is not a judgement of the document against its own objectives; it is a statement of what a person could and could not rely on this text for.
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
@@ -2387,6 +2387,20 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
 | Source SHA-256     | not provided                                          |
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
+
+In plain terms, this document is an intergovernmental commitment — principles that governments endorse and are expected, but not compelled, to implement. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, explanations people can understand, answerability for outcomes, human oversight of the system and more.
+
+It expresses a clear intention to protect people, but the promises are not fastened to the people they serve: a specific rule could be weakened or dropped without visibly breaking a commitment to any identifiable person.
+
+It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
+
+
 #### Governance Repair Profile
 | Field                         | Value                                                                                                                                           |
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -2447,28 +2461,14 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 76/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** VERY HIGH
-- **Key LAIF-model risks:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; auditability — obligations not checkable or traceable; +1 more
-- **Primary LAIF diagnostic gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; auditability — obligations not checkable or traceable; +1 more
-- **Key LAIF-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +9 more
-- **LAIF-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +9 more
+- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; auditability — obligations not checkable or traceable; +1 more
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; auditability — obligations not checkable or traceable; +1 more
+- **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +9 more
+- **Assessment-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +9 more
 - **Governance signal strength:** 22
 - **Structural depth:** 12
-- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.
+- **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
-
-
-#### Plain-Language Reading (framework-free)
-*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
-
-In plain terms, this document is an intergovernmental commitment — principles that governments endorse and are expected, but not compelled, to implement. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, explanations people can understand, answerability for outcomes, human oversight of the system and more.
-
-It expresses a clear intention to protect people, but the promises are not fastened to the people they serve: a specific rule could be weakened or dropped without visibly breaking a commitment to any identifiable person.
-
-It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
-
-Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
-
-**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
@@ -2763,6 +2763,22 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
 | Source SHA-256     | not provided                                                                                                                               |
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
+
+In plain terms, this document is a statement of values followed by a tasking list — named officials receive instructions and deadlines. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, answerability for outcomes, human oversight of the system, matching rules to the size of the risk and more.
+
+Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
+
+It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
+
+
 #### Governance Repair Profile
 | Field                         | Value                                                                                                                                                                    |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -2823,30 +2839,14 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 66/100
 - **Sector risk alignment:** 100/100
 - **Remediation effort:** HIGH
-- **Key LAIF-model risks:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
-- **Primary LAIF diagnostic gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
-- **Key LAIF-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +17 more
-- **LAIF-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +17 more
+- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
+- **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +17 more
+- **Assessment-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +17 more
 - **Governance signal strength:** 50
 - **Structural depth:** 35
-- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.
+- **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
-
-
-#### Plain-Language Reading (framework-free)
-*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
-
-In plain terms, this document is a statement of values followed by a tasking list — named officials receive instructions and deadlines. It clearly names the things it exists to protect: people's fundamental rights, openness about how decisions are made, answerability for outcomes, human oversight of the system, matching rules to the size of the risk and more.
-
-Trace who receives something in each operative sentence and a pattern appears: institutions receive duties, deadlines, and reporting obligations — but the people the document is about receive nothing they can hold. Protection exists here as intended future outcomes, not as present commitments to identifiable people; because promises and beneficiaries are never fastened together, individual provisions can erode without anyone being able to say a promise to them was broken.
-
-It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
-
-Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: everything it creates can be modified or undone by its author's successor without any special safeguard.
-
-To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
-
-**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
@@ -3142,6 +3142,22 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
 | Source SHA-256     | not provided                                                                              |
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
+
+In plain terms, this document is a sector instrument — operational requirements for a specific deployment context. It clearly names the things it exists to protect: openness about how decisions are made, explanations people can understand, human oversight of the system, safety.
+
+It expresses a clear intention to protect people, but the promises are not fastened to the people they serve: a specific rule could be weakened or dropped without visibly breaking a commitment to any identifiable person.
+
+It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: it gestures at correction and rollback, but not as a guaranteed capacity, and everything it creates can be undone by its author's successor.
+
+To its credit, the administrative machinery is real: evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
+
+
 #### Governance Repair Profile
 | Field                         | Value                                                                                                                               |
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -3202,30 +3218,14 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 31/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
-- **Key LAIF-model risks:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
-- **Primary LAIF diagnostic gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
-- **Key LAIF-model strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: human oversight; +9 more
-- **LAIF-model strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: human oversight; +9 more
+- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
+- **Structural strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: human oversight; +9 more
+- **Assessment-model strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: human oversight; +9 more
 - **Governance signal strength:** 35
 - **Structural depth:** 35
-- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.
+- **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
-
-
-#### Plain-Language Reading (framework-free)
-*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
-
-In plain terms, this document is a sector instrument — operational requirements for a specific deployment context. It clearly names the things it exists to protect: openness about how decisions are made, explanations people can understand, human oversight of the system, safety.
-
-It expresses a clear intention to protect people, but the promises are not fastened to the people they serve: a specific rule could be weakened or dropped without visibly breaking a commitment to any identifiable person.
-
-It provides no route for an affected person to challenge or appeal an outcome — if the system gets it wrong for someone, this text gives them nothing to invoke.
-
-Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: it gestures at correction and rollback, but not as a guaranteed capacity, and everything it creates can be undone by its author's successor.
-
-To its credit, the administrative machinery is real: evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
-
-**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
@@ -3519,6 +3519,22 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
 | Source SHA-256     | not provided                                                                    |
 
 
+#### Plain-Language Reading (framework-free)
+*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
+
+In plain terms, this document is a sector instrument — operational requirements for a specific deployment context. It clearly names the things it exists to protect: openness about how decisions are made, explanations people can understand, answerability for outcomes, the ability to challenge decisions, fairness and non-discrimination.
+
+It expresses a clear intention to protect people, but the promises are not fastened to the people they serve: a specific rule could be weakened or dropped without visibly breaking a commitment to any identifiable person.
+
+It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
+
+Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: it gestures at correction and rollback, but not as a guaranteed capacity, and everything it creates can be undone by its author's successor.
+
+To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
+
+**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
+
+
 #### Governance Repair Profile
 | Field                         | Value                                                                                                                                                                                            |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -3579,30 +3595,14 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 41/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** HIGH
-- **Key LAIF-model risks:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
-- **Primary LAIF diagnostic gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
-- **Key LAIF-model strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: accountability; +12 more
-- **LAIF-model strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: accountability; +12 more
+- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
+- **Structural strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: accountability; +12 more
+- **Assessment-model strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: accountability; +12 more
 - **Governance signal strength:** 39
 - **Structural depth:** 28
-- **Position assessment under LAIF diagnostic model:** diagnostic, not certification.
+- **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
-
-
-#### Plain-Language Reading (framework-free)
-*What the measurements found, stated without any of this framework's vocabulary. Each statement is generated from a specific fired or missed signal — none of it is editorial.*
-
-In plain terms, this document is a sector instrument — operational requirements for a specific deployment context. It clearly names the things it exists to protect: openness about how decisions are made, explanations people can understand, answerability for outcomes, the ability to challenge decisions, fairness and non-discrimination.
-
-It expresses a clear intention to protect people, but the promises are not fastened to the people they serve: a specific rule could be weakened or dropped without visibly breaking a commitment to any identifiable person.
-
-It does give people a route to challenge decisions — a genuine person-facing protection, and the main exception to the pattern above.
-
-Nothing in it binds the author — it sets requirements for others but none that the issuing authority itself must pass — and nothing anchors it in time: it gestures at correction and rollback, but not as a guaranteed capacity, and everything it creates can be undone by its author's successor.
-
-To its credit, the administrative machinery is real: numbered, traceable requirements, evidence and documentation duties, review and monitoring machinery, genuinely mandatory language with named owners. Whether its tasks were done is checkable — a property many governance documents lack.
-
-**Fair summary:** real machinery, real intent, and some of the deeper protective architecture — but not all of it. That is not a judgement that the document fails at its own job. It means that if you relied on this text alone to guarantee a specific person protection from a specific harm, parts of that load path are missing.
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)

@@ -96,7 +96,7 @@ class PublicReportTemplateHardeningTests(unittest.TestCase):
     def test_public_report_includes_required_phase_3r_sections(self):
         report = generate_markdown_report([self._result()], report_date="May 2026")
         for section in (
-            "LAIF Governance Repair Assessment",
+            "AI Governance Structural Integrity Assessment",
             "Report Scope and Boundary",
             "Executive Brief",
             "Method Summary",
@@ -439,15 +439,15 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             "diagnostic",
             "Not claimed / not applicable to this external-framework assessment",
             "not LAIF-native certification",
-            "Common LAIF diagnostic gaps",
+            "Common structural gaps (cross-document)",
             "Governance-force patterns",
             "Remediation themes",
             "Score distribution / deterministic rubric comparison",
             "Governance signal strength",
             "Structural depth",
-            "Key LAIF-model risks",
-            "Key LAIF-model strengths",
-            "Position assessment under LAIF diagnostic model",
+            "Key structural risks (assessment model)",
+            "Structural strengths",
+            "Position assessment:** diagnostic under the assessment model",
             "LAIF structural remediation priorities",
             "Structured remediation details",
             "Problem:",
@@ -523,7 +523,7 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
 
         self.assertIn("Executive diagnostic detail", rendered)
         self.assertIn("formal LAIF-native certification gate", rendered)
-        self.assertIn("Primary LAIF diagnostic gaps", rendered)
+        self.assertIn("Primary structural gaps", rendered)
         self.assertIn("Each required LAIF-native construct remains necessary for certification", rendered)
         for unsafe_phrase in (
             LEGACY_FINAL_LABEL,

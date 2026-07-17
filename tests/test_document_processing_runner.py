@@ -419,7 +419,7 @@ If you are having difficulties with accessing this document, please email: suppo
         result = assess("external", "policy", STRONG_EXTERNAL_TEXT, assessment_mode="external_framework")
         report = generate_markdown_report([result])
         front = report.split("Technical Appendix", 1)[0]
-        self.assertIn("LAIF Governance Repair Assessment", report)
+        self.assertIn("AI Governance Structural Integrity Assessment", report)
         self.assertIn("Governance Repair Profile", report)
         self.assertIn("Operational Closure Findings", report)
         self.assertIn("Evidence Sufficiency Findings", report)
