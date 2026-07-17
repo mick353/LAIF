@@ -43,7 +43,12 @@ Beyond the layers above, each core construct (Coupling, Integrity Layer, Consist
 
 
 ### Fair-Reading Bounds
-1. A LAIF-native FAIL measures distance from LAIF's deliberately stricter standard, not instrument quality; it must never be quoted as a judgement of the instrument against its own objectives. 2. Official-corpus findings hold within each document's declared excerpt scope only. 3. Signals are lexical, not interpretive; per-signal traceability is the compensating control. 4. Form/questionnaire-style instruments are undercounted by prose rubrics; affected scorecards carry an interpretation caveat. 5. Cross-document averages characterise this corpus, not all AI governance. 6. Raw overall scores compress: part of the 100-point scale is reserved for LAIF-branded documents and lexical detection is conservative — a substance-perfect external document scores in the mid-50s on this instrument, so mid-range raw scores denote strength, not failure; each scorecard carries a calibrated position against the achievable ceiling.
+1. A LAIF-native FAIL measures distance from LAIF's deliberately stricter standard, not instrument quality; it must never be quoted as a judgement of the instrument against its own objectives.
+2. Official-corpus findings hold within each document's declared excerpt scope only.
+3. Signals are lexical, not interpretive; per-signal traceability is the compensating control.
+4. Form/questionnaire-style instruments are undercounted by prose rubrics; affected scorecards carry an interpretation caveat.
+5. Cross-document averages characterise this corpus, not all AI governance.
+6. Raw overall scores compress: part of the 100-point scale is reserved for LAIF-branded documents and lexical detection is conservative — a substance-perfect external document scores in the mid-50s on this instrument, so mid-range raw scores denote strength, not failure; each scorecard carries a calibrated position against the achievable ceiling.
 
 
 ## Executive Brief
@@ -56,7 +61,7 @@ Beyond the layers above, each core construct (Coupling, Integrity Layer, Consist
 - **Average calibrated position (external instruments):** 48% of the 81.5-point ceiling achievable without LAIF-native branding — raw scores compress by design and must not be read as percentage grades.
 - **Evidence trace summary:** 188 traces; 188 exact/deterministic; 0 reviewer-confirmation fallback.
 - **Remediation patch summary:** 120 structured patches across assessed documents.
-- **Top governance-force patterns:** reviewer confirmation required
+- **Top governance-force patterns:** mandate (3); consequence (2); escalation (1)
 - **Certification channel:** no document in this corpus claims or seeks LAIF-native certification, so the certification gate is not a finding about these documents; construct coverage remains available in each Technical Appendix.
 - **Boundary note:** diagnostic findings require reviewer confirmation and cannot override formal LAIF-native failure.
 
@@ -73,25 +78,25 @@ No legal determination is made; no source is certified through this public templ
 ## Cross-Document Dashboard
 
 ### Score distribution / deterministic rubric comparison
-| Document                                   | Mode               | LAIF-native status                                                  | Overall score / band               | Sector profile         | Evidence traces | Patches | Cautions |
-| ------------------------------------------ | ------------------ | ------------------------------------------------------------------- | ---------------------------------- | ---------------------- | --------------- | ------- | -------- |
-| US Executive Order 14110 — §2 Principles,  | external_framework | Not claimed / not applicable to this external-framework assessment. | 46/100 — partial LAIF-model signal | General AI Governance  | 19              | 12      | 2        |
-| OECD Recommendation on AI (OECD/LEGAL/0449 | external_framework | Not claimed / not applicable to this external-framework assessment. | 39/100 — limited LAIF-model signal | General AI Governance  | 20              | 12      | 4        |
-| NIST AI RMF 1.0 (NIST AI 100-1) — GOVERN & | external_framework | Not claimed / not applicable to this external-framework assessment. | 48/100 — partial LAIF-model signal | General AI Governance  | 20              | 12      | 4        |
-| NHS England DTAC v2.0 (February 2026) — In | external_framework | Not claimed / not applicable to this external-framework assessment. | 36/100 — limited LAIF-model signal | Clinical AI Deployment | 17              | 12      | 5        |
-| EU AI Act — Art. 9, 13 & 14                | external_framework | Not claimed / not applicable to this external-framework assessment. | 44/100 — partial LAIF-model signal | General AI Governance  | 20              | 12      | 3        |
-| NIST AI RMF — Govern & Map Functions       | external_framework | Not claimed / not applicable to this external-framework assessment. | 34/100 — limited LAIF-model signal | General AI Governance  | 18              | 12      | 2        |
-| OECD AI Principles (2019, rev. 2024)       | external_framework | Not claimed / not applicable to this external-framework assessment. | 22/100 — limited LAIF-model signal | General AI Governance  | 15              | 12      | 6        |
-| US Executive Order 14110 — §4 Safety & §7  | external_framework | Not claimed / not applicable to this external-framework assessment. | 50/100 — partial LAIF-model signal | General AI Governance  | 20              | 12      | 4        |
-| NHS England — AI in Clinical Decision Supp | external_framework | Not claimed / not applicable to this external-framework assessment. | 35/100 — limited LAIF-model signal | Clinical AI Deployment | 20              | 12      | 5        |
-| TUC/CIPD — Framework for Fair AI in Employ | external_framework | Not claimed / not applicable to this external-framework assessment. | 39/100 — limited LAIF-model signal | Employment and HR AI   | 19              | 12      | 4        |
+| Document                                                         | Mode               | Alignment              | Overall score / band               | Sector profile         | Evidence traces | Patches | Cautions |
+| ---------------------------------------------------------------- | ------------------ | ---------------------- | ---------------------------------- | ---------------------- | --------------- | ------- | -------- |
+| US Executive Order 14110 — §2 Principles, §6 Workers, §7 Civil R | external_framework | STRUCTURALLY UNALIGNED | 46/100 — partial structural signal | General AI Governance  | 19              | 12      | 2        |
+| OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (of | external_framework | PARTIALLY ALIGNED      | 39/100 — limited structural signal | General AI Governance  | 20              | 12      | 4        |
+| NIST AI RMF 1.0 (NIST AI 100-1) — GOVERN & MAP Functions (offici | external_framework | PARTIALLY ALIGNED      | 48/100 — partial structural signal | General AI Governance  | 20              | 12      | 4        |
+| NHS England DTAC v2.0 (February 2026) — Introduction & C1 Clinic | external_framework | PARTIALLY ALIGNED      | 36/100 — limited structural signal | Clinical AI Deployment | 17              | 12      | 5        |
+| EU AI Act — Art. 9, 13 & 14                                      | external_framework | PARTIALLY ALIGNED      | 44/100 — partial structural signal | General AI Governance  | 20              | 12      | 3        |
+| NIST AI RMF — Govern & Map Functions                             | external_framework | STRUCTURALLY UNALIGNED | 34/100 — limited structural signal | General AI Governance  | 18              | 12      | 2        |
+| OECD AI Principles (2019, rev. 2024)                             | external_framework | PARTIALLY ALIGNED      | 22/100 — limited structural signal | General AI Governance  | 15              | 12      | 6        |
+| US Executive Order 14110 — §4 Safety & §7 Workers                | external_framework | PARTIALLY ALIGNED      | 50/100 — partial structural signal | General AI Governance  | 20              | 12      | 4        |
+| NHS England — AI in Clinical Decision Support (Policy Framework) | external_framework | PARTIALLY ALIGNED      | 35/100 — limited structural signal | Clinical AI Deployment | 20              | 12      | 5        |
+| TUC/CIPD — Framework for Fair AI in Employment Decisions         | external_framework | PARTIALLY ALIGNED      | 39/100 — limited structural signal | Employment and HR AI   | 19              | 12      | 4        |
 
 
 ### Common structural gaps (cross-document)
-structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; structural — constitutional hierarchy not declared; +23 more
+structural — constitutional hierarchy not declared (10/10 documents); terminological — no canonical LAIF terms present (10/10 documents); conceptual — LAIF-like concepts insufficiently expressed (3/10 documents); enforceability — insufficient mandatory operational requirements (2/10 documents); auditability — obligations not checkable or traceable (1/10 documents)
 
 ### Governance-force patterns
-reviewer confirmation required
+mandate (3); consequence (2); escalation (1); +1 more
 
 ### Remediation themes
 Reversibility/escalation fixes (10); LAIF-native adoption fixes (10); Immediate clarity/control fixes (3); +1 more
@@ -190,30 +195,28 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 46/100 — partial LAIF-model signal
+- **Overall readiness:** 46/100 — partial structural signal
 - **Calibrated position:** 56% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 57/100
 - **Sector risk alignment:** 20/100
 - **Remediation effort:** HIGH
-- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +14 more
-- **Assessment-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +14 more
 - **Governance signal strength:** 46
-- **Structural depth:** 43
+- **Structural dimension score:** 43/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** STRUCTURALLY UNALIGNED — LAIF's distinctive structural mechanisms not detected in any form; conceptual overlap is measured separately
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected       |
-| ---------------- | ------- | ------------------------------ |
-| Coupling         | ABSENT  | reviewer confirmation required |
-| Integrity Layer  | ABSENT  | reviewer confirmation required |
-| Consistency      | ABSENT  | reviewer confirmation required |
-| Reversibility    | ABSENT  | reviewer confirmation required |
-| Self-Application | ABSENT  | reviewer confirmation required |
+| Construct        | Verdict | Signal families detected |
+| ---------------- | ------- | ------------------------ |
+| Coupling         | ABSENT  | none detected            |
+| Integrity Layer  | ABSENT  | none detected            |
+| Consistency      | ABSENT  | none detected            |
+| Reversibility    | ABSENT  | none detected            |
+| Self-Application | ABSENT  | none detected            |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -226,16 +229,16 @@ Signals detected and Signals not detected are public labels only; raw detection 
 | Dimension            | Score  | Fired signal labels                                                                                       | Missed signal labels                                                                                                  |
 | -------------------- | ------ | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | Structural           | 43/100 | numbered sub-requirements; mandatory obligation language (shall); operational mechanisms defined; +2 more | full lifecycle scope declared; risk stratification / proportionality; non-amendable constitutional hierarchy; +2 more |
-| Terminology          | 0/100  | reviewer confirmation required                                                                            | Coupling; Coherence Test; Integrity Layer; +4 more                                                                    |
+| Terminology          | 0/100  | none detected                                                                                             | Coupling; Coherence Test; Integrity Layer; +4 more                                                                    |
 | Conceptual proximity | 57/100 | human rights / fundamental interests; transparency; accountability; +4 more                               | explainability / interpretability; proportionality; contestability / redress; +2 more                                 |
 | Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms    | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                   |
 | Enforceability       | 60/100 | mandatory language (shall/must); named responsible parties; enforcement consequences / penalties          | risk-proportionate thresholds; non-discretionary operational mandates                                                 |
-| Overall readiness    | 46/100 | partial LAIF-model signal                                                                                 | reviewer confirmation required                                                                                        |
+| Overall readiness    | 46/100 | partial structural signal                                                                                 | —                                                                                                                     |
 
 
 #### Score Calibration and Justification
 Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.
-- **Overall band:** partial LAIF-model signal
+- **Overall band:** partial structural signal
 - **Formal LAIF-native status:** FAIL
 - **Interpretation boundary:** Formal LAIF-native failure cannot be overridden by high proximity scores.
 - **Calibration / anti-gaming cautions:** 2 — High conceptual LAIF-model signal appears with low canonical terminology signal.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.
@@ -243,18 +246,18 @@ Score justification explains LAIF-model signal strength only. It does not determ
 
 
 #### Governance-Force Profile
-| Component          | Status   | Reviewer note                                                                         |
-| ------------------ | -------- | ------------------------------------------------------------------------------------- |
-| mandate            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| actor              | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| trigger            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| protected interest | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| control            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| evidence           | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| reversibility      | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| escalation         | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| consequence        | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| auditability       | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
+| Component          | Status           | Reviewer note                                                                                                    |
+| ------------------ | ---------------- | ---------------------------------------------------------------------------------------------------------------- |
+| mandate            | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| actor              | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| trigger            | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| protected interest | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| control            | partial/implicit | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| evidence           | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| reversibility      | partial/implicit | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| escalation         | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| consequence        | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| auditability       | detected         | Source-text signals indicate this component is present or directly supported.                                    |
 
 
 #### Sector / Institutional Context
@@ -262,8 +265,7 @@ Score justification explains LAIF-model signal strength only. It does not determ
 - **Sector profile key:** general_ai_governance
 - **Profile-specific remediation themes:** Translate general governance principles into owners, triggers, protected interests, controls, evidence, escalation, and auditability.; Use LAIF-native terminology only for certification adoption, not external-framework validity claims.
 - **Profile-specific evidence cautions:** General governance vocabulary does not prove compliance or legal validity.; Use reviewer-confirmation fallback when exact evidence text is absent.
-- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.
-- **Profile diagnostics do not change legal authority, formal certification, or sector obligations; reviewer confirmation required.
+- **Boundary:** profile diagnostics do not determine legal validity, LAIF-native certification, sector compliance, or sector obligations; reviewer confirmation required.
 - **Sector diagnostic findings:** Risk signal present: transparency requirements; Risk signal absent: high-risk classification language; Risk signal absent: accountability assignment; +7 more
 
 
@@ -272,23 +274,13 @@ Evidence traces are deterministic source-support metadata. They do not determine
 - **Total traces:** 19
 - **Exact/deterministic count:** 19
 - **Fallback count:** 0
-- **Top trace IDs and evidence types:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-governance-force-signal (governance_force_signal); LAIF-TRACE-03-governance-force-signal (governance_force_signal)
 - **Evidence trace IDs:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-governance-force-signal (governance_force_signal); LAIF-TRACE-03-governance-force-signal (governance_force_signal)
 - **Reviewer-confirmation boundary:** trace support is source-text support for LAIF-model signals only and does not prove implementation, adoption, authority, or external effect.
 
 
 #### Construct Crosswalk
-| Construct               | Detected for LAIF-native gate |
-| ----------------------- | ----------------------------- |
-| Coupling                | review required               |
-| Coherence Test          | review required               |
-| Integrity Layer         | review required               |
-| Structural Transparency | review required               |
-| Structural Honesty      | review required               |
-| Structural Containment  | review required               |
-| Consistency             | review required               |
-| Reversibility           | review required               |
-Each required LAIF-native construct remains necessary for certification; each required LAIF-native construct remains necessary for LAIF-native certification; proximity evidence cannot substitute for a missing required construct.
+No LAIF-native constructs detected — expected for an external instrument; see the Functional Alignment table for substance detected in the document's own vocabulary.
+Each required LAIF-native construct remains necessary for certification; proximity evidence cannot substitute for a missing required construct.
 
 
 #### Diagnostic Gaps
@@ -302,24 +294,25 @@ Each required LAIF-native construct remains necessary for certification; each re
 LAIF structural remediation priorities are ordered diagnostic guidance, not authority determinations.
 
 ##### Structured remediation details
-1. **Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+1. **Problem:** Restriction-protection pairing not established — no governance restriction is bound to the specific interest it protects, in any vocabulary.
    - **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-   - **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+   - **Concrete fix:** For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).
 2. **Problem:** Structural governance architecture score critically low (43/100) — most deficient dimension after Coupling.
    - **Why it matters:** Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 5 missed signals for this dimension. Critical gaps: full lifecycle scope declared, risk stratification / proportionality, non-amendable constitutional hierarchy. Full signal breakdown in the Scores section.
 3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-4. **Problem:** Integrity Layer not declared as a deployment precondition.
-   - **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
-   - **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+   - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
+   - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 5. **Problem:** Constitutional hierarchy not declared (structural score 43/100). Missing: full lifecycle scope declared, risk stratification / proportionality, non-amendable constitutional hierarchy.
    - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
 #### Structured Remediation Patch Set
 These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
+Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
 - **patch_id:** LAIF-PATCH-01-structural-constitutional-hierarchy-not-de
   - **finding_type:** governance_force_gap
   - **severity:** medium
@@ -390,78 +383,6 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
   - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** LAIF-TRACE-01-sector-profile-signal, LAIF-TRACE-08-governance-force-signal
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-07-missing-laif-construct-structural-honesty
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-containm
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Containment
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Containment
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-09-missing-laif-construct-consistency
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Consistency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Consistency
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-10-missing-laif-construct-reversibility
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Reversibility
-  - **recommended_patch:** Add an escalation path and reversibility procedure that identifies who can pause, roll back, review, or remedy the affected decision.
-  - **operational_control:** Maintain a rollback, appeal, or corrective-action playbook with decision authority and response time expectations.
-  - **evidence_artifact:** Rollback, appeal, redress, or corrective-action log with closure evidence.
-  - **verification_test:** Create a verification test that samples this reversibility control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-11-low-structural-score-43-100-missed-signals
-  - **finding_type:** governance_force_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Low structural score (43/100): missed signals include full lifecycle scope declared, risk stratification / proportionality, non-amendable constitutional hierarchy
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Low structural score (43/100): missed signals include full lifecycle scope declared, risk stratification / proportionality, non-amendable constitutional hierarc
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Departmental AI governance owner with sector subject-matter reviewer
-  - **Evidence trace IDs:** LAIF-TRACE-12-governance-force-signal
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-12-low-terminology-score-0-100-missed-signals
-  - **finding_type:** terminology_gap
-  - **severity:** high
-  - **diagnostic_gap:** Low terminology score (0/100): missed signals include Coupling, Coherence Test, Integrity Layer
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 
@@ -567,30 +488,28 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 39/100 — limited LAIF-model signal
+- **Overall readiness:** 39/100 — limited structural signal
 - **Calibrated position:** 48% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 84/100
 - **Sector risk alignment:** 40/100
 - **Remediation effort:** HIGH
-- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; enforceability — insufficient mandatory operational requirements
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; enforceability — insufficient mandatory operational requirements
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
-- **Assessment-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
 - **Governance signal strength:** 39
-- **Structural depth:** 26
+- **Structural dimension score:** 26/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected       |
-| ---------------- | ------- | ------------------------------ |
-| Coupling         | ABSENT  | reviewer confirmation required |
-| Integrity Layer  | PARTIAL | meaningful account of outputs  |
-| Consistency      | ABSENT  | reviewer confirmation required |
-| Reversibility    | PARTIAL | reversal capacity preserved    |
-| Self-Application | ABSENT  | reviewer confirmation required |
+| Construct        | Verdict | Signal families detected      |
+| ---------------- | ------- | ----------------------------- |
+| Coupling         | ABSENT  | none detected                 |
+| Integrity Layer  | PARTIAL | meaningful account of outputs |
+| Consistency      | ABSENT  | none detected                 |
+| Reversibility    | PARTIAL | reversal capacity preserved   |
+| Self-Application | ABSENT  | none detected                 |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -603,16 +522,16 @@ Signals detected and Signals not detected are public labels only; raw detection 
 | Dimension            | Score  | Fired signal labels                                                                                    | Missed signal labels                                                                                                                            |
 | -------------------- | ------ | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | Structural           | 26/100 | numbered sub-requirements; full lifecycle scope declared; operational mechanisms defined; +1 more      | mandatory obligation language (shall); risk stratification / proportionality; threshold gate conditions (all must pass simultaneously); +3 more |
-| Terminology          | 0/100  | reviewer confirmation required                                                                         | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                              |
+| Terminology          | 0/100  | none detected                                                                                          | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                              |
 | Conceptual proximity | 84/100 | human rights / fundamental interests; transparency; explainability / interpretability; +7 more         | proportionality; reversibility / modifiability                                                                                                  |
 | Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                                             |
 | Enforceability       | 20/100 | named responsible parties                                                                              | mandatory language (shall/must); risk-proportionate thresholds; enforcement consequences / penalties; +1 more                                   |
-| Overall readiness    | 39/100 | limited LAIF-model signal                                                                              | reviewer confirmation required                                                                                                                  |
+| Overall readiness    | 39/100 | limited structural signal                                                                              | —                                                                                                                                               |
 
 
 #### Score Calibration and Justification
 Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.
-- **Overall band:** limited LAIF-model signal
+- **Overall band:** limited structural signal
 - **Formal LAIF-native status:** FAIL
 - **Interpretation boundary:** Formal LAIF-native failure cannot be overridden by high proximity scores.
 - **Calibration / anti-gaming cautions:** 4 — High conceptual LAIF-model signal appears with low canonical terminology signal.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.; Low LAIF-model signal may indicate missing LAIF-model signals, not legal invalidity under the source framework's own authority.; +1 more
@@ -620,18 +539,18 @@ Score justification explains LAIF-model signal strength only. It does not determ
 
 
 #### Governance-Force Profile
-| Component          | Status   | Reviewer note                                                                         |
-| ------------------ | -------- | ------------------------------------------------------------------------------------- |
-| mandate            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| actor              | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| trigger            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| protected interest | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| control            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| evidence           | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| reversibility      | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| escalation         | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| consequence        | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| auditability       | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
+| Component          | Status                | Reviewer note                                                                                                    |
+| ------------------ | --------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| mandate            | gap / requires review | Source-text gaps or missed signals indicate this component requires reviewer confirmation or remediation.        |
+| actor              | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| trigger            | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| protected interest | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| control            | partial/implicit      | Partial substance detected in the source text (one signal family).                                               |
+| evidence           | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| reversibility      | partial/implicit      | Partial substance detected in the source text (one signal family).                                               |
+| escalation         | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| consequence        | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| auditability       | detected              | Source-text signals indicate this component is present or directly supported.                                    |
 
 
 #### Sector / Institutional Context
@@ -639,8 +558,7 @@ Score justification explains LAIF-model signal strength only. It does not determ
 - **Sector profile key:** general_ai_governance
 - **Profile-specific remediation themes:** Translate general governance principles into owners, triggers, protected interests, controls, evidence, escalation, and auditability.; Use LAIF-native terminology only for certification adoption, not external-framework validity claims.
 - **Profile-specific evidence cautions:** General governance vocabulary does not prove compliance or legal validity.; Use reviewer-confirmation fallback when exact evidence text is absent.
-- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.
-- **Profile diagnostics do not change legal authority, formal certification, or sector obligations; reviewer confirmation required.
+- **Boundary:** profile diagnostics do not determine legal validity, LAIF-native certification, sector compliance, or sector obligations; reviewer confirmation required.
 - **Sector diagnostic findings:** Risk signal present: accountability assignment; Risk signal present: transparency requirements; Risk signal absent: high-risk classification language; +7 more
 
 
@@ -649,23 +567,13 @@ Evidence traces are deterministic source-support metadata. They do not determine
 - **Total traces:** 20
 - **Exact/deterministic count:** 20
 - **Fallback count:** 0
-- **Top trace IDs and evidence types:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-governance-force-signal (governance_force_signal)
 - **Evidence trace IDs:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-governance-force-signal (governance_force_signal)
 - **Reviewer-confirmation boundary:** trace support is source-text support for LAIF-model signals only and does not prove implementation, adoption, authority, or external effect.
 
 
 #### Construct Crosswalk
-| Construct               | Detected for LAIF-native gate |
-| ----------------------- | ----------------------------- |
-| Coupling                | review required               |
-| Coherence Test          | review required               |
-| Integrity Layer         | review required               |
-| Structural Transparency | review required               |
-| Structural Honesty      | review required               |
-| Structural Containment  | review required               |
-| Consistency             | review required               |
-| Reversibility           | review required               |
-Each required LAIF-native construct remains necessary for certification; each required LAIF-native construct remains necessary for LAIF-native certification; proximity evidence cannot substitute for a missing required construct.
+No LAIF-native constructs detected — expected for an external instrument; see the Functional Alignment table for substance detected in the document's own vocabulary.
+Each required LAIF-native construct remains necessary for certification; proximity evidence cannot substitute for a missing required construct.
 
 
 #### Diagnostic Gaps
@@ -692,12 +600,13 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 4. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-5. **Problem:** Integrity Layer not declared as a deployment precondition.
-   - **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
-   - **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+5. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+   - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
+   - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 
 #### Structured Remediation Patch Set
 These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
+Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
 - **patch_id:** LAIF-PATCH-01-structural-constitutional-hierarchy-not-de
   - **finding_type:** governance_force_gap
   - **severity:** medium
@@ -768,78 +677,6 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
   - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-07-missing-laif-construct-structural-transpar
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Transparency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Transparency
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** LAIF-TRACE-02-sector-profile-signal, LAIF-TRACE-08-governance-force-signal
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-honesty
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-09-missing-laif-construct-structural-containm
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Containment
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Containment
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-10-missing-laif-construct-consistency
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Consistency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Consistency
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-11-missing-laif-construct-reversibility
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Reversibility
-  - **recommended_patch:** Add an escalation path and reversibility procedure that identifies who can pause, roll back, review, or remedy the affected decision.
-  - **operational_control:** Maintain a rollback, appeal, or corrective-action playbook with decision authority and response time expectations.
-  - **evidence_artifact:** Rollback, appeal, redress, or corrective-action log with closure evidence.
-  - **verification_test:** Create a verification test that samples this reversibility control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-12-low-structural-score-26-100-missed-signals
-  - **finding_type:** enforceability_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Low structural score (26/100): missed signals include mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Low structural score (26/100): missed signals include mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (a
-  - **operational_control:** Create trigger criteria for when the control activates, including pre-deployment, change, incident, and periodic review events.
-  - **evidence_artifact:** Trigger matrix and completed pre-deployment or change-review checklist.
-  - **verification_test:** Create a verification test that samples this trigger control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Departmental AI governance owner with sector subject-matter reviewer
-  - **Evidence trace IDs:** LAIF-TRACE-14-governance-force-signal
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 
@@ -945,30 +782,28 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 48/100 — partial LAIF-model signal
+- **Overall readiness:** 48/100 — partial structural signal
 - **Calibrated position:** 59% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 47/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
-- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Structural strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +16 more
-- **Assessment-model strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +16 more
 - **Governance signal strength:** 48
-- **Structural depth:** 41
+- **Structural dimension score:** 41/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected       |
-| ---------------- | ------- | ------------------------------ |
-| Coupling         | ABSENT  | reviewer confirmation required |
-| Integrity Layer  | ABSENT  | reviewer confirmation required |
-| Consistency      | ABSENT  | reviewer confirmation required |
-| Reversibility    | PARTIAL | reversal capacity preserved    |
-| Self-Application | ABSENT  | reviewer confirmation required |
+| Construct        | Verdict | Signal families detected    |
+| ---------------- | ------- | --------------------------- |
+| Coupling         | ABSENT  | none detected               |
+| Integrity Layer  | ABSENT  | none detected               |
+| Consistency      | ABSENT  | none detected               |
+| Reversibility    | PARTIAL | reversal capacity preserved |
+| Self-Application | ABSENT  | none detected               |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -981,16 +816,16 @@ Signals detected and Signals not detected are public labels only; raw detection 
 | Dimension            | Score  | Fired signal labels                                                                                      | Missed signal labels                                                                                                                            |
 | -------------------- | ------ | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | Structural           | 41/100 | numbered sub-requirements; mandatory obligation language (shall); full lifecycle scope declared; +3 more | threshold gate conditions (all must pass simultaneously); non-amendable constitutional hierarchy; self-application clause (Part Seven); +1 more |
-| Terminology          | 0/100  | reviewer confirmation required                                                                           | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                              |
+| Terminology          | 0/100  | none detected                                                                                            | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                              |
 | Conceptual proximity | 47/100 | transparency; accountability; human oversight; +3 more                                                   | human rights / fundamental interests; explainability / interpretability; contestability / redress; +3 more                                      |
 | Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms   | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                                             |
 | Enforceability       | 80/100 | mandatory language (shall/must); named responsible parties; risk-proportionate thresholds; +1 more       | non-discretionary operational mandates                                                                                                          |
-| Overall readiness    | 48/100 | partial LAIF-model signal                                                                                | reviewer confirmation required                                                                                                                  |
+| Overall readiness    | 48/100 | partial structural signal                                                                                | —                                                                                                                                               |
 
 
 #### Score Calibration and Justification
 Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.
-- **Overall band:** partial LAIF-model signal
+- **Overall band:** partial structural signal
 - **Formal LAIF-native status:** FAIL
 - **Interpretation boundary:** Formal LAIF-native failure cannot be overridden by high proximity scores.
 - **Calibration / anti-gaming cautions:** 4 — Sector risk alignment materially exceeds overall readiness.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.; Possible keyword or signal density risk; requires structural evidence review. This is not a finding of bad faith and not a legal invalidity claim.; +1 more
@@ -998,18 +833,18 @@ Score justification explains LAIF-model signal strength only. It does not determ
 
 
 #### Governance-Force Profile
-| Component          | Status   | Reviewer note                                                                         |
-| ------------------ | -------- | ------------------------------------------------------------------------------------- |
-| mandate            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| actor              | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| trigger            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| protected interest | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| control            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| evidence           | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| reversibility      | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| escalation         | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| consequence        | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| auditability       | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
+| Component          | Status           | Reviewer note                                                                                                    |
+| ------------------ | ---------------- | ---------------------------------------------------------------------------------------------------------------- |
+| mandate            | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| actor              | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| trigger            | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| protected interest | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| control            | partial/implicit | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| evidence           | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| reversibility      | partial/implicit | Partial substance detected in the source text (one signal family).                                               |
+| escalation         | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| consequence        | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| auditability       | detected         | Source-text signals indicate this component is present or directly supported.                                    |
 
 
 #### Sector / Institutional Context
@@ -1017,8 +852,7 @@ Score justification explains LAIF-model signal strength only. It does not determ
 - **Sector profile key:** general_ai_governance
 - **Profile-specific remediation themes:** Translate general governance principles into owners, triggers, protected interests, controls, evidence, escalation, and auditability.; Use LAIF-native terminology only for certification adoption, not external-framework validity claims.
 - **Profile-specific evidence cautions:** General governance vocabulary does not prove compliance or legal validity.; Use reviewer-confirmation fallback when exact evidence text is absent.
-- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.
-- **Profile diagnostics do not change legal authority, formal certification, or sector obligations; reviewer confirmation required.
+- **Boundary:** profile diagnostics do not determine legal validity, LAIF-native certification, sector compliance, or sector obligations; reviewer confirmation required.
 - **Sector diagnostic findings:** Risk signal present: high-risk classification language; Risk signal present: accountability assignment; Risk signal present: transparency requirements; +7 more
 
 
@@ -1027,23 +861,13 @@ Evidence traces are deterministic source-support metadata. They do not determine
 - **Total traces:** 20
 - **Exact/deterministic count:** 20
 - **Fallback count:** 0
-- **Top trace IDs and evidence types:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Evidence trace IDs:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Reviewer-confirmation boundary:** trace support is source-text support for LAIF-model signals only and does not prove implementation, adoption, authority, or external effect.
 
 
 #### Construct Crosswalk
-| Construct               | Detected for LAIF-native gate |
-| ----------------------- | ----------------------------- |
-| Coupling                | review required               |
-| Coherence Test          | review required               |
-| Integrity Layer         | review required               |
-| Structural Transparency | review required               |
-| Structural Honesty      | review required               |
-| Structural Containment  | review required               |
-| Consistency             | review required               |
-| Reversibility           | review required               |
-Each required LAIF-native construct remains necessary for certification; each required LAIF-native construct remains necessary for LAIF-native certification; proximity evidence cannot substitute for a missing required construct.
+No LAIF-native constructs detected — expected for an external instrument; see the Functional Alignment table for substance detected in the document's own vocabulary.
+Each required LAIF-native construct remains necessary for certification; proximity evidence cannot substitute for a missing required construct.
 
 
 #### Diagnostic Gaps
@@ -1058,24 +882,25 @@ Each required LAIF-native construct remains necessary for certification; each re
 LAIF structural remediation priorities are ordered diagnostic guidance, not authority determinations.
 
 ##### Structured remediation details
-1. **Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+1. **Problem:** Restriction-protection pairing not established — no governance restriction is bound to the specific interest it protects, in any vocabulary.
    - **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-   - **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+   - **Concrete fix:** For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).
 2. **Problem:** Structural governance architecture score critically low (41/100) — most deficient dimension after Coupling.
    - **Why it matters:** Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy, self-application clause (Part Seven). Full signal breakdown in the Scores section.
 3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-4. **Problem:** Integrity Layer not declared as a deployment precondition.
-   - **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
-   - **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+   - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
+   - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 5. **Problem:** Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy, self-application clause (Part Seven).
    - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
 #### Structured Remediation Patch Set
 These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
+Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
 - **patch_id:** LAIF-PATCH-01-structural-constitutional-hierarchy-not-de
   - **finding_type:** governance_force_gap
   - **severity:** medium
@@ -1146,78 +971,6 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
   - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** LAIF-TRACE-03-sector-profile-signal, LAIF-TRACE-11-governance-force-signal
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-07-missing-laif-construct-structural-honesty
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-containm
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Containment
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Containment
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-09-missing-laif-construct-consistency
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Consistency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Consistency
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-10-missing-laif-construct-reversibility
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Reversibility
-  - **recommended_patch:** Add an escalation path and reversibility procedure that identifies who can pause, roll back, review, or remedy the affected decision.
-  - **operational_control:** Maintain a rollback, appeal, or corrective-action playbook with decision authority and response time expectations.
-  - **evidence_artifact:** Rollback, appeal, redress, or corrective-action log with closure evidence.
-  - **verification_test:** Create a verification test that samples this reversibility control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-11-low-structural-score-41-100-missed-signals
-  - **finding_type:** governance_force_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Low structural score (41/100): missed signals include threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy, self-application clause (Part Seven)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Low structural score (41/100): missed signals include threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy, self-app
-  - **operational_control:** Create trigger criteria for when the control activates, including pre-deployment, change, incident, and periodic review events.
-  - **evidence_artifact:** Trigger matrix and completed pre-deployment or change-review checklist.
-  - **verification_test:** Create a verification test that samples this trigger control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-12-low-terminology-score-0-100-missed-signals
-  - **finding_type:** terminology_gap
-  - **severity:** high
-  - **diagnostic_gap:** Low terminology score (0/100): missed signals include Coupling, Coherence Test, Integrity Layer
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 
@@ -1323,30 +1076,28 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 36/100 — limited LAIF-model signal
+- **Overall readiness:** 36/100 — limited structural signal
 - **Calibrated position:** 44% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 24/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
-- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
 - **Structural strengths:** Expresses: safety; Expresses: contestability / redress; Expresses: risk governance; +9 more
-- **Assessment-model strengths:** Expresses: safety; Expresses: contestability / redress; Expresses: risk governance; +9 more
 - **Governance signal strength:** 36
-- **Structural depth:** 12
+- **Structural dimension score:** 12/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected       |
-| ---------------- | ------- | ------------------------------ |
-| Coupling         | ABSENT  | reviewer confirmation required |
-| Integrity Layer  | PARTIAL | all-must-pass threshold gate   |
-| Consistency      | ABSENT  | reviewer confirmation required |
-| Reversibility    | ABSENT  | reviewer confirmation required |
-| Self-Application | ABSENT  | reviewer confirmation required |
+| Construct        | Verdict | Signal families detected     |
+| ---------------- | ------- | ---------------------------- |
+| Coupling         | ABSENT  | none detected                |
+| Integrity Layer  | PARTIAL | all-must-pass threshold gate |
+| Consistency      | ABSENT  | none detected                |
+| Reversibility    | ABSENT  | none detected                |
+| Self-Application | ABSENT  | none detected                |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -1359,16 +1110,16 @@ Signals detected and Signals not detected are public labels only; raw detection 
 | Dimension            | Score  | Fired signal labels                                                                                                        | Missed signal labels                                                                                             |
 | -------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Structural           | 12/100 | full lifecycle scope declared; operational mechanisms defined                                                              | numbered sub-requirements; mandatory obligation language (shall); risk stratification / proportionality; +5 more |
-| Terminology          | 0/100  | reviewer confirmation required                                                                                             | Coupling; Coherence Test; Integrity Layer; +4 more                                                               |
+| Terminology          | 0/100  | none detected                                                                                                              | Coupling; Coherence Test; Integrity Layer; +4 more                                                               |
 | Conceptual proximity | 24/100 | safety; contestability / redress; risk governance                                                                          | human rights / fundamental interests; transparency; explainability / interpretability; +6 more                   |
 | Auditability         | 60/100 | multiple mandatory obligations (shall/must pairs); evidence / documentation requirements; specific, measurable obligations | numbered traceable requirements; review / monitoring mechanisms                                                  |
 | Enforceability       | 80/100 | mandatory language (shall/must); named responsible parties; risk-proportionate thresholds; +1 more                         | enforcement consequences / penalties                                                                             |
-| Overall readiness    | 36/100 | limited LAIF-model signal                                                                                                  | reviewer confirmation required                                                                                   |
+| Overall readiness    | 36/100 | limited structural signal                                                                                                  | —                                                                                                                |
 
 
 #### Score Calibration and Justification
 Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.
-- **Overall band:** limited LAIF-model signal
+- **Overall band:** limited structural signal
 - **Formal LAIF-native status:** FAIL
 - **Interpretation boundary:** Formal LAIF-native failure cannot be overridden by high proximity scores.
 - **Calibration / anti-gaming cautions:** 5 — Sector risk alignment materially exceeds overall readiness.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.; Low LAIF-model signal may indicate missing LAIF-model signals, not legal invalidity under the source framework's own authority.; +2 more
@@ -1376,18 +1127,18 @@ Score justification explains LAIF-model signal strength only. It does not determ
 
 
 #### Governance-Force Profile
-| Component          | Status   | Reviewer note                                                                         |
-| ------------------ | -------- | ------------------------------------------------------------------------------------- |
-| mandate            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| actor              | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| trigger            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| protected interest | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| control            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| evidence           | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| reversibility      | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| escalation         | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| consequence        | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| auditability       | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
+| Component          | Status                | Reviewer note                                                                                                    |
+| ------------------ | --------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| mandate            | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| actor              | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| trigger            | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| protected interest | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| control            | partial/implicit      | Partial substance detected in the source text (one signal family).                                               |
+| evidence           | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| reversibility      | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| escalation         | gap / requires review | Source-text gaps or missed signals indicate this component requires reviewer confirmation or remediation.        |
+| consequence        | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| auditability       | detected              | Source-text signals indicate this component is present or directly supported.                                    |
 
 
 #### Sector / Institutional Context
@@ -1395,8 +1146,7 @@ Score justification explains LAIF-model signal strength only. It does not determ
 - **Sector profile key:** clinical_ai
 - **Profile-specific remediation themes:** Assign a clinical governance owner with clinician reviewer and safety incident pathway.; Require clinical fallback, override record, patient safety review, and incident log.; Keep clinical source-evidence claims tied to exact text.
 - **Profile-specific evidence cautions:** Clinical vocabulary does not determine medical, regulatory, or legal validity.; Do not invent clinical validation, fallback, override, patient safety review, or incident evidence.
-- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.
-- **Profile diagnostics do not change legal authority, formal certification, or sector obligations; reviewer confirmation required.
+- **Boundary:** profile diagnostics do not determine legal validity, LAIF-native certification, sector compliance, or sector obligations; reviewer confirmation required.
 - **Sector diagnostic findings:** Risk signal present: patient safety signal; Risk signal present: diagnostic / treatment language; Risk signal present: named clinical actor; +7 more
 
 
@@ -1405,7 +1155,6 @@ Evidence traces are deterministic source-support metadata. They do not determine
 - **Total traces:** 17
 - **Exact/deterministic count:** 17
 - **Fallback count:** 0
-- **Top trace IDs and evidence types:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Evidence trace IDs:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Reviewer-confirmation boundary:** trace support is source-text support for LAIF-model signals only and does not prove implementation, adoption, authority, or external effect.
 
@@ -1413,15 +1162,15 @@ Evidence traces are deterministic source-support metadata. They do not determine
 #### Construct Crosswalk
 | Construct               | Detected for LAIF-native gate |
 | ----------------------- | ----------------------------- |
-| Coupling                | review required               |
-| Coherence Test          | review required               |
-| Integrity Layer         | review required               |
-| Structural Transparency | review required               |
-| Structural Honesty      | review required               |
-| Structural Containment  | review required               |
+| Coupling                | not detected                  |
+| Coherence Test          | not detected                  |
+| Integrity Layer         | not detected                  |
+| Structural Transparency | not detected                  |
+| Structural Honesty      | not detected                  |
+| Structural Containment  | not detected                  |
 | Consistency             | yes                           |
-| Reversibility           | review required               |
-Each required LAIF-native construct remains necessary for certification; each required LAIF-native construct remains necessary for LAIF-native certification; proximity evidence cannot substitute for a missing required construct.
+| Reversibility           | not detected                  |
+Each required LAIF-native construct remains necessary for certification; proximity evidence cannot substitute for a missing required construct.
 
 
 #### Diagnostic Gaps
@@ -1437,9 +1186,9 @@ Each required LAIF-native construct remains necessary for certification; each re
 LAIF structural remediation priorities are ordered diagnostic guidance, not authority determinations.
 
 ##### Structured remediation details
-1. **Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+1. **Problem:** Restriction-protection pairing not established — no governance restriction is bound to the specific interest it protects, in any vocabulary.
    - **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-   - **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+   - **Concrete fix:** For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).
 2. **Problem:** Structural governance architecture score critically low (12/100) — most deficient dimension after Coupling.
    - **Why it matters:** Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 8 missed signals for this dimension. Critical gaps: numbered sub-requirements, mandatory obligation language (shall), risk stratification / proportionality. Full signal breakdown in the Scores section.
@@ -1449,12 +1198,13 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 4. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-5. **Problem:** Integrity Layer not declared as a deployment precondition.
-   - **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
-   - **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+5. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+   - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
+   - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 
 #### Structured Remediation Patch Set
 These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
+Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
 - **patch_id:** LAIF-PATCH-01-structural-constitutional-hierarchy-not-de
   - **finding_type:** governance_force_gap
   - **severity:** medium
@@ -1519,78 +1269,6 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
   - **finding_type:** construct_gap
   - **severity:** high
   - **diagnostic_gap:** Missing LAIF construct: Integrity Layer
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-07-missing-laif-construct-structural-transpar
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Transparency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Transparency
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-honesty
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-09-missing-laif-construct-structural-containm
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Containment
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Containment
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-10-missing-laif-construct-reversibility
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Reversibility
-  - **recommended_patch:** Add an escalation path and reversibility procedure that identifies who can pause, roll back, review, or remedy the affected decision.
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this reversibility control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-11-low-structural-score-12-100-missed-signals
-  - **finding_type:** enforceability_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Low structural score (12/100): missed signals include numbered sub-requirements, mandatory obligation language (shall), risk stratification / proportionality
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Low structural score (12/100): missed signals include numbered sub-requirements, mandatory obligation language (shall), risk stratification / proportionality
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this mandate control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** LAIF-TRACE-09-governance-force-signal, LAIF-TRACE-10-governance-force-signal, LAIF-TRACE-13-governance-force-signal
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-12-low-terminology-score-0-100-missed-signals
-  - **finding_type:** terminology_gap
-  - **severity:** high
-  - **diagnostic_gap:** Low terminology score (0/100): missed signals include Coupling, Coherence Test, Integrity Layer
   - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
   - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
   - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
@@ -1702,17 +1380,15 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 44/100 — partial LAIF-model signal
+- **Overall readiness:** 44/100 — partial structural signal
 - **Calibrated position:** 54% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 49/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** HIGH
-- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
-- **Assessment-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
 - **Governance signal strength:** 44
-- **Structural depth:** 41
+- **Structural dimension score:** 41/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
 
@@ -1721,11 +1397,11 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
 | Construct        | Verdict | Signal families detected                                         |
 | ---------------- | ------- | ---------------------------------------------------------------- |
-| Coupling         | ABSENT  | reviewer confirmation required                                   |
+| Coupling         | ABSENT  | none detected                                                    |
 | Integrity Layer  | PARTIAL | meaningful account of outputs; bounded operation with escalation |
-| Consistency      | ABSENT  | reviewer confirmation required                                   |
-| Reversibility    | ABSENT  | reviewer confirmation required                                   |
-| Self-Application | ABSENT  | reviewer confirmation required                                   |
+| Consistency      | ABSENT  | none detected                                                    |
+| Reversibility    | ABSENT  | none detected                                                    |
+| Self-Application | ABSENT  | none detected                                                    |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -1738,16 +1414,16 @@ Signals detected and Signals not detected are public labels only; raw detection 
 | Dimension            | Score  | Fired signal labels                                                                                      | Missed signal labels                                                                                                                            |
 | -------------------- | ------ | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | Structural           | 41/100 | numbered sub-requirements; mandatory obligation language (shall); full lifecycle scope declared; +3 more | threshold gate conditions (all must pass simultaneously); non-amendable constitutional hierarchy; self-application clause (Part Seven); +1 more |
-| Terminology          | 0/100  | reviewer confirmation required                                                                           | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                              |
+| Terminology          | 0/100  | none detected                                                                                            | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                              |
 | Conceptual proximity | 49/100 | human rights / fundamental interests; transparency; explainability / interpretability; +3 more           | accountability; proportionality; contestability / redress; +3 more                                                                              |
 | Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms   | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                                             |
 | Enforceability       | 60/100 | mandatory language (shall/must); risk-proportionate thresholds; non-discretionary operational mandates   | named responsible parties; enforcement consequences / penalties                                                                                 |
-| Overall readiness    | 44/100 | partial LAIF-model signal                                                                                | reviewer confirmation required                                                                                                                  |
+| Overall readiness    | 44/100 | partial structural signal                                                                                | —                                                                                                                                               |
 
 
 #### Score Calibration and Justification
 Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.
-- **Overall band:** partial LAIF-model signal
+- **Overall band:** partial structural signal
 - **Formal LAIF-native status:** FAIL
 - **Interpretation boundary:** Formal LAIF-native failure cannot be overridden by high proximity scores.
 - **Calibration / anti-gaming cautions:** 3 — Sector risk alignment materially exceeds overall readiness.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.; Possible keyword or signal density risk; requires structural evidence review. This is not a finding of bad faith and not a legal invalidity claim.
@@ -1755,18 +1431,18 @@ Score justification explains LAIF-model signal strength only. It does not determ
 
 
 #### Governance-Force Profile
-| Component          | Status   | Reviewer note                                                                         |
-| ------------------ | -------- | ------------------------------------------------------------------------------------- |
-| mandate            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| actor              | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| trigger            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| protected interest | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| control            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| evidence           | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| reversibility      | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| escalation         | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| consequence        | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| auditability       | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
+| Component          | Status                | Reviewer note                                                                                                    |
+| ------------------ | --------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| mandate            | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| actor              | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| trigger            | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| protected interest | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| control            | partial/implicit      | Partial substance detected in the source text (one signal family).                                               |
+| evidence           | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| reversibility      | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| escalation         | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| consequence        | gap / requires review | Source-text gaps or missed signals indicate this component requires reviewer confirmation or remediation.        |
+| auditability       | detected              | Source-text signals indicate this component is present or directly supported.                                    |
 
 
 #### Sector / Institutional Context
@@ -1774,8 +1450,7 @@ Score justification explains LAIF-model signal strength only. It does not determ
 - **Sector profile key:** general_ai_governance
 - **Profile-specific remediation themes:** Translate general governance principles into owners, triggers, protected interests, controls, evidence, escalation, and auditability.; Use LAIF-native terminology only for certification adoption, not external-framework validity claims.
 - **Profile-specific evidence cautions:** General governance vocabulary does not prove compliance or legal validity.; Use reviewer-confirmation fallback when exact evidence text is absent.
-- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.
-- **Profile diagnostics do not change legal authority, formal certification, or sector obligations; reviewer confirmation required.
+- **Boundary:** profile diagnostics do not determine legal validity, LAIF-native certification, sector compliance, or sector obligations; reviewer confirmation required.
 - **Sector diagnostic findings:** Risk signal present: high-risk classification language; Risk signal present: transparency requirements; Risk signal present: human oversight mechanisms; +7 more
 
 
@@ -1784,23 +1459,13 @@ Evidence traces are deterministic source-support metadata. They do not determine
 - **Total traces:** 20
 - **Exact/deterministic count:** 20
 - **Fallback count:** 0
-- **Top trace IDs and evidence types:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Evidence trace IDs:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Reviewer-confirmation boundary:** trace support is source-text support for LAIF-model signals only and does not prove implementation, adoption, authority, or external effect.
 
 
 #### Construct Crosswalk
-| Construct               | Detected for LAIF-native gate |
-| ----------------------- | ----------------------------- |
-| Coupling                | review required               |
-| Coherence Test          | review required               |
-| Integrity Layer         | review required               |
-| Structural Transparency | review required               |
-| Structural Honesty      | review required               |
-| Structural Containment  | review required               |
-| Consistency             | review required               |
-| Reversibility           | review required               |
-Each required LAIF-native construct remains necessary for certification; each required LAIF-native construct remains necessary for LAIF-native certification; proximity evidence cannot substitute for a missing required construct.
+No LAIF-native constructs detected — expected for an external instrument; see the Functional Alignment table for substance detected in the document's own vocabulary.
+Each required LAIF-native construct remains necessary for certification; proximity evidence cannot substitute for a missing required construct.
 
 
 #### Diagnostic Gaps
@@ -1815,24 +1480,25 @@ Each required LAIF-native construct remains necessary for certification; each re
 LAIF structural remediation priorities are ordered diagnostic guidance, not authority determinations.
 
 ##### Structured remediation details
-1. **Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+1. **Problem:** Restriction-protection pairing not established — no governance restriction is bound to the specific interest it protects, in any vocabulary.
    - **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-   - **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+   - **Concrete fix:** For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).
 2. **Problem:** Structural governance architecture score critically low (41/100) — most deficient dimension after Coupling.
    - **Why it matters:** Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy, self-application clause (Part Seven). Full signal breakdown in the Scores section.
 3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-4. **Problem:** Integrity Layer not declared as a deployment precondition.
-   - **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
-   - **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+   - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
+   - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 5. **Problem:** Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy, self-application clause (Part Seven).
    - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
 #### Structured Remediation Patch Set
 These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
+Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
 - **patch_id:** LAIF-PATCH-01-structural-constitutional-hierarchy-not-de
   - **finding_type:** governance_force_gap
   - **severity:** medium
@@ -1903,78 +1569,6 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
   - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** LAIF-TRACE-02-sector-profile-signal, LAIF-TRACE-12-governance-force-signal
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-07-missing-laif-construct-structural-honesty
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-containm
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Containment
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Containment
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-09-missing-laif-construct-consistency
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Consistency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Consistency
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-10-missing-laif-construct-reversibility
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Reversibility
-  - **recommended_patch:** Add an escalation path and reversibility procedure that identifies who can pause, roll back, review, or remedy the affected decision.
-  - **operational_control:** Maintain a rollback, appeal, or corrective-action playbook with decision authority and response time expectations.
-  - **evidence_artifact:** Rollback, appeal, redress, or corrective-action log with closure evidence.
-  - **verification_test:** Create a verification test that samples this reversibility control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-11-low-structural-score-41-100-missed-signals
-  - **finding_type:** governance_force_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Low structural score (41/100): missed signals include threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy, self-application clause (Part Seven)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Low structural score (41/100): missed signals include threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy, self-app
-  - **operational_control:** Create trigger criteria for when the control activates, including pre-deployment, change, incident, and periodic review events.
-  - **evidence_artifact:** Trigger matrix and completed pre-deployment or change-review checklist.
-  - **verification_test:** Create a verification test that samples this trigger control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-12-low-terminology-score-0-100-missed-signals
-  - **finding_type:** terminology_gap
-  - **severity:** high
-  - **diagnostic_gap:** Low terminology score (0/100): missed signals include Coupling, Coherence Test, Integrity Layer
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 
@@ -2080,30 +1674,28 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 34/100 — limited LAIF-model signal
+- **Overall readiness:** 34/100 — limited structural signal
 - **Calibrated position:** 42% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 39/100
 - **Sector risk alignment:** 40/100
 - **Remediation effort:** VERY HIGH
-- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
 - **Structural strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +11 more
-- **Assessment-model strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +11 more
 - **Governance signal strength:** 34
-- **Structural depth:** 26
+- **Structural dimension score:** 26/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** STRUCTURALLY UNALIGNED — LAIF's distinctive structural mechanisms not detected in any form; conceptual overlap is measured separately
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected       |
-| ---------------- | ------- | ------------------------------ |
-| Coupling         | ABSENT  | reviewer confirmation required |
-| Integrity Layer  | ABSENT  | reviewer confirmation required |
-| Consistency      | ABSENT  | reviewer confirmation required |
-| Reversibility    | ABSENT  | reviewer confirmation required |
-| Self-Application | ABSENT  | reviewer confirmation required |
+| Construct        | Verdict | Signal families detected |
+| ---------------- | ------- | ------------------------ |
+| Coupling         | ABSENT  | none detected            |
+| Integrity Layer  | ABSENT  | none detected            |
+| Consistency      | ABSENT  | none detected            |
+| Reversibility    | ABSENT  | none detected            |
+| Self-Application | ABSENT  | none detected            |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -2116,16 +1708,16 @@ Signals detected and Signals not detected are public labels only; raw detection 
 | Dimension            | Score  | Fired signal labels                                                                                    | Missed signal labels                                                                                                                            |
 | -------------------- | ------ | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | Structural           | 26/100 | numbered sub-requirements; full lifecycle scope declared; operational mechanisms defined; +1 more      | mandatory obligation language (shall); risk stratification / proportionality; threshold gate conditions (all must pass simultaneously); +3 more |
-| Terminology          | 0/100  | reviewer confirmation required                                                                         | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                              |
+| Terminology          | 0/100  | none detected                                                                                          | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                              |
 | Conceptual proximity | 39/100 | transparency; accountability; human oversight; +2 more                                                 | human rights / fundamental interests; explainability / interpretability; proportionality; +4 more                                               |
 | Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                                             |
 | Enforceability       | 40/100 | named responsible parties; enforcement consequences / penalties                                        | mandatory language (shall/must); risk-proportionate thresholds; non-discretionary operational mandates                                          |
-| Overall readiness    | 34/100 | limited LAIF-model signal                                                                              | reviewer confirmation required                                                                                                                  |
+| Overall readiness    | 34/100 | limited structural signal                                                                              | —                                                                                                                                               |
 
 
 #### Score Calibration and Justification
 Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.
-- **Overall band:** limited LAIF-model signal
+- **Overall band:** limited structural signal
 - **Formal LAIF-native status:** FAIL
 - **Interpretation boundary:** Formal LAIF-native failure cannot be overridden by high proximity scores.
 - **Calibration / anti-gaming cautions:** 2 — Multiple evidence traces are present while formal LAIF-native compliance remains failed.; Low LAIF-model signal may indicate missing LAIF-model signals, not legal invalidity under the source framework's own authority.
@@ -2133,18 +1725,18 @@ Score justification explains LAIF-model signal strength only. It does not determ
 
 
 #### Governance-Force Profile
-| Component          | Status   | Reviewer note                                                                         |
-| ------------------ | -------- | ------------------------------------------------------------------------------------- |
-| mandate            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| actor              | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| trigger            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| protected interest | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| control            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| evidence           | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| reversibility      | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| escalation         | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| consequence        | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| auditability       | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
+| Component          | Status                | Reviewer note                                                                                                    |
+| ------------------ | --------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| mandate            | gap / requires review | Source-text gaps or missed signals indicate this component requires reviewer confirmation or remediation.        |
+| actor              | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| trigger            | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| protected interest | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| control            | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| evidence           | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| reversibility      | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| escalation         | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| consequence        | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| auditability       | detected              | Source-text signals indicate this component is present or directly supported.                                    |
 
 
 #### Sector / Institutional Context
@@ -2152,8 +1744,7 @@ Score justification explains LAIF-model signal strength only. It does not determ
 - **Sector profile key:** general_ai_governance
 - **Profile-specific remediation themes:** Translate general governance principles into owners, triggers, protected interests, controls, evidence, escalation, and auditability.; Use LAIF-native terminology only for certification adoption, not external-framework validity claims.
 - **Profile-specific evidence cautions:** General governance vocabulary does not prove compliance or legal validity.; Use reviewer-confirmation fallback when exact evidence text is absent.
-- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.
-- **Profile diagnostics do not change legal authority, formal certification, or sector obligations; reviewer confirmation required.
+- **Boundary:** profile diagnostics do not determine legal validity, LAIF-native certification, sector compliance, or sector obligations; reviewer confirmation required.
 - **Sector diagnostic findings:** Risk signal present: accountability assignment; Risk signal present: transparency requirements; Risk signal absent: high-risk classification language; +7 more
 
 
@@ -2162,23 +1753,13 @@ Evidence traces are deterministic source-support metadata. They do not determine
 - **Total traces:** 18
 - **Exact/deterministic count:** 18
 - **Fallback count:** 0
-- **Top trace IDs and evidence types:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-provenance-signal (provenance_signal)
 - **Evidence trace IDs:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-provenance-signal (provenance_signal)
 - **Reviewer-confirmation boundary:** trace support is source-text support for LAIF-model signals only and does not prove implementation, adoption, authority, or external effect.
 
 
 #### Construct Crosswalk
-| Construct               | Detected for LAIF-native gate |
-| ----------------------- | ----------------------------- |
-| Coupling                | review required               |
-| Coherence Test          | review required               |
-| Integrity Layer         | review required               |
-| Structural Transparency | review required               |
-| Structural Honesty      | review required               |
-| Structural Containment  | review required               |
-| Consistency             | review required               |
-| Reversibility           | review required               |
-Each required LAIF-native construct remains necessary for certification; each required LAIF-native construct remains necessary for LAIF-native certification; proximity evidence cannot substitute for a missing required construct.
+No LAIF-native constructs detected — expected for an external instrument; see the Functional Alignment table for substance detected in the document's own vocabulary.
+Each required LAIF-native construct remains necessary for certification; proximity evidence cannot substitute for a missing required construct.
 
 
 #### Diagnostic Gaps
@@ -2193,9 +1774,9 @@ Each required LAIF-native construct remains necessary for certification; each re
 LAIF structural remediation priorities are ordered diagnostic guidance, not authority determinations.
 
 ##### Structured remediation details
-1. **Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+1. **Problem:** Restriction-protection pairing not established — no governance restriction is bound to the specific interest it protects, in any vocabulary.
    - **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-   - **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+   - **Concrete fix:** For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).
 2. **Problem:** Structural governance architecture score critically low (26/100) — most deficient dimension after Coupling.
    - **Why it matters:** Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 6 missed signals for this dimension. Critical gaps: mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously). Full signal breakdown in the Scores section.
@@ -2205,12 +1786,13 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 4. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-5. **Problem:** Integrity Layer not declared as a deployment precondition.
-   - **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
-   - **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+5. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+   - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
+   - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 
 #### Structured Remediation Patch Set
 These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
+Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
 - **patch_id:** LAIF-PATCH-01-structural-constitutional-hierarchy-not-de
   - **finding_type:** governance_force_gap
   - **severity:** medium
@@ -2281,78 +1863,6 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
   - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-07-missing-laif-construct-structural-transpar
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Transparency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Transparency
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** LAIF-TRACE-02-sector-profile-signal, LAIF-TRACE-09-governance-force-signal
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-honesty
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-09-missing-laif-construct-structural-containm
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Containment
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Containment
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-10-missing-laif-construct-consistency
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Consistency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Consistency
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-11-missing-laif-construct-reversibility
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Reversibility
-  - **recommended_patch:** Add an escalation path and reversibility procedure that identifies who can pause, roll back, review, or remedy the affected decision.
-  - **operational_control:** Maintain a rollback, appeal, or corrective-action playbook with decision authority and response time expectations.
-  - **evidence_artifact:** Rollback, appeal, redress, or corrective-action log with closure evidence.
-  - **verification_test:** Create a verification test that samples this reversibility control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-12-low-structural-score-26-100-missed-signals
-  - **finding_type:** enforceability_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Low structural score (26/100): missed signals include mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Low structural score (26/100): missed signals include mandatory obligation language (shall), risk stratification / proportionality, threshold gate conditions (a
-  - **operational_control:** Create trigger criteria for when the control activates, including pre-deployment, change, incident, and periodic review events.
-  - **evidence_artifact:** Trigger matrix and completed pre-deployment or change-review checklist.
-  - **verification_test:** Create a verification test that samples this trigger control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Departmental AI governance owner with sector subject-matter reviewer
-  - **Evidence trace IDs:** LAIF-TRACE-03-provenance-signal, LAIF-TRACE-13-governance-force-signal
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 
@@ -2456,30 +1966,28 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 22/100 — limited LAIF-model signal
+- **Overall readiness:** 22/100 — limited structural signal
 - **Calibrated position:** 27% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 76/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** VERY HIGH
-- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; auditability — obligations not checkable or traceable; +1 more
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; auditability — obligations not checkable or traceable; +1 more
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +9 more
-- **Assessment-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +9 more
 - **Governance signal strength:** 22
-- **Structural depth:** 12
+- **Structural dimension score:** 12/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected       |
-| ---------------- | ------- | ------------------------------ |
-| Coupling         | ABSENT  | reviewer confirmation required |
-| Integrity Layer  | PARTIAL | meaningful account of outputs  |
-| Consistency      | ABSENT  | reviewer confirmation required |
-| Reversibility    | ABSENT  | reviewer confirmation required |
-| Self-Application | ABSENT  | reviewer confirmation required |
+| Construct        | Verdict | Signal families detected      |
+| ---------------- | ------- | ----------------------------- |
+| Coupling         | ABSENT  | none detected                 |
+| Integrity Layer  | PARTIAL | meaningful account of outputs |
+| Consistency      | ABSENT  | none detected                 |
+| Reversibility    | ABSENT  | none detected                 |
+| Self-Application | ABSENT  | none detected                 |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -2492,16 +2000,16 @@ Signals detected and Signals not detected are public labels only; raw detection 
 | Dimension            | Score  | Fired signal labels                                                                            | Missed signal labels                                                                                                               |
 | -------------------- | ------ | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | Structural           | 12/100 | full lifecycle scope declared; operational mechanisms defined                                  | numbered sub-requirements; mandatory obligation language (shall); risk stratification / proportionality; +5 more                   |
-| Terminology          | 0/100  | reviewer confirmation required                                                                 | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                 |
+| Terminology          | 0/100  | none detected                                                                                  | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                 |
 | Conceptual proximity | 76/100 | human rights / fundamental interests; transparency; explainability / interpretability; +6 more | proportionality; reversibility / modifiability; risk governance                                                                    |
-| Auditability         | 0/100  | reviewer confirmation required                                                                 | multiple mandatory obligations (shall/must pairs); numbered traceable requirements; evidence / documentation requirements; +2 more |
+| Auditability         | 0/100  | none detected                                                                                  | multiple mandatory obligations (shall/must pairs); numbered traceable requirements; evidence / documentation requirements; +2 more |
 | Enforceability       | 20/100 | named responsible parties                                                                      | mandatory language (shall/must); risk-proportionate thresholds; enforcement consequences / penalties; +1 more                      |
-| Overall readiness    | 22/100 | limited LAIF-model signal                                                                      | reviewer confirmation required                                                                                                     |
+| Overall readiness    | 22/100 | limited structural signal                                                                      | —                                                                                                                                  |
 
 
 #### Score Calibration and Justification
 Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.
-- **Overall band:** limited LAIF-model signal
+- **Overall band:** limited structural signal
 - **Formal LAIF-native status:** FAIL
 - **Interpretation boundary:** Formal LAIF-native failure cannot be overridden by high proximity scores.
 - **Calibration / anti-gaming cautions:** 6 — High conceptual LAIF-model signal appears with low canonical terminology signal.; Sector risk alignment materially exceeds overall readiness.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.; +3 more
@@ -2509,18 +2017,18 @@ Score justification explains LAIF-model signal strength only. It does not determ
 
 
 #### Governance-Force Profile
-| Component          | Status   | Reviewer note                                                                         |
-| ------------------ | -------- | ------------------------------------------------------------------------------------- |
-| mandate            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| actor              | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| trigger            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| protected interest | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| control            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| evidence           | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| reversibility      | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| escalation         | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| consequence        | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| auditability       | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
+| Component          | Status                | Reviewer note                                                                                                    |
+| ------------------ | --------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| mandate            | gap / requires review | Source-text gaps or missed signals indicate this component requires reviewer confirmation or remediation.        |
+| actor              | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| trigger            | gap / requires review | Source-text gaps or missed signals indicate this component requires reviewer confirmation or remediation.        |
+| protected interest | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| control            | partial/implicit      | Partial substance detected in the source text (one signal family).                                               |
+| evidence           | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| reversibility      | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| escalation         | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| consequence        | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| auditability       | detected              | Source-text signals indicate this component is present or directly supported.                                    |
 
 
 #### Sector / Institutional Context
@@ -2528,8 +2036,7 @@ Score justification explains LAIF-model signal strength only. It does not determ
 - **Sector profile key:** general_ai_governance
 - **Profile-specific remediation themes:** Translate general governance principles into owners, triggers, protected interests, controls, evidence, escalation, and auditability.; Use LAIF-native terminology only for certification adoption, not external-framework validity claims.
 - **Profile-specific evidence cautions:** General governance vocabulary does not prove compliance or legal validity.; Use reviewer-confirmation fallback when exact evidence text is absent.
-- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.
-- **Profile diagnostics do not change legal authority, formal certification, or sector obligations; reviewer confirmation required.
+- **Boundary:** profile diagnostics do not determine legal validity, LAIF-native certification, sector compliance, or sector obligations; reviewer confirmation required.
 - **Sector diagnostic findings:** Risk signal present: accountability assignment; Risk signal present: transparency requirements; Risk signal present: human oversight mechanisms; +7 more
 
 
@@ -2538,23 +2045,13 @@ Evidence traces are deterministic source-support metadata. They do not determine
 - **Total traces:** 15
 - **Exact/deterministic count:** 15
 - **Fallback count:** 0
-- **Top trace IDs and evidence types:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Evidence trace IDs:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Reviewer-confirmation boundary:** trace support is source-text support for LAIF-model signals only and does not prove implementation, adoption, authority, or external effect.
 
 
 #### Construct Crosswalk
-| Construct               | Detected for LAIF-native gate |
-| ----------------------- | ----------------------------- |
-| Coupling                | review required               |
-| Coherence Test          | review required               |
-| Integrity Layer         | review required               |
-| Structural Transparency | review required               |
-| Structural Honesty      | review required               |
-| Structural Containment  | review required               |
-| Consistency             | review required               |
-| Reversibility           | review required               |
-Each required LAIF-native construct remains necessary for certification; each required LAIF-native construct remains necessary for LAIF-native certification; proximity evidence cannot substitute for a missing required construct.
+No LAIF-native constructs detected — expected for an external instrument; see the Functional Alignment table for substance detected in the document's own vocabulary.
+Each required LAIF-native construct remains necessary for certification; proximity evidence cannot substitute for a missing required construct.
 
 
 #### Diagnostic Gaps
@@ -2581,12 +2078,13 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 4. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-5. **Problem:** Integrity Layer not declared as a deployment precondition.
-   - **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
-   - **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+5. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+   - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
+   - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 
 #### Structured Remediation Patch Set
 These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
+Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
 - **patch_id:** LAIF-PATCH-01-structural-constitutional-hierarchy-not-de
   - **finding_type:** governance_force_gap
   - **severity:** medium
@@ -2655,78 +2153,6 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
   - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-07-missing-laif-construct-integrity-layer
-  - **finding_type:** construct_gap
-  - **severity:** high
-  - **diagnostic_gap:** Missing LAIF construct: Integrity Layer
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-transpar
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Transparency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Transparency
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** LAIF-TRACE-02-sector-profile-signal, LAIF-TRACE-07-governance-force-signal
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-09-missing-laif-construct-structural-honesty
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-10-missing-laif-construct-structural-containm
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Containment
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Containment
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-11-missing-laif-construct-consistency
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Consistency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Consistency
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-12-missing-laif-construct-reversibility
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Reversibility
-  - **recommended_patch:** Add an escalation path and reversibility procedure that identifies who can pause, roll back, review, or remedy the affected decision.
-  - **operational_control:** Maintain a rollback, appeal, or corrective-action playbook with decision authority and response time expectations.
-  - **evidence_artifact:** Rollback, appeal, redress, or corrective-action log with closure evidence.
-  - **verification_test:** Create a verification test that samples this reversibility control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -2834,17 +2260,15 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 50/100 — partial LAIF-model signal
+- **Overall readiness:** 50/100 — partial structural signal
 - **Calibrated position:** 61% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 66/100
 - **Sector risk alignment:** 100/100
 - **Remediation effort:** HIGH
-- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +17 more
-- **Assessment-model strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +17 more
 - **Governance signal strength:** 50
-- **Structural depth:** 35
+- **Structural dimension score:** 35/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
 
@@ -2855,9 +2279,9 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 | ---------------- | ------- | ----------------------------------- |
 | Coupling         | PARTIAL | restriction paired with named stake |
 | Integrity Layer  | PARTIAL | meaningful account of outputs       |
-| Consistency      | ABSENT  | reviewer confirmation required      |
-| Reversibility    | ABSENT  | reviewer confirmation required      |
-| Self-Application | ABSENT  | reviewer confirmation required      |
+| Consistency      | ABSENT  | none detected                       |
+| Reversibility    | ABSENT  | none detected                       |
+| Self-Application | ABSENT  | none detected                       |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -2870,16 +2294,16 @@ Signals detected and Signals not detected are public labels only; raw detection 
 | Dimension            | Score  | Fired signal labels                                                                                              | Missed signal labels                                                                                                                     |
 | -------------------- | ------ | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | Structural           | 35/100 | numbered sub-requirements; mandatory obligation language (shall); risk stratification / proportionality; +2 more | full lifecycle scope declared; threshold gate conditions (all must pass simultaneously); non-amendable constitutional hierarchy; +2 more |
-| Terminology          | 0/100  | reviewer confirmation required                                                                                   | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                       |
+| Terminology          | 0/100  | none detected                                                                                                    | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                       |
 | Conceptual proximity | 66/100 | human rights / fundamental interests; transparency; accountability; +5 more                                      | explainability / interpretability; reversibility / modifiability; risk governance; +1 more                                               |
 | Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms           | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                                      |
 | Enforceability       | 80/100 | mandatory language (shall/must); named responsible parties; risk-proportionate thresholds; +1 more               | enforcement consequences / penalties                                                                                                     |
-| Overall readiness    | 50/100 | partial LAIF-model signal                                                                                        | reviewer confirmation required                                                                                                           |
+| Overall readiness    | 50/100 | partial structural signal                                                                                        | —                                                                                                                                        |
 
 
 #### Score Calibration and Justification
 Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.
-- **Overall band:** partial LAIF-model signal
+- **Overall band:** partial structural signal
 - **Formal LAIF-native status:** FAIL
 - **Interpretation boundary:** Formal LAIF-native failure cannot be overridden by high proximity scores.
 - **Calibration / anti-gaming cautions:** 4 — High conceptual LAIF-model signal appears with low canonical terminology signal.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.; Possible keyword or signal density risk; requires structural evidence review. This is not a finding of bad faith and not a legal invalidity claim.; +1 more
@@ -2887,18 +2311,18 @@ Score justification explains LAIF-model signal strength only. It does not determ
 
 
 #### Governance-Force Profile
-| Component          | Status   | Reviewer note                                                                         |
-| ------------------ | -------- | ------------------------------------------------------------------------------------- |
-| mandate            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| actor              | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| trigger            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| protected interest | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| control            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| evidence           | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| reversibility      | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| escalation         | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| consequence        | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| auditability       | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
+| Component          | Status           | Reviewer note                                                                                                    |
+| ------------------ | ---------------- | ---------------------------------------------------------------------------------------------------------------- |
+| mandate            | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| actor              | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| trigger            | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| protected interest | partial/implicit | Partial substance detected in the source text (one signal family).                                               |
+| control            | partial/implicit | Partial substance detected in the source text (one signal family).                                               |
+| evidence           | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| reversibility      | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| escalation         | partial/implicit | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| consequence        | partial/implicit | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| auditability       | detected         | Source-text signals indicate this component is present or directly supported.                                    |
 
 
 #### Sector / Institutional Context
@@ -2906,8 +2330,7 @@ Score justification explains LAIF-model signal strength only. It does not determ
 - **Sector profile key:** general_ai_governance
 - **Profile-specific remediation themes:** Translate general governance principles into owners, triggers, protected interests, controls, evidence, escalation, and auditability.; Use LAIF-native terminology only for certification adoption, not external-framework validity claims.
 - **Profile-specific evidence cautions:** General governance vocabulary does not prove compliance or legal validity.; Use reviewer-confirmation fallback when exact evidence text is absent.
-- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.
-- **Profile diagnostics do not change legal authority, formal certification, or sector obligations; reviewer confirmation required.
+- **Boundary:** profile diagnostics do not determine legal validity, LAIF-native certification, sector compliance, or sector obligations; reviewer confirmation required.
 - **Sector diagnostic findings:** Risk signal present: high-risk classification language; Risk signal present: accountability assignment; Risk signal present: transparency requirements; +7 more
 
 
@@ -2916,23 +2339,13 @@ Evidence traces are deterministic source-support metadata. They do not determine
 - **Total traces:** 20
 - **Exact/deterministic count:** 20
 - **Fallback count:** 0
-- **Top trace IDs and evidence types:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Evidence trace IDs:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Reviewer-confirmation boundary:** trace support is source-text support for LAIF-model signals only and does not prove implementation, adoption, authority, or external effect.
 
 
 #### Construct Crosswalk
-| Construct               | Detected for LAIF-native gate |
-| ----------------------- | ----------------------------- |
-| Coupling                | review required               |
-| Coherence Test          | review required               |
-| Integrity Layer         | review required               |
-| Structural Transparency | review required               |
-| Structural Honesty      | review required               |
-| Structural Containment  | review required               |
-| Consistency             | review required               |
-| Reversibility           | review required               |
-Each required LAIF-native construct remains necessary for certification; each required LAIF-native construct remains necessary for LAIF-native certification; proximity evidence cannot substitute for a missing required construct.
+No LAIF-native constructs detected — expected for an external instrument; see the Functional Alignment table for substance detected in the document's own vocabulary.
+Each required LAIF-native construct remains necessary for certification; proximity evidence cannot substitute for a missing required construct.
 
 
 #### Diagnostic Gaps
@@ -2948,24 +2361,25 @@ Each required LAIF-native construct remains necessary for certification; each re
 LAIF structural remediation priorities are ordered diagnostic guidance, not authority determinations.
 
 ##### Structured remediation details
-1. **Problem:** Structural Coupling not declared — the term 'Coupling' is absent.
+1. **Problem:** Restriction-protection pairing not established — no governance restriction is bound to the specific interest it protects, in any vocabulary.
    - **Why it matters:** Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1).
-   - **Concrete fix:** For each governance restriction, add: 'Coupling between [restriction] and [the specific human interest it protects], with [named protection mechanism] of equivalent normative force.' Both sides must be named explicitly; neither can be weakened in isolation (Toolkit §2 B.1).
+   - **Concrete fix:** For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).
 2. **Problem:** Structural governance architecture score critically low (35/100) — most deficient dimension after Coupling.
    - **Why it matters:** Without a constitutional hierarchy, operational revisions can alter the governance standard without triggering a constitutional amendment — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 5 missed signals for this dimension. Critical gaps: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy. Full signal breakdown in the Scores section.
 3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-4. **Problem:** Integrity Layer not declared as a deployment precondition.
-   - **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
-   - **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+   - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
+   - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 5. **Problem:** Constitutional hierarchy not declared (structural score 35/100). Missing: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy.
    - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
 #### Structured Remediation Patch Set
 These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
+Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
 - **patch_id:** LAIF-PATCH-01-structural-constitutional-hierarchy-not-de
   - **finding_type:** governance_force_gap
   - **severity:** medium
@@ -3036,78 +2450,6 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
   - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** LAIF-TRACE-03-sector-profile-signal, LAIF-TRACE-13-governance-force-signal
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-07-missing-laif-construct-structural-honesty
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-containm
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Containment
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Containment
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-09-missing-laif-construct-consistency
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Consistency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Consistency
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-10-missing-laif-construct-reversibility
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Reversibility
-  - **recommended_patch:** Add an escalation path and reversibility procedure that identifies who can pause, roll back, review, or remedy the affected decision.
-  - **operational_control:** Maintain a rollback, appeal, or corrective-action playbook with decision authority and response time expectations.
-  - **evidence_artifact:** Rollback, appeal, redress, or corrective-action log with closure evidence.
-  - **verification_test:** Create a verification test that samples this reversibility control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-11-low-structural-score-35-100-missed-signals
-  - **finding_type:** governance_force_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Low structural score (35/100): missed signals include full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable constitutional hierarchy
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Low structural score (35/100): missed signals include full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), non-amendable con
-  - **operational_control:** Create trigger criteria for when the control activates, including pre-deployment, change, incident, and periodic review events.
-  - **evidence_artifact:** Trigger matrix and completed pre-deployment or change-review checklist.
-  - **verification_test:** Create a verification test that samples this trigger control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-12-low-terminology-score-0-100-missed-signals
-  - **finding_type:** terminology_gap
-  - **severity:** high
-  - **diagnostic_gap:** Low terminology score (0/100): missed signals include Coupling, Coherence Test, Integrity Layer
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 
@@ -3213,17 +2555,15 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 35/100 — limited LAIF-model signal
+- **Overall readiness:** 35/100 — limited structural signal
 - **Calibrated position:** 43% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 31/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
-- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
 - **Structural strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: human oversight; +9 more
-- **Assessment-model strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: human oversight; +9 more
 - **Governance signal strength:** 35
-- **Structural depth:** 35
+- **Structural dimension score:** 35/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
 
@@ -3232,11 +2572,11 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
 | Construct        | Verdict | Signal families detected                                         |
 | ---------------- | ------- | ---------------------------------------------------------------- |
-| Coupling         | ABSENT  | reviewer confirmation required                                   |
+| Coupling         | ABSENT  | none detected                                                    |
 | Integrity Layer  | PARTIAL | meaningful account of outputs; bounded operation with escalation |
-| Consistency      | ABSENT  | reviewer confirmation required                                   |
+| Consistency      | ABSENT  | none detected                                                    |
 | Reversibility    | PARTIAL | reversal capacity preserved                                      |
-| Self-Application | ABSENT  | reviewer confirmation required                                   |
+| Self-Application | ABSENT  | none detected                                                    |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -3249,16 +2589,16 @@ Signals detected and Signals not detected are public labels only; raw detection 
 | Dimension            | Score  | Fired signal labels                                                                                           | Missed signal labels                                                                                                 |
 | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | Structural           | 35/100 | mandatory obligation language (shall); full lifecycle scope declared; review / monitoring mechanisms; +1 more | numbered sub-requirements; risk stratification / proportionality; operational mechanisms defined; +3 more            |
-| Terminology          | 0/100  | reviewer confirmation required                                                                                | Coupling; Coherence Test; Integrity Layer; +4 more                                                                   |
+| Terminology          | 0/100  | none detected                                                                                                 | Coupling; Coherence Test; Integrity Layer; +4 more                                                                   |
 | Conceptual proximity | 31/100 | transparency; explainability / interpretability; human oversight; +1 more                                     | human rights / fundamental interests; accountability; proportionality; +5 more                                       |
 | Auditability         | 40/100 | evidence / documentation requirements; review / monitoring mechanisms                                         | multiple mandatory obligations (shall/must pairs); numbered traceable requirements; specific, measurable obligations |
 | Enforceability       | 60/100 | mandatory language (shall/must); named responsible parties; non-discretionary operational mandates            | risk-proportionate thresholds; enforcement consequences / penalties                                                  |
-| Overall readiness    | 35/100 | limited LAIF-model signal                                                                                     | reviewer confirmation required                                                                                       |
+| Overall readiness    | 35/100 | limited structural signal                                                                                     | —                                                                                                                    |
 
 
 #### Score Calibration and Justification
 Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.
-- **Overall band:** limited LAIF-model signal
+- **Overall band:** limited structural signal
 - **Formal LAIF-native status:** FAIL
 - **Interpretation boundary:** Formal LAIF-native failure cannot be overridden by high proximity scores.
 - **Calibration / anti-gaming cautions:** 5 — Sector risk alignment materially exceeds overall readiness.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.; Low LAIF-model signal may indicate missing LAIF-model signals, not legal invalidity under the source framework's own authority.; +2 more
@@ -3266,18 +2606,18 @@ Score justification explains LAIF-model signal strength only. It does not determ
 
 
 #### Governance-Force Profile
-| Component          | Status   | Reviewer note                                                                         |
-| ------------------ | -------- | ------------------------------------------------------------------------------------- |
-| mandate            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| actor              | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| trigger            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| protected interest | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| control            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| evidence           | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| reversibility      | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| escalation         | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| consequence        | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| auditability       | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
+| Component          | Status                | Reviewer note                                                                                                    |
+| ------------------ | --------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| mandate            | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| actor              | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| trigger            | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| protected interest | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| control            | partial/implicit      | Partial substance detected in the source text (one signal family).                                               |
+| evidence           | detected              | Source-text signals indicate this component is present or directly supported.                                    |
+| reversibility      | partial/implicit      | Partial substance detected in the source text (one signal family).                                               |
+| escalation         | partial/implicit      | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| consequence        | gap / requires review | Source-text gaps or missed signals indicate this component requires reviewer confirmation or remediation.        |
+| auditability       | detected              | Source-text signals indicate this component is present or directly supported.                                    |
 
 
 #### Sector / Institutional Context
@@ -3285,8 +2625,7 @@ Score justification explains LAIF-model signal strength only. It does not determ
 - **Sector profile key:** clinical_ai
 - **Profile-specific remediation themes:** Assign a clinical governance owner with clinician reviewer and safety incident pathway.; Require clinical fallback, override record, patient safety review, and incident log.; Keep clinical source-evidence claims tied to exact text.
 - **Profile-specific evidence cautions:** Clinical vocabulary does not determine medical, regulatory, or legal validity.; Do not invent clinical validation, fallback, override, patient safety review, or incident evidence.
-- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.
-- **Profile diagnostics do not change legal authority, formal certification, or sector obligations; reviewer confirmation required.
+- **Boundary:** profile diagnostics do not determine legal validity, LAIF-native certification, sector compliance, or sector obligations; reviewer confirmation required.
 - **Sector diagnostic findings:** Risk signal present: clinical decision output; Risk signal present: patient safety signal; Risk signal present: diagnostic / treatment language; +7 more
 
 
@@ -3295,23 +2634,13 @@ Evidence traces are deterministic source-support metadata. They do not determine
 - **Total traces:** 20
 - **Exact/deterministic count:** 20
 - **Fallback count:** 0
-- **Top trace IDs and evidence types:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Evidence trace IDs:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Reviewer-confirmation boundary:** trace support is source-text support for LAIF-model signals only and does not prove implementation, adoption, authority, or external effect.
 
 
 #### Construct Crosswalk
-| Construct               | Detected for LAIF-native gate |
-| ----------------------- | ----------------------------- |
-| Coupling                | review required               |
-| Coherence Test          | review required               |
-| Integrity Layer         | review required               |
-| Structural Transparency | review required               |
-| Structural Honesty      | review required               |
-| Structural Containment  | review required               |
-| Consistency             | review required               |
-| Reversibility           | review required               |
-Each required LAIF-native construct remains necessary for certification; each required LAIF-native construct remains necessary for LAIF-native certification; proximity evidence cannot substitute for a missing required construct.
+No LAIF-native constructs detected — expected for an external instrument; see the Functional Alignment table for substance detected in the document's own vocabulary.
+Each required LAIF-native construct remains necessary for certification; proximity evidence cannot substitute for a missing required construct.
 
 
 #### Diagnostic Gaps
@@ -3337,12 +2666,13 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 4. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-5. **Problem:** Integrity Layer not declared as a deployment precondition.
-   - **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
-   - **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+5. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+   - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
+   - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 
 #### Structured Remediation Patch Set
 These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
+Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
 - **patch_id:** LAIF-PATCH-01-structural-constitutional-hierarchy-not-de
   - **finding_type:** governance_force_gap
   - **severity:** medium
@@ -3408,78 +2738,6 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
   - **severity:** high
   - **diagnostic_gap:** Missing LAIF construct: Integrity Layer
   - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-07-missing-laif-construct-structural-transpar
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Transparency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Transparency
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** LAIF-TRACE-12-governance-force-signal
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-honesty
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-09-missing-laif-construct-structural-containm
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Containment
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Containment
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-10-missing-laif-construct-consistency
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Consistency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Consistency
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-11-missing-laif-construct-reversibility
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Reversibility
-  - **recommended_patch:** Add an escalation path and reversibility procedure that identifies who can pause, roll back, review, or remedy the affected decision.
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this reversibility control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-12-low-structural-score-35-100-missed-signals
-  - **finding_type:** governance_force_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Low structural score (35/100): missed signals include numbered sub-requirements, risk stratification / proportionality, operational mechanisms defined
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Low structural score (35/100): missed signals include numbered sub-requirements, risk stratification / proportionality, operational mechanisms defined
   - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
   - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
   - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
@@ -3590,30 +2848,28 @@ Public status label: **Governance repair assessment — external-framework diagn
 
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
-- **Overall readiness:** 39/100 — limited LAIF-model signal
+- **Overall readiness:** 39/100 — limited structural signal
 - **Calibrated position:** 48% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 41/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** HIGH
-- **Key structural risks (assessment model):** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present
 - **Structural strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: accountability; +12 more
-- **Assessment-model strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: accountability; +12 more
 - **Governance signal strength:** 39
-- **Structural depth:** 28
+- **Structural dimension score:** 28/100
 - **Position assessment:** diagnostic under the assessment model, not certification.
 - **Functional alignment:** PARTIALLY ALIGNED — some LAIF constructs present in substance or in form
 
 
 #### Functional Alignment (Substance Independent of Vocabulary)
 DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's own vocabulary (≥2 independent signal families); PARTIAL = one family; ABSENT = none. Source: LAIF v1.2 Part Eight; Regulatory Integration Guide Part One.
-| Construct        | Verdict | Signal families detected       |
-| ---------------- | ------- | ------------------------------ |
-| Coupling         | ABSENT  | reviewer confirmation required |
-| Integrity Layer  | PARTIAL | meaningful account of outputs  |
-| Consistency      | ABSENT  | reviewer confirmation required |
-| Reversibility    | PARTIAL | reversal capacity preserved    |
-| Self-Application | ABSENT  | reviewer confirmation required |
+| Construct        | Verdict | Signal families detected      |
+| ---------------- | ------- | ----------------------------- |
+| Coupling         | ABSENT  | none detected                 |
+| Integrity Layer  | PARTIAL | meaningful account of outputs |
+| Consistency      | ABSENT  | none detected                 |
+| Reversibility    | PARTIAL | reversal capacity preserved   |
+| Self-Application | ABSENT  | none detected                 |
 
 
 #### Technical Appendix — Internal Diagnostic Boundary — LAIF-native construct coverage
@@ -3626,16 +2882,16 @@ Signals detected and Signals not detected are public labels only; raw detection 
 | Dimension            | Score  | Fired signal labels                                                                                       | Missed signal labels                                                                                                                    |
 | -------------------- | ------ | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | Structural           | 28/100 | numbered sub-requirements; mandatory obligation language (shall); operational mechanisms defined; +1 more | full lifecycle scope declared; risk stratification / proportionality; threshold gate conditions (all must pass simultaneously); +3 more |
-| Terminology          | 0/100  | reviewer confirmation required                                                                            | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                      |
+| Terminology          | 0/100  | none detected                                                                                             | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                      |
 | Conceptual proximity | 41/100 | transparency; explainability / interpretability; accountability; +2 more                                  | human rights / fundamental interests; human oversight; proportionality; +4 more                                                         |
 | Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms    | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                                     |
 | Enforceability       | 60/100 | mandatory language (shall/must); named responsible parties; non-discretionary operational mandates        | risk-proportionate thresholds; enforcement consequences / penalties                                                                     |
-| Overall readiness    | 39/100 | limited LAIF-model signal                                                                                 | reviewer confirmation required                                                                                                          |
+| Overall readiness    | 39/100 | limited structural signal                                                                                 | —                                                                                                                                       |
 
 
 #### Score Calibration and Justification
 Score justification explains LAIF-model signal strength only. It does not determine legal validity or certify LAIF-native compliance.
-- **Overall band:** limited LAIF-model signal
+- **Overall band:** limited structural signal
 - **Formal LAIF-native status:** FAIL
 - **Interpretation boundary:** Formal LAIF-native failure cannot be overridden by high proximity scores.
 - **Calibration / anti-gaming cautions:** 4 — Sector risk alignment materially exceeds overall readiness.; Multiple evidence traces are present while formal LAIF-native compliance remains failed.; Low LAIF-model signal may indicate missing LAIF-model signals, not legal invalidity under the source framework's own authority.; +1 more
@@ -3643,18 +2899,18 @@ Score justification explains LAIF-model signal strength only. It does not determ
 
 
 #### Governance-Force Profile
-| Component          | Status   | Reviewer note                                                                         |
-| ------------------ | -------- | ------------------------------------------------------------------------------------- |
-| mandate            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| actor              | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| trigger            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| protected interest | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| control            | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| evidence           | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| reversibility      | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| escalation         | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| consequence        | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
-| auditability       | detected | Existing LAIF-model signals indicate this component is present or directly supported. |
+| Component          | Status           | Reviewer note                                                                                                    |
+| ------------------ | ---------------- | ---------------------------------------------------------------------------------------------------------------- |
+| mandate            | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| actor              | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| trigger            | partial/implicit | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| protected interest | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| control            | partial/implicit | Partial substance detected in the source text (one signal family).                                               |
+| evidence           | detected         | Source-text signals indicate this component is present or directly supported.                                    |
+| reversibility      | partial/implicit | Partial substance detected in the source text (one signal family).                                               |
+| escalation         | partial/implicit | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| consequence        | partial/implicit | Source-text signals suggest the component may be present, but the report does not treat it as fully established. |
+| auditability       | detected         | Source-text signals indicate this component is present or directly supported.                                    |
 
 
 #### Sector / Institutional Context
@@ -3662,8 +2918,7 @@ Score justification explains LAIF-model signal strength only. It does not determ
 - **Sector profile key:** employment_hr_ai
 - **Profile-specific remediation themes:** Assign an HR policy owner with legal/compliance and bias-review support.; Require adverse-action review, bias evidence, human review, and appeal records.; Distinguish worker-protection governance from AI surveillance vocabulary.
 - **Profile-specific evidence cautions:** Do not infer employment-law compliance or legal validity from HR terminology.; Do not generate bias or adverse-action evidence unless exact source text exists.
-- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.
-- **Profile diagnostics do not change legal authority, formal certification, or sector obligations; reviewer confirmation required.
+- **Boundary:** profile diagnostics do not determine legal validity, LAIF-native certification, sector compliance, or sector obligations; reviewer confirmation required.
 - **Sector diagnostic findings:** Risk signal present: employment lifecycle decision; Risk signal present: worker population; Risk signal present: performance assessment; +7 more
 
 
@@ -3672,23 +2927,13 @@ Evidence traces are deterministic source-support metadata. They do not determine
 - **Total traces:** 19
 - **Exact/deterministic count:** 19
 - **Fallback count:** 0
-- **Top trace IDs and evidence types:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Evidence trace IDs:** LAIF-TRACE-01-sector-profile-signal (sector_profile_signal); LAIF-TRACE-02-sector-profile-signal (sector_profile_signal); LAIF-TRACE-03-sector-profile-signal (sector_profile_signal)
 - **Reviewer-confirmation boundary:** trace support is source-text support for LAIF-model signals only and does not prove implementation, adoption, authority, or external effect.
 
 
 #### Construct Crosswalk
-| Construct               | Detected for LAIF-native gate |
-| ----------------------- | ----------------------------- |
-| Coupling                | review required               |
-| Coherence Test          | review required               |
-| Integrity Layer         | review required               |
-| Structural Transparency | review required               |
-| Structural Honesty      | review required               |
-| Structural Containment  | review required               |
-| Consistency             | review required               |
-| Reversibility           | review required               |
-Each required LAIF-native construct remains necessary for certification; each required LAIF-native construct remains necessary for LAIF-native certification; proximity evidence cannot substitute for a missing required construct.
+No LAIF-native constructs detected — expected for an external instrument; see the Functional Alignment table for substance detected in the document's own vocabulary.
+Each required LAIF-native construct remains necessary for certification; proximity evidence cannot substitute for a missing required construct.
 
 
 #### Diagnostic Gaps
@@ -3712,15 +2957,16 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-4. **Problem:** Integrity Layer not declared as a deployment precondition.
-   - **Why it matters:** A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural Containment — all three must be satisfied simultaneously before deployment may proceed. Partial satisfaction = failure. Without this gate, there is no precondition preventing premature deployment (LAIF v1.2 Part Two).
-   - **Concrete fix:** Add an Integrity Layer section with three threshold conditions: A.1 — system can produce a meaningful account of any material output; A.2 — stated objectives correspond to implemented objectives, verified by independent review; A.3 — system operates within documented boundaries in all tested conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5).
+4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+   - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
+   - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 5. **Problem:** Constitutional hierarchy not declared (structural score 28/100). Missing: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
    - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
 #### Structured Remediation Patch Set
 These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
+Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
 - **patch_id:** LAIF-PATCH-01-structural-constitutional-hierarchy-not-de
   - **finding_type:** governance_force_gap
   - **severity:** medium
@@ -3791,78 +3037,6 @@ These patches are diagnostic LAIF remediation guidance. They do not determine le
   - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
   - **Evidence trace IDs:** LAIF-TRACE-09-governance-force-signal
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-07-missing-laif-construct-structural-honesty
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
-  - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
-  - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-containm
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Structural Containment
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Containment
-  - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
-  - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-09-missing-laif-construct-consistency
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Consistency
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Consistency
-  - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
-  - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-10-missing-laif-construct-reversibility
-  - **finding_type:** construct_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Missing LAIF construct: Reversibility
-  - **recommended_patch:** Add an escalation path and reversibility procedure that identifies who can pause, roll back, review, or remedy the affected decision.
-  - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
-  - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
-  - **verification_test:** Create a verification test that samples this reversibility control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-11-low-structural-score-28-100-missed-signals
-  - **finding_type:** governance_force_gap
-  - **severity:** medium
-  - **diagnostic_gap:** Low structural score (28/100): missed signals include full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Low structural score (28/100): missed signals include full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must 
-  - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
-  - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
-  - **verification_test:** Create a verification test that samples this trigger control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-12-low-terminology-score-0-100-missed-signals
-  - **finding_type:** terminology_gap
-  - **severity:** high
-  - **diagnostic_gap:** Low terminology score (0/100): missed signals include Coupling, Coherence Test, Integrity Layer
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
-  - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
-  - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 

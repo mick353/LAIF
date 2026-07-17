@@ -445,7 +445,7 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             "Score distribution / deterministic rubric comparison",
             "Governance signal strength",
             "Structural depth",
-            "Key structural risks (assessment model)",
+            "Primary structural gaps",
             "Structural strengths",
             "Position assessment:** diagnostic under the assessment model",
             "LAIF structural remediation priorities",
@@ -1004,7 +1004,7 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         self.assertIn("Education AI", report)
         self.assertIn("Profile-specific remediation themes", report)
         self.assertIn("Profile-specific evidence cautions", report)
-        self.assertIn("Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance", report)
+        self.assertIn("profile diagnostics do not determine legal validity, LAIF-native certification, sector compliance", report)
 
     def test_console_output_includes_sector_profile_safely(self):
         """Console scorecard reports concise profile metadata without unsafe phrases."""
@@ -1243,7 +1243,7 @@ class Phase3QCalibrationScoreJustificationTests(unittest.TestCase):
     def test_phase_3q_score_interpretation_uses_laif_model_signal_language(self):
         result = self._external_result()
         interp = result["score_interpretation"]
-        self.assertIn("LAIF-model signal", interp)
+        self.assertIn("structural signal", interp)
         self.assertIn("diagnostic interpretation", interp)
         self.assertIn("not a legal verdict", interp)
         self.assertNotIn("legal compliance rating", interp.lower())

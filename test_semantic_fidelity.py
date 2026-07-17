@@ -388,6 +388,30 @@ check(_ext_report.startswith("# AI Governance Structural Integrity Assessment"),
       "SF7.5", "report title leads with the findings, not the framework brand")
 
 
+# ── GROUP SF8 — Report rendering integrity ───────────────────────────────────
+
+section("GROUP SF8 — Report rendering integrity (no self-contamination, no filler)")
+
+check("| reviewer confirmation required" not in _ext_report
+      and "Assessment-model strengths" not in _ext_report
+      and "Top trace IDs and evidence types" not in _ext_report,
+      "SF8.1", "no instruction-text in data cells; no duplicated summary labels")
+
+from assessment_engine import _governance_force_profile
+_minimal = assess(name="minimal", source_type="fixture",
+                  text="The provider shall document all decisions and retain records.")
+_rev_status = dict((c, s) for c, s, _ in _governance_force_profile(_minimal))["reversibility"]
+check(_rev_status != "detected", "SF8.2",
+      f"governance-force profile never detects components absent from the "
+      f"source text (reversibility on minimal fixture = {_rev_status})")
+
+_s1_profile = dict((c, s) for c, s, _ in _governance_force_profile(s1))
+check(_s1_profile.get("reversibility") == "detected"
+      and _s1_profile.get("protected interest") == "detected",
+      "SF8.3", "governance-force profile still detects components genuinely "
+               "present in the source (S1 control)")
+
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 
 print(f"\n{'═' * 70}")

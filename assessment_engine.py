@@ -1911,7 +1911,9 @@ def _structured_remediation(result):
     elif cq in ("ABSENT", "SHALLOW", "NEGATED"):
         cq_r = result["coupling_quality_reason"]
         if cq == "ABSENT":
-            problem = "Structural Coupling not declared — the term 'Coupling' is absent."
+            problem = ("Restriction-protection pairing not established — no governance "
+                       "restriction is bound to the specific interest it protects, in "
+                       "any vocabulary.")
         elif cq == "SHALLOW":
             problem = f"Coupling declared SHALLOW — {cq_r[:110]}"
         else:
@@ -1925,10 +1927,14 @@ def _structured_remediation(result):
                 "Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
             ),
             "concrete_fix": (
-                "For each governance restriction, add: 'Coupling between [restriction] "
-                "and [the specific human interest it protects], with [named protection "
-                "mechanism] of equivalent normative force.' Both sides must be named "
-                "explicitly; neither can be weakened in isolation (Toolkit §2 B.1)."
+                "For each restriction, name the specific interest it protects and bind "
+                "the two together so that neither can be weakened without the other, "
+                "with the protection as enforceable as the restriction. The document's "
+                "own vocabulary is sufficient for the structure; the canonical form "
+                "('Coupling between [restriction] and [interest], with equivalent "
+                "normative force' — Toolkit §2 B.1) is required only on the "
+                "LAIF-native certification path, where an equivalence mapping is the "
+                "alternative (Regulatory Integration Guide Part One)."
             ),
         })
 
@@ -1997,19 +2003,25 @@ def _structured_remediation(result):
     # 4 — Integrity Layer
     if not result["construct_coverage"].get("Integrity Layer"):
         steps.append({
-            "problem": "Integrity Layer not declared as a deployment precondition.",
+            "problem": ("No all-conditions-must-pass deployment gate — deployment is not "
+                        "conditioned on transparency, honesty, and containment being "
+                        "simultaneously satisfied."),
             "why_it_matters": (
-                "A.1 Structural Transparency, A.2 Structural Honesty, A.3 Structural "
-                "Containment — all three must be satisfied simultaneously before deployment "
-                "may proceed. Partial satisfaction = failure. Without this gate, there is "
-                "no precondition preventing premature deployment (LAIF v1.2 Part Two)."
+                "Without a threshold gate, a system can be deployed while any of the three "
+                "core preconditions is unmet: the ability to account for its outputs, the "
+                "correspondence of stated to implemented objectives, and operation within "
+                "documented boundaries. Partial satisfaction functioning as approval is the "
+                "single most common structural failure this model detects (LAIF v1.2 Part Two)."
             ),
             "concrete_fix": (
-                "Add an Integrity Layer section with three threshold conditions: A.1 — system "
-                "can produce a meaningful account of any material output; A.2 — stated "
-                "objectives correspond to implemented objectives, verified by independent "
-                "review; A.3 — system operates within documented boundaries in all tested "
-                "conditions. All three must pass before deployment authorisation (Toolkit §1.3–§1.5)."
+                "Establish a deployment gate with three conditions that must all hold "
+                "simultaneously — (i) the system can produce a meaningful account of any "
+                "output that materially affects a person; (ii) stated objectives correspond "
+                "to implemented objectives, verified by independent review; (iii) the system "
+                "operates within documented boundaries in all tested conditions, escalating "
+                "out-of-scope cases. The document's own vocabulary is sufficient; the "
+                "canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only "
+                "on the LAIF-native certification path."
             ),
         })
 
@@ -2131,13 +2143,13 @@ def _remediation(result):
         )
     elif not result["construct_coverage"].get("Coupling"):
         steps.append(
-            "Declare structural Coupling for each governance restriction: explicitly identify "
-            "the specific human interest at stake (not a category — name it with specificity, "
-            "e.g. 'the patient's interest in receiving treatment decisions based on accurate "
-            "clinical assessment') and pair it with a protection of equivalent normative force. "
-            "The restriction and its paired protection must not be capable of being weakened in "
-            "isolation (LAIF v1.2 Principle 2; Toolkit §2 B.1). The pairing may be expressed "
-            "in the document's own vocabulary — what is required is the structure, not the word."
+            "Bind each governance restriction to the specific human interest it protects: "
+            "name the interest with specificity (not a category — e.g. 'the patient's "
+            "interest in treatment decisions based on accurate clinical assessment'), "
+            "pair it with a protection as enforceable as the restriction, and lock the "
+            "pair so neither can be weakened in isolation (LAIF v1.2 Principle 2). The "
+            "document's own vocabulary is sufficient; canonical Coupling declarations "
+            "(Toolkit §2 B.1) are required only for LAIF-native certification."
         )
 
     # 3 — Coherence Test (always needed when missing)
@@ -3449,22 +3461,41 @@ _CONSTRUCT_ORDER = (
 
 
 def _text_pool(result):
+    """Source-derived POSITIVE signals only: strengths (built from fired
+    rubric patterns), sector signals actually present in the text, and
+    constructs actually detected. Gaps, failure modes, and remediation
+    text are deliberately excluded — a profile must never detect the
+    vocabulary of its own recommendations."""
     parts = []
-    for key in ("gaps", "strengths", "primary_failure_modes", "sector_specific_findings", "recommended_remediation_steps"):
-        value = result.get(key, [])
-        if isinstance(value, list):
-            parts.extend(str(v) for v in value)
-        else:
-            parts.append(str(value))
+    parts.extend(str(v) for v in result.get("strengths", []) or [])
+    for finding in result.get("sector_specific_findings", []) or []:
+        s = str(finding)
+        if s.startswith("Risk signal present") or s.startswith("Evidence present"):
+            parts.append(s)
     coverage = result.get("construct_coverage", {})
     parts.extend(k for k, present in coverage.items() if present)
     return "\n".join(parts).lower()
 
 
+def _gap_pool(result):
+    """Source-derived NEGATIVE signals: gaps, failure modes, and sector
+    signals confirmed absent."""
+    parts = []
+    parts.extend(str(v) for v in result.get("gaps", []) or [])
+    parts.extend(str(v) for v in result.get("primary_failure_modes", []) or [])
+    for finding in result.get("sector_specific_findings", []) or []:
+        s = str(finding)
+        if s.startswith("Risk signal absent") or s.startswith("Evidence gap"):
+            parts.append(s)
+    return "\n".join(parts).lower()
+
+
 def _governance_force_profile(result):
-    """Display-only profile derived from existing assessment signals; does not score."""
+    """Display-only profile derived from source-text signals; does not score."""
     text = _text_pool(result)
+    gaps = _gap_pool(result)
     coverage = result.get("construct_coverage", {})
+    functional = result.get("functional_alignment", {})
     scores = result.get("score_breakdown", {})
     fired = []
     missed = []
@@ -3474,25 +3505,37 @@ def _governance_force_profile(result):
     fired_text = "\n".join(fired)
     missed_text = "\n".join(missed)
 
-    def classify(component, detected_terms=(), partial_terms=(), gap_terms=()):
+    def _functional_verdict(construct):
+        return functional.get(construct, {}).get("verdict", "ABSENT")
+
+    def classify(component, detected_terms=(), partial_terms=(), gap_terms=(),
+                 functional_construct=None):
+        if functional_construct:
+            fv = _functional_verdict(functional_construct)
+            if fv in ("DECLARED", "FUNCTIONAL"):
+                return "detected", ("Substance detected in the source text "
+                                    "(functional-alignment layer).")
+            if fv == "PARTIAL":
+                return "partial/implicit", ("Partial substance detected in the "
+                                           "source text (one signal family).")
         hay = "\n".join([text, fired_text])
-        gap_hay = "\n".join([text, missed_text])
+        gap_hay = "\n".join([gaps, missed_text])
         if any(term in hay for term in detected_terms):
-            return "detected", "Existing LAIF-model signals indicate this component is present or directly supported."
+            return "detected", "Source-text signals indicate this component is present or directly supported."
         if any(term in hay for term in partial_terms):
-            return "partial/implicit", "Existing signals suggest the component may be present, but the report does not treat it as fully established."
+            return "partial/implicit", "Source-text signals suggest the component may be present, but the report does not treat it as fully established."
         if any(term in gap_hay for term in gap_terms):
-            return "gap / requires review", "Existing gaps or missed signals indicate this component requires reviewer confirmation or remediation."
-        return "requires reviewer confirmation", "Existing deterministic signals are insufficient to classify this component with confidence."
+            return "gap / requires review", "Source-text gaps or missed signals indicate this component requires reviewer confirmation or remediation."
+        return "requires reviewer confirmation", "Source-text signals are insufficient to classify this component with confidence."
 
     profile = {
         "mandate": classify("mandate", ("shall", "must", "mandatory", "binding", "obligation"), ("should", "encourage", "principle"), ("voluntary", "declaratory", "non-binding", "mandatory")),
         "actor": classify("actor", ("named parties", "responsible", "authority", "provider", "operator", "deployer", "developer", "agency"), ("oversight", "review"), ("named parties", "actor", "responsible")),
         "trigger": classify("trigger", ("threshold", "trigger", "before deployment", "pre-deployment", "when", "prior to"), ("review", "monitoring"), ("threshold", "trigger")),
-        "protected interest": classify("protected interest", ("human interest", "rights", "safety", "patient", "worker", "non-discrimination", "privacy", "redress"), ("fairness", "welfare", "dignity"), ("human interest", "materially affects")),
-        "control": classify("control", ("integrity layer", "structural transparency", "structural honesty", "structural containment", "control", "safeguard"), ("oversight", "monitoring"), ("integrity layer", "control")),
+        "protected interest": classify("protected interest", ("human interest", "rights", "safety", "patient", "worker", "non-discrimination", "privacy", "redress"), ("fairness", "welfare", "dignity"), ("human interest", "materially affects"), functional_construct="Coupling"),
+        "control": classify("control", ("integrity layer", "structural transparency", "structural honesty", "structural containment", "control", "safeguard"), ("oversight", "monitoring"), ("integrity layer", "control"), functional_construct="Integrity Layer"),
         "evidence": classify("evidence", ("evidence present", "documentation", "audit", "record", "trace", "reporting"), ("transparency", "monitoring"), ("evidence gap", "evidence")),
-        "reversibility": ("detected", "Construct coverage marks Reversibility as present.") if coverage.get("Reversibility") else classify("reversibility", ("reversibility", "reverse", "rollback", "appeal", "contest"), ("redress", "review"), ("reversibility", "reverse")),
+        "reversibility": ("detected", "Construct coverage marks Reversibility as present.") if coverage.get("Reversibility") else classify("reversibility", ("reversibility", "reverse", "rollback", "appeal", "contest"), ("redress", "review"), ("reversibility", "reverse"), functional_construct="Reversibility"),
         "escalation": classify("escalation", ("escalation", "authority", "enforcement", "supervisory", "complaint"), ("review", "oversight"), ("escalation", "enforcement")),
         "consequence": classify("consequence", ("consequence", "sanction", "penalty", "enforcement", "remedy", "liability"), ("accountability", "redress"), ("consequence", "sanction", "penalty")),
         "auditability": classify("auditability", ("audit", "evidence", "trace", "record", "documentation", "monitoring"), ("transparency", "reporting"), ("auditability", "evidence")),
@@ -4049,17 +4092,17 @@ _DIMENSION_DISPLAY_NAMES = {
 
 
 def _score_band(score):
-    """Return a LAIF-model signal band for an existing 0-100 score."""
+    """Return a structural-signal band for an existing 0-100 score."""
     score = max(0, min(100, int(score)))
     if score <= 19:
-        return "minimal LAIF-model signal"
+        return "minimal structural signal"
     if score <= 39:
-        return "limited LAIF-model signal"
+        return "limited structural signal"
     if score <= 59:
-        return "partial LAIF-model signal"
+        return "partial structural signal"
     if score <= 79:
-        return "substantial LAIF-model signal"
-    return "strong LAIF-model signal"
+        return "substantial structural signal"
+    return "strong structural signal"
 
 
 def _score_interpretation_label(score):
@@ -4361,10 +4404,10 @@ def _safe_markdown_cell(value):
     return " ".join(text.split())
 
 
-def _compact_list(values, limit=3):
+def _compact_list(values, limit=3, empty="none detected"):
     cleaned = [str(v).strip() for v in (values or []) if str(v).strip()]
     if not cleaned:
-        return "reviewer confirmation required"
+        return empty
     visible = cleaned[:limit]
     suffix = f"; +{len(cleaned) - limit} more" if len(cleaned) > limit else ""
     return "; ".join(visible) + suffix
@@ -4430,9 +4473,9 @@ def _report_document_row(result):
     patches = _report_patch_summary(result)
     cautions = _report_caution_summary(result)
     return [
-        _safe_markdown_cell(result.get("document_name", ""))[:42],
+        _safe_markdown_cell(result.get("document_name", ""))[:64],
         _safe_markdown_cell(result.get("assessment_mode", "external_framework")),
-        _safe_markdown_cell(_public_report_status_label(result).replace("LAIF-native certification: ", "")),
+        _safe_markdown_cell(result.get("laif_alignment", "not assessed")),
         _safe_markdown_cell(f"{result.get('overall_readiness_score', 0)}/100 — {_report_score_band(result)}"),
         _safe_markdown_cell(result.get("sector_profile_label", result.get("sector_label", result.get("sector_used", ""))))[:32],
         evidence["total"],
@@ -4562,15 +4605,15 @@ def generate_markdown_report(assessments, report_date="July 2026"):
     h(3, "Fair-Reading Bounds")
     p("1. A LAIF-native FAIL measures distance from LAIF's deliberately stricter "
       "standard, not instrument quality; it must never be quoted as a judgement of "
-      "the instrument against its own objectives. "
-      "2. Official-corpus findings hold within each document's declared excerpt "
-      "scope only. "
-      "3. Signals are lexical, not interpretive; per-signal traceability is the "
-      "compensating control. "
-      "4. Form/questionnaire-style instruments are undercounted by prose rubrics; "
-      "affected scorecards carry an interpretation caveat. "
-      "5. Cross-document averages characterise this corpus, not all AI governance. "
-      "6. Raw overall scores compress: part of the 100-point scale is reserved for "
+      "the instrument against its own objectives.")
+    p("2. Official-corpus findings hold within each document's declared excerpt "
+      "scope only.")
+    p("3. Signals are lexical, not interpretive; per-signal traceability is the "
+      "compensating control.")
+    p("4. Form/questionnaire-style instruments are undercounted by prose rubrics; "
+      "affected scorecards carry an interpretation caveat.")
+    p("5. Cross-document averages characterise this corpus, not all AI governance.")
+    p("6. Raw overall scores compress: part of the 100-point scale is reserved for "
       "LAIF-branded documents and lexical detection is conservative — a "
       "substance-perfect external document scores in the mid-50s on this "
       "instrument, so mid-range raw scores denote strength, not failure; each "
@@ -4629,12 +4672,16 @@ def generate_markdown_report(assessments, report_date="July 2026"):
     h(2, "Cross-Document Dashboard")
     h(3, "Score distribution / deterministic rubric comparison")
     table(
-        ["Document", "Mode", "LAIF-native status", "Overall score / band", "Sector profile", "Evidence traces", "Patches", "Cautions"],
+        ["Document", "Mode", "Alignment", "Overall score / band", "Sector profile", "Evidence traces", "Patches", "Cautions"],
         [_report_document_row(r) for r in assessments],
     )
     p()
     h(3, "Common structural gaps (cross-document)")
-    p(_compact_list([gap for r in assessments for gap in r.get("primary_failure_modes", [])]))
+    _gap_counter = Counter(gap for r in assessments
+                           for gap in r.get("primary_failure_modes", []))
+    p(_compact_list([f"{g} ({n}/{count} documents)"
+                     for g, n in _gap_counter.most_common(6)],
+                    limit=6, empty="none identified"))
     h(3, "Governance-force patterns")
     p(_compact_list([f"{k} ({v})" for k, v in force_counter.most_common(5)]))
     h(3, "Remediation themes")
@@ -4754,13 +4801,11 @@ def generate_markdown_report(assessments, report_date="July 2026"):
         p(f"- **Conceptual proximity:** {r.get('conceptual_proximity_score', 0)}/100")
         p(f"- **Sector risk alignment:** {r.get('sector_risk_alignment', 0)}/100")
         p(f"- **Remediation effort:** {r.get('remediation_effort', 'unknown')}")
-        p(f"- **Key structural risks (assessment model):** {_compact_list(r.get('primary_failure_modes', []))}")
-        p(f"- **Primary structural gaps:** {_compact_list(r.get('primary_failure_modes', []))}")
+        p(f"- **Primary structural gaps:** {_compact_list(r.get('primary_failure_modes', []), empty='none identified')}")
         if r.get("strengths"):
             p(f"- **Structural strengths:** {_compact_list(r.get('strengths', []))}")
-            p(f"- **Assessment-model strengths:** {_compact_list(r.get('strengths', []))}")
         p(f"- **Governance signal strength:** {r.get('governance_signal_strength', r.get('overall_readiness_score', 0))}")
-        p(f"- **Structural depth:** {r.get('structural_depth_score', r.get('structural_score', 0))}")
+        p(f"- **Structural dimension score:** {r.get('structural_depth_score', r.get('structural_score', 0))}/100")
         p("- **Position assessment:** diagnostic under the assessment model, not certification.")
         _alignment = r.get("laif_alignment", "")
         if _alignment:
@@ -4821,7 +4866,7 @@ def generate_markdown_report(assessments, report_date="July 2026"):
                 ["Conceptual proximity", f"{r.get('conceptual_proximity_score', 0)}/100", _compact_list([x[0] for x in r.get('score_breakdown', {}).get('conceptual', {}).get('fired', [])]), _compact_list([x[0] for x in r.get('score_breakdown', {}).get('conceptual', {}).get('missed', [])])],
                 ["Auditability", f"{r.get('auditability_score', 0)}/100", _compact_list([x[0] for x in r.get('score_breakdown', {}).get('auditability', {}).get('fired', [])]), _compact_list([x[0] for x in r.get('score_breakdown', {}).get('auditability', {}).get('missed', [])])],
                 ["Enforceability", f"{r.get('enforceability_score', 0)}/100", _compact_list([x[0] for x in r.get('score_breakdown', {}).get('enforceability', {}).get('fired', [])]), _compact_list([x[0] for x in r.get('score_breakdown', {}).get('enforceability', {}).get('missed', [])])],
-                ["Overall readiness", f"{r.get('overall_readiness_score', 0)}/100", _report_score_band(r), "reviewer confirmation required"],
+                ["Overall readiness", f"{r.get('overall_readiness_score', 0)}/100", _report_score_band(r), "—"],
             ],
         )
         p()
@@ -4849,8 +4894,7 @@ def generate_markdown_report(assessments, report_date="July 2026"):
         p(f"- **Sector profile key:** {r.get('sector_profile', r.get('sector_used', 'general_ai_governance'))}")
         p(f"- **Profile-specific remediation themes:** {_compact_list(r.get('sector_profile_remediation_themes', []))}")
         p(f"- **Profile-specific evidence cautions:** {_compact_list(r.get('sector_profile_evidence_cautions', []))}")
-        p("- **Profile diagnostics do not determine legal validity, LAIF-native certification, or sector compliance; reviewer confirmation required.")
-        p("- **Profile diagnostics do not change legal authority, formal certification, or sector obligations; reviewer confirmation required.")
+        p("- **Boundary:** profile diagnostics do not determine legal validity, LAIF-native certification, sector compliance, or sector obligations; reviewer confirmation required.")
         sector_findings = r.get("sector_specific_findings", [])
         if sector_findings:
             p(f"- **Sector diagnostic findings:** {_compact_list(sector_findings)}")
@@ -4862,15 +4906,20 @@ def generate_markdown_report(assessments, report_date="July 2026"):
         p(f"- **Total traces:** {evidence['total']}")
         p(f"- **Exact/deterministic count:** {evidence['exact']}")
         p(f"- **Fallback count:** {evidence['fallback']}")
-        p(f"- **Top trace IDs and evidence types:** {evidence['top']}")
         p(f"- **Evidence trace IDs:** {evidence['top']}")
         p("- **Reviewer-confirmation boundary:** trace support is source-text support for LAIF-model signals only and does not prove implementation, adoption, authority, or external effect.")
         p()
 
         h(4, "Construct Crosswalk")
         coverage = r.get("construct_coverage", {})
-        table(["Construct", "Detected for LAIF-native gate"], [[k, "yes" if v else "review required"] for k, v in coverage.items()])
-        p("Each required LAIF-native construct remains necessary for certification; each required LAIF-native construct remains necessary for LAIF-native certification; proximity evidence cannot substitute for a missing required construct.")
+        if any(coverage.values()):
+            table(["Construct", "Detected for LAIF-native gate"],
+                  [[k, "yes" if v else "not detected"] for k, v in coverage.items()])
+        else:
+            p("No LAIF-native constructs detected — expected for an external "
+              "instrument; see the Functional Alignment table for substance "
+              "detected in the document's own vocabulary.")
+        p("Each required LAIF-native construct remains necessary for certification; proximity evidence cannot substitute for a missing required construct.")
         p()
 
         h(4, "Diagnostic Gaps")
@@ -4900,7 +4949,11 @@ def generate_markdown_report(assessments, report_date="July 2026"):
         p("These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.")
         patches = r.get("remediation_patches", [])
         if patches:
-            for patch in patches:
+            _shown = patches[:6]
+            if len(patches) > 6:
+                p(f"Showing the 6 highest-priority patches of {len(patches)}; the "
+                  f"full set is available in the JSON assessment output.")
+            for patch in _shown:
                 p(f"- **patch_id:** {patch.get('patch_id', '')}")
                 p(f"  - **finding_type:** {patch.get('finding_type', '')}")
                 p(f"  - **severity:** {patch.get('severity', '')}")
