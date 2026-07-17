@@ -472,6 +472,18 @@ check(("illustrative excerpt — verify against the official instrument" in _ex_
       or ("Expressed by no document" in _ex_block),
       "SF10.4", "every exemplar carries an explicit text-status tag")
 
+import hashlib as _hl
+check(s1.get("assessed_text_sha256") ==
+      _hl.sha256(S1_SEMANTIC_TWIN.encode("utf-8")).hexdigest(),
+      "SF10.5", "every result carries the SHA-256 of exactly the text assessed")
+
+check("corpus fingerprint" in _ext_report
+      and "Assessed text SHA-256" in _ext_report
+      and "| Source SHA-256" not in _ext_report
+      and "| Original file name | not provided" not in _ext_report,
+      "SF10.6", "report carries a corpus fingerprint and assessed-text hashes; "
+                "no dead identity rows")
+
 
 
 # ── Summary ───────────────────────────────────────────────────────────────────

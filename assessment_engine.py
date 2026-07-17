@@ -25,6 +25,7 @@ Spec alignment references:
   LAIF_Compliance_Toolkit.txt — §1 Operational Standards, §2 PDCA, §7 Tiering
 """
 
+import hashlib
 import re
 import sys
 from collections import Counter
@@ -3065,6 +3066,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
                                                       func_coupling),
         "functional_alignment":       functional,
         "laif_alignment":             laif_alignment,
+        "assessed_text_sha256":       hashlib.sha256(text.encode("utf-8")).hexdigest(),
         "document_outline":           [lbl for _, lbl in _outline][:14],
         "signal_locations":           signal_locations,
         "obligation_anchors":         obligation_anchors,
@@ -4704,7 +4706,15 @@ def generate_markdown_report(assessments, report_date="July 2026"):
     p("**Assessment model:** Law-Aligned Intelligence Framework (LAIF) v1.2 · "
       "Compliance Toolkit v1.1 — the model is the measuring lens, not the "
       "subject of the findings; see Method Summary.  ")
-    p("**Report architecture:** Governance Repair Assessment public template — Phase 3V  ")
+    p("**Report template:** Governance Repair Assessment, public template v2.0 "
+      "(evidence locator, functional alignment, peer exemplars)  ")
+    _fingerprint = hashlib.sha256("".join(
+        r.get("assessed_text_sha256", "") for r in assessments
+    ).encode("utf-8")).hexdigest()[:16]
+    p(f"**Reproducibility:** deterministic output of `python3 test_real_world.py`; "
+      f"corpus fingerprint `{_fingerprint}` (SHA-256 over the assessed texts, in "
+      f"corpus order). Each document's scope table carries the SHA-256 of exactly "
+      f"the text assessed.  ")
     p("**Validator boundary:** validate.py enforcement remains unchanged; this report renders existing assessment results only.  ")
     p()
 
@@ -4963,9 +4973,14 @@ def generate_markdown_report(assessments, report_date="July 2026"):
         if r.get("assessment_mode") == "external_framework":
             overview.extend([
                 ["Document type", r.get("document_type", "unknown_governance_document")],
-                ["Original file name", r.get("original_file_name", "not provided") or "not provided"],
-                ["Source SHA-256", r.get("source_sha256", "not provided") or "not provided"],
+                ["Assessed text SHA-256", r.get("assessed_text_sha256", "") or "unavailable"],
             ])
+            if r.get("source_file"):
+                overview.append(["Committed source file", r.get("source_file")])
+            if r.get("original_file_name"):
+                overview.append(["Original file name", r.get("original_file_name")])
+            if r.get("source_sha256"):
+                overview.append(["Original source SHA-256", r.get("source_sha256")])
         table(["Field", "Value"], overview)
         p()
         _doc_outline = r.get("document_outline", [])

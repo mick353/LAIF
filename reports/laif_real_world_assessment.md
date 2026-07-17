@@ -2,7 +2,8 @@
 *How far do these instruments' protections actually reach the people they govern — and what would it take to close the distance?*  
 **Report date:** July 2026  
 **Assessment model:** Law-Aligned Intelligence Framework (LAIF) v1.2 · Compliance Toolkit v1.1 — the model is the measuring lens, not the subject of the findings; see Method Summary.  
-**Report architecture:** Governance Repair Assessment public template — Phase 3V  
+**Report template:** Governance Repair Assessment, public template v2.0 (evidence locator, functional alignment, peer exemplars)  
+**Reproducibility:** deterministic output of `python3 test_real_world.py`; corpus fingerprint `a603d21e8b5439f9` (SHA-256 over the assessed texts, in corpus order). Each document's scope table carries the SHA-256 of exactly the text assessed.  
 **Validator boundary:** validate.py enforcement remains unchanged; this report renders existing assessment results only.  
 
 
@@ -136,19 +137,19 @@ For each core structure, the strongest expression found anywhere in this corpus,
 #### Document Overview
 
 ##### Assessment Scope
-| Field              | Value                                                                                                                                      |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Document name      | US Executive Order 14110 — §2 Principles, §6 Workers, §7 Civil Rights (official text)                                                      |
-| Source type        | executive_directive                                                                                                                        |
-| Jurisdiction       | United States (Federal)                                                                                                                    |
-| Sector             | General AI Governance                                                                                                                      |
-| Assessment mode    | external_framework                                                                                                                         |
-| Citation           | Executive Order 14110, 88 FR 75191 (Nov 1, 2023), FR Doc. 2023-24283                                                                       |
-| Source URL         | https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence |
-| Provenance         | OFFICIAL_EXCERPT                                                                                                                           |
-| Document type      | executive_policy_directive                                                                                                                 |
-| Original file name | not provided                                                                                                                               |
-| Source SHA-256     | not provided                                                                                                                               |
+| Field                 | Value                                                                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Document name         | US Executive Order 14110 — §2 Principles, §6 Workers, §7 Civil Rights (official text)                                                      |
+| Source type           | executive_directive                                                                                                                        |
+| Jurisdiction          | United States (Federal)                                                                                                                    |
+| Sector                | General AI Governance                                                                                                                      |
+| Assessment mode       | external_framework                                                                                                                         |
+| Citation              | Executive Order 14110, 88 FR 75191 (Nov 1, 2023), FR Doc. 2023-24283                                                                       |
+| Source URL            | https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence |
+| Provenance            | OFFICIAL_EXCERPT                                                                                                                           |
+| Document type         | executive_policy_directive                                                                                                                 |
+| Assessed text SHA-256 | 27b205ec652e0a289203f916a034e528275c79d5da307dc8782580dbe096b8a1                                                                           |
+| Committed source file | docs/supporting/b0ef43db-202324283.md                                                                                                      |
 
 **Document structure detected (6 sections):** Section 2. Policy and Principles · Section 6. Supporting Workers · Section 7. Advancing Equity and Civil Rights · 7.1. Strengthening AI and Civil Rights in the Criminal Justice System · 7.2. Protecting Civil Rights Related to Government Benefits and Progra · 7.3. Strengthening AI and Civil Rights in the Broader Economy
 
@@ -472,19 +473,19 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 #### Document Overview
 
 ##### Assessment Scope
-| Field              | Value                                                                                                                   |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| Document name      | OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (official text)                                            |
-| Source type        | international_principles                                                                                                |
-| Jurisdiction       | International (OECD member states)                                                                                      |
-| Sector             | General AI Governance                                                                                                   |
-| Assessment mode    | external_framework                                                                                                      |
-| Citation           | OECD Recommendation of the Council on Artificial Intelligence, OECD/LEGAL/0449, adopted 22 May 2019, amended 3 May 2024 |
-| Source URL         | https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0449                                                        |
-| Provenance         | OFFICIAL_EXCERPT                                                                                                        |
-| Document type      | unknown_governance_document                                                                                             |
-| Original file name | not provided                                                                                                            |
-| Source SHA-256     | not provided                                                                                                            |
+| Field                 | Value                                                                                                                   |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Document name         | OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (official text)                                            |
+| Source type           | international_principles                                                                                                |
+| Jurisdiction          | International (OECD member states)                                                                                      |
+| Sector                | General AI Governance                                                                                                   |
+| Assessment mode       | external_framework                                                                                                      |
+| Citation              | OECD Recommendation of the Council on Artificial Intelligence, OECD/LEGAL/0449, adopted 22 May 2019, amended 3 May 2024 |
+| Source URL            | https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0449                                                        |
+| Provenance            | OFFICIAL_EXCERPT                                                                                                        |
+| Document type         | unknown_governance_document                                                                                             |
+| Assessed text SHA-256 | 2767d797d5102afeb14b68f014676b5ffe843cc08109edccd196202001f4d9d4                                                        |
+| Committed source file | docs/supporting/51a29205-OECD_Legal_Instruments.md                                                                      |
 
 **Document structure detected (12 sections):** Section 1: Principles · 1.1. Inclusive growth, sustainable development · 1.2. Respect for the rule of law, human rights · 1.3. Transparency and explainability · 1.4. Robustness, security and safety · 1.5. Accountability · Section 2: National · 2.1. Investing in AI research and development · 2.2. Fostering an · 2.3. Shaping an enabling interoperable · …
 
@@ -799,19 +800,19 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 #### Document Overview
 
 ##### Assessment Scope
-| Field              | Value                                                                                                                              |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Document name      | NIST AI RMF 1.0 (NIST AI 100-1) — GOVERN & MAP Functions (official text)                                                           |
-| Source type        | voluntary_framework                                                                                                                |
-| Jurisdiction       | United States                                                                                                                      |
-| Sector             | General AI Governance                                                                                                              |
-| Assessment mode    | external_framework                                                                                                                 |
-| Citation           | NIST AI 100-1, Artificial Intelligence Risk Management Framework (AI RMF 1.0), January 2023, https://doi.org/10.6028/NIST.AI.100-1 |
-| Source URL         | https://doi.org/10.6028/NIST.AI.100-1                                                                                              |
-| Provenance         | OFFICIAL_EXCERPT                                                                                                                   |
-| Document type      | voluntary_risk_framework                                                                                                           |
-| Original file name | not provided                                                                                                                       |
-| Source SHA-256     | not provided                                                                                                                       |
+| Field                 | Value                                                                                                                              |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Document name         | NIST AI RMF 1.0 (NIST AI 100-1) — GOVERN & MAP Functions (official text)                                                           |
+| Source type           | voluntary_framework                                                                                                                |
+| Jurisdiction          | United States                                                                                                                      |
+| Sector                | General AI Governance                                                                                                              |
+| Assessment mode       | external_framework                                                                                                                 |
+| Citation              | NIST AI 100-1, Artificial Intelligence Risk Management Framework (AI RMF 1.0), January 2023, https://doi.org/10.6028/NIST.AI.100-1 |
+| Source URL            | https://doi.org/10.6028/NIST.AI.100-1                                                                                              |
+| Provenance            | OFFICIAL_EXCERPT                                                                                                                   |
+| Document type         | voluntary_risk_framework                                                                                                           |
+| Assessed text SHA-256 | 623c77daab39fccc67e56f38035c516d5edbf7fb45134f53e4cd576c9c0963b3                                                                   |
+| Committed source file | docs/supporting/5f667a6f-NIST.AI.1001.md                                                                                           |
 
 **Document structure detected (1 sections):** Govern
 
@@ -1128,19 +1129,19 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 #### Document Overview
 
 ##### Assessment Scope
-| Field              | Value                                                                                                        |
-| ------------------ | ------------------------------------------------------------------------------------------------------------ |
-| Document name      | NHS England DTAC v2.0 (February 2026) — Introduction & C1 Clinical Safety (official text)                    |
-| Source type        | sector_policy                                                                                                |
-| Jurisdiction       | United Kingdom                                                                                               |
-| Sector             | Clinical AI Deployment                                                                                       |
-| Assessment mode    | external_framework                                                                                           |
-| Citation           | Digital Technology Assessment Criteria for Health and Social Care (DTAC) v2.0, NHS England, 24 February 2026 |
-| Source URL         | https://transform.england.nhs.uk/key-tools-and-info/digital-technology-assessment-criteria-dtac/             |
-| Provenance         | OFFICIAL_EXCERPT                                                                                             |
-| Document type      | sector_assurance_checklist                                                                                   |
-| Original file name | not provided                                                                                                 |
-| Source SHA-256     | not provided                                                                                                 |
+| Field                 | Value                                                                                                        |
+| --------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Document name         | NHS England DTAC v2.0 (February 2026) — Introduction & C1 Clinical Safety (official text)                    |
+| Source type           | sector_policy                                                                                                |
+| Jurisdiction          | United Kingdom                                                                                               |
+| Sector                | Clinical AI Deployment                                                                                       |
+| Assessment mode       | external_framework                                                                                           |
+| Citation              | Digital Technology Assessment Criteria for Health and Social Care (DTAC) v2.0, NHS England, 24 February 2026 |
+| Source URL            | https://transform.england.nhs.uk/key-tools-and-info/digital-technology-assessment-criteria-dtac/             |
+| Provenance            | OFFICIAL_EXCERPT                                                                                             |
+| Document type         | sector_assurance_checklist                                                                                   |
+| Assessed text SHA-256 | 7e3021badf4587dcc44d4e31ccbc53392b38f829051df3a0ca12c6accb2fd943                                             |
+| Committed source file | docs/supporting/55eccce3-DTAC_Form_2.0_February_2026.md                                                      |
 
 **Document structure detected (2 sections):** Introduction · C1 - Clinical safety
 
@@ -1472,19 +1473,18 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 #### Document Overview
 
 ##### Assessment Scope
-| Field              | Value                                                                   |
-| ------------------ | ----------------------------------------------------------------------- |
-| Document name      | EU AI Act — Art. 9, 13 & 14                                             |
-| Source type        | binding_regulation                                                      |
-| Jurisdiction       | European Union                                                          |
-| Sector             | General AI Governance                                                   |
-| Assessment mode    | external_framework                                                      |
-| Citation           | Regulation (EU) 2024/1689 of the European Parliament and of the Council |
-| Source URL         | https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689  |
-| Provenance         | REPRESENTATIVE_EXCERPT                                                  |
-| Document type      | unknown_governance_document                                             |
-| Original file name | not provided                                                            |
-| Source SHA-256     | not provided                                                            |
+| Field                 | Value                                                                   |
+| --------------------- | ----------------------------------------------------------------------- |
+| Document name         | EU AI Act — Art. 9, 13 & 14                                             |
+| Source type           | binding_regulation                                                      |
+| Jurisdiction          | European Union                                                          |
+| Sector                | General AI Governance                                                   |
+| Assessment mode       | external_framework                                                      |
+| Citation              | Regulation (EU) 2024/1689 of the European Parliament and of the Council |
+| Source URL            | https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689  |
+| Provenance            | REPRESENTATIVE_EXCERPT                                                  |
+| Document type         | unknown_governance_document                                             |
+| Assessed text SHA-256 | b445198d70b6d16ae6209e5add86c44b25ffba13d97f1bddb650b2bc1ec24d2c        |
 
 **Document structure detected (3 sections):** Article 9 — Risk Management System · Article 13 — Transparency and Provision of Information to Deployers · Article 14 — Human Oversight
 
@@ -1808,19 +1808,18 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 #### Document Overview
 
 ##### Assessment Scope
-| Field              | Value                                                 |
-| ------------------ | ----------------------------------------------------- |
-| Document name      | NIST AI RMF — Govern & Map Functions                  |
-| Source type        | voluntary_framework                                   |
-| Jurisdiction       | United States                                         |
-| Sector             | General AI Governance                                 |
-| Assessment mode    | external_framework                                    |
-| Citation           | NIST AI Risk Management Framework 1.0 (NIST AI 100-1) |
-| Source URL         | https://airc.nist.gov/RMF                             |
-| Provenance         | REPRESENTATIVE_EXCERPT                                |
-| Document type      | voluntary_risk_framework                              |
-| Original file name | not provided                                          |
-| Source SHA-256     | not provided                                          |
+| Field                 | Value                                                            |
+| --------------------- | ---------------------------------------------------------------- |
+| Document name         | NIST AI RMF — Govern & Map Functions                             |
+| Source type           | voluntary_framework                                              |
+| Jurisdiction          | United States                                                    |
+| Sector                | General AI Governance                                            |
+| Assessment mode       | external_framework                                               |
+| Citation              | NIST AI Risk Management Framework 1.0 (NIST AI 100-1)            |
+| Source URL            | https://airc.nist.gov/RMF                                        |
+| Provenance            | REPRESENTATIVE_EXCERPT                                           |
+| Document type         | voluntary_risk_framework                                         |
+| Assessed text SHA-256 | 3eb8aa2a42a0c912215ce629e574acddf7c7c7defa5ac6907a75b5e08feab955 |
 
 **Document structure detected (10 sections):** GOVERN Function · GOVERN 1.1: Policies, processes, procedures, and practices across the · GOVERN 1.2: Accountability, criteria, and processes exist so that appr · GOVERN 2.1: Organisational teams that develop, deploy, evaluate, and a · GOVERN 4.1: Policies and practices are in place to foster a critical t · GOVERN 6.1: Policies and procedures are in place to address AI risks a · MAP Function · MAP 2.2: Scientific findings, expert opinions, public concerns, and · MAP 5.1: Likelihood and magnitude of each identified impact (both po · MAP 5.2: Practices and personnel for supporting the ongoing identifi
 
@@ -2138,19 +2137,18 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 #### Document Overview
 
 ##### Assessment Scope
-| Field              | Value                                                 |
-| ------------------ | ----------------------------------------------------- |
-| Document name      | OECD AI Principles (2019, rev. 2024)                  |
-| Source type        | international_principles                              |
-| Jurisdiction       | International (OECD member states)                    |
-| Sector             | General AI Governance                                 |
-| Assessment mode    | external_framework                                    |
-| Citation           | OECD Principles on AI, adopted May 2019, revised 2024 |
-| Source URL         | https://oecd.ai/en/ai-principles                      |
-| Provenance         | REPRESENTATIVE_EXCERPT                                |
-| Document type      | unknown_governance_document                           |
-| Original file name | not provided                                          |
-| Source SHA-256     | not provided                                          |
+| Field                 | Value                                                            |
+| --------------------- | ---------------------------------------------------------------- |
+| Document name         | OECD AI Principles (2019, rev. 2024)                             |
+| Source type           | international_principles                                         |
+| Jurisdiction          | International (OECD member states)                               |
+| Sector                | General AI Governance                                            |
+| Assessment mode       | external_framework                                               |
+| Citation              | OECD Principles on AI, adopted May 2019, revised 2024            |
+| Source URL            | https://oecd.ai/en/ai-principles                                 |
+| Provenance            | REPRESENTATIVE_EXCERPT                                           |
+| Document type         | unknown_governance_document                                      |
+| Assessed text SHA-256 | 2a8b7bd9efe990244d60eab43ba47098c8d9b97a7fe4a0b752a288bbd06dd788 |
 
 **Document structure detected (5 sections):** 1. Inclusive growth, sustainable development and well-being · 2. Human-centred values and fairness · 3. Transparency and explainability · 4. Robustness, security and safety · 5. Accountability
 
@@ -2460,19 +2458,18 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 #### Document Overview
 
 ##### Assessment Scope
-| Field              | Value                                                                                                                                      |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Document name      | US Executive Order 14110 — §4 Safety & §7 Workers                                                                                          |
-| Source type        | executive_directive                                                                                                                        |
-| Jurisdiction       | United States (Federal)                                                                                                                    |
-| Sector             | General AI Governance                                                                                                                      |
-| Assessment mode    | external_framework                                                                                                                         |
-| Citation           | Executive Order 14110 on Safe, Secure, and Trustworthy AI (Oct 30, 2023)                                                                   |
-| Source URL         | https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence |
-| Provenance         | REPRESENTATIVE_EXCERPT                                                                                                                     |
-| Document type      | executive_policy_directive                                                                                                                 |
-| Original file name | not provided                                                                                                                               |
-| Source SHA-256     | not provided                                                                                                                               |
+| Field                 | Value                                                                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Document name         | US Executive Order 14110 — §4 Safety & §7 Workers                                                                                          |
+| Source type           | executive_directive                                                                                                                        |
+| Jurisdiction          | United States (Federal)                                                                                                                    |
+| Sector                | General AI Governance                                                                                                                      |
+| Assessment mode       | external_framework                                                                                                                         |
+| Citation              | Executive Order 14110 on Safe, Secure, and Trustworthy AI (Oct 30, 2023)                                                                   |
+| Source URL            | https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence |
+| Provenance            | REPRESENTATIVE_EXCERPT                                                                                                                     |
+| Document type         | executive_policy_directive                                                                                                                 |
+| Assessed text SHA-256 | f56aa89da1a32bcbbe86c334859601757f60b8fd243b8b4741e6d6790c6a9f95                                                                           |
 
 **Document structure detected (4 sections):** Section 4.1 — Ensuring the Safety and Security of AI · Section 4.2 — Advancing Transparency and Accountability · Section 4.3 — Evidence and Reporting · Section 7 — Supporting Workers
 
@@ -2795,19 +2792,18 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 #### Document Overview
 
 ##### Assessment Scope
-| Field              | Value                                                                                     |
-| ------------------ | ----------------------------------------------------------------------------------------- |
-| Document name      | NHS England — AI in Clinical Decision Support (Policy Framework)                          |
-| Source type        | sector_policy                                                                             |
-| Jurisdiction       | United Kingdom                                                                            |
-| Sector             | Clinical AI Deployment                                                                    |
-| Assessment mode    | external_framework                                                                        |
-| Citation           | NHS England AI in Clinical Decision Support — Governance Framework (illustrative excerpt) |
-| Source URL         | not provided                                                                              |
-| Provenance         | REPRESENTATIVE_EXCERPT                                                                    |
-| Document type      | procurement_assessment_form                                                               |
-| Original file name | not provided                                                                              |
-| Source SHA-256     | not provided                                                                              |
+| Field                 | Value                                                                                     |
+| --------------------- | ----------------------------------------------------------------------------------------- |
+| Document name         | NHS England — AI in Clinical Decision Support (Policy Framework)                          |
+| Source type           | sector_policy                                                                             |
+| Jurisdiction          | United Kingdom                                                                            |
+| Sector                | Clinical AI Deployment                                                                    |
+| Assessment mode       | external_framework                                                                        |
+| Citation              | NHS England AI in Clinical Decision Support — Governance Framework (illustrative excerpt) |
+| Source URL            | not provided                                                                              |
+| Provenance            | REPRESENTATIVE_EXCERPT                                                                    |
+| Document type         | procurement_assessment_form                                                               |
+| Assessed text SHA-256 | 656efe7e8ee449203a273ecbb924c73a24c2b631bd25942baf2f62c0407342df                          |
 
 **Document structure detected (5 sections):** 1. Purpose and Scope · 2. Clinical Validation Requirements · 3. Human Oversight and Clinician Responsibility · 4. Transparency and Patient Rights · 5. Safety and Containment
 
@@ -3130,19 +3126,18 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 #### Document Overview
 
 ##### Assessment Scope
-| Field              | Value                                                                           |
-| ------------------ | ------------------------------------------------------------------------------- |
-| Document name      | TUC/CIPD — Framework for Fair AI in Employment Decisions                        |
-| Source type        | sector_policy                                                                   |
-| Jurisdiction       | United Kingdom                                                                  |
-| Sector             | Employment and HR AI                                                            |
-| Assessment mode    | external_framework                                                              |
-| Citation           | Illustrative AI in Employment Governance Framework (sector assessment document) |
-| Source URL         | not provided                                                                    |
-| Provenance         | REPRESENTATIVE_EXCERPT                                                          |
-| Document type      | public_sector_policy                                                            |
-| Original file name | not provided                                                                    |
-| Source SHA-256     | not provided                                                                    |
+| Field                 | Value                                                                           |
+| --------------------- | ------------------------------------------------------------------------------- |
+| Document name         | TUC/CIPD — Framework for Fair AI in Employment Decisions                        |
+| Source type           | sector_policy                                                                   |
+| Jurisdiction          | United Kingdom                                                                  |
+| Sector                | Employment and HR AI                                                            |
+| Assessment mode       | external_framework                                                              |
+| Citation              | Illustrative AI in Employment Governance Framework (sector assessment document) |
+| Source URL            | not provided                                                                    |
+| Provenance            | REPRESENTATIVE_EXCERPT                                                          |
+| Document type         | public_sector_policy                                                            |
+| Assessed text SHA-256 | 966e46853cb2cd29eb19777d4a2d0d733c83e2b0b3da07f6a7e76f5f48bd760a                |
 
 **Document structure detected (4 sections):** Section 1 — Scope · Section 2 — Employer Obligations · Section 3 — Worker Rights · Section 4 — Accountability
 
