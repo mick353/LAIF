@@ -4652,6 +4652,12 @@ def _report_limits_and_reviewer_actions(result):
     return actions
 
 
+def _md_anchor(text):
+    """GitHub-style markdown anchor slug for a heading."""
+    slug = re.sub(r"[^\w\s-]", "", str(text).lower())
+    return re.sub(r"[\s]+", "-", slug).strip("-")
+
+
 def _markdown_table(headers, rows):
     safe_headers = [_safe_markdown_cell(h) for h in headers]
     safe_rows = [[_safe_markdown_cell(c) for c in row] for row in rows]
@@ -4700,6 +4706,17 @@ def generate_markdown_report(assessments, report_date="July 2026"):
       "subject of the findings; see Method Summary.  ")
     p("**Report architecture:** Governance Repair Assessment public template — Phase 3V  ")
     p("**Validator boundary:** validate.py enforcement remains unchanged; this report renders existing assessment results only.  ")
+    p()
+
+    h(2, "Contents")
+    p("[Report Scope and Boundary](#report-scope-and-boundary) · "
+      "[Executive Brief](#executive-brief) · "
+      "[Cross-Document Dashboard](#cross-document-dashboard) · "
+      "[Peer Exemplars](#peer-exemplars-what-good-looks-like-in-this-corpus) · "
+      "[Closing Notes](#closing-interpretation-notes)")
+    for _i, _r in enumerate(assessments, 1):
+        _title = f"Document {_i}: {_r.get('document_name', '')}"
+        p(f"{_i}. [{_r.get('document_name', '')[:76]}](#{_md_anchor(_title)})")
     p()
 
     h(2, "Report Scope and Boundary")
@@ -4776,6 +4793,37 @@ def generate_markdown_report(assessments, report_date="July 2026"):
     p()
 
     h(2, "Executive Brief")
+    _cal_pairs = [(r, r.get("score_calibration", {}).get("overall_pct_of_ceiling", 0))
+                  for r in assessments
+                  if r.get("score_calibration", {}).get("achievable_ceiling", 100) < 100]
+    if _cal_pairs:
+        _best_r, _best_p = max(_cal_pairs, key=lambda x: x[1])
+        _worst_r, _worst_p = min(_cal_pairs, key=lambda x: x[1])
+        _gap_common = Counter(g for r in assessments
+                              for g in r.get("primary_failure_modes", [])).most_common(1)
+        _construct_presence = Counter()
+        for r in assessments:
+            for c, v in r.get("functional_alignment", {}).items():
+                if v.get("verdict") != "ABSENT":
+                    _construct_presence[c] += 1
+        _most_present = _construct_presence.most_common(1)
+        def _tagged(_rr):
+            _nm = _rr.get("document_name", "")[:56]
+            if _rr.get("provenance") != "OFFICIAL_EXCERPT":
+                _nm += " [illustrative excerpt]"
+            return _nm
+        _narr = (f"Across this corpus the strongest calibrated position is "
+                 f"{_best_p}% ({_tagged(_best_r)}) and the "
+                 f"weakest is {_worst_p}% ({_tagged(_worst_r)}).")
+        if _gap_common:
+            _narr += (f" The most widespread structural gap is: "
+                      f"{_gap_common[0][0]} ({_gap_common[0][1]}/{count} documents).")
+        if _most_present:
+            _narr += (f" The core structure most often present in some form is "
+                      f"{_most_present[0][0]} ({_most_present[0][1]}/{count} documents); "
+                      f"see Peer Exemplars for the passages other owners can adapt.")
+        p(_narr)
+        p()
     p(f"- **Total documents assessed:** {count} ({external_count} external instruments "
       f"assessed as governance repair diagnostics, not LAIF-native certification)")
     p(f"- **Average overall readiness:** {avg('overall_readiness_score')}/100")
@@ -4845,6 +4893,55 @@ def generate_markdown_report(assessments, report_date="July 2026"):
         for group_name in _remediation_groups(r.get("recommended_remediation_steps", [])).keys():
             theme_counts[group_name] += 1
     p(_compact_list([f"{k} ({v})" for k, v in theme_counts.most_common(5)]))
+    p()
+
+    # ── Peer Exemplars — turn the corpus into a library of working examples
+    h(2, "Peer Exemplars — What Good Looks Like in This Corpus")
+    p("For each core structure, the strongest expression found anywhere in this "
+      "corpus, quoted with its location — a working example a document owner can "
+      "adapt. Verdict order: DECLARED > FUNCTIONAL > PARTIAL. Structures no "
+      "document expresses are named honestly.")
+    p()
+    _verdict_rank = {"DECLARED": 3, "FUNCTIONAL": 2, "PARTIAL": 1, "ABSENT": 0}
+    _constructs = ["Coupling", "Integrity Layer", "Consistency",
+                   "Reversibility", "Self-Application"]
+    _ex_rows, _absent_everywhere = [], []
+    for _c in _constructs:
+        # Rank: verdict strength first, verified-official provenance breaks
+        # ties — a paraphrased excerpt must never outrank real instrument
+        # text as the passage owners are invited to adapt.
+        _best, _best_key = None, (0, 0)
+        for _r in assessments:
+            _v = _r.get("functional_alignment", {}).get(_c, {})
+            if not (_v.get("evidence") or []):
+                continue
+            _key = (_verdict_rank.get(_v.get("verdict", "ABSENT"), 0),
+                    1 if _r.get("provenance") == "OFFICIAL_EXCERPT" else 0)
+            if _key > _best_key and _key[0] > 0:
+                _best, _best_key = (_r, _v), _key
+        if _best is None:
+            _absent_everywhere.append(_c)
+            continue
+        _r, _v = _best
+        _ev  = (_v.get("evidence") or [""])[0]
+        _loc = (_v.get("evidence_locations") or ["—"])[0]
+        _official = _r.get("provenance") == "OFFICIAL_EXCERPT"
+        _ex_rows.append([
+            _c,
+            _safe_markdown_cell(_r.get("document_name", ""))[:44],
+            _v.get("verdict", ""),
+            "verbatim official text" if _official
+            else "illustrative excerpt — verify against the official instrument",
+            _safe_markdown_cell(_loc)[:40],
+            _safe_markdown_cell("«" + _ev + "»")[:130] if _ev else "—",
+        ])
+    if _ex_rows:
+        table(["Structure", "Best example in corpus", "Strength", "Text status",
+               "Where", "Verbatim passage"], _ex_rows)
+    if _absent_everywhere:
+        p(f"**Expressed by no document in this corpus:** "
+          f"{', '.join(_absent_everywhere)} — there is no peer example to adapt; "
+          f"an owner adding this would be setting the benchmark.")
     p()
 
     h(2, "Per-Document Assessment")

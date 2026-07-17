@@ -6,6 +6,20 @@
 **Validator boundary:** validate.py enforcement remains unchanged; this report renders existing assessment results only.  
 
 
+## Contents
+[Report Scope and Boundary](#report-scope-and-boundary) · [Executive Brief](#executive-brief) · [Cross-Document Dashboard](#cross-document-dashboard) · [Peer Exemplars](#peer-exemplars-what-good-looks-like-in-this-corpus) · [Closing Notes](#closing-interpretation-notes)
+1. [US Executive Order 14110 — §2 Principles, §6 Workers, §7 Civil Rights (offic](#document-1-us-executive-order-14110-2-principles-6-workers-7-civil-rights-official-text)
+2. [OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (official text)](#document-2-oecd-recommendation-on-ai-oecdlegal0449-sections-1-2-official-text)
+3. [NIST AI RMF 1.0 (NIST AI 100-1) — GOVERN & MAP Functions (official text)](#document-3-nist-ai-rmf-10-nist-ai-100-1-govern-map-functions-official-text)
+4. [NHS England DTAC v2.0 (February 2026) — Introduction & C1 Clinical Safety (o](#document-4-nhs-england-dtac-v20-february-2026-introduction-c1-clinical-safety-official-text)
+5. [EU AI Act — Art. 9, 13 & 14](#document-5-eu-ai-act-art-9-13-14)
+6. [NIST AI RMF — Govern & Map Functions](#document-6-nist-ai-rmf-govern-map-functions)
+7. [OECD AI Principles (2019, rev. 2024)](#document-7-oecd-ai-principles-2019-rev-2024)
+8. [US Executive Order 14110 — §4 Safety & §7 Workers](#document-8-us-executive-order-14110-4-safety-7-workers)
+9. [NHS England — AI in Clinical Decision Support (Policy Framework)](#document-9-nhs-england-ai-in-clinical-decision-support-policy-framework)
+10. [TUC/CIPD — Framework for Fair AI in Employment Decisions](#document-10-tuccipd-framework-for-fair-ai-in-employment-decisions)
+
+
 ## Report Scope and Boundary
 
 ### Result Boundary / How to Read This Report
@@ -52,6 +66,8 @@ Beyond the layers above, each core construct (Coupling, Integrity Layer, Consist
 
 
 ## Executive Brief
+Across this corpus the strongest calibrated position is 66% (US Executive Order 14110 — §4 Safety & §7 Workers [illustrative excerpt]) and the weakest is 27% (OECD AI Principles (2019, rev. 2024) [illustrative excerpt]). The most widespread structural gap is: structural — constitutional hierarchy not declared (10/10 documents). The core structure most often present in some form is Integrity Layer (7/10 documents); see Peer Exemplars for the passages other owners can adapt.
+
 - **Total documents assessed:** 10 (10 external instruments assessed as governance repair diagnostics, not LAIF-native certification)
 - **Average overall readiness:** 42/100
 - **Average conceptual proximity:** 52/100
@@ -100,6 +116,17 @@ mandate (3); consequence (2); escalation (1); +1 more
 
 ### Remediation themes
 Reversibility/escalation fixes (10); LAIF-native adoption fixes (10); Immediate clarity/control fixes (3); +1 more
+
+
+## Peer Exemplars — What Good Looks Like in This Corpus
+For each core structure, the strongest expression found anywhere in this corpus, quoted with its location — a working example a document owner can adapt. Verdict order: DECLARED > FUNCTIONAL > PARTIAL. Structures no document expresses are named honestly.
+
+| Structure       | Best example in corpus                       | Strength | Text status                                                   | Where                                | Verbatim passage                                                                                                                   |
+| --------------- | -------------------------------------------- | -------- | ------------------------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Coupling        | US Executive Order 14110 — §4 Safety & §7 Wo | PARTIAL  | illustrative excerpt — verify against the official instrument | Section 7 — Supporting Workers       | «rs, maintaining the connection between obligations imposed on workers and the protections those obligations are intended to serve |
+| Integrity Layer | OECD Recommendation on AI (OECD/LEGAL/0449)  | PARTIAL  | verbatim official text                                        | 1.3. Transparency and explainability | «they should provide meaningful information, appropriate to the context, and consis»                                               |
+| Reversibility   | OECD Recommendation on AI (OECD/LEGAL/0449)  | PARTIAL  | verbatim official text                                        | 1.4. Robustness, security and safety | «red behaviour, they can be overridden, repaired, and/or decommissioned safely»                                                    |
+**Expressed by no document in this corpus:** Consistency, Self-Application — there is no peer example to adapt; an owner adding this would be setting the benchmark.
 
 
 ## Per-Document Assessment

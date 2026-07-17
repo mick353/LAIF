@@ -448,6 +448,32 @@ check("Evidence Locator — Where the Signals Live" in _ext_report
       "SF9.4", "report renders the locator and the not-found guidance")
 
 
+# ── GROUP SF10 — Navigability and peer exemplars ─────────────────────────────
+
+section("GROUP SF10 — Navigability, narrative, exemplar provenance")
+
+check("## Contents" in _ext_report
+      and "[Report Scope and Boundary](#report-scope-and-boundary)" in _ext_report,
+      "SF10.1", "report opens with a linked table of contents")
+
+check("Across this corpus the strongest calibrated position is" in _ext_report,
+      "SF10.2", "Executive Brief opens with a data-driven narrative")
+
+check("Peer Exemplars — What Good Looks Like in This Corpus" in _ext_report,
+      "SF10.3", "peer exemplar library renders")
+
+# Multi-document render: any exemplar drawn from non-official text must be
+# tagged; official exemplars must be preferred at equal verdict strength.
+_multi = generate_markdown_report([s1, s2], report_date="July 2026")
+_ex_start = _multi.index("## Peer Exemplars")
+_ex_block = _multi[_ex_start:_ex_start + 2500]
+check(("illustrative excerpt — verify against the official instrument" in _ex_block)
+      or ("verbatim official text" in _ex_block)
+      or ("Expressed by no document" in _ex_block),
+      "SF10.4", "every exemplar carries an explicit text-status tag")
+
+
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 
 print(f"\n{'═' * 70}")
