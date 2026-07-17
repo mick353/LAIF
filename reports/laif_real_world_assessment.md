@@ -42,7 +42,7 @@ Beyond the layers above, each core construct (Coupling, Integrity Layer, Consist
 
 
 ### Fair-Reading Bounds
-1. A LAIF-native FAIL measures distance from LAIF's deliberately stricter standard, not instrument quality; it must never be quoted as a judgement of the instrument against its own objectives. 2. Official-corpus findings hold within each document's declared excerpt scope only. 3. Signals are lexical, not interpretive; per-signal traceability is the compensating control. 4. Form/questionnaire-style instruments are undercounted by prose rubrics; affected scorecards carry an interpretation caveat. 5. Cross-document averages characterise this corpus, not all AI governance.
+1. A LAIF-native FAIL measures distance from LAIF's deliberately stricter standard, not instrument quality; it must never be quoted as a judgement of the instrument against its own objectives. 2. Official-corpus findings hold within each document's declared excerpt scope only. 3. Signals are lexical, not interpretive; per-signal traceability is the compensating control. 4. Form/questionnaire-style instruments are undercounted by prose rubrics; affected scorecards carry an interpretation caveat. 5. Cross-document averages characterise this corpus, not all AI governance. 6. Raw overall scores compress: part of the 100-point scale is reserved for LAIF-branded documents and lexical detection is conservative — a substance-perfect external document scores in the mid-50s on this instrument, so mid-range raw scores denote strength, not failure; each scorecard carries a calibrated position against the achievable ceiling.
 
 
 ## Executive Brief
@@ -54,6 +54,7 @@ Beyond the layers above, each core construct (Coupling, Integrity Layer, Consist
 - **Average sector alignment:** 62/100
 - **Citable subset (OFFICIAL_EXCERPT, verbatim hash-pinned):** 4/10 documents; 4/4 not LAIF-native; average conceptual proximity 53/100. These findings may be stated of the named source instruments within excerpt scope.
 - **Functional alignment distribution:** PARTIALLY ALIGNED (8); STRUCTURALLY UNALIGNED (2)
+- **Average calibrated position (external instruments):** 48% of the 81.5-point ceiling achievable without LAIF-native branding — raw scores compress by design and must not be read as percentage grades.
 - **Evidence trace summary:** 188 traces; 188 exact/deterministic; 0 reviewer-confirmation fallback.
 - **Remediation patch summary:** 120 structured patches across assessed documents.
 - **Top governance-force patterns:** reviewer confirmation required
@@ -174,6 +175,7 @@ Public status label: **Governance repair assessment — external-framework diagn
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
 - **Overall readiness:** 46/100 — partial LAIF-model signal
+- **Calibrated position:** 56% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 57/100
 - **Sector risk alignment:** 20/100
 - **Remediation effort:** HIGH
@@ -550,6 +552,7 @@ Public status label: **Governance repair assessment — external-framework diagn
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
 - **Overall readiness:** 39/100 — limited LAIF-model signal
+- **Calibrated position:** 48% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 84/100
 - **Sector risk alignment:** 40/100
 - **Remediation effort:** HIGH
@@ -927,6 +930,7 @@ Public status label: **Governance repair assessment — external-framework diagn
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
 - **Overall readiness:** 48/100 — partial LAIF-model signal
+- **Calibrated position:** 59% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 47/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
@@ -1304,6 +1308,7 @@ Public status label: **Governance repair assessment — external-framework diagn
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
 - **Overall readiness:** 36/100 — limited LAIF-model signal
+- **Calibrated position:** 44% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 24/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
@@ -1682,6 +1687,7 @@ Public status label: **Governance repair assessment — external-framework diagn
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
 - **Overall readiness:** 44/100 — partial LAIF-model signal
+- **Calibrated position:** 54% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 49/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** HIGH
@@ -2059,6 +2065,7 @@ Public status label: **Governance repair assessment — external-framework diagn
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
 - **Overall readiness:** 34/100 — limited LAIF-model signal
+- **Calibrated position:** 42% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 39/100
 - **Sector risk alignment:** 40/100
 - **Remediation effort:** VERY HIGH
@@ -2436,6 +2443,7 @@ Public status label: **Governance repair assessment — external-framework diagn
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
 - **Overall readiness:** 22/100 — limited LAIF-model signal
+- **Calibrated position:** 27% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 76/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** VERY HIGH
@@ -2811,6 +2819,7 @@ Public status label: **Governance repair assessment — external-framework diagn
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
 - **Overall readiness:** 50/100 — partial LAIF-model signal
+- **Calibrated position:** 61% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 66/100
 - **Sector risk alignment:** 100/100
 - **Remediation effort:** HIGH
@@ -3189,6 +3198,7 @@ Public status label: **Governance repair assessment — external-framework diagn
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
 - **Overall readiness:** 35/100 — limited LAIF-model signal
+- **Calibrated position:** 43% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 31/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
@@ -3565,6 +3575,7 @@ Public status label: **Governance repair assessment — external-framework diagn
 #### Executive Diagnostic Summary
 This source does not pass the formal LAIF-native certification gate under LAIF criteria; external framework assessment remains diagnostic and does not determine legal validity.
 - **Overall readiness:** 39/100 — limited LAIF-model signal
+- **Calibrated position:** 48% of the 81.5-point ceiling achievable without LAIF-native branding. Raw scores compress on this instrument: 18.5 points are reserved for LAIF-branded documents, and lexical detection is conservative — read the calibrated figure, the functional alignment verdict, and the score band together, never the raw number as a percentage grade.
 - **Conceptual proximity:** 41/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** HIGH

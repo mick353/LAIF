@@ -175,6 +175,16 @@ ENFORCEABILITY_RUBRIC = [
          "non-discretionary operational mandates"),
 ]
 
+def _achievable_ceiling_external():
+    """Highest overall score reachable by a document that never uses LAIF
+    branding: 100 minus the full terminology weight (0.15) and the
+    named-decision-instrument structural signal (0.25 x its rubric weight).
+    Derived from the live rubrics so rubric changes recalibrate automatically."""
+    named = next((w for w, _, lbl in STRUCTURAL_RUBRIC
+                  if "named decision instrument" in lbl), 0)
+    return round(100 - (0.15 * 100 + 0.25 * named), 1)
+
+
 # Required LAIF constructs for formal compliance — binary gate.
 # Source: LAIF v1.2 structural requirements spanning Parts One, Two, and Seven.
 # All eight must be present. Missing any one = FAIL. No partial credit.
@@ -2990,6 +3000,26 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         resolved_assessment_mode, formal_verdict, missing_terms
     )
 
+    # Score calibration — raw overall scores compress because part of the
+    # scale is reserved for LAIF-native branding (the terminology dimension
+    # plus the named-decision-instrument structural signal). For external
+    # instruments the effective ceiling is therefore below 100, and the
+    # calibrated position (raw ÷ ceiling) is the fairer comparative figure.
+    # The ceiling is DERIVED from the rubrics, not asserted.
+    _ceiling = _achievable_ceiling_external() \
+        if resolved_assessment_mode == "external_framework" else 100.0
+    score_calibration = {
+        "achievable_ceiling":       _ceiling,
+        "overall_pct_of_ceiling":   round(100 * overall / _ceiling) if _ceiling else 0,
+        "ceiling_basis": (
+            "External-instrument ceiling: 100 minus the terminology dimension "
+            "weight and the named-decision-instrument structural signal — points "
+            "only a LAIF-branded document can earn. Derived from the live rubrics."
+            if resolved_assessment_mode == "external_framework"
+            else "LAIF-native channel: full 100-point scale applies."
+        ),
+    }
+
     result = {
         "document_name":              name,
         "source_type":                source_type,
@@ -3017,6 +3047,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         "auditability_score":                   a,
         "enforceability_score":       e,
         "overall_readiness_score":    overall,
+        "score_calibration":          score_calibration,
         "remediation_effort":         effort,
         "paraphrase_violations":      paraphrase,
         "low_confidence_extraction_noise": low_confidence_extraction_noise,
@@ -4534,7 +4565,12 @@ def generate_markdown_report(assessments, report_date="July 2026"):
       "compensating control. "
       "4. Form/questionnaire-style instruments are undercounted by prose rubrics; "
       "affected scorecards carry an interpretation caveat. "
-      "5. Cross-document averages characterise this corpus, not all AI governance.")
+      "5. Cross-document averages characterise this corpus, not all AI governance. "
+      "6. Raw overall scores compress: part of the 100-point scale is reserved for "
+      "LAIF-branded documents and lexical detection is conservative — a "
+      "substance-perfect external document scores in the mid-50s on this "
+      "instrument, so mid-range raw scores denote strength, not failure; each "
+      "scorecard carries a calibrated position against the achievable ceiling.")
     p()
 
     h(2, "Executive Brief")
@@ -4557,6 +4593,14 @@ def generate_markdown_report(assessments, report_date="July 2026"):
     _align_counter = Counter(r.get("laif_alignment", "not assessed") for r in assessments)
     p(f"- **Functional alignment distribution:** "
       f"{_compact_list([f'{k} ({v})' for k, v in _align_counter.most_common()])}")
+    _ext_cals = [r["score_calibration"] for r in assessments
+                 if r.get("score_calibration", {}).get("achievable_ceiling", 100) < 100]
+    if _ext_cals:
+        _avg_pct = round(sum(c["overall_pct_of_ceiling"] for c in _ext_cals) / len(_ext_cals))
+        p(f"- **Average calibrated position (external instruments):** {_avg_pct}% of the "
+          f"{_ext_cals[0]['achievable_ceiling']}-point ceiling achievable without "
+          f"LAIF-native branding — raw scores compress by design and must not be read "
+          f"as percentage grades.")
     p(f"- **Evidence trace summary:** {evidence_total} traces; {evidence_exact} exact/deterministic; {evidence_fallback} reviewer-confirmation fallback.")
     p(f"- **Remediation patch summary:** {patch_total} structured patches across assessed documents.")
     p(f"- **Top governance-force patterns:** {_compact_list([f'{k} ({v})' for k, v in force_counter.most_common(3)])}")
@@ -4673,6 +4717,15 @@ def generate_markdown_report(assessments, report_date="July 2026"):
         h(4, "Executive Diagnostic Summary")
         p(_safe_executive_verdict_text(r))
         p(f"- **Overall readiness:** {r.get('overall_readiness_score', 0)}/100 — {_report_score_band(r)}")
+        _cal = r.get("score_calibration", {})
+        if _cal and _cal.get("achievable_ceiling", 100) < 100:
+            p(f"- **Calibrated position:** {_cal.get('overall_pct_of_ceiling', 0)}% of the "
+              f"{_cal.get('achievable_ceiling')}-point ceiling achievable without LAIF-native "
+              f"branding. Raw scores compress on this instrument: "
+              f"{round(100 - _cal.get('achievable_ceiling', 100), 1)} points are reserved for "
+              f"LAIF-branded documents, and lexical detection is conservative — read the "
+              f"calibrated figure, the functional alignment verdict, and the score band "
+              f"together, never the raw number as a percentage grade.")
         p(f"- **Conceptual proximity:** {r.get('conceptual_proximity_score', 0)}/100")
         p(f"- **Sector risk alignment:** {r.get('sector_risk_alignment', 0)}/100")
         p(f"- **Remediation effort:** {r.get('remediation_effort', 'unknown')}")

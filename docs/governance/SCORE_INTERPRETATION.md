@@ -113,3 +113,30 @@ See [SYSTEM_QA_RELEASE_AUDIT.md](SYSTEM_QA_RELEASE_AUDIT.md) for the release-rea
 ## Phase 3V external-framework interpretation
 
 External-framework scores are interpreted as governance repair signals. They do not require the source document to be LAIF-native and they do not convert an external legal, policy, assurance, or technical instrument into LAIF-native certification. The front-facing interpretation emphasizes systemic repair value, operational closure, evidence sufficiency, accountability closure, lifecycle control, residual-risk closure, implementation readiness, and failure-pathway risk. Formal LAIF-native construct coverage remains available in the technical appendix / internal diagnostic boundary. See `GOVERNANCE_REPAIR_REPORTING.md` and the Phase 3S System QA Release Audit Reference in `SYSTEM_QA_RELEASE_AUDIT.md`.
+
+## Score Calibration — Achievable Ceiling and Compression
+
+Raw overall scores compress by construction and must never be read as
+percentage grades. Two mechanisms cause the compression:
+
+1. **Reserved scale.** The terminology dimension (15% of the overall weight)
+   and the named-decision-instrument structural signal can only be earned by a
+   document written with LAIF branding. The effective ceiling for any external
+   instrument is therefore below 100. The ceiling is *derived from the live
+   rubrics* by `_achievable_ceiling_external()` in `assessment_engine.py` — it
+   is never asserted as a constant — and every external assessment result
+   carries it in the `score_calibration` field together with the document's
+   calibrated position (raw overall ÷ ceiling).
+
+2. **Conservative lexical detection.** Dimension rubrics detect structural
+   language; they undercount substance expressed in unanticipated phrasings.
+   The compression is quantified by a permanent control: the semantic-fidelity
+   suite's substance-perfect external fixture (S1) scores in the mid-50s raw,
+   and test `SF7.2` pins that band so the calibration statements in the public
+   report cannot drift from measured reality.
+
+Interpretation rule: on this instrument, a raw overall in the mid-50s is what
+excellence looks like for an external document; 90+ is unreachable by design.
+Read the calibrated position, the functional alignment verdict, and the score
+band together. The calibrated position is a comparative figure within the LAIF
+model; like all scores here, it is not a legal finding or a compliance rating.

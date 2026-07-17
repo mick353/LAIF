@@ -359,6 +359,26 @@ check(any("substance functionally present" in g for g in s1.get("gaps", [])
       "never as missing")
 
 
+# ── GROUP SF7 — Score calibration integrity ──────────────────────────────────
+
+section("GROUP SF7 — Score calibration (ceiling and compression claims)")
+
+_cal1 = s1.get("score_calibration", {})
+check(_cal1.get("achievable_ceiling", 100) < 100
+      and _cal1.get("overall_pct_of_ceiling", 0) ==
+      round(100 * s1["overall_readiness_score"] / _cal1.get("achievable_ceiling", 100)),
+      "SF7.1", "external documents carry a derived sub-100 ceiling with correct percentage")
+
+check(50 <= s1["overall_readiness_score"] <= 62, "SF7.2",
+      f"perfect-substance control anchors the 'mid-50s is excellence' calibration "
+      f"statement (S1 raw = {s1['overall_readiness_score']})")
+
+_cal2 = s2.get("score_calibration", {})
+check(_cal2.get("achievable_ceiling") == 100.0, "SF7.3",
+      f"LAIF-native-channel documents keep the full 100-point scale "
+      f"(S2 ceiling = {_cal2.get('achievable_ceiling')})")
+
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 
 print(f"\n{'═' * 70}")
