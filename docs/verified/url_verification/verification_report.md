@@ -170,3 +170,31 @@ This verification pass established that all five authoritative URLs are server-r
 ---
 
 *Generated: May 2026 · LAIF v1.2 · Verified Corpus URL Verification Report*
+
+---
+
+## Re-verification Attempt — July 2026 (expanded channel matrix)
+
+**Attempt date:** July 2026 · **Method:** container egress (curl via configured proxy), harness web fetcher, package-registry probes
+**Target:** Regulation (EU) 2024/1689 (EU AI Act) authoritative full text — the one instrument still awaiting ingestion
+
+| Channel | Endpoint | Result | Notes |
+|---|---|---|---|
+| Container egress | eur-lex.europa.eu (CELEX HTML) | 403 CONNECT (proxy policy denial) | Denied at the environment's network policy, before reaching EUR-Lex |
+| Container egress | publications.europa.eu, data.europa.eu | Connection refused (000) | Same policy layer |
+| Harness web fetcher | eur-lex.europa.eu, data.europa.eu | HTTP 403 | Fetcher routes through the same egress policy |
+| Harness web fetcher | ai-act-service-desk.ec.europa.eu/en/ai-act/article-9 | HTTP 403 | **Newly identified official EC source** — records per-article text; viable manual-retrieval origin |
+| Harness web fetcher | aiact.algolia.com (mirror) | HTTP 403 | Non-authoritative mirror; would have served cross-check only |
+| GitHub raw host | raw.githubusercontent.com | 200 (host allowed) | No known mirror path; GitHub search/API is session-scoped to this repository and correctly denies discovery |
+| Package registries | pypi.org, registry.npmjs.org | 200 (hosts allowed) | No package embeds the Act text (name probes 404/stub) |
+| HuggingFace | huggingface.co | Connection refused (000) | Policy layer |
+
+**Status:** unchanged — `NETWORK_BLOCKED_PENDING_HUMAN_SOURCE` (non-terminal; not a failed or fabricated source).
+
+**Unblock paths (either suffices):**
+1. `HUMAN_SESSION_UPLOAD` / `HUMAN_GITHUB_DEPOSIT` — a human supplies the OJ text
+   (EUR-Lex CELEX 32024R1689 HTML/PDF, or per-article text from the EC AI Act
+   Service Desk) into `docs/verified/manual_ingest/`.
+2. Environment network policy — allow `eur-lex.europa.eu` (and optionally
+   `ai-act-service-desk.ec.europa.eu`) for the assessment environment, then rerun
+   automated retrieval.
