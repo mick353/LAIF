@@ -338,3 +338,30 @@ number, producing names unrelated to the gaps they closed.
 | Values charter | not classified | values charter, "no assurance force alone" |
 | AI triage tender | clinical assurance checklist | procurement instrument, clinical sector |
 | Sales report / empty file | correct | correct (unchanged) |
+
+---
+
+## 9. Fourth pass — the cost of breadth
+
+Every earlier pass widened detection. The fourth pass attacked the result: a
+document assembled entirely from governance vocabulary, with no duty anywhere in
+it, scored **59/100 and FUNCTIONALLY ALIGNED** — within seven points of the
+genuine bank standard. That is the price of register neutrality, and it had to
+be paid back.
+
+The discriminator is not vocabulary; it is sentence form. An operative sentence
+binds an actor to an action. An enumeration is a dense run of governance nouns
+with nothing bound to anyone. Measured across the entire assessment corpus and
+every fixture built during these reviews, genuine instruments enumerate in 0-6%
+of their sentences; the constructed document enumerates in 24%.
+
+The detector now runs on every assessment. A HIGH verdict makes structural depth
+HOLLOW, blocks the FUNCTIONALLY ALIGNED verdict, qualifies the coupling reading
+instead of asserting it, quotes the offending sentences, and enters the gap
+register as the leading gap with a rewrite into operative form as its control.
+The soup now reports as PARTIALLY ALIGNED / HOLLOW with its own sentences
+against it; the bank and university policies are untouched.
+
+This closes the loop opened in §7.2. Detection is keyed to what language does,
+in whatever register it is written — and a document that only says the words is
+told so, in its own words.

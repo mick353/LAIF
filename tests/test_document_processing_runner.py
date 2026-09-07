@@ -1793,6 +1793,99 @@ class InstrumentFormClassificationTests(unittest.TestCase):
             self.assertNotIn("clinical", basis)
 
 
+# Every broadened pattern's mirror risk: a document assembled from the
+# vocabulary itself. It fires many signals and creates no duty.
+GOVERNANCE_SOUP = """# Acme AI Governance Standard
+
+Owner: Chief Risk Officer. Approved by: Governance Committee. Review: annual.
+Version 3.
+
+Controls, procedures, protocols, safeguards, and mechanisms are in place.
+Thresholds, tolerances, and materiality apply. Change control and re-approval
+and lifecycle and post-deployment and retraining are addressed. Human review,
+human oversight, human decision-maker, manual review, and escalation to a human
+are supported. Explanation of any individual decision, meaningful information,
+transparency, interpretability, and plain-language account of why the output was
+produced are provided. Internal Audit, model owners, suppliers, vendors, and
+contractors are named. Accountability, traceability, audit trail, and version
+control are maintained. Model risk, risk framework, risk committee, risk
+appetite, risk register, and risk-based approach are used. Termination, material
+breach, suspension, sanction, penalty, and non-compliance are consequences.
+Fairness, non-discrimination, workers, and contestability and appeal and redress
+are covered. Reviewers may overturn the decision. Use suspended. Monthly review.
+Above 5%. Within 5 working days.
+
+All of the following hold simultaneously. Partial satisfaction is not approval.
+This Standard binds all Group entities. Group Risk is itself subject to this
+Standard and must evidence its own compliance to Internal Audit.
+Each restriction exists to protect the customer's interest. Neither may be
+weakened without the other. Material change requires re-approval.
+"""
+
+
+class VocabularyEnumerationTests(unittest.TestCase):
+    """Breadth must not certify a word list.
+
+    Detection is keyed to function rather than to one institution's vocabulary,
+    which makes the vocabulary itself the attack surface. These tests hold both
+    sides: the soup is caught, and every genuine document stays clear of the
+    detector.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.soup = assess("Acme", "policy", GOVERNANCE_SOUP,
+                          assessment_mode="external_framework",
+                          sector="general_ai_governance")
+
+    def test_enumeration_is_detected(self) -> None:
+        self.assertEqual(self.soup["vocabulary_enumeration_risk"], "HIGH")
+        self.assertGreaterEqual(self.soup["vocabulary_enumeration_ratio"], 0.15)
+        self.assertTrue(self.soup["vocabulary_enumeration_examples"])
+
+    def test_a_word_list_is_never_certified_as_aligned(self) -> None:
+        self.assertNotEqual(self.soup["laif_alignment"], "FUNCTIONALLY ALIGNED")
+        self.assertEqual(self.soup["structural_depth"], "HOLLOW")
+
+    def test_it_becomes_the_leading_finding_with_its_own_evidence(self) -> None:
+        gaps = runner.build_governance_gap_register(self.soup, [{"quote_id": "Q001"}])
+        self.assertEqual(gaps[0]["gap_type"], "vocabulary_without_operative_effect")
+        controls = runner.build_control_recommendations(gaps, [], [{"quote_id": "Q001"}])
+        finding = runner.executive_thesis(self.soup, gaps, controls)
+        self.assertIn("listed rather than made operative", finding)
+        report = runner.build_institutional_report(
+            {"safe_output_stem": "x"}, {}, self.soup, [{"quote_id": "Q001"}],
+            gaps, runner.build_failure_pathways(gaps, []), controls)
+        self.assertIn("## Governance vocabulary without operative effect", report)
+
+    def test_coupling_claim_is_qualified_not_asserted(self) -> None:
+        gaps = runner.build_governance_gap_register(self.soup, [{"quote_id": "Q001"}])
+        finding = runner.executive_thesis(self.soup, gaps,
+                                          runner.build_control_recommendations(gaps, [], []))
+        self.assertIn("cannot be read from the text", finding)
+
+    def test_genuine_documents_stay_clear_of_the_detector(self) -> None:
+        """The whole assessment corpus plus every institutional fixture."""
+        import official_documents, sample_documents
+        corpus = []
+        for collection in (official_documents.OFFICIAL_DOCUMENTS, sample_documents.DOCUMENTS):
+            for key, entry in collection.items():
+                corpus.append((entry.get("name", key),
+                               entry.get("text") or entry.get("excerpt")))
+        corpus += [("bank standard", INSTITUTIONAL_STANDARD),
+                   ("academic policy", ACADEMIC_POLICY),
+                   ("values charter", "We believe AI should serve people. Our values "
+                                      "guide everything we build. We are committed to "
+                                      "fairness and strive to be open."),
+                   ("self-contradicting", SELF_CONTRADICTING)]
+        for name, text in corpus:
+            result = assess(name, "policy", text, assessment_mode="external_framework",
+                            sector="general_ai_governance")
+            self.assertEqual(result["vocabulary_enumeration_risk"], "LOW",
+                             f"false positive on {name}: ratio "
+                             f"{result['vocabulary_enumeration_ratio']}")
+
+
 class NonGovernanceTextTests(unittest.TestCase):
     """Broadened detection must not turn ordinary prose into a governance finding."""
 

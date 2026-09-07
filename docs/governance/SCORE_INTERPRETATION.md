@@ -301,3 +301,46 @@ used. The runner's keyword detector and the engine's document-type-led routing
 can legitimately reach different answers; showing one profile's name beside the
 other's evidence is incoherent, and where a profile came from document type
 rather than vocabulary the report says exactly that.
+
+## Vocabulary Enumeration
+
+Keying every signal to the function its language performs, rather than to one
+institution's word for it, removes register bias — and makes the vocabulary
+itself the attack surface. A document assembled from governance nouns
+("Controls, procedures, protocols, safeguards, and mechanisms are in place.
+Thresholds, tolerances, and materiality apply.") fires many signals and creates
+no duty.
+
+The two are separable at the sentence level. An operative sentence binds an
+actor to an action; an enumeration is a dense run of governance terms with
+nothing bound to anyone. `_vocabulary_enumeration()` counts a sentence as an
+enumeration when it carries at least four distinct governance terms at more than
+28% of its words, and either runs them as a comma-separated list or binds none of
+them with a modal verb. The reported ratio is enumerated sentences over
+substantive sentences.
+
+Measured over the whole assessment corpus and every institutional fixture — EU
+AI Act, NIST AI RMF, EO 14110, OECD, NHS DTAC, TUC/CIPD, plus bank, university,
+procurement, charter, and attestation documents — genuine instruments score
+0.00–0.06. A document built from the vocabulary scores 0.24. The threshold of
+0.15, with a minimum of three enumerated sentences, sits well clear of both, and
+`VocabularyEnumerationTests` re-checks every one of those documents on each run.
+
+Consequences of a HIGH verdict, all of them stated rather than silent:
+
+- Structural depth is HOLLOW, and the alignment verdict cannot reach
+  FUNCTIONALLY ALIGNED. Functional verdicts are evidence-based, but where the
+  evidence is a list of governance nouns the constructs have not been shown to
+  be present.
+- The finding leads with it, the coupling reading is qualified rather than
+  asserted ("whether its obligations are bound to the interests they protect
+  cannot be read from the text"), and the enumerated sentences are quoted in
+  their own report section.
+- It enters the gap register as a first-class gap, so the register is never
+  silently empty for such a document, and the control it requires is a rewrite
+  into operative form: for each named control, who must do it, when, evidenced
+  how, and what happens if they do not.
+
+The JSON export carries `vocabulary_enumeration` and `self_contradictions` per
+document, so a consumer can see both integrity qualifiers without re-deriving
+them.

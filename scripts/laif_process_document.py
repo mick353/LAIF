@@ -1723,6 +1723,7 @@ _CONTROL_NAME_BY_GAP = {
     "supplier_duty_without_deployer_acceptance": "Supplier Assurance Acceptance Checklist",
     "declaratory_without_operative_commitment": "Statement of Operative Commitments",
     "insufficient_operative_content": "Assessment of the Operative Instrument This Document Refers To",
+    "vocabulary_without_operative_effect": "Rewrite of Named Controls into Operative Form",
 }
 
 # Instrument-specific naming applies only where the instrument is identified by
@@ -1792,6 +1793,10 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
         "IMPLICIT": "It signals protective intent, but its obligations are not bound to any identifiable beneficiary.",
         "ABSENT": "Its obligations are not tied to the people they are meant to protect.",
     }.get(coupling, "")
+    if assessment.get("vocabulary_enumeration_risk") == "HIGH":
+        binding = ("Whether its obligations are bound to the interests they protect "
+                   "cannot be read from the text: the sentences carrying that language "
+                   "list governance terms rather than create duties.")
 
     # 3. Position, stated with its calibration so it cannot read as a grade.
     position = (f"Structural position: {overall}/100"
@@ -1834,6 +1839,19 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
     else:
         contradiction_txt = ""
 
+    # 4c. Vocabulary enumerated rather than made operative. Like a
+    # contradiction, this changes what every other finding means: the signals
+    # below were fired by a word list, not by duties.
+    if assessment.get("vocabulary_enumeration_risk") == "HIGH":
+        enumeration_txt = (
+            f"Governance vocabulary is listed rather than made operative — "
+            f"{int((assessment.get('vocabulary_enumeration_ratio') or 0) * 100)}% of "
+            f"substantive sentences name governance machinery without binding any of "
+            f"it to an actor or an action, so the signals detected below reflect the "
+            f"document's word choice rather than any duty it creates.")
+    else:
+        enumeration_txt = ""
+
     # 5. This document's own leading gap and next action.
     if gaps:
         lead = gaps[0]
@@ -1858,7 +1876,7 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
     # Contradiction precedes the gap and the next action: it changes what the
     # rest of the finding means.
     parts = [verdict, binding, position, framing, classification,
-             contradiction_txt, gap_txt, action]
+             enumeration_txt, contradiction_txt, gap_txt, action]
     return " ".join(x for x in parts if x)
 
 
@@ -1924,6 +1942,43 @@ def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> l
     value_fired = len(fired.get("conceptual", ()))
 
     gaps: list[dict] = []
+    if assessment.get("vocabulary_enumeration_risk") == "HIGH":
+        gaps.append({
+            "gap_id": "GAP-001",
+            "gap_title": "Governance vocabulary is listed rather than made operative",
+            "severity": "high",
+            "gap_type": "vocabulary_without_operative_effect",
+            "document_type": doc_type,
+            "sector_profile": sector,
+            "document_profile_key": document_profile_key(assessment),
+            "detected_from": {
+                "expectation_signal": (
+                    f"governance vocabulary present across "
+                    f"{sum(len(v) for v in fired.values())} signals"),
+                "missing_control_signal": (
+                    f"{int((assessment.get('vocabulary_enumeration_ratio') or 0) * 100)}% "
+                    f"of substantive sentences bind none of it to an actor or action"),
+            },
+            "source_evidence_quote": (assessment.get("vocabulary_enumeration_examples") or [""])[0],
+            "source_evidence_location": "",
+            "source_evidence_quote_ids": fallback_quote_ids,
+            "related_scores": scores,
+            "related_governance_repair_fields": ["governance_force", "operational_closure"],
+            "operational_meaning": (assessment.get("vocabulary_enumeration_reason") or ""),
+            "failure_mode": ("Signals fired by governance vocabulary are mistaken for "
+                             "governance that operates."),
+            "affected_stakeholders": assessment.get("sector_relevant_interests", [])[:3]
+                                     or ["affected people", "assurance reviewers"],
+            "required_control_ids": ["CTRL-001"],
+            "control_artifact": ("A rewrite in operative form: for each named control, "
+                                 "who must do it, when, evidenced how, and what happens "
+                                 "if they do not."),
+            "control_trigger": "Before this document is accepted as assurance for any decision.",
+            "control_threshold": ("No signal in this document is treated as assurance until "
+                                  "the sentence carrying it binds a named actor to an action."),
+            "reviewer_note": ("Ask the author which sentence creates the duty. If none does, "
+                              "assess the procedure or standard that is meant to."),
+        })
     if op_total and op_density <= 0.15 and value_fired >= 2:
         gaps.append({
             "gap_id": "GAP-001",
@@ -2118,6 +2173,7 @@ _CONTROL_OWNER_BY_GAP = {
     "incident_reporting_without_redress": "The complaints or appeals owner, with authority to reverse a decision.",
     "lifecycle_without_change_control": "The change-control authority for the system, typically its technical design authority.",
     "safety_case_without_live_review": "The named Clinical Safety Officer.",
+    "vocabulary_without_operative_effect": "The document's author, with the accountable owner who would have to discharge the duties it names.",
     "supplier_duty_without_deployer_acceptance": "The contract or procurement owner accepting the supplier assurance.",
 }
 
@@ -2216,6 +2272,20 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         lines.append("- No extraction-impaired governance evidence required source-verification tiering.")
     if extraction_quality_profile and extraction_quality_profile.get("source_text_reliability_warning"):
         lines += ["", f"**Extraction quality note:** {extraction_quality_profile.get('source_text_reliability_warning')}"]
+    if assessment.get("vocabulary_enumeration_risk") == "HIGH":
+        lines += ["", "## Governance vocabulary without operative effect", "",
+                  (assessment.get("vocabulary_enumeration_reason") or ""),
+                  "",
+                  ("The sentences below name governance machinery without binding it "
+                   "to anyone. Read every other finding in this report in that light: "
+                   "signals fired by these sentences record what the document says "
+                   "about governance, not what it requires of anyone."), ""]
+        for example in assessment.get("vocabulary_enumeration_examples", []):
+            repaired, _was, _why = normalize_quote_for_display(example)
+            damaged, _reason = unresolved_split_word_damage(repaired)
+            if not damaged:
+                lines.append(f"- \u201c{repaired.strip()}\u201d")
+        lines.append("")
     contradictions = assessment.get("contradictions") or []
     if contradictions:
         lines += ["", "## Self-contradictions in the document", "",

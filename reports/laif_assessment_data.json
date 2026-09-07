@@ -126,6 +126,7 @@
         "terminology": 0
       },
       "sector": "general_ai_governance",
+      "self_contradictions": [],
       "signal_locations": {
         "auditability": [
           {
@@ -251,7 +252,13 @@
       "source_type": "executive_directive",
       "source_url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
       "structural_alignment": "STRUCTURALLY UNALIGNED",
-      "structural_depth": "WEAK"
+      "structural_depth": "WEAK",
+      "vocabulary_enumeration": {
+        "examples": [],
+        "ratio": 0.0,
+        "reason": "Governance language is expressed as operative sentences, not as term lists.",
+        "risk": "LOW"
+      }
     },
     {
       "assessed_text_sha256": "2767d797d5102afeb14b68f014676b5ffe843cc08109edccd196202001f4d9d4",
@@ -383,6 +390,7 @@
         "terminology": 0
       },
       "sector": "general_ai_governance",
+      "self_contradictions": [],
       "signal_locations": {
         "auditability": [
           {
@@ -488,7 +496,13 @@
       "source_type": "international_principles",
       "source_url": "https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0449",
       "structural_alignment": "PARTIALLY ALIGNED",
-      "structural_depth": "WEAK"
+      "structural_depth": "WEAK",
+      "vocabulary_enumeration": {
+        "examples": [],
+        "ratio": 0.0,
+        "reason": "Governance language is expressed as operative sentences, not as term lists.",
+        "risk": "LOW"
+      }
     },
     {
       "assessed_text_sha256": "623c77daab39fccc67e56f38035c516d5edbf7fb45134f53e4cd576c9c0963b3",
@@ -599,6 +613,7 @@
         "terminology": 0
       },
       "sector": "general_ai_governance",
+      "self_contradictions": [],
       "signal_locations": {
         "auditability": [
           {
@@ -709,7 +724,13 @@
       "source_type": "voluntary_framework",
       "source_url": "https://doi.org/10.6028/NIST.AI.100-1",
       "structural_alignment": "PARTIALLY ALIGNED",
-      "structural_depth": "WEAK"
+      "structural_depth": "WEAK",
+      "vocabulary_enumeration": {
+        "examples": [],
+        "ratio": 0.0,
+        "reason": "Governance language is expressed as operative sentences, not as term lists.",
+        "risk": "LOW"
+      }
     },
     {
       "assessed_text_sha256": "7e3021badf4587dcc44d4e31ccbc53392b38f829051df3a0ca12c6accb2fd943",
@@ -837,6 +858,7 @@
         "terminology": 0
       },
       "sector": "clinical_ai",
+      "self_contradictions": [],
       "signal_locations": {
         "auditability": [
           {
@@ -917,7 +939,13 @@
       "source_type": "sector_policy",
       "source_url": "https://transform.england.nhs.uk/key-tools-and-info/digital-technology-assessment-criteria-dtac/",
       "structural_alignment": "PARTIALLY ALIGNED",
-      "structural_depth": "WEAK"
+      "structural_depth": "WEAK",
+      "vocabulary_enumeration": {
+        "examples": [],
+        "ratio": 0.0,
+        "reason": "Governance language is expressed as operative sentences, not as term lists.",
+        "risk": "LOW"
+      }
     },
     {
       "assessed_text_sha256": "b445198d70b6d16ae6209e5add86c44b25ffba13d97f1bddb650b2bc1ec24d2c",
@@ -1045,6 +1073,7 @@
         "terminology": 0
       },
       "sector": "general_ai_governance",
+      "self_contradictions": [],
       "signal_locations": {
         "auditability": [
           {
@@ -1160,7 +1189,13 @@
       "source_type": "binding_regulation",
       "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689",
       "structural_alignment": "PARTIALLY ALIGNED",
-      "structural_depth": "WEAK"
+      "structural_depth": "WEAK",
+      "vocabulary_enumeration": {
+        "examples": [],
+        "ratio": 0.0,
+        "reason": "Governance language is expressed as operative sentences, not as term lists.",
+        "risk": "LOW"
+      }
     },
     {
       "assessed_text_sha256": "3eb8aa2a42a0c912215ce629e574acddf7c7c7defa5ac6907a75b5e08feab955",
@@ -1282,6 +1317,7 @@
         "terminology": 0
       },
       "sector": "general_ai_governance",
+      "self_contradictions": [],
       "signal_locations": {
         "auditability": [
           {
@@ -1367,7 +1403,13 @@
       "source_type": "voluntary_framework",
       "source_url": "https://airc.nist.gov/RMF",
       "structural_alignment": "STRUCTURALLY UNALIGNED",
-      "structural_depth": "WEAK"
+      "structural_depth": "WEAK",
+      "vocabulary_enumeration": {
+        "examples": [],
+        "ratio": 0.0,
+        "reason": "Governance language is expressed as operative sentences, not as term lists.",
+        "risk": "LOW"
+      }
     },
     {
       "assessed_text_sha256": "2a8b7bd9efe990244d60eab43ba47098c8d9b97a7fe4a0b752a288bbd06dd788",
@@ -1489,6 +1531,7 @@
         "terminology": 0
       },
       "sector": "general_ai_governance",
+      "self_contradictions": [],
       "signal_locations": {
         "auditability": [],
         "conceptual": [
@@ -1563,7 +1606,13 @@
       "source_type": "international_principles",
       "source_url": "https://oecd.ai/en/ai-principles",
       "structural_alignment": "PARTIALLY ALIGNED",
-      "structural_depth": "WEAK"
+      "structural_depth": "WEAK",
+      "vocabulary_enumeration": {
+        "examples": [],
+        "ratio": 0.0,
+        "reason": "Governance language is expressed as operative sentences, not as term lists.",
+        "risk": "LOW"
+      }
     },
     {
       "assessed_text_sha256": "f56aa89da1a32bcbbe86c334859601757f60b8fd243b8b4741e6d6790c6a9f95",
@@ -1695,6 +1744,7 @@
         "terminology": 0
       },
       "sector": "general_ai_governance",
+      "self_contradictions": [],
       "signal_locations": {
         "auditability": [
           {
@@ -1815,7 +1865,13 @@
       "source_type": "executive_directive",
       "source_url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
       "structural_alignment": "PARTIALLY ALIGNED",
-      "structural_depth": "WEAK"
+      "structural_depth": "WEAK",
+      "vocabulary_enumeration": {
+        "examples": [],
+        "ratio": 0.0,
+        "reason": "Governance language is expressed as operative sentences, not as term lists.",
+        "risk": "LOW"
+      }
     },
     {
       "assessed_text_sha256": "656efe7e8ee449203a273ecbb924c73a24c2b631bd25942baf2f62c0407342df",
@@ -1948,6 +2004,7 @@
         "terminology": 0
       },
       "sector": "clinical_ai",
+      "self_contradictions": [],
       "signal_locations": {
         "auditability": [
           {
@@ -2053,7 +2110,13 @@
       "source_type": "sector_policy",
       "source_url": "",
       "structural_alignment": "PARTIALLY ALIGNED",
-      "structural_depth": "WEAK"
+      "structural_depth": "WEAK",
+      "vocabulary_enumeration": {
+        "examples": [],
+        "ratio": 0.0,
+        "reason": "Governance language is expressed as operative sentences, not as term lists.",
+        "risk": "LOW"
+      }
     },
     {
       "assessed_text_sha256": "966e46853cb2cd29eb19777d4a2d0d733c83e2b0b3da07f6a7e76f5f48bd760a",
@@ -2184,6 +2247,7 @@
         "terminology": 0
       },
       "sector": "employment_hr_ai",
+      "self_contradictions": [],
       "signal_locations": {
         "auditability": [
           {
@@ -2289,7 +2353,13 @@
       "source_type": "sector_policy",
       "source_url": "",
       "structural_alignment": "PARTIALLY ALIGNED",
-      "structural_depth": "WEAK"
+      "structural_depth": "WEAK",
+      "vocabulary_enumeration": {
+        "examples": [],
+        "ratio": 0.0,
+        "reason": "Governance language is expressed as operative sentences, not as term lists.",
+        "risk": "LOW"
+      }
     }
   ],
   "framework": "LAIF v1.2 · Compliance Toolkit v1.1",

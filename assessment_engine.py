@@ -622,7 +622,8 @@ def _functional_alignment(text, coupling_quality):
     return out
 
 
-def _laif_alignment_verdict(formal_pass, depth, functional, contradictions):
+def _laif_alignment_verdict(formal_pass, depth, functional, contradictions,
+                            enumeration_risk="LOW"):
     """
     Overall alignment verdict — the audience-facing conclusion.
 
@@ -638,7 +639,11 @@ def _laif_alignment_verdict(formal_pass, depth, functional, contradictions):
         return f"LAIF-NATIVE ({depth})"
     ok = lambda c: functional[c]["verdict"] in ("DECLARED", "FUNCTIONAL")
     n_ok = sum(ok(c) for c in functional)
-    if ok("Coupling") and n_ok >= 4 and not contradictions:
+    # Functional verdicts are evidence-based, but where the evidence is a list of
+    # governance nouns rather than sentences that bind anyone, the constructs
+    # have not been shown to be present. Alignment cannot be certified from a
+    # word list, however many signals it fires.
+    if ok("Coupling") and n_ok >= 4 and not contradictions and enumeration_risk != "HIGH":
         return "FUNCTIONALLY ALIGNED"
     n_any = sum(functional[c]["verdict"] != "ABSENT" for c in functional)
     if n_any >= 1:
@@ -802,6 +807,65 @@ def _contradiction_check(text):
     return findings
 
 
+# ── Vocabulary enumeration detection ───────────────────────────────────────────
+# Source: LAIF v1.2 Integrity Layer A.2 (Structural Honesty) — stated objectives
+# must correspond to implemented objectives. A document that LISTS governance
+# machinery rather than INSTITUTING it states an objective it does not implement.
+#
+# Why this detector exists: every rubric signal is keyed to the function its
+# language performs rather than to one institution's word for it, so that a
+# document is not penalised for its drafting register. The mirror risk of that
+# breadth is a document assembled from the vocabulary itself — a term list that
+# fires many signals while creating no duty. The two are separable at the
+# sentence level: an operative sentence binds an actor to an action; an
+# enumeration is a dense run of governance nouns with nothing bound to anyone.
+#
+# Measured over the assessment corpus, genuine instruments (EU AI Act, NIST AI
+# RMF, EO 14110, OECD, NHS DTAC, TUC/CIPD, and institutional policies in bank,
+# university, and procurement register) score 0.00-0.06; a document built purely
+# from governance vocabulary scores 0.24. The threshold sits well clear of both.
+
+_ENUMERATION_GOVERNANCE_TERM = re.compile(
+    r"\b(?:control|procedure|protocol|safeguard|mechanism|threshold|tolerance|"
+    r"materiality|lifecycle|retraining|oversight|review|escalation|explanation|"
+    r"transparency|interpretability|accountability|traceability|audit|risk|"
+    r"termination|breach|suspension|sanction|penalty|compliance|fairness|"
+    r"discrimination|contestability|appeal|redress|governance|evidence|"
+    r"monitoring|owner|register|approval)\w*\b",
+    re.IGNORECASE,
+)
+_ENUMERATION_MODAL = re.compile(r"\b(?:shall|must|may|will)\s+\w+", re.IGNORECASE)
+ENUMERATION_RATIO_THRESHOLD = 0.15
+ENUMERATION_MIN_SENTENCES = 3
+
+
+def _vocabulary_enumeration(text):
+    """Detect governance vocabulary listed rather than made operative.
+
+    Returns (risk, ratio, examples). A sentence counts as an enumeration when it
+    packs distinct governance terms densely (>28% of its words, at least four
+    distinct terms) and either runs them as a comma-separated list or binds none
+    of them to an actor with a modal verb.
+    """
+    sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+|\n{2,}", text or "")
+                 if len(s.strip()) > 25]
+    if not sentences:
+        return "LOW", 0.0, []
+    examples = []
+    for sentence in sentences:
+        terms = {m.group(0).lower() for m in _ENUMERATION_GOVERNANCE_TERM.finditer(sentence)}
+        words = len(sentence.split())
+        dense = len(terms) >= 4 and (len(terms) / max(words, 1)) > 0.28
+        if not dense:
+            continue
+        if sentence.count(",") >= 3 or not _ENUMERATION_MODAL.search(sentence):
+            examples.append(" ".join(sentence.split())[:180])
+    ratio = len(examples) / len(sentences)
+    risk = ("HIGH" if ratio >= ENUMERATION_RATIO_THRESHOLD
+            and len(examples) >= ENUMERATION_MIN_SENTENCES else "LOW")
+    return risk, round(ratio, 3), examples[:5]
+
+
 # ── Sector gaming detection ────────────────────────────────────────────────────
 # Source: LAIF v1.2 Principle 5 (Consistency / Q2) — governance logic must hold
 # across all scales. A document optimised for sector keywords without substantive
@@ -851,14 +915,18 @@ def _sector_gaming_risk(sector_alignment, overall, conceptual):
 
 # ── Structural depth synthesis ─────────────────────────────────────────────────
 
-def _structural_depth(coupling_quality, contradictions, gaming_risk, formal_pass):
+def _structural_depth(coupling_quality, contradictions, gaming_risk, formal_pass,
+                      enumeration_risk="LOW"):
     """
     Synthesise overall structural depth from diagnostic layers.
 
     STRONG — Structural Coupling + no contradictions + formal PASS + no gaming
     WEAK   — Shallow Coupling OR minor contradictions OR formal PASS with caveats
     HOLLOW — Negated/absent Coupling OR major contradictions OR high gaming risk
+             OR governance vocabulary enumerated rather than made operative
     """
+    if enumeration_risk == "HIGH":
+        return "HOLLOW"
     if coupling_quality == "NEGATED" or gaming_risk == "HIGH" or len(contradictions) >= 2:
         return "HOLLOW"
     if coupling_quality in ("SHALLOW", "ABSENT") and formal_pass:
@@ -3151,7 +3219,9 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     implicit_coupling            = _implicit_coupling_signals(text)
     contradictions       = _contradiction_check(text)
     gaming_level, gaming_reason = _sector_gaming_risk(sector_risk_alignment, overall, c)
-    depth                = _structural_depth(cq, contradictions, gaming_level, formal_pass)
+    enum_risk, enum_ratio, enum_examples = _vocabulary_enumeration(text)
+    depth                = _structural_depth(cq, contradictions, gaming_level, formal_pass,
+                                             enum_risk)
 
     # Source location layer — document outline, located signals, obligation
     # anchors. Lets every finding point INTO the document.
@@ -3169,7 +3239,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         ]
     func_coupling   = functional["Coupling"]["verdict"]
     laif_alignment  = _laif_alignment_verdict(formal_pass, depth, functional,
-                                              contradictions)
+                                              contradictions, enum_risk)
 
     # LAIF-native distance notes — deferred from the gap builder above so
     # they can be worded per channel and per functional verdict. For
@@ -3282,6 +3352,17 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         "formal_checks_detail":       formal_checks,   # [(label, bool), ...]
         "strong_laif_compliance":     strong_compliance,
         "structural_depth":           depth,
+        "vocabulary_enumeration_risk": enum_risk,
+        "vocabulary_enumeration_ratio": enum_ratio,
+        "vocabulary_enumeration_examples": enum_examples,
+        "vocabulary_enumeration_reason": (
+            f"{int(enum_ratio * 100)}% of substantive sentences list governance terms "
+            f"without binding any of them to an actor or an action. The document "
+            f"names the machinery of governance rather than instituting it, so its "
+            f"signals reflect vocabulary rather than duties (LAIF v1.2 A.2 "
+            f"Structural Honesty: stated and implemented objectives must correspond)."
+            if enum_risk == "HIGH" else
+            "Governance language is expressed as operative sentences, not as term lists."),
         "coupling_quality":           cq,
         "coupling_quality_reason":    cq_reason,
         "coupling_quality_evidence":  cq_evidence,
@@ -5137,6 +5218,20 @@ def export_assessment_data(assessments, report_date="July 2026"):
             "structural_alignment": r.get("laif_alignment", ""),
             "coupling_state":      r.get("coupling_state", ""),
             "structural_depth":    r.get("structural_depth", ""),
+            # Integrity qualifiers: a consumer must be able to see that a
+            # document's signals came from a term list, or that it revokes a
+            # protection it states, without re-deriving either.
+            "vocabulary_enumeration": {
+                "risk":     r.get("vocabulary_enumeration_risk", "LOW"),
+                "ratio":    r.get("vocabulary_enumeration_ratio", 0.0),
+                "reason":   r.get("vocabulary_enumeration_reason", ""),
+                "examples": r.get("vocabulary_enumeration_examples", []),
+            },
+            "self_contradictions": [
+                {"property": c[0], "description": c[1], "context": c[2]}
+                for c in r.get("contradictions", [])
+                if isinstance(c, (list, tuple)) and len(c) >= 3
+            ],
             "deployment_risk_tier": r.get("deployment_risk_tier", ""),
             "functional_alignment": {
                 c: {
