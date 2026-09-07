@@ -47,13 +47,13 @@ STRUCTURAL_RUBRIC = [
     # ── General governance architecture (external frameworks can score here) ──
     (8,  r"\bArticle\s+\d+|GOVERN\s+\d+\.\d+|Section\s+\d+\.?\d*",
          "numbered sub-requirements"),
-    (8,  r"\bshall\b",
-         "mandatory obligation language (shall)"),
-    (6,  r"\blifecycle\b",
+    (8,  r"\bshall\b|\bmust\b",
+         "mandatory obligation language (shall/must)"),
+    (6,  r"\blifecycle\b|\blife.cycle\b|\bchange\s+control\b|\bre.approval\b|\bpost.deployment\b|\bpost.implementation\b|\bretrain\w*\b|\b(?:decommission|retire|withdraw)\w*\b.{0,60}\b(?:system|model|service|tool)\b|\bmaterial\s+change\b",
          "full lifecycle scope declared"),
     (7,  r"\bproportionat|\bhigh.risk\b|\brisk.{0,5}(?:level|categor|classif)",
          "risk stratification / proportionality"),
-    (6,  r"\b(?:mechanisms?|safeguards?|measures?)\b",
+    (6,  r"\b(?:mechanisms?|safeguards?|measures?|controls?|procedures?|protocols?)\b|\b(?:deployment|approval|assurance)\s+gate\b",
          "operational mechanisms defined"),
     (6,  r"\b(?:monitor|audit|review|inspect|evaluat)\b",
          "review / monitoring mechanisms"),
@@ -108,19 +108,19 @@ TERMINOLOGY_RUBRIC = [
 # and Integrity Layer conditions; scored without requiring LAIF vocabulary.
 CONCEPTUAL_RUBRIC = [
     # Q1 Coupling proxy — specific human interest identification
-    (10, r"\bhuman rights\b|\bfundamental rights\b|\bhuman interests?\b|\bperson.level stakes?\b|\baffected persons?\b|\bbeneficiar",
+    (10, r"\bhuman rights\b|\bfundamental rights\b|\bhuman interests?\b|\bperson.level stakes?\b|\baffected persons?\b|\bbeneficiar|\bcivil rights\b|\bdata subjects?\b|\b(?:applicant|customer|patient|employee|candidate|claimant|citizen|individual|person|resident|student)(?:'|\u2019)?s?\s+(?:interest|right)s?\b|\brights?\s+of\s+(?:the\s+)?(?:applicant|customer|patient|employee|individual|person)\b",
          "human rights / fundamental interests"),
     # Integrity Layer A.1 proxy — transparency requirements
-    (8,  r"\btransparency\b|\btransparent\b|\bmeaningful account\b|\bshows? its work\b",
+    (8,  r"\btransparency\b|\btransparent\b|\bmeaningful account\b|\bshows? its work\b|\bdisclos\w+\b.{0,80}\b(?:limitation|basis|logic|criteria|use\s+of\s+ai)\b|\b(?:publish|state|record)\w*\b.{0,60}\bbasis\s+(?:for|of)\s+(?:the\s+)?(?:decision|output|determination)\b|\binformed\s+that\b.{0,80}\bautomated\b",
          "transparency"),
     # Integrity Layer A.1 proxy — explainability / meaningful account
-    (8,  r"\bexplainability\b|\binterpret\b|\bmeaningful\s+(?:explanation|information)\b|explain (?:any|each|every) decision|\bin plain language\b|words you can understand",
+    (8,  r"\bexplainability\b|\binterpret\b|\bmeaningful\s+(?:explanation|information)\b|explain (?:any|each|every) decision|\bin plain language\b|words you can understand|\bexplanation\s+of\s+(?:any|each|every|an?|the)\b.{0,50}\bdecision\b|\bexplain\w*\b.{0,60}\b(?:individual|specific|each)\s+(?:decision|output|determination)\b|\breasons?\s+for\s+(?:the|any|each|its)\s+(?:decision|outcome|determination)\b|\bunderstand\s+and\s+contest\b",
          "explainability / interpretability"),
     # Q1 Coupling proxy — accountability for decisions affecting interests
-    (8,  r"\baccountability\b|\baccountable\b|records? sufficient for audit|\bauditors?\b",
+    (8,  r"\baccountability\b|\baccountable\b|records? sufficient for audit|\bauditors?\b|\binternal\s+audit\b|\bowner\s*:|\b(?:model|system|product|risk|service|process|data|business)\s+owners?\b|\bsenior\s+responsible\s+owner\b|\breportable\s+(?:control\s+)?breach\b|\bresponsible\s+for\b.{0,80}\b(?:compliance|discharg\w+|the\s+decision)\b",
          "accountability"),
     # Integrity Layer A.3 + Q1 Coupling — human oversight of AI decisions
-    (8,  r"\boversight\b|\bhuman determination\b|\bhuman.in.the.loop\b|escalat\w+ to a human|human (?:being )?must approve|independent review\w*",
+    (8,  r"\boversight\b|\bhuman determination\b|\bhuman.in.the.loop\b|escalat\w+ to a human|human (?:being )?must approve|independent review\w*|\bhuman\s+review\b|\bhuman\s+decision.?maker\b|\bhuman\s+intervention\b|\bmanual\s+review\b|\breview\w*\s+by\s+a\s+(?:human|person|clinician|officer|manager|reviewer)\b|\b(?:routed|referred)\s+to\s+a\s+human\b",
          "human oversight"),
     # Q2 Consistency proxy — proportionality across scales and actors
     (8,  r"\bproportionat|\brisk.{0,5}(?:level|proportion)",
@@ -132,13 +132,13 @@ CONCEPTUAL_RUBRIC = [
     (9,  r"\bcontest\w*\b|\bappeal\b|\bchallenge\b|\bredress\b|\bremedies\b",
          "contestability / redress"),
     # Q3 Reversibility proxy — modifiability of decisions and consequences
-    (8,  r"\b(?:revers|modif|correct)\w*\b.{0,80}\b(?:decision|outcome|consequence|policy)\b|power to reverse|can always appeal",
+    (8,  r"\b(?:revers|modif|correct)\w*\b.{0,80}\b(?:decision|outcome|consequence|policy)\b|power to reverse|can always appeal|\b(?:overturn|rescind|quash|set\s+aside)\w*\b.{0,60}\b(?:decision|outcome|determination)\b|\b(?:suspend|withdraw|revoke|roll\s*back|decommission|disable)\w*\b.{0,60}\b(?:use|system|model|deployment|service|tool)\b|\buse\s+(?:is\s+|to\s+be\s+)?suspended\b",
          "reversibility / modifiability"),
     # Q1/Q2 proxy — risk governance as structured process
-    (8,  r"\brisk\s+(?:management|assessment|governance|control)\b",
+    (8,  r"\brisk\s+(?:management|assessment|governance|control|framework|committee|appetite|register|tolerance|owner)\w*\b|\b(?:model|operational|clinical|credit|conduct)\s+risk\b|\brisk.based\b",
          "risk governance"),
     # Integrity Layer A.1 proxy — traceability of outputs and decisions
-    (10, r"\btraceability\b|\btraceable\b|\bresponsibility\b.{0,30}\b(?:outcome|system|decision)\b",
+    (10, r"\btraceability\b|\btraceable\b|\bresponsibility\b.{0,30}\b(?:outcome|system|decision)\b|\baudit\s+trail\b|\bchain\s+of\s+custody\b|\b(?:record|log|register)\w*\b.{0,60}\b(?:each|every|all|the)\s+(?:decision|outcome|change|override)s?\b|\bversion\s+control\b",
          "traceability / responsibility"),
     # Q2 Consistency proxy — fairness, non-discrimination, labour rights
     (8,  r"\bworkers?\b|\blabour\s+rights?\b|\bfairness\b|\bnon.discriminat\b",
@@ -159,20 +159,20 @@ AUDITABILITY_RUBRIC = [
          "evidence / documentation requirements"),
     (20, r"\b(?:review|audit|monitor|evaluat|inspect|post.market)\b",
          "review / monitoring mechanisms"),
-    (20, r"\b(?:specific|targeted|defined|identif|concrete|measur)\b.{0,80}\b(?:requirement|obligation|measure|standard|criterion)\b",
+    (20, r"\b(?:specific|targeted|defined|identif|concrete|measur)\b.{0,80}\b(?:requirement|obligation|measure|standard|criterion)\b|\bwithin\s+\d+\s+(?:working\s+|business\s+|calendar\s+)?(?:day|hour|week|month|year)s?\b|\b(?:above|below|exceed\w*|outside|greater\s+than|less\s+than)\b.{0,40}\d+\s*%|\b(?:monthly|quarterly|annual(?:ly)?|weekly|biannual\w*)\b.{0,80}\b(?:review|monitor|report|assess|audit|attest)\w*|\b(?:review|monitor|report|assess|audit|attest)\w*\b.{0,60}\b(?:monthly|quarterly|annual(?:ly)?|weekly)\b",
          "specific, measurable obligations"),
 ]
 
 ENFORCEABILITY_RUBRIC = [
     (20, r"\bshall\b|\bmust\b|\bwe\s+will\s+(?:never|not)\b",
          "mandatory language (shall/must)"),
-    (20, r"\b(?:provider|deployer|operator|agenc(?:y|ies)|responsible\s+part(?:y|ies)|actors?|authorit(?:y|ies)|organisations?)\b",
+    (20, r"\b(?:provider|deployer|operator|agenc(?:y|ies)|responsible\s+part(?:y|ies)|actors?|authorit(?:y|ies)|organisations?)\b|\b(?:chief|group|senior|head)\s+[\w-]+\s+(?:officer|executive)\b|\b[\w-]+\s+committee\b|\bboard\s+of\s+[\w-]+\b|\binternal\s+audit\b|\b(?:model|system|product|risk|service|process|data|business)\s+owners?\b|\bowner\s*:|\bsenior\s+responsible\s+owner\b|\b(?:data\s+)?controller\b|\bsuppliers?\b|\bvendors?\b|\bcontractors?\b|\bhead\s+of\s+[\w-]+\b",
          "named responsible parties"),
-    (20, r"\bproportionate\b|\bdegree\s+of\s+risk\b|\blevel\s+of\s+risk\b|\bhigher.risk\b|commensurate\s+with\b",
+    (20, r"\bproportionate\b|\bdegree\s+of\s+risk\b|\blevel\s+of\s+risk\b|\bhigher.risk\b|commensurate\s+with\b|\bthresholds?\b|\btolerances?\b|\bmaterialit(?:y|ies)\b|\b(?:above|below|exceed\w*|outside|breach\w*)\b.{0,40}\b(?:\d+\s*%|tolerance|limit|threshold)\b|\brisk.(?:based|tier\w*|rat\w+)\b",
          "risk-proportionate thresholds"),
-    (20, r"\b(?:penalty|sanction|fine|infringement|non.compliance|consequence|suspension|suspended|revok)\w*\b",
+    (20, r"\b(?:penalty|sanction|fine|infringement|non.complian|consequence|suspension|suspended|revok|terminat|disqualif|forfeit|withdraw)\w*\b|\bmaterial breach\b|\bbreach of (?:contract|this \w+)\b|\breportable (?:control )?breach\b|\b(?:rejected|refused|not accepted)\b.{0,60}\b(?:evidence|response|submission|application)\b|\b(?:evidence|response|submission)\b.{0,60}\b(?:will be |shall be )?rejected\b",
          "enforcement consequences / penalties"),
-    (20, r"\b(?:shall|must)\s+(?:not\s+)?(?:ensure|establish|implement|maintain|provide|design|develop|assess|approve|produce|operate|name|document)\b",
+    (20, r"\b(?:shall|must)\s+(?:not\s+)?(?:ensure|establish|implement|maintain|provide|design|develop|assess|approve|produce|operate|name|document|monitor|report|escalate|evidence|record|review|verify|notify|suspend|obtain|submit|demonstrate|comply|retain|publish|test|validate|apply|complete|register)\b|\b(?:shall|must)\s+be\s+\w+ed\b|\brequires?\s+(?:re.)?(?:approval|authoris\w+|authoriz\w+|sign.off)\b|\bno\s+\w+(?:\s+\w+)?\s+(?:enters?|proceeds?|may|shall|is\s+\w+ed)\b.{0,80}\bunless\b",
          "non-discretionary operational mandates"),
 ]
 
@@ -453,14 +453,20 @@ FUNCTIONAL_CONSTRUCT_FAMILIES = {
     "Integrity Layer": [
         ("all-must-pass threshold gate", [
             r"all\s+(?:three|four|five|of\s+the\s+following)\b.{0,160}\b(?:must|shall)\s+be\s+(?:satisfied|met|true)",
+            r"all\s+of\s+the\s+following\b.{0,80}\b(?:hold|holds|apply|applies|are\s+(?:true|met|satisfied|in\s+place))",
+            r"(?:unless|until|only\s+(?:if|where|when))\b.{0,60}\ball\s+of\s+the\s+following\b",
             r"\b(?:three|four)\s+things\s+must\s+all\s+be\s+true\b",
             r"partial\s+satisfaction\b.{0,100}\b(?:failure|fails)",
+            r"partial\s+(?:satisfaction|compliance|conformance)\b.{0,80}\b(?:is\s+not|does\s+not\s+constitute|is\s+insufficient)\b",
             r"\bsatisfied\s+simultaneously\b|\bsimultaneously\b.{0,140}\bbefore\s+(?:any\s+)?deployment",
+            r"\b(?:hold|holds|apply|applies|are\s+met)\s+simultaneously\b",
+            r"no\s+(?:model|system|tool)\b.{0,80}\b(?:enters?|goes?)\s+(?:into\s+)?production\b.{0,80}\bunless\b",
             r"must\s+meet\s+(?:these|all)\s+criteria\s+to\s+pass\b",
         ]),
         ("meaningful account of outputs", [
             r"(?:produce|provide|give)\w*\b.{0,80}\b(?:meaningful|comprehensible)\s+account\b",
             r"explain\s+(?:any|each|every)\s+decision\b",
+            r"explanation\s+of\s+(?:any|each|every|an?)\b.{0,40}\bdecision\b",
             r"\bshow(?:s)?\s+its\s+work\b",
             r"(?:confidence|uncertainty)\b.{0,140}\b(?:material\s+)?limitations\b",
             r"interpret\s+the\s+system.s\s+outputs?\b|meaningful\s+(?:explanations?|information)\b",
@@ -468,6 +474,8 @@ FUNCTIONAL_CONSTRUCT_FAMILIES = {
         ]),
         ("stated-vs-implemented correspondence", [
             r"(?:stated|documented)\b.{0,80}\bobjectives?\b.{0,140}\bcorrespond\b",
+            r"(?:stated|documented|declared)\s+objectives?\b.{0,60}\b(?:match|matches|equal|align\s+with)\b.{0,60}\b(?:implemented|actual|deployed)\b",
+            r"verified\s+by\b.{0,80}\bindependent(?:ly)?\s+(?:of|from)\s+the\s+(?:build|development|delivery)\s+team\b",
             r"really\s+does\s+what\s+we\s+say\s+it\s+does\b",
             r"perform\w*\s+consistently\s+whether\s+or\s+not\b",
             r"verified\s+by\s+independent\s+review\w*\b|checked\s+by\s+independent\s+review\w*\b",
@@ -477,8 +485,10 @@ FUNCTIONAL_CONSTRUCT_FAMILIES = {
             r"stays?\s+inside\s+the\s+limits\b",
             r"(?:surface|escalat|refer)\w*\b.{0,100}\bout.of.scope\b",
             r"escalat\w+\s+to\s+a\s+human\b",
+            r"(?:routed|referred|escalated|passed|handed)\s+to\s+a\s+human\b",
             r"shall\s+not\s+autonomously\s+initiate\b",
-            r"within\s+(?:its|their)\s+(?:validated|approved|defined|intended)\s+(?:indication|purpose|scope)\b",
+            r"within\s+(?:its|their)\s+(?:validated|approved|defined|intended|authorised|authorized)\s+(?:indication|purpose|scope|use\s+bound\w*|bound\w*)\b",
+            r"out.of.bound\w*\b.{0,120}\b(?:human|escalat|refer|rout)",
             r"within\s+the\s+scope\s+of\s+(?:its|their)\s+intended\s+purpose\b",
         ]),
     ],
@@ -491,6 +501,8 @@ FUNCTIONAL_CONSTRUCT_FAMILIES = {
         ]),
         ("universal application check", [
             r"\bapplied\s+universally\b|\buniversal\s+application\b",
+            r"\bbinds?\s+all\s+\w+\s+(?:entities|units|divisions|subsidiaries|functions|teams|business\w*)\b",
+            r"applies?\s+(?:equally\s+)?to\s+all\b.{0,80}\bwithout\s+exception\b",
             r"aggregate\s+result\w*\b.{0,100}\bacceptable\b",
             r"differential\s+treatment\b.{0,140}\bjustif",
         ]),
@@ -501,12 +513,15 @@ FUNCTIONAL_CONSTRUCT_FAMILIES = {
             r"irreversible\b.{0,220}\b(?:without|prior\s+to|before)\b.{0,100}\b(?:authoris|authoriz|approv)",
             r"(?:permanently\s+affect|could\s+permanently)\b.{0,180}\b(?:approve|authoris|authoriz|senior)",
             r"(?:authoris|authoriz)\w+\b.{0,140}\bcommensurate\s+with\b.{0,80}\bpermanence\b",
+            r"material\s+change\b.{0,160}\brequires?\s+(?:re.approval|re.authoris|re.authoriz|approval\s+through)\b",
         ]),
         ("reversal capacity preserved", [
             r"(?:capacity|power|right|authority)\s+to\s+(?:reverse|overturn|modify)\b",
             r"appeal\s+to\b.{0,100}\b(?:person|reviewer|body)\b.{0,100}\b(?:reverse|overturn)",
             r"future\s+(?:actors|decision.makers)\b.{0,140}\b(?:reverse|modify)",
             r"can\s+be\s+(?:overridden|reversed|repaired)\b|overridden,\s+repaired",
+            r"(?:may|can|shall\s+be\s+able\s+to)\s+(?:overturn|reverse|rescind|set\s+aside|quash)\s+(?:the|that|any)\s+(?:decision|outcome|determination)\b",
+            r"(?:use|deployment|operation)\s+(?:is\s+|to\s+be\s+)?suspended\b",
             r"suspend\w*\b.{0,60}\b(?:roll\w*\s*back|recall|revoke)|rolling\s+back\b",
             r"supersede,?\s+disengage,?\s+or\s+deactivate",
             r"decommission\w*\b.{0,80}\bsafely\b|phasing\s+out\b.{0,60}\bsafely\b",
@@ -517,8 +532,14 @@ FUNCTIONAL_CONSTRUCT_FAMILIES = {
         ("framework binds the governing actor", [
             r"applies?\s+to\s+(?:the\s+)?(?:regulatory\s+)?authority\s+itself\b",
             r"applies?\s+to\s+us\s+as\s+an?\s+organisation\b|just\s+as\s+much\s+as\s+to\s+our\s+systems\b",
-            r"(?:authority|regulator)\b.{0,140}\b(?:document|demonstrate)\w*\s+its\s+own\s+compliance\b",
             r"same\s+(?:evidentiary\s+)?standard\s+it\s+demands\b",
+            r"\bis\s+itself\s+(?:subject\s+to|bound\s+by)\b",
+            r"\b(?:we|this\s+\w+)\s+(?:are|is)\s+bound\s+by\s+(?:this|the\s+same)\b",
+        ]),
+        ("governing actor evidences its own compliance", [
+            r"(?:authority|regulator)\b.{0,140}\b(?:document|demonstrate)\w*\s+its\s+own\s+compliance\b",
+            r"\b(?:evidence|demonstrate|document|report|prove)\s+its\s+own\s+compliance\b",
+            r"\bown\s+compliance\b.{0,120}\b(?:internal\s+audit|independent\s+review|external\s+audit|oversight\s+body)\b",
         ]),
         ("recourse against the governing actor", [
             r"affected\s+by\s+the\s+authority(?:'s|’s)\s+decisions?\b.{0,140}\b(?:appeal|review)",
@@ -779,9 +800,25 @@ def _sector_gaming_risk(sector_alignment, overall, conceptual):
     substantive governance content.
 
     HIGH   — sector alignment ≥80% AND overall readiness <30 (keyword stuffing)
+    HIGH   — sector alignment ≥40% AND overall readiness <15 (vocabulary, no document)
     MEDIUM — sector alignment ≥70% AND conceptual proximity <25 (keywords without intent)
     LOW    — no gaming indicators detected
+
+    The second HIGH branch exists because sector alignment is a percentage of a
+    profile's risk indicators, and a well-specified profile has enough indicators
+    that a keyword list rarely reaches 80% of them. Sector vocabulary genuinely
+    present alongside a near-zero readiness score is the same finding at a lower
+    alignment figure: the text names a regulated activity without carrying any of
+    the governance architecture that activity requires.
     """
+    if sector_alignment >= 40 and overall < 15:
+        return "HIGH", (
+            f"Sector risk alignment {sector_alignment}% vs overall readiness {overall}/100. "
+            "The text uses sector-specific vocabulary but carries almost no governance "
+            "architecture — no obligations, owners, evidence duties, or consequences. "
+            "Sector language alone cannot support a governance claim "
+            "(LAIF v1.2 Q2 Consistency)."
+        )
     if sector_alignment >= 80 and overall < 30:
         return "HIGH", (
             f"Sector risk alignment {sector_alignment}% vs overall readiness {overall}/100. "
@@ -1127,6 +1164,18 @@ SECTOR_PROFILES.update({
         "evidence_cautions": ("Do not infer employment-law compliance or legal validity from HR terminology.", "Do not generate bias or adverse-action evidence unless exact source text exists."),
         "remediation_focus": ["Assign an HR policy owner with legal/compliance and bias-review support for adverse-action controls.", "Require adverse-action review, bias evidence, human review, and appeal records for employment-impacting AI decisions."],
     },
+    "financial_services_ai": {
+        "label": "Financial Services AI",
+        "purpose": "Diagnose AI governance for credit, lending, insurance underwriting and pricing, fraud and AML screening, collections, and customer-facing financial decisions.",
+        "relevant_interests": ["fair access to credit, insurance, and financial services", "the customer's ability to understand and contest an automated financial decision", "protection from wrongful account restriction, denial, or adverse pricing"],
+        "diagnostic_terms": ("credit", "lending", "underwriting", "applicant", "customer", "adverse decision", "affordability", "fraud", "AML", "model risk", "model validation"),
+        "risk_indicators": [(r"\b(?:credit|lending|loan|mortgage|underwrit\w+|affordability)\b", "credit / underwriting decision"), (r"\b(?:applicant|borrower|policyholder|account\s+holder)\b", "financial customer population"), (r"\b(?:fraud|aml|anti.money.laundering|sanctions screening|financial crime)\b", "fraud / financial-crime screening"), (r"\b(?:pricing|premium|risk.based pricing|rate setting)\b", "pricing / premium setting"), (r"\b(?:account (?:closure|restriction|freeze)|de.risking|collections)\b", "account restriction / collections action")],
+        "expected_evidence": [(r"\bmodel validation\b|\bindependent validation\b", "independent model validation"), (r"\badverse (?:action|decision) notice\b|\breasons? for (?:the )?(?:decline|refusal|decision)\b", "adverse-decision reasons record"), (r"\bhuman review\b|\bappeal\b|\bcomplaint\b", "human review / complaint record"), (r"\bfair(?:ness)? (?:testing|metric|outcome)\w*\b|\bdisparate impact\b", "fairness / disparate-impact testing"), (r"\bmodel risk (?:policy|framework|committee)\b|\bmodel inventory\b", "model risk governance record")],
+        "governance_force_emphasis": ("protected interest", "actor", "control", "evidence", "reversibility", "escalation", "consequence"),
+        "remediation_themes": ("Assign model risk ownership with validation independent of the build team.", "Require adverse-decision reasons, human review, and fairness testing evidence for customer-impacting models.", "Tie monitoring breaches to a defined suspension or escalation decision, not observation alone."),
+        "evidence_cautions": ("Financial-services vocabulary does not establish regulatory compliance, capital adequacy, or conduct-rule satisfaction.", "Do not infer that validation, fairness testing, or adverse-decision records exist unless the source text states them."),
+        "remediation_focus": ["Assign model risk ownership with validation performed independently of the model build team.", "Require adverse-decision reasons, human review routes, and fairness testing evidence for every customer-impacting model."],
+    },
     "education_ai": {
         "label": "Education AI",
         "purpose": "Diagnose AI governance for admissions, grading, learning analytics, student support, accessibility, appeals, and academic governance.",
@@ -1156,7 +1205,7 @@ SECTOR_PROFILES["clinical_ai"].update({
     "evidence_cautions": ("Clinical vocabulary does not determine medical, regulatory, or legal validity.", "Do not invent clinical validation, fallback, override, patient safety review, or incident evidence."),
 })
 
-_SECTOR_PROFILE_ALIASES = {"public_sector_automation": "government_service_delivery", "public_sector_ai": "government_service_delivery", "government_ai": "government_service_delivery", "departmental_ai": "departmental_ai_development", "internal_ai_development": "departmental_ai_development", "procurement_ai": "procurement_vendor_governance", "vendor_governance": "procurement_vendor_governance", "employment_ai": "employment_hr_ai", "hr_ai": "employment_hr_ai", "workforce_ai": "employment_hr_ai"}
+_SECTOR_PROFILE_ALIASES = {"public_sector_automation": "government_service_delivery", "public_sector_ai": "government_service_delivery", "government_ai": "government_service_delivery", "departmental_ai": "departmental_ai_development", "internal_ai_development": "departmental_ai_development", "procurement_ai": "procurement_vendor_governance", "vendor_governance": "procurement_vendor_governance", "employment_ai": "employment_hr_ai", "hr_ai": "employment_hr_ai", "workforce_ai": "employment_hr_ai", "financial_services": "financial_services_ai", "banking_ai": "financial_services_ai", "credit_ai": "financial_services_ai", "insurance_ai": "financial_services_ai"}
 
 _SECTOR_PROFILE_PATCH_CONTEXT = {
     "government_service_delivery": {"responsible_actor": "Service-delivery policy owner with administrative review / records authority support", "evidence_artifact": "Reasons-for-decision, review pathway, service-impact record, or case decision log.", "operational_control": "Map each service-impacting AI decision to reasons, administrative review, records retention, exception handling, and human caseworker escalation."},
@@ -1164,6 +1213,7 @@ _SECTOR_PROFILE_PATCH_CONTEXT = {
     "procurement_vendor_governance": {"responsible_actor": "Procurement lead with legal/compliance and vendor-management support", "evidence_artifact": "Contract clause, vendor disclosure, audit-access record, assurance artefact, or service-level evidence.", "operational_control": "Translate AI governance requirements into contract clauses, vendor disclosure duties, audit-access rights, assurance review, and escalation consequences."},
     "clinical_ai": {"responsible_actor": "Clinical governance owner with clinician reviewer and safety incident pathway", "evidence_artifact": "Clinical fallback, override record, patient safety review, incident log, or clinical governance record.", "operational_control": "Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation."},
     "employment_hr_ai": {"responsible_actor": "HR policy owner with legal/compliance and bias-review support", "evidence_artifact": "Adverse-action review, bias evidence, human review/appeal record, or accommodation record.", "operational_control": "Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls."},
+    "financial_services_ai": {"responsible_actor": "Model risk owner with validation independent of the build team and conduct/compliance support", "evidence_artifact": "Independent model validation report, adverse-decision reasons record, human review or complaint log, or fairness testing evidence.", "operational_control": "Tie each customer-impacting model to independent validation, adverse-decision reasons, a human review route, fairness monitoring with thresholds, and a suspension decision on breach."},
     "education_ai": {"responsible_actor": "Education policy owner with student support, accessibility, and academic governance reviewer", "evidence_artifact": "Student-impact review, appeal pathway, accessibility record, student support record, or academic governance review.", "operational_control": "Map education-impacting AI decisions to student-impact review, accessibility support, appeal pathways, academic governance review, and escalation."},
 }
 
@@ -2363,7 +2413,10 @@ _DOCUMENT_TYPE_PATTERNS = [
     ("public_sector_policy", (r"\bpolicy for the responsible use of ai in government\b", r"\bresponsible use of ai in government\b", r"\bpublic servants?\s+must\b", r"\bgovernment agencies\s+and\s+public servants\s+must\b", r"\bgovernment agencies\s+must\b", r"\bagencies must disclose\b", r"\bresponsible ai use by agencies\b", r"\bai use registers?\b", r"\bhuman review\b", r"\baccountable officials?\b", r"\bdigital transformation agency\b", r"\bdta\b", r"\bpublic sector policy\b")),
     ("procurement_assessment_form", (r"\bprocurement\b", r"\bassessment form\b", r"\bvendor\b", r"\bsupplier\b", r"\bcontract\b")),
     ("implementation_guide", (r"\bimplementation guide\b", r"\bplaybook\b", r"\bguidance for implementing\b", r"\bhow to implement\b")),
-    ("internal_policy", (r"\binternal policy\b", r"\bdepartment(?:al)? policy\b", r"\bcompany policy\b", r"\borganitational policy\b", r"\borganisational policy\b", r"\borganizational policy\b", r"\bthis policy (?:sets out|applies|governs|covers)\b", r"\bapplies to all (?:staff|employees|personnel)\b", r"\bstaff(?:,| and) contractors\b", r"\bfor board approval\b", r"\bpolicy will be reviewed\b", r"\bversion \d")),
+    # Internal policy also covers the corporate "standard"/"procedure" register:
+    # an owner line, an approving body, an entity-wide binding clause, and a
+    # breach consequence are the institutional form of the same instrument.
+    ("internal_policy", (r"\binternal policy\b", r"\bdepartment(?:al)? policy\b", r"\bcompany policy\b", r"\borganitational policy\b", r"\borganisational policy\b", r"\borganizational policy\b", r"\bthis policy (?:sets out|applies|governs|covers)\b", r"\bapplies to all (?:staff|employees|personnel)\b", r"\bstaff(?:,| and) contractors\b", r"\bfor board approval\b", r"\bpolicy will be reviewed\b", r"\bversion \d", r"\bthis (?:standard|procedure|framework|instruction)\s+(?:binds|applies to|sets out|governs|covers)\b", r"^\s*owner\s*:", r"\bapproved by\s*:", r"\bnon.compliance\b.{0,100}\b(?:reportable|disciplinary|breach|sanction)", r"\b(?:group|enterprise|corporate|firm.wide|bank.wide|company.wide)\s+(?:policy|standard|framework|procedure)\b", r"\bbinds all\b.{0,60}\b(?:entities|units|divisions|subsidiaries|functions)\b", r"\breview\s*:\s*(?:annual|biennial|quarterly)", r"\bchange control\b")),
     ("vendor_compliance_submission", (r"\bvendor submission\b", r"\bcompliance submission\b", r"\battestation\b", r"\bsupplier response\b")),
 ]
 
@@ -2546,6 +2599,18 @@ def classify_document_type(text, name="", source_type=""):
     if identity:
         return identity
     haystack = f"{name or ''} {source_type or ''} {text or ''}".lower()
+    # Instrument-form anchors outrank sector vocabulary. A tender that buys a
+    # clinical system is a procurement instrument whose subject happens to be
+    # clinical; classifying it as a clinical assurance checklist misstates who
+    # the document binds and how its force arises. The clinical dimension is
+    # carried by the sector profile, which is a separate axis.
+    _PROCUREMENT_FORM_ANCHORS = (
+        "invitation to tender", "request for proposal", "request for tender",
+        "supplier assurance questionnaire", "procurement questionnaire",
+        "tender response", "contract schedule", "pre-qualification questionnaire",
+    )
+    if any(anchor in haystack for anchor in _PROCUREMENT_FORM_ANCHORS):
+        return "procurement_assessment_form"
     candidates = []
     for doc_type, patterns in _DOCUMENT_TYPE_PATTERNS:
         score = _document_type_pattern_hits(haystack, doc_type, patterns)
@@ -2590,6 +2655,14 @@ _SECTOR_KEYWORDS = (
                           "employment decision", "employment decisions")),
     ("education_ai", ("student", "students", "pupil", "school", "curriculum",
                       "academic", "learner", "learners")),
+    # "customer"/"model" deliberately excluded: both are common in general AI
+    # governance texts and would misroute them. The terms below name financial
+    # decisions and financial-supervisory machinery specifically.
+    ("financial_services_ai", ("credit", "lending", "loan", "mortgage",
+                               "underwriting", "borrower", "applicant",
+                               "policyholder", "premium", "affordability",
+                               "anti-money-laundering", "aml", "model risk",
+                               "model validation", "financial crime", "bank")),
     ("procurement_vendor_governance", ("procurement", "tender", "supplier",
                                        "suppliers", "vendor", "vendors",
                                        "contract", "contracts")),

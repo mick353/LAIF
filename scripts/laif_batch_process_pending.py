@@ -29,6 +29,7 @@ SECTOR_CHOICES = (
     "clinical_ai",
     "employment_hr_ai",
     "education_ai",
+    "financial_services_ai",
 )
 EXTRACTOR_CHOICES = ("auto", "builtin", "docling", "markitdown", "python-docx", "pypdf")
 COMMIT_MODES = ("copy", "move", "archive")

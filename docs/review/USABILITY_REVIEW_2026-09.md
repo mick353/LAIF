@@ -190,3 +190,89 @@ existing corpus.
 *Prepared by independent review of commit `cd85edd`. Fixtures and raw outputs
 are reproducible with `scripts/laif_process_document.py` on the documents
 described in §1.*
+
+---
+
+## 7. Resolution status (second review pass)
+
+All six recommendations were implemented. A second pass then stress-tested the
+system against four fresh documents chosen to be outside the corpus it was
+tuned on: a bank AI governance standard, an NHS AI triage tender, a sales
+report, and a two-word file. That pass found a further, more serious class of
+defect and it has also been fixed.
+
+### 7.1 Recommendations 1–6
+
+| # | Recommendation | Status |
+|---|---|---|
+| 1 | Executive finding must be a function of the result | **Done** — derived from alignment verdict, coupling state, calibrated position, document-type framing, and the document's own leading gap |
+| 2 | De-duplicate the institutional report | **Done** — pathways, controls, and owners are gap-specific; empty sections state their own meaning instead of emitting boilerplate |
+| 3 | Fix document-type classification, fail honestly | **Done** — identity anchors, corporate-standard register added to `internal_policy`, procurement instrument form outranks sector vocabulary, and "not confidently classified" is stated where it applies |
+| 4 | Widen sector auto-detection and show its basis | **Done** — whole-word counting, a `financial_services_ai` profile, and the detected sector reported with the terms that produced it |
+| 5 | Institutional-report quote discipline | **Done** — sentence-anchored quotes through the same display-repair and damage gate as every other public quotation |
+| 6 | State a reading order | **Done** — each artifact opens with who it is for and what to read first |
+
+### 7.2 The register-bias defect
+
+The stress test found that a deliberately excellent bank standard — named-interest
+coupling with a mutual non-weakening lock, an all-conditions deployment gate,
+an unconditional customer review right, quantified monitoring thresholds with
+escalation and suspension, self-application, and change control — scored 35/100
+and was reported as ABSENT on the Integrity Layer, Consistency, Reversibility,
+and Self-Application. It was then told it lacked a named owner, lacked
+monitoring thresholds, and lacked lifecycle scope, all of which it plainly
+stated.
+
+The cause was that rubric and construct patterns were keyed to the drafting
+register of the corpus the system was built against — EU/NIST/OECD legal and
+framework prose — rather than to the function the language performs. `shall`
+counted and `must` did not; `provider` and `deployer` counted and `Chief Risk
+Officer` did not; `lifecycle` counted and `change control` did not;
+`proportionate to risk` counted and `a drift breach above 5%` did not.
+
+This is the same failure the system is designed to expose in others: judging an
+instrument by its vocabulary rather than by what it does. Every affected signal
+is now keyed to function, with the accepted registers documented in
+[SCORE_INTERPRETATION.md](../governance/SCORE_INTERPRETATION.md#drafting-register-neutrality).
+The same document now scores 66/100 (81% of the achievable external ceiling),
+is FUNCTIONAL on four of five constructs, and reports no false gaps.
+
+Breadth was constrained from the other side at the same time: ordinary business
+prose still scores near zero, sector vocabulary without governance architecture
+is still flagged as gaming risk, and both directions are pinned by tests
+(`InstitutionalRegisterDetectionTests`, `NonGovernanceTextTests`, and the
+adversarial suite's sector-gaming group).
+
+### 7.3 Second-pass fixes beyond register bias
+
+- **Gap rules may name several closing controls** and fire only if all are
+  missing — a document with a complete escalation chain is no longer told it
+  lacks thresholds because it used different words for them.
+- **Thinness is measured, not inferred from the alignment verdict.** A
+  substantive document that leaves nothing unclosed now reports exactly that,
+  with an explicit statement that it is a reading of the text and not a
+  certificate that the controls exist or operate.
+- **Control names correspond to their own gap.** Naming controls from a
+  per-instrument list indexed by gap number produced names unrelated to the gap
+  they closed; a redress gap was named as a clinical safety register.
+- **`_term_hits` counts distinct terms**, so one generic phrase occurring twice
+  can no longer satisfy a "two independent signals" classification gate. This
+  had been routing corporate standards to public-sector policy on the phrase
+  "human review" alone.
+- **Recommended-use and limits statements are document-type specific** rather
+  than a fixed paragraph, and both now carry the standing caveat that the
+  assessment reads the document, not the organisation.
+
+### 7.4 Use-case verdicts after the second pass
+
+| Use case | Verdict |
+|---|---|
+| Document owner improving their own policy | **Works** |
+| Executive needing a one-page brief | **Works** |
+| Governance officer opening the institutional report | **Works** — finding, gaps, pathways, and controls are document-specific |
+| Procurement officer screening a vendor | **Works** — tender is classified as a procurement instrument with the sector carried separately |
+| Bank/insurer assessing an internal AI standard | **Works** — institutional register detected; `financial_services_ai` profile available |
+| GRC engineer ingesting results | **Works** |
+| Auditor verifying a published finding | **Works** |
+| Non-governance document submitted by mistake | **Works** — scores near zero and says why |
+| Unreadable or empty file | **Works** — fails with a specific extractor error, no assessment emitted |

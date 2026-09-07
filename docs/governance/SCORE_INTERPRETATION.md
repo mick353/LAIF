@@ -187,3 +187,71 @@ Executive-summary discipline (enforced by `test_semantic_fidelity.py` group
 SF11): the summary must stay a one-pager, must never list adoption of the
 assessing framework's vocabulary as a priority action, and must carry the
 diagnostic-boundary, citability, and reproducibility statements.
+
+## Drafting Register Neutrality
+
+Governance substance is expressed in different registers by different
+institutions, and the register is not the substance. Legal drafting says
+"shall"; corporate standards and clinical procedures say "must"; first-person
+public commitments say "we will". Regulators name a "provider" or "deployer";
+a bank names a "Chief Risk Officer", a "Model Risk Committee", and "model
+owners"; a hospital names a "Clinical Safety Officer". A framework declares a
+"lifecycle"; a corporate standard writes a "change control" clause. A
+supervisory instrument writes "proportionate to risk"; an operating standard
+writes "a drift breach above 5% must be escalated within 5 working days".
+
+Every rubric signal is therefore keyed to the **function** the language
+performs, not to one institution's word for it:
+
+| Signal | Function it detects | Registers accepted |
+|---|---|---|
+| mandatory obligation language | a non-discretionary duty | `shall`, `must`, `we will not` |
+| named responsible parties | a role that can be held to the duty | regulatory actors, named officers, committees, boards, owners, internal audit, suppliers |
+| risk-proportionate thresholds | a stated point at which something counts as a problem | proportionality language, named thresholds, tolerances, quantified breach triggers |
+| full lifecycle scope | governance of the system after approval | `lifecycle`, change control, re-approval, retraining, decommissioning |
+| human oversight | a person in the decision path | oversight, human-in-the-loop, human review, human decision-maker, manual review, referral to a human |
+| explainability | an account of a specific decision | explainability, interpretability, "explanation of any individual decision", reasons for the decision |
+| enforcement consequences | what happens on breach | penalties and sanctions, material breach, termination, suspension, rejection of non-compliant evidence |
+
+The same rule governs the functional-alignment layer: a document that writes
+"no model enters production unless all of the following hold simultaneously …
+partial satisfaction is not approval" has stated an all-must-pass threshold
+gate, and is scored as having one.
+
+Two consequences follow, and both are enforced by tests:
+
+1. **Register must never suppress substance.** A structure the document
+   demonstrably contains must not be reported as absent because it is worded
+   institutionally rather than legally. `InstitutionalRegisterDetectionTests`
+   in `tests/test_document_processing_runner.py` pins this against a document
+   that expresses every construct in corporate vocabulary.
+2. **Breadth must never manufacture substance.** Ordinary business prose must
+   still score near zero, and sector vocabulary without governance architecture
+   must still be flagged. `NonGovernanceTextTests` and the adversarial suite's
+   sector-gaming group pin this from the other side.
+
+## Gap Detection Discipline
+
+A gap is reported only where the document creates an expectation and leaves it
+unclosed. Two rules keep the register honest:
+
+- **A gap rule may name several closing controls, and fires only if all of them
+  are missing.** A single proxy signal was too coarse: a document could carry a
+  complete escalation chain — a named threshold, a notification deadline, a
+  material-breach consequence — and still be told it lacked "thresholds",
+  because the one proxy chosen for the rule used different vocabulary.
+- **An empty register is a finding, and which finding depends on the document.**
+  A text too thin to create expectations is reported as such, with its operative
+  signal density stated. A substantive document that leaves nothing unclosed is
+  reported as exactly that — and is told, in the same breath, that this is a
+  reading of the text and not a certificate that the controls exist or operate.
+  Thinness is measured by operative-signal density and structural position, never
+  by the alignment verdict: a document can express every construct in its own
+  vocabulary and still be two paragraphs of intent.
+
+Control recommendations are named for the gap they close. Instrument-specific
+naming (`_CONTROL_NAME_BY_PROFILE_AND_GAP`) applies only where the instrument is
+identified by anchors in the document itself *and* that instrument's own
+vocabulary names the control differently; otherwise the name is derived from the
+gap type. A control name that does not correspond to its own gap is a reporting
+defect, and is tested for.

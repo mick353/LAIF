@@ -86,6 +86,14 @@ These fields are diagnostic metadata only.
 - **Likely remediation themes:** assign education policy owner with student support, accessibility, and academic governance reviewer; require student-impact review, appeal pathway, and accessibility records.
 - **Source-evidence caution:** education vocabulary does not determine education-law compliance, academic validity, or legal validity; do not invent appeal, accessibility, student-support, or academic-governance evidence.
 
+### `financial_services_ai`
+
+- **Purpose:** Diagnose AI governance for credit and lending decisions, insurance underwriting and pricing, fraud and financial-crime screening, collections, account restriction, and other customer-facing financial decisions.
+- **Diagnostic vocabulary/examples:** credit, lending, loan, mortgage, underwriting, applicant, borrower, policyholder, premium, affordability, AML, financial crime, model risk, model validation, adverse decision.
+- **Governance-force emphasis:** protected interest, actor, control, evidence, reversibility, escalation, consequence.
+- **Likely remediation themes:** assign model risk ownership with validation performed independently of the build team; require adverse-decision reasons, human review routes, and fairness-testing evidence for customer-impacting models; tie monitoring breaches to a suspension or escalation decision rather than an observation.
+- **Source-evidence caution:** financial-services vocabulary does not establish regulatory compliance, capital adequacy, or conduct-rule satisfaction; do not infer that validation, fairness testing, or adverse-decision records exist unless the source text states them.
+
 ### `general_ai_governance`
 
 - **Purpose:** Provide a neutral diagnostic overlay for AI governance documents that do not match a more specific institutional profile.

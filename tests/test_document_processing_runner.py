@@ -278,7 +278,16 @@ If you are having difficulties with accessing this document, please email: suppo
         eu_result = assess("EU AI Act", "policy", eu_with_workers, assessment_mode="external_framework", sector=runner.auto_sector(eu_with_workers))
         eu_gaps = runner.build_governance_gap_register(eu_result, [{"quote_id": "Q001"}])
         eu_controls = runner.build_control_recommendations(eu_gaps, [], [{"quote_id": "Q001"}])
-        self.assertTrue(any(c["control_name"] in {"Provider/Deployer Obligation Mapping Register", "High-Risk AI Evidence and Technical Documentation Gate"} for c in eu_controls))
+        # Every control must be named for the gap it closes — a control name
+        # that does not correspond to its own gap type is a reporting defect,
+        # regardless of which instrument the document is.
+        for gap, control in zip(eu_gaps, eu_controls):
+            expected = runner._CONTROL_NAME_BY_PROFILE_AND_GAP.get(
+                (runner.document_profile_key(eu_result), gap["gap_type"]))
+            self.assertEqual(
+                control["control_name"],
+                expected or runner._CONTROL_NAME_BY_GAP[gap["gap_type"]],
+                f"control name does not correspond to gap {gap['gap_type']}")
         self.assertIn("high-force legal source", runner.executive_thesis(eu_result, eu_gaps, eu_controls))
 
     def test_phase_3x_executive_finding_and_document_specific_controls(self) -> None:
@@ -300,8 +309,19 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertNotIn("This document is assessed as an external governance source", nist_report)
             nist_controls = json.loads((nist_out / "analyst" / "control_recommendations.json").read_text(encoding="utf-8"))["control_recommendations"]
             dtac_controls = json.loads((dtac_out / "analyst" / "control_recommendations.json").read_text(encoding="utf-8"))["control_recommendations"]
-            self.assertTrue(any("AI Risk Management Implementation Register" == c["control_name"] for c in nist_controls))
-            self.assertTrue(any("Clinical Safety" in c["control_name"] or "DTAC" in c["control_name"] for c in dtac_controls))
+            # An identified instrument earns instrument-specific control naming
+            # where its own vocabulary differs, and gap-derived naming otherwise.
+            # In both cases the name must match the gap it closes.
+            self.assertTrue(any("GOVERN/MAP" in c["control_name"] for c in nist_controls),
+                            f"NIST control names: {[c['control_name'] for c in nist_controls]}")
+            self.assertTrue(any("Clinical Safety" in c["control_name"] or "DTAC" in c["control_name"] for c in dtac_controls),
+                            f"DTAC control names: {[c['control_name'] for c in dtac_controls]}")
+            nist_gaps = json.loads((nist_out / "analyst" / "governance_gap_register.json").read_text(encoding="utf-8"))["gaps"]
+            self.assertEqual(len(nist_controls), len(nist_gaps))
+            for gap, control in zip(nist_gaps, nist_controls):
+                self.assertIn(gap["gap_id"], control["linked_gap_ids"])
+                self.assertEqual(control["risk_addressed"], gap["failure_mode"])
+                self.assertEqual(control["required_artifact"], gap["control_artifact"])
 
     def test_relative_input_from_different_cwd_preserves_original_and_resolves_identity(self) -> None:
         with tempfile.TemporaryDirectory() as td:
@@ -1436,6 +1456,176 @@ If you are having difficulties with accessing this document, please email: suppo
         text = ("The system runs through documented thresholds and review "
                 "thresholds throughout the lifecycle of the service.")
         self.assertNotEqual(runner.auto_sector(text), "employment_hr_ai")
+
+
+# A document that carries the substance of every construct in institutional
+# rather than LAIF vocabulary: named-interest coupling with a mutual
+# non-weakening lock, an all-conditions deployment gate, an unconditional
+# review right, quantified monitoring thresholds with escalation and
+# suspension, self-application, and change control. Detection failures on this
+# text are register bias, not genuine absence.
+INSTITUTIONAL_STANDARD = """# Meridian Bank — Group AI Governance Standard (GS-114)
+
+Owner: Chief Risk Officer. Approved by: Group Risk Committee. Review: annual.
+
+## 1. Scope and binding effect
+This Standard binds all Group entities. Non-compliance is a reportable control
+breach under the Group Risk Framework.
+
+## 2. Purpose of restrictions
+Each control in this Standard exists to protect a named interest. The restriction
+on automated credit decisioning without human review exists to protect the
+applicant's interest in a decision they can understand and contest. Neither the
+restriction nor the applicant's right of review may be removed without the other;
+both require Group Risk Committee approval to amend.
+
+## 3. Deployment gate
+No model enters production unless all of the following hold simultaneously:
+(a) the model owner can produce an explanation of any individual decision;
+(b) documented objectives match implemented objectives, verified by Model
+Validation independently of the build team;
+(c) the model operates within its approved use boundary, and out-of-boundary
+cases are routed to a human decision-maker.
+Partial satisfaction is not approval.
+
+## 4. Customer rights
+Any customer subject to an automated decision may request human review within 30
+days. Reviewers may overturn the decision. This right is not conditional.
+
+## 5. Monitoring and thresholds
+Model owners must monitor performance monthly. A drift breach above 5% or any
+fairness metric outside tolerance must be escalated to the Model Risk Committee
+within 5 working days, and use suspended if unresolved after 20 days.
+
+## 6. Application to this function
+Group Risk is itself subject to this Standard. The Group Risk Committee must
+evidence its own compliance to Internal Audit annually.
+
+## 7. Change control
+Material change to a model, its data, or its purpose requires re-approval through
+the deployment gate in section 3.
+"""
+
+
+class InstitutionalRegisterDetectionTests(unittest.TestCase):
+    """Substance expressed in institutional vocabulary must be detected.
+
+    Every assertion here corresponds to a structure that is demonstrably
+    present in INSTITUTIONAL_STANDARD. A failure means the detector is keyed to
+    a drafting register rather than to governance substance.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.result = assess("Meridian GS-114", "policy", INSTITUTIONAL_STANDARD,
+                            assessment_mode="external_framework",
+                            sector=runner.auto_sector(INSTITUTIONAL_STANDARD))
+
+    def _fired(self, dimension: str) -> set:
+        return {label for label, _ in self.result["score_breakdown"][dimension]["fired"]}
+
+    def test_functional_alignment_detects_substance_in_own_vocabulary(self) -> None:
+        fa = self.result["functional_alignment"]
+        for construct in ("Coupling", "Integrity Layer", "Reversibility", "Self-Application"):
+            self.assertEqual(
+                fa[construct]["verdict"], "FUNCTIONAL",
+                f"{construct} is expressed in this document; verdict was "
+                f"{fa[construct]['verdict']} with families {fa[construct]['families']}")
+
+    def test_named_roles_count_as_named_responsible_parties(self) -> None:
+        """Chief Risk Officer, committees, model owners, Internal Audit are named parties."""
+        self.assertIn("named responsible parties", self._fired("enforceability"))
+
+    def test_quantified_breach_triggers_count_as_thresholds(self) -> None:
+        """'above 5%', 'outside tolerance' state what counts as a problem."""
+        self.assertIn("risk-proportionate thresholds", self._fired("enforceability"))
+
+    def test_change_control_counts_as_lifecycle_scope(self) -> None:
+        """Governing change after approval is lifecycle scope without the word."""
+        self.assertIn("full lifecycle scope declared", self._fired("structural"))
+
+    def test_must_carries_the_same_force_as_shall(self) -> None:
+        self.assertIn("mandatory obligation language (shall/must)", self._fired("structural"))
+
+    def test_human_review_counts_as_human_oversight(self) -> None:
+        self.assertIn("human oversight", self._fired("conceptual"))
+
+    def test_no_false_gaps_against_controls_the_document_states(self) -> None:
+        """A control the document specifies must not be reported as missing."""
+        gaps = runner.build_governance_gap_register(self.result, [{"quote_id": "Q001"}])
+        titles = {g["gap_type"] for g in gaps}
+        for false_positive in ("obligation_without_owner", "monitoring_without_threshold",
+                               "lifecycle_without_change_control",
+                               "insufficient_operative_content"):
+            self.assertNotIn(false_positive, titles,
+                             f"{false_positive} reported despite the document stating it")
+
+    def test_empty_register_reads_as_a_finding_not_as_silence(self) -> None:
+        gaps = runner.build_governance_gap_register(self.result, [{"quote_id": "Q001"}])
+        report = runner.build_institutional_report(
+            {"safe_output_stem": "x"}, {}, self.result, [{"quote_id": "Q001"}],
+            gaps, runner.build_failure_pathways(gaps, []),
+            runner.build_control_recommendations(gaps, [], []))
+        self.assertIn("No unclosed expectation was detected", report)
+        self.assertNotIn("| Control ID |", report)
+        self.assertIn("not a certificate of implementation", report)
+
+    def test_document_type_and_sector_route_to_institutional_profiles(self) -> None:
+        self.assertEqual(classify_document_type(INSTITUTIONAL_STANDARD), "internal_policy")
+        self.assertEqual(runner.auto_sector(INSTITUTIONAL_STANDARD), "financial_services_ai")
+
+    def test_repeated_generic_phrase_is_one_signal_not_two(self) -> None:
+        """_term_hits counts distinct terms, so one phrase cannot pass a 2-signal gate."""
+        self.assertEqual(runner._term_hits("human review human review", ("human review", "dta")), 1)
+
+    def test_procurement_instrument_form_outranks_sector_vocabulary(self) -> None:
+        """A tender that buys a clinical system is still a tender."""
+        tender = ("Invitation to Tender — AI-Assisted Triage System. Section C: Supplier "
+                  "Assurance Questionnaire. Suppliers must supply a Clinical Safety Case "
+                  "Report compliant with DCB0129 signed by a named Clinical Safety Officer "
+                  "for NHS patient care.")
+        self.assertEqual(classify_document_type(tender), "procurement_assessment_form")
+
+    def test_control_names_correspond_to_their_own_gaps(self) -> None:
+        tender = ("Invitation to Tender. Suppliers must supply evidence and shall notify "
+                  "the Authority within 24 hours of any incident affecting patient safety. "
+                  "Failure to notify constitutes a material breach and may result in "
+                  "termination. The Authority reserves the right to audit supplier records.")
+        result = assess("ITT", "policy", tender, assessment_mode="external_framework",
+                        sector=runner.auto_sector(tender))
+        gaps = runner.build_governance_gap_register(result, [{"quote_id": "Q001"}])
+        controls = runner.build_control_recommendations(gaps, [], [{"quote_id": "Q001"}])
+        self.assertEqual(len(gaps), len(controls))
+        for gap, control in zip(gaps, controls):
+            expected = runner._CONTROL_NAME_BY_PROFILE_AND_GAP.get(
+                (runner.document_profile_key(result), gap["gap_type"]))
+            self.assertEqual(control["control_name"],
+                             expected or runner._CONTROL_NAME_BY_GAP[gap["gap_type"]])
+
+
+class NonGovernanceTextTests(unittest.TestCase):
+    """Broadened detection must not turn ordinary prose into a governance finding."""
+
+    SALES_REPORT = (
+        "Q3 Regional Sales Report. Revenue grew 12% against plan, driven by the "
+        "enterprise segment. The team reviewed pipeline coverage monthly and "
+        "documented account handovers. Northern region reported a shortfall of "
+        "4% which management expects to recover in Q4. Headcount is unchanged."
+    )
+
+    def test_ordinary_business_prose_scores_near_zero(self) -> None:
+        result = assess("Q3 sales", "report", self.SALES_REPORT,
+                        assessment_mode="external_framework", sector="general_ai_governance")
+        self.assertLess(result["overall_readiness_score"], 20)
+        self.assertEqual(result["structural_score"], 0)
+        self.assertEqual(result["enforceability_score"], 0)
+
+    def test_sector_vocabulary_without_architecture_is_flagged(self) -> None:
+        soup = ("Credit scoring underwriting insurance AML fraud detection model risk "
+                "model validation fair lending fairness testing explainability.")
+        result = assess("soup", "test", soup, assessment_mode="external_framework",
+                        sector="financial_services_ai")
+        self.assertEqual(result["sector_gaming_risk"], "HIGH")
 
 
 if __name__ == "__main__":

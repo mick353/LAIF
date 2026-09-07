@@ -11,20 +11,20 @@ Every one of the 10 instruments assessed shares the same structural gap: **struc
 
 No document in this corpus expresses **Consistency, Self-Application** in any vocabulary — these are not terminology gaps but absent governance machinery.
 
-Average conceptual proximity is 52/100 while average overall readiness is 42/100: these instruments consistently name the right human concerns and carry real administrative machinery, but stop short of binding their obligations to the people those obligations serve.
+Average conceptual proximity is 55/100 while average overall readiness is 44/100: these instruments consistently name the right human concerns and carry real administrative machinery, but stop short of binding their obligations to the people those obligations serve.
 
 ## Corpus at a glance
 
 | Document                                             | Text         | Structural alignment   | Calibrated position | Gap specific to this document                  |
 | ---------------------------------------------------- | ------------ | ---------------------- | ------------------- | ---------------------------------------------- |
+| US Executive Order 14110 — §2 Principles, §6 Workers | official     | STRUCTURALLY UNALIGNED | 74%                 | — (universal gaps only)                        |
 | US Executive Order 14110 — §4 Safety & §7 Workers    | illustrative | PARTIALLY ALIGNED      | 66%                 | — (universal gaps only)                        |
-| US Executive Order 14110 — §2 Principles, §6 Workers | official     | STRUCTURALLY UNALIGNED | 61%                 | — (universal gaps only)                        |
 | EU AI Act — Art. 9, 13 & 14                          | illustrative | PARTIALLY ALIGNED      | 61%                 | — (universal gaps only)                        |
+| TUC/CIPD — Framework for Fair AI in Employment Decis | illustrative | PARTIALLY ALIGNED      | 60%                 | — (universal gaps only)                        |
 | NIST AI RMF 1.0 (NIST AI 100-1) — GOVERN & MAP Funct | official     | PARTIALLY ALIGNED      | 59%                 | — (universal gaps only)                        |
-| TUC/CIPD — Framework for Fair AI in Employment Decis | illustrative | PARTIALLY ALIGNED      | 53%                 | — (universal gaps only)                        |
+| NHS England — AI in Clinical Decision Support (Polic | illustrative | PARTIALLY ALIGNED      | 59%                 | — (universal gaps only)                        |
 | OECD Recommendation on AI (OECD/LEGAL/0449) — Sectio | official     | PARTIALLY ALIGNED      | 48%                 | enforceability — insufficient mandatory operat |
-| NHS England — AI in Clinical Decision Support (Polic | illustrative | PARTIALLY ALIGNED      | 48%                 | conceptual — governance concepts insufficientl |
-| NHS England DTAC v2.0 (February 2026) — Introduction | official     | PARTIALLY ALIGNED      | 44%                 | conceptual — governance concepts insufficientl |
+| NHS England DTAC v2.0 (February 2026) — Introduction | official     | PARTIALLY ALIGNED      | 47%                 | conceptual — governance concepts insufficientl |
 | NIST AI RMF — Govern & Map Functions                 | illustrative | STRUCTURALLY UNALIGNED | 42%                 | conceptual — governance concepts insufficientl |
 | OECD AI Principles (2019, rev. 2024)                 | illustrative | PARTIALLY ALIGNED      | 27%                 | auditability — obligations not checkable or tr |
 
@@ -35,7 +35,7 @@ Average conceptual proximity is 52/100 while average overall readiness is 42/100
 1. **Establish consistency machinery.** No assessed instrument has it in any form, so there is no peer text to adapt — an owner adding it sets the benchmark.
 2. **Establish self-application machinery.** No assessed instrument has it in any form, so there is no peer text to adapt — an owner adding it sets the benchmark.
 3. **Close: structural — constitutional hierarchy not declared** — present in 10 of 10 documents.
-4. **Close: conceptual — governance concepts insufficiently expressed** — present in 3 of 10 documents.
+4. **Close: enforceability — insufficient mandatory operational requirements** — present in 2 of 10 documents.
 
 Every document's own section in the full report names the exact clause each fix attaches to, quoted from that document.
 

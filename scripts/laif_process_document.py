@@ -39,6 +39,7 @@ SECTOR_CHOICES = (
     "clinical_ai",
     "employment_hr_ai",
     "education_ai",
+    "financial_services_ai",
 )
 EXTRACTOR_CHOICES = ("auto", "builtin", "docling", "markitdown", "python-docx", "pypdf")
 BUILTIN_EXTENSIONS = {".txt", ".md", ".markdown"}
@@ -237,8 +238,15 @@ def extract_document(path: Path, extractor: str = "auto") -> ExtractionResult:
 
 
 def _term_hits(text: str, terms: Iterable[str]) -> int:
+    """Count how many DISTINCT terms occur, not how many times any one occurs.
+
+    Every caller uses the result as a count of independent signals (">= 2
+    signals present"). Occurrence counting made a single generic phrase
+    repeated twice indistinguishable from two independent markers, which
+    misclassified documents on one incidental word.
+    """
     lowered = (text or "").lower()
-    return sum(lowered.count(term.lower()) for term in terms)
+    return sum(1 for term in terms if term.lower() in lowered)
 
 
 EU_AI_ACT_SIGNAL_TERMS = (
@@ -269,7 +277,9 @@ PUBLIC_SECTOR_POLICY_SIGNAL_TERMS = (
     "responsible ai use by agencies",
     "accountable official",
     "accountable officials",
-    "human review",
+    # "human review" deliberately excluded: it is a generic oversight term used
+    # in clinical, employment, financial, and corporate instruments alike, and
+    # is not evidence of a public-sector operating policy.
     "disclose ai use",
     "ai use register",
     "ai use registers",
@@ -347,6 +357,7 @@ def auto_sector(text: str) -> str:
         ("procurement_vendor_governance", ("procurement", "vendor", "contract", "supplier", "service level", "audit access")),
         ("employment_hr_ai", ("employment", "hiring", "hr", "human resources", "candidate", "adverse action")),
         ("education_ai", ("education", "student", "academic", "school", "accessibility", "learning")),
+        ("financial_services_ai", ("credit", "lending", "loan", "mortgage", "underwriting", "borrower", "applicant", "policyholder", "premium", "affordability", "aml", "model risk", "model validation", "financial crime", "bank")),
         ("government_service_delivery", ("public service", "public sector", "government", "government agencies", "agencies must", "public servants", "accountable officials", "ai use register", "service delivery", "administrative review", "benefit", "caseworker")),
         ("departmental_ai_development", ("software development", "release", "pipeline", "model register", "rollback", "architecture")),
     ]
@@ -381,6 +392,7 @@ def auto_sector_basis(text: str) -> dict:
         "procurement_vendor_governance": ("procurement", "vendor", "contract", "supplier", "service level", "audit access"),
         "employment_hr_ai": ("employment", "hiring", "hr", "human resources", "candidate", "adverse action"),
         "education_ai": ("education", "student", "academic", "school", "learning"),
+        "financial_services_ai": ("credit", "lending", "loan", "mortgage", "underwriting", "applicant", "premium", "aml", "model risk", "model validation", "bank"),
         "government_service_delivery": ("public service", "public sector", "government", "public servants", "service delivery", "caseworker"),
         "departmental_ai_development": ("software development", "release", "pipeline", "model register", "rollback", "architecture"),
     }
@@ -562,7 +574,8 @@ GAP_RULES = [
         "title": "Monitoring is required without thresholds or escalation",
         "severity": "medium",
         "present": ("auditability", "review / monitoring mechanisms"),
-        "absent": ("enforceability", "risk-proportionate thresholds"),
+        "absent": (("enforceability", "risk-proportionate thresholds"),
+                   ("enforceability", "enforcement consequences / penalties")),
         "meaning": ("The document requires review or monitoring but does not say what "
                     "result would count as a problem, so monitoring can run "
                     "indefinitely without ever triggering an action."),
@@ -614,7 +627,8 @@ GAP_RULES = [
         "title": "No lifecycle scope, so change is not governed",
         "severity": "medium",
         "present": ("auditability", "review / monitoring mechanisms"),
-        "absent": ("structural", "full lifecycle scope declared"),
+        "absent": (("structural", "full lifecycle scope declared"),
+                   ("structural", "operational mechanisms defined")),
         "meaning": ("The document governs a point in time rather than the life of the "
                     "system, so retraining, vendor updates, and scope creep after "
                     "approval fall outside its control."),
@@ -1681,20 +1695,51 @@ def document_specific_gap_title(gap_type: str, fallback: str, assessment: dict) 
     return titles.get(profile, {}).get(gap_type, fallback)
 
 
+# A control's name must say what the control does about THIS gap. Naming
+# controls from a per-instrument list indexed by gap number produced names
+# unrelated to the gap they closed (a redress gap named as a safety register).
+_CONTROL_NAME_BY_GAP = {
+    "obligation_without_owner": "Accountability Register for Mandatory Duties",
+    "evidence_presence_without_sufficiency": "Evidence Acceptance Criteria and Rejection Log",
+    "monitoring_without_threshold": "Monitoring Threshold and Escalation Specification",
+    "policy_without_enforcement_consequence": "Breach Consequence Schedule",
+    "risk_without_closure_gate": "Deployment Gate with Stop Authority",
+    "incident_reporting_without_redress": "Affected-Person Challenge and Reversal Route",
+    "lifecycle_without_change_control": "Change-Control and Re-Approval Procedure",
+    "safety_case_without_live_review": "Clinical Safety Live Assurance Register",
+    "supplier_duty_without_deployer_acceptance": "Supplier Assurance Acceptance Checklist",
+    "declaratory_without_operative_commitment": "Statement of Operative Commitments",
+    "insufficient_operative_content": "Assessment of the Operative Instrument This Document Refers To",
+}
+
+# Instrument-specific naming applies only where the instrument is identified by
+# anchors in the document itself AND the gap is one that instrument's own
+# vocabulary names differently.
+_CONTROL_NAME_BY_PROFILE_AND_GAP = {
+    ("nist", "risk_without_closure_gate"): "AI Risk Closure Gate (GOVERN/MAP alignment)",
+    ("nist", "evidence_presence_without_sufficiency"): "Trustworthiness Evidence Acceptance Matrix",
+    ("eu_ai_act", "obligation_without_owner"): "Provider/Deployer Obligation Mapping Register",
+    ("eu_ai_act", "evidence_presence_without_sufficiency"): "High-Risk AI Technical Documentation Sufficiency Gate",
+    ("eu_ai_act", "monitoring_without_threshold"): "Post-Market Monitoring and Serious-Incident Escalation Control",
+    ("eo_14110", "obligation_without_owner"): "Agency AI Directive Implementation Tracker",
+    ("eo_14110", "evidence_presence_without_sufficiency"): "Federal AI Safety and Security Evidence Register",
+    ("dtac", "safety_case_without_live_review"): "Clinical Safety Live Assurance Register",
+    ("dtac", "evidence_presence_without_sufficiency"): "DTAC Evidence Sufficiency Matrix",
+    ("australian_policy", "obligation_without_owner"): "Public Sector AI Use Register",
+    ("australian_policy", "incident_reporting_without_redress"): "Human Review and Accountability Evidence Log",
+}
+
+
 def control_name_for_gap(gap: dict) -> str:
     profile = document_profile_key(gap)
-    names = {
-        "nist": ["AI Risk Management Implementation Register", "Trustworthiness Evidence Acceptance Matrix", "AI Risk Monitoring and Review Gate"],
-        "eu_ai_act": ["Provider/Deployer Obligation Mapping Register", "High-Risk AI Evidence and Technical Documentation Gate", "Post-Market Monitoring and Incident Escalation Control"],
-        "eo_14110": ["Agency AI Directive Implementation Tracker", "Federal AI Safety and Security Evidence Register", "Agency Accountability and Reporting Gate"],
-        "dtac": ["Clinical Safety Live Assurance Register", "DTAC Evidence Sufficiency Matrix", "Transferred Clinical Risk Acceptance Register"],
-        "australian_policy": ["Public Sector AI Use Register", "Human Review and Accountability Evidence Log", "AI Use Disclosure and Exception Register", "Agency AI Incident and Exception Register", "Public Sector AI Monitoring and Assurance Gate"],
-    }
-    idx = max(0, int(gap.get("gap_id", "GAP-001").split("-")[-1]) - 1)
-    options = names.get(profile)
-    if options:
-        return options[idx % len(options)]
-    return f"Operational closure control for {gap['gap_type'].replace('_', ' ')}"
+    gap_type = gap.get("gap_type", "")
+    named = _CONTROL_NAME_BY_PROFILE_AND_GAP.get((profile, gap_type))
+    if named:
+        return named
+    return _CONTROL_NAME_BY_GAP.get(
+        gap_type,
+        f"Operational closure control for {gap_type.replace('_', ' ')}" if gap_type
+        else "Operational closure control")
 
 
 def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -> str:
@@ -1881,11 +1926,17 @@ def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> l
         if rule.get("sector") and rule["sector"] != sector:
             continue
         p_dim, p_label = rule["present"]
-        a_dim, a_label = rule["absent"]
+        absent_pairs = rule["absent"]
+        # A rule may name one missing control or several. Several means ALL of
+        # them must be missing: if the document closes the expectation through
+        # any one of the named routes, there is no gap to report.
+        if isinstance(absent_pairs[0], str):
+            absent_pairs = (absent_pairs,)
         if p_label not in fired.get(p_dim, set()):
             continue
-        if a_label not in missed.get(a_dim, set()):
+        if any(lbl not in missed.get(dim, set()) for dim, lbl in absent_pairs):
             continue
+        a_dim, a_label = absent_pairs[0]
 
         idx = len(gaps) + 1
         gap_id = f"GAP-{idx:03d}"
@@ -1905,7 +1956,7 @@ def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> l
             "document_profile_key": document_profile_key(assessment),
             "detected_from": {
                 "expectation_signal": f"{p_dim}: {p_label}",
-                "missing_control_signal": f"{a_dim}: {a_label}",
+                "missing_control_signal": "; ".join(f"{dim}: {lbl}" for dim, lbl in absent_pairs),
             },
             "source_evidence_quote": evidence.get("quote", ""),
             "source_evidence_location": evidence.get("location", ""),
@@ -1929,9 +1980,14 @@ def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> l
     #     so there is nothing for a rule to find unclosed.
     # Silence would read as the former. Detect and state the latter.
     if not gaps:
-        alignment = assessment.get("laif_alignment", "")
         overall = assessment.get("overall_readiness_score", 0) or 0
-        thin = alignment != "FUNCTIONALLY ALIGNED" or overall < 40
+        # Thinness is a property of how much the document commits to, not of
+        # its alignment verdict: a document can express every construct in its
+        # own vocabulary (PARTIALLY/FUNCTIONALLY ALIGNED) and still be a
+        # two-paragraph statement of intent, and a document can be dense with
+        # operative machinery yet decline LAIF's vocabulary entirely. Only
+        # operative-signal density and structural position can tell them apart.
+        thin = (op_total == 0) or op_density < 0.5 or overall < 40
         if thin:
             gaps.append({
                 "gap_id": "GAP-001",
@@ -2091,7 +2147,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         lines.append("This document is assessed in LAIF-native mode. Formal LAIF-native certification remains governed by the deterministic LAIF validation boundary shown in the technical appendix.")
     lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Document type:** {doc_type}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}"
         + (f" (auto-detected from: {processing.get('sector_basis')}; override with --sector)"
-           if processing.get("sector_basis") else ""), f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", "- **Recommended use:** source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.", "- **Not sufficient for:** standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", "## Key quoted evidence", ""]
+           if processing.get("sector_basis") else ""), f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", f"- **Recommended use:** {assessment.get('recommended_use') or 'source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.'}", f"- **Limits:** {assessment.get('not_sufficient_for') or 'standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.'}", "- **In every case:** this is a reading of the document, not of the organisation. It cannot show whether the controls it describes are in place, current, or working.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", "## Key quoted evidence", ""]
     primary_quote_eligible = True if extraction_quality_profile is None else bool(extraction_quality_profile.get("primary_quote_eligible"))
     primary_quotes = _gate_passing_primary_quotes(quote_bank) if primary_quote_eligible else []
     if primary_quote_eligible:
@@ -2122,8 +2178,20 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     if extraction_quality_profile and extraction_quality_profile.get("source_text_reliability_warning"):
         lines += ["", f"**Extraction quality note:** {extraction_quality_profile.get('source_text_reliability_warning')}"]
     lines += ["", "## What the document controls well", "", _md_list(assessment.get("strengths", [])[:8], "No deterministic strengths detected."), "", "## What the document does not control", ""]
-    lines.append(_md_list([g["gap_title"] + f" ({g['gap_id']})" for g in gaps[:8]]))
-    lines += ["", "## Hidden failure pathways", "", "Failure pathway summaries below show how paperwork compliance can proceed without live operational control.", ""]
+    lines.append(_md_list(
+        [g["gap_title"] + f" ({g['gap_id']})" for g in gaps[:8]],
+        "No unclosed expectation was detected: every governance expectation this "
+        "document creates has a corresponding control in the same document. This "
+        "is a finding about the text, not a certificate of implementation — the "
+        "controls still have to exist and operate in practice."))
+    lines += ["", "## Hidden failure pathways", ""]
+    lines += ([("Failure pathway summaries below show how paperwork compliance can "
+                "proceed without live operational control.")] if pathways else
+              [("No failure pathway was traced: no expectation in this document was "
+                "left without a closing control, so there is no paperwork-compliance "
+                "route to trace from the text itself. Operational failure remains "
+                "possible through non-implementation, which this assessment cannot see.")])
+    lines += [""]
     for pth in pathways:
         lines.append(f"### {pth['pathway_id']} — {pth['title']}")
         lines.append("")
@@ -2131,15 +2199,40 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         lines.append(f"- **Escalation gate:** {pth.get('escalation_gate')}")
         lines.append("")
     lines += ["## Operational gap analysis", ""]
-    for gap in gaps:
-        lines.append(f"- **{gap['gap_id']} ({gap['severity']}):** {gap['operational_meaning']} Evidence: {', '.join(gap.get('source_evidence_quote_ids', [])) or 'review required'}.")
+    if gaps:
+        for gap in gaps:
+            lines.append(f"- **{gap['gap_id']} ({gap['severity']}):** {gap['operational_meaning']} Evidence: {', '.join(gap.get('source_evidence_quote_ids', [])) or 'review required'}.")
+    else:
+        lines.append("- No operational gap was detected in the assessed text. Assurance "
+                     "review should now move from the document to its implementation "
+                     "record: the artefacts, owners, and decision logs the document names.")
     lines += ["", "## Priority remediation roadmap", ""]
-    for ctrl in controls[:8]:
-        lines.append(f"- **{ctrl['priority']} — {ctrl['control_id']}:** {ctrl['control_name']}; owner: {ctrl['owner']}; artifact: {ctrl['required_artifact']}")
-    lines += ["", "## Control implementation templates", "", "| Control ID | Owner | Required artifact | Trigger | Threshold | Cadence | Decision consequence |", "| --- | --- | --- | --- | --- | --- | --- |"]
-    for ctrl in controls[:8]:
-        lines.append(f"| {ctrl['control_id']} | {ctrl['owner']} | {ctrl['required_artifact']} | {ctrl['trigger']} | {ctrl['threshold']} | {ctrl['cadence']} | {ctrl['decision_consequence']} |")
-    lines += ["", "## Residual risk if no action is taken", "", "The failure pathway is paperwork compliance without live operational control: governance language may be cited while real decisions proceed without verified owner authority, implementation artifacts, thresholds, escalation gates, or affected-person redress.", "", "## Technical appendix pointer", "", f"See `{processing.get('safe_output_stem')}.technical_appendix.md` for processing metadata, source identity, scoring table, evidence traces, remediation patches, LAIF-native construct coverage, and certification boundary.", ""]
+    if controls:
+        for ctrl in controls[:8]:
+            lines.append(f"- **{ctrl['priority']} — {ctrl['control_id']}:** {ctrl['control_name']}; owner: {ctrl['owner']}; artifact: {ctrl['required_artifact']}")
+    else:
+        lines.append("- No remediation is required to the document. Verify that the "
+                     "controls it already specifies are in place, current, and "
+                     "evidenced.")
+    lines += ["", "## Control implementation templates", ""]
+    if controls:
+        lines += ["| Control ID | Owner | Required artifact | Trigger | Threshold | Cadence | Decision consequence |", "| --- | --- | --- | --- | --- | --- | --- |"]
+        for ctrl in controls[:8]:
+            lines.append(f"| {ctrl['control_id']} | {ctrl['owner']} | {ctrl['required_artifact']} | {ctrl['trigger']} | {ctrl['threshold']} | {ctrl['cadence']} | {ctrl['decision_consequence']} |")
+    else:
+        lines.append("- No control template is issued: the document specifies its own "
+                     "controls, triggers, and thresholds. Use those as the implementation "
+                     "baseline rather than substituting generic ones.")
+    lines += ["", "## Residual risk if no action is taken", ""]
+    lines += ([("The failure pathway is paperwork compliance without live operational "
+                "control: governance language may be cited while real decisions proceed "
+                "without verified owner authority, implementation artifacts, thresholds, "
+                "escalation gates, or affected-person redress.")] if gaps else
+              [("The residual risk is no longer in the drafting. It is in the gap between "
+                "what this document requires and what is actually done: unevidenced "
+                "controls, lapsed reviews, and unrecorded exceptions. That gap is invisible "
+                "to a document assessment and must be tested against implementation records.")])
+    lines += ["", "## Technical appendix pointer", "", f"See `{processing.get('safe_output_stem')}.technical_appendix.md` for processing metadata, source identity, scoring table, evidence traces, remediation patches, LAIF-native construct coverage, and certification boundary.", ""]
     return "\n".join(lines)
 
 
