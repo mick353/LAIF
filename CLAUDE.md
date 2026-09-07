@@ -187,7 +187,7 @@ python3 tests/test_github_actions_document_processing.py  # CI processing suite
 To regenerate the assessment report (also acts as an integration test):
 
 ```bash
-python3 test_real_world.py    # writes reports/laif_real_world_assessment.md
+python3 test_real_world.py    # writes reports/: full assessment (.md), executive summary (.md), data export (.json)
 ```
 
 The report must be deterministic: running it twice must produce no diff. Never

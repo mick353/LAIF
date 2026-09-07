@@ -23,6 +23,7 @@ Usage:
     python3 test_real_world.py
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -30,6 +31,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 from assessment_engine import (
     assess,
     generate_markdown_report,
+    generate_executive_summary,
+    export_assessment_data,
     _tty,
     _tty_bar,
     score_bar,
@@ -41,6 +44,8 @@ from official_documents import OFFICIAL_DOCUMENTS
 ALL_DOCUMENTS = {**OFFICIAL_DOCUMENTS, **DOCUMENTS}
 
 REPORT_PATH = Path(__file__).parent / "reports" / "laif_real_world_assessment.md"
+SUMMARY_PATH = Path(__file__).parent / "reports" / "laif_executive_summary.md"
+DATA_PATH = Path(__file__).parent / "reports" / "laif_assessment_data.json"
 REPORT_DATE = "July 2026"
 W = 70
 
@@ -333,6 +338,22 @@ def main():
     REPORT_PATH.parent.mkdir(exist_ok=True)
     REPORT_PATH.write_text(md, encoding="utf-8")
     print(f"  Markdown report written -> {REPORT_PATH.relative_to(Path(__file__).parent)}")
+
+    # One-page executive summary — derived from the same results.
+    summary = generate_executive_summary(
+        results, report_date=REPORT_DATE,
+        full_report_path=str(REPORT_PATH.relative_to(Path(__file__).parent)),
+    )
+    SUMMARY_PATH.write_text(summary, encoding="utf-8")
+    print(f"  Executive summary written -> {SUMMARY_PATH.relative_to(Path(__file__).parent)}")
+
+    # Machine-readable export for GRC tooling and independent re-analysis.
+    DATA_PATH.write_text(
+        json.dumps(export_assessment_data(results, report_date=REPORT_DATE),
+                   indent=2, sort_keys=True, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    print(f"  Machine-readable data written -> {DATA_PATH.relative_to(Path(__file__).parent)}")
     print()
 
     sys.exit(0)

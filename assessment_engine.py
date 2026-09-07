@@ -2877,7 +2877,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     if paraphrase and paraphrase_classification == "VIOLATION":
         failure_modes.append("terminological (paraphrase) — forbidden substitutions detected")
     if c < 40:
-        failure_modes.append("conceptual — LAIF-like concepts insufficiently expressed")
+        failure_modes.append("conceptual — governance concepts insufficiently expressed")
     if a < 40:
         failure_modes.append("auditability — obligations not checkable or traceable")
     if e < 40:
@@ -4670,6 +4670,243 @@ def _markdown_table(headers, rows):
     for row in safe_rows:
         lines.append("| " + " | ".join(row[i].ljust(widths[i]) for i in range(len(widths))) + " |")
     return lines
+
+def _corpus_fingerprint(assessments):
+    """Stable identity of exactly which texts produced a set of results."""
+    return hashlib.sha256("".join(
+        r.get("assessed_text_sha256", "") for r in assessments
+    ).encode("utf-8")).hexdigest()
+
+
+def generate_executive_summary(assessments, report_date="July 2026",
+                               full_report_path="reports/laif_real_world_assessment.md"):
+    """One-page executive summary for readers who will never open the full
+    report: the finding, the corpus at a glance, what is missing everywhere,
+    where to start, and how to read it. Fully derived from the same results —
+    no independent claims."""
+    lines = []
+    a = lines.append
+    count = len(assessments) or 1
+    citable = [r for r in assessments if r.get("provenance") == "OFFICIAL_EXCERPT"]
+
+    def avg(key, rows=None):
+        rows = assessments if rows is None else rows
+        return round(sum(r.get(key, 0) for r in rows) / len(rows)) if rows else 0
+
+    cal = [(r, r.get("score_calibration", {}).get("overall_pct_of_ceiling", 0))
+           for r in assessments
+           if r.get("score_calibration", {}).get("achievable_ceiling", 100) < 100]
+    # Certification-channel gaps (absence of the assessing framework's own
+    # vocabulary) are never substantive actions for an external instrument —
+    # excluded from the finding, the priorities, and the per-document column.
+    def _is_channel_gap(g):
+        gl = str(g).lower()
+        return ("canonical laif terms" in gl or "terminological" in gl
+                or "paraphrase" in gl)
+
+    gap_counter = Counter(g for r in assessments
+                          for g in r.get("primary_failure_modes", [])
+                          if not _is_channel_gap(g))
+    structure_absent = Counter()
+    structure_present = Counter()
+    for r in assessments:
+        for c, v in r.get("functional_alignment", {}).items():
+            if v.get("verdict") == "ABSENT":
+                structure_absent[c] += 1
+            else:
+                structure_present[c] += 1
+
+    a("# AI Governance Structural Integrity — Executive Summary")
+    a("")
+    a(f"**Date:** {report_date} · **Documents assessed:** {count} "
+      f"({len(citable)} from verbatim official text) · "
+      f"**Corpus fingerprint:** `{_corpus_fingerprint(assessments)[:16]}`  ")
+    a(f"**Full assessment:** `{full_report_path}` — this page is a summary of it, "
+      f"not a separate finding.")
+    a("")
+    a("---")
+    a("")
+
+    # ── The finding ──────────────────────────────────────────────────────
+    a("## The finding")
+    a("")
+    universal = [(g, n) for g, n in gap_counter.most_common() if n == count]
+    absent_everywhere = [c for c, n in structure_absent.items() if n == count]
+    if universal:
+        if len(universal) == 1:
+            a(f"Every one of the {count} instruments assessed shares the same "
+              f"structural gap: **{universal[0][0]}**.")
+        else:
+            a(f"Every one of the {count} instruments assessed shares the same "
+              f"{len(universal)} structural gaps: "
+              + "; ".join(f"**{g}**" for g, _ in universal) + ".")
+    else:
+        top = gap_counter.most_common(1)
+        if top:
+            a(f"The most widespread structural gap across the corpus is "
+              f"**{top[0][0]}** ({top[0][1]} of {count} documents).")
+    a("")
+    if absent_everywhere:
+        a(f"No document in this corpus expresses **{', '.join(absent_everywhere)}** "
+          f"in any vocabulary — these are not terminology gaps but absent "
+          f"governance machinery.")
+        a("")
+    a(f"Average conceptual proximity is {avg('conceptual_proximity_score')}/100 "
+      f"while average overall readiness is {avg('overall_readiness_score')}/100: "
+      f"these instruments consistently name the right human concerns and carry real "
+      f"administrative machinery, but stop short of binding their obligations to "
+      f"the people those obligations serve.")
+    a("")
+
+    # ── At a glance ──────────────────────────────────────────────────────
+    a("## Corpus at a glance")
+    a("")
+    rows = []
+    for r in sorted(assessments,
+                    key=lambda x: -x.get("score_calibration", {})
+                                    .get("overall_pct_of_ceiling", 0)):
+        pct = r.get("score_calibration", {}).get("overall_pct_of_ceiling", 0)
+        _doc_gaps = [g for g in r.get("primary_failure_modes", [])
+                     if not _is_channel_gap(g)]
+        _distinct = [g for g in _doc_gaps if gap_counter.get(g, 0) < count]
+        top_gap = _distinct[0] if _distinct else "— (universal gaps only)"
+        rows.append([
+            _safe_markdown_cell(r.get("document_name", ""))[:52],
+            "official" if r.get("provenance") == "OFFICIAL_EXCERPT" else "illustrative",
+            r.get("laif_alignment", ""),
+            f"{pct}%",
+            _safe_markdown_cell(top_gap)[:46],
+        ])
+    lines.extend(_markdown_table(
+        ["Document", "Text", "Structural alignment", "Calibrated position",
+         "Gap specific to this document"], rows))
+    a("")
+    a("*Calibrated position is the score as a percentage of what is achievable "
+      "without adopting the assessing framework's own vocabulary — raw scores "
+      "compress by design and must not be read as percentage grades.*")
+    a("")
+
+    # ── Where to start ───────────────────────────────────────────────────
+    a("## Where to start — highest-value actions across the corpus")
+    a("")
+    priority = []
+    if absent_everywhere:
+        for c in absent_everywhere[:2]:
+            priority.append(
+                f"**Establish {c.lower()} machinery.** No assessed instrument has "
+                f"it in any form, so there is no peer text to adapt — an owner "
+                f"adding it sets the benchmark.")
+    for g, n in gap_counter.most_common(6):
+        if len(priority) >= 4:
+            break
+        priority.append(f"**Close: {g}** — present in {n} of {count} documents.")
+    if not priority:
+        priority.append("**No structural gap is shared across this corpus** — "
+                        "see each document's own section for its specific findings.")
+    for i, item in enumerate(priority[:4], 1):
+        a(f"{i}. {item}")
+    a("")
+    a("Every document's own section in the full report names the exact clause "
+      "each fix attaches to, quoted from that document.")
+    a("")
+
+    # ── What good looks like ─────────────────────────────────────────────
+    strongest = [(c, n) for c, n in structure_present.most_common() if n]
+    if strongest:
+        a("## What good already looks like here")
+        a("")
+        for c, n in strongest[:3]:
+            a(f"- **{c}** — expressed in some form by {n} of {count} documents; "
+              f"the full report quotes the strongest example and where it sits.")
+        a("")
+
+    # ── How to read ──────────────────────────────────────────────────────
+    a("## How to read this")
+    a("")
+    a("- **This is a diagnostic, not a verdict.** It measures distance from a "
+      "deliberately strict structural standard; it does not determine legal "
+      "validity, and a gap is not a judgement of an instrument against its own "
+      "objectives.")
+    a("- **Findings from official text are citable** within each document's "
+      "declared excerpt scope; findings from illustrative excerpts characterise "
+      "framework style only.")
+    a("- **Reproducible:** the fingerprint above identifies exactly which texts "
+      "produced these results; regenerating from the same corpus yields "
+      "byte-identical output.")
+    a("")
+    return "\n".join(lines)
+
+
+def export_assessment_data(assessments, report_date="July 2026"):
+    """Machine-readable export for GRC tooling, dashboards, and independent
+    re-analysis. Deterministic and self-describing; carries verdicts, scores,
+    locations, and gaps — not full source text."""
+    def doc_record(r):
+        return {
+            "document_name":       r.get("document_name", ""),
+            "citation":            r.get("citation", ""),
+            "jurisdiction":        r.get("jurisdiction", ""),
+            "source_type":         r.get("source_type", ""),
+            "sector":              r.get("sector_used", ""),
+            "provenance":          r.get("provenance", ""),
+            "citable":             r.get("provenance") == "OFFICIAL_EXCERPT",
+            "source_url":          r.get("source_url", ""),
+            "source_file":         r.get("source_file", ""),
+            "assessed_text_sha256": r.get("assessed_text_sha256", ""),
+            "assessment_mode":     r.get("assessment_mode", ""),
+            "scores": {
+                "structural":           r.get("structural_score", 0),
+                "terminology":          r.get("terminology_score", 0),
+                "conceptual_proximity": r.get("conceptual_proximity_score", 0),
+                "auditability":         r.get("auditability_score", 0),
+                "enforceability":       r.get("enforceability_score", 0),
+                "overall_readiness":    r.get("overall_readiness_score", 0),
+                "sector_risk_alignment": r.get("sector_risk_alignment", 0),
+            },
+            "calibration":         r.get("score_calibration", {}),
+            "structural_alignment": r.get("laif_alignment", ""),
+            "coupling_state":      r.get("coupling_state", ""),
+            "structural_depth":    r.get("structural_depth", ""),
+            "deployment_risk_tier": r.get("deployment_risk_tier", ""),
+            "functional_alignment": {
+                c: {
+                    "verdict":   v.get("verdict", ""),
+                    "families":  v.get("families", []),
+                    "locations": v.get("evidence_locations", []),
+                }
+                for c, v in sorted(r.get("functional_alignment", {}).items())
+            },
+            "document_outline":    r.get("document_outline", []),
+            "primary_structural_gaps": r.get("primary_failure_modes", []),
+            "diagnostic_gaps":     r.get("gaps", []),
+            "obligation_anchors":  r.get("obligation_anchors", []),
+            "signal_locations":    r.get("signal_locations", {}),
+            "contradictions": [
+                {"property": p, "description": d, "evidence": c}
+                for p, d, c in r.get("contradictions", [])
+            ],
+            "remediation": r.get("structured_remediation_steps", []),
+        }
+
+    return {
+        "schema":        "laif.assessment.v1",
+        "report_date":   report_date,
+        "framework":     "LAIF v1.2 · Compliance Toolkit v1.1",
+        "generator":     "test_real_world.py / assessment_engine.py",
+        "boundary_notice": (
+            "Diagnostic model output. Not a legal-validity determination, not "
+            "certification, and not a compliance rating. Findings from documents "
+            "marked citable=true may be cited within each document's declared "
+            "excerpt scope; findings from citable=false characterise framework "
+            "style only."
+        ),
+        "corpus_fingerprint": _corpus_fingerprint(assessments),
+        "document_count":     len(assessments),
+        "citable_count":      sum(1 for r in assessments
+                                  if r.get("provenance") == "OFFICIAL_EXCERPT"),
+        "documents":          [doc_record(r) for r in assessments],
+    }
+
 
 def generate_markdown_report(assessments, report_date="July 2026"):
     """Render a stable public markdown report without changing assessment data."""

@@ -330,7 +330,7 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         self.assertEqual(result["conceptual_proximity_score"], 0)
         self.assertEqual(result["score_breakdown"]["conceptual"]["fired"], [])
         self.assertIn(
-            "conceptual — LAIF-like concepts insufficiently expressed",
+            "conceptual — governance concepts insufficiently expressed",
             result["primary_failure_modes"],
         )
 

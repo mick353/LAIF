@@ -486,6 +486,53 @@ check("corpus fingerprint" in _ext_report
 
 
 
+# ── GROUP SF11 — Executive summary and machine-readable export ───────────────
+
+section("GROUP SF11 — Executive summary and data export")
+
+import json as _json
+from assessment_engine import generate_executive_summary, export_assessment_data
+
+_docs = [s1, s2, s3]
+_summary = generate_executive_summary(_docs, report_date="July 2026")
+_data = export_assessment_data(_docs, report_date="July 2026")
+
+check(len(_summary.splitlines()) <= 100, "SF11.1",
+      f"executive summary stays a one-pager ({len(_summary.splitlines())} lines)")
+
+_lower = _summary.lower()
+check(not any(p in _lower for p in
+              ("close: terminological", "canonical laif terms",
+               "adopt laif vocabulary", "laif-like concepts")),
+      "SF11.2", "summary never lists vocabulary adoption as a priority action")
+
+check("diagnostic, not a verdict" in _summary
+      and "citable" in _lower
+      and "fingerprint" in _lower,
+      "SF11.3", "summary carries the diagnostic boundary, citability, and "
+                "reproducibility statements")
+
+_roundtrip = _json.loads(_json.dumps(_data))
+check(_roundtrip["schema"] == "laif.assessment.v1"
+      and _roundtrip["document_count"] == len(_docs)
+      and len(_roundtrip["documents"]) == len(_docs),
+      "SF11.4", "data export is JSON-serialisable and self-describing")
+
+check(all(("citable" in d and d["citable"] ==
+           (d.get("provenance") == "OFFICIAL_EXCERPT"))
+          for d in _data["documents"]),
+      "SF11.5", "every exported record's citable flag matches its provenance")
+
+check("not a legal-validity determination" in _data["boundary_notice"].lower()
+      and _data["corpus_fingerprint"] ==
+          _json.loads(_json.dumps(_data))["corpus_fingerprint"],
+      "SF11.6", "export carries the boundary notice and a stable fingerprint")
+
+check(not any("text" in d and len(str(d.get("text", ""))) > 500
+              for d in _data["documents"]),
+      "SF11.7", "export carries findings and locations, not bulk source text")
+
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 
 print(f"\n{'═' * 70}")

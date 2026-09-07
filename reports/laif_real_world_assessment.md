@@ -110,7 +110,7 @@ No legal determination is made; no source is certified through this public templ
 
 
 ### Common structural gaps (cross-document)
-structural — constitutional hierarchy not declared (10/10 documents); terminological — no canonical LAIF terms present (10/10 documents); conceptual — LAIF-like concepts insufficiently expressed (3/10 documents); enforceability — insufficient mandatory operational requirements (2/10 documents); auditability — obligations not checkable or traceable (1/10 documents)
+structural — constitutional hierarchy not declared (10/10 documents); terminological — no canonical LAIF terms present (10/10 documents); conceptual — governance concepts insufficiently expressed (3/10 documents); enforceability — insufficient mandatory operational requirements (2/10 documents); auditability — obligations not checkable or traceable (1/10 documents)
 
 ### Governance-force patterns
 mandate (3); consequence (2); escalation (1); +1 more
@@ -1222,7 +1222,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 24/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
-- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — governance concepts insufficiently expressed
 - **Structural strengths:** Expresses: safety; Expresses: contestability / redress; Expresses: risk governance; +9 more
 - **Governance signal strength:** 36
 - **Structural dimension score:** 12/100
@@ -1408,11 +1408,11 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-03-conceptual-laif-like-concepts-insufficient
+- **patch_id:** LAIF-PATCH-03-conceptual-governance-concepts-insufficien
   - **finding_type:** governance_force_gap
   - **severity:** medium
-  - **diagnostic_gap:** conceptual — LAIF-like concepts insufficiently expressed
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: conceptual — LAIF-like concepts insufficiently expressed
+  - **diagnostic_gap:** conceptual — governance concepts insufficiently expressed
+  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: conceptual — governance concepts insufficiently expressed
   - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
   - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
   - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
@@ -1900,7 +1900,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 39/100
 - **Sector risk alignment:** 40/100
 - **Remediation effort:** VERY HIGH
-- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — governance concepts insufficiently expressed
 - **Structural strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +11 more
 - **Governance signal strength:** 34
 - **Structural dimension score:** 26/100
@@ -2072,11 +2072,11 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-03-conceptual-laif-like-concepts-insufficient
+- **patch_id:** LAIF-PATCH-03-conceptual-governance-concepts-insufficien
   - **finding_type:** governance_force_gap
   - **severity:** medium
-  - **diagnostic_gap:** conceptual — LAIF-like concepts insufficiently expressed
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: conceptual — LAIF-like concepts insufficiently expressed
+  - **diagnostic_gap:** conceptual — governance concepts insufficiently expressed
+  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: conceptual — governance concepts insufficiently expressed
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
   - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
@@ -2884,7 +2884,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 31/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
-- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — LAIF-like concepts insufficiently expressed
+- **Primary structural gaps:** structural — constitutional hierarchy not declared; terminological — no canonical LAIF terms present; conceptual — governance concepts insufficiently expressed
 - **Structural strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: human oversight; +9 more
 - **Governance signal strength:** 39
 - **Structural dimension score:** 35/100
@@ -3061,11 +3061,11 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-03-conceptual-laif-like-concepts-insufficient
+- **patch_id:** LAIF-PATCH-03-conceptual-governance-concepts-insufficien
   - **finding_type:** governance_force_gap
   - **severity:** medium
-  - **diagnostic_gap:** conceptual — LAIF-like concepts insufficiently expressed
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: conceptual — LAIF-like concepts insufficiently expressed
+  - **diagnostic_gap:** conceptual — governance concepts insufficiently expressed
+  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: conceptual — governance concepts insufficiently expressed
   - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
   - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
   - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.

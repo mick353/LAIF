@@ -165,3 +165,25 @@ deterministic text analysis of the assessed excerpt:
 Quotes are whitespace-normalised verbatim substrings of the assessed text
 (`SF9.1`); span-window patterns use DOTALL in both scorer and locator so
 hard-wrapped prose earns proximity signals (`SF9.2` guards the parity).
+
+## Output Artifacts
+
+A single assessment run emits three deterministic artifacts from one set of
+results — they never diverge, and none contains an independent claim:
+
+| Artifact | Audience | Contents |
+|---|---|---|
+| `reports/laif_real_world_assessment.md` | Reviewers, document owners | Full assessment: plain-language reading, evidence locator, not-found placement guidance, attachment points, peer exemplars, scorecards, remediation |
+| `reports/laif_executive_summary.md` | Executives, boards, ministers | One page: the finding, corpus at a glance, highest-value actions, what good looks like, how to read it |
+| `reports/laif_assessment_data.json` | GRC tooling, dashboards, independent re-analysis | Schema `laif.assessment.v1`: verdicts, scores, calibration, functional alignment with locations, outlines, anchors, gaps, remediation; findings and locations only, never bulk source text |
+
+Every artifact carries the corpus fingerprint, so any citation can state exactly
+which texts produced it. The JSON export marks each record `citable` strictly
+according to its provenance classification, and carries the same boundary
+notice as the reports: diagnostic model output, not a legal-validity
+determination, not certification, not a compliance rating.
+
+Executive-summary discipline (enforced by `test_semantic_fidelity.py` group
+SF11): the summary must stay a one-pager, must never list adoption of the
+assessing framework's vocabulary as a priority action, and must carry the
+diagnostic-boundary, citability, and reproducibility statements.
