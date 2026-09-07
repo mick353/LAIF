@@ -2363,7 +2363,7 @@ _DOCUMENT_TYPE_PATTERNS = [
     ("public_sector_policy", (r"\bpolicy for the responsible use of ai in government\b", r"\bresponsible use of ai in government\b", r"\bpublic servants?\s+must\b", r"\bgovernment agencies\s+and\s+public servants\s+must\b", r"\bgovernment agencies\s+must\b", r"\bagencies must disclose\b", r"\bresponsible ai use by agencies\b", r"\bai use registers?\b", r"\bhuman review\b", r"\baccountable officials?\b", r"\bdigital transformation agency\b", r"\bdta\b", r"\bpublic sector policy\b")),
     ("procurement_assessment_form", (r"\bprocurement\b", r"\bassessment form\b", r"\bvendor\b", r"\bsupplier\b", r"\bcontract\b")),
     ("implementation_guide", (r"\bimplementation guide\b", r"\bplaybook\b", r"\bguidance for implementing\b", r"\bhow to implement\b")),
-    ("internal_policy", (r"\binternal policy\b", r"\bdepartment policy\b", r"\bcompany policy\b", r"\borganizational policy\b")),
+    ("internal_policy", (r"\binternal policy\b", r"\bdepartment(?:al)? policy\b", r"\bcompany policy\b", r"\borganitational policy\b", r"\borganisational policy\b", r"\borganizational policy\b", r"\bthis policy (?:sets out|applies|governs|covers)\b", r"\bapplies to all (?:staff|employees|personnel)\b", r"\bstaff(?:,| and) contractors\b", r"\bfor board approval\b", r"\bpolicy will be reviewed\b", r"\bversion \d")),
     ("vendor_compliance_submission", (r"\bvendor submission\b", r"\bcompliance submission\b", r"\battestation\b", r"\bsupplier response\b")),
 ]
 
@@ -2408,7 +2408,7 @@ _RESIDUAL_RISK_RE = re.compile(r"\b(residual risk|remaining risk|risk acceptance
 def _document_type_pattern_hits(haystack, doc_type, patterns):
     hits = sum(1 for pat in patterns if re.search(pat, haystack, re.IGNORECASE))
     if doc_type == "binding_legal_instrument":
-        if not any(anchor in haystack for anchor in ("regulation laying down", "harmonised rules", "artificial intelligence act", "official journal")):
+        if not any(anchor in haystack for anchor in ("regulation laying down", "harmonised rules", "artificial intelligence act", "eu ai act", "official journal")):
             return 0
         return hits if hits >= 2 else 0
     if doc_type == "executive_policy_directive":
@@ -2425,6 +2425,29 @@ def _document_type_pattern_hits(haystack, doc_type, patterns):
         return hits if hits >= 2 and any(term in haystack for term in ("clinical safety", "dcb0129", "hazard log")) else 0
     if doc_type == "technical_standard":
         return hits if hits >= 1 else 0
+    if doc_type == "procurement_assessment_form":
+        # A passing mention of "supplier" or "contract" inside an institutional
+        # policy must not classify that policy as a procurement instrument:
+        # require a genuine procurement-instrument anchor.
+        anchors = ("assessment form", "vendor submission", "supplier response",
+                   "invitation to tender", "request for proposal", "tender",
+                   "procurement questionnaire", "pre-acquisition", "contract schedule",
+                   "supplier assurance questionnaire")
+        if any(a in haystack for a in anchors):
+            return max(hits, 2)
+        # Otherwise demand a procurement-led document, not an incidental mention.
+        return hits if hits >= 3 and "procurement" in haystack else 0
+    if doc_type == "vendor_compliance_submission":
+        anchors = ("vendor submission", "compliance submission", "supplier response",
+                   "attestation")
+        return max(hits, 2) if any(a in haystack for a in anchors) else 0
+    if doc_type == "implementation_guide":
+        anchors = ("implementation guide", "playbook", "guidance for implementing",
+                   "how to implement")
+        return max(hits, 2) if any(a in haystack for a in anchors) else 0
+    if doc_type == "internal_policy":
+        # Two independent policy signals, so a single stray phrase cannot classify.
+        return hits if hits >= 2 else 0
     if doc_type == "public_sector_policy":
         return hits if _strong_public_sector_policy_hits(haystack) >= 2 else 0
     return hits if hits >= 1 else 0
@@ -2441,7 +2464,9 @@ def _strong_public_sector_policy_hits(haystack):
         "responsible ai use by agencies",
         "ai use register",
         "ai use registers",
-        "human review",
+        # "human review" removed: a generic governance phrase common to
+        # employment, clinical, and commercial policies. As a public-sector
+        # marker it misclassified an employment framework as government policy.
         "accountable official",
         "accountable officials",
         "digital transformation agency",
@@ -2451,6 +2476,37 @@ def _strong_public_sector_policy_hits(haystack):
     if re.search(r"\bdta\b", haystack):
         hits += 1
     return hits
+
+
+def known_instrument_profile(text, name="", source_type=""):
+    """Identify the document as a *specific named instrument*, or return "".
+
+    Corpus-specific naming (DTAC control names, EU AI Act obligation registers,
+    NIST register names) may only be applied to the instrument it belongs to.
+    Inferring it from sector or document class alone labelled unrelated
+    documents with standards they are not — an NHS Trust's own policy was
+    described as a DTAC submission. Identity requires an anchor in the text or
+    title, never a category match.
+    """
+    hay = f"{name or ''} {source_type or ''} {text or ''}".lower()
+    if any(a in hay for a in ("dtac", "digital technology assessment criteria",
+                              "dcb0129", "dcb0160")):
+        return "dtac"
+    if any(a in hay for a in ("eu ai act", "artificial intelligence act",
+                              "regulation laying down harmonised rules",
+                              "oj_l_202401689", "2024/1689")):
+        return "eu_ai_act"
+    if any(a in hay for a in ("executive order 14110", "2023-24283",
+                              "safe, secure, and trustworthy artificial intelligence")):
+        return "eo_14110"
+    if any(a in hay for a in ("nist ai 100-1", "ai risk management framework",
+                              "ai rmf")):
+        return "nist"
+    if any(a in hay for a in ("policy for the responsible use of ai in government",
+                              "responsible use of ai in government",
+                              "digital transformation agency")):
+        return "australian_policy"
+    return ""
 
 
 def _identity_document_type(text, name="", source_type=""):
@@ -2515,6 +2571,55 @@ def dominant_sector_for_document(text, document_type, requested_sector="auto", n
         return "clinical_ai" if any(term in lowered for term in ("clinical", "patient", "nhs", "dcb0129", "hazard log", "dtac")) else "general_ai_governance"
     if document_type == "public_sector_policy":
         return "government_service_delivery" if _strong_public_sector_policy_hits(lowered) >= 2 else "general_ai_governance"
+    return _keyword_sector_fallback(lowered)
+
+
+# Documents whose type does not itself determine a sector (internal policies,
+# guides, procurement instruments, unclassified documents) still deserve their
+# sector profile. Whole-word counting only: substring matching routed documents
+# on fragments such as "hr" inside "through". A single incidental mention is
+# never a sector — a clear signal or a clear margin is required.
+_SECTOR_KEYWORDS = (
+    ("clinical_ai", ("clinical", "clinician", "patient", "patients", "diagnosis",
+                     "medical", "healthcare", "nhs", "dcb0129", "hazard log")),
+    # "worker"/"workers" deliberately excluded: they are common in general AI
+    # governance texts (labour-market passages) and would misroute them.
+    ("employment_hr_ai", ("employee", "employees", "hiring", "recruitment",
+                          "candidate", "candidates", "workforce management",
+                          "human resources", "dismissal", "promotion",
+                          "employment decision", "employment decisions")),
+    ("education_ai", ("student", "students", "pupil", "school", "curriculum",
+                      "academic", "learner", "learners")),
+    ("procurement_vendor_governance", ("procurement", "tender", "supplier",
+                                       "suppliers", "vendor", "vendors",
+                                       "contract", "contracts")),
+    ("government_service_delivery", ("public service", "public sector",
+                                     "citizen", "citizens", "caseworker",
+                                     "service delivery", "public benefits",
+                                     "government agency", "government agencies")),
+    ("departmental_ai_development", ("model register", "deployment pipeline",
+                                     "rollback", "release management",
+                                     "software development")),
+)
+
+
+def _keyword_sector_fallback(lowered):
+    def count(term):
+        if " " in term:
+            return lowered.count(term)
+        return len(re.findall(rf"\b{re.escape(term)}\b", lowered))
+
+    scores = sorted(
+        ((sum(count(term) for term in terms), sector)
+         for sector, terms in _SECTOR_KEYWORDS),
+        reverse=True,
+    )
+    if not scores:
+        return "general_ai_governance"
+    best, best_sector = scores[0]
+    runner_up = scores[1][0] if len(scores) > 1 else 0
+    if best >= 4 or (best >= 2 and best >= runner_up * 2):
+        return best_sector
     return "general_ai_governance"
 
 
@@ -3067,6 +3172,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         "functional_alignment":       functional,
         "laif_alignment":             laif_alignment,
         "assessed_text_sha256":       hashlib.sha256(text.encode("utf-8")).hexdigest(),
+        "known_instrument_profile":   known_instrument_profile(text, name, source_type),
         "document_outline":           [lbl for _, lbl in _outline][:14],
         "signal_locations":           signal_locations,
         "obligation_anchors":         obligation_anchors,
@@ -3252,16 +3358,61 @@ def _locate_offset(pos, outline):
     return best
 
 
-def _quote_at(text, start, end, max_len=110):
-    lo = max(0, start - 15)
-    hi = min(len(text), end + 60)
-    tokens = text[lo:hi].split()
-    if lo > 0 and tokens:
-        tokens = tokens[1:]          # drop leading partial word
-    out = " ".join(tokens)
-    if len(out) > max_len:
-        out = out[:max_len].rsplit(" ", 1)[0] + "…"
-    return out
+# Orphaned openers left behind when a window starts mid-structure: a clause
+# letter "(b)", a split list number "3" from "3.3", a stray bullet or dash.
+_ORPHAN_OPENER = re.compile(
+    r"^(?:[)\]\}»”\'\"]+|[-–—•|]+|\(?[a-z0-9]{1,3}[).:]|\d{1,3}(?=\s))\s*",
+    re.IGNORECASE,
+)
+
+
+def _quote_at(text, start, end, max_len=140):
+    """A readable, verbatim window around a match.
+
+    Quotes are the evidentiary backbone of the report, so they must be
+    quotable: no partial leading word, no orphaned list numbering, and an
+    ending at a clause boundary wherever one is available rather than a hard
+    character cut. The text itself is never altered — only the window moves.
+    """
+    # Prefer the start of the sentence containing the match, so a quote reads
+    # as a statement rather than a fragment missing its subject.
+    back = text.rfind(". ", max(0, start - 220), start)
+    nl = text.rfind("\n", max(0, start - 220), start)
+    lo = max(back + 2 if back != -1 else 0, nl + 1 if nl != -1 else 0)
+    if start - lo > 220 or lo > start:
+        lo = max(0, start - 15)
+
+    # Never run a quote across a section heading or list break.
+    hi_limit = min(len(text), end + 140)
+    for marker in ("\n#", "\n\n", "\n- ", "\n| "):
+        cut = text.find(marker, end, hi_limit)
+        if cut != -1:
+            hi_limit = cut
+    hi = max(end, hi_limit)
+    window = " ".join(text[lo:hi].split())
+
+    # Drop a leading partial word when the window still began mid-token.
+    if lo > 0 and window:
+        first_char = text[lo - 1] if lo - 1 < len(text) else " "
+        if not first_char.isspace():
+            window = window.partition(" ")[2] or window
+
+    # Drop orphaned openers repeatedly ("3 (b) ..." -> "...").
+    for _ in range(3):
+        stripped = _ORPHAN_OPENER.sub("", window, count=1)
+        if stripped == window:
+            break
+        window = stripped
+
+    if len(window) <= max_len:
+        return window.strip()
+
+    # Prefer a clause boundary inside the last third of the allowance.
+    head = window[:max_len]
+    boundary = max(head.rfind("; "), head.rfind(", "), head.rfind(". "))
+    if boundary >= int(max_len * 0.55):
+        return head[:boundary + 1].strip()
+    return head.rsplit(" ", 1)[0].strip() + "…"
 
 
 def _located_signals(text, outline):

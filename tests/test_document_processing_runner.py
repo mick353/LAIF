@@ -15,7 +15,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from assessment_engine import assess, generate_markdown_report
+from assessment_engine import assess, classify_document_type, generate_markdown_report
 from scripts import laif_process_document as runner
 
 STRONG_EXTERNAL_TEXT = (
@@ -1357,6 +1357,85 @@ If you are having difficulties with accessing this document, please email: suppo
         ) + (REPO_ROOT / "assessment_engine.py").read_text(encoding="utf-8")
         forbidden = ("op" + "enai", "anth" + "ropic", "gem" + "ini", "google" + ".generativeai", "requests" + ".post", "ht" + "tpx", "urllib" + ".request")
         self.assertFalse(any(token in haystack for token in forbidden))
+
+
+    # ── Usability review 2026-09 regressions ─────────────────────────────
+    TRUST_POLICY = (
+        "# Northwood Hospital Trust — Artificial Intelligence Use Policy\n\n"
+        "Version 0.3 (draft for Board approval)\n\n"
+        "## 2. Principles\n\nAI tools must support, not replace, clinical "
+        "judgement. Patient safety is our highest priority. Clinical staff "
+        "remain responsible for decisions made with AI assistance.\n\n"
+        "## 3. Approval of new tools\n\n3.3 Suppliers should provide evidence "
+        "of regulatory approval where the tool is a medical device.\n\n"
+        "## 4. Operation\n\nThe Trust will monitor AI tools in use and review "
+        "performance annually. This policy applies to all staff and contractors."
+    )
+    VENDOR_STATEMENT = (
+        "# Acme Analytics — Responsible AI Statement\n\nWe build AI systems "
+        "that are fair, transparent, and accountable. Our AI Ethics Board "
+        "oversees product decisions. We test models for bias. Customers receive "
+        "model documentation describing intended use and known limitations."
+    )
+
+    def test_usability_executive_finding_varies_with_assessment(self) -> None:
+        """A strong and a weak document must never share an executive finding."""
+        strong = assess("strong", "policy", self.TRUST_POLICY + (
+            " Every restriction names the person-level stake it protects; neither "
+            "the restriction nor its paired protection may be weakened without the "
+            "other. All three conditions must be satisfied simultaneously before "
+            "deployment authorisation."), assessment_mode="external_framework")
+        weak = assess("weak", "policy", self.VENDOR_STATEMENT,
+                      assessment_mode="external_framework")
+        s_gaps = runner.build_governance_gap_register(strong, [{"quote_id": "Q001"}])
+        w_gaps = runner.build_governance_gap_register(weak, [{"quote_id": "Q001"}])
+        s_ctrl = runner.build_control_recommendations(s_gaps, [], [{"quote_id": "Q001"}])
+        w_ctrl = runner.build_control_recommendations(w_gaps, [], [{"quote_id": "Q001"}])
+        s_thesis = runner.executive_thesis(strong, s_gaps, s_ctrl)
+        w_thesis = runner.executive_thesis(weak, w_gaps, w_ctrl)
+        self.assertNotEqual(s_thesis, w_thesis)
+        # The finding must state the engine's own verdict, not a template.
+        self.assertIn("Structural position:", s_thesis)
+        self.assertIn("Structural position:", w_thesis)
+
+    def test_usability_gaps_are_detected_not_asserted(self) -> None:
+        """Gap registers differ by document and cite that document's evidence."""
+        a = assess("a", "policy", self.TRUST_POLICY, assessment_mode="external_framework")
+        b = assess("b", "policy", self.VENDOR_STATEMENT, assessment_mode="external_framework")
+        ga = runner.build_governance_gap_register(a, [{"quote_id": "Q001"}])
+        gb = runner.build_governance_gap_register(b, [{"quote_id": "Q001"}])
+        self.assertNotEqual({g["gap_type"] for g in ga}, {g["gap_type"] for g in gb})
+        # Every detected gap records why it fired.
+        for gap in ga + gb:
+            self.assertIn("detected_from", gap)
+            self.assertTrue(gap["detected_from"].get("expectation_signal"))
+
+    def test_usability_controls_are_gap_specific(self) -> None:
+        """Control rows must not be interchangeable boilerplate."""
+        a = assess("a", "policy", self.TRUST_POLICY, assessment_mode="external_framework")
+        gaps = runner.build_governance_gap_register(a, [{"quote_id": "Q001"}])
+        controls = runner.build_control_recommendations(gaps, [], [{"quote_id": "Q001"}])
+        self.assertGreaterEqual(len(controls), 2)
+        self.assertEqual(len({c["required_artifact"] for c in controls}), len(controls))
+        self.assertEqual(len({c["owner"] for c in controls}), len(controls))
+
+    def test_usability_internal_policy_not_classified_as_procurement(self) -> None:
+        """An incidental mention of 'supplier' must not make a policy a procurement form."""
+        self.assertEqual(classify_document_type(self.TRUST_POLICY), "internal_policy")
+
+    def test_usability_corpus_naming_requires_instrument_identity(self) -> None:
+        """Named-instrument vocabulary may only attach to that instrument."""
+        from assessment_engine import known_instrument_profile
+        self.assertEqual(known_instrument_profile(self.TRUST_POLICY, "trust.md", "policy"), "")
+        self.assertEqual(
+            known_instrument_profile("Digital Technology Assessment Criteria DTAC DCB0129",
+                                     "dtac.md", "policy"), "dtac")
+
+    def test_usability_sector_terms_match_whole_words(self) -> None:
+        """'hr' inside 'through'/'thresholds' must not route to employment."""
+        text = ("The system runs through documented thresholds and review "
+                "thresholds throughout the lifecycle of the service.")
+        self.assertNotEqual(runner.auto_sector(text), "employment_hr_ai")
 
 
 if __name__ == "__main__":

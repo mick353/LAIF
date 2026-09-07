@@ -251,20 +251,20 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 
 #### Evidence Locator — Where the Signals Live
 Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
-| Dimension      | Signal                                       | Location in document             | Verbatim quote                                                                                                   |
-| -------------- | -------------------------------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Structural     | numbered sub-requirements                    | Section 2. Policy and Principles | «## Section 2. Policy and Principles It is the policy of my Administratio»                                       |
-| Structural     | mandatory obligation language (shall)        | Section 2. Policy and Principles | «(agencies) shall, as appropriate and consistent with applicable law, adhere»                                    |
-| Structural     | operational mechanisms defined               | Section 2. Policy and Principles | «other mechanisms to test, understand, and mitigate risks from these systems»                                    |
-| Conceptual     | human rights / fundamental interests         | Section 2. Policy and Principles | «threatening human rights, and causing other harms. […] ## Section 6. Supporting Wo»                             |
-| Conceptual     | transparency                                 | Section 6. Supporting Workers    | «including transparency, engagement, management, and activity protected under worke»                             |
-| Conceptual     | accountability                               | Section 2. Policy and Principles | «deploying AI accountable to standards that protect against unlawful discrimination a»                           |
-| Auditability   | multiple mandatory obligations (shall/must p | Section 6. Supporting Workers    | «actions shall be taken within 180 days of the date of this order: (i) The Chairman of the Council of Economic…» |
-| Auditability   | numbered traceable requirements              | Section 2. Policy and Principles | «## Section 2. Policy and Principles It is the policy of my Administrati»                                        |
-| Auditability   | evidence / documentation requirements        | Section 6. Supporting Workers    | «and submit a report to the President on the labor-market effects of AI. (ii) T»                                 |
-| Enforceability | mandatory language (shall/must)              | Section 2. Policy and Principles | «(agencies) shall, as appropriate and consistent with applicable law, adhere»                                    |
-| Enforceability | named responsible parties                    | Section 2. Policy and Principles | «and agencies (agencies) shall, as appropriate and consistent with applic»                                       |
-| Enforceability | enforcement consequences / penalties         | Section 2. Policy and Principles | «infringements on privacy, and other harms from AI. Such protections are e»                                      |
+| Dimension      | Signal                                       | Location in document             | Verbatim quote                                                                                                           |
+| -------------- | -------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Structural     | numbered sub-requirements                    | Section 2. Policy and Principles | «## Section 2. Policy and Principles»                                                                                    |
+| Structural     | mandatory obligation language (shall)        | Section 2. Policy and Principles | «When undertaking the actions set forth in this order, executive departments and agencies (agencies) shall,»             |
+| Structural     | operational mechanisms defined               | Section 2. Policy and Principles | «Meeting this goal requires robust, reliable, repeatable, and standardized evaluations of AI systems, as well as policie |
+| Conceptual     | human rights / fundamental interests         | Section 2. Policy and Principles | «threatening human rights, and causing other harms.»                                                                     |
+| Conceptual     | transparency                                 | Section 6. Supporting Workers    | «implications for workers of employers' AI-related collection and use of data about them, including transparency, engage |
+| Conceptual     | accountability                               | Section 2. Policy and Principles | «It is necessary to hold those developing and deploying AI accountable to standards that protect against unlawful discri |
+| Auditability   | multiple mandatory obligations (shall/must p | Section 6. Supporting Workers    | «To advance the Government's understanding of AI's implications for workers, the following actions shall be taken within |
+| Auditability   | numbered traceable requirements              | Section 2. Policy and Principles | «## Section 2. Policy and Principles»                                                                                    |
+| Auditability   | evidence / documentation requirements        | Section 6. Supporting Workers    | «The Chairman of the Council of Economic Advisers shall prepare and submit a report to the President on the labor-market |
+| Enforceability | mandatory language (shall/must)              | Section 2. Policy and Principles | «When undertaking the actions set forth in this order, executive departments and agencies (agencies) shall,»             |
+| Enforceability | named responsible parties                    | Section 2. Policy and Principles | «When undertaking the actions set forth in this order, executive departments and agencies (agencies) shall,»             |
+| Enforceability | enforcement consequences / penalties         | Section 2. Policy and Principles | «The Federal Government will enforce existing consumer protection laws and principles and enact appropriate safeguards a |
 
 
 #### Not Found — and Where It Would Belong
@@ -587,18 +587,18 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 
 #### Evidence Locator — Where the Signals Live
 Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
-| Dimension      | Signal                                | Location in document                         | Verbatim quote                                                                         |
-| -------------- | ------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Structural     | numbered sub-requirements             | Section 1: Principles                        | «Section 1: Principles for responsible stewardship of trustworthy AI»                  |
-| Structural     | full lifecycle scope declared         | 1.2. Respect for the rule of law, human righ | «AI system lifecycle. These include non-discrimination and equality, freedom, di»      |
-| Structural     | operational mechanisms defined        | 1.2. Respect for the rule of law, human righ | «implement mechanisms and safeguards, such as capacity for human agency and overs»     |
-| Conceptual     | human rights / fundamental interests  | 1.2. Respect for the rule of law, human righ | «rule of law, human rights and democratic values, including fairness and privacy a) A» |
-| Conceptual     | transparency                          | 1.3. Transparency and explainability         | «art. 1.3. Transparency and explainability AI Actors should commit to transparency»    |
-| Conceptual     | explainability / interpretability     | 1.3. Transparency and explainability         | «and explainability AI Actors should commit to transparency and responsible di»        |
-| Auditability   | numbered traceable requirements       | Section 1: Principles                        | «Section 1: Principles for responsible stewardship of trustworthy AI»                  |
-| Auditability   | evidence / documentation requirements | 2.5. International co-operation for trustwor | «gather the evidence base to assess progress in the implementation of these prin»      |
-| Auditability   | review / monitoring mechanisms        | 2.3. Shaping an enabling interoperable       | «should review and adapt, as appropriate, their policy and regulatory fram»            |
-| Enforceability | named responsible parties             | Section 1: Principles                        | «ON all AI actors to promote and implement, according to their respective rol»         |
+| Dimension      | Signal                                | Location in document                         | Verbatim quote                                                                                                           |
+| -------------- | ------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Structural     | numbered sub-requirements             | Section 1: Principles                        | «Section 1: Principles for responsible stewardship of trustworthy AI»                                                    |
+| Structural     | full lifecycle scope declared         | 1.2. Respect for the rule of law, human righ | «human-centred values throughout the AI system lifecycle. These include non-discrimination and equality, freedom, dignit |
+| Structural     | operational mechanisms defined        | 1.2. Respect for the rule of law, human righ | «this end, AI actors should implement mechanisms and safeguards, such as capacity for human agency and oversight,»       |
+| Conceptual     | human rights / fundamental interests  | 1.2. Respect for the rule of law, human righ | «Respect for the rule of law, human rights and democratic values, including fairness and privacy»                        |
+| Conceptual     | transparency                          | 1.3. Transparency and explainability         | «Transparency and explainability»                                                                                        |
+| Conceptual     | explainability / interpretability     | 1.3. Transparency and explainability         | «Transparency and explainability»                                                                                        |
+| Auditability   | numbered traceable requirements       | Section 1: Principles                        | «Section 1: Principles for responsible stewardship of trustworthy AI»                                                    |
+| Auditability   | evidence / documentation requirements | 2.5. International co-operation for trustwor | «gather the evidence base to assess progress in the implementation of these principles.»                                 |
+| Auditability   | review / monitoring mechanisms        | 2.3. Shaping an enabling interoperable       | «should review and adapt, as appropriate, their policy and regulatory frameworks and assessment mechanisms as they apply |
+| Enforceability | named responsible parties             | Section 1: Principles                        | «all AI actors to promote and implement, according to their respective roles, the following principles for responsible s |
 
 
 #### Not Found — and Where It Would Belong
@@ -914,20 +914,20 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 
 #### Evidence Locator — Where the Signals Live
 Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
-| Dimension      | Signal                                | Location in document | Verbatim quote                                                                          |
-| -------------- | ------------------------------------- | -------------------- | --------------------------------------------------------------------------------------- |
-| Structural     | numbered sub-requirements             | Govern               | «\\| GOVERN 1.1: Legal and regulatory requirements involving AI are underst»            |
-| Structural     | mandatory obligation language (shall) | Govern               | «“the system shall respect the privacy of its users”) are elicited from and un»         |
-| Structural     | full lifecycle scope declared         | Govern               | «full product lifecycle and associated processes, including legal and other issues»     |
-| Conceptual     | transparency                          | Govern               | «can enhance transparency, improve human review processes, and bolster accountability»  |
-| Conceptual     | accountability                        | Govern               | «and bolster accountability in AI system teams. After putting in place the structures,» |
-| Conceptual     | human oversight                       | Govern               | «and oversight of AI systems. \\| \\| GOVERN 4:Organizational teams are commit»         |
-| Auditability   | numbered traceable requirements       | Govern               | «\\| GOVERN 1.1: Legal and regulatory requirements involving AI are underst»            |
-| Auditability   | evidence / documentation requirements | Govern               | «teams document the risks and potential impacts of the AI technology they d»            |
-| Auditability   | review / monitoring mechanisms        | Govern               | «human review processes, and bolster accountability in AI system teams. A»              |
-| Enforceability | mandatory language (shall/must)       | Govern               | «“the system shall respect the privacy of its users”) are elicited from and un»         |
-| Enforceability | named responsible parties             | Govern               | «Governing authorities can determine the overarching policies that direct an organ»     |
-| Enforceability | risk-proportionate thresholds         | Govern               | «the needed level of risk management activities based on the organization’s risk tole»  |
+| Dimension      | Signal                                | Location in document | Verbatim quote                                                                                                           |
+| -------------- | ------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Structural     | numbered sub-requirements             | Govern               | «GOVERN 1.1: Legal and regulatory requirements involving AI are understood, managed,»                                    |
+| Structural     | mandatory obligation language (shall) | Govern               | «“the system shall respect the privacy of its users”) are elicited from and understood by relevant AI actors.»           |
+| Structural     | full lifecycle scope declared         | Govern               | «addresses full product lifecycle and associated processes, including legal and other issues concerning use of third-par |
+| Conceptual     | transparency                          | Govern               | «Documentation can enhance transparency, improve human review processes, and bolster accountability in AI system teams.» |
+| Conceptual     | accountability                        | Govern               | «Documentation can enhance transparency, improve human review processes, and bolster accountability in AI system teams.» |
+| Conceptual     | human oversight                       | Govern               | «and oversight of AI systems. \\|»                                                                                       |
+| Auditability   | numbered traceable requirements       | Govern               | «GOVERN 1.1: Legal and regulatory requirements involving AI are understood, managed,»                                    |
+| Auditability   | evidence / documentation requirements | Govern               | «GOVERN 4.2: Organizational teams document the risks and potential impacts of the AI technology they design, develop, de |
+| Auditability   | review / monitoring mechanisms        | Govern               | «Documentation can enhance transparency, improve human review processes, and bolster accountability in AI system teams.» |
+| Enforceability | mandatory language (shall/must)       | Govern               | «“the system shall respect the privacy of its users”) are elicited from and understood by relevant AI actors.»           |
+| Enforceability | named responsible parties             | Govern               | «Governing authorities can determine the overarching policies that direct an organization’s mission, goals, values, cult |
+| Enforceability | risk-proportionate thresholds         | Govern               | «the needed level of risk management activities based on the organization’s risk tolerance.GOVERN 1.4: The risk manageme |
 
 
 #### Not Found — and Where It Would Belong
@@ -1243,19 +1243,19 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 
 #### Evidence Locator — Where the Signals Live
 Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
-| Dimension      | Signal                                       | Location in document | Verbatim quote                                                                                                 |
-| -------------- | -------------------------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Structural     | full lifecycle scope declared                | C1 - Clinical safety | «the lifecycle of the product. \\| \\| C1.2.4 \\| Please supply your Clinical Sa»                              |
-| Structural     | operational mechanisms defined               | C1 - Clinical safety | «risk control measures, that are to be addressed as part of the clinical risk mana»                            |
-| Conceptual     | safety                                       | C1 - Clinical safety | «- Clinical safety Establishing that your product is clinically safe to use.»                                  |
-| Conceptual     | contestability / redress                     | C1 - Clinical safety | «can challenge the determination if not in agreement. \\| \\| \\| C1.2.2 \\| Have»                             |
-| Conceptual     | risk governance                              | C1 - Clinical safety | «the clinical risk management, such as a qualified Clinical Safety Officer. Health and ca»                     |
-| Auditability   | multiple mandatory obligations (shall/must p | Introduction         | «DTAC forms must be completed by the manufacturer of a DHT in the first instance. If the manufacturer is not…» |
-| Auditability   | evidence / documentation requirements        | Introduction         | «support your evidence. The core assessment criteria are defined in section C1-C4,»                            |
-| Auditability   | specific, measurable obligations             | C1 - Clinical safety | «the terms as defined in the DCB0129 standard and applicability guidance linked previously.Please note co»     |
-| Enforceability | mandatory language (shall/must)              | Introduction         | «must provide this form in lieu of the older v1.0 form from 6 Apr»                                             |
-| Enforceability | named responsible parties                    | Introduction         | «and care organisations to facilitate assurance of Digital Health Technology produc»                           |
-| Enforceability | risk-proportionate thresholds                | C1 - Clinical safety | «should be commensurate with the scale and clinical functionality of the product and add»                      |
+| Dimension      | Signal                                       | Location in document | Verbatim quote                                                                                                           |
+| -------------- | -------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Structural     | full lifecycle scope declared                | C1 - Clinical safety | «This must include evidence that clinical safety risks have been identified, evaluated and mitigated throughout the life |
+| Structural     | operational mechanisms defined               | C1 - Clinical safety | «risk control measures, that are to be addressed as part of the clinical risk management process in the organisation whe |
+| Conceptual     | safety                                       | C1 - Clinical safety | «### C1 - Clinical safety»                                                                                               |
+| Conceptual     | contestability / redress                     | C1 - Clinical safety | «can challenge the determination if not in agreement. \\| \\|»                                                           |
+| Conceptual     | risk governance                              | C1 - Clinical safety | «the clinical risk management, such as a qualified Clinical Safety Officer. Health and care organisations should ensure  |
+| Auditability   | multiple mandatory obligations (shall/must p | Introduction         | «DTAC forms must be completed by the manufacturer of a DHT in the first instance. If the manufacturer is not the seller  |
+| Auditability   | evidence / documentation requirements        | Introduction         | «Sections A and B will provide the assessors the context required to understand your product and support your evidence.» |
+| Auditability   | specific, measurable obligations             | C1 - Clinical safety | «the terms as defined in the DCB0129 standard and applicability guidance linked previously.Please note commissioning org |
+| Enforceability | mandatory language (shall/must)              | Introduction         | «Manufacturers must provide this form in lieu of the older v1.0 form from 6 April 2026 when requested by health and care |
+| Enforceability | named responsible parties                    | Introduction         | «Manufacturers must provide this form in lieu of the older v1.0 form from 6 April 2026 when requested by health and care |
+| Enforceability | risk-proportionate thresholds                | C1 - Clinical safety | «This should be commensurate with the scale and clinical functionality of the product and address the clinical risk mana |
 
 
 #### Not Found — and Where It Would Belong
@@ -1483,7 +1483,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Citation              | Regulation (EU) 2024/1689 of the European Parliament and of the Council |
 | Source URL            | https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689  |
 | Provenance            | REPRESENTATIVE_EXCERPT                                                  |
-| Document type         | unknown_governance_document                                             |
+| Document type         | binding_legal_instrument                                                |
 | Assessed text SHA-256 | b445198d70b6d16ae6209e5add86c44b25ffba13d97f1bddb650b2bc1ec24d2c        |
 
 **Document structure detected (3 sections):** Article 9 — Risk Management System · Article 13 — Transparency and Provision of Information to Deployers · Article 14 — Human Oversight
@@ -1506,21 +1506,21 @@ To its credit, the administrative machinery is real: numbered, traceable require
 
 
 #### Governance Repair Profile
-| Field                         | Value                                                                                                                                           |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| document_type                 | unknown_governance_document                                                                                                                     |
-| recommended_use               | Preliminary governance triage and document classification review.                                                                               |
-| not_sufficient_for            | Not sufficient for reliance until authority, scope, controls, and evidence are confirmed.                                                       |
-| governance_force_profile      | Governance document with unclear authority; reviewer must establish institutional force, accountable owner, and evidence basis before reliance. |
-| systemic_repair_value         | Moderate                                                                                                                                        |
-| operational_closure_rating    | Weak                                                                                                                                            |
-| evidence_sufficiency_rating   | Strong                                                                                                                                          |
-| accountability_closure_rating | Limited                                                                                                                                         |
-| lifecycle_control_rating      | Limited                                                                                                                                         |
-| residual_risk_control_rating  | Limited                                                                                                                                         |
-| implementation_gap_rating     | Limited                                                                                                                                         |
-| failure_pathway_risk          | High                                                                                                                                            |
-| priority_repair_actions       | assign accountable owner; define decision/release gate; add rollback/fallback control; document residual-risk acceptance and review             |
+| Field                         | Value                                                                                                                                                 |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| document_type                 | binding_legal_instrument                                                                                                                              |
+| recommended_use               | Regulatory/legal governance mapping, enforcement-design review, and systemic failure-pathway analysis.                                                |
+| not_sufficient_for            | Not sufficient by itself as implementation evidence, operational assurance, or LAIF-native certification.                                             |
+| governance_force_profile      | Binding legal instrument with public-law force where adopted; operational closure depends on delegated controls, evidence, and enforcement machinery. |
+| systemic_repair_value         | Moderate                                                                                                                                              |
+| operational_closure_rating    | Weak                                                                                                                                                  |
+| evidence_sufficiency_rating   | Strong                                                                                                                                                |
+| accountability_closure_rating | Limited                                                                                                                                               |
+| lifecycle_control_rating      | Limited                                                                                                                                               |
+| residual_risk_control_rating  | Limited                                                                                                                                               |
+| implementation_gap_rating     | Limited                                                                                                                                               |
+| failure_pathway_risk          | High                                                                                                                                                  |
+| priority_repair_actions       | assign accountable owner; define decision/release gate; add rollback/fallback control; document residual-risk acceptance and review                   |
 This assessment measures governance repair adequacy and operational control closure. It does not require the source document to imitate LAIF-native form.
 
 
@@ -1586,20 +1586,20 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 
 #### Evidence Locator — Where the Signals Live
 Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
-| Dimension      | Signal                                       | Location in document                         | Verbatim quote                                                                                             |
-| -------------- | -------------------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| Structural     | numbered sub-requirements                    | Article 9 — Risk Management System           | «Oversight Article 9 — Risk Management System 1. A risk management system shall»                           |
-| Structural     | mandatory obligation language (shall)        | Article 9 — Risk Management System           | «system shall be established, implemented, documented and maintained in r»                                 |
-| Structural     | full lifecycle scope declared                | Article 9 — Risk Management System           | «the entire lifecycle of the system. The risk management system shall consist of»                          |
-| Conceptual     | human rights / fundamental interests         | Article 9 — Risk Management System           | «safety or fundamental rights when the system is used in accordance with its intended pur»                 |
-| Conceptual     | transparency                                 | start of document                            | «Management, Transparency, and Human Oversight Article 9 — Risk Management System 1»                       |
-| Conceptual     | explainability / interpretability            | Article 13 — Transparency and Provision of I | «deployers to interpret the system's output and use it appropriately. An appropriat»                       |
-| Auditability   | multiple mandatory obligations (shall/must p | Article 9 — Risk Management System           | «system shall be established, implemented, documented and maintained in relation to high-risk AI systems…» |
-| Auditability   | numbered traceable requirements              | Article 9 — Risk Management System           | «Oversight Article 9 — Risk Management System 1. A risk management system shall»                           |
-| Auditability   | evidence / documentation requirements        | Article 9 — Risk Management System           | «establish technical documentation demonstrating that the high-risk AI system conforms to the»             |
-| Enforceability | mandatory language (shall/must)              | Article 9 — Risk Management System           | «system shall be established, implemented, documented and maintained in r»                                 |
-| Enforceability | risk-proportionate thresholds                | Article 9 — Risk Management System           | «to the degree of risk posed to health, safety or fundamental rights. 2. Risk man»                         |
-| Enforceability | non-discretionary operational mandates       | Article 9 — Risk Management System           | «Providers shall establish technical documentation demonstrating that the high-risk AI»                    |
+| Dimension      | Signal                                       | Location in document                         | Verbatim quote                                                                                                           |
+| -------------- | -------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Structural     | numbered sub-requirements                    | Article 9 — Risk Management System           | «Article 9 — Risk Management System»                                                                                     |
+| Structural     | mandatory obligation language (shall)        | Article 9 — Risk Management System           | «A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI syste |
+| Structural     | full lifecycle scope declared                | Article 9 — Risk Management System           | «maintained in relation to high-risk AI systems throughout the entire lifecycle of the system.»                          |
+| Conceptual     | human rights / fundamental interests         | Article 9 — Risk Management System           | «foreseeable risks to health, safety or fundamental rights when the system is used in accordance with its intended purpo |
+| Conceptual     | transparency                                 | start of document                            | «EU AI Act (Regulation 2024/1689) — Risk Management, Transparency, and Human Oversight»                                  |
+| Conceptual     | explainability / interpretability            | Article 13 — Transparency and Provision of I | «their operation is sufficiently transparent to enable deployers to interpret the system's output and use it appropriate |
+| Auditability   | multiple mandatory obligations (shall/must p | Article 9 — Risk Management System           | «A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI syste |
+| Auditability   | numbered traceable requirements              | Article 9 — Risk Management System           | «Article 9 — Risk Management System»                                                                                     |
+| Auditability   | evidence / documentation requirements        | Article 9 — Risk Management System           | «Providers shall establish technical documentation demonstrating that the high-risk AI system conforms to the requiremen |
+| Enforceability | mandatory language (shall/must)              | Article 9 — Risk Management System           | «A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI syste |
+| Enforceability | risk-proportionate thresholds                | Article 9 — Risk Management System           | «proportion to the degree of risk posed to health, safety or fundamental rights.»                                        |
+| Enforceability | non-discretionary operational mandates       | Article 9 — Risk Management System           | «Providers shall establish technical documentation demonstrating that the high-risk AI system conforms to the requiremen |
 
 
 #### Not Found — and Where It Would Belong
@@ -1921,19 +1921,19 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 
 #### Evidence Locator — Where the Signals Live
 Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
-| Dimension      | Signal                                | Location in document                         | Verbatim quote                                                                        |
-| -------------- | ------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Structural     | numbered sub-requirements             | GOVERN 1.1: Policies, processes, procedures, | «lifecycle. GOVERN 1.1: Policies, processes, procedures, and practices across the»    |
-| Structural     | full lifecycle scope declared         | GOVERN Function                              | «the AI lifecycle. GOVERN 1.1: Policies, processes, procedures, and practice»         |
-| Structural     | operational mechanisms defined        | MAP 2.2: Scientific findings, expert opinion | «considered. Mechanisms for independent oversight of AI systems are in place to rev»  |
-| Conceptual     | transparency                          | GOVERN 1.1: Policies, processes, procedures, | «in place, transparent, and implemented effectively. GOVERN 1.2: Accountability,»     |
-| Conceptual     | accountability                        | GOVERN Function                              | «where accountability for AI risk outcomes is distributed across appropriate role»    |
-| Conceptual     | human oversight                       | MAP 2.2: Scientific findings, expert opinion | «independent oversight of AI systems are in place to review performance and ensure»   |
-| Auditability   | numbered traceable requirements       | GOVERN 1.1: Policies, processes, procedures, | «lifecycle. GOVERN 1.1: Policies, processes, procedures, and practices across the»    |
-| Auditability   | evidence / documentation requirements | GOVERN 2.1: Organisational teams that develo | «AI systems document the context in which the AI system will be used as a basis»      |
-| Auditability   | review / monitoring mechanisms        | MAP 2.2: Scientific findings, expert opinion | «in place to review performance and ensure accountability. MAP 5.1: Likelihood»       |
-| Enforceability | named responsible parties             | GOVERN 1.1: Policies, processes, procedures, | «across the organisation related to the mapping, measuring, and managing of AI risks» |
-| Enforceability | enforcement consequences / penalties  | GOVERN 6.1: Policies and procedures are in p | «training or fine-tuning, and data and models from third parties. MAP Functi»         |
+| Dimension      | Signal                                | Location in document                         | Verbatim quote                                                                                                           |
+| -------------- | ------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Structural     | numbered sub-requirements             | GOVERN 1.1: Policies, processes, procedures, | «GOVERN 1.1: Policies, processes, procedures, and practices across the organisation related to the mapping, measuring,»  |
+| Structural     | full lifecycle scope declared         | GOVERN Function                              | «AI risk management throughout the AI lifecycle.»                                                                        |
+| Structural     | operational mechanisms defined        | MAP 2.2: Scientific findings, expert opinion | «Mechanisms for independent oversight of AI systems are in place to review performance and ensure accountability.»       |
+| Conceptual     | transparency                          | GOVERN 1.1: Policies, processes, procedures, | «transparent, and implemented effectively.»                                                                              |
+| Conceptual     | accountability                        | GOVERN Function                              | «accountability for AI risk outcomes is distributed across appropriate roles. Policies, processes,»                      |
+| Conceptual     | human oversight                       | MAP 2.2: Scientific findings, expert opinion | «Mechanisms for independent oversight of AI systems are in place to review performance and ensure accountability.»       |
+| Auditability   | numbered traceable requirements       | GOVERN 1.1: Policies, processes, procedures, | «GOVERN 1.1: Policies, processes, procedures, and practices across the organisation related to the mapping, measuring,»  |
+| Auditability   | evidence / documentation requirements | GOVERN 2.1: Organisational teams that develo | «systems document the context in which the AI system will be used as a basis for identifying risks. This includes intend |
+| Auditability   | review / monitoring mechanisms        | MAP 2.2: Scientific findings, expert opinion | «Mechanisms for independent oversight of AI systems are in place to review performance and ensure accountability.»       |
+| Enforceability | named responsible parties             | GOVERN 1.1: Policies, processes, procedures, | «GOVERN 1.1: Policies, processes, procedures, and practices across the organisation related to the mapping, measuring,»  |
+| Enforceability | enforcement consequences / penalties  | GOVERN 6.1: Policies and procedures are in p | «or fine-tuning, and data and models from third parties.»                                                                |
 
 
 #### Not Found — and Where It Would Belong
@@ -2248,14 +2248,14 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 
 #### Evidence Locator — Where the Signals Live
 Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
-| Dimension      | Signal                               | Location in document                 | Verbatim quote                                                                          |
-| -------------- | ------------------------------------ | ------------------------------------ | --------------------------------------------------------------------------------------- |
-| Structural     | full lifecycle scope declared        | 2. Human-centred values and fairness | «AI system lifecycle. These include freedom, dignity and autonomy, privacy and d»       |
-| Structural     | operational mechanisms defined       | 2. Human-centred values and fairness | «implement mechanisms and safeguards, including capacity for human determination,»      |
-| Conceptual     | human rights / fundamental interests | 2. Human-centred values and fairness | «rule of law, human rights and democratic values throughout the AI system lifecycle. T» |
-| Conceptual     | transparency                         | 3. Transparency and explainability   | «the art. 3. Transparency and explainability AI actors should commit to transparency»   |
-| Conceptual     | explainability / interpretability    | 3. Transparency and explainability   | «and explainability AI actors should commit to transparency and responsible dis»        |
-| Enforceability | named responsible parties            | 2. Human-centred values and fairness | «fairness AI actors should respect the rule of law, human rights and democratic»        |
+| Dimension      | Signal                               | Location in document                 | Verbatim quote                                                                                                           |
+| -------------- | ------------------------------------ | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| Structural     | full lifecycle scope declared        | 2. Human-centred values and fairness | «throughout the AI system lifecycle. These include freedom, dignity and autonomy, privacy and data protection,»          |
+| Structural     | operational mechanisms defined       | 2. Human-centred values and fairness | «implement mechanisms and safeguards, including capacity for human determination,»                                       |
+| Conceptual     | human rights / fundamental interests | 2. Human-centred values and fairness | «AI actors should respect the rule of law, human rights and democratic values throughout the AI system lifecycle. These  |
+| Conceptual     | transparency                         | 3. Transparency and explainability   | «Transparency and explainability AI actors should commit to transparency and responsible disclosure regarding AI systems |
+| Conceptual     | explainability / interpretability    | 3. Transparency and explainability   | «Transparency and explainability AI actors should commit to transparency and responsible disclosure regarding AI systems |
+| Enforceability | named responsible parties            | 2. Human-centred values and fairness | «AI actors should respect the rule of law, human rights and democratic values throughout the AI system lifecycle. These  |
 
 
 #### Not Found — and Where It Would Belong
@@ -2571,20 +2571,20 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 
 #### Evidence Locator — Where the Signals Live
 Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
-| Dimension      | Signal                                       | Location in document                         | Verbatim quote                                                                                          |
-| -------------- | -------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Structural     | numbered sub-requirements                    | Section 4.1 — Ensuring the Safety and Securi | «30, 2023) Section 4.1 — Ensuring the Safety and Security of AI The Secretary of»                       |
-| Structural     | mandatory obligation language (shall)        | Section 4.1 — Ensuring the Safety and Securi | «of Commerce shall engage with industry, civil society, and other stakeholders»                         |
-| Structural     | risk stratification / proportionality        | Section 4.1 — Ensuring the Safety and Securi | «shall be proportionate to the level of risk posed, with higher-risk applications»                      |
-| Conceptual     | human rights / fundamental interests         | Section 4.1 — Ensuring the Safety and Securi | «values and human rights. Safety standards shall be proportionate to the level of ri»                   |
-| Conceptual     | transparency                                 | Section 4.2 — Advancing Transparency and Acc | «— Advancing Transparency and Accountability Federal agencies using AI in high-stake»                   |
-| Conceptual     | accountability                               | Section 4.2 — Advancing Transparency and Acc | «and Accountability Federal agencies using AI in high-stakes decisions affecti»                         |
-| Auditability   | multiple mandatory obligations (shall/must p | Section 4.1 — Ensuring the Safety and Securi | «of Commerce shall engage with industry, civil society, and other stakeholders to develop guidelines,…» |
-| Auditability   | numbered traceable requirements              | Section 4.1 — Ensuring the Safety and Securi | «30, 2023) Section 4.1 — Ensuring the Safety and Security of AI The Secretary o»                        |
-| Auditability   | evidence / documentation requirements        | Section 4.3 — Evidence and Reporting         | «4.3 — Evidence and Reporting Agencies shall document AI deployment decisi»                             |
-| Enforceability | mandatory language (shall/must)              | Section 4.1 — Ensuring the Safety and Securi | «of Commerce shall engage with industry, civil society, and other stakeholders»                         |
-| Enforceability | named responsible parties                    | Section 4.2 — Advancing Transparency and Acc | «Federal agencies using AI in high-stakes decisions affecting members of the»                           |
-| Enforceability | risk-proportionate thresholds                | Section 4.1 — Ensuring the Safety and Securi | «shall be proportionate to the level of risk posed, with higher-risk applications s»                    |
+| Dimension      | Signal                                       | Location in document                         | Verbatim quote                                                                                                           |
+| -------------- | -------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Structural     | numbered sub-requirements                    | Section 4.1 — Ensuring the Safety and Securi | «Section 4.1 — Ensuring the Safety and Security of AI»                                                                   |
+| Structural     | mandatory obligation language (shall)        | Section 4.1 — Ensuring the Safety and Securi | «The Secretary of Commerce shall engage with industry, civil society, and other stakeholders to develop guidelines, stan |
+| Structural     | risk stratification / proportionality        | Section 4.1 — Ensuring the Safety and Securi | «Safety standards shall be proportionate to the level of risk posed, with higher-risk applications subject to more strin |
+| Conceptual     | human rights / fundamental interests         | Section 4.1 — Ensuring the Safety and Securi | «with democratic values and human rights. Safety standards shall be proportionate to the level of risk posed,»           |
+| Conceptual     | transparency                                 | Section 4.2 — Advancing Transparency and Acc | «Section 4.2 — Advancing Transparency and Accountability»                                                                |
+| Conceptual     | accountability                               | Section 4.2 — Advancing Transparency and Acc | «Section 4.2 — Advancing Transparency and Accountability»                                                                |
+| Auditability   | multiple mandatory obligations (shall/must p | Section 4.1 — Ensuring the Safety and Securi | «The Secretary of Commerce shall engage with industry, civil society, and other stakeholders to develop guidelines, stan |
+| Auditability   | numbered traceable requirements              | Section 4.1 — Ensuring the Safety and Securi | «Section 4.1 — Ensuring the Safety and Security of AI»                                                                   |
+| Auditability   | evidence / documentation requirements        | Section 4.3 — Evidence and Reporting         | «Section 4.3 — Evidence and Reporting»                                                                                   |
+| Enforceability | mandatory language (shall/must)              | Section 4.1 — Ensuring the Safety and Securi | «The Secretary of Commerce shall engage with industry, civil society, and other stakeholders to develop guidelines, stan |
+| Enforceability | named responsible parties                    | Section 4.2 — Advancing Transparency and Acc | «Federal agencies using AI in high-stakes decisions affecting members of the public shall design systems to provide mean |
+| Enforceability | risk-proportionate thresholds                | Section 4.1 — Ensuring the Safety and Securi | «Safety standards shall be proportionate to the level of risk posed, with higher-risk applications subject to more strin |
 
 
 #### Not Found — and Where It Would Belong
@@ -2802,7 +2802,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Citation              | NHS England AI in Clinical Decision Support — Governance Framework (illustrative excerpt) |
 | Source URL            | not provided                                                                              |
 | Provenance            | REPRESENTATIVE_EXCERPT                                                                    |
-| Document type         | procurement_assessment_form                                                               |
+| Document type         | unknown_governance_document                                                               |
 | Assessed text SHA-256 | 656efe7e8ee449203a273ecbb924c73a24c2b631bd25942baf2f62c0407342df                          |
 
 **Document structure detected (5 sections):** 1. Purpose and Scope · 2. Clinical Validation Requirements · 3. Human Oversight and Clinician Responsibility · 4. Transparency and Patient Rights · 5. Safety and Containment
@@ -2825,21 +2825,21 @@ To its credit, the administrative machinery is real: evidence and documentation 
 
 
 #### Governance Repair Profile
-| Field                         | Value                                                                                                                               |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| document_type                 | procurement_assessment_form                                                                                                         |
-| recommended_use               | Procurement due diligence, supplier evidence requests, and contract-control design.                                                 |
-| not_sufficient_for            | Not sufficient without contract terms, audit rights, verification evidence, and remedies.                                           |
-| governance_force_profile      | Procurement assessment form; force arises through procurement conditions, contract clauses, supplier obligations, and audit rights. |
-| systemic_repair_value         | Limited                                                                                                                             |
-| operational_closure_rating    | Limited                                                                                                                             |
-| evidence_sufficiency_rating   | Moderate                                                                                                                            |
-| accountability_closure_rating | Moderate                                                                                                                            |
-| lifecycle_control_rating      | Limited                                                                                                                             |
-| residual_risk_control_rating  | Limited                                                                                                                             |
-| implementation_gap_rating     | Moderate                                                                                                                            |
-| failure_pathway_risk          | Medium                                                                                                                              |
-| priority_repair_actions       | add rollback/fallback control; document residual-risk acceptance and review                                                         |
+| Field                         | Value                                                                                                                                           |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| document_type                 | unknown_governance_document                                                                                                                     |
+| recommended_use               | Preliminary governance triage and document classification review.                                                                               |
+| not_sufficient_for            | Not sufficient for reliance until authority, scope, controls, and evidence are confirmed.                                                       |
+| governance_force_profile      | Governance document with unclear authority; reviewer must establish institutional force, accountable owner, and evidence basis before reliance. |
+| systemic_repair_value         | Limited                                                                                                                                         |
+| operational_closure_rating    | Limited                                                                                                                                         |
+| evidence_sufficiency_rating   | Moderate                                                                                                                                        |
+| accountability_closure_rating | Moderate                                                                                                                                        |
+| lifecycle_control_rating      | Limited                                                                                                                                         |
+| residual_risk_control_rating  | Limited                                                                                                                                         |
+| implementation_gap_rating     | Moderate                                                                                                                                        |
+| failure_pathway_risk          | Medium                                                                                                                                          |
+| priority_repair_actions       | add rollback/fallback control; document residual-risk acceptance and review                                                                     |
 This assessment measures governance repair adequacy and operational control closure. It does not require the source document to imitate LAIF-native form.
 
 
@@ -2905,20 +2905,20 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 
 #### Evidence Locator — Where the Signals Live
 Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
-| Dimension      | Signal                                       | Location in document                         | Verbatim quote                                                                                           |
-| -------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Structural     | mandatory obligation language (shall)        | 2. Clinical Validation Requirements          | «studies shall demonstrate clinical accuracy, sensitivity, and specificity»                              |
-| Structural     | full lifecycle scope declared                | 1. Purpose and Scope                         | «deployment lifecycle from procurement through post-market surveillance. 2. Clin»                        |
-| Structural     | review / monitoring mechanisms               | 3. Human Oversight and Clinician Responsibil | «including review of override rates, adverse events, and equity metrics acros»                           |
-| Conceptual     | transparency                                 | 4. Transparency and Patient Rights           | «4. Transparency and Patient Rights 4.1 Patients shall be informed when AI»                              |
-| Conceptual     | explainability / interpretability            | 4. Transparency and Patient Rights           | «be provided in plain language accessible to patients without clinical training. 4.2 Pati»               |
-| Conceptual     | human oversight                              | 3. Human Oversight and Clinician Responsibil | «3. Human Oversight and Clinician Responsibility 3.1 AI-generated clinical rec»                          |
-| Auditability   | multiple mandatory obligations (shall/must p | 2. Clinical Validation Requirements          | «studies shall demonstrate clinical accuracy, sensitivity, and specificity appropriate to the intended…» |
-| Auditability   | evidence / documentation requirements        | 2. Clinical Validation Requirements          | «maintain technical documentation of validation methodology, datasets used, and performance m»           |
-| Auditability   | review / monitoring mechanisms               | 1. Purpose and Scope                         | «through post-market surveillance. 2. Clinical Validation Requirements 2.1 All»                          |
-| Enforceability | mandatory language (shall/must)              | 2. Clinical Validation Requirements          | «CDSS must undergo prospective clinical validation in the target patie»                                  |
-| Enforceability | named responsible parties                    | 3. Human Oversight and Clinician Responsibil | «decision authority rests with the responsible clinician. No CDSS shall be conf»                         |
-| Enforceability | non-discretionary operational mandates       | 2. Clinical Validation Requirements          | «Providers shall maintain technical documentation of validation methodology, datasets»                   |
+| Dimension      | Signal                                       | Location in document                         | Verbatim quote                                                                                                           |
+| -------------- | -------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Structural     | mandatory obligation language (shall)        | 2. Clinical Validation Requirements          | «Validation studies shall demonstrate clinical accuracy, sensitivity, and specificity appropriate to the intended clinic |
+| Structural     | full lifecycle scope declared                | 1. Purpose and Scope                         | «lifecycle from procurement through post-market surveillance.»                                                           |
+| Structural     | review / monitoring mechanisms               | 3. Human Oversight and Clinician Responsibil | «of deployed AI systems, including review of override rates, adverse events, and equity metrics across patient demograph |
+| Conceptual     | transparency                                 | 4. Transparency and Patient Rights           | «Transparency and Patient Rights»                                                                                        |
+| Conceptual     | explainability / interpretability            | 4. Transparency and Patient Rights           | «in plain language accessible to patients without clinical training.»                                                    |
+| Conceptual     | human oversight                              | 3. Human Oversight and Clinician Responsibil | «Human Oversight and Clinician Responsibility»                                                                           |
+| Auditability   | multiple mandatory obligations (shall/must p | 2. Clinical Validation Requirements          | «Validation studies shall demonstrate clinical accuracy, sensitivity, and specificity appropriate to the intended clinic |
+| Auditability   | evidence / documentation requirements        | 2. Clinical Validation Requirements          | «Providers shall maintain technical documentation of validation methodology, datasets used, and performance metrics.»    |
+| Auditability   | review / monitoring mechanisms               | 1. Purpose and Scope                         | «lifecycle from procurement through post-market surveillance.»                                                           |
+| Enforceability | mandatory language (shall/must)              | 2. Clinical Validation Requirements          | «All AI-enabled CDSS must undergo prospective clinical validation in the target patient population before deployment.»   |
+| Enforceability | named responsible parties                    | 3. Human Oversight and Clinician Responsibil | «authority rests with the responsible clinician. No CDSS shall be configured to require clinicians to justify overriding |
+| Enforceability | non-discretionary operational mandates       | 2. Clinical Validation Requirements          | «Providers shall maintain technical documentation of validation methodology, datasets used, and performance metrics.»    |
 
 
 #### Not Found — and Where It Would Belong
@@ -3136,7 +3136,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
 | Citation              | Illustrative AI in Employment Governance Framework (sector assessment document) |
 | Source URL            | not provided                                                                    |
 | Provenance            | REPRESENTATIVE_EXCERPT                                                          |
-| Document type         | public_sector_policy                                                            |
+| Document type         | unknown_governance_document                                                     |
 | Assessed text SHA-256 | 966e46853cb2cd29eb19777d4a2d0d733c83e2b0b3da07f6a7e76f5f48bd760a                |
 
 **Document structure detected (4 sections):** Section 1 — Scope · Section 2 — Employer Obligations · Section 3 — Worker Rights · Section 4 — Accountability
@@ -3159,21 +3159,21 @@ To its credit, the administrative machinery is real: numbered, traceable require
 
 
 #### Governance Repair Profile
-| Field                         | Value                                                                                                                                                                                            |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| document_type                 | public_sector_policy                                                                                                                                                                             |
-| recommended_use               | Public-sector operating policy review, government AI use register design, disclosure/control mapping, and accountability-gap review.                                                             |
-| not_sufficient_for            | Not sufficient without accountable owners, human-review evidence, disclosure records, exception handling, incident tracking, and monitoring consequences.                                        |
-| governance_force_profile      | Public-sector AI policy; force depends on government authority, accountable public-sector owners, disclosure records, human review evidence, exceptions, incidents, and monitoring consequences. |
-| systemic_repair_value         | Moderate                                                                                                                                                                                         |
-| operational_closure_rating    | Weak                                                                                                                                                                                             |
-| evidence_sufficiency_rating   | Strong                                                                                                                                                                                           |
-| accountability_closure_rating | Moderate                                                                                                                                                                                         |
-| lifecycle_control_rating      | Moderate                                                                                                                                                                                         |
-| residual_risk_control_rating  | Moderate                                                                                                                                                                                         |
-| implementation_gap_rating     | Moderate                                                                                                                                                                                         |
-| failure_pathway_risk          | Medium                                                                                                                                                                                           |
-| priority_repair_actions       | document residual-risk acceptance and review                                                                                                                                                     |
+| Field                         | Value                                                                                                                                           |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| document_type                 | unknown_governance_document                                                                                                                     |
+| recommended_use               | Preliminary governance triage and document classification review.                                                                               |
+| not_sufficient_for            | Not sufficient for reliance until authority, scope, controls, and evidence are confirmed.                                                       |
+| governance_force_profile      | Governance document with unclear authority; reviewer must establish institutional force, accountable owner, and evidence basis before reliance. |
+| systemic_repair_value         | Moderate                                                                                                                                        |
+| operational_closure_rating    | Weak                                                                                                                                            |
+| evidence_sufficiency_rating   | Strong                                                                                                                                          |
+| accountability_closure_rating | Moderate                                                                                                                                        |
+| lifecycle_control_rating      | Moderate                                                                                                                                        |
+| residual_risk_control_rating  | Moderate                                                                                                                                        |
+| implementation_gap_rating     | Moderate                                                                                                                                        |
+| failure_pathway_risk          | Medium                                                                                                                                          |
+| priority_repair_actions       | document residual-risk acceptance and review                                                                                                    |
 This assessment measures governance repair adequacy and operational control closure. It does not require the source document to imitate LAIF-native form.
 
 
@@ -3239,20 +3239,20 @@ DECLARED = LAIF-native form; FUNCTIONAL = substance present in the document's ow
 
 #### Evidence Locator — Where the Signals Live
 Verbatim quotes from the assessed text with their locations in the document's own structure. Top signals per dimension.
-| Dimension      | Signal                                       | Location in document             | Verbatim quote                                                                                              |
-| -------------- | -------------------------------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Structural     | numbered sub-requirements                    | Section 1 — Scope                | «management. Section 1 — Scope This framework applies to AI systems used to infor»                          |
-| Structural     | mandatory obligation language (shall)        | Section 2 — Employer Obligations | «Employers shall notify workers when AI systems are used in employment decis»                               |
-| Structural     | operational mechanisms defined               | Section 2 — Employer Obligations | «logic, safeguards, and appeal processes. Section 3 — Worker Rights 3.1 Righ»                               |
-| Conceptual     | transparency                                 | Section 2 — Employer Obligations | «2.1 Transparency: Employers shall notify workers when AI systems are used in»                              |
-| Conceptual     | explainability / interpretability            | Section 2 — Employer Obligations | «provide a meaningful explanation of the factors and weighting used in any AI-assisted decisi»              |
-| Conceptual     | accountability                               | Section 4 — Accountability       | «Section 4 — Accountability 4.1 Designated AI Accountability Officer: Employers deploy»                     |
-| Auditability   | multiple mandatory obligations (shall/must p | Section 2 — Employer Obligations | «Employers shall notify workers when AI systems are used in employment decisions affecting them and shall…» |
-| Auditability   | numbered traceable requirements              | Section 1 — Scope                | «management. Section 1 — Scope This framework applies to AI systems used to infor»                          |
-| Auditability   | evidence / documentation requirements        | Section 4 — Accountability       | «arise. 4.2 Record-keeping: Employers shall maintain records of AI-assisted em»                             |
-| Enforceability | mandatory language (shall/must)              | Section 2 — Employer Obligations | «Employers shall notify workers when AI systems are used in employment decis»                               |
-| Enforceability | named responsible parties                    | Section 3 — Worker Rights        | «with authority to reverse the AI recommendation. The appeal process shall»                                 |
-| Enforceability | non-discretionary operational mandates       | Section 2 — Employer Obligations | «them and shall provide a meaningful explanation of the factors and weighting used»                         |
+| Dimension      | Signal                                       | Location in document             | Verbatim quote                                                                                                           |
+| -------------- | -------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Structural     | numbered sub-requirements                    | Section 1 — Scope                | «Section 1 — Scope»                                                                                                      |
+| Structural     | mandatory obligation language (shall)        | Section 2 — Employer Obligations | «Transparency: Employers shall notify workers when AI systems are used in employment decisions affecting them and shall  |
+| Structural     | operational mechanisms defined               | Section 2 — Employer Obligations | «safeguards, and appeal processes.»                                                                                      |
+| Conceptual     | transparency                                 | Section 2 — Employer Obligations | «Transparency: Employers shall notify workers when AI systems are used in employment decisions affecting them and shall  |
+| Conceptual     | explainability / interpretability            | Section 2 — Employer Obligations | «employment decisions affecting them and shall provide a meaningful explanation of the factors and weighting used in any |
+| Conceptual     | accountability                               | Section 4 — Accountability       | «Section 4 — Accountability»                                                                                             |
+| Auditability   | multiple mandatory obligations (shall/must p | Section 2 — Employer Obligations | «Transparency: Employers shall notify workers when AI systems are used in employment decisions affecting them and shall  |
+| Auditability   | numbered traceable requirements              | Section 1 — Scope                | «Section 1 — Scope»                                                                                                      |
+| Auditability   | evidence / documentation requirements        | Section 4 — Accountability       | «Record-keeping: Employers shall maintain records of AI-assisted employment decisions,»                                  |
+| Enforceability | mandatory language (shall/must)              | Section 2 — Employer Obligations | «Transparency: Employers shall notify workers when AI systems are used in employment decisions affecting them and shall  |
+| Enforceability | named responsible parties                    | Section 3 — Worker Rights        | «authority to reverse the AI recommendation. The appeal process shall be completed within 20 working days.»              |
+| Enforceability | non-discretionary operational mandates       | Section 2 — Employer Obligations | «employment decisions affecting them and shall provide a meaningful explanation of the factors and weighting used in any |
 
 
 #### Not Found — and Where It Would Belong

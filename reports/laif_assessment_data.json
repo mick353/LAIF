@@ -131,103 +131,103 @@
           {
             "label": "multiple mandatory obligations (shall/must pairs)",
             "location": "Section 6. Supporting Workers",
-            "quote": "actions shall be taken within 180 days of the date of this order: (i) The Chairman of the Council of Economic…"
+            "quote": "To advance the Government's understanding of AI's implications for workers, the following actions shall be taken within 180 days of the…"
           },
           {
             "label": "numbered traceable requirements",
             "location": "Section 2. Policy and Principles",
-            "quote": "## Section 2. Policy and Principles It is the policy of my Administrati"
+            "quote": "## Section 2. Policy and Principles"
           },
           {
             "label": "evidence / documentation requirements",
             "location": "Section 6. Supporting Workers",
-            "quote": "and submit a report to the President on the labor-market effects of AI. (ii) T"
+            "quote": "The Chairman of the Council of Economic Advisers shall prepare and submit a report to the President on the labor-market effects of AI."
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "Section 6. Supporting Workers",
-            "quote": "deploy AI to monitor or augment employees' work must continue to comply with pro"
+            "quote": "deploy AI to monitor or augment employees' work must continue to comply with protections that ensure that workers are compensated for their…"
           }
         ],
         "conceptual": [
           {
             "label": "human rights / fundamental interests",
             "location": "Section 2. Policy and Principles",
-            "quote": "threatening human rights, and causing other harms. […] ## Section 6. Supporting Wo"
+            "quote": "threatening human rights, and causing other harms."
           },
           {
             "label": "transparency",
             "location": "Section 6. Supporting Workers",
-            "quote": "including transparency, engagement, management, and activity protected under worke"
+            "quote": "implications for workers of employers' AI-related collection and use of data about them, including transparency, engagement, management,"
           },
           {
             "label": "accountability",
             "location": "Section 2. Policy and Principles",
-            "quote": "deploying AI accountable to standards that protect against unlawful discrimination a"
+            "quote": "It is necessary to hold those developing and deploying AI accountable to standards that protect against unlawful discrimination and abuse,"
           },
           {
             "label": "human oversight",
             "location": "Section 2. Policy and Principles",
-            "quote": "careful oversight, engagement with affected communities, and rigorous regulat"
+            "quote": "careful oversight, engagement with affected communities, and rigorous regulation."
           },
           {
             "label": "safety",
             "location": "Section 2. Policy and Principles",
-            "quote": "health and safety risks, or cause harmful labor-force disruptions. The critic"
+            "quote": "In the workplace itself, AI should not be deployed in ways that undermine rights, worsen job quality, encourage undue worker surveillance,"
           },
           {
             "label": "risk governance",
             "location": "Section 2. Policy and Principles",
-            "quote": "the AI Risk Management Framework, and Executive Order 14091 of February 16, 2023 ("
+            "quote": "My Administration will build on the important steps that have already been taken—such as issuing the Blueprint for an AI Bill of Rights,"
           },
           {
             "label": "fairness / labour / non-discrimination",
             "location": "Section 2. Policy and Principles",
-            "quote": "businesses, workers, and entrepreneurs. (c) The responsible development and us"
+            "quote": "businesses, workers, and entrepreneurs."
           }
         ],
         "enforceability": [
           {
             "label": "mandatory language (shall/must)",
             "location": "Section 2. Policy and Principles",
-            "quote": "(agencies) shall, as appropriate and consistent with applicable law, adhere"
+            "quote": "When undertaking the actions set forth in this order, executive departments and agencies (agencies) shall,"
           },
           {
             "label": "named responsible parties",
             "location": "Section 2. Policy and Principles",
-            "quote": "and agencies (agencies) shall, as appropriate and consistent with applic"
+            "quote": "When undertaking the actions set forth in this order, executive departments and agencies (agencies) shall,"
           },
           {
             "label": "enforcement consequences / penalties",
             "location": "Section 2. Policy and Principles",
-            "quote": "infringements on privacy, and other harms from AI. Such protections are e"
+            "quote": "The Federal Government will enforce existing consumer protection laws and principles and enact appropriate safeguards against fraud,"
           }
         ],
         "structural": [
           {
             "label": "numbered sub-requirements",
             "location": "Section 2. Policy and Principles",
-            "quote": "## Section 2. Policy and Principles It is the policy of my Administratio"
+            "quote": "## Section 2. Policy and Principles"
           },
           {
             "label": "mandatory obligation language (shall)",
             "location": "Section 2. Policy and Principles",
-            "quote": "(agencies) shall, as appropriate and consistent with applicable law, adhere"
+            "quote": "When undertaking the actions set forth in this order, executive departments and agencies (agencies) shall,"
           },
           {
             "label": "operational mechanisms defined",
             "location": "Section 2. Policy and Principles",
-            "quote": "other mechanisms to test, understand, and mitigate risks from these systems"
+            "quote": "Meeting this goal requires robust, reliable, repeatable, and standardized evaluations of AI systems, as well as policies, institutions,"
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "Section 6. Supporting Workers",
-            "quote": "deploy AI to monitor or augment employees' work must continue to comply with pro"
+            "quote": "deploy AI to monitor or augment employees' work must continue to comply with protections that ensure that workers are compensated for their…"
           },
           {
             "label": "threshold gate conditions (all must pass simultaneously)",
             "location": "Section 2. Policy and Principles",
-            "quote": "while simultaneously tackling novel intellectual property (IP) questions and oth"
+            "quote": "This effort requires investments in AI-related education, training, development, research, and capacity,"
           }
         ],
         "terminology": []
@@ -378,71 +378,71 @@
           {
             "label": "evidence / documentation requirements",
             "location": "2.5. International co-operation for trustworthy",
-            "quote": "gather the evidence base to assess progress in the implementation of these prin"
+            "quote": "gather the evidence base to assess progress in the implementation of these principles."
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "2.3. Shaping an enabling interoperable",
-            "quote": "should review and adapt, as appropriate, their policy and regulatory fram"
+            "quote": "should review and adapt, as appropriate, their policy and regulatory frameworks and assessment mechanisms as they apply to AI systems to…"
           }
         ],
         "conceptual": [
           {
             "label": "human rights / fundamental interests",
             "location": "1.2. Respect for the rule of law, human rights",
-            "quote": "rule of law, human rights and democratic values, including fairness and privacy a) A"
+            "quote": "Respect for the rule of law, human rights and democratic values, including fairness and privacy"
           },
           {
             "label": "transparency",
             "location": "1.3. Transparency and explainability",
-            "quote": "art. 1.3. Transparency and explainability AI Actors should commit to transparency"
+            "quote": "Transparency and explainability"
           },
           {
             "label": "explainability / interpretability",
             "location": "1.3. Transparency and explainability",
-            "quote": "and explainability AI Actors should commit to transparency and responsible di"
+            "quote": "Transparency and explainability"
           },
           {
             "label": "accountability",
             "location": "1.5. Accountability",
-            "quote": "1.5. Accountability a) AI actors should be accountable for the proper function"
+            "quote": "Accountability"
           },
           {
             "label": "human oversight",
             "location": "1.2. Respect for the rule of law, human rights",
-            "quote": "agency and oversight, including to address risks arising from uses outside of in"
+            "quote": "capacity for human agency and oversight, including to address risks arising from uses outside of intended purpose, intentional misuse,"
           },
           {
             "label": "safety",
             "location": "1.4. Robustness, security and safety",
-            "quote": "security and safety a) AI systems should be robust, secure and safe throughout"
+            "quote": "Robustness, security and safety"
           },
           {
             "label": "contestability / redress",
             "location": "1.3. Transparency and explainability",
-            "quote": "AI system to challenge its output. 1.4. Robustness, security and safety a) AI sy"
+            "quote": "challenge its output."
           },
           {
             "label": "risk governance",
             "location": "1.5. Accountability",
-            "quote": "a systematic risk management approach to each phase of the AI system lifecycle on an ong"
+            "quote": "apply a systematic risk management approach to each phase of the AI system lifecycle on an ongoing basis and adopt responsible business…"
           },
           {
             "label": "traceability / responsibility",
             "location": "1.5. Accountability",
-            "quote": "ensure traceability, including in relation to datasets, processes and decisions"
+            "quote": "this end, AI actors should ensure traceability, including in relation to datasets,"
           },
           {
             "label": "fairness / labour / non-discrimination",
             "location": "1.2. Respect for the rule of law, human rights",
-            "quote": "including fairness and privacy a) AI actors should respect the rule of law, h"
+            "quote": "and democratic values, including fairness and privacy"
           }
         ],
         "enforceability": [
           {
             "label": "named responsible parties",
             "location": "Section 1: Principles",
-            "quote": "ON all AI actors to promote and implement, according to their respective rol"
+            "quote": "all AI actors to promote and implement, according to their respective roles, the following principles for responsible stewardship of…"
           }
         ],
         "structural": [
@@ -454,17 +454,17 @@
           {
             "label": "full lifecycle scope declared",
             "location": "1.2. Respect for the rule of law, human rights",
-            "quote": "AI system lifecycle. These include non-discrimination and equality, freedom, di"
+            "quote": "human-centred values throughout the AI system lifecycle. These include non-discrimination and equality, freedom, dignity,"
           },
           {
             "label": "operational mechanisms defined",
             "location": "1.2. Respect for the rule of law, human rights",
-            "quote": "implement mechanisms and safeguards, such as capacity for human agency and overs"
+            "quote": "this end, AI actors should implement mechanisms and safeguards, such as capacity for human agency and oversight,"
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "2.3. Shaping an enabling interoperable",
-            "quote": "should review and adapt, as appropriate, their policy and regulatory fram"
+            "quote": "should review and adapt, as appropriate, their policy and regulatory frameworks and assessment mechanisms as they apply to AI systems to…"
           }
         ],
         "terminology": []
@@ -589,103 +589,103 @@
           {
             "label": "numbered traceable requirements",
             "location": "Govern",
-            "quote": "| GOVERN 1.1: Legal and regulatory requirements involving AI are underst"
+            "quote": "GOVERN 1.1: Legal and regulatory requirements involving AI are understood, managed,"
           },
           {
             "label": "evidence / documentation requirements",
             "location": "Govern",
-            "quote": "teams document the risks and potential impacts of the AI technology they d"
+            "quote": "GOVERN 4.2: Organizational teams document the risks and potential impacts of the AI technology they design, develop, deploy, evaluate,"
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "Govern",
-            "quote": "human review processes, and bolster accountability in AI system teams. A"
+            "quote": "Documentation can enhance transparency, improve human review processes, and bolster accountability in AI system teams."
           }
         ],
         "conceptual": [
           {
             "label": "transparency",
             "location": "Govern",
-            "quote": "can enhance transparency, improve human review processes, and bolster accountability"
+            "quote": "Documentation can enhance transparency, improve human review processes, and bolster accountability in AI system teams."
           },
           {
             "label": "accountability",
             "location": "Govern",
-            "quote": "and bolster accountability in AI system teams. After putting in place the structures,"
+            "quote": "Documentation can enhance transparency, improve human review processes, and bolster accountability in AI system teams."
           },
           {
             "label": "human oversight",
             "location": "Govern",
-            "quote": "and oversight of AI systems. | | GOVERN 4:Organizational teams are commit"
+            "quote": "and oversight of AI systems. |"
           },
           {
             "label": "proportionality",
             "location": "Govern",
-            "quote": "based on the risk level of a particular AI system, the makeup of the internal team,"
+            "quote": "Engagement with external collaborators, end users, potentially impacted communities,"
           },
           {
             "label": "safety",
             "location": "Govern",
-            "quote": "thinking and safety-first mindset in the design, development, deployment, and u"
+            "quote": "GOVERN 4:Organizational teams are committed to a culture | GOVERN 4.1: Organizational policies and practices are in place to foster a…"
           },
           {
             "label": "risk governance",
             "location": "Govern",
-            "quote": "a culture of risk management within organizations designing, developing, deploying, eval"
+            "quote": "cultivates and implements a culture of risk management within organizations designing, developing, deploying, evaluating,"
           }
         ],
         "enforceability": [
           {
             "label": "mandatory language (shall/must)",
             "location": "Govern",
-            "quote": "“the system shall respect the privacy of its users”) are elicited from and un"
+            "quote": "“the system shall respect the privacy of its users”) are elicited from and understood by relevant AI actors."
           },
           {
             "label": "named responsible parties",
             "location": "Govern",
-            "quote": "Governing authorities can determine the overarching policies that direct an organ"
+            "quote": "Governing authorities can determine the overarching policies that direct an organization’s mission, goals, values, culture,"
           },
           {
             "label": "risk-proportionate thresholds",
             "location": "Govern",
-            "quote": "the needed level of risk management activities based on the organization’s risk tole"
+            "quote": "the needed level of risk management activities based on the organization’s risk tolerance.GOVERN 1.4: The risk management process and its…"
           },
           {
             "label": "enforcement consequences / penalties",
             "location": "Govern",
-            "quote": "risks of infringement of a third-party’s intellectual property or other rights.GO"
+            "quote": "GOVERN 6.1: Policies and procedures are in place that address AI risks associated with third-party entities,"
           }
         ],
         "structural": [
           {
             "label": "numbered sub-requirements",
             "location": "Govern",
-            "quote": "| GOVERN 1.1: Legal and regulatory requirements involving AI are underst"
+            "quote": "GOVERN 1.1: Legal and regulatory requirements involving AI are understood, managed,"
           },
           {
             "label": "mandatory obligation language (shall)",
             "location": "Govern",
-            "quote": "“the system shall respect the privacy of its users”) are elicited from and un"
+            "quote": "“the system shall respect the privacy of its users”) are elicited from and understood by relevant AI actors."
           },
           {
             "label": "full lifecycle scope declared",
             "location": "Govern",
-            "quote": "full product lifecycle and associated processes, including legal and other issues"
+            "quote": "addresses full product lifecycle and associated processes, including legal and other issues concerning use of third-party software or…"
           },
           {
             "label": "risk stratification / proportionality",
             "location": "Govern",
-            "quote": "deemed to be high-risk. | ## Map The MAP function establishes the context to fram"
+            "quote": "deemed to be high-risk. |"
           },
           {
             "label": "operational mechanisms defined",
             "location": "Govern",
-            "quote": "1.6: Mechanisms are in place to inventory AI systems and are resourced acco"
+            "quote": "Mechanisms are in place to inventory AI systems and are resourced according to organizational risk priorities.GOVERN 1.7: Processes and…"
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "Govern",
-            "quote": "human review processes, and bolster accountability in AI system teams. A"
+            "quote": "Documentation can enhance transparency, improve human review processes, and bolster accountability in AI system teams."
           }
         ],
         "terminology": []
@@ -827,68 +827,68 @@
           {
             "label": "multiple mandatory obligations (shall/must pairs)",
             "location": "Introduction",
-            "quote": "DTAC forms must be completed by the manufacturer of a DHT in the first instance. If the manufacturer is not…"
+            "quote": "DTAC forms must be completed by the manufacturer of a DHT in the first instance. If the manufacturer is not the seller of the product,"
           },
           {
             "label": "evidence / documentation requirements",
             "location": "Introduction",
-            "quote": "support your evidence. The core assessment criteria are defined in section C1-C4,"
+            "quote": "Sections A and B will provide the assessors the context required to understand your product and support your evidence."
           },
           {
             "label": "specific, measurable obligations",
             "location": "C1 - Clinical safety",
-            "quote": "the terms as defined in the DCB0129 standard and applicability guidance linked previously.Please note co"
+            "quote": "the terms as defined in the DCB0129 standard and applicability guidance linked previously.Please note commissioning organisations can…"
           }
         ],
         "conceptual": [
           {
             "label": "safety",
             "location": "C1 - Clinical safety",
-            "quote": "- Clinical safety Establishing that your product is clinically safe to use."
+            "quote": "### C1 - Clinical safety"
           },
           {
             "label": "contestability / redress",
             "location": "C1 - Clinical safety",
-            "quote": "can challenge the determination if not in agreement. | | | C1.2.2 | Have"
+            "quote": "can challenge the determination if not in agreement. | |"
           },
           {
             "label": "risk governance",
             "location": "C1 - Clinical safety",
-            "quote": "the clinical risk management, such as a qualified Clinical Safety Officer. Health and ca"
+            "quote": "the clinical risk management, such as a qualified Clinical Safety Officer. Health and care organisations should ensure that all questions…"
           }
         ],
         "enforceability": [
           {
             "label": "mandatory language (shall/must)",
             "location": "Introduction",
-            "quote": "must provide this form in lieu of the older v1.0 form from 6 Apr"
+            "quote": "Manufacturers must provide this form in lieu of the older v1.0 form from 6 April 2026 when requested by health and care organisations to…"
           },
           {
             "label": "named responsible parties",
             "location": "Introduction",
-            "quote": "and care organisations to facilitate assurance of Digital Health Technology produc"
+            "quote": "Manufacturers must provide this form in lieu of the older v1.0 form from 6 April 2026 when requested by health and care organisations to…"
           },
           {
             "label": "risk-proportionate thresholds",
             "location": "C1 - Clinical safety",
-            "quote": "should be commensurate with the scale and clinical functionality of the product and add"
+            "quote": "This should be commensurate with the scale and clinical functionality of the product and address the clinical risk management activities…"
           },
           {
             "label": "non-discretionary operational mandates",
             "location": "Introduction",
-            "quote": "must provide this form in lieu of the older v1.0 form from 6 April 2026"
+            "quote": "Manufacturers must provide this form in lieu of the older v1.0 form from 6 April 2026 when requested by health and care organisations to…"
           }
         ],
         "structural": [
           {
             "label": "full lifecycle scope declared",
             "location": "C1 - Clinical safety",
-            "quote": "the lifecycle of the product. | | C1.2.4 | Please supply your Clinical Sa"
+            "quote": "This must include evidence that clinical safety risks have been identified, evaluated and mitigated throughout the lifecycle of the…"
           },
           {
             "label": "operational mechanisms defined",
             "location": "C1 - Clinical safety",
-            "quote": "risk control measures, that are to be addressed as part of the clinical risk mana"
+            "quote": "risk control measures, that are to be addressed as part of the clinical risk management process in the organisation where the product is…"
           }
         ],
         "terminology": []
@@ -1030,108 +1030,108 @@
           {
             "label": "multiple mandatory obligations (shall/must pairs)",
             "location": "Article 9 — Risk Management System",
-            "quote": "system shall be established, implemented, documented and maintained in relation to high-risk AI systems…"
+            "quote": "A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI systems throughout the…"
           },
           {
             "label": "numbered traceable requirements",
             "location": "Article 9 — Risk Management System",
-            "quote": "Oversight Article 9 — Risk Management System 1. A risk management system shall"
+            "quote": "Article 9 — Risk Management System"
           },
           {
             "label": "evidence / documentation requirements",
             "location": "Article 9 — Risk Management System",
-            "quote": "establish technical documentation demonstrating that the high-risk AI system conforms to the"
+            "quote": "Providers shall establish technical documentation demonstrating that the high-risk AI system conforms to the requirements of this Chapter…"
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "Article 14 — Human Oversight",
-            "quote": "able to duly monitor its operation. Post-market monitoring shall be carried out"
+            "quote": "monitor its operation. Post-market monitoring shall be carried out by providers to collect and review relevant data on the performance of…"
           }
         ],
         "conceptual": [
           {
             "label": "human rights / fundamental interests",
             "location": "Article 9 — Risk Management System",
-            "quote": "safety or fundamental rights when the system is used in accordance with its intended pur"
+            "quote": "foreseeable risks to health, safety or fundamental rights when the system is used in accordance with its intended purpose;"
           },
           {
             "label": "transparency",
             "location": "start of document",
-            "quote": "Management, Transparency, and Human Oversight Article 9 — Risk Management System 1"
+            "quote": "EU AI Act (Regulation 2024/1689) — Risk Management, Transparency, and Human Oversight"
           },
           {
             "label": "explainability / interpretability",
             "location": "Article 13 — Transparency and Provision of Information to Deployers",
-            "quote": "deployers to interpret the system's output and use it appropriately. An appropriat"
+            "quote": "their operation is sufficiently transparent to enable deployers to interpret the system's output and use it appropriately."
           },
           {
             "label": "human oversight",
             "location": "start of document",
-            "quote": "and Human Oversight Article 9 — Risk Management System 1. A risk management s"
+            "quote": "EU AI Act (Regulation 2024/1689) — Risk Management, Transparency, and Human Oversight"
           },
           {
             "label": "proportionality",
             "location": "Article 9 — Risk Management System",
-            "quote": "identified risks in proportion to the degree of risk posed to health, safety or fundamenta"
+            "quote": "targeted risk management measures designed to address identified risks in proportion to the degree of risk posed to health,"
           },
           {
             "label": "safety",
             "location": "Article 9 — Risk Management System",
-            "quote": "to health, safety or fundamental rights when the system is used in accordance"
+            "quote": "foreseeable risks to health, safety or fundamental rights when the system is used in accordance with its intended purpose;"
           },
           {
             "label": "risk governance",
             "location": "start of document",
-            "quote": "2024/1689) — Risk Management, Transparency, and Human Oversight Article 9 — Risk Manage"
+            "quote": "EU AI Act (Regulation 2024/1689) — Risk Management, Transparency, and Human Oversight"
           }
         ],
         "enforceability": [
           {
             "label": "mandatory language (shall/must)",
             "location": "Article 9 — Risk Management System",
-            "quote": "system shall be established, implemented, documented and maintained in r"
+            "quote": "A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI systems throughout the…"
           },
           {
             "label": "risk-proportionate thresholds",
             "location": "Article 9 — Risk Management System",
-            "quote": "to the degree of risk posed to health, safety or fundamental rights. 2. Risk man"
+            "quote": "proportion to the degree of risk posed to health, safety or fundamental rights."
           },
           {
             "label": "non-discretionary operational mandates",
             "location": "Article 9 — Risk Management System",
-            "quote": "Providers shall establish technical documentation demonstrating that the high-risk AI"
+            "quote": "Providers shall establish technical documentation demonstrating that the high-risk AI system conforms to the requirements of this Chapter…"
           }
         ],
         "structural": [
           {
             "label": "numbered sub-requirements",
             "location": "Article 9 — Risk Management System",
-            "quote": "Oversight Article 9 — Risk Management System 1. A risk management system shall"
+            "quote": "Article 9 — Risk Management System"
           },
           {
             "label": "mandatory obligation language (shall)",
             "location": "Article 9 — Risk Management System",
-            "quote": "system shall be established, implemented, documented and maintained in r"
+            "quote": "A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI systems throughout the…"
           },
           {
             "label": "full lifecycle scope declared",
             "location": "Article 9 — Risk Management System",
-            "quote": "the entire lifecycle of the system. The risk management system shall consist of"
+            "quote": "maintained in relation to high-risk AI systems throughout the entire lifecycle of the system."
           },
           {
             "label": "risk stratification / proportionality",
             "location": "Article 9 — Risk Management System",
-            "quote": "relation to high-risk AI systems throughout the entire lifecycle of the system. T"
+            "quote": "maintained in relation to high-risk AI systems throughout the entire lifecycle of the system."
           },
           {
             "label": "operational mechanisms defined",
             "location": "Article 9 — Risk Management System",
-            "quote": "management measures designed to address identified risks in proportion to the d"
+            "quote": "targeted risk management measures designed to address identified risks in proportion to the degree of risk posed to health,"
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "Article 14 — Human Oversight",
-            "quote": "able to duly monitor its operation. Post-market monitoring shall be carried out"
+            "quote": "monitor its operation. Post-market monitoring shall be carried out by providers to collect and review relevant data on the performance of…"
           }
         ],
         "terminology": []
@@ -1267,78 +1267,78 @@
           {
             "label": "numbered traceable requirements",
             "location": "GOVERN 1.1: Policies, processes, procedures, and practices across the",
-            "quote": "lifecycle. GOVERN 1.1: Policies, processes, procedures, and practices across the"
+            "quote": "GOVERN 1.1: Policies, processes, procedures, and practices across the organisation related to the mapping, measuring,"
           },
           {
             "label": "evidence / documentation requirements",
             "location": "GOVERN 2.1: Organisational teams that develop, deploy, evaluate, and a",
-            "quote": "AI systems document the context in which the AI system will be used as a basis"
+            "quote": "systems document the context in which the AI system will be used as a basis for identifying risks. This includes intended uses,"
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "MAP 2.2: Scientific findings, expert opinions, public concerns, and",
-            "quote": "in place to review performance and ensure accountability. MAP 5.1: Likelihood"
+            "quote": "Mechanisms for independent oversight of AI systems are in place to review performance and ensure accountability."
           }
         ],
         "conceptual": [
           {
             "label": "transparency",
             "location": "GOVERN 1.1: Policies, processes, procedures, and practices across the",
-            "quote": "in place, transparent, and implemented effectively. GOVERN 1.2: Accountability,"
+            "quote": "transparent, and implemented effectively."
           },
           {
             "label": "accountability",
             "location": "GOVERN Function",
-            "quote": "where accountability for AI risk outcomes is distributed across appropriate role"
+            "quote": "accountability for AI risk outcomes is distributed across appropriate roles. Policies, processes,"
           },
           {
             "label": "human oversight",
             "location": "MAP 2.2: Scientific findings, expert opinions, public concerns, and",
-            "quote": "independent oversight of AI systems are in place to review performance and ensure"
+            "quote": "Mechanisms for independent oversight of AI systems are in place to review performance and ensure accountability."
           },
           {
             "label": "safety",
             "location": "GOVERN 4.1: Policies and practices are in place to foster a critical t",
-            "quote": "thinking and safety-first mindset in the design, development, deployment, and u"
+            "quote": "safety-first mindset in the design, development, deployment, and uses of AI systems to minimise potential negative impacts."
           },
           {
             "label": "risk governance",
             "location": "start of document",
-            "quote": "NIST AI Risk Management Framework 1.0 — Govern and Map Functions GOVERN Function"
+            "quote": "NIST AI Risk Management Framework 1.0 — Govern and Map Functions"
           }
         ],
         "enforceability": [
           {
             "label": "named responsible parties",
             "location": "GOVERN 1.1: Policies, processes, procedures, and practices across the",
-            "quote": "across the organisation related to the mapping, measuring, and managing of AI risks"
+            "quote": "GOVERN 1.1: Policies, processes, procedures, and practices across the organisation related to the mapping, measuring,"
           },
           {
             "label": "enforcement consequences / penalties",
             "location": "GOVERN 6.1: Policies and procedures are in place to address AI risks a",
-            "quote": "training or fine-tuning, and data and models from third parties. MAP Functi"
+            "quote": "or fine-tuning, and data and models from third parties."
           }
         ],
         "structural": [
           {
             "label": "numbered sub-requirements",
             "location": "GOVERN 1.1: Policies, processes, procedures, and practices across the",
-            "quote": "lifecycle. GOVERN 1.1: Policies, processes, procedures, and practices across the"
+            "quote": "GOVERN 1.1: Policies, processes, procedures, and practices across the organisation related to the mapping, measuring,"
           },
           {
             "label": "full lifecycle scope declared",
             "location": "GOVERN Function",
-            "quote": "the AI lifecycle. GOVERN 1.1: Policies, processes, procedures, and practice"
+            "quote": "AI risk management throughout the AI lifecycle."
           },
           {
             "label": "operational mechanisms defined",
             "location": "MAP 2.2: Scientific findings, expert opinions, public concerns, and",
-            "quote": "considered. Mechanisms for independent oversight of AI systems are in place to rev"
+            "quote": "Mechanisms for independent oversight of AI systems are in place to review performance and ensure accountability."
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "MAP 2.2: Scientific findings, expert opinions, public concerns, and",
-            "quote": "in place to review performance and ensure accountability. MAP 5.1: Likelihood"
+            "quote": "Mechanisms for independent oversight of AI systems are in place to review performance and ensure accountability."
           }
         ],
         "terminology": []
@@ -1475,61 +1475,61 @@
           {
             "label": "human rights / fundamental interests",
             "location": "2. Human-centred values and fairness",
-            "quote": "rule of law, human rights and democratic values throughout the AI system lifecycle. T"
+            "quote": "AI actors should respect the rule of law, human rights and democratic values throughout the AI system lifecycle. These include freedom,"
           },
           {
             "label": "transparency",
             "location": "3. Transparency and explainability",
-            "quote": "the art. 3. Transparency and explainability AI actors should commit to transparency"
+            "quote": "Transparency and explainability AI actors should commit to transparency and responsible disclosure regarding AI systems."
           },
           {
             "label": "explainability / interpretability",
             "location": "3. Transparency and explainability",
-            "quote": "and explainability AI actors should commit to transparency and responsible dis"
+            "quote": "Transparency and explainability AI actors should commit to transparency and responsible disclosure regarding AI systems."
           },
           {
             "label": "accountability",
             "location": "4. Robustness, security and safety",
-            "quote": "outputs and accountability for decisions. 5. Accountability AI actors should be accou"
+            "quote": "analysis of outputs and accountability for decisions."
           },
           {
             "label": "human oversight",
             "location": "2. Human-centred values and fairness",
-            "quote": "capacity for human determination, appropriate to the context and consistent with the state o"
+            "quote": "implement mechanisms and safeguards, including capacity for human determination,"
           },
           {
             "label": "safety",
             "location": "4. Robustness, security and safety",
-            "quote": "security and safety AI systems should be technically robust and developed and r"
+            "quote": "Robustness, security and safety AI systems should be technically robust and developed and run in ways that minimise and where possible…"
           },
           {
             "label": "contestability / redress",
             "location": "3. Transparency and explainability",
-            "quote": "and challenge its outcome based on plain and intelligible information abo"
+            "quote": "affected by an AI system to understand and challenge its outcome based on plain and intelligible information about the factors and logic…"
           },
           {
             "label": "traceability / responsibility",
             "location": "4. Robustness, security and safety",
-            "quote": "ensure traceability in relation to datasets, processes and decisions made durin"
+            "quote": "AI actors should ensure traceability in relation to datasets, processes and decisions made during the AI system lifecycle to enable…"
           },
           {
             "label": "fairness / labour / non-discrimination",
             "location": "2. Human-centred values and fairness",
-            "quote": "values and fairness AI actors should respect the rule of law, human rights and"
+            "quote": "Human-centred values and fairness AI actors should respect the rule of law, human rights and democratic values throughout the AI system…"
           }
         ],
         "enforceability": [
           {
             "label": "named responsible parties",
             "location": "2. Human-centred values and fairness",
-            "quote": "fairness AI actors should respect the rule of law, human rights and democratic"
+            "quote": "AI actors should respect the rule of law, human rights and democratic values throughout the AI system lifecycle. These include freedom,"
           }
         ],
         "structural": [
           {
             "label": "full lifecycle scope declared",
             "location": "2. Human-centred values and fairness",
-            "quote": "AI system lifecycle. These include freedom, dignity and autonomy, privacy and d"
+            "quote": "throughout the AI system lifecycle. These include freedom, dignity and autonomy, privacy and data protection,"
           },
           {
             "label": "operational mechanisms defined",
@@ -1680,113 +1680,113 @@
           {
             "label": "multiple mandatory obligations (shall/must pairs)",
             "location": "Section 4.1 — Ensuring the Safety and Security of AI",
-            "quote": "of Commerce shall engage with industry, civil society, and other stakeholders to develop guidelines,…"
+            "quote": "The Secretary of Commerce shall engage with industry, civil society, and other stakeholders to develop guidelines, standards,"
           },
           {
             "label": "numbered traceable requirements",
             "location": "Section 4.1 — Ensuring the Safety and Security of AI",
-            "quote": "30, 2023) Section 4.1 — Ensuring the Safety and Security of AI The Secretary o"
+            "quote": "Section 4.1 — Ensuring the Safety and Security of AI"
           },
           {
             "label": "evidence / documentation requirements",
             "location": "Section 4.3 — Evidence and Reporting",
-            "quote": "4.3 — Evidence and Reporting Agencies shall document AI deployment decisi"
+            "quote": "Section 4.3 — Evidence and Reporting"
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "Section 4.3 — Evidence and Reporting",
-            "quote": "for audit. Where AI systems produce consequential decisions, agencies"
+            "quote": "maintain records sufficient for audit. Where AI systems produce consequential decisions, agencies shall establish mechanisms for review,"
           }
         ],
         "conceptual": [
           {
             "label": "human rights / fundamental interests",
             "location": "Section 4.1 — Ensuring the Safety and Security of AI",
-            "quote": "values and human rights. Safety standards shall be proportionate to the level of ri"
+            "quote": "with democratic values and human rights. Safety standards shall be proportionate to the level of risk posed,"
           },
           {
             "label": "transparency",
             "location": "Section 4.2 — Advancing Transparency and Accountability",
-            "quote": "— Advancing Transparency and Accountability Federal agencies using AI in high-stake"
+            "quote": "Section 4.2 — Advancing Transparency and Accountability"
           },
           {
             "label": "accountability",
             "location": "Section 4.2 — Advancing Transparency and Accountability",
-            "quote": "and Accountability Federal agencies using AI in high-stakes decisions affecti"
+            "quote": "Section 4.2 — Advancing Transparency and Accountability"
           },
           {
             "label": "human oversight",
             "location": "Section 4.2 — Advancing Transparency and Accountability",
-            "quote": "to support oversight by affected individuals and government officials. Accountab"
+            "quote": "support oversight by affected individuals and government officials. Accountability for all Federal agencies for their AI use is paramount."
           },
           {
             "label": "proportionality",
             "location": "Section 4.1 — Ensuring the Safety and Security of AI",
-            "quote": "shall be proportionate to the level of risk posed, with higher-risk applications"
+            "quote": "Safety standards shall be proportionate to the level of risk posed, with higher-risk applications subject to more stringent requirements."
           },
           {
             "label": "safety",
             "location": "Section 4.1 — Ensuring the Safety and Security of AI",
-            "quote": "Ensuring the Safety and Security of AI The Secretary of Commerce shall engage"
+            "quote": "Section 4.1 — Ensuring the Safety and Security of AI"
           },
           {
             "label": "contestability / redress",
             "location": "Section 4.3 — Evidence and Reporting",
-            "quote": "and redress for affected individuals. Section 7 — Supporting Workers"
+            "quote": "decisions, agencies shall establish mechanisms for review, correction, and redress for affected individuals."
           },
           {
             "label": "fairness / labour / non-discrimination",
             "location": "Section 7 — Supporting Workers",
-            "quote": "— Supporting Workers Agencies shall ensure that AI deployment in workplaces pre"
+            "quote": "Section 7 — Supporting Workers"
           }
         ],
         "enforceability": [
           {
             "label": "mandatory language (shall/must)",
             "location": "Section 4.1 — Ensuring the Safety and Security of AI",
-            "quote": "of Commerce shall engage with industry, civil society, and other stakeholders"
+            "quote": "The Secretary of Commerce shall engage with industry, civil society, and other stakeholders to develop guidelines, standards,"
           },
           {
             "label": "named responsible parties",
             "location": "Section 4.2 — Advancing Transparency and Accountability",
-            "quote": "Federal agencies using AI in high-stakes decisions affecting members of the"
+            "quote": "Federal agencies using AI in high-stakes decisions affecting members of the public shall design systems to provide meaningful explanations…"
           },
           {
             "label": "risk-proportionate thresholds",
             "location": "Section 4.1 — Ensuring the Safety and Security of AI",
-            "quote": "shall be proportionate to the level of risk posed, with higher-risk applications s"
+            "quote": "Safety standards shall be proportionate to the level of risk posed, with higher-risk applications subject to more stringent requirements."
           },
           {
             "label": "non-discretionary operational mandates",
             "location": "Section 4.2 — Advancing Transparency and Accountability",
-            "quote": "the public shall design systems to provide meaningful explanations of their outputs"
+            "quote": "shall design systems to provide meaningful explanations of their outputs and to support oversight by affected individuals and government…"
           }
         ],
         "structural": [
           {
             "label": "numbered sub-requirements",
             "location": "Section 4.1 — Ensuring the Safety and Security of AI",
-            "quote": "30, 2023) Section 4.1 — Ensuring the Safety and Security of AI The Secretary of"
+            "quote": "Section 4.1 — Ensuring the Safety and Security of AI"
           },
           {
             "label": "mandatory obligation language (shall)",
             "location": "Section 4.1 — Ensuring the Safety and Security of AI",
-            "quote": "of Commerce shall engage with industry, civil society, and other stakeholders"
+            "quote": "The Secretary of Commerce shall engage with industry, civil society, and other stakeholders to develop guidelines, standards,"
           },
           {
             "label": "risk stratification / proportionality",
             "location": "Section 4.1 — Ensuring the Safety and Security of AI",
-            "quote": "shall be proportionate to the level of risk posed, with higher-risk applications"
+            "quote": "Safety standards shall be proportionate to the level of risk posed, with higher-risk applications subject to more stringent requirements."
           },
           {
             "label": "operational mechanisms defined",
             "location": "Section 4.3 — Evidence and Reporting",
-            "quote": "establish mechanisms for review, correction, and redress for affected individual"
+            "quote": "decisions, agencies shall establish mechanisms for review, correction, and redress for affected individuals."
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "Section 4.3 — Evidence and Reporting",
-            "quote": "for audit. Where AI systems produce consequential decisions, agencies"
+            "quote": "maintain records sufficient for audit. Where AI systems produce consequential decisions, agencies shall establish mechanisms for review,"
           }
         ],
         "terminology": []
@@ -1939,78 +1939,78 @@
           {
             "label": "multiple mandatory obligations (shall/must pairs)",
             "location": "2. Clinical Validation Requirements",
-            "quote": "studies shall demonstrate clinical accuracy, sensitivity, and specificity appropriate to the intended…"
+            "quote": "Validation studies shall demonstrate clinical accuracy, sensitivity, and specificity appropriate to the intended clinical use case."
           },
           {
             "label": "evidence / documentation requirements",
             "location": "2. Clinical Validation Requirements",
-            "quote": "maintain technical documentation of validation methodology, datasets used, and performance m"
+            "quote": "Providers shall maintain technical documentation of validation methodology, datasets used, and performance metrics."
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "1. Purpose and Scope",
-            "quote": "through post-market surveillance. 2. Clinical Validation Requirements 2.1 All"
+            "quote": "lifecycle from procurement through post-market surveillance."
           }
         ],
         "conceptual": [
           {
             "label": "transparency",
             "location": "4. Transparency and Patient Rights",
-            "quote": "4. Transparency and Patient Rights 4.1 Patients shall be informed when AI"
+            "quote": "Transparency and Patient Rights"
           },
           {
             "label": "explainability / interpretability",
             "location": "4. Transparency and Patient Rights",
-            "quote": "be provided in plain language accessible to patients without clinical training. 4.2 Pati"
+            "quote": "in plain language accessible to patients without clinical training."
           },
           {
             "label": "human oversight",
             "location": "3. Human Oversight and Clinician Responsibility",
-            "quote": "3. Human Oversight and Clinician Responsibility 3.1 AI-generated clinical rec"
+            "quote": "Human Oversight and Clinician Responsibility"
           },
           {
             "label": "safety",
             "location": "2. Clinical Validation Requirements",
-            "quote": "to a patient safety incident must be reported through the National Reporting an"
+            "quote": "a patient safety incident must be reported through the National Reporting and Learning System (NRLS) and reviewed by the Clinical AI Safety…"
           }
         ],
         "enforceability": [
           {
             "label": "mandatory language (shall/must)",
             "location": "2. Clinical Validation Requirements",
-            "quote": "CDSS must undergo prospective clinical validation in the target patie"
+            "quote": "All AI-enabled CDSS must undergo prospective clinical validation in the target patient population before deployment."
           },
           {
             "label": "named responsible parties",
             "location": "3. Human Oversight and Clinician Responsibility",
-            "quote": "decision authority rests with the responsible clinician. No CDSS shall be conf"
+            "quote": "authority rests with the responsible clinician. No CDSS shall be configured to require clinicians to justify overriding an AI…"
           },
           {
             "label": "non-discretionary operational mandates",
             "location": "2. Clinical Validation Requirements",
-            "quote": "Providers shall maintain technical documentation of validation methodology, datasets"
+            "quote": "Providers shall maintain technical documentation of validation methodology, datasets used, and performance metrics."
           }
         ],
         "structural": [
           {
             "label": "mandatory obligation language (shall)",
             "location": "2. Clinical Validation Requirements",
-            "quote": "studies shall demonstrate clinical accuracy, sensitivity, and specificity"
+            "quote": "Validation studies shall demonstrate clinical accuracy, sensitivity, and specificity appropriate to the intended clinical use case."
           },
           {
             "label": "full lifecycle scope declared",
             "location": "1. Purpose and Scope",
-            "quote": "deployment lifecycle from procurement through post-market surveillance. 2. Clin"
+            "quote": "lifecycle from procurement through post-market surveillance."
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "3. Human Oversight and Clinician Responsibility",
-            "quote": "including review of override rates, adverse events, and equity metrics acros"
+            "quote": "of deployed AI systems, including review of override rates, adverse events, and equity metrics across patient demographics."
           },
           {
             "label": "threshold gate conditions (all must pass simultaneously)",
             "location": "3. Human Oversight and Clinician Responsibility",
-            "quote": "as a precondition of recording their clinical decision. 3.2 Trusts shall ens"
+            "quote": "require clinicians to justify overriding an AI recommendation as a precondition of recording their clinical decision."
           }
         ],
         "terminology": []
@@ -2155,88 +2155,88 @@
           {
             "label": "multiple mandatory obligations (shall/must pairs)",
             "location": "Section 2 — Employer Obligations",
-            "quote": "Employers shall notify workers when AI systems are used in employment decisions affecting them and shall…"
+            "quote": "Transparency: Employers shall notify workers when AI systems are used in employment decisions affecting them and shall provide a meaningful…"
           },
           {
             "label": "numbered traceable requirements",
             "location": "Section 1 — Scope",
-            "quote": "management. Section 1 — Scope This framework applies to AI systems used to infor"
+            "quote": "Section 1 — Scope"
           },
           {
             "label": "evidence / documentation requirements",
             "location": "Section 4 — Accountability",
-            "quote": "arise. 4.2 Record-keeping: Employers shall maintain records of AI-assisted em"
+            "quote": "Record-keeping: Employers shall maintain records of AI-assisted employment decisions,"
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "Section 2 — Employer Obligations",
-            "quote": "2.2 Human review: Every AI-assisted employment decision that adversely affec"
+            "quote": "Human review: Every AI-assisted employment decision that adversely affects a worker's employment status — including decisions on hiring,"
           }
         ],
         "conceptual": [
           {
             "label": "transparency",
             "location": "Section 2 — Employer Obligations",
-            "quote": "2.1 Transparency: Employers shall notify workers when AI systems are used in"
+            "quote": "Transparency: Employers shall notify workers when AI systems are used in employment decisions affecting them and shall provide a meaningful…"
           },
           {
             "label": "explainability / interpretability",
             "location": "Section 2 — Employer Obligations",
-            "quote": "provide a meaningful explanation of the factors and weighting used in any AI-assisted decisi"
+            "quote": "employment decisions affecting them and shall provide a meaningful explanation of the factors and weighting used in any AI-assisted…"
           },
           {
             "label": "accountability",
             "location": "Section 4 — Accountability",
-            "quote": "Section 4 — Accountability 4.1 Designated AI Accountability Officer: Employers deploy"
+            "quote": "Section 4 — Accountability"
           },
           {
             "label": "contestability / redress",
             "location": "Section 2 — Employer Obligations",
-            "quote": "and appeal processes. Section 3 — Worker Rights 3.1 Right to explana"
+            "quote": "safeguards, and appeal processes."
           },
           {
             "label": "fairness / labour / non-discrimination",
             "location": "Section 1 — Scope",
-            "quote": "affecting workers' employment status, including: applicant screening and recr"
+            "quote": "workers' employment status, including: applicant screening and recruitment scoring; performance assessment and management;"
           }
         ],
         "enforceability": [
           {
             "label": "mandatory language (shall/must)",
             "location": "Section 2 — Employer Obligations",
-            "quote": "Employers shall notify workers when AI systems are used in employment decis"
+            "quote": "Transparency: Employers shall notify workers when AI systems are used in employment decisions affecting them and shall provide a meaningful…"
           },
           {
             "label": "named responsible parties",
             "location": "Section 3 — Worker Rights",
-            "quote": "with authority to reverse the AI recommendation. The appeal process shall"
+            "quote": "authority to reverse the AI recommendation. The appeal process shall be completed within 20 working days."
           },
           {
             "label": "non-discretionary operational mandates",
             "location": "Section 2 — Employer Obligations",
-            "quote": "them and shall provide a meaningful explanation of the factors and weighting used"
+            "quote": "employment decisions affecting them and shall provide a meaningful explanation of the factors and weighting used in any AI-assisted…"
           }
         ],
         "structural": [
           {
             "label": "numbered sub-requirements",
             "location": "Section 1 — Scope",
-            "quote": "management. Section 1 — Scope This framework applies to AI systems used to infor"
+            "quote": "Section 1 — Scope"
           },
           {
             "label": "mandatory obligation language (shall)",
             "location": "Section 2 — Employer Obligations",
-            "quote": "Employers shall notify workers when AI systems are used in employment decis"
+            "quote": "Transparency: Employers shall notify workers when AI systems are used in employment decisions affecting them and shall provide a meaningful…"
           },
           {
             "label": "operational mechanisms defined",
             "location": "Section 2 — Employer Obligations",
-            "quote": "logic, safeguards, and appeal processes. Section 3 — Worker Rights 3.1 Righ"
+            "quote": "safeguards, and appeal processes."
           },
           {
             "label": "review / monitoring mechanisms",
             "location": "Section 2 — Employer Obligations",
-            "quote": "2.2 Human review: Every AI-assisted employment decision that adversely affec"
+            "quote": "Human review: Every AI-assisted employment decision that adversely affects a worker's employment status — including decisions on hiring,"
           }
         ],
         "terminology": []
