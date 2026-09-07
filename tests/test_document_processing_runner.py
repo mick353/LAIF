@@ -186,7 +186,13 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
             for heading in ("Executive finding", "Key quoted evidence", "Operational gap", "Failure pathway", "Control implementation", "Residual risk"):
                 self.assertIn(heading, md)
             self.assertNotIn("Formal LAIF-native compliance: FAIL", md[:1200])
-            self.assertIn("LAIF-native construct coverage", appendix.read_text(encoding="utf-8"))
+            appendix_text = appendix.read_text(encoding="utf-8")
+            # Construct coverage must be shown on both axes. Presenting the
+            # LAIF-vocabulary reading alone contradicts the same run's
+            # functional-alignment verdicts.
+            self.assertIn("Construct coverage — form and substance", appendix_text)
+            self.assertIn("| Construct | LAIF-native form | Functional alignment |", appendix_text)
+            self.assertIn("Reading the first column alone will contradict", appendix_text)
 
             bundle = json.loads((analyst / "analyst_bundle.json").read_text(encoding="utf-8"))
             self.assertTrue(bundle["quote_bank"])
@@ -2139,6 +2145,68 @@ class OutputIsolationTests(unittest.TestCase):
             self.assertFalse(strong_types & {"declaratory_without_operative_commitment",
                                              "insufficient_operative_content"},
                              f"strong document gaps: {strong_types}")
+
+
+class ArtifactCoherenceTests(unittest.TestCase):
+    """Artifacts describing one run must not contradict each other."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.result = assess("Meridian GS-114", "policy", INSTITUTIONAL_STANDARD,
+                            assessment_mode="external_framework", sector="auto")
+
+    def test_appendix_shows_both_axes_of_construct_coverage(self) -> None:
+        appendix = runner.build_technical_appendix(
+            {"safe_output_stem": "x", "original_file_name": "x.md"}, {},
+            self.result, [{"quote_id": "Q001"}], [], [], [])
+        self.assertIn("| Construct | LAIF-native form | Functional alignment |", appendix)
+        # The document is FUNCTIONAL on Coupling; the appendix must say so beside
+        # the vocabulary reading rather than showing "false" alone.
+        coupling_row = next(line for line in appendix.splitlines()
+                            if line.startswith("| Coupling |"))
+        self.assertIn("FUNCTIONAL", coupling_row)
+        self.assertIn("absent", coupling_row)
+
+    def test_certification_channel_items_never_outrank_real_gaps(self) -> None:
+        patches = self.result["remediation_patches"]
+        channel = [p for p in patches if "certification channel" in p["diagnostic_gap"].lower()]
+        self.assertTrue(channel, "expected certification-channel patches for an external document")
+        for patch in channel:
+            self.assertEqual(patch["severity"], "low", patch["diagnostic_gap"][:70])
+
+    def test_a_functionally_present_construct_is_not_called_missing(self) -> None:
+        functional = {c for c, v in self.result["functional_alignment"].items()
+                      if v["verdict"] in ("FUNCTIONAL", "DECLARED")}
+        self.assertTrue(functional)
+        for patch in self.result["remediation_patches"]:
+            gap = patch["diagnostic_gap"]
+            if gap.startswith("Missing LAIF construct: "):
+                construct = gap.split(": ", 1)[1]
+                self.assertNotIn(construct, functional,
+                                 f"{construct} is {'/'.join(sorted(functional))} yet called missing")
+
+    def test_terminology_gaps_are_not_rated_as_construct_gaps(self) -> None:
+        """A terminology gap names the LAIF terms it did not find; that must not
+        make it as severe as missing the constructs themselves."""
+        for patch in self.result["remediation_patches"]:
+            if "terminology score" in patch["diagnostic_gap"].lower():
+                self.assertEqual(patch["severity"], "low")
+
+    def test_all_artifacts_share_one_fingerprint_and_date(self) -> None:
+        from assessment_engine import (REPORT_DATE, _corpus_fingerprint,
+                                       export_assessment_data,
+                                       generate_executive_summary,
+                                       generate_markdown_report)
+        docs = [self.result]
+        fingerprint = _corpus_fingerprint(docs)
+        data = export_assessment_data(docs)
+        summary = generate_executive_summary(docs)
+        full = generate_markdown_report(docs)
+        self.assertEqual(data["corpus_fingerprint"], fingerprint)
+        self.assertEqual(data["report_date"], REPORT_DATE)
+        for artifact in (summary, full):
+            self.assertIn(fingerprint[:16], artifact)
+            self.assertIn(REPORT_DATE, artifact)
 
 
 class NonGovernanceTextTests(unittest.TestCase):

@@ -510,3 +510,52 @@ the engine's judgements were usually sound, and the failures were in what the
 system *said* about them — an invariant sentence, an asserted column, a gap that
 was declared rather than detected, a finding that outlived the document it was
 computed from.
+
+---
+
+## 14. Ninth pass — the artifacts against each other
+
+The ninth pass stopped reading artifacts individually and started reading them
+against each other, and against the technical appendix, which no earlier pass
+had opened.
+
+**The appendix contradicted the report it accompanies.** Its construct-coverage
+block showed `Coupling: false, Integrity Layer: false, Reversibility: false` for
+a document the same run reports as FUNCTIONALLY ALIGNED on all three. The block
+is a LAIF-*vocabulary* check, correctly labelled as internal diagnostic data —
+but presented alone it reproduced, inside LAIF's own appendix, exactly the
+vocabulary-for-substance confusion the two-axis model exists to prevent. Coverage
+is now a two-column table: LAIF-native form beside functional alignment, with a
+line saying that reading the first column alone will contradict the findings.
+
+**Remediation patches called present constructs missing.** The bank standard
+received `Missing LAIF construct: Coupling` at high severity and immediate
+priority, alongside a report finding that its obligations are bound to the
+interests they protect. Patches are now conditioned on the functional verdict:
+present substance yields a certification-channel note, PARTIAL substance yields
+"partially expressed", and the Coherence Test — LAIF's own named instrument — is
+adoption distance by construction for any external document.
+
+**A terminology gap was rated as severe as a construct gap,** because the
+severity rule matched on the LAIF term names the gap listed as *not found*.
+Certification-channel items are now `low` severity throughout; the bank standard
+went from four high-severity patches to zero, with its one real structural gap
+unchanged.
+
+**Two constants were defined in four places.** The markdown report recomputed
+the corpus fingerprint inline instead of calling the shared function, and
+`test_real_world.py` held its own copy of the report date that silently
+overrode the engine's — so the engine's three defaults were dead constants that
+could disagree with the artifacts without any test noticing. Both are now
+defined once. The report date, stale at July, is September.
+
+**The corpus-wide top finding was a vocabulary check in disguise.** "Structural
+— constitutional hierarchy not declared", present in 10 of 10 documents, was
+detected almost entirely through LAIF's own headings, and named in LAIF's own
+register. The underlying property is real and important — does a routine
+revision change what the document requires? — so the signal now accepts the
+forms real instruments use (conflicts clauses, "without prejudice to", waiver
+bars, a stated parent framework), and the finding reads "no precedence rule
+between the document's own provisions". No corpus score changed, because none of
+these excerpts contains such a clause; the finding is now one a reader can act
+on without adopting LAIF.

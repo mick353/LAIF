@@ -774,25 +774,31 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         )
         by_gap = {patch["diagnostic_gap"]: patch for patch in result["remediation_patches"]}
 
-        for gap in (
-            "Missing LAIF construct: Coupling",
-            "Missing LAIF construct: Coherence Test",
-        ):
-            with self.subTest(gap=gap):
-                self.assertIn(gap, by_gap)
-                self.assertNotEqual(
-                    by_gap[gap]["implementation_priority"],
-                    "optional_laif_adoption",
-                )
-                self.assertEqual(by_gap[gap]["legal_authority_boundary"], "diagnostic_only")
-
-        canonical_gap = "terminological — no canonical LAIF terms present"
-        self.assertIn(canonical_gap, by_gap)
-        self.assertEqual(
-            by_gap[canonical_gap]["implementation_priority"],
+        # A construct whose SUBSTANCE is absent is a real gap and must not be
+        # auto-downgraded to an optional adoption item.
+        substantive_gap = "Missing LAIF construct: Coupling"
+        self.assertIn(substantive_gap, by_gap)
+        self.assertNotEqual(
+            by_gap[substantive_gap]["implementation_priority"],
             "optional_laif_adoption",
         )
-        self.assertEqual(by_gap[canonical_gap]["legal_authority_boundary"], "diagnostic_only")
+        self.assertEqual(by_gap[substantive_gap]["legal_authority_boundary"], "diagnostic_only")
+
+        # Distance from LAIF's own vocabulary is an adoption item, not a
+        # deficiency: the certification-channel note for missing LAIF terms, and
+        # the Coherence Test, which is LAIF's own named decision instrument and
+        # which no external instrument has ever claimed to contain.
+        channel_gaps = [gap for gap in by_gap
+                        if "certification channel" in gap.lower()
+                        or "coherence test" in gap.lower()]
+        self.assertTrue(channel_gaps, f"no certification-channel gap in {list(by_gap)}")
+        for gap in channel_gaps:
+            with self.subTest(gap=gap):
+                self.assertIn(by_gap[gap]["implementation_priority"],
+                              {"optional_laif_adoption", "planned"})
+                self.assertEqual(by_gap[gap]["severity"], "low",
+                                 "a certification-channel item must never outrank a real gap")
+                self.assertEqual(by_gap[gap]["legal_authority_boundary"], "diagnostic_only")
 
     def test_structured_remediation_patch_generation_is_deterministic(self):
         """Repeated assessments produce identical remediation patch payloads."""

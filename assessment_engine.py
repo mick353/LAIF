@@ -86,8 +86,15 @@ STRUCTURAL_RUBRIC = [
          "threshold gate conditions (all must pass simultaneously)"),
     # Source: LAIF v1.2 Principle 3 — Framework Hierarchy; non-amendable clause
     # prevents operational revision from eroding Foundational Principles.
-    (18, r"\bPART ONE\b|FOUNDATIONAL PRINCIPLES|cannot be amended|non.amendable",
-         "non-amendable constitutional hierarchy"),
+    (18, r"\bPART ONE\b|FOUNDATIONAL PRINCIPLES|cannot be amended|non.amendable"
+         r"|\bin the event of (?:any\s+)?(?:a\s+)?conflict\b.{0,140}\b(?:prevail|take[s]?\s+precedence|govern)"
+         r"|\bnothing in this\b.{0,140}\b(?:derogat|limit|override|affect|prejudice)"
+         r"|\b(?:is|are|shall be)\s+subordinate to\b|\btakes?\s+precedence over\b|\bprevails?\s+over\b"
+         r"|\bshall not be (?:waived|derogated from|disapplied)\b|\bnot subject to waiver\b"
+         r"|\bmay only be amended by\b|\bwithout prejudice to\b"
+         r"|\bhierarchy of\b.{0,60}\b(?:documents|policies|standards|provisions|instruments)\b"
+         r"|\b(?:issued|made|established)\s+under\s+the\b.{0,60}\b(?:framework|policy|charter|constitution|act|regulation)\b",
+         "provision hierarchy / precedence rule"),
     # Source: LAIF v1.2 Part Seven — Self-Application: governance actors and
     # regulatory bodies are subject to the framework, not only AI operators.
     (12, r"self.application|applies to regulatory|applies to governance actors",
@@ -1764,8 +1771,9 @@ def _executive_summary(result):
 # _structured_remediation so dimension-gap explanations stay consistent.
 _DIM_CONSEQUENCE = {
     "structural": (
-        "Without a constitutional hierarchy, operational revisions can alter the "
-        "governance standard without triggering a constitutional amendment — "
+        "Where a document sets no precedence between its own provisions, a routine "
+        "operational revision can change what the document actually requires without "
+        "anyone treating it as a change of standard — "
         "foundational protections are not locked against erosion over time."
     ),
     "conceptual": (
@@ -2377,15 +2385,20 @@ def _remediation(result):
             "paraphrases do not (LAIF_Compliance_Toolkit.txt §1)."
         )
 
-    # 6 — Constitutional hierarchy (if structural score is low)
+    # 6 — Precedence between the document's own provisions (if structural score is low)
     if result["structural_score"] < 50:
         steps.append(
-            "Declare a non-amendable constitutional hierarchy with three tiers: (i) Foundational "
-            "Principles at the apex — non-amendable, define the governance standard; (ii) "
-            "Provisions derived from Principles — cannot contradict Principles; (iii) Operational "
-            "Standards (Toolkit-level definitions) — subordinate to Provisions, revisable without "
-            "amending Principles. This hierarchy is not optional — it prevents operational revision "
-            "from eroding constitutional guarantees (LAIF v1.2 Principle 3)."
+            "State the order of precedence among this document's own provisions, so a "
+            "routine revision cannot quietly change what it requires. Three questions "
+            "have to be answerable from the text: which provisions prevail if two "
+            "conflict; which cannot be waived, disapplied, or changed except by a named "
+            "authority; and what this document is itself subordinate to. Instruments "
+            "express this as a conflicts clause, a 'without prejudice to' clause, a "
+            "waiver bar, or a stated parent framework; LAIF expresses it as a "
+            "three-tier hierarchy — Foundational Principles (non-amendable), Provisions "
+            "derived from them, and Operational Standards subordinate to Provisions and "
+            "revisable without amending the Principles (LAIF v1.2 Principle 3). Any of "
+            "these forms satisfies the requirement."
         )
 
     # 7 — Self-application clause (always needed when missing)
@@ -3222,9 +3235,14 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     failure_modes = []
     if not any(p for lbl, p in formal_checks
                if any(x in lbl for x in ("PART ONE", "non-amendable", "self-application"))):
-        failure_modes.append("structural — constitutional hierarchy not declared")
+        failure_modes.append(
+            "structural — no precedence rule between the document's own provisions")
     if t == 0:
-        failure_modes.append("terminological — no canonical LAIF terms present")
+        failure_modes.append(
+            "certification channel — LAIF-native vocabulary not used (expected for "
+            "an external instrument; not a governance deficiency)"
+            if assessment_mode == "external_framework" and not claims_laif
+            else "terminological — no canonical LAIF terms present")
     if paraphrase and paraphrase_classification == "VIOLATION":
         failure_modes.append("terminological (paraphrase) — forbidden substitutions detected")
     if c < 40:
@@ -4348,6 +4366,17 @@ def _severity_for_gap(gap, result):
     text = _gap_text(gap).lower()
     if "contradiction" in text or "negated" in text:
         return "critical"
+    # Distance from LAIF's own vocabulary, where the substance is present or the
+    # construct is LAIF's own named instrument. Never a governance defect, so it
+    # must not be ranked above the gaps that are.
+    if "certification channel" in text:
+        return "low"
+    # A terminology gap names the LAIF terms it did not find, so it must be
+    # classified before the construct-name check — otherwise listing "Coupling,
+    # Coherence Test, Integrity Layer" as MISSED VOCABULARY was rated as high as
+    # missing the constructs themselves.
+    if "terminology score" in text or text.startswith("terminological"):
+        return "low" if result.get("assessment_mode") == "external_framework" else "medium"
     if any(term in text for term in ("coupling", "integrity layer", "coherence test", "precondition")):
         return "high"
     if any(term in text for term in ("low ", "critically low", "evidence gap", "audit", "enforceability")):
@@ -4540,7 +4569,43 @@ def _legal_authority_boundary_for_gap(gap, result):
 def _patch_candidate_gap_entries(result):
     entries = []
     entries.extend(_gap_text(gap) for gap in result.get("primary_failure_modes", []))
-    entries.extend(f"Missing LAIF construct: {construct}" for construct, present in result.get("construct_coverage", {}).items() if not present)
+    # construct_coverage is a LAIF-VOCABULARY check. Calling a construct
+    # "missing" on that basis contradicts the same run's functional-alignment
+    # verdict: a document whose obligations are demonstrably bound to the
+    # interests they protect, in its own words, is not missing Coupling. Where
+    # the substance is present, the only thing absent is LAIF's wording, and
+    # that is a certification-channel item, not a governance gap.
+    _functional = result.get("functional_alignment", {}) or {}
+    # The vocabulary-only constructs (Structural Transparency/Honesty/Containment)
+    # are components of the Integrity Layer; the Coherence Test is LAIF's named
+    # instrument. Map each coverage key to the construct whose substance covers it.
+    _covered_by = {
+        "Structural Transparency": "Integrity Layer",
+        "Structural Honesty": "Integrity Layer",
+        "Structural Containment": "Integrity Layer",
+    }
+    for construct, present in (result.get("construct_coverage", {}) or {}).items():
+        if present:
+            continue
+        substance_key = _covered_by.get(construct, construct)
+        verdict = (_functional.get(substance_key) or {}).get("verdict")
+        external = result.get("assessment_mode") == "external_framework"
+        if verdict in ("DECLARED", "FUNCTIONAL"):
+            entries.append(
+                f"Certification channel — {construct} is expressed functionally in "
+                f"the document's own vocabulary; only LAIF-native wording is absent")
+        elif construct == "Coherence Test" and external:
+            # LAIF's own named decision instrument. An external instrument has
+            # never claimed to contain it; its absence is adoption distance.
+            entries.append(
+                "Certification channel — the Coherence Test is LAIF's named decision "
+                "instrument; an external document is not expected to contain it")
+        elif verdict == "PARTIAL":
+            entries.append(
+                f"Partially expressed construct: {construct} — some of its substance is "
+                f"present in the document's own vocabulary, but not enough to carry it")
+        else:
+            entries.append(f"Missing LAIF construct: {construct}")
     for dim_key, dim in result.get("score_breakdown", {}).items():
         missed = dim.get("missed", [])
         score_key = {
@@ -5085,14 +5150,32 @@ def _markdown_table(headers, rows):
         lines.append("| " + " | ".join(row[i].ljust(widths[i]) for i in range(len(widths))) + " |")
     return lines
 
+# The date the committed artifacts carry. Deliberately a constant, not
+# datetime.now(): the reports must regenerate byte-identical, so the date is
+# part of the committed result and is updated when the corpus or the engine
+# changes materially enough to make the results new. It was previously repeated
+# as a default argument in three generators, where it could drift between them.
+REPORT_DATE = "September 2026"
+
+# Length of the fingerprint shown in human-readable artifacts. The JSON export
+# carries the full digest; the prefix is what a reader quotes.
+FINGERPRINT_DISPLAY_CHARS = 16
+
+
 def _corpus_fingerprint(assessments):
-    """Stable identity of exactly which texts produced a set of results."""
+    """Stable identity of exactly which texts produced a set of results.
+
+    Every artifact derives its fingerprint from this one function. It was
+    previously recomputed inline in the markdown generator, so a change to the
+    definition would have made two artifacts describing the same run disagree
+    about which corpus produced it.
+    """
     return hashlib.sha256("".join(
         r.get("assessed_text_sha256", "") for r in assessments
     ).encode("utf-8")).hexdigest()
 
 
-def generate_executive_summary(assessments, report_date="July 2026",
+def generate_executive_summary(assessments, report_date=REPORT_DATE,
                                full_report_path="reports/laif_real_world_assessment.md"):
     """One-page executive summary for readers who will never open the full
     report: the finding, the corpus at a glance, what is missing everywhere,
@@ -5114,9 +5197,16 @@ def generate_executive_summary(assessments, report_date="July 2026",
     # vocabulary) are never substantive actions for an external instrument —
     # excluded from the finding, the priorities, and the per-document column.
     def _is_channel_gap(g):
+        """Distance from LAIF's own vocabulary, not a deficiency in the document.
+
+        Covers both wordings: the certification-channel phrasing used for
+        external instruments, and the terminology phrasing used where a
+        document uses or claims LAIF vocabulary.
+        """
         gl = str(g).lower()
         return ("canonical laif terms" in gl or "terminological" in gl
-                or "paraphrase" in gl)
+                or "paraphrase" in gl or "certification channel" in gl
+                or "laif-native vocabulary not used" in gl)
 
     gap_counter = Counter(g for r in assessments
                           for g in r.get("primary_failure_modes", [])
@@ -5134,7 +5224,8 @@ def generate_executive_summary(assessments, report_date="July 2026",
     a("")
     a(f"**Date:** {report_date} · **Documents assessed:** {count} "
       f"({len(citable)} from verbatim official text) · "
-      f"**Corpus fingerprint:** `{_corpus_fingerprint(assessments)[:16]}`  ")
+      f"**Corpus fingerprint:** "
+      f"`{_corpus_fingerprint(assessments)[:FINGERPRINT_DISPLAY_CHARS]}`  ")
     a(f"**Full assessment:** `{full_report_path}` — this page is a summary of it, "
       f"not a separate finding.")
     a("")
@@ -5251,7 +5342,7 @@ def generate_executive_summary(assessments, report_date="July 2026",
     return "\n".join(lines)
 
 
-def export_assessment_data(assessments, report_date="July 2026"):
+def export_assessment_data(assessments, report_date=REPORT_DATE):
     """Machine-readable export for GRC tooling, dashboards, and independent
     re-analysis. Deterministic and self-describing; carries verdicts, scores,
     locations, and gaps — not full source text."""
@@ -5336,7 +5427,7 @@ def export_assessment_data(assessments, report_date="July 2026"):
     }
 
 
-def generate_markdown_report(assessments, report_date="July 2026"):
+def generate_markdown_report(assessments, report_date=REPORT_DATE):
     """Render a stable public markdown report without changing assessment data."""
     lines = []
     assessments = list(assessments or [])
@@ -5373,9 +5464,7 @@ def generate_markdown_report(assessments, report_date="July 2026"):
       "subject of the findings; see Method Summary.  ")
     p("**Report template:** Governance Repair Assessment, public template v2.0 "
       "(evidence locator, functional alignment, peer exemplars)  ")
-    _fingerprint = hashlib.sha256("".join(
-        r.get("assessed_text_sha256", "") for r in assessments
-    ).encode("utf-8")).hexdigest()[:16]
+    _fingerprint = _corpus_fingerprint(assessments)[:FINGERPRINT_DISPLAY_CHARS]
     p(f"**Reproducibility:** deterministic output of `python3 test_real_world.py`; "
       f"corpus fingerprint `{_fingerprint}` (SHA-256 over the assessed texts, in "
       f"corpus order). Each document's scope table carries the SHA-256 of exactly "

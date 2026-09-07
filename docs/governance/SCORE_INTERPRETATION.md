@@ -414,3 +414,50 @@ located signal quotes, functional-alignment evidence, and the quote bank. It
 deliberately excludes rubric labels and any other detector-authored string:
 "Auditability: review / monitoring mechanisms" is the detector's vocabulary, and
 letting it satisfy a presence test would make the condition self-confirming.
+
+## Artifact Coherence
+
+Three artifacts describe one run, and a reader who opens two of them must not
+find them contradicting each other. Four rules are enforced by tests:
+
+- **One fingerprint, one date.** `_corpus_fingerprint()` and `REPORT_DATE` are
+  each defined once. The markdown report previously recomputed the fingerprint
+  inline and `test_real_world.py` held its own copy of the date, so a change to
+  either definition would have made two artifacts describing the same run
+  disagree about which corpus and which date produced them. The report date is a
+  committed constant rather than the current date, because the artifacts must
+  regenerate byte-identical; it is updated when the corpus or the engine changes
+  materially enough to make the results new.
+- **Construct coverage is shown on both axes.** The technical appendix's
+  coverage table gives LAIF-native form *and* functional alignment side by side.
+  Showing the vocabulary reading alone — `Coupling: false` beside a report
+  finding that the document's obligations are bound to the interests they
+  protect — reproduced inside the appendix exactly the confusion the two-axis
+  model exists to prevent.
+- **A functionally present construct is never called missing.** Remediation
+  patches are conditioned on the functional verdict: where the substance is
+  present, the only thing absent is LAIF's wording, and the patch says so.
+  Where a construct is PARTIAL it is reported as partially expressed, not as
+  missing. The Coherence Test is LAIF's own named decision instrument, so its
+  absence from an external document is adoption distance by construction.
+- **Certification-channel items never outrank real gaps.** Distance from LAIF's
+  vocabulary is scored `low` severity and `optional_laif_adoption` priority. A
+  terminology gap names the LAIF terms it did not find, so it is classified
+  before the construct-name check — otherwise listing "Coupling, Coherence Test,
+  Integrity Layer" as *missed vocabulary* was rated as severe as missing the
+  constructs themselves.
+
+## Precedence Between a Document's Own Provisions
+
+The structural rubric's heaviest single signal asks whether a document orders
+its own rules. LAIF states this as a three-tier hierarchy with a non-amendable
+apex; a regulation writes "without prejudice to"; a corporate standard writes
+"issued under the Group Risk Framework"; a policy writes "in the event of
+conflict, X prevails"; any of them may bar waiver. All state which rule wins,
+and the signal accepts all of them.
+
+The finding is phrased for a reader who has never seen LAIF — "no precedence
+rule between the document's own provisions" — and its remediation names the
+three questions the text has to answer (which provision prevails on conflict,
+what cannot be waived, what this document is subordinate to) before offering
+LAIF's three-tier form as one way of answering them.

@@ -1,13 +1,13 @@
 # AI Governance Structural Integrity — Executive Summary
 
-**Date:** July 2026 · **Documents assessed:** 10 (4 from verbatim official text) · **Corpus fingerprint:** `a603d21e8b5439f9`  
+**Date:** September 2026 · **Documents assessed:** 10 (4 from verbatim official text) · **Corpus fingerprint:** `a603d21e8b5439f9`  
 **Full assessment:** `reports/laif_real_world_assessment.md` — this page is a summary of it, not a separate finding.
 
 ---
 
 ## The finding
 
-Every one of the 10 instruments assessed shares the same structural gap: **structural — constitutional hierarchy not declared**.
+Every one of the 10 instruments assessed shares the same structural gap: **structural — no precedence rule between the document's own provisions**.
 
 No document in this corpus expresses **Consistency, Self-Application** in any vocabulary — these are not terminology gaps but absent governance machinery.
 
@@ -34,7 +34,7 @@ Average conceptual proximity is 55/100 while average overall readiness is 44/100
 
 1. **Establish consistency machinery.** No assessed instrument has it in any form, so there is no peer text to adapt — an owner adding it sets the benchmark.
 2. **Establish self-application machinery.** No assessed instrument has it in any form, so there is no peer text to adapt — an owner adding it sets the benchmark.
-3. **Close: structural — constitutional hierarchy not declared** — present in 10 of 10 documents.
+3. **Close: structural — no precedence rule between the document's own provisions** — present in 10 of 10 documents.
 4. **Close: enforceability — insufficient mandatory operational requirements** — present in 2 of 10 documents.
 
 Every document's own section in the full report names the exact clause each fix attaches to, quoted from that document.

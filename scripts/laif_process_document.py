@@ -2518,7 +2518,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
                 "what this document requires and what is actually done: unevidenced "
                 "controls, lapsed reviews, and unrecorded exceptions. That gap is invisible "
                 "to a document assessment and must be tested against implementation records.")])
-    lines += ["", "## Technical appendix pointer", "", f"See `{processing.get('safe_output_stem')}.technical_appendix.md` for processing metadata, source identity, scoring table, evidence traces, remediation patches, LAIF-native construct coverage, and certification boundary.", ""]
+    lines += ["", "## Technical appendix pointer", "", f"See `{processing.get('safe_output_stem')}.technical_appendix.md` for processing metadata, source identity, scoring table, evidence traces, remediation patches, construct coverage on both the LAIF-native-form and functional-substance axes, and the certification boundary.", ""]
     return "\n".join(lines)
 
 
@@ -2536,7 +2536,30 @@ def build_technical_appendix(processing: dict, extraction: dict, assessment: dic
     lines += ["", "## Scoring table", "", "| Score | Value |", "| --- | --- |"]
     for key in scores:
         lines.append(f"| {key} | {assessment.get(key)} |")
-    lines += ["", "## Governance repair fields", "", "```json", json.dumps({k: assessment.get(k) for k in assessment if k.startswith('governance_') or k in ('document_type','assessment_mode')}, indent=2, sort_keys=True), "```", "", "## Evidence traces", "", "```json", json.dumps(assessment.get("evidence_traces", []), indent=2, sort_keys=True), "```", "", "## Remediation patches", "", "```json", json.dumps(assessment.get("remediation_patches", []), indent=2, sort_keys=True), "```", "", "## LAIF-native construct coverage", "", "```json", json.dumps(assessment.get("construct_coverage", {}), indent=2, sort_keys=True), "```", "", "## Formal LAIF-native certification boundary", ""]
+    lines += ["", "## Governance repair fields", "", "```json", json.dumps({k: assessment.get(k) for k in assessment if k.startswith('governance_') or k in ('document_type','assessment_mode')}, indent=2, sort_keys=True), "```", "", "## Evidence traces", "", "```json", json.dumps(assessment.get("evidence_traces", []), indent=2, sort_keys=True), "```", "", "## Remediation patches", "", "```json", json.dumps(assessment.get("remediation_patches", []), indent=2, sort_keys=True), "```", "", "## Construct coverage — form and substance", "",
+        ("Two independent readings of the same constructs. **LAIF-native form** asks "
+         "whether the document uses LAIF's canonical term; every external instrument "
+         "is expected to answer no, and that answer says nothing about its governance. "
+         "**Functional alignment** asks whether the substance is expressed in the "
+         "document's own vocabulary. Reading the first column alone will contradict "
+         "this report's findings."), "",
+        "| Construct | LAIF-native form | Functional alignment |",
+        "| --- | --- | --- |"]
+    _coverage = assessment.get("construct_coverage", {}) or {}
+    _functional = assessment.get("functional_alignment", {}) or {}
+    _substance_of = {"Structural Transparency": "Integrity Layer",
+                     "Structural Honesty": "Integrity Layer",
+                     "Structural Containment": "Integrity Layer"}
+    for _construct in sorted(set(_coverage) | set(_functional)):
+        _form = "present" if _coverage.get(_construct) else "absent"
+        _key = _substance_of.get(_construct, _construct)
+        _verdict = (_functional.get(_key) or {}).get("verdict")
+        if _verdict is None:
+            _sub = "— (not a functional construct; see Integrity Layer)" if _construct in _substance_of else "—"
+        else:
+            _sub = _verdict + (f" (via {_key})" if _key != _construct else "")
+        lines.append(f"| {_construct} | {_form} | {_sub} |")
+    lines += ["", "```json", json.dumps(_coverage, indent=2, sort_keys=True), "```", "", "## Formal LAIF-native certification boundary", ""]
     if assessment.get("assessment_mode") == "external_framework":
         lines.append("Formal LAIF-native certification: Not claimed / not applicable to this external-framework assessment. Construct coverage is internal diagnostic data only.")
     else:

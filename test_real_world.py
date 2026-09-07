@@ -29,6 +29,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from assessment_engine import (
+    REPORT_DATE as ENGINE_REPORT_DATE,
     assess,
     generate_markdown_report,
     generate_executive_summary,
@@ -46,7 +47,10 @@ ALL_DOCUMENTS = {**OFFICIAL_DOCUMENTS, **DOCUMENTS}
 REPORT_PATH = Path(__file__).parent / "reports" / "laif_real_world_assessment.md"
 SUMMARY_PATH = Path(__file__).parent / "reports" / "laif_executive_summary.md"
 DATA_PATH = Path(__file__).parent / "reports" / "laif_assessment_data.json"
-REPORT_DATE = "July 2026"
+# Single source of truth in assessment_engine. A local copy here silently
+# overrode the engine's constant, so the two could disagree about the date the
+# artifacts carry while both looked correct in isolation.
+REPORT_DATE = ENGINE_REPORT_DATE
 W = 70
 
 
