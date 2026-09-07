@@ -123,7 +123,7 @@ class GithubActionsDocumentProcessingTests(unittest.TestCase):
             self.assertEqual(summary["success_count"], 2)
             self.assertEqual(len(list((root / "processed").glob("*/reports/*.institutional_report.md"))), 2)
             self.assertTrue(list((root / "processed").glob("*/reports/*.technical_appendix.md")))
-            self.assertTrue(list((root / "processed").glob("*/reports/analyst/analyst_bundle.json")))
+            self.assertTrue(list((root / "processed").glob("*/reports/analyst/*/analyst_bundle.json")))
             batch_report = root / "batch_institutional_report.md"
             self.assertTrue(batch_report.exists())
             text = batch_report.read_text(encoding="utf-8")
@@ -157,7 +157,10 @@ class GithubActionsDocumentProcessingTests(unittest.TestCase):
                 "DTAC_Form_2.0_February_2026.docx": ("sector_assurance_checklist", "clinical_ai"),
             }
             for success in summary["successes"]:
-                bundle = json.loads((Path(success["reports_dir"]) / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+                bundle_paths = sorted((Path(success["reports_dir"]) / "analyst").glob("*/analyst_bundle.json"))
+                self.assertEqual(len(bundle_paths), 1,
+                                 "each processed document gets exactly one analyst bundle")
+                bundle = json.loads(bundle_paths[0].read_text(encoding="utf-8"))
                 meta = bundle["document_metadata"]
                 expected_type, expected_sector = expected[success["original_file_name"]]
                 self.assertEqual(meta["document_type"], expected_type)

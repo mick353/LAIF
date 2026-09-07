@@ -2,7 +2,7 @@
 
 Phase 3W creates an AI-ready analyst bundle without adding any paid or external model API integration. LAIF does not call OpenAI, Anthropic, Gemini, Google, Claude, or other model APIs. The generated files are local deterministic artifacts that a user may manually upload to an external model if they choose.
 
-Per-document bundle files are written under `analyst/`:
+Per-document bundle files are written under `analyst/<document>/` (namespaced by document stem, so several documents processed into one output directory never overwrite each other):
 
 - `AI_ANALYST_PROMPT.md`
 - `AI_ANALYST_INPUT_BUNDLE.json`

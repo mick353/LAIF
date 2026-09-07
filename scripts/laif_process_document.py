@@ -2624,9 +2624,17 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
         "low_confidence_quote_candidates": low_confidence_quote_candidates,
         "technical_appendix_data": {"construct_coverage": assessment.get("construct_coverage", {}), "formal_laif_native_compliance": assessment.get("formal_laif_native_compliance", assessment.get("formal_laif_compliance")), "evidence_traces": assessment.get("evidence_traces", []), "remediation_patches": assessment.get("remediation_patches", [])},
     }
-    analyst_dir = output_dir / "analyst"
-    analyst_dir.mkdir(parents=True, exist_ok=True)
     stem = processing["safe_output_stem"]
+    # Namespaced by document. Every markdown and JSON output already carries the
+    # document stem; the analyst directory did not, so processing several
+    # documents into one --output-dir silently replaced each earlier document's
+    # gap register, control recommendations, failure pathways and quote bank
+    # with the last one's, leaving JSON that did not correspond to the report
+    # beside it. The batch runner was unaffected (it gives each document its own
+    # directory); a reviewer running the single-document runner repeatedly was
+    # not.
+    analyst_dir = output_dir / "analyst" / stem
+    analyst_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / f"{stem}.institutional_report.md").write_text(build_institutional_report(processing, extraction, assessment, quote_bank, gaps, pathways, controls, verification_required_evidence, extraction_quality_profile), encoding="utf-8")
     (output_dir / f"{stem}.technical_appendix.md").write_text(build_technical_appendix(processing, extraction, assessment, quote_bank, gaps, pathways, controls, low_confidence_quote_candidates, verification_required_evidence, extraction_quality_profile), encoding="utf-8")
     json_dump(analyst_dir / "analyst_bundle.json", bundle)
@@ -2843,7 +2851,7 @@ def run(args: argparse.Namespace) -> int:
             print(f"JSON report: {processing['json_output_path']}")
         print(f"Institutional report: {args.output_dir / (processing['safe_output_stem'] + '.institutional_report.md')}")
         print(f"Technical appendix: {args.output_dir / (processing['safe_output_stem'] + '.technical_appendix.md')}")
-        print(f"Analyst bundle: {args.output_dir / 'analyst' / 'analyst_bundle.json'}")
+        print(f"Analyst bundle: {args.output_dir / 'analyst' / output_stem / 'analyst_bundle.json'}")
         print(f"Processing index: {args.output_dir / INDEX_FILE_NAME}")
     if args.print_report:
         print("\n" + markdown_report)

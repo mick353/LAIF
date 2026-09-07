@@ -6,15 +6,19 @@ For each processed document, the runner writes:
 
 - `<safe_stem>.institutional_report.md`
 - `<safe_stem>.technical_appendix.md`
-- `analyst/analyst_bundle.json`
-- `analyst/quote_bank.jsonl`
-- `analyst/quote_bank.md`
-- `analyst/governance_gap_register.json`
-- `analyst/failure_pathways.json`
-- `analyst/control_recommendations.json`
-- `analyst/AI_ANALYST_PROMPT.md`
-- `analyst/AI_ANALYST_INPUT_BUNDLE.json`
-- `analyst/AI_REPORT_VALIDATION_RULES.md`
+Analyst outputs are namespaced by document stem, so processing several
+documents into one `--output-dir` never overwrites an earlier document's
+register, controls, pathways, or quotes:
+
+- `analyst/<document>/analyst_bundle.json`
+- `analyst/<document>/quote_bank.jsonl`
+- `analyst/<document>/quote_bank.md`
+- `analyst/<document>/governance_gap_register.json`
+- `analyst/<document>/failure_pathways.json`
+- `analyst/<document>/control_recommendations.json`
+- `analyst/<document>/AI_ANALYST_PROMPT.md`
+- `analyst/<document>/AI_ANALYST_INPUT_BUNDLE.json`
+- `analyst/<document>/AI_REPORT_VALIDATION_RULES.md`
 
 The institutional report answers what kind of governance document was processed, what force it appears to have, what it controls well, what it does not control, where systemic failure may still occur, and what operational controls are required next.
 

@@ -482,3 +482,31 @@ identical under upper-case — but the agency directive did not classify, becaus
 "directive" was missing from the institutional-form vocabulary. Government
 service-delivery routing also missed "claimant", "council", and "local
 authority".
+
+---
+
+## 13. Eighth pass — output isolation
+
+The final pass re-ran every document class built across these reviews into one
+output directory, the way a reviewer working through a folder of documents
+would.
+
+**The analyst directory was not namespaced by document.** Every markdown and
+JSON report already carried the document stem, but `analyst/` did not — so
+processing a second document into the same `--output-dir` silently replaced the
+first one's gap register, control recommendations, failure pathways, and quote
+bank. The files stayed on disk, beside a report they no longer described, with
+nothing to indicate the mismatch. The batch runner was unaffected because it
+gives each document its own directory; a reviewer using the single-document
+runner repeatedly was not.
+
+Analyst outputs are now written to `analyst/<document>/`. The tests locate the
+directory rather than assuming its name, and one test processes two documents of
+very different quality into a single output directory and checks that each
+keeps its own register.
+
+This was the last defect found. Across eight passes the pattern was consistent:
+the engine's judgements were usually sound, and the failures were in what the
+system *said* about them — an invariant sentence, an asserted column, a gap that
+was declared rather than detected, a finding that outlived the document it was
+computed from.

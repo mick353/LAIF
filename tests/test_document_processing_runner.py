@@ -27,6 +27,18 @@ STRONG_EXTERNAL_TEXT = (
 )
 
 
+def analyst_dir(out: Path) -> Path:
+    """The analyst directory for the single document processed into `out`.
+
+    The runner namespaces analyst outputs by document stem so that processing
+    several documents into one directory cannot overwrite an earlier document's
+    gap register, controls, failure pathways, or quote bank.
+    """
+    subdirs = sorted(d for d in (out / "analyst").iterdir() if d.is_dir())
+    assert len(subdirs) == 1, f"expected one analyst subdirectory, got {subdirs}"
+    return subdirs[0]
+
+
 class DocumentProcessingRunnerTests(unittest.TestCase):
     def run_cli(self, args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
@@ -36,6 +48,8 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
             capture_output=True,
             check=check,
         )
+
+    analyst_dir = staticmethod(analyst_dir)
 
     def test_cli_help_and_import_smoke(self) -> None:
         completed = self.run_cli(["--help"])
@@ -152,7 +166,7 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
 
             institutional = next(out.glob("*.institutional_report.md"))
             appendix = next(out.glob("*.technical_appendix.md"))
-            analyst = out / "analyst"
+            analyst = self.analyst_dir(out)
             self.assertTrue(institutional.exists())
             self.assertTrue(appendix.exists())
             for name in (
@@ -207,7 +221,7 @@ If you are having difficulties with accessing this document, please email: suppo
             out = root / "out"
             path.write_text(text, encoding="utf-8")
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             quotes = [q["exact_quote"] for q in bundle["quote_bank"]]
             joined = "\n".join(quotes)
             self.assertNotIn("Artificial Intelligence Risk Management", quotes)
@@ -235,7 +249,7 @@ If you are having difficulties with accessing this document, please email: suppo
             out = root / "out"
             path.write_text("\n\n".join(bad_fragments + [good_quote]), encoding="utf-8")
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
             low = bundle.get("low_confidence_quote_candidates", [])
             low_text = "\n".join(q["exact_quote"] for q in low)
@@ -307,8 +321,8 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertIn("valuable as a governance design framework", nist_report)
             self.assertIn("Classified as `voluntary_risk_framework`", nist_report)
             self.assertNotIn("This document is assessed as an external governance source", nist_report)
-            nist_controls = json.loads((nist_out / "analyst" / "control_recommendations.json").read_text(encoding="utf-8"))["control_recommendations"]
-            dtac_controls = json.loads((dtac_out / "analyst" / "control_recommendations.json").read_text(encoding="utf-8"))["control_recommendations"]
+            nist_controls = json.loads((self.analyst_dir(nist_out) / "control_recommendations.json").read_text(encoding="utf-8"))["control_recommendations"]
+            dtac_controls = json.loads((self.analyst_dir(dtac_out) / "control_recommendations.json").read_text(encoding="utf-8"))["control_recommendations"]
             # An identified instrument earns instrument-specific control naming
             # where its own vocabulary differs, and gap-derived naming otherwise.
             # In both cases the name must match the gap it closes.
@@ -316,7 +330,7 @@ If you are having difficulties with accessing this document, please email: suppo
                             f"NIST control names: {[c['control_name'] for c in nist_controls]}")
             self.assertTrue(any("Clinical Safety" in c["control_name"] or "DTAC" in c["control_name"] for c in dtac_controls),
                             f"DTAC control names: {[c['control_name'] for c in dtac_controls]}")
-            nist_gaps = json.loads((nist_out / "analyst" / "governance_gap_register.json").read_text(encoding="utf-8"))["gaps"]
+            nist_gaps = json.loads((self.analyst_dir(nist_out) / "governance_gap_register.json").read_text(encoding="utf-8"))["gaps"]
             self.assertEqual(len(nist_controls), len(nist_gaps))
             for gap, control in zip(nist_gaps, nist_controls):
                 self.assertIn(gap["gap_id"], control["linked_gap_ids"])
@@ -589,7 +603,7 @@ If you are having difficulties with accessing this document, please email: suppo
             out = root / "out"
             path.write_text("\n\n".join(bad_fragments + [good_quote]), encoding="utf-8")
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
             low = bundle.get("low_confidence_quote_candidates", [])
             low_text = "\n".join(q["exact_quote"] for q in low)
@@ -676,7 +690,7 @@ If you are having difficulties with accessing this document, please email: suppo
             out = root / "out"
             path.write_text("\n\n".join(bad_fragments + good_quotes), encoding="utf-8")
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
             low = bundle.get("low_confidence_quote_candidates", [])
             low_text = "\n".join(q["exact_quote"] for q in low)
@@ -696,7 +710,7 @@ If you are having difficulties with accessing this document, please email: suppo
             out = root / "out"
             path.write_text(damaged, encoding="utf-8")
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             quote = bundle["quote_bank"][0]
             self.assertIn("Super vision, inv estig ation", quote["exact_quote"])
             self.assertIn(quote["exact_quote"], path.read_text(encoding="utf-8"))
@@ -706,7 +720,7 @@ If you are having difficulties with accessing this document, please email: suppo
             report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
             self.assertIn("Supervision, investigation, enforcement and monitoring", report)
             self.assertNotIn("Super vision, inv estig ation", report)
-            prompt = (out / "analyst" / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
+            prompt = (self.analyst_dir(out) / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
             self.assertIn("Use `display_quote` for prose", prompt)
             self.assertIn("Preserve `exact_quote`", prompt)
 
@@ -718,7 +732,7 @@ If you are having difficulties with accessing this document, please email: suppo
             out = root / "out"
             path.write_text(damaged, encoding="utf-8")
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary_exact = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
             primary_display = "\n".join(q["display_quote"] for q in bundle["quote_bank"])
             self.assertIn("The obliga tion set out in this Ar ticle", primary_exact)
@@ -733,7 +747,7 @@ If you are having difficulties with accessing this document, please email: suppo
             out = root / "out"
             path.write_text("\n\n".join([bad, good]), encoding="utf-8")
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary_exact = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
             primary_display = "\n".join(q["display_quote"] for q in bundle["quote_bank"])
             low_text = "\n".join(q["exact_quote"] for q in bundle.get("low_confidence_quote_candidates", []))
@@ -757,7 +771,7 @@ If you are having difficulties with accessing this document, please email: suppo
             out = root / "out"
             path.write_text("\n\n".join(fragments), encoding="utf-8")
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
             low = bundle.get("low_confidence_quote_candidates", [])
             low_text = "\n".join(q["exact_quote"] for q in low)
@@ -775,10 +789,10 @@ If you are having difficulties with accessing this document, please email: suppo
             out = root / "out"
             path.write_text(damaged, encoding="utf-8")
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
-            ai_bundle = json.loads((out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            ai_bundle = json.loads((self.analyst_dir(out) / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
             self.assertIn("exact_quote", ai_bundle["quote_bank"][0])
             self.assertIn("display_quote", ai_bundle["quote_bank"][0])
-            quote_bank_md = (out / "analyst" / "quote_bank.md").read_text(encoding="utf-8")
+            quote_bank_md = (self.analyst_dir(out) / "quote_bank.md").read_text(encoding="utf-8")
             self.assertIn("Display quote", quote_bank_md)
             self.assertIn("Raw exact quote", quote_bank_md)
 
@@ -794,7 +808,7 @@ If you are having difficulties with accessing this document, please email: suppo
             out = root / "out"
             path.write_text("\n\n".join([damaged, bad_incident, bad_training, good_incident, good_training]), encoding="utf-8")
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary_exact = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
             primary_display = "\n".join(q.get("display_quote", q["exact_quote"]) for q in bundle["quote_bank"])
             low = bundle.get("low_confidence_quote_candidates", [])
@@ -840,7 +854,7 @@ If you are having difficulties with accessing this document, please email: suppo
 
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
 
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary_display = "\n".join(q.get("display_quote", q["exact_quote"]) for q in bundle["quote_bank"])
             primary_exact = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
             low = bundle.get("low_confidence_quote_candidates", [])
@@ -908,7 +922,7 @@ If you are having difficulties with accessing this document, please email: suppo
 
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
 
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary_display = "\n".join(q.get("display_quote", q["exact_quote"]) for q in bundle["quote_bank"])
             primary_exact = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
             low = bundle.get("low_confidence_quote_candidates", [])
@@ -944,12 +958,12 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertIn("Providers of high-risk AI systems shall establish", report)
             self.assertIn("appropriate human oversight measures should be identified by the provider", report)
 
-            quote_bank_md = (out / "analyst" / "quote_bank.md").read_text(encoding="utf-8")
+            quote_bank_md = (self.analyst_dir(out) / "quote_bank.md").read_text(encoding="utf-8")
             primary_display_lines = "\n".join(line for line in quote_bank_md.splitlines() if line.startswith("> "))
             for fragment in bad_fragments:
                 self.assertNotIn(fragment, primary_display_lines)
 
-            ai_bundle = json.loads((out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            ai_bundle = json.loads((self.analyst_dir(out) / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
             ai_display = "\n".join(q.get("display_quote", q["exact_quote"]) for q in ai_bundle["quote_bank"])
             for fragment in bad_fragments:
                 self.assertNotIn(fragment, ai_display)
@@ -977,7 +991,7 @@ If you are having difficulties with accessing this document, please email: suppo
 
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
 
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary_display_values = [q.get("display_quote", q["exact_quote"]) for q in bundle["quote_bank"]]
             primary_display = "\n".join(primary_display_values)
             primary_exact = "\n".join(q["exact_quote"] for q in bundle["quote_bank"])
@@ -1008,12 +1022,12 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertIn("Providers of high-risk AI systems shall establish", report)
             self.assertIn("appropriate human oversight measures should be identified by the provider", report)
 
-            quote_bank_md = (out / "analyst" / "quote_bank.md").read_text(encoding="utf-8")
+            quote_bank_md = (self.analyst_dir(out) / "quote_bank.md").read_text(encoding="utf-8")
             primary_display_lines = [line[2:] for line in quote_bank_md.splitlines() if line.startswith("> ")]
             for bad in bad_fragments:
                 self.assertNotIn(bad, primary_display_lines)
 
-            ai_bundle = json.loads((out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            ai_bundle = json.loads((self.analyst_dir(out) / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
             ai_display_values = [q.get("display_quote", q["exact_quote"]) for q in ai_bundle["quote_bank"]]
             for bad in bad_fragments:
                 self.assertNotIn(bad, ai_display_values)
@@ -1031,7 +1045,7 @@ If you are having difficulties with accessing this document, please email: suppo
 
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
 
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             self.assertEqual(bundle["quote_bank"], [])
             report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
             self.assertIn(
@@ -1084,7 +1098,7 @@ If you are having difficulties with accessing this document, please email: suppo
                     src.write_text(text, encoding="utf-8")
                     out = root / ("out_" + filename.replace(" ", "_"))
                     self.run_cli([str(src), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
-                    bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+                    bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
                     meta = bundle["document_metadata"]
                     self.assertEqual(meta["document_type"], expected_type)
                     self.assertIn(meta["sector_profile"], expected_sectors)
@@ -1102,7 +1116,7 @@ If you are having difficulties with accessing this document, please email: suppo
 
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
 
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary_display = "\n".join(q.get("display_quote", q["exact_quote"]) for q in bundle["quote_bank"])
             verification = bundle.get("verification_required_extracted_evidence", [])
             verification_exact = "\n".join(q.get("exact_quote", "") for q in verification)
@@ -1148,7 +1162,7 @@ If you are having difficulties with accessing this document, please email: suppo
             self.run_cli([str(noisy_path), "--output-dir", str(noisy_out), "--mode", "external_framework", "--sector", "auto"])
             self.run_cli([str(clean_path), "--output-dir", str(clean_out), "--mode", "external_framework", "--sector", "auto"])
 
-            noisy_bundle = json.loads((noisy_out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            noisy_bundle = json.loads((self.analyst_dir(noisy_out) / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
             noisy_profile = noisy_bundle.get("extraction_quality_profile") or {}
             self.assertIn(noisy_profile.get("extraction_quality_level"), {"limited", "poor"})
             self.assertTrue(noisy_profile.get("verification_required_evidence_present"))
@@ -1158,13 +1172,13 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertIn("quote_bank", noisy_bundle)
             self.assertIn("low_confidence_quote_candidates", noisy_bundle)
 
-            clean_bundle = json.loads((clean_out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            clean_bundle = json.loads((self.analyst_dir(clean_out) / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
             clean_profile = clean_bundle.get("extraction_quality_profile") or {}
             self.assertIn(clean_profile.get("extraction_quality_level"), {"high", "moderate"})
             self.assertTrue(clean_profile.get("primary_quote_eligible"))
             self.assertEqual(clean_bundle.get("verification_required_extracted_evidence"), [])
 
-            prompt = (noisy_out / "analyst" / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
+            prompt = (self.analyst_dir(noisy_out) / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
             self.assertIn("primary_quote_evidence", prompt)
             self.assertIn("verification_required_extracted_evidence", prompt)
             self.assertIn("Do not present verification-required extracted text as a clean direct quotation", prompt)
@@ -1187,7 +1201,7 @@ If you are having difficulties with accessing this document, please email: suppo
 
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
 
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             profile = bundle["extraction_quality_profile"]
             self.assertEqual(profile["extraction_quality_level"], "poor")
             self.assertGreater(profile["primary_quote_count"], 0)
@@ -1238,7 +1252,7 @@ If you are having difficulties with accessing this document, please email: suppo
 
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
 
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             profile = bundle["extraction_quality_profile"]
             self.assertIn(profile["extraction_quality_level"], {"high", "moderate"})
             self.assertTrue(profile["primary_quote_eligible"])
@@ -1260,7 +1274,7 @@ If you are having difficulties with accessing this document, please email: suppo
 
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
 
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             profile = bundle["extraction_quality_profile"]
             self.assertEqual(profile["extraction_quality_level"], "moderate")
             self.assertTrue(profile["primary_quote_eligible"])
@@ -1282,7 +1296,7 @@ If you are having difficulties with accessing this document, please email: suppo
 
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
 
-            ai_bundle = json.loads((out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            ai_bundle = json.loads((self.analyst_dir(out) / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
             profile = ai_bundle["extraction_quality_profile"]
             self.assertFalse(profile["primary_quote_eligible"])
             self.assertFalse(ai_bundle["primary_quote_eligible"])
@@ -1290,7 +1304,7 @@ If you are having difficulties with accessing this document, please email: suppo
             self.assertTrue(ai_bundle.get("verification_required_extracted_evidence"))
             self.assertIn("primary_quote_policy_note", ai_bundle)
 
-            prompt = (out / "analyst" / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
+            prompt = (self.analyst_dir(out) / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
             self.assertIn("extraction_quality_profile.primary_quote_eligible", prompt)
             self.assertIn("do not use `quote_bank` as clean primary evidence", prompt)
             self.assertIn("Do not present verification-required extracted text as a clean direct quotation", prompt)
@@ -1322,7 +1336,7 @@ If you are having difficulties with accessing this document, please email: suppo
 
             self.run_cli([str(path), "--output-dir", str(out), "--mode", "external_framework", "--sector", "auto"])
 
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary_exact = [q.get("exact_quote", "") for q in bundle.get("quote_bank", [])]
             verification = bundle.get("verification_required_extracted_evidence", [])
             verification_exact = [q.get("exact_quote", "") for q in verification]
@@ -1359,12 +1373,12 @@ If you are having difficulties with accessing this document, please email: suppo
             for good in good_primary:
                 self.assertIn(good, key_section)
 
-            ai_bundle = json.loads((out / "analyst" / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
+            ai_bundle = json.loads((self.analyst_dir(out) / "AI_ANALYST_INPUT_BUNDLE.json").read_text(encoding="utf-8"))
             self.assertEqual([q.get("exact_quote", "") for q in ai_bundle.get("quote_bank", [])], primary_exact)
             self.assertEqual([q.get("exact_quote", "") for q in ai_bundle.get("verification_required_extracted_evidence", [])], verification_exact)
             self.assertIn("low_confidence_quote_candidates", ai_bundle)
 
-            prompt = (out / "analyst" / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
+            prompt = (self.analyst_dir(out) / "AI_ANALYST_PROMPT.md").read_text(encoding="utf-8")
             self.assertIn("clean quote-grade evidence", prompt)
             self.assertIn("reviewer-useful", prompt)
             self.assertIn("low-confidence trace only", prompt)
@@ -1895,6 +1909,8 @@ class EvidenceTieringCoherenceTests(unittest.TestCase):
             cwd=REPO_ROOT, text=True, capture_output=True, check=check,
         )
 
+    analyst_dir = staticmethod(analyst_dir)
+
     MIXED = "\n\n".join([
         "AI Assurance Standard (Ref: AS-2026-02)",
         "Providers of high-risk AI systems shall establish, implement, document "
@@ -1915,7 +1931,7 @@ class EvidenceTieringCoherenceTests(unittest.TestCase):
             path.write_text(self.MIXED, encoding="utf-8")
             self.run_cli([str(path), "--output-dir", str(out),
                           "--mode", "external_framework", "--sector", "auto"])
-            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            bundle = json.loads((self.analyst_dir(out) / "analyst_bundle.json").read_text(encoding="utf-8"))
             primary = {" ".join(str(q.get("exact_quote") or "").split())
                        for q in runner._gate_passing_primary_quotes(bundle.get("quote_bank", []))}
             for record in bundle.get("verification_required_extracted_evidence", []):
@@ -2079,6 +2095,50 @@ class DocumentFormTests(unittest.TestCase):
         for construct, verdict in lower_result["functional_alignment"].items():
             self.assertEqual(upper_result["functional_alignment"][construct]["verdict"],
                              verdict["verdict"], f"{construct} differs under ALL CAPS")
+
+
+class OutputIsolationTests(unittest.TestCase):
+    """Several documents into one output directory must not overwrite each other."""
+
+    def test_each_document_keeps_its_own_analyst_outputs(self) -> None:
+        strong = ("AI Governance Standard. Owner: Chief Risk Officer. Approved by: "
+                  "Risk Committee. This standard binds all Group entities. Model "
+                  "owners must monitor monthly; a breach above 5% must be escalated "
+                  "within 5 working days and use suspended. Change control: material "
+                  "change requires re-approval.")
+        weak = ("AI Principles. We believe in fairness. Our values guide everything "
+                "we build. We strive to be open about our systems.")
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            out = root / "out"
+            for name, text in (("strong.txt", strong), ("weak.txt", weak)):
+                path = root / name
+                path.write_text(text, encoding="utf-8")
+                subprocess.run(
+                    [sys.executable, "scripts/laif_process_document.py", str(path),
+                     "--output-dir", str(out), "--mode", "external_framework",
+                     "--sector", "auto"],
+                    cwd=REPO_ROOT, text=True, capture_output=True, check=True)
+
+            subdirs = sorted(d.name for d in (out / "analyst").iterdir() if d.is_dir())
+            self.assertEqual(subdirs, ["strong", "weak"])
+            strong_gaps = json.loads(
+                (out / "analyst" / "strong" / "governance_gap_register.json")
+                .read_text(encoding="utf-8"))["gaps"]
+            weak_gaps = json.loads(
+                (out / "analyst" / "weak" / "governance_gap_register.json")
+                .read_text(encoding="utf-8"))["gaps"]
+            # The weak document's register must not have replaced the strong
+            # document's, and each must describe its own document.
+            self.assertNotEqual(strong_gaps, weak_gaps)
+            weak_types = {g["gap_type"] for g in weak_gaps}
+            strong_types = {g["gap_type"] for g in strong_gaps}
+            self.assertTrue(weak_types & {"declaratory_without_operative_commitment",
+                                          "insufficient_operative_content"},
+                            f"weak document gaps: {weak_types}")
+            self.assertFalse(strong_types & {"declaratory_without_operative_commitment",
+                                             "insufficient_operative_content"},
+                             f"strong document gaps: {strong_types}")
 
 
 class NonGovernanceTextTests(unittest.TestCase):

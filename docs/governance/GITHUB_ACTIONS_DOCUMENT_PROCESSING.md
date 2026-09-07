@@ -126,4 +126,4 @@ Batch processing remains infrastructure: pending inputs are archived under proce
 
 ## Phase 3W batch institutional artifacts
 
-Batch processing includes each document's institutional report, technical appendix, and `reports/analyst/` folder under `laif_inputs/processed/**`. It also writes batch-level institutional summaries, portfolio gap registers, control roadmaps, quote banks, and AI prompt/input bundles into the batch summary artifact area so workflow artifacts include the new analyst layer while `commit_outputs=false` remains the default.
+Batch processing includes each document's institutional report, technical appendix, and `reports/analyst/<document>/` folder under `laif_inputs/processed/**`. It also writes batch-level institutional summaries, portfolio gap registers, control roadmaps, quote banks, and AI prompt/input bundles into the batch summary artifact area so workflow artifacts include the new analyst layer while `commit_outputs=false` remains the default.

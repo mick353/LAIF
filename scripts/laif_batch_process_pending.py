@@ -225,7 +225,10 @@ def process_one(source: Path, args: argparse.Namespace) -> dict:
 
 def _load_document_bundle(success: dict) -> dict:
     reports_dir = Path(success.get("reports_dir", ""))
-    bundle_path = reports_dir / "analyst" / "analyst_bundle.json"
+    # The runner namespaces the analyst directory by document stem; each
+    # processed document has its own reports directory, so there is exactly one.
+    candidates = sorted((reports_dir / "analyst").glob("*/analyst_bundle.json"))
+    bundle_path = candidates[0] if candidates else reports_dir / "analyst" / "analyst_bundle.json"
     payload: dict = {"success": success, "bundle": {}, "institutional_reports": []}
     if bundle_path.exists():
         try:
