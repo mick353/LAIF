@@ -97,8 +97,17 @@ STRUCTURAL_RUBRIC = [
          "provision hierarchy / precedence rule"),
     # Source: LAIF v1.2 Part Seven — Self-Application: governance actors and
     # regulatory bodies are subject to the framework, not only AI operators.
-    (12, r"self.application|applies to regulatory|applies to governance actors",
-         "self-application clause (Part Seven)"),
+    # Function: the document binds the body that issued it, not only the systems
+    # it governs. LAIF states this in Part Seven; a bank standard writes "Group
+    # Risk is itself subject to this Standard"; a university policy writes
+    # "Academic Board are themselves subject to this policy"; a regulator writes
+    # "this authority documents its own compliance". All bind the governing actor.
+    (12, r"self.application|applies to regulatory|applies to governance actors"
+         r"|\b(?:is|are)\s+(?:itself|themselves)\s+(?:subject\s+to|bound\s+by)\b"
+         r"|\bapplies?\s+to\s+(?:this\s+\w+|us|the\s+\w+\s+function|the\s+authority)\s+itself\b"
+         r"|\b(?:evidence|demonstrate|document|report|prove)\s+(?:its|their)\s+own\s+compliance\b"
+         r"|\bsame\s+(?:evidentiary\s+)?standard\s+it\s+(?:demands|requires|applies)\b",
+         "governing body bound by its own rules (self-application)"),
     # Source: LAIF v1.2 Part One — Coherence Test as named decision instrument;
     # PDCA as its primary operational instrument (Compliance Toolkit §2).
     (14, r"\bCoherence Test\b|\bPDCA\b|Pre.Deployment Coherence Assessment",
@@ -3231,6 +3240,13 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
                 f"this document does not use or claim LAIF canonical terminology."
             )
 
+    # The mode decides how several findings are worded, so it must be resolved
+    # before they are written. Using the raw parameter here meant every caller
+    # that relied on auto-detection got the LAIF-native wording.
+    resolved_assessment_mode = _resolve_assessment_mode(
+        assessment_mode, name, source_type, formal_pass
+    )
+
     # Primary failure modes
     failure_modes = []
     if not any(p for lbl, p in formal_checks
@@ -3241,7 +3257,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         failure_modes.append(
             "certification channel — LAIF-native vocabulary not used (expected for "
             "an external instrument; not a governance deficiency)"
-            if assessment_mode == "external_framework" and not claims_laif
+            if resolved_assessment_mode == "external_framework" and not claims_laif
             else "terminological — no canonical LAIF terms present")
     if paraphrase and paraphrase_classification == "VIOLATION":
         failure_modes.append("terminological (paraphrase) — forbidden substitutions detected")
@@ -3394,9 +3410,6 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         )
 
     formal_verdict = "PASS" if formal_pass else "FAIL"
-    resolved_assessment_mode = _resolve_assessment_mode(
-        assessment_mode, name, source_type, formal_pass
-    )
     mode_fields = _assessment_mode_fields(
         resolved_assessment_mode, formal_verdict, missing_terms
     )
@@ -4453,6 +4466,22 @@ def _recommended_patch_for_gap(gap, result):
     construct = _construct_for_gap(gap)
     component = _governance_component_for_gap(gap)
     gap_text = _gap_text(gap)
+    if "certification channel" in gap_text.lower():
+        return ("No governance action is required. This records distance from the "
+                "assessing framework's own vocabulary, which matters only if the "
+                "organisation chooses to seek LAIF-native certification; the "
+                "substance it names is either already expressed in the document's "
+                "own words or belongs to that framework alone.")
+    if "no precedence rule between" in gap_text.lower():
+        return ("State the order of precedence among this document's own provisions: "
+                "which prevails if two conflict, which cannot be waived or changed "
+                "except by a named authority, and what this document is subordinate "
+                "to. A conflicts clause, a 'without prejudice to' clause, a waiver "
+                "bar, or a stated parent framework each satisfies this.")
+    if "partially expressed construct" in gap_text.lower():
+        return ("Carry the substance already present through to every provision it "
+                "should govern, so the property holds across the document rather "
+                "than in the clauses where it happens to appear.")
     if construct == "Coupling":
         return "Define each restriction with the specific protected human or public interest it serves, then assign equivalent institutional force to both sides of the pairing."
     if construct == "Coherence Test":
@@ -4517,8 +4546,11 @@ def _evidence_artifact_for_gap(gap, result):
 
 def _verification_test_for_gap(gap, result):
     component = _governance_component_for_gap(gap)
+    subject = "control" if component == "control" else f"{component} control"
     return (
-        f"Create a verification test that samples this {component} control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status."
+        f"Create a verification test that samples this {subject}, confirms the named "
+        f"owner, trigger, evidence artifact, escalation route, and review outcome, "
+        f"and records pass/follow-up status."
     )
 
 
@@ -6042,13 +6074,27 @@ def generate_markdown_report(assessments, report_date=REPORT_DATE):
             p("- **Why it matters:** governance-force evidence may be incomplete.")
             p("- **Concrete fix:** assign owner, evidence artifact, verification test, and authority review.")
         h(4, "Structured Remediation Patch Set")
-        p("These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.")
-        patches = r.get("remediation_patches", [])
+        p("These patches are diagnostic guidance. They do not determine legal "
+          "validity, and they do not certify compliance with the assessing "
+          "framework unless that framework is separately adopted and verified.")
+        _all_patches = r.get("remediation_patches", [])
+        # Certification-channel items ask for no governance action: they record
+        # distance from the assessing framework's own vocabulary. Listing them
+        # beside real remediation invited a reader to build a control for not
+        # having used LAIF's words. They stay in the JSON, counted here.
+        patches = [x for x in _all_patches
+                   if "certification channel" not in str(x.get("diagnostic_gap", "")).lower()]
+        _channel = len(_all_patches) - len(patches)
         if patches:
             _shown = patches[:6]
             if len(patches) > 6:
                 p(f"Showing the 6 highest-priority patches of {len(patches)}; the "
                   f"full set is available in the JSON assessment output.")
+            if _channel:
+                p(f"{_channel} further item{'s' if _channel != 1 else ''} in the JSON "
+                  f"record distance from the assessing framework's own vocabulary. "
+                  f"{'They require' if _channel != 1 else 'It requires'} no governance "
+                  f"action and {'are' if _channel != 1 else 'is'} not listed here.")
             for patch in _shown:
                 p(f"- **patch_id:** {patch.get('patch_id', '')}")
                 p(f"  - **finding_type:** {patch.get('finding_type', '')}")
@@ -6063,6 +6109,10 @@ def generate_markdown_report(assessments, report_date=REPORT_DATE):
                 p(f"  - **Evidence trace IDs:** {', '.join(ids) if ids else 'reviewer confirmation required / none linked'}")
                 p(f"  - **legal_authority_boundary:** {patch.get('legal_authority_boundary', '')}")
                 p("  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.")
+        elif _channel:
+            p(f"No remediation patch is proposed. The {_channel} item"
+              f"{'s' if _channel != 1 else ''} in the JSON record distance from the "
+              f"assessing framework's own vocabulary and require no governance action.")
         else:
             p("No structured remediation patches generated by the current deterministic extractor.")
         p()

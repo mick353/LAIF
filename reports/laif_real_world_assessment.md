@@ -295,14 +295,14 @@ LAIF-native certification: Not claimed / not applicable to this external-framewo
 
 #### Scorecard
 Signals detected and Signals not detected are public labels only; raw detection patterns are not shown.
-| Dimension            | Score   | Fired signal labels                                                                                                                | Missed signal labels                                                                                                        |
-| -------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| Structural           | 49/100  | numbered sub-requirements; mandatory obligation language (shall/must); full lifecycle scope declared; +3 more                      | risk stratification / proportionality; provision hierarchy / precedence rule; self-application clause (Part Seven); +1 more |
-| Terminology          | 0/100   | none detected                                                                                                                      | Coupling; Coherence Test; Integrity Layer; +4 more                                                                          |
-| Conceptual proximity | 57/100  | human rights / fundamental interests; transparency; accountability; +4 more                                                        | explainability / interpretability; proportionality; contestability / redress; +2 more                                       |
-| Auditability         | 100/100 | multiple mandatory obligations (shall/must pairs); numbered traceable requirements; evidence / documentation requirements; +2 more | none detected                                                                                                               |
-| Enforceability       | 80/100  | mandatory language (shall/must); named responsible parties; enforcement consequences / penalties; +1 more                          | risk-proportionate thresholds                                                                                               |
-| Overall readiness    | 60/100  | substantial structural signal                                                                                                      | —                                                                                                                           |
+| Dimension            | Score   | Fired signal labels                                                                                                                | Missed signal labels                                                                                                                            |
+| -------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Structural           | 49/100  | numbered sub-requirements; mandatory obligation language (shall/must); full lifecycle scope declared; +3 more                      | risk stratification / proportionality; provision hierarchy / precedence rule; governing body bound by its own rules (self-application); +1 more |
+| Terminology          | 0/100   | none detected                                                                                                                      | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                              |
+| Conceptual proximity | 57/100  | human rights / fundamental interests; transparency; accountability; +4 more                                                        | explainability / interpretability; proportionality; contestability / redress; +2 more                                                           |
+| Auditability         | 100/100 | multiple mandatory obligations (shall/must pairs); numbered traceable requirements; evidence / documentation requirements; +2 more | none detected                                                                                                                                   |
+| Enforceability       | 80/100  | mandatory language (shall/must); named responsible parties; enforcement consequences / penalties; +1 more                          | risk-proportionate thresholds                                                                                                                   |
+| Overall readiness    | 60/100  | substantial structural signal                                                                                                      | —                                                                                                                                               |
 
 
 #### Score Calibration and Justification
@@ -355,7 +355,7 @@ Each required LAIF-native construct remains necessary for certification; proximi
 #### Diagnostic Gaps
 - LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
-- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -368,40 +368,29 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
    - **Concrete fix:** For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).
 2. **Problem:** Structural governance architecture score critically low (49/100) — most deficient dimension after Coupling.
    - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time.
-   - **Concrete fix:** Address the 4 missed signals for this dimension. Critical gaps: risk stratification / proportionality, provision hierarchy / precedence rule, self-application clause (Part Seven). Full signal breakdown in the Scores section.
+   - **Concrete fix:** Address the 4 missed signals for this dimension. Critical gaps: risk stratification / proportionality, provision hierarchy / precedence rule, governing body bound by its own rules (self-application). Full signal breakdown in the Scores section.
 3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
 4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
-5. **Problem:** Constitutional hierarchy not declared (structural score 49/100). Missing: risk stratification / proportionality, provision hierarchy / precedence rule, self-application clause (Part Seven).
+5. **Problem:** Constitutional hierarchy not declared (structural score 49/100). Missing: risk stratification / proportionality, provision hierarchy / precedence rule, governing body bound by its own rules (self-application).
    - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
 #### Structured Remediation Patch Set
-These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
-Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
+These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
+Showing the 6 highest-priority patches of 10; the full set is available in the JSON assessment output.
+2 further items in the JSON record distance from the assessing framework's own vocabulary. They require no governance action and are not listed here.
 - **patch_id:** LAIF-PATCH-01-structural-no-precedence-rule-between-the
   - **finding_type:** governance_force_gap
   - **severity:** medium
   - **diagnostic_gap:** structural — no precedence rule between the document's own provisions
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: structural — no precedence rule between the document's own provisions
+  - **recommended_patch:** State the order of precedence among this document's own provisions: which prevails if two conflict, which cannot be waived or changed except by a named authority, and what this document is subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-02-certification-channel-laif-native-vocabula
-  - **finding_type:** terminology_gap
-  - **severity:** low
-  - **diagnostic_gap:** certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -413,19 +402,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define each restriction with the specific protected human or public interest it serves, then assign equivalent institutional force to both sides of the pairing.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-04-certification-channel-the-coherence-test-i
-  - **finding_type:** construct_gap
-  - **severity:** low
-  - **diagnostic_gap:** Certification channel — the Coherence Test is LAIF's named decision instrument; an external document is not expected to contain it
-  - **recommended_patch:** Define a documented Coherence Test workflow that applies Coupling, Consistency, and Reversibility checks before the relevant decision or deployment trigger.
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -437,7 +414,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -449,9 +426,33 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Transparency
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** LAIF-TRACE-01-sector-profile-signal, LAIF-TRACE-09-governance-force-signal
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-07-missing-laif-construct-structural-honesty
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
+  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-containm
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Missing LAIF construct: Structural Containment
+  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Containment
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 
@@ -682,7 +683,7 @@ Each required LAIF-native construct remains necessary for certification; proximi
 - LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
-- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -707,28 +708,17 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 
 #### Structured Remediation Patch Set
-These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
-Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
+These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
+Showing the 6 highest-priority patches of 10; the full set is available in the JSON assessment output.
+2 further items in the JSON record distance from the assessing framework's own vocabulary. They require no governance action and are not listed here.
 - **patch_id:** LAIF-PATCH-01-structural-no-precedence-rule-between-the
   - **finding_type:** governance_force_gap
   - **severity:** medium
   - **diagnostic_gap:** structural — no precedence rule between the document's own provisions
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: structural — no precedence rule between the document's own provisions
+  - **recommended_patch:** State the order of precedence among this document's own provisions: which prevails if two conflict, which cannot be waived or changed except by a named authority, and what this document is subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-02-certification-channel-laif-native-vocabula
-  - **finding_type:** terminology_gap
-  - **severity:** low
-  - **diagnostic_gap:** certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -752,19 +742,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define each restriction with the specific protected human or public interest it serves, then assign equivalent institutional force to both sides of the pairing.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-05-certification-channel-the-coherence-test-i
-  - **finding_type:** construct_gap
-  - **severity:** low
-  - **diagnostic_gap:** Certification channel — the Coherence Test is LAIF's named decision instrument; an external document is not expected to contain it
-  - **recommended_patch:** Define a documented Coherence Test workflow that applies Coupling, Consistency, and Reversibility checks before the relevant decision or deployment trigger.
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -773,10 +751,34 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **finding_type:** construct_gap
   - **severity:** high
   - **diagnostic_gap:** Partially expressed construct: Integrity Layer — some of its substance is present in the document's own vocabulary, but not enough to carry it
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-07-partially-expressed-construct-structural-t
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Transparency — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** LAIF-TRACE-02-sector-profile-signal, LAIF-TRACE-08-governance-force-signal
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-08-partially-expressed-construct-structural-h
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Honesty — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -950,14 +952,14 @@ LAIF-native certification: Not claimed / not applicable to this external-framewo
 
 #### Scorecard
 Signals detected and Signals not detected are public labels only; raw detection patterns are not shown.
-| Dimension            | Score  | Fired signal labels                                                                                           | Missed signal labels                                                                                                                           |
-| -------------------- | ------ | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Structural           | 41/100 | numbered sub-requirements; mandatory obligation language (shall/must); full lifecycle scope declared; +3 more | threshold gate conditions (all must pass simultaneously); provision hierarchy / precedence rule; self-application clause (Part Seven); +1 more |
-| Terminology          | 0/100  | none detected                                                                                                 | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                             |
-| Conceptual proximity | 47/100 | transparency; accountability; human oversight; +3 more                                                        | human rights / fundamental interests; explainability / interpretability; contestability / redress; +3 more                                     |
-| Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms        | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                                            |
-| Enforceability       | 80/100 | mandatory language (shall/must); named responsible parties; risk-proportionate thresholds; +1 more            | non-discretionary operational mandates                                                                                                         |
-| Overall readiness    | 48/100 | partial structural signal                                                                                     | —                                                                                                                                              |
+| Dimension            | Score  | Fired signal labels                                                                                           | Missed signal labels                                                                                                                                               |
+| -------------------- | ------ | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Structural           | 41/100 | numbered sub-requirements; mandatory obligation language (shall/must); full lifecycle scope declared; +3 more | threshold gate conditions (all must pass simultaneously); provision hierarchy / precedence rule; governing body bound by its own rules (self-application); +1 more |
+| Terminology          | 0/100  | none detected                                                                                                 | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                                                 |
+| Conceptual proximity | 47/100 | transparency; accountability; human oversight; +3 more                                                        | human rights / fundamental interests; explainability / interpretability; contestability / redress; +3 more                                                         |
+| Auditability         | 60/100 | numbered traceable requirements; evidence / documentation requirements; review / monitoring mechanisms        | multiple mandatory obligations (shall/must pairs); specific, measurable obligations                                                                                |
+| Enforceability       | 80/100 | mandatory language (shall/must); named responsible parties; risk-proportionate thresholds; +1 more            | non-discretionary operational mandates                                                                                                                             |
+| Overall readiness    | 48/100 | partial structural signal                                                                                     | —                                                                                                                                                                  |
 
 
 #### Score Calibration and Justification
@@ -1011,7 +1013,7 @@ Each required LAIF-native construct remains necessary for certification; proximi
 - LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
-- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -1024,40 +1026,29 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
    - **Concrete fix:** For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).
 2. **Problem:** Structural governance architecture score critically low (41/100) — most deficient dimension after Coupling.
    - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time.
-   - **Concrete fix:** Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, self-application clause (Part Seven). Full signal breakdown in the Scores section.
+   - **Concrete fix:** Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application). Full signal breakdown in the Scores section.
 3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
 4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
-5. **Problem:** Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, self-application clause (Part Seven).
+5. **Problem:** Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application).
    - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
 #### Structured Remediation Patch Set
-These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
-Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
+These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
+Showing the 6 highest-priority patches of 10; the full set is available in the JSON assessment output.
+2 further items in the JSON record distance from the assessing framework's own vocabulary. They require no governance action and are not listed here.
 - **patch_id:** LAIF-PATCH-01-structural-no-precedence-rule-between-the
   - **finding_type:** governance_force_gap
   - **severity:** medium
   - **diagnostic_gap:** structural — no precedence rule between the document's own provisions
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: structural — no precedence rule between the document's own provisions
+  - **recommended_patch:** State the order of precedence among this document's own provisions: which prevails if two conflict, which cannot be waived or changed except by a named authority, and what this document is subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-02-certification-channel-laif-native-vocabula
-  - **finding_type:** terminology_gap
-  - **severity:** low
-  - **diagnostic_gap:** certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -1069,19 +1060,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define each restriction with the specific protected human or public interest it serves, then assign equivalent institutional force to both sides of the pairing.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-04-certification-channel-the-coherence-test-i
-  - **finding_type:** construct_gap
-  - **severity:** low
-  - **diagnostic_gap:** Certification channel — the Coherence Test is LAIF's named decision instrument; an external document is not expected to contain it
-  - **recommended_patch:** Define a documented Coherence Test workflow that applies Coupling, Consistency, and Reversibility checks before the relevant decision or deployment trigger.
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -1093,7 +1072,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -1105,9 +1084,33 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Transparency
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** LAIF-TRACE-03-sector-profile-signal, LAIF-TRACE-11-governance-force-signal
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-07-missing-laif-construct-structural-honesty
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
+  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-containm
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Missing LAIF construct: Structural Containment
+  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Containment
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 
@@ -1355,7 +1358,7 @@ Each required LAIF-native construct remains necessary for certification; proximi
 - LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
-- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 - Sector gaming risk [MEDIUM]: Sector alignment 80% but conceptual proximity 24/100. Sector-specific vocabulary present without underlying governance intent. May indicate sector-optimised keyword selection rather than substantive coverage.
 
@@ -1381,28 +1384,17 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 
 #### Structured Remediation Patch Set
-These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
-Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
+These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
+Showing the 6 highest-priority patches of 10; the full set is available in the JSON assessment output.
+2 further items in the JSON record distance from the assessing framework's own vocabulary. They require no governance action and are not listed here.
 - **patch_id:** LAIF-PATCH-01-structural-no-precedence-rule-between-the
   - **finding_type:** governance_force_gap
   - **severity:** medium
   - **diagnostic_gap:** structural — no precedence rule between the document's own provisions
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: structural — no precedence rule between the document's own provisions
+  - **recommended_patch:** State the order of precedence among this document's own provisions: which prevails if two conflict, which cannot be waived or changed except by a named authority, and what this document is subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this.
   - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
   - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-02-certification-channel-laif-native-vocabula
-  - **finding_type:** terminology_gap
-  - **severity:** low
-  - **diagnostic_gap:** certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -1414,7 +1406,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: conceptual — governance concepts insufficiently expressed
   - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
   - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -1426,19 +1418,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define each restriction with the specific protected human or public interest it serves, then assign equivalent institutional force to both sides of the pairing.
   - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
   - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-05-certification-channel-the-coherence-test-i
-  - **finding_type:** construct_gap
-  - **severity:** low
-  - **diagnostic_gap:** Certification channel — the Coherence Test is LAIF's named decision instrument; an external document is not expected to contain it
-  - **recommended_patch:** Define a documented Coherence Test workflow that applies Coupling, Consistency, and Reversibility checks before the relevant decision or deployment trigger.
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -1447,10 +1427,34 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **finding_type:** construct_gap
   - **severity:** high
   - **diagnostic_gap:** Partially expressed construct: Integrity Layer — some of its substance is present in the document's own vocabulary, but not enough to carry it
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
   - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
   - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-07-partially-expressed-construct-structural-t
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Transparency — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
+  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-08-partially-expressed-construct-structural-h
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Honesty — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
+  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -1630,14 +1634,14 @@ LAIF-native certification: Not claimed / not applicable to this external-framewo
 
 #### Scorecard
 Signals detected and Signals not detected are public labels only; raw detection patterns are not shown.
-| Dimension            | Score  | Fired signal labels                                                                                                                | Missed signal labels                                                                                                                           |
-| -------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Structural           | 41/100 | numbered sub-requirements; mandatory obligation language (shall/must); full lifecycle scope declared; +3 more                      | threshold gate conditions (all must pass simultaneously); provision hierarchy / precedence rule; self-application clause (Part Seven); +1 more |
-| Terminology          | 0/100  | none detected                                                                                                                      | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                             |
-| Conceptual proximity | 57/100 | human rights / fundamental interests; transparency; explainability / interpretability; +4 more                                     | accountability; contestability / redress; reversibility / modifiability; +2 more                                                               |
-| Auditability         | 80/100 | multiple mandatory obligations (shall/must pairs); numbered traceable requirements; evidence / documentation requirements; +1 more | specific, measurable obligations                                                                                                               |
-| Enforceability       | 60/100 | mandatory language (shall/must); risk-proportionate thresholds; non-discretionary operational mandates                             | named responsible parties; enforcement consequences / penalties                                                                                |
-| Overall readiness    | 50/100 | partial structural signal                                                                                                          | —                                                                                                                                              |
+| Dimension            | Score  | Fired signal labels                                                                                                                | Missed signal labels                                                                                                                                               |
+| -------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Structural           | 41/100 | numbered sub-requirements; mandatory obligation language (shall/must); full lifecycle scope declared; +3 more                      | threshold gate conditions (all must pass simultaneously); provision hierarchy / precedence rule; governing body bound by its own rules (self-application); +1 more |
+| Terminology          | 0/100  | none detected                                                                                                                      | Coupling; Coherence Test; Integrity Layer; +4 more                                                                                                                 |
+| Conceptual proximity | 57/100 | human rights / fundamental interests; transparency; explainability / interpretability; +4 more                                     | accountability; contestability / redress; reversibility / modifiability; +2 more                                                                                   |
+| Auditability         | 80/100 | multiple mandatory obligations (shall/must pairs); numbered traceable requirements; evidence / documentation requirements; +1 more | specific, measurable obligations                                                                                                                                   |
+| Enforceability       | 60/100 | mandatory language (shall/must); risk-proportionate thresholds; non-discretionary operational mandates                             | named responsible parties; enforcement consequences / penalties                                                                                                    |
+| Overall readiness    | 50/100 | partial structural signal                                                                                                          | —                                                                                                                                                                  |
 
 
 #### Score Calibration and Justification
@@ -1691,7 +1695,7 @@ Each required LAIF-native construct remains necessary for certification; proximi
 - LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
-- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -1704,40 +1708,29 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
    - **Concrete fix:** For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).
 2. **Problem:** Structural governance architecture score critically low (41/100) — most deficient dimension after Coupling.
    - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time.
-   - **Concrete fix:** Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, self-application clause (Part Seven). Full signal breakdown in the Scores section.
+   - **Concrete fix:** Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application). Full signal breakdown in the Scores section.
 3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
    - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
    - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
 4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
-5. **Problem:** Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, self-application clause (Part Seven).
+5. **Problem:** Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application).
    - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
    - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
 #### Structured Remediation Patch Set
-These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
-Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
+These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
+Showing the 6 highest-priority patches of 10; the full set is available in the JSON assessment output.
+2 further items in the JSON record distance from the assessing framework's own vocabulary. They require no governance action and are not listed here.
 - **patch_id:** LAIF-PATCH-01-structural-no-precedence-rule-between-the
   - **finding_type:** governance_force_gap
   - **severity:** medium
   - **diagnostic_gap:** structural — no precedence rule between the document's own provisions
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: structural — no precedence rule between the document's own provisions
+  - **recommended_patch:** State the order of precedence among this document's own provisions: which prevails if two conflict, which cannot be waived or changed except by a named authority, and what this document is subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-02-certification-channel-laif-native-vocabula
-  - **finding_type:** terminology_gap
-  - **severity:** low
-  - **diagnostic_gap:** certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -1749,19 +1742,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define each restriction with the specific protected human or public interest it serves, then assign equivalent institutional force to both sides of the pairing.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-04-certification-channel-the-coherence-test-i
-  - **finding_type:** construct_gap
-  - **severity:** low
-  - **diagnostic_gap:** Certification channel — the Coherence Test is LAIF's named decision instrument; an external document is not expected to contain it
-  - **recommended_patch:** Define a documented Coherence Test workflow that applies Coupling, Consistency, and Reversibility checks before the relevant decision or deployment trigger.
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -1770,10 +1751,10 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **finding_type:** construct_gap
   - **severity:** high
   - **diagnostic_gap:** Partially expressed construct: Integrity Layer — some of its substance is present in the document's own vocabulary, but not enough to carry it
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -1782,12 +1763,36 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **finding_type:** construct_gap
   - **severity:** medium
   - **diagnostic_gap:** Partially expressed construct: Structural Transparency — some of its substance is present in the document's own vocabulary, but not enough to carry it
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Partially expressed construct: Structural Transparency — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** LAIF-TRACE-02-sector-profile-signal, LAIF-TRACE-12-governance-force-signal
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-07-partially-expressed-construct-structural-h
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Honesty — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-08-partially-expressed-construct-structural-c
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Containment — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 
@@ -2020,7 +2025,7 @@ Each required LAIF-native construct remains necessary for certification; proximi
 - LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
-- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -2045,28 +2050,17 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 
 #### Structured Remediation Patch Set
-These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
-Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
+These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
+Showing the 6 highest-priority patches of 10; the full set is available in the JSON assessment output.
+2 further items in the JSON record distance from the assessing framework's own vocabulary. They require no governance action and are not listed here.
 - **patch_id:** LAIF-PATCH-01-structural-no-precedence-rule-between-the
   - **finding_type:** governance_force_gap
   - **severity:** medium
   - **diagnostic_gap:** structural — no precedence rule between the document's own provisions
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: structural — no precedence rule between the document's own provisions
+  - **recommended_patch:** State the order of precedence among this document's own provisions: which prevails if two conflict, which cannot be waived or changed except by a named authority, and what this document is subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-02-certification-channel-laif-native-vocabula
-  - **finding_type:** terminology_gap
-  - **severity:** low
-  - **diagnostic_gap:** certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -2078,7 +2072,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: conceptual — governance concepts insufficiently expressed
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -2090,19 +2084,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define each restriction with the specific protected human or public interest it serves, then assign equivalent institutional force to both sides of the pairing.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-05-certification-channel-the-coherence-test-i
-  - **finding_type:** construct_gap
-  - **severity:** low
-  - **diagnostic_gap:** Certification channel — the Coherence Test is LAIF's named decision instrument; an external document is not expected to contain it
-  - **recommended_patch:** Define a documented Coherence Test workflow that applies Coupling, Consistency, and Reversibility checks before the relevant decision or deployment trigger.
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -2114,7 +2096,31 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-07-missing-laif-construct-structural-transpar
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Missing LAIF construct: Structural Transparency
+  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Transparency
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** LAIF-TRACE-02-sector-profile-signal, LAIF-TRACE-09-governance-force-signal
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-08-missing-laif-construct-structural-honesty
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Missing LAIF construct: Structural Honesty
+  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Missing LAIF construct: Structural Honesty
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -2341,7 +2347,7 @@ Each required LAIF-native construct remains necessary for certification; proximi
 - LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
-- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -2366,28 +2372,17 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
 
 #### Structured Remediation Patch Set
-These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
-Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
+These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
+Showing the 6 highest-priority patches of 10; the full set is available in the JSON assessment output.
+2 further items in the JSON record distance from the assessing framework's own vocabulary. They require no governance action and are not listed here.
 - **patch_id:** LAIF-PATCH-01-structural-no-precedence-rule-between-the
   - **finding_type:** governance_force_gap
   - **severity:** medium
   - **diagnostic_gap:** structural — no precedence rule between the document's own provisions
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: structural — no precedence rule between the document's own provisions
+  - **recommended_patch:** State the order of precedence among this document's own provisions: which prevails if two conflict, which cannot be waived or changed except by a named authority, and what this document is subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-02-certification-channel-laif-native-vocabula
-  - **finding_type:** terminology_gap
-  - **severity:** low
-  - **diagnostic_gap:** certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -2423,21 +2418,33 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define each restriction with the specific protected human or public interest it serves, then assign equivalent institutional force to both sides of the pairing.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-06-certification-channel-the-coherence-test-i
+- **patch_id:** LAIF-PATCH-07-partially-expressed-construct-integrity-la
   - **finding_type:** construct_gap
-  - **severity:** low
-  - **diagnostic_gap:** Certification channel — the Coherence Test is LAIF's named decision instrument; an external document is not expected to contain it
-  - **recommended_patch:** Define a documented Coherence Test workflow that applies Coupling, Consistency, and Reversibility checks before the relevant decision or deployment trigger.
+  - **severity:** high
+  - **diagnostic_gap:** Partially expressed construct: Integrity Layer — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-08-partially-expressed-construct-structural-t
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Transparency — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** LAIF-TRACE-02-sector-profile-signal, LAIF-TRACE-07-governance-force-signal
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 
@@ -2674,7 +2681,7 @@ Each required LAIF-native construct remains necessary for certification; proximi
 - LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
-- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 - Terminology divergence (informational) — 'Coupling'-adjacent wording used in the document's own vocabulary (3 instance(s)): engage with industry, civil society, and other stakeholders …; orrection, and redress for affected individuals.  Section 7 …. Not a violation: this document does not use or claim LAIF canonical terminology.
 
@@ -2700,28 +2707,17 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
    - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
 #### Structured Remediation Patch Set
-These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
-Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
+These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
+Showing the 6 highest-priority patches of 10; the full set is available in the JSON assessment output.
+2 further items in the JSON record distance from the assessing framework's own vocabulary. They require no governance action and are not listed here.
 - **patch_id:** LAIF-PATCH-01-structural-no-precedence-rule-between-the
   - **finding_type:** governance_force_gap
   - **severity:** medium
   - **diagnostic_gap:** structural — no precedence rule between the document's own provisions
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: structural — no precedence rule between the document's own provisions
+  - **recommended_patch:** State the order of precedence among this document's own provisions: which prevails if two conflict, which cannot be waived or changed except by a named authority, and what this document is subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-02-certification-channel-laif-native-vocabula
-  - **finding_type:** terminology_gap
-  - **severity:** low
-  - **diagnostic_gap:** certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -2730,22 +2726,10 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **finding_type:** construct_gap
   - **severity:** high
   - **diagnostic_gap:** Partially expressed construct: Coupling — some of its substance is present in the document's own vocabulary, but not enough to carry it
-  - **recommended_patch:** Define each restriction with the specific protected human or public interest it serves, then assign equivalent institutional force to both sides of the pairing.
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Institutional AI governance owner
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-04-certification-channel-the-coherence-test-i
-  - **finding_type:** construct_gap
-  - **severity:** low
-  - **diagnostic_gap:** Certification channel — the Coherence Test is LAIF's named decision instrument; an external document is not expected to contain it
-  - **recommended_patch:** Define a documented Coherence Test workflow that applies Coupling, Consistency, and Reversibility checks before the relevant decision or deployment trigger.
-  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
-  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -2754,10 +2738,10 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **finding_type:** construct_gap
   - **severity:** high
   - **diagnostic_gap:** Partially expressed construct: Integrity Layer — some of its substance is present in the document's own vocabulary, but not enough to carry it
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -2766,12 +2750,36 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **finding_type:** construct_gap
   - **severity:** medium
   - **diagnostic_gap:** Partially expressed construct: Structural Transparency — some of its substance is present in the document's own vocabulary, but not enough to carry it
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Partially expressed construct: Structural Transparency — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
   - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
   - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Institutional AI governance owner
   - **Evidence trace IDs:** LAIF-TRACE-03-sector-profile-signal, LAIF-TRACE-13-governance-force-signal
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-07-partially-expressed-construct-structural-h
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Honesty — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-08-partially-expressed-construct-structural-c
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Containment — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Implement a documented control procedure with owner, input, decision rule, output, exception route, and retention rule.
+  - **evidence_artifact:** Signed control procedure, exception log, and implementation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Institutional AI governance owner
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 
@@ -3008,7 +3016,7 @@ Each required LAIF-native construct remains necessary for certification; proximi
 #### Diagnostic Gaps
 - LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
-- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -3033,28 +3041,17 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
    - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
 #### Structured Remediation Patch Set
-These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
-Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
+These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
+Showing the 6 highest-priority patches of 10; the full set is available in the JSON assessment output.
+2 further items in the JSON record distance from the assessing framework's own vocabulary. They require no governance action and are not listed here.
 - **patch_id:** LAIF-PATCH-01-structural-no-precedence-rule-between-the
   - **finding_type:** governance_force_gap
   - **severity:** medium
   - **diagnostic_gap:** structural — no precedence rule between the document's own provisions
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: structural — no precedence rule between the document's own provisions
+  - **recommended_patch:** State the order of precedence among this document's own provisions: which prevails if two conflict, which cannot be waived or changed except by a named authority, and what this document is subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this.
   - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
   - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-02-certification-channel-laif-native-vocabula
-  - **finding_type:** terminology_gap
-  - **severity:** low
-  - **diagnostic_gap:** certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -3066,19 +3063,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define each restriction with the specific protected human or public interest it serves, then assign equivalent institutional force to both sides of the pairing.
   - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
   - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-04-certification-channel-the-coherence-test-i
-  - **finding_type:** construct_gap
-  - **severity:** low
-  - **diagnostic_gap:** Certification channel — the Coherence Test is LAIF's named decision instrument; an external document is not expected to contain it
-  - **recommended_patch:** Define a documented Coherence Test workflow that applies Coupling, Consistency, and Reversibility checks before the relevant decision or deployment trigger.
-  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
-  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -3087,10 +3072,10 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **finding_type:** construct_gap
   - **severity:** high
   - **diagnostic_gap:** Partially expressed construct: Integrity Layer — some of its substance is present in the document's own vocabulary, but not enough to carry it
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
   - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
   - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -3099,12 +3084,36 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **finding_type:** construct_gap
   - **severity:** medium
   - **diagnostic_gap:** Partially expressed construct: Structural Transparency — some of its substance is present in the document's own vocabulary, but not enough to carry it
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Partially expressed construct: Structural Transparency — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
   - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
   - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
   - **Evidence trace IDs:** LAIF-TRACE-14-governance-force-signal
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-07-partially-expressed-construct-structural-h
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Honesty — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
+  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-08-partially-expressed-construct-structural-c
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Containment — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Tie clinical AI use to clinician review, fallback criteria, override logging, patient safety review, and incident escalation.
+  - **evidence_artifact:** Clinical fallback, override record, patient safety review, incident log, or clinical governance record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** Clinical governance owner with clinician reviewer and safety incident pathway
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 
@@ -3341,7 +3350,7 @@ Each required LAIF-native construct remains necessary for certification; proximi
 - LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
-- Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)
+- Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -3366,28 +3375,17 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
    - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
 
 #### Structured Remediation Patch Set
-These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.
-Showing the 6 highest-priority patches of 12; the full set is available in the JSON assessment output.
+These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
+Showing the 6 highest-priority patches of 10; the full set is available in the JSON assessment output.
+2 further items in the JSON record distance from the assessing framework's own vocabulary. They require no governance action and are not listed here.
 - **patch_id:** LAIF-PATCH-01-structural-no-precedence-rule-between-the
   - **finding_type:** governance_force_gap
   - **severity:** medium
   - **diagnostic_gap:** structural — no precedence rule between the document's own provisions
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: structural — no precedence rule between the document's own provisions
+  - **recommended_patch:** State the order of precedence among this document's own provisions: which prevails if two conflict, which cannot be waived or changed except by a named authority, and what this document is subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this.
   - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
   - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-02-certification-channel-laif-native-vocabula
-  - **finding_type:** terminology_gap
-  - **severity:** low
-  - **diagnostic_gap:** certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
-  - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
-  - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -3399,19 +3397,7 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **recommended_patch:** Define each restriction with the specific protected human or public interest it serves, then assign equivalent institutional force to both sides of the pairing.
   - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
   - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
-  - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
-  - **Evidence trace IDs:** reviewer confirmation required / none linked
-  - **legal_authority_boundary:** diagnostic_only
-  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
-- **patch_id:** LAIF-PATCH-04-certification-channel-the-coherence-test-i
-  - **finding_type:** construct_gap
-  - **severity:** low
-  - **diagnostic_gap:** Certification channel — the Coherence Test is LAIF's named decision instrument; an external document is not expected to contain it
-  - **recommended_patch:** Define a documented Coherence Test workflow that applies Coupling, Consistency, and Reversibility checks before the relevant decision or deployment trigger.
-  - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
-  - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -3420,10 +3406,10 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **finding_type:** construct_gap
   - **severity:** high
   - **diagnostic_gap:** Partially expressed construct: Integrity Layer — some of its substance is present in the document's own vocabulary, but not enough to carry it
-  - **recommended_patch:** Define Integrity Layer entry criteria and assign an accountable owner to confirm transparency, honesty, and containment evidence before operational use.
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
   - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
   - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
   - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
@@ -3432,12 +3418,36 @@ Showing the 6 highest-priority patches of 12; the full set is available in the J
   - **finding_type:** construct_gap
   - **severity:** medium
   - **diagnostic_gap:** Partially expressed construct: Structural Transparency — some of its substance is present in the document's own vocabulary, but not enough to carry it
-  - **recommended_patch:** Define an institution-specific control for this diagnostic gap and assign owner, trigger, evidence, escalation, and review obligations: Partially expressed construct: Structural Transparency — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
   - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
   - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
-  - **verification_test:** Create a verification test that samples this control control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
   - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
   - **Evidence trace IDs:** LAIF-TRACE-09-governance-force-signal
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-07-partially-expressed-construct-structural-h
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Honesty — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
+  - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
+  - **legal_authority_boundary:** diagnostic_only
+  - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
+- **patch_id:** LAIF-PATCH-08-partially-expressed-construct-structural-c
+  - **finding_type:** construct_gap
+  - **severity:** medium
+  - **diagnostic_gap:** Partially expressed construct: Structural Containment — some of its substance is present in the document's own vocabulary, but not enough to carry it
+  - **recommended_patch:** Carry the substance already present through to every provision it should govern, so the property holds across the document rather than in the clauses where it happens to appear.
+  - **operational_control:** Map HR AI decisions to adverse-action review, bias testing evidence, human review, appeal, and escalation controls.
+  - **evidence_artifact:** Adverse-action review, bias evidence, human review/appeal record, or accommodation record.
+  - **verification_test:** Create a verification test that samples this control, confirms the named owner, trigger, evidence artifact, escalation route, and review outcome, and records pass/follow-up status.
+  - **responsible_actor:** HR policy owner with legal/compliance and bias-review support
+  - **Evidence trace IDs:** reviewer confirmation required / none linked
   - **legal_authority_boundary:** diagnostic_only
   - **Reviewer action:** confirm source authority; assign actor; verify evidence artifact; confirm escalation/reversibility; determine institution/regulator/contract authority.
 

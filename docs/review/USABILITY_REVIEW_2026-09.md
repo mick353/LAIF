@@ -559,3 +559,38 @@ bars, a stated parent framework), and the finding reads "no precedence rule
 between the document's own provisions". No corpus score changed, because none of
 these excerpts contains such a clause; the finding is now one a reader can act
 on without adopting LAIF.
+
+---
+
+## 15. Tenth pass — the remediation layer, and the last vocabulary locks
+
+The tenth pass read the remediation output as the person expected to act on it.
+
+**The report told readers to build a control for not having used LAIF's
+words.** The certification-channel item was rendered with the generic template:
+"Define an institution-specific control for this diagnostic gap and assign
+owner, trigger, evidence, escalation, and review obligations: certification
+channel — LAIF-native vocabulary not used". These items now recommend no action
+in one sentence, and the public report lists them as a count with an explanation
+rather than as work.
+
+**Auto-detected mode gave external documents LAIF-native wording.** Findings are
+worded differently per mode, but mode resolution ran *after* the failure-mode
+block, so the raw `None` parameter never matched `"external_framework"`. Every
+caller that relied on auto-detection — which is the default — got the deficiency
+wording. Resolution now precedes the findings.
+
+**Two more signals were still vocabulary-locked.** Self-application was keyed to
+"Part Seven" and "applies to regulatory", so "Group Risk is itself subject to
+this Standard" and "Academic Board are themselves subject to this policy" scored
+nothing on a 12-point signal while the functional layer read them as FUNCTIONAL.
+The three institutional documents rose by three points each; no corpus score
+moved.
+
+**Small things that undermine trust.** `verification_test` read "samples this
+control control". The generic recommendation restated the gap instead of saying
+what to write.
+
+Nothing in this pass changed a verdict. All of it changed whether a reader can
+act on what they are told — which, after ten passes, is where the remaining
+work has consistently been.

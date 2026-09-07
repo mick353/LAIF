@@ -461,3 +461,25 @@ rule between the document's own provisions" — and its remediation names the
 three questions the text has to answer (which provision prevails on conflict,
 what cannot be waived, what this document is subordinate to) before offering
 LAIF's three-tier form as one way of answering them.
+
+## Remediation Must Be Actionable
+
+Two rules govern what the remediation layer is allowed to say:
+
+- **Certification-channel items recommend no action.** Where a construct's
+  substance is already present, or the construct is LAIF's own instrument, the
+  patch says so in one sentence and asks for nothing. The public report lists
+  them only as a count with a line explaining what they are — telling a reader
+  to "define an institution-specific control" for not having used LAIF's words
+  is both wrong and the grandstanding the reporting layer exists to avoid.
+- **A recommendation names what to write, not what is missing.** The generic
+  template restates the gap; specific findings carry specific remediation. The
+  precedence finding, for instance, names the three questions the text must
+  answer — which provision prevails on conflict, what cannot be waived, what the
+  document is subordinate to — and lists the drafting forms that answer them.
+
+Mode resolution happens before findings are worded. Several findings differ
+between external-framework and LAIF-native assessment, and the raw `mode`
+parameter is `None` whenever a caller relies on auto-detection — which silently
+gave external documents the LAIF-native wording until the resolution was moved
+ahead of the failure-mode block.

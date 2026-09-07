@@ -266,8 +266,14 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         self.assertEqual(result["formal_laif_compliance"], "FAIL")
         self.assertEqual(result["terminology_score"], 0)
         self.assertGreater(result["conceptual_proximity_score"], 0)
-        self.assertIn(
-            "terminological — no canonical LAIF terms present",
+        # In external-framework mode the absence of LAIF vocabulary is recorded
+        # as certification-channel distance, not as a governance failure mode;
+        # the deficiency wording is reserved for documents assessed against the
+        # LAIF-native gate.
+        self.assertTrue(
+            any("certification channel" in mode.lower()
+                or "no canonical LAIF terms present" in mode
+                for mode in result["primary_failure_modes"]),
             result["primary_failure_modes"],
         )
         # External-vocabulary documents receive certification-channel wording,
@@ -828,7 +834,9 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
 
         self.assertIn("Structured Remediation Patch Set", report)
         self.assertIn(
-            "These patches are diagnostic LAIF remediation guidance. They do not determine legal validity or certify LAIF-native compliance unless separately adopted and verified.",
+            "These patches are diagnostic guidance. They do not determine legal "
+            "validity, and they do not certify compliance with the assessing "
+            "framework unless that framework is separately adopted and verified.",
             report,
         )
         for unsafe_phrase in (

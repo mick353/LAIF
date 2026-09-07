@@ -20,7 +20,7 @@
       "diagnostic_gaps": [
         "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
-        "Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)",
+        "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "US Executive Order 14110 — §2 Principles, §6 Workers, §7 Civil Rights (official text)",
@@ -86,7 +86,7 @@
           "why_it_matters": "Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
-          "concrete_fix": "Address the 4 missed signals for this dimension. Critical gaps: risk stratification / proportionality, provision hierarchy / precedence rule, self-application clause (Part Seven). Full signal breakdown in the Scores section.",
+          "concrete_fix": "Address the 4 missed signals for this dimension. Critical gaps: risk stratification / proportionality, provision hierarchy / precedence rule, governing body bound by its own rules (self-application). Full signal breakdown in the Scores section.",
           "problem": "Structural governance architecture score critically low (49/100) — most deficient dimension after Coupling.",
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
@@ -102,7 +102,7 @@
         },
         {
           "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 49/100). Missing: risk stratification / proportionality, provision hierarchy / precedence rule, self-application clause (Part Seven).",
+          "problem": "Constitutional hierarchy not declared (structural score 49/100). Missing: risk stratification / proportionality, provision hierarchy / precedence rule, governing body bound by its own rules (self-application).",
           "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
         },
         {
@@ -277,7 +277,7 @@
         "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
-        "Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)",
+        "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (official text)",
@@ -521,7 +521,7 @@
         "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
-        "Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)",
+        "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "NIST AI RMF 1.0 (NIST AI 100-1) — GOVERN & MAP Functions (official text)",
@@ -573,7 +573,7 @@
           "why_it_matters": "Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
-          "concrete_fix": "Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, self-application clause (Part Seven). Full signal breakdown in the Scores section.",
+          "concrete_fix": "Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application). Full signal breakdown in the Scores section.",
           "problem": "Structural governance architecture score critically low (41/100) — most deficient dimension after Coupling.",
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
@@ -589,7 +589,7 @@
         },
         {
           "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, self-application clause (Part Seven).",
+          "problem": "Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application).",
           "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
         },
         {
@@ -749,7 +749,7 @@
         "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
-        "Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)",
+        "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)",
         "Sector gaming risk [MEDIUM]: Sector alignment 80% but conceptual proximity 24/100. Sector-specific vocabulary present without underlying governance intent. May indicate sector-optimised keyword selection rather than substantive coverage."
       ],
@@ -964,7 +964,7 @@
         "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
-        "Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)",
+        "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "EU AI Act — Art. 9, 13 & 14",
@@ -1033,7 +1033,7 @@
           "why_it_matters": "Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
-          "concrete_fix": "Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, self-application clause (Part Seven). Full signal breakdown in the Scores section.",
+          "concrete_fix": "Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application). Full signal breakdown in the Scores section.",
           "problem": "Structural governance architecture score critically low (41/100) — most deficient dimension after Coupling.",
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
@@ -1049,7 +1049,7 @@
         },
         {
           "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, self-application clause (Part Seven).",
+          "problem": "Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application).",
           "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
         },
         {
@@ -1214,7 +1214,7 @@
         "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
-        "Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)",
+        "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "NIST AI RMF — Govern & Map Functions",
@@ -1428,7 +1428,7 @@
         "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
-        "Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)",
+        "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "OECD AI Principles (2019, rev. 2024)",
@@ -1631,7 +1631,7 @@
         "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
-        "Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)",
+        "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)",
         "Terminology divergence (informational) — 'Coupling'-adjacent wording used in the document's own vocabulary (3 instance(s)): engage with industry, civil society, and other stakeholders …; orrection, and redress for affected individuals.  Section 7 …. Not a violation: this document does not use or claim LAIF canonical terminology."
       ],
@@ -1889,7 +1889,7 @@
       "diagnostic_gaps": [
         "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
-        "Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)",
+        "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "NHS England — AI in Clinical Decision Support (Policy Framework)",
@@ -2135,7 +2135,7 @@
         "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
-        "Structural mechanism not detected in any vocabulary: self-application clause (Part Seven)",
+        "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "TUC/CIPD — Framework for Fair AI in Employment Decisions",

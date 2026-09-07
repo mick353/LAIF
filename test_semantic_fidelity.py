@@ -353,10 +353,32 @@ check(_deficiency_wording_clean, "SF6.5",
       "external-vocabulary documents never receive deficiency-worded "
       "vocabulary gaps (certification-channel wording only)")
 
-check(any("substance functionally present" in g for g in s1.get("gaps", [])
-          if "self-application" in g), "SF6.6",
-      "a functionally-present construct is reported as present, "
-      "never as missing")
+# A construct whose substance the document expresses must never be reported as
+# missing. Two outcomes satisfy that: the detector sees it and raises no gap at
+# all, or it raises one qualified with "substance functionally present". The
+# earlier form pinned the second outcome only, so broadening a detector until it
+# saw the substance outright read as a regression.
+_present_constructs = {c for c, v in s1.get("functional_alignment", {}).items()
+                       if v.get("verdict") in ("FUNCTIONAL", "DECLARED")}
+_construct_aliases = {
+    "Self-Application": ("self-application", "self application"),
+    "Coupling": ("coupling",),
+    "Integrity Layer": ("integrity layer",),
+    "Consistency": ("consistency",),
+    "Reversibility": ("reversibility",),
+}
+_unqualified = []
+for _c in _present_constructs:
+    for _alias in _construct_aliases.get(_c, (_c.lower(),)):
+        for _g in s1.get("gaps", []):
+            _gl = _g.lower()
+            if _alias in _gl and "substance functionally present" not in _gl \
+               and "certification" not in _gl and "vocabulary" not in _gl:
+                _unqualified.append((_c, _g))
+check(bool(_present_constructs) and not _unqualified, "SF6.6",
+      "a functionally-present construct is never reported as missing"
+      + (f" (unqualified: {_unqualified[:2]})" if _unqualified else
+         f" ({len(_present_constructs)} present, none reported missing)"))
 
 
 # ── GROUP SF7 — Score calibration integrity ──────────────────────────────────

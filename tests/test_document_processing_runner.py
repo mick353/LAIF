@@ -2209,6 +2209,59 @@ class ArtifactCoherenceTests(unittest.TestCase):
             self.assertIn(REPORT_DATE, artifact)
 
 
+class RemediationUsefulnessTests(unittest.TestCase):
+    """Remediation must tell a reader what to do, and must not ask for work that
+    only matters if they adopt the assessing framework."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.result = assess("Meridian GS-114", "policy", INSTITUTIONAL_STANDARD,
+                            assessment_mode="external_framework", sector="auto")
+
+    def test_channel_items_recommend_no_governance_action(self) -> None:
+        for patch in self.result["remediation_patches"]:
+            if "certification channel" in patch["diagnostic_gap"].lower():
+                self.assertIn("No governance action is required",
+                              patch["recommended_patch"])
+
+    def test_channel_items_are_not_listed_in_the_public_report(self) -> None:
+        from assessment_engine import generate_markdown_report
+        report = generate_markdown_report([self.result])
+        self.assertIn("Structured Remediation Patch Set", report)
+        self.assertNotIn("Define an institution-specific control for this diagnostic "
+                         "gap and assign owner, trigger, evidence, escalation, and "
+                         "review obligations: certification channel", report)
+        self.assertIn("record distance from the assessing framework's own vocabulary",
+                      report)
+
+    def test_precedence_remediation_names_the_questions_to_answer(self) -> None:
+        patches = {p["diagnostic_gap"]: p for p in self.result["remediation_patches"]}
+        precedence = next((p for g, p in patches.items()
+                           if "no precedence rule between" in g), None)
+        self.assertIsNotNone(precedence)
+        text = precedence["recommended_patch"]
+        for phrase in ("which prevails", "cannot be waived", "subordinate to"):
+            self.assertIn(phrase, text)
+
+    def test_verification_test_wording_is_not_doubled(self) -> None:
+        for patch in self.result["remediation_patches"]:
+            self.assertNotIn("control control", patch["verification_test"])
+
+    def test_mode_is_resolved_before_findings_are_worded(self) -> None:
+        """A caller relying on auto-detection must get the same wording as one
+        that names the mode explicitly."""
+        auto = assess("a", "policy", INSTITUTIONAL_STANDARD, sector="auto")
+        explicit = assess("a", "policy", INSTITUTIONAL_STANDARD,
+                          assessment_mode="external_framework", sector="auto")
+        self.assertEqual(auto["assessment_mode"], explicit["assessment_mode"])
+        self.assertEqual(auto["primary_failure_modes"], explicit["primary_failure_modes"])
+
+    def test_self_application_is_detected_in_institutional_register(self) -> None:
+        """'Group Risk is itself subject to this Standard' is self-application."""
+        fired = {lbl for lbl, _ in self.result["score_breakdown"]["structural"]["fired"]}
+        self.assertIn("governing body bound by its own rules (self-application)", fired)
+
+
 class NonGovernanceTextTests(unittest.TestCase):
     """Broadened detection must not turn ordinary prose into a governance finding."""
 
