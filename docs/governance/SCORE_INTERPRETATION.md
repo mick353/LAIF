@@ -255,3 +255,49 @@ identified by anchors in the document itself *and* that instrument's own
 vocabulary names the control differently; otherwise the name is derived from the
 gap type. A control name that does not correspond to its own gap is a reporting
 defect, and is tested for.
+
+## Self-Contradiction
+
+A gap is something a document omits. A contradiction is something it revokes: a
+protection asserted in one clause and negated in another — "committed to full
+transparency" beside "cannot be disclosed under any circumstances", "human
+oversight is maintained at all times" beside "executes automatically without
+human review". Until it is resolved, no reading of the document is safe, so a
+contradiction is reported ahead of the gap register in the executive finding and
+quoted in its own section of the institutional report.
+
+Two rules bound the detector:
+
+- **Triggers accept the registers institutions actually use.** "We are committed
+  to transparency" and "human oversight is maintained" are claims of the same
+  properties as the canonical terms, and are treated as such.
+- **Regulating a hazard is never committing it.** A clause that forbids the thing
+  its own words name — "the restriction on automated decisioning *without human
+  review* exists to protect the applicant" — is a protection, not a
+  contradiction. The governing-context guard suppresses adversary matches inside
+  prohibitions, and `test_semantic_fidelity.py` invariant 2 pins it.
+
+## Instrument Form
+
+Instrument form and subject matter are separate axes, and conflating them
+misstates who a document binds:
+
+| Form | What it is | What a reviewer must do with it |
+|---|---|---|
+| `procurement_assessment_form` | the buyer's instrument — a tender, questionnaire, or contract schedule | convert requirements into contract conditions and acceptance evidence |
+| `vendor_compliance_submission` | the supplier's answer to it — a response or attestation | treat every assertion as a claim requiring independent verification |
+| `internal_policy` | an institutional policy, standard, or procedure | test it against implementation records, ownership, and escalation evidence |
+| `values_charter` | a statement of values and intent | ask for the policy that implements it; it carries no assurance force alone |
+
+A tender that buys a clinical system is a procurement instrument whose *sector*
+is clinical — the sector profile carries that dimension, and issuing-side anchors
+therefore outrank sector vocabulary in classification. A values charter is
+distinguished from a policy by the absence of sustained mandatory language: a
+charter that says "shall" repeatedly is a policy that happens to be called a
+charter.
+
+The displayed sector basis always explains the profile the assessment actually
+used. The runner's keyword detector and the engine's document-type-led routing
+can legitimately reach different answers; showing one profile's name beside the
+other's evidence is incoherent, and where a profile came from document type
+rather than vocabulary the report says exactly that.

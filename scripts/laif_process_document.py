@@ -383,10 +383,17 @@ def auto_sector(text: str) -> str:
     return "general_ai_governance"
 
 
-def auto_sector_basis(text: str) -> dict:
-    """Why a sector was chosen — reported so a user can see and correct it."""
+def auto_sector_basis(text: str, sector: str | None = None) -> dict:
+    """Why a sector was chosen — reported so a user can see and correct it.
+
+    `sector` names the profile actually used by the assessment. It must be
+    passed wherever the basis is displayed next to that profile: the runner's
+    own detector and the engine's document-type-led routing can legitimately
+    reach different answers, and showing one profile's name beside the other's
+    evidence is incoherent.
+    """
     lowered = (text or "").lower()
-    chosen = auto_sector(text)
+    chosen = sector or auto_sector(text)
     terms_by_sector = {
         "clinical_ai": ("clinical", "patient", "clinician", "diagnosis", "medical", "healthcare", "dcb0129", "hazard log", "nhs"),
         "procurement_vendor_governance": ("procurement", "vendor", "contract", "supplier", "service level", "audit access"),
@@ -395,6 +402,7 @@ def auto_sector_basis(text: str) -> dict:
         "financial_services_ai": ("credit", "lending", "loan", "mortgage", "underwriting", "applicant", "premium", "aml", "model risk", "model validation", "bank"),
         "government_service_delivery": ("public service", "public sector", "government", "public servants", "service delivery", "caseworker"),
         "departmental_ai_development": ("software development", "release", "pipeline", "model register", "rollback", "architecture"),
+        "general_ai_governance": (),
     }
     hits = []
     for term in terms_by_sector.get(chosen, ()):
@@ -402,12 +410,17 @@ def auto_sector_basis(text: str) -> dict:
              else len(re.findall(rf"\b{re.escape(term)}\b", lowered)))
         if n:
             hits.append(f"{term} ×{n}")
-    return {
-        "sector": chosen,
-        "basis": ", ".join(hits[:6]) if hits else
-                 "no sector-specific vocabulary reached the detection threshold",
-        "auto_detected": True,
-    }
+    if hits:
+        basis = ", ".join(hits[:6])
+    elif chosen != "general_ai_governance":
+        # The profile came from document type or an instrument anchor, not from
+        # sector vocabulary. Saying "no vocabulary reached the threshold" beside
+        # a named profile would read as a contradiction.
+        basis = ("routed by document type rather than sector vocabulary; "
+                 "override with --sector if the institutional context differs")
+    else:
+        basis = "no sector-specific vocabulary reached the detection threshold"
+    return {"sector": chosen, "basis": basis, "auto_detected": True}
 
 def resolve_assessment_mode(mode: str) -> str:
     return "laif_native_certification" if mode == "laif_native" else "external_framework"
@@ -1796,7 +1809,30 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
         "implementation_guide": "As implementation guidance it must be converted into owners, artefacts, thresholds, and stop/go consequences.",
         "internal_policy": "As institutional operating policy its assurance depends on implementation records, ownership, and escalation evidence.",
         "procurement_assessment_form": "As a procurement instrument its force arises through contract conditions and acceptance evidence.",
+        "vendor_compliance_submission": "As a supplier attestation it is a claim, not evidence: every assertion in it needs independent verification before it enters an assurance record.",
+        "values_charter": "As a statement of values it creates no duty, owner, or evidence obligation, so it cannot carry assurance weight until its values are written as operative commitments.",
     }.get(doc_type, "")
+
+    # 4b. Self-contradiction. A document that claims a protection and negates it
+    # in its own text cannot be relied on for that protection, whatever else it
+    # scores. This outranks the gap register: a gap is something the document
+    # omits, a contradiction is something it revokes.
+    contradictions = assessment.get("contradictions") or []
+    if contradictions:
+        subjects = []
+        for entry in contradictions:
+            subject = (entry[0] if isinstance(entry, (list, tuple)) and entry
+                       else str(entry)).replace(" (non-canonical)", "")
+            if subject not in subjects:
+                subjects.append(subject)
+        contradiction_txt = (
+            f"Self-contradiction — the document asserts and then negates the same "
+            f"protection ({', '.join(subjects[:3])}"
+            + (f", and {len(subjects) - 3} more" if len(subjects) > 3 else "")
+            + "); resolve this before relying on any part of it, because the "
+              "stated protection and the operative text disagree.")
+    else:
+        contradiction_txt = ""
 
     # 5. This document's own leading gap and next action.
     if gaps:
@@ -1819,7 +1855,10 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
               "status before relying on it.")
     )
 
-    parts = [verdict, binding, position, framing, classification, gap_txt, action]
+    # Contradiction precedes the gap and the next action: it changes what the
+    # rest of the finding means.
+    parts = [verdict, binding, position, framing, classification,
+             contradiction_txt, gap_txt, action]
     return " ".join(x for x in parts if x)
 
 
@@ -2177,6 +2216,23 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         lines.append("- No extraction-impaired governance evidence required source-verification tiering.")
     if extraction_quality_profile and extraction_quality_profile.get("source_text_reliability_warning"):
         lines += ["", f"**Extraction quality note:** {extraction_quality_profile.get('source_text_reliability_warning')}"]
+    contradictions = assessment.get("contradictions") or []
+    if contradictions:
+        lines += ["", "## Self-contradictions in the document", "",
+                  ("Each entry below is a protection the document states and then "
+                   "negates elsewhere in its own text. Until these are resolved the "
+                   "document cannot be relied on for the protection it names — this "
+                   "is a defect in the drafting, not a missing control."), ""]
+        for idx, entry in enumerate(contradictions, 1):
+            subject = entry[0] if isinstance(entry, (list, tuple)) and entry else str(entry)
+            description = entry[1] if isinstance(entry, (list, tuple)) and len(entry) > 1 else ""
+            context = entry[2] if isinstance(entry, (list, tuple)) and len(entry) > 2 else ""
+            repaired, _was, _why = normalize_quote_for_display(context)
+            damaged, _reason = unresolved_split_word_damage(repaired)
+            lines.append(f"- **CONTRA-{idx:03d} — {subject}:** {description}."
+                         + (f" Text: \u201c{repaired.strip()}\u201d" if context and not damaged
+                            else " Source text withheld: extraction damage; verify in the source."))
+        lines.append("")
     lines += ["", "## What the document controls well", "", _md_list(assessment.get("strengths", [])[:8], "No deterministic strengths detected."), "", "## What the document does not control", ""]
     lines.append(_md_list(
         [g["gap_title"] + f" ({g['gap_id']})" for g in gaps[:8]],
@@ -2446,8 +2502,9 @@ def run(args: argparse.Namespace) -> int:
     selected_sector = args.sector
     # Record why an auto-detected sector was chosen, so the report can show it
     # and the reader can override it with --sector.
-    sector_basis = (auto_sector_basis(extraction.text).get("basis", "")
-                    if selected_sector == "auto" else "")
+    # Placeholder: the displayed basis must explain the sector the assessment
+    # actually used, so it is recomputed after the assessment below.
+    sector_basis = ""
     document_name = args.document_name or input_path.stem
     processed_at = utc_now_iso()
     source_hash = sha256_file(input_path)
@@ -2504,6 +2561,13 @@ def run(args: argparse.Namespace) -> int:
         runner_input_path=str(input_path),
         processed_at_utc=processed_at,
     )
+    # The basis must explain the profile the assessment used, not a separately
+    # derived one — the report shows them side by side.
+    if selected_sector == "auto":
+        used = assessment.get("sector_profile") or assessment.get("sector_used")
+        basis = auto_sector_basis(extraction.text, used).get("basis", "")
+        if basis:
+            processing["sector_basis"] = basis
     base_report = generate_markdown_report([assessment])
     markdown_report = markdown_metadata_block(processing, extraction_metadata, assessment) + base_report
     payload = {

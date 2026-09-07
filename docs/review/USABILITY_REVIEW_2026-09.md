@@ -276,3 +276,65 @@ adversarial suite's sector-gaming group).
 | Auditor verifying a published finding | **Works** |
 | Non-governance document submitted by mistake | **Works** — scores near zero and says why |
 | Unreadable or empty file | **Works** — fails with a specific extractor error, no assessment emitted |
+
+---
+
+## 8. Third pass — instrument classes outside the tuning set
+
+A third stress set covered four further document classes: a corporate values
+charter, a supplier attestation, a university academic policy, and a document
+that asserts protections and then revokes them. It found five defects, all now
+fixed and pinned by tests.
+
+**Register bias was not sector-specific.** The academic policy expressed the
+same substance as the bank standard in academic vocabulary — "may not be varied
+independently", "all of the following are satisfied at the same time",
+"the reviewer may substitute their own decision", "are themselves subject to
+this policy", "falls below 90%, use must be paused" — and scored 44/100 with
+Coupling, Consistency, Reversibility, and Self-Application reported ABSENT. It
+now scores 64/100 and is FUNCTIONAL on four of five constructs.
+
+**A percentage threshold could never match.** The enforceability threshold
+pattern ended in a word boundary after `%`, which cannot match: `%` is not a
+word character, so `below 90%,` failed the pattern that was written to catch it.
+Every quantified breach trigger in every document had been invisible.
+
+**Self-contradiction was detected but never reported.** A document claiming full
+transparency and then refusing all disclosure, claiming human oversight and then
+executing without review, was told its leading problem was a missing accountability
+register. Contradictions now precede the gap register in the executive finding and
+are quoted in their own section: a gap is something a document omits, a
+contradiction is something it revokes.
+
+**Contradiction triggers were keyed to a narrow phrasing** ("system
+transparency", "operates within") and missed how institutions actually claim
+these properties ("committed to full transparency", "human oversight is
+maintained at all times"). Broadening them exposed the mirror risk immediately —
+the bank standard's own clause "the restriction on automated credit decisioning
+*without human review* exists to protect the applicant" was flagged as a
+no-oversight contradiction. The governing-context guard now suppresses adversary
+vocabulary appearing inside the prohibition that forbids it.
+
+**Instrument form was conflated with subject matter, and with the other side of
+the same transaction.** A supplier attestation was classified as a procurement
+form — the two share the phrase "supplier response" but need opposite reviewer
+treatment, since a tender needs contract conditions and an attestation needs
+independent verification. A values charter had no class at all and was reported
+as "not confidently classified" rather than as what it is: a document that
+carries no assurance force until its values are written as duties.
+
+Two consistency defects surfaced alongside these: the report displayed one
+sector profile's name beside another's supporting evidence, because the runner's
+keyword detector and the engine's document-type routing were both consulted; and
+control recommendations were named from a per-instrument list indexed by gap
+number, producing names unrelated to the gaps they closed.
+
+| Document class | Before | After |
+|---|---|---|
+| Bank AI governance standard | 35, four constructs ABSENT, three false gaps | 66, FUNCTIONALLY ALIGNED, no false gaps |
+| University academic policy | 44, four constructs ABSENT, three false gaps | 64, FUNCTIONALLY ALIGNED, no false gaps |
+| Self-contradicting standard | leading finding: missing owner | leading finding: self-contradiction, quoted |
+| Supplier attestation | procurement form | vendor submission, "a claim, not evidence" |
+| Values charter | not classified | values charter, "no assurance force alone" |
+| AI triage tender | clinical assurance checklist | procurement instrument, clinical sector |
+| Sales report / empty file | correct | correct (unchanged) |

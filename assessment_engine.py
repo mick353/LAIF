@@ -53,14 +53,14 @@ STRUCTURAL_RUBRIC = [
          "full lifecycle scope declared"),
     (7,  r"\bproportionat|\bhigh.risk\b|\brisk.{0,5}(?:level|categor|classif)",
          "risk stratification / proportionality"),
-    (6,  r"\b(?:mechanisms?|safeguards?|measures?|controls?|procedures?|protocols?)\b|\b(?:deployment|approval|assurance)\s+gate\b",
+    (6,  r"\b(?:mechanisms?|safeguards?|measures?|controls?|procedures?|protocols?)\b|\b(?:deployment|approval|assurance)\s+gate\b|\bconditions?\s+of\s+use\b|\bconditions\b.{0,60}\bmust\s+be\s+(?:satisfied|met)\b",
          "operational mechanisms defined"),
     (6,  r"\b(?:monitor|audit|review|inspect|evaluat)\b",
          "review / monitoring mechanisms"),
     # ── LAIF-specific structural elements ─────────────────────────────────────
     # Source: LAIF v1.2 Part Two — Integrity Layer threshold: all three
     # preconditions must be satisfied simultaneously; partial = failure.
-    (15, r"\bprecondition\b|all\s+(?:three|four|five)\s+(?:must|shall)\b|\bsimultaneously\b",
+    (15, r"\bprecondition\b|all\s+(?:three|four|five)\s+(?:must|shall)\b|\bsimultaneously\b|\bat\s+the\s+same\s+time\b|all\s+of\s+the\s+following\b.{0,80}\b(?:are\s+satisfied|hold|apply|must)|(?:some\s+but\s+not\s+all|partial\s+(?:satisfaction|compliance))\b.{0,80}\bis\s+not\s+approval\b",
          "threshold gate conditions (all must pass simultaneously)"),
     # Source: LAIF v1.2 Principle 3 — Framework Hierarchy; non-amendable clause
     # prevents operational revision from eroding Foundational Principles.
@@ -111,10 +111,10 @@ CONCEPTUAL_RUBRIC = [
     (10, r"\bhuman rights\b|\bfundamental rights\b|\bhuman interests?\b|\bperson.level stakes?\b|\baffected persons?\b|\bbeneficiar|\bcivil rights\b|\bdata subjects?\b|\b(?:applicant|customer|patient|employee|candidate|claimant|citizen|individual|person|resident|student)(?:'|\u2019)?s?\s+(?:interest|right)s?\b|\brights?\s+of\s+(?:the\s+)?(?:applicant|customer|patient|employee|individual|person)\b",
          "human rights / fundamental interests"),
     # Integrity Layer A.1 proxy — transparency requirements
-    (8,  r"\btransparency\b|\btransparent\b|\bmeaningful account\b|\bshows? its work\b|\bdisclos\w+\b.{0,80}\b(?:limitation|basis|logic|criteria|use\s+of\s+ai)\b|\b(?:publish|state|record)\w*\b.{0,60}\bbasis\s+(?:for|of)\s+(?:the\s+)?(?:decision|output|determination)\b|\binformed\s+that\b.{0,80}\bautomated\b",
+    (8,  r"\btransparency\b|\btransparent\b|\bmeaningful account\b|\bshows? its work\b|\bdisclos\w+\b.{0,80}\b(?:limitation|basis|logic|criteria|use\s+of\s+ai)\b|\b(?:publish|state|record)\w*\b.{0,60}\bbasis\s+(?:for|of)\s+(?:the\s+)?(?:decision|output|determination)\b|\binformed\s+that\b.{0,80}\bautomated\b|\bplain.(?:language|english)\b.{0,60}\b(?:account|explanation|statement|information)\b",
          "transparency"),
     # Integrity Layer A.1 proxy — explainability / meaningful account
-    (8,  r"\bexplainability\b|\binterpret\b|\bmeaningful\s+(?:explanation|information)\b|explain (?:any|each|every) decision|\bin plain language\b|words you can understand|\bexplanation\s+of\s+(?:any|each|every|an?|the)\b.{0,50}\bdecision\b|\bexplain\w*\b.{0,60}\b(?:individual|specific|each)\s+(?:decision|output|determination)\b|\breasons?\s+for\s+(?:the|any|each|its)\s+(?:decision|outcome|determination)\b|\bunderstand\s+and\s+contest\b",
+    (8,  r"\bexplainability\b|\binterpret\b|\bmeaningful\s+(?:explanation|information)\b|explain (?:any|each|every) decision|\bin plain language\b|words you can understand|\bexplanation\s+of\s+(?:any|each|every|an?|the)\b.{0,50}\bdecision\b|\bexplain\w*\b.{0,60}\b(?:individual|specific|each)\s+(?:decision|output|determination)\b|\breasons?\s+for\s+(?:the|any|each|its)\s+(?:decision|outcome|determination)\b|\bunderstand\s+and\s+contest\b|\baccount\s+of\s+(?:why|how)\b.{0,80}\b(?:output|decision|result|determination)\b",
          "explainability / interpretability"),
     # Q1 Coupling proxy — accountability for decisions affecting interests
     (8,  r"\baccountability\b|\baccountable\b|records? sufficient for audit|\bauditors?\b|\binternal\s+audit\b|\bowner\s*:|\b(?:model|system|product|risk|service|process|data|business)\s+owners?\b|\bsenior\s+responsible\s+owner\b|\breportable\s+(?:control\s+)?breach\b|\bresponsible\s+for\b.{0,80}\b(?:compliance|discharg\w+|the\s+decision)\b",
@@ -129,10 +129,10 @@ CONCEPTUAL_RUBRIC = [
     (7,  r"\bsafety\b",
          "safety"),
     # Q1 Coupling proxy — contestability and redress (Provision A, D)
-    (9,  r"\bcontest\w*\b|\bappeal\b|\bchallenge\b|\bredress\b|\bremedies\b",
+    (9,  r"\bcontest\w*\b|\bappeal\b|\bchallenge\b|\bredress\b|\bremedies\b|\brequest\s+(?:\w+\s+){0,2}review\s+of\s+(?:any|the|a)\s+decision\b|\bright\s+(?:to|of)\s+(?:human|academic|independent|manual)?\s*review\b|\bcomplaints?\s+(?:process|procedure|route|handling)\b",
          "contestability / redress"),
     # Q3 Reversibility proxy — modifiability of decisions and consequences
-    (8,  r"\b(?:revers|modif|correct)\w*\b.{0,80}\b(?:decision|outcome|consequence|policy)\b|power to reverse|can always appeal|\b(?:overturn|rescind|quash|set\s+aside)\w*\b.{0,60}\b(?:decision|outcome|determination)\b|\b(?:suspend|withdraw|revoke|roll\s*back|decommission|disable)\w*\b.{0,60}\b(?:use|system|model|deployment|service|tool)\b|\buse\s+(?:is\s+|to\s+be\s+)?suspended\b",
+    (8,  r"\b(?:revers|modif|correct)\w*\b.{0,80}\b(?:decision|outcome|consequence|policy)\b|power to reverse|can always appeal|\b(?:overturn|rescind|quash|set\s+aside)\w*\b.{0,60}\b(?:decision|outcome|determination)\b|\b(?:suspend|withdraw|revoke|roll\s*back|decommission|disable)\w*\b.{0,60}\b(?:use|system|model|deployment|service|tool)\b|\buse\s+(?:is\s+|to\s+be\s+|must\s+be\s+)?(?:suspended|paused|halted)\b|\bsubstitute\s+(?:their|its)\s+own\s+(?:decision|determination|judgement|judgment)\b",
          "reversibility / modifiability"),
     # Q1/Q2 proxy — risk governance as structured process
     (8,  r"\brisk\s+(?:management|assessment|governance|control|framework|committee|appetite|register|tolerance|owner)\w*\b|\b(?:model|operational|clinical|credit|conduct)\s+risk\b|\brisk.based\b",
@@ -168,9 +168,9 @@ ENFORCEABILITY_RUBRIC = [
          "mandatory language (shall/must)"),
     (20, r"\b(?:provider|deployer|operator|agenc(?:y|ies)|responsible\s+part(?:y|ies)|actors?|authorit(?:y|ies)|organisations?)\b|\b(?:chief|group|senior|head)\s+[\w-]+\s+(?:officer|executive)\b|\b[\w-]+\s+committee\b|\bboard\s+of\s+[\w-]+\b|\binternal\s+audit\b|\b(?:model|system|product|risk|service|process|data|business)\s+owners?\b|\bowner\s*:|\bsenior\s+responsible\s+owner\b|\b(?:data\s+)?controller\b|\bsuppliers?\b|\bvendors?\b|\bcontractors?\b|\bhead\s+of\s+[\w-]+\b",
          "named responsible parties"),
-    (20, r"\bproportionate\b|\bdegree\s+of\s+risk\b|\blevel\s+of\s+risk\b|\bhigher.risk\b|commensurate\s+with\b|\bthresholds?\b|\btolerances?\b|\bmaterialit(?:y|ies)\b|\b(?:above|below|exceed\w*|outside|breach\w*)\b.{0,40}\b(?:\d+\s*%|tolerance|limit|threshold)\b|\brisk.(?:based|tier\w*|rat\w+)\b",
+    (20, r"\bproportionate\b|\bdegree\s+of\s+risk\b|\blevel\s+of\s+risk\b|\bhigher.risk\b|commensurate\s+with\b|\bthresholds?\b|\btolerances?\b|\bmaterialit(?:y|ies)\b|\b(?:above|below|exceed\w*|outside|breach\w*|falls?\s+below)\b.{0,40}(?:\d+\s*%|\b(?:tolerances?|limits?|thresholds?)\b)|\brisk.(?:based|tier\w*|rat\w+)\b",
          "risk-proportionate thresholds"),
-    (20, r"\b(?:penalty|sanction|fine|infringement|non.complian|consequence|suspension|suspended|revok|terminat|disqualif|forfeit|withdraw)\w*\b|\bmaterial breach\b|\bbreach of (?:contract|this \w+)\b|\breportable (?:control )?breach\b|\b(?:rejected|refused|not accepted)\b.{0,60}\b(?:evidence|response|submission|application)\b|\b(?:evidence|response|submission)\b.{0,60}\b(?:will be |shall be )?rejected\b",
+    (20, r"\b(?:penalty|sanction|fine|infringement|non.complian|consequence|suspension|suspended|revok|terminat|disqualif|forfeit|withdraw|paused?|halt|cease)\w*\b|\bmaterial breach\b|\bbreach of (?:contract|this \w+)\b|\breportable (?:control )?breach\b|\b(?:rejected|refused|not accepted)\b.{0,60}\b(?:evidence|response|submission|application)\b|\b(?:evidence|response|submission)\b.{0,60}\b(?:will be |shall be )?rejected\b",
          "enforcement consequences / penalties"),
     (20, r"\b(?:shall|must)\s+(?:not\s+)?(?:ensure|establish|implement|maintain|provide|design|develop|assess|approve|produce|operate|name|document|monitor|report|escalate|evidence|record|review|verify|notify|suspend|obtain|submit|demonstrate|comply|retain|publish|test|validate|apply|complete|register)\b|\b(?:shall|must)\s+be\s+\w+ed\b|\brequires?\s+(?:re.)?(?:approval|authoris\w+|authoriz\w+|sign.off)\b|\bno\s+\w+(?:\s+\w+)?\s+(?:enters?|proceeds?|may|shall|is\s+\w+ed)\b.{0,80}\bunless\b",
          "non-discretionary operational mandates"),
@@ -440,6 +440,9 @@ FUNCTIONAL_CONSTRUCT_FAMILIES = {
             r"\bstand\s+or\s+fall\s+together\b",
             r"never\s+(?:quietly\s+)?drop\s+the\s+protection\b.{0,100}\b(?:keep|rule)",
             r"(?:restriction|rule|protection)\b.{0,140}\b(?:may|can)\s*not\s+be\s+(?:weakened|removed|dropped|repealed|suspended)\b.{0,120}\bwithout\b",
+            r"(?:may|can|shall)\s*not\s+be\s+(?:varied|changed|amended|altered|weakened|removed)\s+independently\b",
+            r"neither\b.{0,120}\bmay\s+be\s+(?:varied|changed|amended|removed|weakened)\b.{0,80}\b(?:without|independently)\b",
+            r"either\s+change\s+requires\b|both\s+require\b.{0,80}\bapproval\s+to\s+amend\b",
         ]),
         ("equivalent protective force", [
             r"(?:protection|safeguard)\w*\b.{0,160}\bas\s+(?:enforceable|strong|effective|accessible|precise)\b.{0,60}\bas\b",
@@ -503,6 +506,7 @@ FUNCTIONAL_CONSTRUCT_FAMILIES = {
             r"\bapplied\s+universally\b|\buniversal\s+application\b",
             r"\bbinds?\s+all\s+\w+\s+(?:entities|units|divisions|subsidiaries|functions|teams|business\w*)\b",
             r"applies?\s+(?:equally\s+)?to\s+all\b.{0,80}\bwithout\s+exception\b",
+            r"applies?\s+to\s+all\b.{0,140}\b(?:across\s+all|regardless\s+of|irrespective\s+of|in\s+every)\b",
             r"aggregate\s+result\w*\b.{0,100}\bacceptable\b",
             r"differential\s+treatment\b.{0,140}\bjustif",
         ]),
@@ -513,7 +517,7 @@ FUNCTIONAL_CONSTRUCT_FAMILIES = {
             r"irreversible\b.{0,220}\b(?:without|prior\s+to|before)\b.{0,100}\b(?:authoris|authoriz|approv)",
             r"(?:permanently\s+affect|could\s+permanently)\b.{0,180}\b(?:approve|authoris|authoriz|senior)",
             r"(?:authoris|authoriz)\w+\b.{0,140}\bcommensurate\s+with\b.{0,80}\bpermanence\b",
-            r"material\s+change\b.{0,160}\brequires?\s+(?:re.approval|re.authoris|re.authoriz|approval\s+through)\b",
+            r"(?:material|significant|any)\s+change\b.{0,180}\brequires?\s+(?:re.approval|re.authoris|re.authoriz|approval\s+through|approval\s+under)\b",
         ]),
         ("reversal capacity preserved", [
             r"(?:capacity|power|right|authority)\s+to\s+(?:reverse|overturn|modify)\b",
@@ -521,7 +525,8 @@ FUNCTIONAL_CONSTRUCT_FAMILIES = {
             r"future\s+(?:actors|decision.makers)\b.{0,140}\b(?:reverse|modify)",
             r"can\s+be\s+(?:overridden|reversed|repaired)\b|overridden,\s+repaired",
             r"(?:may|can|shall\s+be\s+able\s+to)\s+(?:overturn|reverse|rescind|set\s+aside|quash)\s+(?:the|that|any)\s+(?:decision|outcome|determination)\b",
-            r"(?:use|deployment|operation)\s+(?:is\s+|to\s+be\s+)?suspended\b",
+            r"(?:may|can)\s+substitute\s+(?:their|its|his|her)\s+own\s+(?:decision|determination|judgement|judgment)\b",
+            r"(?:use|deployment|operation)\s+(?:is\s+|to\s+be\s+|must\s+be\s+)?(?:suspended|paused|halted|withdrawn)\b",
             r"suspend\w*\b.{0,60}\b(?:roll\w*\s*back|recall|revoke)|rolling\s+back\b",
             r"supersede,?\s+disengage,?\s+or\s+deactivate",
             r"decommission\w*\b.{0,80}\bsafely\b|phasing\s+out\b.{0,60}\bsafely\b",
@@ -533,13 +538,13 @@ FUNCTIONAL_CONSTRUCT_FAMILIES = {
             r"applies?\s+to\s+(?:the\s+)?(?:regulatory\s+)?authority\s+itself\b",
             r"applies?\s+to\s+us\s+as\s+an?\s+organisation\b|just\s+as\s+much\s+as\s+to\s+our\s+systems\b",
             r"same\s+(?:evidentiary\s+)?standard\s+it\s+demands\b",
-            r"\bis\s+itself\s+(?:subject\s+to|bound\s+by)\b",
+            r"\b(?:is|are)\s+(?:itself|themselves|himself|herself)\s+(?:subject\s+to|bound\s+by)\b",
             r"\b(?:we|this\s+\w+)\s+(?:are|is)\s+bound\s+by\s+(?:this|the\s+same)\b",
         ]),
         ("governing actor evidences its own compliance", [
             r"(?:authority|regulator)\b.{0,140}\b(?:document|demonstrate)\w*\s+its\s+own\s+compliance\b",
-            r"\b(?:evidence|demonstrate|document|report|prove)\s+its\s+own\s+compliance\b",
-            r"\bown\s+compliance\b.{0,120}\b(?:internal\s+audit|independent\s+review|external\s+audit|oversight\s+body)\b",
+            r"\b(?:evidence|demonstrate|document|report|prove|attest\s+to)\s+(?:its|their)\s+own\s+compliance\b",
+            r"\bown\s+compliance\b.{0,120}\b(?:internal\s+audit|independent\s+review|external\s+audit|oversight\s+body|senate|board|committee|regulator)\b",
         ]),
         ("recourse against the governing actor", [
             r"affected\s+by\s+the\s+authority(?:'s|’s)\s+decisions?\b.{0,140}\b(?:appeal|review)",
@@ -699,7 +704,7 @@ CONTRADICTION_CHECKS = [
     # regardless of whether it uses canonical terminology.
     {
         "property":    "Reversibility (non-canonical)",
-        "trigger":     r"\b(?:can\s+be\s+(?:reversed|modified|appealed|changed)|right\s+(?:to\s+)?(?:appeal|contest|review)\b|subject\s+to\s+(?:appeal|review)|(?:decisions?|outcomes?)\s+(?:are|shall\s+be)\s+(?:reversible|modifiable))\b",
+        "trigger":     r"\b(?:can\s+be\s+(?:reversed|modified|appealed|changed)|right\s+(?:to\s+)?(?:appeal|contest|review)\b|subject\s+to\s+(?:appeal|review)|(?:decisions?|outcomes?)\s+(?:are|shall\s+be)\s+(?:reversible|modifiable)|supports?\s+the\s+ability\s+to\s+(?:correct|reverse|amend)|(?:outcomes?|decisions?)\s+(?:can|may)\s+be\s+corrected)\b",
         "adversaries": [
             (r"\b(?:permanently?|irrevocabl[ey]|irreversible|final\s+and\s+binding|cannot\s+be\s+(?:undone|reversed|changed|appealed|modified)|no\s+(?:right\s+of\s+)?(?:appeal|review|recourse))\b",
              "irreversibility language co-present with expressed reversibility intent (non-canonical)"),
@@ -707,7 +712,7 @@ CONTRADICTION_CHECKS = [
     },
     {
         "property":    "Structural Transparency (non-canonical)",
-        "trigger":     r"\b(?:system\s+(?:transparency|explainability)|outputs?\s+(?:are\s+)?(?:transparent|explainable|interpretable)|model\s+transparency|explainability\s+(?:is\s+)?(?:provided|ensured|maintained))\b",
+        "trigger":     r"\b(?:system\s+(?:transparency|explainability)|outputs?\s+(?:are\s+)?(?:transparent|explainable|interpretable)|model\s+transparency|explainability\s+(?:is\s+)?(?:provided|ensured|maintained)|committed\s+to\s+(?:full\s+|complete\s+)?transparency|(?:we|our\s+\w+)\s+(?:are|is)\s+transparent\b|transparency\s+(?:is|shall\s+be|will\s+be)\s+(?:maintained|ensured|provided|our)|(?:given|provided\s+with)\s+meaningful\s+information|open\s+about\s+how\b)\b",
         "adversaries": [
             (r"\b(?:proprietary|trade\s+secret|cannot\s+(?:be\s+)?(?:disclosed|explained|accessed|revealed)|withheld|black.?box|opaque)\b",
              "non-disclosure/opacity language co-present with expressed transparency intent (non-canonical)"),
@@ -715,7 +720,7 @@ CONTRADICTION_CHECKS = [
     },
     {
         "property":    "Structural Containment (non-canonical)",
-        "trigger":     r"\b(?:operates?\s+within\b|system\s+boundaries?\b|operational\s+(?:boundaries?|scope|limits?)\b|confined\s+to\s+(?:its\s+)?(?:scope|boundaries?|purpose))\b",
+        "trigger":     r"\b(?:operates?\s+within\b|system\s+boundaries?\b|operational\s+(?:boundaries?|scope|limits?)\b|confined\s+to\s+(?:its\s+)?(?:scope|boundaries?|purpose)|human\s+(?:oversight|review|involvement)\s+(?:is|shall\s+be|will\s+be|remains?)\s+(?:maintained|ensured|retained|provided|required)|human.in.the.loop\s+(?:at\s+all\s+times|throughout))\b",
         "adversaries": [
             (r"\b(?:without\s+human\s+(?:oversight|review|approval|authorisation|authorization)|no\s+human\s+(?:in\s+the\s+loop|oversight|review|approval)|executes?\s+(?:\w+\s+)?without\s+(?:human\s+)?(?:oversight|review|approval))\b",
              "no-oversight language co-present with expressed containment intent (non-canonical)"),
@@ -750,7 +755,16 @@ _GOVERNING_CONTEXT_PAT = re.compile(
     r"without\s+(?:prior\s+|documented\s+|appropriate\s+|explicit\s+)*(?:authoris|authoriz|approval)|"
     r"requires?\s+(?:prior\s+|documented\s+|senior\s+)*(?:authoris|authoriz|approval|sign.off)|"
     r"triggering\s+the\s+(?:appropriate\s+)?authoris|"
-    r"(?:human|senior)\s+(?:being\s+)?must\s+approve)",
+    r"(?:human|senior)\s+(?:being\s+)?must\s+approve|"
+    r"(?:no|not|never)\s+\w+(?:\s+\w+){0,4}\s+without\s+human\s+(?:oversight|review|approval)|"
+    r"only\s+(?:with|after)\s+human\s+(?:oversight|review|approval)|"
+    # The adversary vocabulary naming the hazard a clause forbids: "the
+    # restriction on automated decisioning without human review", "use of X
+    # without human approval is prohibited". Regulating a hazard is not
+    # committing it.
+    r"(?:restrict\w*|prohibit\w*|forbid\w*|ban(?:ned|s)?|bar(?:red)?|not\s+permitted)\b[^.]{0,160}\bwithout\s+human\s+(?:oversight|review|approval)|"
+    r"\bwithout\s+human\s+(?:oversight|review|approval)\b[^.]{0,160}\b(?:is|are)\s+(?:prohibited|not\s+permitted|forbidden)|"
+    r"(?:is\s+|are\s+)?prohibited\s+without)",
     re.IGNORECASE,
 )
 
@@ -2401,6 +2415,9 @@ DOCUMENT_TYPE_PRECEDENCE = (
     "implementation_guide",
     "internal_policy",
     "vendor_compliance_submission",
+    # Weakest instrument form: it must never outrank a document that actually
+    # imposes duties, so it sits last before "unknown".
+    "values_charter",
     "unknown_governance_document",
 )
 
@@ -2418,6 +2435,13 @@ _DOCUMENT_TYPE_PATTERNS = [
     # breach consequence are the institutional form of the same instrument.
     ("internal_policy", (r"\binternal policy\b", r"\bdepartment(?:al)? policy\b", r"\bcompany policy\b", r"\borganitational policy\b", r"\borganisational policy\b", r"\borganizational policy\b", r"\bthis policy (?:sets out|applies|governs|covers)\b", r"\bapplies to all (?:staff|employees|personnel)\b", r"\bstaff(?:,| and) contractors\b", r"\bfor board approval\b", r"\bpolicy will be reviewed\b", r"\bversion \d", r"\bthis (?:standard|procedure|framework|instruction)\s+(?:binds|applies to|sets out|governs|covers)\b", r"^\s*owner\s*:", r"\bapproved by\s*:", r"\bnon.compliance\b.{0,100}\b(?:reportable|disciplinary|breach|sanction)", r"\b(?:group|enterprise|corporate|firm.wide|bank.wide|company.wide)\s+(?:policy|standard|framework|procedure)\b", r"\bbinds all\b.{0,60}\b(?:entities|units|divisions|subsidiaries|functions)\b", r"\breview\s*:\s*(?:annual|biennial|quarterly)", r"\bchange control\b")),
     ("vendor_compliance_submission", (r"\bvendor submission\b", r"\bcompliance submission\b", r"\battestation\b", r"\bsupplier response\b")),
+    # A statement of values and intent. Naming it correctly matters: its
+    # assurance value is not "low", it is absent until the values are converted
+    # into duties, and a reviewer told this can stop looking for controls.
+    ("values_charter", (r"\bcharter\b", r"\bour values\b", r"\bwe believe\b", r"\bwe are committed to\b",
+                        r"\bstatement of (?:principles|values|intent)\b", r"\bcode of ethics\b",
+                        r"\bwe (?:strive|aspire|aim) to\b", r"\bguiding principles\b",
+                        r"\bresponsible ai principles\b", r"\bmanifesto\b")),
 ]
 
 _DOCUMENT_TYPE_PRECEDENCE_RANK = {doc_type: idx for idx, doc_type in enumerate(DOCUMENT_TYPE_PRECEDENCE)}
@@ -2432,6 +2456,7 @@ _DOCUMENT_TYPE_FORCE = {
     "implementation_guide": "Implementation guide; operational value depends on conversion into mandatory owners, controls, evidence, and review gates.",
     "public_sector_policy": "Public-sector AI policy; force depends on government authority, accountable public-sector owners, disclosure records, human review evidence, exceptions, incidents, and monitoring consequences.",
     "internal_policy": "Internal policy; force depends on organizational authority, accountable owners, monitoring, and consequences.",
+    "values_charter": "Statement of values and intent; it creates no duty, no owner, and no evidence obligation, so it carries no assurance force until its values are expressed as operative commitments.",
     "vendor_compliance_submission": "Vendor compliance submission; value depends on independent verification, contract remedies, audit rights, and evidence review.",
     "unknown_governance_document": "Governance document with unclear authority; reviewer must establish institutional force, accountable owner, and evidence basis before reliance.",
 }
@@ -2446,6 +2471,7 @@ _DOC_TYPE_USE = {
     "implementation_guide": ("Operational planning and control-design support.", "Not sufficient until converted into mandatory controls, owners, evidence, and lifecycle review."),
     "public_sector_policy": ("Public-sector operating policy review, government AI use register design, disclosure/control mapping, and accountability-gap review.", "Not sufficient without accountable owners, human-review evidence, disclosure records, exception handling, incident tracking, and monitoring consequences."),
     "internal_policy": ("Institutional governance review and operational control mapping.", "Not sufficient without implementation records, monitoring, accountability, and escalation evidence."),
+    "values_charter": ("Communicating institutional intent, and identifying which values still need to be converted into duties.", "Not sufficient as assurance for any decision: it states intent without duties, owners, evidence, or consequences. Ask for the policy or procedure that implements it."),
     "vendor_compliance_submission": ("Supplier assurance review and evidence triage.", "Not sufficient without independent verification, source artifacts, audit access, and remedies."),
     "unknown_governance_document": ("Preliminary governance triage and document classification review.", "Not sufficient for reliance until authority, scope, controls, and evidence are confirmed."),
 }
@@ -2482,7 +2508,9 @@ def _document_type_pattern_hits(haystack, doc_type, patterns):
         # A passing mention of "supplier" or "contract" inside an institutional
         # policy must not classify that policy as a procurement instrument:
         # require a genuine procurement-instrument anchor.
-        anchors = ("assessment form", "vendor submission", "supplier response",
+        # Response-side anchors ("supplier response", "vendor submission")
+        # belong to vendor_compliance_submission, not to the buyer's instrument.
+        anchors = ("assessment form",
                    "invitation to tender", "request for proposal", "tender",
                    "procurement questionnaire", "pre-acquisition", "contract schedule",
                    "supplier assurance questionnaire")
@@ -2501,6 +2529,13 @@ def _document_type_pattern_hits(haystack, doc_type, patterns):
     if doc_type == "internal_policy":
         # Two independent policy signals, so a single stray phrase cannot classify.
         return hits if hits >= 2 else 0
+    if doc_type == "values_charter":
+        # Values vocabulary alone is not enough: a policy can open with values
+        # and then impose duties. The distinguishing property is the ABSENCE of
+        # sustained mandatory language — a charter that says "shall" repeatedly
+        # is a policy that happens to be called a charter.
+        mandatory = len(re.findall(r"\b(?:shall|must)\b", haystack))
+        return hits if hits >= 2 and mandatory <= 1 else 0
     if doc_type == "public_sector_policy":
         return hits if _strong_public_sector_policy_hits(haystack) >= 2 else 0
     return hits if hits >= 1 else 0
@@ -2604,13 +2639,24 @@ def classify_document_type(text, name="", source_type=""):
     # clinical; classifying it as a clinical assurance checklist misstates who
     # the document binds and how its force arises. The clinical dimension is
     # carried by the sector profile, which is a separate axis.
-    _PROCUREMENT_FORM_ANCHORS = (
+    # Issuing side: the buyer's instrument, which imposes the requirements.
+    _PROCUREMENT_ISSUING_ANCHORS = (
         "invitation to tender", "request for proposal", "request for tender",
         "supplier assurance questionnaire", "procurement questionnaire",
-        "tender response", "contract schedule", "pre-qualification questionnaire",
+        "contract schedule", "pre-qualification questionnaire",
     )
-    if any(anchor in haystack for anchor in _PROCUREMENT_FORM_ANCHORS):
+    # Responding side: the supplier's answer to it, which asserts compliance.
+    # These are different instruments with different force and different
+    # reviewer duties — an attestation needs independent verification, a tender
+    # needs contract conditions — so they must never be conflated.
+    _VENDOR_RESPONSE_ANCHORS = (
+        "supplier response", "vendor submission", "compliance submission",
+        "tender response", "attestation", "we attest", "submitted by:",
+    )
+    if any(anchor in haystack for anchor in _PROCUREMENT_ISSUING_ANCHORS):
         return "procurement_assessment_form"
+    if any(anchor in haystack for anchor in _VENDOR_RESPONSE_ANCHORS):
+        return "vendor_compliance_submission"
     candidates = []
     for doc_type, patterns in _DOCUMENT_TYPE_PATTERNS:
         score = _document_type_pattern_hits(haystack, doc_type, patterns)

@@ -1603,6 +1603,196 @@ class InstitutionalRegisterDetectionTests(unittest.TestCase):
                              expected or runner._CONTROL_NAME_BY_GAP[gap["gap_type"]])
 
 
+# A policy expressing the same substance in academic register, used to check
+# that register neutrality is not specific to one sector's vocabulary.
+ACADEMIC_POLICY = """# University of Carrow — Policy on Automated Assessment Support
+
+Approved by Academic Board. Owner: Pro-Vice-Chancellor (Education). Version 2.1.
+Review: annual.
+
+## 1. Purpose and scope
+This policy applies to all use of automated tools that contribute to student
+assessment, admissions, or progression decisions across all faculties.
+
+## 2. Why these restrictions exist
+Each restriction below protects a specific student interest. The prohibition on
+automated final grading exists to protect the student's interest in an academic
+judgement made by a qualified academic. That prohibition and that interest may
+not be varied independently; either change requires Academic Board approval.
+
+## 3. Conditions of use
+An automated tool may only contribute to an assessment decision where all of the
+following are satisfied at the same time:
+(a) the marker can obtain a plain-language account of why the tool produced its
+output, including its confidence and known limitations;
+(b) the tool's stated purpose matches its validated purpose, confirmed by the
+Academic Standards Office independently of the tool's sponsor;
+(c) the tool operates only on the assessment types for which it was validated;
+any other case must be referred to a human marker.
+Meeting some but not all of these conditions is not approval.
+
+## 4. Student rights
+A student may request academic review of any decision to which an automated tool
+contributed, within 20 working days. The reviewer may substitute their own
+decision. This right may not be made conditional on any other process.
+
+## 5. Monitoring
+Faculties must report tool usage each semester. Where agreement between tool
+output and marker judgement falls below 90%, use must be paused and referred to
+the Academic Standards Office within 10 working days.
+
+## 6. Application to governing bodies
+Academic Board and the Academic Standards Office are themselves subject to this
+policy and must report their own compliance to Senate annually.
+
+## 7. Change
+Any change to a tool's model, training data, or scope of use requires
+re-approval under section 3 before continued use.
+"""
+
+# Asserts a protection in one clause and revokes it in the next.
+SELF_CONTRADICTING = """# Helix Systems — AI Transparency Standard
+
+## 1. Commitment to transparency
+Helix is committed to full transparency in its AI systems. Users shall be given
+meaningful information about how decisions affecting them are made.
+
+## 2. Model disclosure
+The scoring model, its features, and its weights are proprietary trade secrets
+and cannot be disclosed to customers, regulators, or affected individuals under
+any circumstances.
+
+## 3. Reversibility
+Helix supports the ability to correct outcomes. Decisions recorded in the ledger
+are permanently written and cannot be reversed or amended once committed.
+
+## 4. Human oversight
+Human oversight is maintained at all times. The system executes remediation
+actions automatically without human review or approval to ensure response times
+are met.
+"""
+
+
+class AcademicRegisterDetectionTests(unittest.TestCase):
+    """Register neutrality must not be specific to one sector's vocabulary."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.result = assess("POL-AS-09", "policy", ACADEMIC_POLICY,
+                            assessment_mode="external_framework",
+                            sector=runner.auto_sector(ACADEMIC_POLICY))
+
+    def test_all_expressed_constructs_are_functional(self) -> None:
+        fa = self.result["functional_alignment"]
+        for construct in ("Coupling", "Integrity Layer", "Reversibility", "Self-Application"):
+            self.assertEqual(fa[construct]["verdict"], "FUNCTIONAL",
+                             f"{construct}: {fa[construct]['families']}")
+
+    def test_percentage_breach_trigger_counts_as_a_threshold(self) -> None:
+        """'falls below 90%' states what counts as a problem."""
+        fired = {lbl for lbl, _ in self.result["score_breakdown"]["enforceability"]["fired"]}
+        self.assertIn("risk-proportionate thresholds", fired)
+
+    def test_pausing_use_counts_as_an_enforcement_consequence(self) -> None:
+        fired = {lbl for lbl, _ in self.result["score_breakdown"]["enforceability"]["fired"]}
+        self.assertIn("enforcement consequences / penalties", fired)
+
+    def test_no_false_gaps(self) -> None:
+        gaps = runner.build_governance_gap_register(self.result, [{"quote_id": "Q001"}])
+        types = {g["gap_type"] for g in gaps}
+        for false_positive in ("monitoring_without_threshold",
+                               "policy_without_enforcement_consequence",
+                               "lifecycle_without_change_control"):
+            self.assertNotIn(false_positive, types)
+
+
+class SelfContradictionTests(unittest.TestCase):
+    """A revoked protection outranks an omitted one and must be reported."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.result = assess("Helix", "policy", SELF_CONTRADICTING,
+                            assessment_mode="external_framework",
+                            sector="general_ai_governance")
+
+    def test_all_three_contradictions_detected(self) -> None:
+        subjects = {c[0].replace(" (non-canonical)", "") for c in self.result["contradictions"]}
+        for expected in ("Reversibility", "Structural Transparency", "Structural Containment"):
+            self.assertIn(expected, subjects)
+
+    def test_depth_is_hollow(self) -> None:
+        self.assertEqual(self.result["structural_depth"], "HOLLOW")
+
+    def test_executive_finding_states_the_contradiction(self) -> None:
+        gaps = runner.build_governance_gap_register(self.result, [{"quote_id": "Q001"}])
+        controls = runner.build_control_recommendations(gaps, [], [{"quote_id": "Q001"}])
+        finding = runner.executive_thesis(self.result, gaps, controls)
+        self.assertIn("Self-contradiction", finding)
+
+    def test_report_quotes_each_contradiction(self) -> None:
+        gaps = runner.build_governance_gap_register(self.result, [{"quote_id": "Q001"}])
+        report = runner.build_institutional_report(
+            {"safe_output_stem": "x"}, {}, self.result, [{"quote_id": "Q001"}],
+            gaps, runner.build_failure_pathways(gaps, []),
+            runner.build_control_recommendations(gaps, [], []))
+        self.assertIn("## Self-contradictions in the document", report)
+        self.assertIn("CONTRA-001", report)
+
+    def test_regulating_a_hazard_is_not_committing_it(self) -> None:
+        """A restriction naming the hazard must not be read as the hazard."""
+        regulating = ("The model operates within its approved use boundary. The "
+                      "restriction on automated credit decisioning without human "
+                      "review exists to protect the applicant's interest in a "
+                      "decision they can understand and contest.")
+        result = assess("clean", "policy", regulating,
+                        assessment_mode="external_framework", sector="general_ai_governance")
+        self.assertEqual(result["contradictions"], [])
+
+
+class InstrumentFormClassificationTests(unittest.TestCase):
+    """Buyer's instrument, supplier's answer, and a values charter are distinct."""
+
+    def test_supplier_response_is_a_vendor_submission_not_a_tender(self) -> None:
+        response = ("Supplier Response — AI Governance Attestation. Submitted by: "
+                    "Kestrel Analytics Ltd. We attest that our platform has been "
+                    "assessed against our internal Model Governance Standard.")
+        self.assertEqual(classify_document_type(response), "vendor_compliance_submission")
+
+    def test_issuing_instrument_is_a_procurement_form(self) -> None:
+        issuing = ("Invitation to Tender. Section C: Supplier Assurance Questionnaire. "
+                   "Suppliers must provide evidence of current certification.")
+        self.assertEqual(classify_document_type(issuing), "procurement_assessment_form")
+
+    def test_values_statement_is_a_charter(self) -> None:
+        charter = ("Responsible AI Charter. We believe artificial intelligence should "
+                   "serve people. Our values guide everything we build. We are "
+                   "committed to fairness and strive to be open about how our systems "
+                   "work.")
+        self.assertEqual(classify_document_type(charter), "values_charter")
+
+    def test_a_charter_that_imposes_duties_is_not_a_charter(self) -> None:
+        """Values vocabulary must not outrank actual obligations."""
+        policy = ("Group AI Charter. We believe in fairness and our values guide us. "
+                  "All business units shall maintain a model register. Model owners "
+                  "must report breaches to the Risk Committee. Non-compliance is a "
+                  "reportable control breach. This standard binds all Group entities.")
+        self.assertNotEqual(classify_document_type(policy), "values_charter")
+
+    def test_sector_basis_explains_the_profile_actually_used(self) -> None:
+        """Showing one profile's name beside another's evidence is incoherent."""
+        tender = ("Invitation to Tender — AI-Assisted Triage System. Section C: "
+                  "Supplier Assurance Questionnaire. Suppliers must supply a Clinical "
+                  "Safety Case Report compliant with DCB0129 for NHS patient care. "
+                  "The contract may be terminated for material breach.")
+        result = assess("ITT", "policy", tender, assessment_mode="external_framework",
+                        sector="auto")
+        used = result.get("sector_profile") or result.get("sector_used")
+        basis = runner.auto_sector_basis(tender, used)["basis"]
+        self.assertNotIn("no sector-specific vocabulary", basis)
+        if used == "procurement_vendor_governance":
+            self.assertNotIn("clinical", basis)
+
+
 class NonGovernanceTextTests(unittest.TestCase):
     """Broadened detection must not turn ordinary prose into a governance finding."""
 
