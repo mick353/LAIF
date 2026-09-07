@@ -365,3 +365,44 @@ against it; the bank and university policies are untouched.
 This closes the loop opened in §7.2. Detection is keyed to what language does,
 in whatever register it is written — and a document that only says the words is
 told so, in its own words.
+
+---
+
+## 10. Fifth pass — LAIF assessed by LAIF, and the limits of the method
+
+The fifth pass ran LAIF's own corpus and full-length source instruments through
+the runner, in both modes. It found the earlier invariant-finding defect still
+living in a path the first review had not exercised, a false negation against
+LAIF's own text, and a scale limit that had been going unstated.
+
+**LAIF-native mode emitted one sentence for every document.** "This document is
+assessed in LAIF-native mode. Formal LAIF-native certification remains governed
+by the deterministic LAIF validation boundary shown in the technical appendix."
+— true of every document ever assessed, and therefore useless. The native
+finding now names the verdict, the specific failing checks, the coupling-quality
+reading, the dimensional position, and the boundary. LAIF v1.2 fails on two
+FINDING-block checks; its own PDCA fails on three constitutional-hierarchy
+checks. Both are correct, both are now legible, and the finding says plainly
+that a framework text is expected to fail checks only an assessment record can
+satisfy.
+
+**LAIF's own principal text was read as disclaiming Coupling.** Its worked
+example contains "Q1 — Coupling: Not satisfied", which the negation detector
+took as the document renouncing Coupling for itself — giving LAIF v1.2 a HOLLOW
+structural depth. This is the third instance of one root error: mistaking a
+document's subject for its position. A document that declares Coupling
+structurally *and* works through a case where Q1 fails is applying the test. The
+guard requires both conditions, so a bare disclaimer is still negation.
+
+**An empty gap register was being presented as a clean finding on documents too
+long for the method to discriminate.** Gap rules test signal presence across the
+whole text; past roughly 20,000 characters every operative signal fires
+somewhere, and no rule can fire. NIST AI 100-1 was accordingly told that "every
+governance expectation this document creates has a corresponding control in the
+same document" — a claim the method cannot support. Long documents now get the
+truthful statement instead: detection has saturated, a control in one section
+does not close an obligation in another, assess it section by section.
+
+Stating where the method stops working is not a caveat added for safety. It is
+the same obligation the reporting layer already carries on provenance, applied
+to its own reach.

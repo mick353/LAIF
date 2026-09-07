@@ -1861,8 +1861,7 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
         action = (f"Next action: {controls[0]['control_name'].lower()}."
                   if controls else "")
     else:
-        gap_txt = ("No unclosed structural gap was detected against the rules applied "
-                   "here; confirm implementation evidence separately.")
+        gap_txt = empty_register_meaning(assessment)
         action = ""
 
     classification = (
@@ -1877,6 +1876,73 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
     # rest of the finding means.
     parts = [verdict, binding, position, framing, classification,
              enumeration_txt, contradiction_txt, gap_txt, action]
+    return " ".join(x for x in parts if x)
+
+
+def native_executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -> str:
+    """The finding for a document assessed against LAIF's own formal gate.
+
+    LAIF-native mode asks a different question from external assessment: not
+    "does this express the substance in its own vocabulary" but "does this
+    satisfy the deterministic certification gate". The finding must therefore
+    name the verdict, the checks that decided it, and what that verdict does and
+    does not mean — never a fixed sentence that is true of every document.
+    """
+    formal = assessment.get("formal_laif_compliance", "")
+    strong = assessment.get("strong_laif_compliance", "")
+    depth = assessment.get("structural_depth", "")
+    coupling_quality = assessment.get("coupling_quality", "")
+    overall = assessment.get("overall_readiness_score", 0)
+    checks = assessment.get("formal_checks_detail", []) or []
+    failed = [name for name, ok in checks if not ok]
+    passed = [name for name, ok in checks if ok]
+
+    if formal == "PASS" and strong == "STRONG PASS":
+        verdict = ("This document satisfies the LAIF-native certification gate, and its "
+                   "Coupling is structurally declared rather than referenced.")
+    elif formal == "PASS":
+        verdict = (f"This document satisfies the formal LAIF-native certification gate, but "
+                   f"its structural depth is {depth}: the required elements are present in "
+                   f"form, and the substance behind them needs review before the pass is "
+                   f"relied on.")
+    else:
+        verdict = ("This document does not satisfy the LAIF-native certification gate.")
+
+    if failed:
+        detail = (f"Failing check{'s' if len(failed) > 1 else ''}: {', '.join(failed)}"
+                  + (f" ({len(passed)} of {len(checks)} checks satisfied)." if checks else "."))
+    elif checks:
+        detail = f"All {len(checks)} certification checks are satisfied."
+    else:
+        detail = ""
+
+    # Certification is a form test, so say plainly what a failure here is not.
+    boundary = ("Certification is a test of LAIF-native form, applied deterministically "
+                "by the validation boundary in the technical appendix. Failing it says "
+                "nothing about whether the document governs well — a framework text or "
+                "a source instrument is expected to fail checks that only an assessment "
+                "record can satisfy.")
+
+    coupling_note = {
+        "STRUCTURAL": "Coupling is declared structurally, with a named interest and paired force.",
+        "SHALLOW": "Coupling is referenced but not structurally declared, so the term is carrying no load.",
+        "NEGATED": "Coupling is disclaimed in the document's own terms, which is a Q1 failure.",
+        "ABSENT": "Coupling does not appear, so Q1 cannot be evidenced from this text.",
+    }.get(coupling_quality, "")
+
+    position = f"Dimensional position: {overall}/100 against the LAIF-native rubrics."
+
+    if gaps:
+        lead = gaps[0]
+        where = lead.get("source_evidence_location")
+        gap_txt = (f"Leading gap: {lead['gap_title'].lower()}"
+                   + (f" (at \u201c{where}\u201d)" if where else "") + ".")
+        action = f"Next action: {controls[0]['control_name'].lower()}." if controls else ""
+    else:
+        gap_txt = empty_register_meaning(assessment)
+        action = ""
+
+    parts = [verdict, detail, coupling_note, position, boundary, gap_txt, action]
     return " ".join(x for x in parts if x)
 
 
@@ -2218,6 +2284,37 @@ def build_control_recommendations(gaps: list[dict], pathways: list[dict], quote_
     return controls
 
 
+# Document-level signal detection saturates: past a certain length every
+# operative signal fires somewhere in the text, so no gap rule can fire. That
+# is a limit of the method, and stating it is the difference between a clean
+# finding and an unearned one.
+SATURATION_LENGTH_CHARS = 20000
+
+
+def empty_register_meaning(assessment: dict) -> str:
+    """What an empty gap register means for THIS document."""
+    # Gap rules test whether a signal is present ANYWHERE in the document. In a
+    # short instrument that is a fair proxy for whether the expectation is
+    # closed. In a long one it is not: a control in section 40 does not close an
+    # obligation in section 3, but both fire the same document-level signals. An
+    # empty register on a long document therefore means the method stopped
+    # discriminating, not that the document is complete.
+    length = assessment.get("assessed_character_count") or 0
+    if length >= SATURATION_LENGTH_CHARS:
+        return (
+            "No unclosed expectation was detected — but this document is long enough "
+            "that every operative signal is present somewhere in it, which is the "
+            "point at which document-level gap detection stops discriminating. It "
+            "cannot show whether the control that appears in one section governs the "
+            "obligation stated in another. For an instrument of this size, assess it "
+            "section by section rather than reading an empty register as a clean one.")
+    return (
+        "No unclosed expectation was detected: every governance expectation this "
+        "document creates has a corresponding control in the same document. This "
+        "is a finding about the text, not a certificate of implementation — the "
+        "controls still have to exist and operate in practice.")
+
+
 def _md_list(items: list[str], empty: str = "Reviewer confirmation required.") -> str:
     return "\n".join(f"- {item}" for item in items) if items else f"- {empty}"
 
@@ -2239,7 +2336,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     if mode == "external_framework":
         lines.append(executive_thesis(assessment, gaps, controls))
     else:
-        lines.append("This document is assessed in LAIF-native mode. Formal LAIF-native certification remains governed by the deterministic LAIF validation boundary shown in the technical appendix.")
+        lines.append(native_executive_thesis(assessment, gaps, controls))
     lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Document type:** {doc_type}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}"
         + (f" (auto-detected from: {processing.get('sector_basis')}; override with --sector)"
            if processing.get("sector_basis") else ""), f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", f"- **Recommended use:** {assessment.get('recommended_use') or 'source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.'}", f"- **Limits:** {assessment.get('not_sufficient_for') or 'standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.'}", "- **In every case:** this is a reading of the document, not of the organisation. It cannot show whether the controls it describes are in place, current, or working.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", "## Key quoted evidence", ""]
@@ -2306,10 +2403,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     lines += ["", "## What the document controls well", "", _md_list(assessment.get("strengths", [])[:8], "No deterministic strengths detected."), "", "## What the document does not control", ""]
     lines.append(_md_list(
         [g["gap_title"] + f" ({g['gap_id']})" for g in gaps[:8]],
-        "No unclosed expectation was detected: every governance expectation this "
-        "document creates has a corresponding control in the same document. This "
-        "is a finding about the text, not a certificate of implementation — the "
-        "controls still have to exist and operate in practice."))
+        empty_register_meaning(assessment)))
     lines += ["", "## Hidden failure pathways", ""]
     lines += ([("Failure pathway summaries below show how paperwork compliance can "
                 "proceed without live operational control.")] if pathways else

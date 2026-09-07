@@ -239,6 +239,18 @@ COUPLING_STRUCTURAL_INDICATORS = [
 ]
 
 # Indicators that Coupling is explicitly negated or declared inapplicable
+# Frames in which a "Coupling: not satisfied" statement is the framework or an
+# assessor APPLYING the Coherence Test to a case, rather than a document
+# disclaiming Coupling for itself.
+_ANALYTICAL_FRAME_PAT = re.compile(
+    r"\bQ1\b\s*(?:[—–:-]|\u2014)|\bQ[123]\b.{0,60}\bCoupling\b|"
+    r"\bCoherence\s+Test\b|\bScale\s*:|\bCase\s+\d|\b(?:worked\s+)?example\b|"
+    r"\billustrat\w+|\bapplying\b|\bassessment\s+of\b|\bverdict\b|"
+    r"\bFINDING\b|\bwould\s+(?:fail|not\s+satisfy)\b|\bfail(?:s|ed)?\s+Q1\b|"
+    r"\bstructural\s+verdict\b|\bretrospective\b",
+    re.IGNORECASE | re.DOTALL,
+)
+
 COUPLING_NEGATION_INDICATORS = [
     r"\bCoupling\b.{0,120}\b(?:not\s+(?:applicable|required|established|satisfied|met|adopted|declared|implemented)|outside\s+(?:the\s+)?scope|beyond\s+scope|inapplicable|rejected|absent|excluded)\b",
     r"\b(?:not\s+applicable|outside\s+(?:the\s+)?scope|inapplicable|rejected|excluded|not\s+required)\b.{0,120}\bCoupling\b",
@@ -268,10 +280,25 @@ def _coupling_quality(text):
     if not re.search(r"\bCoupling\b", text, re.IGNORECASE):
         return "ABSENT", "Coupling not present in document", ""
 
+    # A document that declares Coupling structurally AND separately works
+    # through a case where Coupling is not satisfied is APPLYING the test, not
+    # disclaiming it. LAIF's own principal text, its case analyses, and any
+    # PDCA that records a Q1 failure all read that way. Analysing a failure is
+    # not committing it — the same rule the contradiction layer applies to
+    # language that regulates a hazard.
+    _declares_structurally = any(
+        re.search(pat, text, re.IGNORECASE | re.DOTALL)
+        for pat in COUPLING_STRUCTURAL_INDICATORS
+    )
+
     # Negation takes priority — most adversarial case
     for pat in COUPLING_NEGATION_INDICATORS:
         m = re.search(pat, text, re.IGNORECASE)
         if m:
+            frame = text[max(0, m.start() - 160):m.start() + 60]
+            analytical = bool(_ANALYTICAL_FRAME_PAT.search(frame))
+            if _declares_structurally and analytical:
+                continue
             start = max(0, m.start() - 60)
             end   = min(len(text), m.end() + 60)
             ctx   = text[start:end].replace("\n", " ").strip()[:200]
@@ -3352,6 +3379,10 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         "formal_checks_detail":       formal_checks,   # [(label, bool), ...]
         "strong_laif_compliance":     strong_compliance,
         "structural_depth":           depth,
+        # Length of the text actually assessed. Consumers need it to know when
+        # document-level signal detection has saturated (every signal present
+        # somewhere) and can no longer discriminate.
+        "assessed_character_count":   len(text or ""),
         "vocabulary_enumeration_risk": enum_risk,
         "vocabulary_enumeration_ratio": enum_ratio,
         "vocabulary_enumeration_examples": enum_examples,

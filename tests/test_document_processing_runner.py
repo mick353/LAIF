@@ -1886,6 +1886,57 @@ class VocabularyEnumerationTests(unittest.TestCase):
                              f"{result['vocabulary_enumeration_ratio']}")
 
 
+class NativeModeAndScaleTests(unittest.TestCase):
+    """LAIF-native mode, LAIF's own corpus, and the limits of document-level detection."""
+
+    REPO = Path(__file__).resolve().parents[1]
+
+    def _read(self, name: str) -> str:
+        return (self.REPO / name).read_text(encoding="utf-8")
+
+    def test_analysing_a_coupling_failure_is_not_disclaiming_coupling(self) -> None:
+        """LAIF's own texts work through cases where Q1 fails; that is applying
+        the test, not negating it for themselves."""
+        from assessment_engine import _coupling_quality
+        for name in ("LAIF_v1.2.txt", "LAIF_PDCA_GPT4_Clinical.txt", "LAIF_Case_Analysis.txt"):
+            quality, reason, _evidence = _coupling_quality(self._read(name))
+            self.assertEqual(quality, "STRUCTURAL", f"{name}: {reason}")
+
+    def test_a_bare_disclaimer_is_still_negation(self) -> None:
+        """The guard must require a structural declaration, not just an analytical word."""
+        from assessment_engine import _coupling_quality
+        disclaimer = ("Assessment of the platform. Coupling is not applicable to this "
+                      "deployment and no further consideration is required.")
+        self.assertEqual(_coupling_quality(disclaimer)[0], "NEGATED")
+
+    def test_native_finding_names_the_verdict_and_the_failing_checks(self) -> None:
+        result = assess("LAIF v1.2", "framework", self._read("LAIF_v1.2.txt"),
+                        assessment_mode="laif_native")
+        finding = runner.native_executive_thesis(result, [], [])
+        self.assertIn("certification gate", finding)
+        failed = [n for n, ok in result.get("formal_checks_detail", []) if not ok]
+        for name in failed:
+            self.assertIn(name, finding)
+        self.assertIn("says nothing about whether the document governs well", finding)
+
+    def test_native_findings_differ_between_documents(self) -> None:
+        """The native path must not emit one sentence for every document."""
+        a = assess("LAIF v1.2", "framework", self._read("LAIF_v1.2.txt"),
+                   assessment_mode="laif_native")
+        b = assess("PDCA", "assessment", self._read("LAIF_PDCA_GPT4_Clinical.txt"),
+                   assessment_mode="laif_native")
+        self.assertNotEqual(runner.native_executive_thesis(a, [], []),
+                            runner.native_executive_thesis(b, [], []))
+
+    def test_empty_register_on_a_long_document_states_the_method_limit(self) -> None:
+        long_doc = {"assessed_character_count": runner.SATURATION_LENGTH_CHARS + 1}
+        short_doc = {"assessed_character_count": 2000}
+        self.assertIn("stops discriminating", runner.empty_register_meaning(long_doc))
+        self.assertIn("not a certificate of implementation",
+                      runner.empty_register_meaning(short_doc))
+        self.assertNotIn("stops discriminating", runner.empty_register_meaning(short_doc))
+
+
 class NonGovernanceTextTests(unittest.TestCase):
     """Broadened detection must not turn ordinary prose into a governance finding."""
 

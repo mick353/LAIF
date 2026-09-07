@@ -344,3 +344,42 @@ Consequences of a HIGH verdict, all of them stated rather than silent:
 The JSON export carries `vocabulary_enumeration` and `self_contradictions` per
 document, so a consumer can see both integrity qualifiers without re-deriving
 them.
+
+## Analysing a Failure Is Not Committing It
+
+Three layers apply the same rule, because three different detectors can
+otherwise mistake a document's subject for its position:
+
+| Layer | The mistake | The guard |
+|---|---|---|
+| Contradiction | "the restriction on automated decisioning **without human review**" read as a no-oversight admission | governing-context guard: adversary vocabulary inside a prohibition is a protection |
+| Coupling quality | "Q1 — Coupling: Not satisfied" in a worked example read as the document disclaiming Coupling | analytical-frame guard: a document that declares Coupling structurally *and* works through a case where it fails is applying the test |
+| Paraphrase | detections on documents that neither use nor claim LAIF vocabulary | reported as divergence notes, not violations (semantic-fidelity invariant 3) |
+
+The coupling guard requires both conditions. A document that only disclaims
+Coupling, with no structural declaration anywhere, is still NEGATED however many
+analytical words surround the disclaimer.
+
+## LAIF-Native Mode
+
+LAIF-native mode asks a different question from external assessment: not whether
+a document expresses the substance in its own vocabulary, but whether it
+satisfies the deterministic certification gate. Its executive finding therefore
+names the verdict, the specific checks that decided it, the coupling-quality
+reading, and the boundary — because failing the gate says nothing about whether
+a document governs well. A framework text and a source instrument are *expected*
+to fail checks that only an assessment record can satisfy: LAIF v1.2 itself
+fails on the two FINDING-block checks, and its own PDCA fails on the
+constitutional-hierarchy checks that belong to the principal text.
+
+## Scale Limits of Document-Level Detection
+
+Gap rules test whether a signal is present anywhere in the document. In a short
+instrument that is a fair proxy for whether an expectation is closed. In a long
+one it is not: a control in section 40 does not close an obligation in section 3,
+but both fire the same document-level signal. An empty register on a long
+document therefore means the method has stopped discriminating, and the report
+says so rather than presenting silence as a clean finding — for an instrument
+past roughly 20,000 characters it directs the reviewer to assess section by
+section. Stating a method's limits where they bite is part of the same
+Structural Honesty obligation the reporting layer applies to provenance.
