@@ -44,6 +44,8 @@ LAIF/
 ├── test_semantic_fidelity.py # Semantic-fidelity invariants (substance vs vocabulary; no false accusations)
 ├── test_real_world.py       # Assessment run over both corpora → reports/laif_real_world_assessment.md
 ├── scripts/                 # Batch document processing + governance tooling
+│   ├── laif_process_document.py        # one document → institutional report, appendix, analyst bundle
+│   └── laif_batch_process_pending.py   # folder → per-document outputs + portfolio report
 ├── tests/                   # Governance, fragility, and processing-runner suites
 │
 ├── docs/supporting/         # Verbatim ingested source texts (EO 14110, OECD, NIST AI 100-1, NHS DTAC)
@@ -127,6 +129,26 @@ LAIF uses standardised terminology throughout. AI assistants working in this rep
 | **Provision** | A specific governance requirement derived from Foundational Principles (e.g. Provision A1, A2) |
 | **Operational Standard** | A Toolkit-level definition subordinate to Provisions |
 | **Materially Affects Interests** | An objective test — would a reasonable person regard the output as having legal, financial, health, reputational, or liberty consequences? |
+
+### Sector Profiles and Document Types (Reporting Layer)
+
+Two orthogonal axes classify a document, and conflating them misstates who it
+binds. **Document type** is the instrument's form: `binding_legal_instrument`,
+`executive_policy_directive`, `voluntary_risk_framework`,
+`sector_assurance_checklist`, `technical_standard`, `public_sector_policy`,
+`procurement_assessment_form` (the buyer's instrument), `implementation_guide`,
+`internal_policy` (institutional policy, standard, or procedure),
+`vendor_compliance_submission` (the supplier's answer — a claim needing
+independent verification), `values_charter` (intent without duties),
+`unknown_governance_document`. **Sector profile** is its subject:
+`general_ai_governance`, `government_service_delivery`,
+`departmental_ai_development`, `procurement_vendor_governance`, `clinical_ai`,
+`employment_hr_ai`, `education_ai`, `financial_services_ai`.
+
+A tender that buys a clinical system is a procurement instrument whose sector is
+clinical. Adding either kind of profile is a reporting-layer change: it must not
+alter detection verdicts, and `docs/governance/SECTOR_PROFILES.md` documents the
+non-authority boundary that applies to all of them.
 
 ### Document Format
 
@@ -238,6 +260,44 @@ Hard invariants (enforced by `test_semantic_fidelity.py`):
    (validate.py's strict enforcement over LAIF's own corpus is unchanged).
 4. Register never suppresses substance: "must"/"we will" carry the same
    signal weight as "shall".
+
+### Detection Rules (Machine-Enforced)
+
+Every rubric and construct signal is keyed to the **function** the language
+performs, never to one institution's word for it. Legal drafting says "shall";
+a bank standard says "must"; a regulator names a "provider", a bank names a
+"Chief Risk Officer" and a "Model Risk Committee"; a framework declares a
+"lifecycle", a standard writes "change control"; a supervisor writes
+"proportionate to risk", an operating standard writes "a drift breach above 5%".
+Full table of accepted registers per signal in
+`docs/governance/SCORE_INTERPRETATION.md` ("Drafting Register Neutrality").
+
+Four guards bound that breadth, and each is pinned by tests:
+
+1. **A word list is not a document.** `_vocabulary_enumeration()` detects
+   governance vocabulary listed rather than made operative (dense governance
+   nouns with nothing bound to an actor). A HIGH verdict forces HOLLOW depth,
+   blocks the FUNCTIONALLY ALIGNED verdict, qualifies the coupling reading, and
+   enters the gap register as the leading gap. Genuine instruments measure
+   0.00–0.06; a constructed word list measures 0.24.
+2. **Analysing a failure is not committing it.** A contradiction adversary
+   inside a prohibition ("the restriction on decisioning *without human review*")
+   is a protection; "Q1 — Coupling: Not satisfied" in a worked example is the
+   test being applied, not disclaimed. Both guards require a positive structural
+   signal elsewhere in the document, so a bare disclaimer is still caught.
+3. **A gap is what a document omits; a contradiction is what it revokes.** A
+   protection asserted and then negated outranks the gap register in the
+   executive finding and is quoted in its own report section.
+4. **Instrument form is not subject matter.** A tender that buys a clinical
+   system is a procurement instrument; a supplier's answer to it is a vendor
+   submission needing independent verification; a values statement is a
+   `values_charter` carrying no assurance force. Detection must not conflate
+   them, and the displayed sector basis must explain the profile actually used.
+
+Gap rules may name several closing controls and fire only when **all** of them
+are missing. An empty register is always explained: too thin to test, nothing
+left unclosed, or — past ~20,000 characters — document-level detection saturated
+and no longer discriminating.
 
 ### Editing Documents
 

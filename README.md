@@ -118,12 +118,45 @@ Beyond the governance corpus, the repository ships a Python toolchain (stdlib on
 | `assessment_engine.py` | Scores external governance documents on 5 traceable dimensions, with sector profiles, Coupling-quality analysis, contradiction detection, and risk tiering |
 | `official_documents.py` | **Citable corpus** — verbatim, SHA-256-pinned excerpts of EO 14110, the OECD AI Recommendation, NIST AI 100-1, and NHS DTAC v2.0, extracted from committed sources in `docs/supporting/` |
 | `sample_documents.py` | Illustrative corpus — representative paraphrases (not citable) |
+| `scripts/laif_process_document.py` | Assesses one local document and writes the institutional report, technical appendix, quote bank, gap register, failure pathways, control recommendations, and analyst bundle |
+| `scripts/laif_batch_process_pending.py` | Batches a folder of documents and adds a portfolio report: governance-force matrix, recurring gaps, source roles, combined roadmap |
 | `test_provenance.py` | 48 machine-enforced checks on every citability claim |
 | `test_adversarial.py` | 82 adversarial tests on the guards and depth checks |
 | `test_semantic_fidelity.py` | 68 checks guaranteeing substance is never outranked by vocabulary and no document is falsely accused |
+| `tests/` | 240 further tests: governance and reporting, assessment fragility, the document runner, and the CI processing path |
 | `test_real_world.py` | Runs the full assessment → three deterministic artifacts: `reports/laif_real_world_assessment.md` (full), `reports/laif_executive_summary.md` (one page), `reports/laif_assessment_data.json` (machine-readable, schema `laif.assessment.v1`) |
 
 The engine measures on two independent axes: **LAIF-native form** (is the document written as a LAIF instrument — external frameworks are expected to fail this) and **functional alignment** (is the *substance* of Coupling, the Integrity Layer, Consistency, Reversibility, and Self-Application expressed in the document's own vocabulary — grounded in LAIF v1.2 Part Eight and the Regulatory Integration Guide's SATISFIES/EXTENDS methodology). A document is never penalised for expressing LAIF's requirements in its own words, and never credited for using LAIF's words without the substance.
+
+### Detection is keyed to function, not to vocabulary
+
+Institutions write governance in different registers, and the register is not
+the substance. Legal drafting says "shall"; a bank standard says "must". A
+regulator names a "provider"; a bank names a "Chief Risk Officer" and a "Model
+Risk Committee". A framework declares a "lifecycle"; a standard writes "change
+control". A supervisor writes "proportionate to risk"; an operating standard
+writes "a drift breach above 5% must be escalated within 5 working days". Every
+signal is keyed to the function the language performs, so a document is never
+told it lacks a structure it demonstrably has.
+
+Four guards bound that breadth, because breadth is what a document could
+otherwise exploit:
+
+- **A word list is not a document.** Governance vocabulary listed rather than
+  made operative — dense governance nouns with nothing bound to an actor — is
+  detected, quoted back, blocked from the aligned verdict, and reported as the
+  leading gap. Genuine instruments measure 0.00–0.06 on this; a constructed
+  word list measures 0.24.
+- **Analysing a failure is not committing it.** A hazard named inside the clause
+  that forbids it is a protection; "Q1 — Coupling: Not satisfied" in a worked
+  example is the test being applied. Both guards require a positive structural
+  signal elsewhere, so a bare disclaimer is still caught.
+- **A gap is what a document omits; a contradiction is what it revokes.** A
+  protection asserted and then negated outranks the gap register and is quoted
+  in its own section.
+- **The method states where it stops.** An empty gap register is always
+  explained — too thin to test, nothing left unclosed, or document-level
+  detection saturated on a long instrument and no longer discriminating.
 
 **Headline citable finding:** all four official instruments assessed from verbatim text fail the LAIF-native formal gate while averaging 53/100 conceptual proximity, and three of four are PARTIALLY ALIGNED at the construct level — real-world frameworks address the right governance dimensions, and partially express LAIF's structural mechanisms in their own idioms, but none enforces them through structural Coupling, the Coherence Test, or the Integrity Layer.
 
