@@ -1041,17 +1041,24 @@ SECTOR_PROFILES = {
             (r"\bincident\s+(?:report|log|register)\b",              "incident reporting mechanism"),
         ],
         "remediation_focus": [
-            "Introduce structural Coupling for each governance provision — pair the restriction "
-            "with the specific human interest it protects, with equivalent normative force on both "
-            "sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).",
-            "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency "
-            "(scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure "
-            "(LAIF v1.2 Part One).",
-            "Establish the Integrity Layer as a deployment precondition: A.1 Structural Transparency, "
-            "A.2 Structural Honesty, A.3 Structural Containment must all be satisfied simultaneously. "
-            "Partial satisfaction = failure (LAIF v1.2 Part Two; Toolkit §1.3–§1.5).",
-            "Add a self-application clause: specify that the framework applies to regulatory bodies "
-            "and governance actors themselves, not only to AI operators (LAIF v1.2 Part Seven).",
+            "Bind each restriction to the specific interest it protects, so neither can be "
+            "weakened without the other and the protection is as enforceable as the "
+            "restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, "
+            "Toolkit §2 B.1 — but the document's own wording carries the same structure).",
+            "Test each provision before issuing it: does it name and protect a specific "
+            "interest; would its reasoning hold at much smaller and much larger scale; can "
+            "a future decision-maker reverse what it sets in motion. A provision that fails "
+            "the first question fails outright (LAIF states this as the Coherence Test — "
+            "v1.2 Part One).",
+            "Make deployment conditional on all of the following holding at once, with "
+            "partial satisfaction counting as failure: the system can produce a "
+            "comprehensible account of any decision including its limits; its stated "
+            "objectives match its implemented ones, verified independently; and it operates "
+            "within documented boundaries, escalating anything outside them (LAIF's "
+            "Integrity Layer — v1.2 Part Two, Toolkit §1.3–§1.5).",
+            "Bind the body that issues the rules to the rules themselves, and say what "
+            "evidence it must produce of its own compliance and to whom (LAIF states this "
+            "as self-application — v1.2 Part Seven).",
         ],
     },
 
@@ -2113,7 +2120,7 @@ def _structured_remediation(result):
                 "(Toolkit §2 B.1)."
             ),
         })
-    elif cq in ("ABSENT", "SHALLOW", "NEGATED"):
+    elif cq in ("ABSENT", "SHALLOW", "NEGATED") and _cstate not in ("FUNCTIONAL", "STRUCTURAL"):
         cq_r = result["coupling_quality_reason"]
         if cq == "ABSENT":
             problem = ("Restriction-protection pairing not established — no governance "
@@ -2186,8 +2193,11 @@ def _structured_remediation(result):
         })
         dim_inserted += 1
 
-    # 3 — Coherence Test
-    if not result["construct_coverage"].get("Coherence Test"):
+    # 3 — Coherence Test. LAIF's own named decision instrument: for an external
+    # document its absence is adoption distance, not a finding, and is reported
+    # through the certification channel instead.
+    if (not result["construct_coverage"].get("Coherence Test")
+            and result.get("assessment_mode") != "external_framework"):
         steps.append({
             "problem": "Coherence Test not applied — no Q1/Q2/Q3 documentation present.",
             "why_it_matters": (
@@ -2205,8 +2215,13 @@ def _structured_remediation(result):
             ),
         })
 
-    # 4 — Integrity Layer
-    if not result["construct_coverage"].get("Integrity Layer"):
+    # 4 — Integrity Layer. Skipped where the functional layer found the gate in
+    # the document's own words: construct_coverage is a vocabulary check, and a
+    # document stating "no model enters production unless all of the following
+    # hold simultaneously" plainly has one.
+    _integrity_functional = (_func.get("Integrity Layer", {}).get("verdict")
+                             in ("DECLARED", "FUNCTIONAL"))
+    if not result["construct_coverage"].get("Integrity Layer") and not _integrity_functional:
         steps.append({
             "problem": ("No all-conditions-must-pass deployment gate — deployment is not "
                         "conditioned on transparency, honesty, and containment being "
@@ -2247,41 +2262,79 @@ def _structured_remediation(result):
             ),
         })
 
-    # 6 — Constitutional hierarchy (low structural score)
-    if result["structural_score"] < 50:
+    # 6 — Precedence between the document's own provisions. Raised whenever the
+    # signal is missing, not only on a low structural score: it is a specific,
+    # detected, closable finding and belongs in the remediation list even for a
+    # document that scores well everywhere else.
+    _precedence_missing = any(
+        lbl == "provision hierarchy / precedence rule"
+        for lbl, _ in result["score_breakdown"]["structural"]["missed"])
+    if _precedence_missing or result["structural_score"] < 50:
         bd = result["score_breakdown"]["structural"]
         missed = ", ".join(lbl for lbl, _ in bd["missed"][:3])
+        if _precedence_missing:
+            problem = ("No precedence rule between the document's own provisions: nothing "
+                       "states which prevails on conflict, what cannot be waived, or what "
+                       "this document is subordinate to.")
+        else:
+            problem = (f"Structural architecture thin (structural score "
+                       f"{result['structural_score']}/100). Missing: {missed}.")
         steps.append({
-            "problem": (
-                f"Constitutional hierarchy not declared "
-                f"(structural score {result['structural_score']}/100). Missing: {missed}."
-            ),
+            "problem": problem,
             "why_it_matters": (
-                "Without a non-amendable three-tier hierarchy, operational revisions can "
-                "erode Foundational Principles. LAIF's structure — Foundational Principles "
-                "(non-amendable) → Provisions → Operational Standards — prevents governance "
-                "degradation over time (LAIF v1.2 Principle 3)."
+                "Where a document sets no precedence between its own provisions, a routine "
+                "operational revision can change what it actually requires without anyone "
+                "treating it as a change of standard, and a reader facing two provisions "
+                "that point different ways has no rule for deciding which governs. LAIF "
+                "states this as a three-tier hierarchy with a non-amendable apex "
+                "(v1.2 Principle 3); instruments more often state it as a conflicts clause "
+                "or a waiver bar. The property is the same."
             ),
             "concrete_fix": (
-                "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational "
-                "Principles — non-amendable; (ii) Provisions derived from Principles; "
-                "(iii) Operational Standards — subordinate and revisable. Add a "
-                "non-amendable clause, self-application clause (Part Seven), and threshold "
-                "gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, "
-                "Two, Seven)."
+                "Add three statements the text currently leaves unanswered: which provision "
+                "prevails if two conflict; which provisions cannot be waived, disapplied, or "
+                "amended except by a named authority; and what instrument this document is "
+                "itself subordinate to. A conflicts clause, a 'without prejudice to' clause, "
+                "a waiver bar, or a stated parent framework each satisfies this; LAIF's "
+                "three-tier form — Foundational Principles (non-amendable) → Provisions → "
+                "Operational Standards — is one way of stating all three at once."
             ),
         })
 
-    # 7 — Sector-specific (top 2 from profile)
+    # 7 — Sector-specific (top 2 from profile). A profile step is a prescription,
+    # not a finding: it must never be rendered as "not addressed in this document"
+    # for a construct this assessment detected as present.
     sector_label = result.get("sector_label", result["sector_used"])
+    _step_construct = (
+        ("coupling", "Coupling"),
+        ("coherence test", "__external_channel__"),
+        ("integrity layer", "Integrity Layer"),
+        ("self-application", "Self-Application"),
+        ("reversib", "Reversibility"),
+        ("scale", "Consistency"),
+    )
+
+    def _step_already_satisfied(step_text):
+        low = step_text.lower()
+        for marker, construct in _step_construct:
+            if marker not in low:
+                continue
+            if construct == "__external_channel__":
+                return result.get("assessment_mode") == "external_framework"
+            if _func.get(construct, {}).get("verdict") in ("DECLARED", "FUNCTIONAL"):
+                return True
+        return False
+
     for step_text in result.get("sector_remediation_priority", [])[:2]:
+        if _step_already_satisfied(step_text):
+            continue
         if not any(step_text[:60] in s.get("concrete_fix", "")[:60] for s in steps):
             # derive a distinct problem statement from the first clause of step_text
             first_clause = re.split(r"\s(?:—|–|:)\s", step_text, maxsplit=1)[0]
             if len(first_clause) > 110:
                 first_clause = first_clause[:110].rstrip() + "…"
             steps.append({
-                "problem": f"{first_clause} — not addressed in this document.",
+                "problem": f"{first_clause} — not detected in this document.",
                 "why_it_matters": (
                     f"In the {sector_label} deployment context, this governance gap exposes "
                     f"specific human interests that materially affect persons subject to the "
@@ -3343,17 +3396,19 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         if claims_laif:
             gaps.insert(0, "Canonical LAIF terms absent: " + ", ".join(missing_terms))
         else:
-            gaps.insert(0,
+            gaps.append(
                 "LAIF-native vocabulary not used — expected for an external "
                 "instrument; certification-channel distance, not a deficiency: "
                 + ", ".join(missing_terms)
             )
     _signal_construct = {
         "threshold gate conditions (all must pass simultaneously)": "Integrity Layer",
-        "self-application clause (Part Seven)":                     "Self-Application",
+        "governing body bound by its own rules (self-application)": "Self-Application",
         "named decision instrument (Coherence Test / PDCA)":        "__branding__",
     }
     _native_gap_lines = []
+    _CHANNEL_MARKERS = ("certification-channel", "LAIF-native vocabulary not used",
+                        "LAIF-native marker not present")
     for _, _pat, _lbl in STRUCTURAL_RUBRIC[6:]:
         if re.search(_pat, text, re.IGNORECASE):
             continue
@@ -3373,7 +3428,16 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         else:
             _native_gap_lines.append(
                 f"Structural mechanism not detected in any vocabulary: {_lbl}")
-    gaps[1:1] = _native_gap_lines
+    gaps.extend(_native_gap_lines)
+
+    def _is_channel_note(line):
+        return any(marker in line for marker in _CHANNEL_MARKERS)
+
+    # Substantive findings first, certification-channel notes last, each group in
+    # the order it was produced. A note about not using LAIF's vocabulary led
+    # every external document's gap list, which is the reverse of its importance.
+    gaps[:] = ([g for g in gaps if not _is_channel_note(g)]
+               + [g for g in gaps if _is_channel_note(g)])
 
     # Strong compliance: formal gate PASS + genuine structural depth.
     # A hollow document that passes the formal gate but has SHALLOW/NEGATED Coupling

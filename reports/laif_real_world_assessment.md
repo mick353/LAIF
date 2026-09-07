@@ -116,7 +116,7 @@ structural — no precedence rule between the document's own provisions (10/10 d
 mandate (3); consequence (2); escalation (1); +1 more
 
 ### Remediation themes
-Reversibility/escalation fixes (10); LAIF-native adoption fixes (10); Immediate clarity/control fixes (3); +1 more
+Evidence/auditability fixes (10); Reversibility/escalation fixes (10); LAIF-native adoption fixes (10); +1 more
 
 
 ## Peer Exemplars — What Good Looks Like in This Corpus
@@ -353,9 +353,9 @@ Each required LAIF-native construct remains necessary for certification; proximi
 
 
 #### Diagnostic Gaps
-- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
 - Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -369,15 +369,15 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 2. **Problem:** Structural governance architecture score critically low (49/100) — most deficient dimension after Coupling.
    - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 4 missed signals for this dimension. Critical gaps: risk stratification / proportionality, provision hierarchy / precedence rule, governing body bound by its own rules (self-application). Full signal breakdown in the Scores section.
-3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
-   - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
-   - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+3. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
-5. **Problem:** Constitutional hierarchy not declared (structural score 49/100). Missing: risk stratification / proportionality, provision hierarchy / precedence rule, governing body bound by its own rules (self-application).
-   - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
-   - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
+4. **Problem:** No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.
+   - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same.
+   - **Concrete fix:** Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.
+5. **Problem:** Bind each restriction to the specific interest it protects, so neither can be weakened without the other and t… — not detected in this document.
+   - **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   - **Concrete fix:** Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).
 
 #### Structured Remediation Patch Set
 These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
@@ -680,10 +680,10 @@ Each required LAIF-native construct remains necessary for certification; proximi
 
 
 #### Diagnostic Gaps
-- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
 - Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -700,12 +700,12 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 3. **Problem:** Structural governance architecture score critically low (26/100) — most deficient dimension after Coupling.
    - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 6 missed signals for this dimension. Critical gaps: mandatory obligation language (shall/must), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously). Full signal breakdown in the Scores section.
-4. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
-   - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
-   - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-5. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
+5. **Problem:** No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.
+   - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same.
+   - **Concrete fix:** Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.
 
 #### Structured Remediation Patch Set
 These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
@@ -1010,10 +1010,10 @@ Each required LAIF-native construct remains necessary for certification; proximi
 
 
 #### Diagnostic Gaps
-- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
 - Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -1027,15 +1027,15 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 2. **Problem:** Structural governance architecture score critically low (41/100) — most deficient dimension after Coupling.
    - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application). Full signal breakdown in the Scores section.
-3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
-   - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
-   - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+3. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
-5. **Problem:** Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application).
-   - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
-   - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
+4. **Problem:** No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.
+   - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same.
+   - **Concrete fix:** Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.
+5. **Problem:** Bind each restriction to the specific interest it protects, so neither can be weakened without the other and t… — not detected in this document.
+   - **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   - **Concrete fix:** Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).
 
 #### Structured Remediation Patch Set
 These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
@@ -1355,10 +1355,10 @@ Each required LAIF-native construct remains necessary for certification; proximi
 
 
 #### Diagnostic Gaps
-- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
 - Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 - Sector gaming risk [MEDIUM]: Sector alignment 80% but conceptual proximity 24/100. Sector-specific vocabulary present without underlying governance intent. May indicate sector-optimised keyword selection rather than substantive coverage.
 
@@ -1376,12 +1376,12 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 3. **Problem:** Conceptual governance coverage score critically low (24/100) — most deficient dimension after Coupling.
    - **Why it matters:** Low conceptual proximity indicates the document's governance intent is not substantially aligned with LAIF values. The adoption gap is more fundamental than terminology — substantive governance redesign is required, not just terminological substitution.
    - **Concrete fix:** Address the 9 missed signals for this dimension. Critical gaps: human rights / fundamental interests, transparency, explainability / interpretability. Full signal breakdown in the Scores section.
-4. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
-   - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
-   - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-5. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
+5. **Problem:** No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.
+   - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same.
+   - **Concrete fix:** Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.
 
 #### Structured Remediation Patch Set
 These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
@@ -1692,10 +1692,10 @@ Each required LAIF-native construct remains necessary for certification; proximi
 
 
 #### Diagnostic Gaps
-- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
 - Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -1709,15 +1709,15 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 2. **Problem:** Structural governance architecture score critically low (41/100) — most deficient dimension after Coupling.
    - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application). Full signal breakdown in the Scores section.
-3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
-   - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
-   - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+3. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
-5. **Problem:** Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application).
-   - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
-   - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
+4. **Problem:** No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.
+   - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same.
+   - **Concrete fix:** Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.
+5. **Problem:** Bind each restriction to the specific interest it protects, so neither can be weakened without the other and t… — not detected in this document.
+   - **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   - **Concrete fix:** Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).
 
 #### Structured Remediation Patch Set
 These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
@@ -2022,10 +2022,10 @@ Each required LAIF-native construct remains necessary for certification; proximi
 
 
 #### Diagnostic Gaps
-- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
 - Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -2042,12 +2042,12 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 3. **Problem:** Enforceability score critically low (40/100) — most deficient dimension after Coupling.
    - **Why it matters:** Without enforceable obligations, regulatory bodies cannot hold operators accountable for governance failures. The standard is aspirational rather than operationally binding — no party can be required to comply.
    - **Concrete fix:** Address the 3 missed signals for this dimension. Critical gaps: mandatory language (shall/must), risk-proportionate thresholds, non-discretionary operational mandates. Full signal breakdown in the Scores section.
-4. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
-   - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
-   - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-5. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
+5. **Problem:** No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.
+   - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same.
+   - **Concrete fix:** Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.
 
 #### Structured Remediation Patch Set
 These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
@@ -2344,10 +2344,10 @@ Each required LAIF-native construct remains necessary for certification; proximi
 
 
 #### Diagnostic Gaps
-- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
 - Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -2364,12 +2364,12 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 3. **Problem:** Structural governance architecture score critically low (12/100) — most deficient dimension after Coupling.
    - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 8 missed signals for this dimension. Critical gaps: numbered sub-requirements, mandatory obligation language (shall/must), risk stratification / proportionality. Full signal breakdown in the Scores section.
-4. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
-   - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
-   - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-5. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
+5. **Problem:** No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.
+   - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same.
+   - **Concrete fix:** Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.
 
 #### Structured Remediation Patch Set
 These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
@@ -2678,12 +2678,12 @@ Each required LAIF-native construct remains necessary for certification; proximi
 
 
 #### Diagnostic Gaps
-- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
+- Terminology divergence (informational) — 'Coupling'-adjacent wording used in the document's own vocabulary (3 instance(s)): engage with industry, civil society, and other stakeholders …; orrection, and redress for affected individuals.  Section 7 …. Not a violation: this document does not use or claim LAIF canonical terminology.
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
 - Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
-- Terminology divergence (informational) — 'Coupling'-adjacent wording used in the document's own vocabulary (3 instance(s)): engage with industry, civil society, and other stakeholders …; orrection, and redress for affected individuals.  Section 7 …. Not a violation: this document does not use or claim LAIF canonical terminology.
 
 
 #### Remediation Priorities
@@ -2696,15 +2696,15 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 2. **Problem:** Structural governance architecture score critically low (35/100) — most deficient dimension after Coupling.
    - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 5 missed signals for this dimension. Critical gaps: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule. Full signal breakdown in the Scores section.
-3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
-   - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
-   - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+3. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
-5. **Problem:** Constitutional hierarchy not declared (structural score 35/100). Missing: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule.
-   - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
-   - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
+4. **Problem:** No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.
+   - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same.
+   - **Concrete fix:** Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.
+5. **Problem:** Bind each restriction to the specific interest it protects, so neither can be weakened without the other and t… — not detected in this document.
+   - **Why it matters:** In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   - **Concrete fix:** Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).
 
 #### Structured Remediation Patch Set
 These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
@@ -3014,9 +3014,9 @@ Each required LAIF-native construct remains necessary for certification; proximi
 
 
 #### Diagnostic Gaps
-- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
 - Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -3030,15 +3030,15 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 2. **Problem:** Structural governance architecture score critically low (41/100) — most deficient dimension after Coupling.
    - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 5 missed signals for this dimension. Critical gaps: numbered sub-requirements, risk stratification / proportionality, provision hierarchy / precedence rule. Full signal breakdown in the Scores section.
-3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
-   - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
-   - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+3. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
-5. **Problem:** Constitutional hierarchy not declared (structural score 41/100). Missing: numbered sub-requirements, risk stratification / proportionality, provision hierarchy / precedence rule.
-   - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
-   - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
+4. **Problem:** No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.
+   - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same.
+   - **Concrete fix:** Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.
+5. **Problem:** Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI… — not detected in this document.
+   - **Why it matters:** In the Clinical AI Deployment deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   - **Concrete fix:** Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI alert suppression' → 'Coupling between alert suppression rules and the patient's interest in receiving clinically accurate recommendations' (Toolkit §2 B.1).
 
 #### Structured Remediation Patch Set
 These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.
@@ -3347,10 +3347,10 @@ Each required LAIF-native construct remains necessary for certification; proximi
 
 
 #### Diagnostic Gaps
-- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)
 - Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule
 - Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)
+- LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests
 - LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)
 
 
@@ -3364,15 +3364,15 @@ LAIF structural remediation priorities are ordered diagnostic guidance, not auth
 2. **Problem:** Structural governance architecture score critically low (28/100) — most deficient dimension after Coupling.
    - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time.
    - **Concrete fix:** Address the 6 missed signals for this dimension. Critical gaps: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously). Full signal breakdown in the Scores section.
-3. **Problem:** Coherence Test not applied — no Q1/Q2/Q3 documentation present.
-   - **Why it matters:** The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One).
-   - **Concrete fix:** Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).
-4. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
+3. **Problem:** No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.
    - **Why it matters:** Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two).
    - **Concrete fix:** Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.
-5. **Problem:** Constitutional hierarchy not declared (structural score 28/100). Missing: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).
-   - **Why it matters:** Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3).
-   - **Concrete fix:** Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).
+4. **Problem:** No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.
+   - **Why it matters:** Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same.
+   - **Concrete fix:** Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.
+5. **Problem:** Assign an HR policy owner with legal/compliance and bias-review support for adverse-action controls. — not detected in this document.
+   - **Why it matters:** In the Employment and HR AI deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering).
+   - **Concrete fix:** Assign an HR policy owner with legal/compliance and bias-review support for adverse-action controls.
 
 #### Structured Remediation Patch Set
 These patches are diagnostic guidance. They do not determine legal validity, and they do not certify compliance with the assessing framework unless that framework is separately adopted and verified.

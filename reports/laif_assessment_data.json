@@ -18,9 +18,9 @@
       "coupling_state": "ABSENT",
       "deployment_risk_tier": "HIGH",
       "diagnostic_gaps": [
-        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
         "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
+        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "US Executive Order 14110 — §2 Principles, §6 Workers, §7 Civil Rights (official text)",
@@ -91,28 +91,18 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).",
-          "problem": "Coherence Test not applied — no Q1/Q2/Q3 documentation present.",
-          "why_it_matters": "The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One)."
-        },
-        {
           "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
           "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
           "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
         },
         {
-          "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 49/100). Missing: risk stratification / proportionality, provision hierarchy / precedence rule, governing body bound by its own rules (self-application).",
-          "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
+          "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
+          "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
-          "concrete_fix": "Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).",
-          "problem": "Introduce structural Coupling for each governance provision — not addressed in this document.",
-          "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
-        },
-        {
-          "concrete_fix": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).",
-          "problem": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.",
+          "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
+          "problem": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and t… — not detected in this document.",
           "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         }
       ],
@@ -274,10 +264,10 @@
       "coupling_state": "IMPLICIT",
       "deployment_risk_tier": "CRITICAL",
       "diagnostic_gaps": [
-        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
         "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
+        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (official text)",
@@ -355,28 +345,18 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).",
-          "problem": "Coherence Test not applied — no Q1/Q2/Q3 documentation present.",
-          "why_it_matters": "The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One)."
-        },
-        {
           "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
           "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
           "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
         },
         {
-          "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 26/100). Missing: mandatory obligation language (shall/must), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).",
-          "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
+          "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
+          "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
-          "concrete_fix": "Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).",
-          "problem": "Introduce structural Coupling for each governance provision — not addressed in this document.",
-          "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
-        },
-        {
-          "concrete_fix": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).",
-          "problem": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.",
+          "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
+          "problem": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and t… — not detected in this document.",
           "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         }
       ],
@@ -518,10 +498,10 @@
       "coupling_state": "ABSENT",
       "deployment_risk_tier": "HIGH",
       "diagnostic_gaps": [
-        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
         "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
+        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "NIST AI RMF 1.0 (NIST AI 100-1) — GOVERN & MAP Functions (official text)",
@@ -578,28 +558,18 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).",
-          "problem": "Coherence Test not applied — no Q1/Q2/Q3 documentation present.",
-          "why_it_matters": "The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One)."
-        },
-        {
           "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
           "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
           "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
         },
         {
-          "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application).",
-          "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
+          "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
+          "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
-          "concrete_fix": "Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).",
-          "problem": "Introduce structural Coupling for each governance provision — not addressed in this document.",
-          "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
-        },
-        {
-          "concrete_fix": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).",
-          "problem": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.",
+          "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
+          "problem": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and t… — not detected in this document.",
           "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         }
       ],
@@ -746,10 +716,10 @@
       "coupling_state": "ABSENT",
       "deployment_risk_tier": "CRITICAL",
       "diagnostic_gaps": [
-        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
         "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
+        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)",
         "Sector gaming risk [MEDIUM]: Sector alignment 80% but conceptual proximity 24/100. Sector-specific vocabulary present without underlying governance intent. May indicate sector-optimised keyword selection rather than substantive coverage."
       ],
@@ -823,28 +793,23 @@
           "why_it_matters": "Low conceptual proximity indicates the document's governance intent is not substantially aligned with LAIF values. The adoption gap is more fundamental than terminology — substantive governance redesign is required, not just terminological substitution."
         },
         {
-          "concrete_fix": "Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).",
-          "problem": "Coherence Test not applied — no Q1/Q2/Q3 documentation present.",
-          "why_it_matters": "The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One)."
-        },
-        {
           "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
           "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
           "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
         },
         {
-          "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 20/100). Missing: numbered sub-requirements, risk stratification / proportionality, review / monitoring mechanisms.",
-          "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
+          "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
+          "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI alert suppression' → 'Coupling between alert suppression rules and the patient's interest in receiving clinically accurate recommendations' (Toolkit §2 B.1).",
-          "problem": "Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI… — not addressed in this document.",
+          "problem": "Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI… — not detected in this document.",
           "why_it_matters": "In the Clinical AI Deployment deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         },
         {
           "concrete_fix": "Apply Q3 Reversibility: clinician override must always be preserved — AI recommendations must not displace clinical judgement irreversibly. Rewrite: 'AI system supports clinical decisions' → 'AI system provides recommendations subject to clinician override at every decision point, with override logged and reversible' (LAIF v1.2 Provision D1).",
-          "problem": "Apply Q3 Reversibility: clinician override must always be preserved — not addressed in this document.",
+          "problem": "Apply Q3 Reversibility: clinician override must always be preserved — not detected in this document.",
           "why_it_matters": "In the Clinical AI Deployment deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         }
       ],
@@ -961,10 +926,10 @@
       "coupling_state": "ABSENT",
       "deployment_risk_tier": "HIGH",
       "diagnostic_gaps": [
-        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
         "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
+        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "EU AI Act — Art. 9, 13 & 14",
@@ -1038,28 +1003,18 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).",
-          "problem": "Coherence Test not applied — no Q1/Q2/Q3 documentation present.",
-          "why_it_matters": "The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One)."
-        },
-        {
           "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
           "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
           "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
         },
         {
-          "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 41/100). Missing: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application).",
-          "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
+          "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
+          "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
-          "concrete_fix": "Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).",
-          "problem": "Introduce structural Coupling for each governance provision — not addressed in this document.",
-          "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
-        },
-        {
-          "concrete_fix": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).",
-          "problem": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.",
+          "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
+          "problem": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and t… — not detected in this document.",
           "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         }
       ],
@@ -1211,10 +1166,10 @@
       "coupling_state": "ABSENT",
       "deployment_risk_tier": "CRITICAL",
       "diagnostic_gaps": [
-        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
         "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
+        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "NIST AI RMF — Govern & Map Functions",
@@ -1282,28 +1237,18 @@
           "why_it_matters": "Without enforceable obligations, regulatory bodies cannot hold operators accountable for governance failures. The standard is aspirational rather than operationally binding — no party can be required to comply."
         },
         {
-          "concrete_fix": "Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).",
-          "problem": "Coherence Test not applied — no Q1/Q2/Q3 documentation present.",
-          "why_it_matters": "The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One)."
-        },
-        {
           "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
           "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
           "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
         },
         {
-          "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 26/100). Missing: mandatory obligation language (shall/must), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).",
-          "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
+          "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
+          "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
-          "concrete_fix": "Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).",
-          "problem": "Introduce structural Coupling for each governance provision — not addressed in this document.",
-          "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
-        },
-        {
-          "concrete_fix": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).",
-          "problem": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.",
+          "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
+          "problem": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and t… — not detected in this document.",
           "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         }
       ],
@@ -1425,10 +1370,10 @@
       "coupling_state": "IMPLICIT",
       "deployment_risk_tier": "CRITICAL",
       "diagnostic_gaps": [
-        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
         "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
+        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "OECD AI Principles (2019, rev. 2024)",
@@ -1496,28 +1441,18 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).",
-          "problem": "Coherence Test not applied — no Q1/Q2/Q3 documentation present.",
-          "why_it_matters": "The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One)."
-        },
-        {
           "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
           "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
           "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
         },
         {
-          "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 12/100). Missing: numbered sub-requirements, mandatory obligation language (shall/must), risk stratification / proportionality.",
-          "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
+          "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
+          "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
-          "concrete_fix": "Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).",
-          "problem": "Introduce structural Coupling for each governance provision — not addressed in this document.",
-          "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
-        },
-        {
-          "concrete_fix": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).",
-          "problem": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.",
+          "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
+          "problem": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and t… — not detected in this document.",
           "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         }
       ],
@@ -1628,12 +1563,12 @@
       "coupling_state": "ABSENT",
       "deployment_risk_tier": "HIGH",
       "diagnostic_gaps": [
-        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
+        "Terminology divergence (informational) — 'Coupling'-adjacent wording used in the document's own vocabulary (3 instance(s)): engage with industry, civil society, and other stakeholders …; orrection, and redress for affected individuals.  Section 7 …. Not a violation: this document does not use or claim LAIF canonical terminology.",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
         "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
-        "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)",
-        "Terminology divergence (informational) — 'Coupling'-adjacent wording used in the document's own vocabulary (3 instance(s)): engage with industry, civil society, and other stakeholders …; orrection, and redress for affected individuals.  Section 7 …. Not a violation: this document does not use or claim LAIF canonical terminology."
+        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
+        "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "US Executive Order 14110 — §4 Safety & §7 Workers",
       "document_outline": [
@@ -1709,28 +1644,18 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).",
-          "problem": "Coherence Test not applied — no Q1/Q2/Q3 documentation present.",
-          "why_it_matters": "The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One)."
-        },
-        {
           "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
           "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
           "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
         },
         {
-          "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 35/100). Missing: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule.",
-          "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
+          "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
+          "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
-          "concrete_fix": "Introduce structural Coupling for each governance provision — pair the restriction with the specific human interest it protects, with equivalent normative force on both sides (LAIF v1.2 Principle 2; Toolkit §2 B.1).",
-          "problem": "Introduce structural Coupling for each governance provision — not addressed in this document.",
-          "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
-        },
-        {
-          "concrete_fix": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Reversibility. Failure at Q1 = automatic full failure (LAIF v1.2 Part One).",
-          "problem": "Apply the Coherence Test before any provision is issued: Q1 Coupling, Q2 Consistency (scale-invariance), Q3 Re… — not addressed in this document.",
+          "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
+          "problem": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and t… — not detected in this document.",
           "why_it_matters": "In the General AI Governance deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         }
       ],
@@ -1887,9 +1812,9 @@
       "coupling_state": "IMPLICIT",
       "deployment_risk_tier": "HIGH",
       "diagnostic_gaps": [
-        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
         "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
+        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "NHS England — AI in Clinical Decision Support (Policy Framework)",
@@ -1969,28 +1894,23 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).",
-          "problem": "Coherence Test not applied — no Q1/Q2/Q3 documentation present.",
-          "why_it_matters": "The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One)."
-        },
-        {
           "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
           "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
           "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
         },
         {
-          "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 41/100). Missing: numbered sub-requirements, risk stratification / proportionality, provision hierarchy / precedence rule.",
-          "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
+          "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
+          "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI alert suppression' → 'Coupling between alert suppression rules and the patient's interest in receiving clinically accurate recommendations' (Toolkit §2 B.1).",
-          "problem": "Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI… — not addressed in this document.",
+          "problem": "Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI… — not detected in this document.",
           "why_it_matters": "In the Clinical AI Deployment deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         },
         {
           "concrete_fix": "Apply Q3 Reversibility: clinician override must always be preserved — AI recommendations must not displace clinical judgement irreversibly. Rewrite: 'AI system supports clinical decisions' → 'AI system provides recommendations subject to clinician override at every decision point, with override logged and reversible' (LAIF v1.2 Provision D1).",
-          "problem": "Apply Q3 Reversibility: clinician override must always be preserved — not addressed in this document.",
+          "problem": "Apply Q3 Reversibility: clinician override must always be preserved — not detected in this document.",
           "why_it_matters": "In the Clinical AI Deployment deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         }
       ],
@@ -2132,10 +2052,10 @@
       "coupling_state": "IMPLICIT",
       "deployment_risk_tier": "HIGH",
       "diagnostic_gaps": [
-        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "Structural mechanism not detected in any vocabulary: threshold gate conditions (all must pass simultaneously)",
         "Structural mechanism not detected in any vocabulary: provision hierarchy / precedence rule",
         "Structural mechanism not detected in any vocabulary: governing body bound by its own rules (self-application)",
+        "LAIF-native vocabulary not used — expected for an external instrument; certification-channel distance, not a deficiency: Coupling, Coherence Test, Integrity Layer, Structural Transparency, Structural Honesty, Structural Containment, Materially Affects Interests",
         "LAIF-native marker not present (branding, not substance): named decision instrument (Coherence Test / PDCA)"
       ],
       "document_name": "TUC/CIPD — Framework for Fair AI in Employment Decisions",
@@ -2212,28 +2132,23 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Add PDCA Section B: apply all three Coherence Test questions to each major governance provision. Each must be answered affirmatively. Q1 failure = full failure — do not proceed to Q2/Q3 without satisfying Q1 (LAIF v1.2 Part One; Toolkit §2).",
-          "problem": "Coherence Test not applied — no Q1/Q2/Q3 documentation present.",
-          "why_it_matters": "The Coherence Test is the primary LAIF decision instrument: Q1 Coupling (specific human interest identified and protected?), Q2 Consistency (governance logic scale-invariant?), Q3 Reversibility (future actors can modify?). Without it, there is no evidence provisions were tested for structural soundness before deployment (LAIF v1.2 Part One)."
-        },
-        {
           "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
           "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
           "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
         },
         {
-          "concrete_fix": "Declare the three-tier hierarchy explicitly: (i) PART ONE: Foundational Principles — non-amendable; (ii) Provisions derived from Principles; (iii) Operational Standards — subordinate and revisable. Add a non-amendable clause, self-application clause (Part Seven), and threshold gate conditions for the Integrity Layer precondition (LAIF v1.2 Parts One, Two, Seven).",
-          "problem": "Constitutional hierarchy not declared (structural score 28/100). Missing: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously).",
-          "why_it_matters": "Without a non-amendable three-tier hierarchy, operational revisions can erode Foundational Principles. LAIF's structure — Foundational Principles (non-amendable) → Provisions → Operational Standards — prevents governance degradation over time (LAIF v1.2 Principle 3)."
+          "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
+          "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Assign an HR policy owner with legal/compliance and bias-review support for adverse-action controls.",
-          "problem": "Assign an HR policy owner with legal/compliance and bias-review support for adverse-action controls. — not addressed in this document.",
+          "problem": "Assign an HR policy owner with legal/compliance and bias-review support for adverse-action controls. — not detected in this document.",
           "why_it_matters": "In the Employment and HR AI deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         },
         {
           "concrete_fix": "Require adverse-action review, bias evidence, human review, and appeal records for employment-impacting AI decisions.",
-          "problem": "Require adverse-action review, bias evidence, human review, and appeal records for employment-impacting AI dec… — not addressed in this document.",
+          "problem": "Require adverse-action review, bias evidence, human review, and appeal records for employment-impacting AI dec… — not detected in this document.",
           "why_it_matters": "In the Employment and HR AI deployment context, this governance gap exposes specific human interests that materially affect persons subject to the AI system's outputs. Each gap represents a Coupling declaration that is absent or insufficient for this sector (Toolkit §1.2 — Materially Affects Interests; §7.5 — PDCA tiering)."
         }
       ],

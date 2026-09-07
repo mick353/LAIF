@@ -594,3 +594,38 @@ what to write.
 Nothing in this pass changed a verdict. All of it changed whether a reader can
 act on what they are told — which, after ten passes, is where the remaining
 work has consistently been.
+
+---
+
+## 16. Eleventh pass — a report arguing with itself
+
+The eleventh pass read the remediation list against the findings above it in the
+same report, and found them disagreeing.
+
+For the bank standard, the report said in sequence: **"Coupling substance
+present in the document's own vocabulary (restriction paired with named stake,
+mutual weakening lock)"** and then **"Restriction-protection pairing not
+established — no governance restriction is bound to the specific interest it
+protects, in any vocabulary."** Both were generated from the same run. The
+findings layer had been moved onto functional alignment across earlier passes;
+the remediation layer was still keyed to `construct_coverage`, which is a
+vocabulary check. The same defect told a document with an explicit
+all-conditions deployment gate that it had none, and prescribed the Coherence
+Test — LAIF's own instrument — to instruments that had never claimed to contain
+it.
+
+The sector profile added a third voice: four LAIF adoption prescriptions, each
+rendered as "<step> — not addressed in this document", asserted with no
+detection behind them. For a document that pairs every restriction with a named
+interest, "Introduce structural Coupling for each governance provision — not
+addressed in this document" is simply false.
+
+A renamed rubric label had also broken its construct mapping silently: the
+self-application signal was renamed in the previous pass, and the map that
+attaches the "substance functionally present" qualifier still held the old key.
+A test now checks every key in that map against the live rubric.
+
+After the fix the bank standard's remediation list is two steps: the substance
+it already has, and the one real gap it does not — no precedence rule between
+its own provisions, with the three statements that would close it. That is what
+a reader can act on.

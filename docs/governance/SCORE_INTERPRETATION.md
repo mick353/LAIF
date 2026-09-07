@@ -483,3 +483,35 @@ between external-framework and LAIF-native assessment, and the raw `mode`
 parameter is `None` whenever a caller relies on auto-detection — which silently
 gave external documents the LAIF-native wording until the resolution was moved
 ahead of the failure-mode block.
+
+## The Remediation List Must Not Contradict the Findings
+
+The remediation layer was keyed to LAIF-native checks while the findings layer
+was keyed to functional alignment, so one report could say both things about the
+same document — "Coupling substance present in the document's own vocabulary"
+immediately followed by "no governance restriction is bound to the specific
+interest it protects, in any vocabulary". Four rules now prevent that:
+
+- **A construct the functional layer found present raises no absence step.** The
+  Coupling, Integrity Layer, and Coherence Test steps are all gated on the
+  functional verdict rather than on `construct_coverage`, which is a vocabulary
+  check.
+- **The Coherence Test is not prescribed to external documents.** It is LAIF's
+  own named instrument; its absence is adoption distance, reported through the
+  certification channel.
+- **A sector profile step is a prescription, not a finding.** It is skipped
+  where the construct it prescribes is already present, and where it is emitted
+  it says "not detected in this document" — which is what the assessment can
+  actually support — rather than "not addressed".
+- **A detected gap appears in the remediation list.** The precedence finding is
+  raised whenever its signal is missing, not only when the structural score is
+  low, so a document that scores well everywhere else still gets told what to
+  write.
+
+Certification-channel notes sort last in the gap list. A note about not using
+LAIF's vocabulary led every external document's gaps, which is the reverse of
+its importance.
+
+The neutral sector profile's remediation now leads with the governance function
+and names LAIF's canonical form as one route to it, rather than prescribing four
+LAIF adoption steps to every document that matches no other profile.

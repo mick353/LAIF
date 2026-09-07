@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -2260,6 +2261,90 @@ class RemediationUsefulnessTests(unittest.TestCase):
         """'Group Risk is itself subject to this Standard' is self-application."""
         fired = {lbl for lbl, _ in self.result["score_breakdown"]["structural"]["fired"]}
         self.assertIn("governing body bound by its own rules (self-application)", fired)
+
+
+class RemediationConsistencyTests(unittest.TestCase):
+    """The remediation list must never contradict the findings above it."""
+
+    FIXTURES = ("bank standard", INSTITUTIONAL_STANDARD), ("academic policy", ACADEMIC_POLICY)
+
+    def _steps(self, text):
+        result = assess("x", "policy", text, assessment_mode="external_framework",
+                        sector="auto")
+        return result, [s.get("problem", "") for s in
+                        result.get("structured_remediation_steps", [])]
+
+    def test_present_substance_is_never_also_declared_absent(self) -> None:
+        """A step saying the substance is present, followed by one saying no
+        restriction is bound to any interest 'in any vocabulary', is the same
+        list contradicting itself."""
+        for name, text in self.FIXTURES:
+            with self.subTest(document=name):
+                result, problems = self._steps(text)
+                if result["functional_alignment"]["Coupling"]["verdict"] in ("FUNCTIONAL", "DECLARED"):
+                    for problem in problems:
+                        self.assertNotIn("Restriction-protection pairing not established",
+                                         problem)
+                if result["functional_alignment"]["Integrity Layer"]["verdict"] in ("FUNCTIONAL", "DECLARED"):
+                    for problem in problems:
+                        self.assertNotIn("No all-conditions-must-pass deployment gate",
+                                         problem)
+
+    def test_sector_prescriptions_are_not_asserted_as_findings(self) -> None:
+        """A profile step is a prescription; it must not be rendered as an
+        absence the assessment did not detect."""
+        for name, text in self.FIXTURES:
+            with self.subTest(document=name):
+                result, problems = self._steps(text)
+                functional = {c for c, v in result["functional_alignment"].items()
+                              if v["verdict"] in ("FUNCTIONAL", "DECLARED")}
+                for problem in problems:
+                    if "not detected in this document" not in problem:
+                        continue
+                    for construct in functional:
+                        self.assertNotIn(construct.lower(), problem.lower(),
+                                         f"{construct} is present yet {problem[:60]!r}")
+
+    def test_coherence_test_is_not_prescribed_to_external_documents(self) -> None:
+        for name, text in self.FIXTURES:
+            with self.subTest(document=name):
+                _result, problems = self._steps(text)
+                for problem in problems:
+                    self.assertNotIn("Coherence Test not applied", problem)
+
+    def test_a_detected_gap_appears_in_the_remediation_list(self) -> None:
+        """The precedence finding is this document's one real gap; a remediation
+        list that omits it leaves the reader with nothing to act on."""
+        for name, text in self.FIXTURES:
+            with self.subTest(document=name):
+                result, problems = self._steps(text)
+                missed = {lbl for lbl, _ in result["score_breakdown"]["structural"]["missed"]}
+                if "provision hierarchy / precedence rule" in missed:
+                    self.assertTrue(any("precedence rule" in p for p in problems),
+                                    f"precedence gap missing from remediation: {problems}")
+
+    def test_channel_notes_come_last_in_the_gap_list(self) -> None:
+        for name, text in self.FIXTURES:
+            with self.subTest(document=name):
+                result, _ = self._steps(text)
+                gaps = result["gaps"]
+                markers = ("certification-channel", "LAIF-native vocabulary not used",
+                           "LAIF-native marker not present")
+                is_channel = [any(m in g for m in markers) for g in gaps]
+                # once channel notes start, nothing substantive may follow
+                self.assertEqual(is_channel, sorted(is_channel), gaps)
+
+    def test_signal_to_construct_map_has_no_stale_keys(self) -> None:
+        """A renamed rubric label silently broke its construct mapping once."""
+        from assessment_engine import STRUCTURAL_RUBRIC
+        import assessment_engine
+        labels = {lbl for _, _, lbl in STRUCTURAL_RUBRIC}
+        source = Path(assessment_engine.__file__).read_text(encoding="utf-8")
+        block = source.split("_signal_construct = {", 1)[1].split("}", 1)[0]
+        keys = re.findall(r'"([^"]+)":', block)
+        self.assertTrue(keys)
+        for key in keys:
+            self.assertIn(key, labels, f"stale signal-construct key: {key!r}")
 
 
 class NonGovernanceTextTests(unittest.TestCase):
