@@ -33,7 +33,21 @@ SECTOR_CHOICES = (
 )
 EXTRACTOR_CHOICES = ("auto", "builtin", "docling", "markitdown", "python-docx", "pypdf")
 COMMIT_MODES = ("copy", "move", "archive")
-PHASE_3T_RUNNER = Path("scripts") / "laif_process_document.py"
+def _resolve_runner() -> Path:
+    """Locate the single-document runner independently of the working directory.
+
+    An operator batching a folder of documents runs this from that folder, not
+    from the repository root. Resolving the runner relative to the cwd made
+    every document in the batch fail with a file-not-found error attributed to
+    the document rather than to the invocation.
+    """
+    beside = Path(__file__).resolve().parent / "laif_process_document.py"
+    if beside.is_file():
+        return beside
+    return Path("scripts") / "laif_process_document.py"
+
+
+PHASE_3T_RUNNER = _resolve_runner()
 
 
 def utc_now() -> _dt.datetime:
@@ -223,6 +237,26 @@ def _load_document_bundle(success: dict) -> dict:
     return payload
 
 
+# Gap types that mean "this document does not create enough testable
+# expectations", as distinct from "this expectation is unclosed".
+NOT_ASSESSABLE_GAP_TYPES = frozenset({
+    "insufficient_operative_content",
+    "declaratory_without_operative_commitment",
+    "vocabulary_without_operative_effect",
+})
+
+
+def _not_assessable(row: dict) -> bool:
+    return bool(set(row.get("gap_types") or ()) & NOT_ASSESSABLE_GAP_TYPES)
+
+
+def _matrix_cell(row: dict, gap_type: str, present: str, absent: str) -> str:
+    """One governance-force cell, derived from this document's gap register."""
+    if _not_assessable(row):
+        return "not assessable"
+    return present if gap_type in set(row.get("gap_types") or ()) else absent
+
+
 def write_batch_institutional_outputs(summary: dict, args: argparse.Namespace) -> dict:
     docs = [_load_document_bundle(success) for success in summary.get("successes", [])]
     output_root = args.output_summary.parent if args.output_summary.parent != Path("") else Path(".")
@@ -260,18 +294,39 @@ def write_batch_institutional_outputs(summary: dict, args: argparse.Namespace) -
             "quote_count": len(quotes),
             "gap_count": len(gaps),
             "control_count": len(controls),
+            # Sorted list, not a set: this row is serialised into the batch
+            # bundle, and a set is not JSON-encodable.
+            "gap_types": sorted({gap.get("gap_type", "") for gap in gaps}),
         })
         force_rows.append(f"- **{doc_rows[-1]['file']}:** {doc_type}; sector {doc_rows[-1]['sector_profile']}; quotes {len(quotes)}; gaps {len(gaps)}.")
-    common_gap_types = sorted({gap.get("gap_type", "unknown") for gap in all_gaps})
+    # "Common" means recurring across the portfolio. A gap type seen in one
+    # document out of several is that document's gap, not the portfolio's.
+    gap_type_documents: dict[str, set[str]] = {}
+    for row in doc_rows:
+        for gap_type in row.get("gap_types") or ():
+            gap_type_documents.setdefault(gap_type, set()).add(row.get("file") or "")
+    # Most widespread first: "most urgent" must mean the gap the largest part of
+    # the portfolio shares, not the one that sorts first alphabetically.
+    recurring_gap_types = [gt for gt, _n in sorted(
+        ((gt, len(files)) for gt, files in gap_type_documents.items() if len(files) >= 2),
+        key=lambda item: (-item[1], item[0]))]
+    single_document_gap_types = sorted(gt for gt, files in gap_type_documents.items() if len(files) == 1)
+    all_gap_types = sorted(gap_type_documents)
 
     def _first_doc(*types: str) -> dict:
         return next((row for row in doc_rows if row.get("document_type") in types), {})
 
     strongest_legal = _first_doc("binding_legal_instrument")
     strongest_voluntary = _first_doc("voluntary_risk_framework")
-    strongest_public_policy = _first_doc("public_sector_policy", "internal_policy", "implementation_guide")
+    # Public-sector and institutional operating policies are different sources
+    # with different authority; collapsing them mislabels a bank standard or a
+    # university policy as government policy.
+    strongest_public_policy = _first_doc("public_sector_policy", "executive_policy_directive")
+    strongest_internal_policy = _first_doc("internal_policy", "implementation_guide")
     strongest_clinical_sector = _first_doc("sector_assurance_checklist")
-    urgent_gap = common_gap_types[0] if common_gap_types else "portfolio evidence sufficiency and operational closure"
+    strongest_procurement = _first_doc("procurement_assessment_form")
+    urgent_gap = (recurring_gap_types[0] if recurring_gap_types
+                  else "no gap type recurs across this portfolio")
     matrix_rows = []
     for row in doc_rows:
         dt = row.get("document_type")
@@ -283,10 +338,22 @@ def write_batch_institutional_outputs(summary: dict, args: argparse.Namespace) -
                 assurance="high" if dt in {"sector_assurance_checklist", "procurement_assessment_form"} else "medium" if dt == "technical_standard" else "limited",
                 operational="requires local closure" if row.get("gap_count", 0) else "review required",
                 evidence="quote-backed, sufficiency not presumed" if row.get("quote_count", 0) else "source review required",
-                lifecycle="requires monitoring/change gate",
-                accountability="requires named owner/sign-off",
-                redress="requires redress/contestability mapping",
-                readiness="ready for control mapping, not standalone assurance",
+                # Derived from each document's own gap register, not asserted.
+                # Where the document creates too few expectations to test — a
+                # values statement, an extract, a term list — the absence of a
+                # gap is not the presence of a control, and every column says so.
+                lifecycle=_matrix_cell(row, "lifecycle_without_change_control",
+                                       "gap: change after approval not governed",
+                                       "no change-control gap detected"),
+                accountability=_matrix_cell(row, "obligation_without_owner",
+                                            "gap: duties without a named owner",
+                                            "no ownership gap detected"),
+                redress=_matrix_cell(row, "incident_reporting_without_redress",
+                                     "gap: no challenge route for affected people",
+                                     "no redress gap detected"),
+                readiness=("not assessable from this document"
+                           if _not_assessable(row)
+                           else "ready for control mapping, not standalone assurance"),
             )
         )
     report_lines = [
@@ -308,11 +375,28 @@ def write_batch_institutional_outputs(summary: dict, args: argparse.Namespace) -
         f"- **Strongest legal source:** {strongest_legal.get('file', 'none detected')}.",
         f"- **Strongest voluntary governance design source:** {strongest_voluntary.get('file', 'none detected')}.",
         f"- **Strongest public-sector operating policy:** {strongest_public_policy.get('file', 'none detected')}.",
+        f"- **Strongest institutional operating policy:** {strongest_internal_policy.get('file', 'none detected')}.",
+        f"- **Strongest procurement instrument:** {strongest_procurement.get('file', 'none detected')}.",
         f"- **Strongest clinical/sector assurance source:** {strongest_clinical_sector.get('file', 'none detected')}.",
-        f"- **Most urgent common control gap:** {urgent_gap}.",
-        "", "## Common gaps across portfolio", "",
+        f"- **Most urgent recurring control gap:** {urgent_gap}.",
+        "", "## Gaps across the portfolio", "",
     ]
-    report_lines.extend([f"- {gap_type}" for gap_type in common_gap_types] or ["- No common gaps detected."])
+    if recurring_gap_types:
+        report_lines.append(f"Recurring in two or more documents ({len(doc_rows)} assessed):")
+        report_lines.extend(f"- {gap_type} — {len(gap_type_documents[gap_type])} documents"
+                            for gap_type in recurring_gap_types)
+    else:
+        report_lines.append(
+            f"No gap type recurs across the {len(doc_rows)} documents assessed. "
+            f"The gaps below belong to a single document each and should be "
+            f"actioned there rather than as a portfolio programme.")
+    if single_document_gap_types:
+        report_lines += ["", "Single-document gaps:"]
+        report_lines.extend(
+            f"- {gap_type} — {sorted(gap_type_documents[gap_type])[0]}"
+            for gap_type in single_document_gap_types)
+    if not all_gap_types:
+        report_lines.append("- No gap was detected in any document in this batch.")
     report_lines += ["", "## Cross-document failure pathways", "", "- Portfolio-level failure can occur when multiple source documents are cited as assurance while no combined owner, evidence register, threshold, cadence, or escalation model is implemented.", "", "## Priority implementation roadmap", ""]
     for ctrl in all_controls[:10]:
         report_lines.append(f"- **{ctrl.get('control_id')} ({ctrl.get('priority')}):** {ctrl.get('control_name')} — source: {ctrl.get('source_document')}")

@@ -406,3 +406,46 @@ does not close an obligation in another, assess it section by section.
 Stating where the method stops working is not a caveat added for safety. It is
 the same obligation the reporting layer already carries on provenance, applied
 to its own reach.
+
+---
+
+## 11. Sixth pass — the portfolio view and the operator's path
+
+The sixth pass read a full institutional report end to end as its audience, then
+ran the batch runner the way an operator would: from the folder holding the
+documents.
+
+**The batch runner failed every document when run from anywhere but the
+repository root.** It located the single-document runner relative to the working
+directory, so an operator batching a folder got a file-not-found error attributed
+to each document rather than to the invocation. It now resolves the runner
+beside itself.
+
+**The portfolio governance-force matrix asserted four of its columns.** Lifecycle
+control, accountability closure, and redress read "requires monitoring/change
+gate", "requires named owner/sign-off", "requires redress/contestability
+mapping" for every document ever batched — including documents that govern
+change, name owners, and state a challenge route. Each cell is now derived from
+that document's own gap register, and where a document creates too few
+expectations to test, every cell says "not assessable" rather than letting the
+absence of a gap read as the presence of a control.
+
+**"Common gaps across portfolio" listed every gap seen once anywhere,** and
+"most urgent common control gap" picked whichever sorted first alphabetically.
+Recurring gaps are now those present in two or more documents, ordered by how
+much of the portfolio shares them, and single-document gaps are listed
+separately so they are actioned where they belong.
+
+**A bank standard was reported as the portfolio's strongest public-sector
+operating policy,** because three document types were collapsed into one role.
+Public-sector, institutional, and procurement instruments are now separate
+roles.
+
+Two defects in the single-document report were fixed alongside. The same clause
+could appear both as clean quoted evidence and as evidence requiring source
+verification — a truncated candidate whose complete form had already been
+admitted was still listed as outstanding. And the residual-risk paragraph
+restated a generic failure mode; it now names the document's own unclosed gaps.
+Failure-pathway steps now name the signal the quote evidences ("The document
+raises **safety** at ..."), so the chain from quote to gap is visible rather
+than implied.

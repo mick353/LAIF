@@ -1886,6 +1886,62 @@ class VocabularyEnumerationTests(unittest.TestCase):
                              f"{result['vocabulary_enumeration_ratio']}")
 
 
+class EvidenceTieringCoherenceTests(unittest.TestCase):
+    """The same clause must never be both clean evidence and unresolved evidence."""
+
+    def run_cli(self, args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            [sys.executable, "scripts/laif_process_document.py", *args],
+            cwd=REPO_ROOT, text=True, capture_output=True, check=check,
+        )
+
+    MIXED = "\n\n".join([
+        "AI Assurance Standard (Ref: AS-2026-02)",
+        "Providers of high-risk AI systems shall establish, implement, document "
+        "and maintain a risk management system throughout the lifecycle of the "
+        "AI system.",
+        "(63) The fact that an AI system is classif ied as a high-risk AI system "
+        "under this Regulation should not be inter preted as indicating that the "
+        "use of the system is lawful.",
+        "The deployer shall assign human oversight to natural persons who have "
+        "the necessary competence, training and authority.",
+    ])
+
+    def test_no_clause_appears_in_both_tiers(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "mixed.pdf"
+            out = root / "out"
+            path.write_text(self.MIXED, encoding="utf-8")
+            self.run_cli([str(path), "--output-dir", str(out),
+                          "--mode", "external_framework", "--sector", "auto"])
+            bundle = json.loads((out / "analyst" / "analyst_bundle.json").read_text(encoding="utf-8"))
+            primary = {" ".join(str(q.get("exact_quote") or "").split())
+                       for q in runner._gate_passing_primary_quotes(bundle.get("quote_bank", []))}
+            for record in bundle.get("verification_required_extracted_evidence", []):
+                exact = " ".join(str(record.get("exact_quote") or "").split())
+                for clean in primary:
+                    self.assertFalse(
+                        exact and (exact in clean or clean in exact),
+                        f"passage appears as both clean and unresolved evidence: {exact[:80]}")
+
+    def test_covered_candidate_is_excluded_uncovered_is_kept(self) -> None:
+        candidate = {
+            "exact_quote": "The deployer shall assign human oversight to natural",
+            "display_quote": "The deployer shall assign human oversight to natural",
+            "low_confidence_reason": "incomplete quote could not be expanded",
+            "start_offset": 0, "end_offset": 52,
+        }
+        meta = {"original_file_name": "x", "source_sha256": "y"}
+        kept = runner.build_verification_required_evidence([candidate], meta, {}, admitted_quotes=[])
+        covered = runner.build_verification_required_evidence(
+            [candidate], meta, {},
+            admitted_quotes=[{"exact_quote": "The deployer shall assign human oversight to "
+                                             "natural persons who have the necessary competence."}])
+        self.assertEqual(len(covered), 0)
+        self.assertLessEqual(len(covered), len(kept))
+
+
 class NativeModeAndScaleTests(unittest.TestCase):
     """LAIF-native mode, LAIF's own corpus, and the limits of document-level detection."""
 

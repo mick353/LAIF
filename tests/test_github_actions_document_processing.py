@@ -189,9 +189,50 @@ class GithubActionsDocumentProcessingTests(unittest.TestCase):
             self.assertIn("Strongest legal source", report)
             self.assertIn("Strongest voluntary governance design source", report)
             self.assertIn("Strongest public-sector operating policy", report)
-            self.assertIn("Most urgent common control gap", report)
+            self.assertIn("Most urgent recurring control gap", report)
             self.assertIn("Recommended combined operating model", report)
             self.assertNotIn("strongest deterministic evidence density", report)
+            # A public-sector policy must not be reported as an institutional
+            # one, or vice versa: they carry different authority.
+            self.assertIn("Strongest institutional operating policy", report)
+            # The matrix must discriminate between documents rather than
+            # printing the same asserted cells for every row.
+            matrix = [line for line in report.splitlines()
+                      if line.startswith("| ") and line.endswith(" |")
+                      and "Document |" not in line and "--- |" not in line]
+            self.assertGreaterEqual(len(matrix), 2)
+            self.assertGreater(len({line.split("|", 2)[2] for line in matrix}), 1,
+                               "governance-force matrix rows are identical")
+            # "Recurring" must mean present in more than one document.
+            if "Recurring in two or more documents" in report:
+                section = report.split("Recurring in two or more documents", 1)[1]
+                section = section.split("\n\n", 1)[0]
+                for line in section.splitlines():
+                    if line.startswith("- ") and " documents" in line:
+                        count = int(line.rsplit("—", 1)[1].split()[0])
+                        self.assertGreaterEqual(count, 2)
+
+    def test_batch_runs_from_any_working_directory(self) -> None:
+        """An operator batches a folder of documents from that folder."""
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "pending").mkdir()
+            (root / "pending" / "doc.txt").write_text(
+                "AI Governance Policy. The provider shall document risks and "
+                "maintain records. Reviews are conducted annually.",
+                encoding="utf-8")
+            completed = subprocess.run(
+                [sys.executable, str(BATCH_SCRIPT),
+                 "--pending-dir", "pending",
+                 "--processed-dir", "processed",
+                 "--failed-dir", "failed",
+                 "--batch-summaries-dir", "batch_summaries",
+                 "--output-summary", "laif_batch_summary.json"],
+                cwd=root, text=True, capture_output=True, check=True,
+            )
+            summary = json.loads((root / "laif_batch_summary.json").read_text(encoding="utf-8"))
+            self.assertEqual(summary["success_count"], 1, completed.stderr[-800:])
+            self.assertEqual(summary["failures"], [])
 
     def test_move_mode_removes_pending_source_after_success(self) -> None:
         with tempfile.TemporaryDirectory() as td:

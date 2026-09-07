@@ -1098,12 +1098,25 @@ def _is_governance_relevant_for_verification(record: dict) -> bool:
     return verification_relevance_assessment(record)[0]
 
 
-def build_verification_required_evidence(candidates: list[dict], processing: dict, extraction: dict, limit: int = 12) -> list[dict]:
+def build_verification_required_evidence(candidates: list[dict], processing: dict, extraction: dict, limit: int = 12, admitted_quotes: list[dict] | None = None) -> list[dict]:
+    """Passages that carry governance signal but cannot be quoted cleanly.
+
+    A passage already admitted as a primary quote is excluded: the same clause
+    must never appear in the report both as clean evidence and as evidence
+    needing source verification. A truncated candidate whose complete form was
+    admitted has been resolved, not left outstanding.
+    """
     verification: list[dict] = []
     seen: set[str] = set()
+    admitted = [" ".join(str(q.get("exact_quote") or "").split())
+                for q in (admitted_quotes or [])]
+    admitted = [q for q in admitted if q]
     for candidate in candidates:
         exact = " ".join(str(candidate.get("exact_quote") or "").split())
         if not exact or exact in seen:
+            continue
+        # Resolved elsewhere: a complete form of this passage was admitted.
+        if any(exact in quote or quote in exact for quote in admitted):
             continue
         relevant, relevance_score, relevance_reason = verification_relevance_assessment(candidate)
         if not relevant:
@@ -2201,8 +2214,12 @@ def build_failure_pathways(gaps: list[dict], quote_bank: list[dict]) -> list[dic
         ctrl = gap.get("required_control_ids", [f"CTRL-{idx:03d}"])[0]
         quote = (gap.get("source_evidence_quote") or "").strip()
         where = gap.get("source_evidence_location") or "the document"
-        expectation = (f"The document creates an expectation at “{where}”"
-                       + (f": “{quote}”" if quote else "."))
+        signal = (gap.get("detected_from", {}) or {}).get("expectation_signal", "")
+        signal_name = signal.split(":", 1)[-1].strip() if ":" in signal else signal.strip()
+        expectation = (
+            f"The document raises **{signal_name}** at “{where}”" if signal_name
+            else f"The document creates an expectation at “{where}”")
+        expectation += f": “{quote}”" if quote else "."
         pathways.append({
             "pathway_id": f"PATH-{idx:03d}",
             "title": f"{gap['gap_title']} — failure pathway",
@@ -2313,6 +2330,20 @@ def empty_register_meaning(assessment: dict) -> str:
         "document creates has a corresponding control in the same document. This "
         "is a finding about the text, not a certificate of implementation — the "
         "controls still have to exist and operate in practice.")
+
+
+def _residual_risk_clause(gaps: list[dict]) -> str:
+    """Name what is actually unclosed in THIS document."""
+    unclosed = []
+    for gap in gaps[:4]:
+        title = (gap.get("gap_title") or "").strip().rstrip(".")
+        if title:
+            unclosed.append(title[0].lower() + title[1:])
+    if not unclosed:
+        return "expectations it creates remain unclosed."
+    if len(unclosed) == 1:
+        return f"{unclosed[0]}."
+    return "; ".join(unclosed[:-1]) + f"; and {unclosed[-1]}."
 
 
 def _md_list(items: list[str], empty: str = "Reviewer confirmation required.") -> str:
@@ -2445,9 +2476,10 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
                      "baseline rather than substituting generic ones.")
     lines += ["", "## Residual risk if no action is taken", ""]
     lines += ([("The failure pathway is paperwork compliance without live operational "
-                "control: governance language may be cited while real decisions proceed "
-                "without verified owner authority, implementation artifacts, thresholds, "
-                "escalation gates, or affected-person redress.")] if gaps else
+                "control. Specifically, this document can be cited as assurance while "
+                + _residual_risk_clause(gaps) + " Until those controls exist and are "
+                "current, a decision made on the strength of this document is not "
+                "governed by it.")] if gaps else
               [("The residual risk is no longer in the drafting. It is in the gap between "
                 "what this document requires and what is actually done: unevidenced "
                 "controls, lapsed reviews, and unrecorded exceptions. That gap is invisible "
@@ -2527,7 +2559,9 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
     low_confidence_quote_candidates = build_low_confidence_quote_candidates(extracted_text, processing, extraction, assessment)
     quote_bank = build_quote_bank(extracted_text, processing, extraction, assessment, low_confidence_quote_candidates)
     quote_bank = _finalize_primary_quote_bank(quote_bank, low_confidence_quote_candidates)
-    verification_required_evidence = build_verification_required_evidence(low_confidence_quote_candidates, processing, extraction)
+    verification_required_evidence = build_verification_required_evidence(
+        low_confidence_quote_candidates, processing, extraction,
+        admitted_quotes=_gate_passing_primary_quotes(quote_bank))
     extraction_quality_profile = build_extraction_quality_profile(extracted_text, extraction, quote_bank, verification_required_evidence, low_confidence_quote_candidates)
     gaps = build_governance_gap_register(assessment, quote_bank)
     pathways = build_failure_pathways(gaps, quote_bank)
