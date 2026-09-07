@@ -449,3 +449,36 @@ restated a generic failure mode; it now names the document's own unclosed gaps.
 Failure-pathway steps now name the signal the quote evidences ("The document
 raises **safety** at ..."), so the chain from quote to gap is visible rather
 than implied.
+
+---
+
+## 12. Seventh pass — document forms
+
+The seventh pass tested forms rather than registers: a control register written
+entirely as a table, an all-caps agency directive, and a single complete clause.
+
+**A fully specified control register scored 30/100 and was told it had
+"insufficient operative content to assess control closure".** It was the most
+operationally complete document in the entire test set — every row naming a
+control, an owner, a trigger, a threshold, and a consequence — and it carried no
+"shall" anywhere, because obligations were expressed as table rows. This is a
+common institutional form: control registers, RACI tables, DPIA matrices,
+assurance schedules. A row pairing a control with an owner binds an actor to an
+action exactly as an operative sentence does. It is now recognised as such,
+scores 45/100, classifies as an institutional operating instrument, and its gap
+register correctly reports nothing unclosed.
+
+**A single clause with no monitoring obligation was told its monitoring lacked
+thresholds** — because "review by a person with authority to reverse the
+decision" fired the review/monitoring signal. Gap rules can now require the
+source text to carry the language the expectation rests on. The sample tested
+against is built strictly from verbatim source fragments and deliberately
+excludes rubric labels: letting the detector's own phrase "review / monitoring
+mechanisms" satisfy the test would make the condition self-confirming, which is
+how the first attempt at this fix failed.
+
+**All-caps drafting was handled correctly** — every construct verdict is
+identical under upper-case — but the agency directive did not classify, because
+"directive" was missing from the institutional-form vocabulary. Government
+service-delivery routing also missed "claimant", "council", and "local
+authority".

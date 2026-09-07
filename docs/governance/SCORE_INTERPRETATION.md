@@ -383,3 +383,34 @@ says so rather than presenting silence as a clean finding — for an instrument
 past roughly 20,000 characters it directs the reviewer to assess section by
 section. Stating a method's limits where they bite is part of the same
 Structural Honesty obligation the reporting layer applies to provenance.
+
+## Obligations in Table Form
+
+Control registers, RACI tables, DPIA matrices and assurance schedules express
+obligations as table rows rather than sentences. A row that pairs a control with
+an owner — and usually a trigger, a threshold, and a consequence — binds an actor
+to an action exactly as an operative sentence does, and is often a more precise
+specification than prose. Such a document contains no "shall" anywhere, and
+without recognising the form it reads as having no obligations at all.
+
+`CONTROL_REGISTER_PAT` matches a table header pairing a control-type column with
+an owner-type column, in either order; `CONTROL_REGISTER_POPULATED_PAT` requires
+that header plus data rows beneath it. A populated register satisfies the
+mandatory-obligation, named-parties and accountability signals, and is decisive
+for the `internal_policy` document type: it is an institutional operating
+instrument written in table form. Ordinary prose — including the vocabulary-soup
+adversary — does not match, which the tests check directly.
+
+## Presence Tests Read the Source, Never the Detector
+
+A rubric signal can fire on a word used in another sense. "Review" in "review by
+a person with authority to reverse the decision" is redress, not monitoring, so
+a document containing only that clause was told its monitoring lacked
+thresholds. A gap rule may therefore carry a `present_text` condition: the
+source itself must contain the language the expectation rests on.
+
+The sample tested against is built strictly from verbatim source fragments —
+located signal quotes, functional-alignment evidence, and the quote bank. It
+deliberately excludes rubric labels and any other detector-authored string:
+"Auditability: review / monitoring mechanisms" is the detector's vocabulary, and
+letting it satisfy a presence test would make the condition self-confirming.

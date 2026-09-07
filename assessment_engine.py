@@ -40,6 +40,28 @@ from validate import find_paraphrase_violations, PARAPHRASE_GUARDS
 # Weights within each rubric sum to 100.
 # Source comments link each signal to the LAIF section that requires it.
 
+# Control registers, RACI tables, DPIA matrices and assurance schedules express
+# obligations in table form rather than in sentences. A row that pairs a control
+# with an owner — and often a trigger, a threshold, and a consequence — binds an
+# actor to an action exactly as an operative sentence does, and is frequently a
+# more precise specification than prose. Detection must recognise that form:
+# these documents carry no "shall" and would otherwise read as having no
+# obligations at all.
+_CONTROL_REGISTER_HEADER = (
+    r"\|[^\n|]{0,60}\b(?:control|requirement|obligation|duty|measure|action|safeguard)s?\b"
+    r"[^\n]{0,200}\|[^\n|]{0,60}\b(?:owner|accountable|responsible|role|lead)\b"
+)
+# The same header the other way round (owner column before control column).
+_CONTROL_REGISTER_HEADER_ALT = (
+    r"\|[^\n|]{0,60}\b(?:owner|accountable|responsible|role|lead)\b"
+    r"[^\n]{0,200}\|[^\n|]{0,60}\b(?:control|requirement|obligation|duty|measure|action|safeguard)s?\b"
+)
+CONTROL_REGISTER_PAT = f"(?:{_CONTROL_REGISTER_HEADER}|{_CONTROL_REGISTER_HEADER_ALT})"
+# A populated register: the header plus at least two data rows beneath it.
+CONTROL_REGISTER_POPULATED_PAT = (
+    CONTROL_REGISTER_PAT + r"[^\n]*\n(?:\|[^\n]*\n){3,}"
+)
+
 # Source: LAIF v1.2 Part One — Foundational Principles define the structural
 # requirements; Part Two defines Integrity Layer threshold conditions;
 # Part Three defines Provision Layer; Part Seven defines Self-Application.
@@ -47,7 +69,7 @@ STRUCTURAL_RUBRIC = [
     # ── General governance architecture (external frameworks can score here) ──
     (8,  r"\bArticle\s+\d+|GOVERN\s+\d+\.\d+|Section\s+\d+\.?\d*",
          "numbered sub-requirements"),
-    (8,  r"\bshall\b|\bmust\b",
+    (8,  r"\bshall\b|\bmust\b|" + CONTROL_REGISTER_PAT,
          "mandatory obligation language (shall/must)"),
     (6,  r"\blifecycle\b|\blife.cycle\b|\bchange\s+control\b|\bre.approval\b|\bpost.deployment\b|\bpost.implementation\b|\bretrain\w*\b|\b(?:decommission|retire|withdraw)\w*\b.{0,60}\b(?:system|model|service|tool)\b|\bmaterial\s+change\b",
          "full lifecycle scope declared"),
@@ -117,7 +139,7 @@ CONCEPTUAL_RUBRIC = [
     (8,  r"\bexplainability\b|\binterpret\b|\bmeaningful\s+(?:explanation|information)\b|explain (?:any|each|every) decision|\bin plain language\b|words you can understand|\bexplanation\s+of\s+(?:any|each|every|an?|the)\b.{0,50}\bdecision\b|\bexplain\w*\b.{0,60}\b(?:individual|specific|each)\s+(?:decision|output|determination)\b|\breasons?\s+for\s+(?:the|any|each|its)\s+(?:decision|outcome|determination)\b|\bunderstand\s+and\s+contest\b|\baccount\s+of\s+(?:why|how)\b.{0,80}\b(?:output|decision|result|determination)\b",
          "explainability / interpretability"),
     # Q1 Coupling proxy — accountability for decisions affecting interests
-    (8,  r"\baccountability\b|\baccountable\b|records? sufficient for audit|\bauditors?\b|\binternal\s+audit\b|\bowner\s*:|\b(?:model|system|product|risk|service|process|data|business)\s+owners?\b|\bsenior\s+responsible\s+owner\b|\breportable\s+(?:control\s+)?breach\b|\bresponsible\s+for\b.{0,80}\b(?:compliance|discharg\w+|the\s+decision)\b",
+    (8,  r"\baccountability\b|\baccountable\b|records? sufficient for audit|\bauditors?\b|\binternal\s+audit\b|\bowner\s*:|\b(?:model|system|product|risk|service|process|data|business)\s+owners?\b|\bsenior\s+responsible\s+owner\b|\breportable\s+(?:control\s+)?breach\b|\bresponsible\s+for\b.{0,80}\b(?:compliance|discharg\w+|the\s+decision)\b|\|\s*(?:owner|accountable|responsible)\s*\|",
          "accountability"),
     # Integrity Layer A.3 + Q1 Coupling — human oversight of AI decisions
     (8,  r"\boversight\b|\bhuman determination\b|\bhuman.in.the.loop\b|escalat\w+ to a human|human (?:being )?must approve|independent review\w*|\bhuman\s+review\b|\bhuman\s+decision.?maker\b|\bhuman\s+intervention\b|\bmanual\s+review\b|\breview\w*\s+by\s+a\s+(?:human|person|clinician|officer|manager|reviewer)\b|\b(?:routed|referred)\s+to\s+a\s+human\b",
@@ -151,7 +173,7 @@ CONCEPTUAL_RUBRIC = [
 # each so that register alone cannot suppress an auditability or
 # enforceability signal (QA finding F4 — register bias).
 AUDITABILITY_RUBRIC = [
-    (20, r"\bshall\b.{1,300}\bshall\b|\bmust\b.{1,300}\bmust\b",
+    (20, r"\bshall\b.{1,300}\bshall\b|\bmust\b.{1,300}\bmust\b|" + CONTROL_REGISTER_POPULATED_PAT,
          "multiple mandatory obligations (shall/must pairs)"),
     (20, r"\bArticle\s+\d+|GOVERN\s+\d+\.\d+|Section\s+\d+|Part\s+\d+\b",
          "numbered traceable requirements"),
@@ -164,7 +186,7 @@ AUDITABILITY_RUBRIC = [
 ]
 
 ENFORCEABILITY_RUBRIC = [
-    (20, r"\bshall\b|\bmust\b|\bwe\s+will\s+(?:never|not)\b",
+    (20, r"\bshall\b|\bmust\b|\bwe\s+will\s+(?:never|not)\b|" + CONTROL_REGISTER_PAT,
          "mandatory language (shall/must)"),
     (20, r"\b(?:provider|deployer|operator|agenc(?:y|ies)|responsible\s+part(?:y|ies)|actors?|authorit(?:y|ies)|organisations?)\b|\b(?:chief|group|senior|head)\s+[\w-]+\s+(?:officer|executive)\b|\b[\w-]+\s+committee\b|\bboard\s+of\s+[\w-]+\b|\binternal\s+audit\b|\b(?:model|system|product|risk|service|process|data|business)\s+owners?\b|\bowner\s*:|\bsenior\s+responsible\s+owner\b|\b(?:data\s+)?controller\b|\bsuppliers?\b|\bvendors?\b|\bcontractors?\b|\bhead\s+of\s+[\w-]+\b",
          "named responsible parties"),
@@ -172,7 +194,7 @@ ENFORCEABILITY_RUBRIC = [
          "risk-proportionate thresholds"),
     (20, r"\b(?:penalty|sanction|fine|infringement|non.complian|consequence|suspension|suspended|revok|terminat|disqualif|forfeit|withdraw|paused?|halt|cease)\w*\b|\bmaterial breach\b|\bbreach of (?:contract|this \w+)\b|\breportable (?:control )?breach\b|\b(?:rejected|refused|not accepted)\b.{0,60}\b(?:evidence|response|submission|application)\b|\b(?:evidence|response|submission)\b.{0,60}\b(?:will be |shall be )?rejected\b",
          "enforcement consequences / penalties"),
-    (20, r"\b(?:shall|must)\s+(?:not\s+)?(?:ensure|establish|implement|maintain|provide|design|develop|assess|approve|produce|operate|name|document|monitor|report|escalate|evidence|record|review|verify|notify|suspend|obtain|submit|demonstrate|comply|retain|publish|test|validate|apply|complete|register)\b|\b(?:shall|must)\s+be\s+\w+ed\b|\brequires?\s+(?:re.)?(?:approval|authoris\w+|authoriz\w+|sign.off)\b|\bno\s+\w+(?:\s+\w+)?\s+(?:enters?|proceeds?|may|shall|is\s+\w+ed)\b.{0,80}\bunless\b",
+    (20, CONTROL_REGISTER_POPULATED_PAT + r"|\b(?:shall|must)\s+(?:not\s+)?(?:ensure|establish|implement|maintain|provide|design|develop|assess|approve|produce|operate|name|document|monitor|report|escalate|evidence|record|review|verify|notify|suspend|obtain|submit|demonstrate|comply|retain|publish|test|validate|apply|complete|register)\b|\b(?:shall|must)\s+be\s+\w+ed\b|\brequires?\s+(?:re.)?(?:approval|authoris\w+|authoriz\w+|sign.off)\b|\bno\s+\w+(?:\s+\w+)?\s+(?:enters?|proceeds?|may|shall|is\s+\w+ed)\b.{0,80}\bunless\b",
          "non-discretionary operational mandates"),
 ]
 
@@ -2528,7 +2550,10 @@ _DOCUMENT_TYPE_PATTERNS = [
     # Internal policy also covers the corporate "standard"/"procedure" register:
     # an owner line, an approving body, an entity-wide binding clause, and a
     # breach consequence are the institutional form of the same instrument.
-    ("internal_policy", (r"\binternal policy\b", r"\bdepartment(?:al)? policy\b", r"\bcompany policy\b", r"\borganitational policy\b", r"\borganisational policy\b", r"\borganizational policy\b", r"\bthis policy (?:sets out|applies|governs|covers)\b", r"\bapplies to all (?:staff|employees|personnel)\b", r"\bstaff(?:,| and) contractors\b", r"\bfor board approval\b", r"\bpolicy will be reviewed\b", r"\bversion \d", r"\bthis (?:standard|procedure|framework|instruction)\s+(?:binds|applies to|sets out|governs|covers)\b", r"^\s*owner\s*:", r"\bapproved by\s*:", r"\bnon.compliance\b.{0,100}\b(?:reportable|disciplinary|breach|sanction)", r"\b(?:group|enterprise|corporate|firm.wide|bank.wide|company.wide)\s+(?:policy|standard|framework|procedure)\b", r"\bbinds all\b.{0,60}\b(?:entities|units|divisions|subsidiaries|functions)\b", r"\breview\s*:\s*(?:annual|biennial|quarterly)", r"\bchange control\b")),
+    ("internal_policy", (r"\binternal policy\b", r"\bdepartment(?:al)? policy\b", r"\bcompany policy\b", r"\borganitational policy\b", r"\borganisational policy\b", r"\borganizational policy\b", r"\bthis policy (?:sets out|applies|governs|covers)\b", r"\bapplies to all (?:staff|employees|personnel)\b", r"\bstaff(?:,| and) contractors\b", r"\bfor board approval\b", r"\bpolicy will be reviewed\b", r"\bversion \d", r"\bthis (?:standard|procedure|framework|instruction|directive|register|guideline)\s+(?:binds|applies to|sets out|governs|covers)\b", r"^\s*owner\s*:", r"\bapproved by\s*:", r"\bnon.compliance\b.{0,100}\b(?:reportable|disciplinary|breach|sanction)", r"\b(?:group|enterprise|corporate|firm.wide|bank.wide|company.wide)\s+(?:policy|standard|framework|procedure)\b", r"\bbinds all\b.{0,60}\b(?:entities|units|divisions|subsidiaries|functions)\b", r"\breview\s*:\s*(?:annual|biennial|quarterly)", r"\bchange control\b",
+                        # A populated control register with named owners is an
+                        # institutional operating instrument in table form.
+                        CONTROL_REGISTER_POPULATED_PAT)),
     ("vendor_compliance_submission", (r"\bvendor submission\b", r"\bcompliance submission\b", r"\battestation\b", r"\bsupplier response\b")),
     # A statement of values and intent. Naming it correctly matters: its
     # assurance value is not "low", it is absent until the values are converted
@@ -2622,7 +2647,12 @@ def _document_type_pattern_hits(haystack, doc_type, patterns):
                    "how to implement")
         return max(hits, 2) if any(a in haystack for a in anchors) else 0
     if doc_type == "internal_policy":
-        # Two independent policy signals, so a single stray phrase cannot classify.
+        # A populated control register with named owners is decisive on its own:
+        # it is an institutional operating instrument written in table form.
+        if re.search(CONTROL_REGISTER_POPULATED_PAT, haystack, re.IGNORECASE):
+            return max(hits, 2)
+        # Otherwise two independent policy signals, so a single stray phrase
+        # cannot classify.
         return hits if hits >= 2 else 0
     if doc_type == "values_charter":
         # Values vocabulary alone is not enough: a policy can open with values
@@ -2810,7 +2840,9 @@ _SECTOR_KEYWORDS = (
     ("government_service_delivery", ("public service", "public sector",
                                      "citizen", "citizens", "caseworker",
                                      "service delivery", "public benefits",
-                                     "government agency", "government agencies")),
+                                     "government agency", "government agencies",
+                                     "claimant", "claimants", "council",
+                                     "local authority", "entitlement")),
     ("departmental_ai_development", ("model register", "deployment pipeline",
                                      "rollback", "release management",
                                      "software development")),

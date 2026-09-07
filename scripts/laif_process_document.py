@@ -358,7 +358,7 @@ def auto_sector(text: str) -> str:
         ("employment_hr_ai", ("employment", "hiring", "hr", "human resources", "candidate", "adverse action")),
         ("education_ai", ("education", "student", "academic", "school", "accessibility", "learning")),
         ("financial_services_ai", ("credit", "lending", "loan", "mortgage", "underwriting", "borrower", "applicant", "policyholder", "premium", "affordability", "aml", "model risk", "model validation", "financial crime", "bank")),
-        ("government_service_delivery", ("public service", "public sector", "government", "government agencies", "agencies must", "public servants", "accountable officials", "ai use register", "service delivery", "administrative review", "benefit", "caseworker")),
+        ("government_service_delivery", ("public service", "public sector", "government", "government agencies", "agencies must", "public servants", "accountable officials", "ai use register", "service delivery", "administrative review", "benefit", "caseworker", "claimant", "claimants", "council", "local authority", "entitlement")),
         ("departmental_ai_development", ("software development", "release", "pipeline", "model register", "rollback", "architecture")),
     ]
     # Whole-word counting. Substring counting silently matched "hr" inside
@@ -400,7 +400,7 @@ def auto_sector_basis(text: str, sector: str | None = None) -> dict:
         "employment_hr_ai": ("employment", "hiring", "hr", "human resources", "candidate", "adverse action"),
         "education_ai": ("education", "student", "academic", "school", "learning"),
         "financial_services_ai": ("credit", "lending", "loan", "mortgage", "underwriting", "applicant", "premium", "aml", "model risk", "model validation", "bank"),
-        "government_service_delivery": ("public service", "public sector", "government", "public servants", "service delivery", "caseworker"),
+        "government_service_delivery": ("public service", "public sector", "government", "public servants", "service delivery", "caseworker", "claimant", "council", "local authority"),
         "departmental_ai_development": ("software development", "release", "pipeline", "model register", "rollback", "architecture"),
         "general_ai_governance": (),
     }
@@ -587,6 +587,10 @@ GAP_RULES = [
         "title": "Monitoring is required without thresholds or escalation",
         "severity": "medium",
         "present": ("auditability", "review / monitoring mechanisms"),
+        # The "review / monitoring" signal also fires on "review" used as
+        # redress. Require language that actually establishes recurring
+        # observation before claiming monitoring is unthresholded.
+        "present_text": r"\bmonitor\w*\b|\bsurveillance\b|\bpost.market\b|\bperiodic\w*\b|\bongoing\s+(?:review|assessment)\b|\b(?:annual|quarterly|monthly|weekly|semester|biannual)\w*\b|\baudit\w*\b",
         "absent": (("enforceability", "risk-proportionate thresholds"),
                    ("enforceability", "enforcement consequences / penalties")),
         "meaning": ("The document requires review or monitoring but does not say what "
@@ -640,6 +644,7 @@ GAP_RULES = [
         "title": "No lifecycle scope, so change is not governed",
         "severity": "medium",
         "present": ("auditability", "review / monitoring mechanisms"),
+        "present_text": r"\bmonitor\w*\b|\baudit\w*\b|\bperiodic\w*\b|\bongoing\b|\b(?:annual|quarterly|monthly)\w*\b|\bdeploy\w*\b|\brelease\w*\b",
         "absent": (("structural", "full lifecycle scope declared"),
                    ("structural", "operational mechanisms defined")),
         "meaning": ("The document governs a point in time rather than the life of the "
@@ -1994,6 +1999,28 @@ def _evidence_for_signal(assessment: dict, dimension: str, label: str) -> dict:
     return {}
 
 
+def _assessment_source_text(assessment: dict, quote_bank: list[dict]) -> str:
+    """Reconstruct enough of the source for text-level gap-rule conditions.
+
+    The register is built from the assessment result, which carries located
+    signal quotes and the quote bank rather than the whole document. Both are
+    verbatim substrings of the source, so their concatenation is a faithful (if
+    partial) sample for presence tests — and never introduces text the document
+    does not contain.
+    """
+    parts = []
+    for rows in (assessment.get("signal_locations", {}) or {}).values():
+        for row in rows:
+            parts.append(str(row.get("quote", "")))
+    for construct in (assessment.get("functional_alignment", {}) or {}).values():
+        parts.extend(str(x) for x in (construct.get("evidence") or []))
+    parts.extend(str(q.get("exact_quote", "")) for q in (quote_bank or []))
+    # Deliberately excludes strengths and any other rubric label: those carry
+    # the detector's own vocabulary ("review / monitoring mechanisms") and would
+    # satisfy a presence test the source document does not.
+    return "\n".join(parts)
+
+
 def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> list[dict]:
     """Detect gaps the document actually has.
 
@@ -2007,6 +2034,7 @@ def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> l
     doc_type = assessment.get("document_type", "unknown_governance_document")
     sector = assessment.get("sector_profile") or assessment.get("sector_used")
     fired, missed = _signal_sets(assessment)
+    source_text = _assessment_source_text(assessment, quote_bank)
     fallback_quote_ids = [q["quote_id"] for q in quote_bank[:3]]
 
     # Operative commitment density — value language is cheap to write; machinery
@@ -2106,6 +2134,12 @@ def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> l
         if isinstance(absent_pairs[0], str):
             absent_pairs = (absent_pairs,)
         if p_label not in fired.get(p_dim, set()):
+            continue
+        # A rule may require the source text itself to carry the language its
+        # expectation rests on, where the rubric signal is broad enough to fire
+        # on the same word used in another sense.
+        required_text = rule.get("present_text")
+        if required_text and not re.search(required_text, source_text or "", re.IGNORECASE):
             continue
         if any(lbl not in missed.get(dim, set()) for dim, lbl in absent_pairs):
             continue

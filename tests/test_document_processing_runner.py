@@ -1993,6 +1993,94 @@ class NativeModeAndScaleTests(unittest.TestCase):
         self.assertNotIn("stops discriminating", runner.empty_register_meaning(short_doc))
 
 
+# Obligations expressed as table rows rather than sentences. This is a common
+# and often more precise institutional form — control registers, RACI tables,
+# DPIA matrices, assurance schedules — and carries no "shall" anywhere.
+CONTROL_REGISTER = """# AI Control Register — Ravensworth Council
+
+| Ref | Control | Owner | Trigger | Threshold | Consequence |
+| --- | --- | --- | --- | --- | --- |
+| C1 | Human review of every automated benefit decision | Benefits Service Manager | Each automated decision | 100% of refusals reviewed | Decision not issued until reviewed |
+| C2 | Reasons statement issued to the claimant | Case Officer | Each decision | Issued within 5 working days | Decision void if not issued |
+| C3 | Appeal to an independent reviewer who may substitute their decision | Appeals Officer | Any claimant request | Within 20 working days | Original decision set aside |
+| C4 | Quarterly accuracy audit against manual outcomes | Head of Assurance | Quarterly | Agreement below 95% | Automated processing suspended |
+| C5 | Re-approval of the model after any change to data or scope | Digital Design Authority | Any material change | Change not deployed without approval | Use suspended |
+"""
+
+# A short but complete clause: a duty, a beneficiary, and a reversal route, with
+# no monitoring obligation anywhere in it.
+SHORT_CLAUSE = """# Clause 7.4 — Automated Decisions
+
+No automated system shall issue a decision that materially affects a person
+without a named officer's approval. The affected person must be told that an
+automated system contributed, given the reasons, and offered review by a person
+with authority to reverse the decision within 20 working days.
+"""
+
+
+class DocumentFormTests(unittest.TestCase):
+    """Obligations in table form, and rules that must not fire on a word's
+    other sense."""
+
+    def test_control_register_is_recognised_as_an_operative_instrument(self) -> None:
+        result = assess("register", "policy", CONTROL_REGISTER,
+                        assessment_mode="external_framework", sector="auto")
+        fired = {dim: {lbl for lbl, _ in data["fired"]}
+                 for dim, data in result["score_breakdown"].items()}
+        self.assertIn("mandatory obligation language (shall/must)", fired["structural"])
+        self.assertIn("mandatory language (shall/must)", fired["enforceability"])
+        self.assertIn("multiple mandatory obligations (shall/must pairs)", fired["auditability"])
+        self.assertIn("accountability", fired["conceptual"])
+        self.assertEqual(classify_document_type(CONTROL_REGISTER), "internal_policy")
+
+    def test_control_register_is_not_reported_as_having_no_content(self) -> None:
+        result = assess("register", "policy", CONTROL_REGISTER,
+                        assessment_mode="external_framework", sector="auto")
+        gaps = runner.build_governance_gap_register(result, [{"quote_id": "Q001"}])
+        types = {g["gap_type"] for g in gaps}
+        self.assertNotIn("insufficient_operative_content", types)
+        self.assertNotIn("declaratory_without_operative_commitment", types)
+
+    def test_prose_without_a_table_is_unaffected(self) -> None:
+        """The register patterns must not fire on ordinary text."""
+        import re
+        from assessment_engine import CONTROL_REGISTER_PAT
+        for text in (INSTITUTIONAL_STANDARD, ACADEMIC_POLICY, GOVERNANCE_SOUP):
+            self.assertIsNone(re.search(CONTROL_REGISTER_PAT, text, re.IGNORECASE))
+
+    def test_review_as_redress_does_not_trigger_a_monitoring_gap(self) -> None:
+        """'review by a person with authority to reverse' is redress, not monitoring."""
+        result = assess("clause", "policy", SHORT_CLAUSE,
+                        assessment_mode="external_framework", sector="general_ai_governance")
+        gaps = runner.build_governance_gap_register(result, [{"quote_id": "Q001"}])
+        self.assertNotIn("monitoring_without_threshold", {g["gap_type"] for g in gaps})
+
+    def test_a_real_monitoring_obligation_still_triggers_the_rule(self) -> None:
+        monitored = ("The provider shall monitor system performance monthly and "
+                     "review outcomes. Records shall be documented in accordance "
+                     "with Section 3 and retained for audit.")
+        result = assess("monitored", "policy", monitored,
+                        assessment_mode="external_framework", sector="general_ai_governance")
+        gaps = runner.build_governance_gap_register(result, [{"quote_id": "Q001"}])
+        self.assertIn("monitoring_without_threshold", {g["gap_type"] for g in gaps})
+
+    def test_presence_test_never_reads_the_detectors_own_vocabulary(self) -> None:
+        """Rubric labels must not satisfy a source-text presence test."""
+        sampled = runner._assessment_source_text(
+            {"strengths": ["Auditability: review / monitoring mechanisms"]}, [])
+        self.assertNotIn("monitoring", sampled)
+
+    def test_all_caps_drafting_is_read_the_same_as_mixed_case(self) -> None:
+        upper = INSTITUTIONAL_STANDARD.upper()
+        lower_result = assess("a", "policy", INSTITUTIONAL_STANDARD,
+                              assessment_mode="external_framework", sector="auto")
+        upper_result = assess("b", "policy", upper,
+                              assessment_mode="external_framework", sector="auto")
+        for construct, verdict in lower_result["functional_alignment"].items():
+            self.assertEqual(upper_result["functional_alignment"][construct]["verdict"],
+                             verdict["verdict"], f"{construct} differs under ALL CAPS")
+
+
 class NonGovernanceTextTests(unittest.TestCase):
     """Broadened detection must not turn ordinary prose into a governance finding."""
 
