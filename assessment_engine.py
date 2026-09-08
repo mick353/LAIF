@@ -976,7 +976,7 @@ def _vocabulary_enumeration(text):
 # governance cannot satisfy Q2: the reasoning would not hold at the individual-
 # decision level, only at the keyword-density level.
 
-def _sector_gaming_risk(sector_alignment, overall, conceptual):
+def _sector_gaming_risk(sector_alignment, overall, conceptual, document_type=""):
     """
     Detect potential sector gaming: high sector keyword alignment with low
     substantive governance content.
@@ -993,6 +993,15 @@ def _sector_gaming_risk(sector_alignment, overall, conceptual):
     alignment figure: the text names a regulated activity without carrying any of
     the governance architecture that activity requires.
     """
+    # A values charter openly declares itself a statement of intent. Sector
+    # vocabulary without architecture is what that document type IS, not a
+    # discrepancy between what it claims and what it carries — and "gaming"
+    # implies a concealment the document is not attempting. The declaratory gap
+    # characterises it accurately and without that implication.
+    if document_type == "values_charter":
+        return "LOW", ("Values statement: sector vocabulary without operating "
+                       "machinery is the declared nature of this document type, "
+                       "not a discrepancy. See the declaratory finding.")
     if sector_alignment >= 40 and overall < 15:
         return "HIGH", (
             f"Sector risk alignment {sector_alignment}% vs overall readiness {overall}/100. "
@@ -3403,7 +3412,8 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     cq, cq_reason, cq_evidence = _coupling_quality(text)
     implicit_coupling            = _implicit_coupling_signals(text)
     contradictions       = _contradiction_check(text)
-    gaming_level, gaming_reason = _sector_gaming_risk(sector_risk_alignment, overall, c)
+    gaming_level, gaming_reason = _sector_gaming_risk(
+        sector_risk_alignment, overall, c, early_document_type)
     _english_readable, _english_ratio = _english_coverage(text)
     enum_risk, enum_ratio, enum_examples = _vocabulary_enumeration(text)
     depth                = _structural_depth(cq, contradictions, gaming_level, formal_pass,

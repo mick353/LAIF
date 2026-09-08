@@ -2511,6 +2511,24 @@ class NonGovernanceTextTests(unittest.TestCase):
         self.assertEqual(result["structural_score"], 0)
         self.assertEqual(result["enforceability_score"], 0)
 
+    def test_a_values_charter_is_not_accused_of_gaming(self) -> None:
+        """Sector vocabulary without architecture is what a values charter IS.
+        Calling that gaming implies a concealment the document is not
+        attempting; the declaratory finding characterises it accurately."""
+        charter = ("Responsible AI Charter. We believe artificial intelligence should "
+                   "serve people. Our values guide everything we build. We are "
+                   "committed to fairness, transparency, accountability, privacy and "
+                   "human oversight, and we strive to be open about how our systems "
+                   "work and to learn from mistakes.")
+        result = assess("charter", "policy", charter,
+                        assessment_mode="external_framework", sector="auto")
+        self.assertEqual(result["document_type"], "values_charter")
+        self.assertEqual(result["sector_gaming_risk"], "LOW")
+        gaps = runner.build_governance_gap_register(result, [{"quote_id": "Q001"}])
+        self.assertTrue({g["gap_type"] for g in gaps} &
+                        {"declaratory_without_operative_commitment",
+                         "insufficient_operative_content"})
+
     def test_sector_vocabulary_without_architecture_is_flagged(self) -> None:
         soup = ("Credit scoring underwriting insurance AML fraud detection model risk "
                 "model validation fair lending fairness testing explainability.")

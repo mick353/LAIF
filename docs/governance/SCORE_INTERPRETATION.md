@@ -573,3 +573,18 @@ adapt, and they were being cut from a fixed offset window: "«rs, maintaining th
 connection between obligations imposed on workers…»". Tests check that the first
 token of every evidence passage is a whole word as it appears in the source, and
 that the passage is a verbatim substring of it.
+
+## Gaming Risk and Document Type
+
+Sector vocabulary present with near-zero governance architecture is a
+discrepancy — a document claiming a regulated subject while carrying none of the
+machinery that subject requires. That is what the gaming branch detects, and the
+finding is deliberately worded as a density observation rather than an
+accusation.
+
+It does not apply to a `values_charter`. A charter openly declares itself a
+statement of intent: vocabulary without machinery is the nature of the document
+type, not a gap between what it claims and what it carries, and "gaming" implies
+a concealment it is not attempting. The declaratory finding characterises it
+accurately — states values without operative commitments, cannot carry assurance
+weight until the values are written as duties — and that is what the report says.

@@ -745,3 +745,11 @@ engine raises reaches the register.
 suites, on Python 3.10, including the two `reports/` checks. That run is what
 confirmed the `datetime.UTC` defect was real: the code could not have run on the
 pinned CI runtime before this pass.
+
+A final sweep across all twelve document classes surfaced one last
+mischaracterisation: the values charter was carrying a HIGH sector-gaming flag.
+The measurement was right — governance vocabulary, no architecture — but the
+label implies concealment, and a charter conceals nothing; it says on its face
+what it is. Gaming detection now excepts the `values_charter` type, and the
+declaratory finding, which describes the same fact without the implication,
+stands alone.
