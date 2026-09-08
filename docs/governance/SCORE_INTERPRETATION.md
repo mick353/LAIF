@@ -355,6 +355,21 @@ otherwise mistake a document's subject for its position:
 | Contradiction | "the restriction on automated decisioning **without human review**" read as a no-oversight admission | governing-context guard: adversary vocabulary inside a prohibition is a protection |
 | Coupling quality | "Q1 — Coupling: Not satisfied" in a worked example read as the document disclaiming Coupling | analytical-frame guard: a document that declares Coupling structurally *and* works through a case where it fails is applying the test |
 | Paraphrase | detections on documents that neither use nor claim LAIF vocabulary | reported as divergence notes, not violations (semantic-fidelity invariant 3) |
+| Contradiction (analytical frame) | "Q3 — Reversibility: FAIL … cannot be reversed" in a case analysis read as the document negating its own claim | analytical-frame guard: suppressed only where the adversary sits in an analytical frame *and* the document writes as an assessment instrument throughout (three or more markers), so one analytical phrase buys no immunity |
+| Contradiction (negated adversary) | "the decision does not permanently foreclose future revision" read as an assertion of permanence | a term under a negation asserts the opposite; applied only where the matched text is not already a negative construction, so "cannot be undone" is still read as written |
+
+### Residual limitation
+
+Four documents in LAIF's own corpus still carry one Reversibility contradiction
+each. In every case the text is the framework *defining* what irreversibility
+requires — "genuinely irreversible decisions receive the strongest procedural
+protection available", "for each such action, specify the authorisation level
+required". A document that governs irreversible action necessarily uses the word
+throughout, and separating that from an admission would need a rule broad enough
+to suppress genuine findings in other people's documents. The remaining effect
+is one step of structural depth (WEAK rather than STRONG) on LAIF's own
+instruments, and it is stated here rather than tuned away: a guard that
+over-fits to four known documents is worse than a known, bounded limitation.
 
 The coupling guard requires both conditions. A document that only disclaims
 Coupling, with no structural declaration anywhere, is still NEGATED however many

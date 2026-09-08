@@ -2554,6 +2554,67 @@ class ToolchainProvenanceTests(unittest.TestCase):
             self.assertIn(toolchain_fingerprint(), index)
 
 
+class AnalysingAFailureTests(unittest.TestCase):
+    """LAIF's own instruments describe failures; they do not commit them.
+
+    A case analysis writes "Q3 — Reversibility: FAIL … cannot be reversed"; a
+    PDCA writes "clinical errors producing patient harm cannot be undone". Both
+    were read as the document negating a protection it claims, giving LAIF's own
+    primary instruments HOLLOW structural depth.
+    """
+
+    REPO = Path(__file__).resolve().parents[1]
+
+    def _assess(self, name):
+        text = (self.REPO / name).read_text(encoding="utf-8", errors="replace")
+        return assess(name, "framework", text, assessment_mode="laif_native")
+
+    def test_laif_instruments_are_not_hollow(self) -> None:
+        for name in ("LAIF_Case_Analysis.txt", "LAIF_PDCA_GPT4_Clinical.txt",
+                     "LAIF_v1.2.txt", "LAIF_Compliance_Toolkit.txt"):
+            with self.subTest(document=name):
+                result = self._assess(name)
+                self.assertNotEqual(
+                    result["structural_depth"], "HOLLOW",
+                    f"{name} contradictions: {[c[0] for c in result['contradictions']]}")
+
+    def test_a_genuine_contradiction_is_still_caught(self) -> None:
+        """The guard requires an analytical frame AND an instrument that writes
+        in that register throughout, so a disclaimer cannot escape it."""
+        result = assess("Helix", "policy", SELF_CONTRADICTING,
+                        assessment_mode="external_framework",
+                        sector="general_ai_governance")
+        subjects = {c[0].replace(" (non-canonical)", "") for c in result["contradictions"]}
+        for expected in ("Reversibility", "Structural Transparency",
+                         "Structural Containment"):
+            self.assertIn(expected, subjects)
+        self.assertEqual(result["structural_depth"], "HOLLOW")
+
+    def test_one_analytical_phrase_does_not_buy_immunity(self) -> None:
+        """A disclaimer document that drops a single analytical word must still
+        be caught: the guard needs the register throughout, not one marker."""
+        evasive = ("Our AI Transparency Standard. We are committed to full "
+                   "transparency. As assessed, the scoring model is proprietary "
+                   "and cannot be disclosed to customers or regulators under any "
+                   "circumstances.")
+        result = assess("evasive", "policy", evasive,
+                        assessment_mode="external_framework",
+                        sector="general_ai_governance")
+        self.assertTrue(result["contradictions"],
+                        "a single analytical phrase must not suppress the finding")
+
+    def test_a_negated_adversary_is_not_an_admission(self) -> None:
+        """"does not permanently foreclose future revision" asserts the opposite
+        of the term it contains."""
+        text = ("Reversibility. The authority shall document the reversibility "
+                "assessment conducted and the reasons why the decision does not "
+                "permanently foreclose future revision by successor bodies.")
+        result = assess("negated", "policy", text, assessment_mode="external_framework",
+                        sector="general_ai_governance")
+        self.assertNotIn("Reversibility",
+                         {c[0] for c in result["contradictions"]})
+
+
 class NonGovernanceTextTests(unittest.TestCase):
     """Broadened detection must not turn ordinary prose into a governance finding."""
 

@@ -282,13 +282,39 @@ COUPLING_STRUCTURAL_INDICATORS = [
 # assessor APPLYING the Coherence Test to a case, rather than a document
 # disclaiming Coupling for itself.
 _ANALYTICAL_FRAME_PAT = re.compile(
-    r"\bQ1\b\s*(?:[—–:-]|\u2014)|\bQ[123]\b.{0,60}\bCoupling\b|"
+    # The Coherence Test being applied to a case, in any of its three questions.
+    r"\bQ[123]\b\s*(?:[—–:-]|\u2014)|\bQ[123]\b.{0,60}\b(?:Coupling|Consistency|Reversibility)\b|"
     r"\bCoherence\s+Test\b|\bScale\s*:|\bCase\s+\d|\b(?:worked\s+)?example\b|"
     r"\billustrat\w+|\bapplying\b|\bassessment\s+of\b|\bverdict\b|"
-    r"\bFINDING\b|\bwould\s+(?:fail|not\s+satisfy)\b|\bfail(?:s|ed)?\s+Q1\b|"
-    r"\bstructural\s+verdict\b|\bretrospective\b",
+    r"\bFINDING\b|\bwould\s+(?:fail|not\s+satisfy)\b|\bfail(?:s|ed)?\s+Q[123]\b|"
+    r"\bstructural\s+verdict\b|\bretrospective\b|"
+    # An assessment record describing the instrument it is assessing: the
+    # provisions a case engages, the thresholds a documented failure mode
+    # satisfies, and the configuration under assessment. A document that is
+    # genuinely refusing disclosure does not write in this register.
+    r"\bProvisions?\s+Engaged\b|\bLAIF\s+Provisions?\b|"
+    r"\bdocumented\s+failure\s+modes?\b|\bfailure\s+modes?\s+documented\b|"
+    r"\bProvision\s+[A-D]\d\b.{0,60}\bthreshold\b|"
+    r"\bas\s+assessed\b|\bassessed\s+configuration\b|"
+    r"\bSection\s+[A-D]\b.{0,40}\bidentif\w+|\bunder\s+assessment\b",
     re.IGNORECASE | re.DOTALL,
 )
+
+# A document is an assessment instrument only if it writes in that register
+# throughout, not once. Requiring several markers means a document that
+# disclaims a protection cannot escape the contradiction finding by dropping a
+# single analytical phrase near it.
+_ANALYTICAL_INSTRUMENT_MIN_MARKERS = 3
+
+# "cannot be undone" is an assertion of irreversibility; "does not permanently
+# foreclose" is an assertion of the opposite. The first is already negative and
+# must be read as written; the second is an adversary word under a negation.
+_NEGATIVE_CONSTRUCTION_PAT = re.compile(
+    r"\b(?:cannot|can\s?not|no|not|never|without)\b", re.IGNORECASE)
+_NEGATION_PREFIX_PAT = re.compile(
+    r"\b(?:does|do|shall|will|must|may|can|is|are|would)\s+not\s+(?:\w+\s+){0,3}$"
+    r"|\bnot\s+(?:\w+\s+){0,3}$|\bnever\s+(?:\w+\s+){0,3}$",
+    re.IGNORECASE)
 
 COUPLING_NEGATION_INDICATORS = [
     r"\bCoupling\b.{0,120}\b(?:not\s+(?:applicable|required|established|satisfied|met|adopted|declared|implemented)|outside\s+(?:the\s+)?scope|beyond\s+scope|inapplicable|rejected|absent|excluded)\b",
@@ -837,7 +863,9 @@ _GOVERNING_CONTEXT_PAT = re.compile(
     # committing it.
     r"(?:restrict\w*|prohibit\w*|forbid\w*|ban(?:ned|s)?|bar(?:red)?|not\s+permitted)\b[^.]{0,160}\bwithout\s+human\s+(?:oversight|review|approval)|"
     r"\bwithout\s+human\s+(?:oversight|review|approval)\b[^.]{0,160}\b(?:is|are)\s+(?:prohibited|not\s+permitted|forbidden)|"
-    r"(?:is\s+|are\s+)?prohibited\s+without)",
+    r"(?:is\s+|are\s+)?prohibited\s+without|"
+    r"irreversib\w+\b[^.]{0,160}\b(?:explicit|prior|documented|requires?)\s+(?:authoris|authoriz|approval)|"
+    r"(?:authoris|authoriz)\w+\b[^.]{0,120}\birreversib)",
     re.IGNORECASE,
 )
 
@@ -852,6 +880,10 @@ def _contradiction_check(text):
     Returns list of (property, description, context_snippet) tuples.
     """
     findings = []
+    analytical_instrument = (
+        len(_ANALYTICAL_FRAME_PAT.findall(text or ""))
+        >= _ANALYTICAL_INSTRUMENT_MIN_MARKERS
+    )
     for check in CONTRADICTION_CHECKS:
         trigger_positions = [
             m.start() for m in re.finditer(check["trigger"], text, re.IGNORECASE)
@@ -867,6 +899,27 @@ def _contradiction_check(text):
                 hi = min(len(text), m.end() + 160)
                 if _GOVERNING_CONTEXT_PAT.search(text[lo:hi]):
                     continue
+                # Analysing a failure is not committing it. A case analysis
+                # recording "Q3 — Reversibility: FAIL … cannot be reversed", or a
+                # PDCA recording "clinical errors … cannot be undone", is
+                # describing the deployment it assesses. Suppressed only where
+                # the adversary sits in an analytical frame AND the document
+                # writes as an assessment instrument throughout — the same
+                # two-condition structure the coupling guard uses, so a bare
+                # disclaimer with one analytical phrase is still caught.
+                if analytical_instrument and _ANALYTICAL_FRAME_PAT.search(
+                        text[max(0, m.start() - 330):m.start() + 120]):
+                    continue
+                # The adversary term is itself negated: "the decision does not
+                # permanently foreclose future revision" asserts reversibility,
+                # not irreversibility. Applied only where the matched text is
+                # not already a negative construction ("cannot be undone"),
+                # which must never be double-negated away.
+                matched = m.group(0)
+                if not _NEGATIVE_CONSTRUCTION_PAT.search(matched):
+                    preceding = text[max(0, m.start() - 40):m.start()]
+                    if _NEGATION_PREFIX_PAT.search(preceding):
+                        continue
                 start = max(0, m.start() - 100)
                 end   = min(len(text), m.end() + 100)
                 ctx   = text[start:end].replace("\n", " ").strip()
