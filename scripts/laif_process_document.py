@@ -60,7 +60,7 @@ class ExtractionError(RuntimeError):
 
 
 def utc_now_iso() -> str:
-    return _dt.datetime.now(_dt.UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    return _dt.datetime.now(_dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def sha256_file(path: Path) -> str:

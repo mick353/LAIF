@@ -191,9 +191,14 @@ LAIF v1.2 explicitly incorporates and integrates with:
 
 ### Commands — The Pre-Commit Gate
 
-The toolchain is plain Python 3 standard library (no package manager needed);
-CI (.github/workflows/ci.yml) runs the same gate. All of these must exit 0
-before any commit:
+The toolchain is plain Python 3 standard library (no package manager needed).
+CI (.github/workflows/ci.yml) runs every suite below, plus the two extra
+`validate.py` modes, the governance scripts, and two checks on `reports/`: that
+what is committed matches regenerated output, and that regeneration is
+deterministic. **Target runtime is Python 3.10** — CI pins it, so avoid 3.11-only
+constructs (`datetime.UTC`, `tomllib`, `typing.Self`, `except*`).
+
+All of these must exit 0 before any commit:
 
 ```bash
 python3 validate.py                 # validation harness over the .txt corpus (rule failures = exit 1)

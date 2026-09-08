@@ -106,6 +106,32 @@ jobs:
       - name: Run semantic fidelity suite
         run: python3 test_semantic_fidelity.py
 
+  processing-toolchain:
+    name: Assessment engine, document runner, and CI processing path
+    needs: governance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      # These three suites carry the majority of the project's tests — the
+      # detection model, the institutional reporting layer, and the batch
+      # processing path. They were absent from CI, so every regression they
+      # guard could reach main unnoticed.
+      - name: Run assessment fragility suite
+        run: python3 tests/test_assessment_fragility.py
+
+      - name: Run document processing runner suite
+        run: python3 tests/test_document_processing_runner.py
+
+      - name: Run CI document processing suite
+        run: python3 tests/test_github_actions_document_processing.py
+
   real-world:
     name: Real-world assessment suite
     needs: governance
@@ -121,3 +147,26 @@ jobs:
 
       - name: Run real-world test suite
         run: python3 test_real_world.py
+
+      # The published artifacts must be a deterministic function of the corpus
+      # and the engine. Two independent properties are checked: regeneration is
+      # reproducible, and what is committed matches what the code produces —
+      # which is how a hand-edited report is caught.
+      - name: Check committed reports match regenerated output
+        run: |
+          if ! git diff --quiet -- reports/; then
+            echo "::error::reports/ differ from regenerated output. Regenerate with"
+            echo "::error::  python3 test_real_world.py"
+            echo "::error::and commit the result; never hand-edit reports/."
+            git --no-pager diff --stat -- reports/
+            exit 1
+          fi
+
+      - name: Check report generation is deterministic
+        run: |
+          cp -r reports /tmp/reports_first
+          python3 test_real_world.py > /dev/null
+          if ! diff -r /tmp/reports_first reports; then
+            echo "::error::report generation is not deterministic"
+            exit 1
+          fi

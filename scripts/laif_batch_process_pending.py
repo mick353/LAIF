@@ -51,7 +51,7 @@ PHASE_3T_RUNNER = _resolve_runner()
 
 
 def utc_now() -> _dt.datetime:
-    return _dt.datetime.now(_dt.UTC)
+    return _dt.datetime.now(_dt.timezone.utc)
 
 
 def utc_now_iso() -> str:

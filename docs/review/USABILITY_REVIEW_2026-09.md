@@ -690,3 +690,32 @@ Idempotency and robustness were checked at the same time: processing the same
 document twice into the same directory produces byte-identical output apart from
 the append-only processing index, and binary and empty inputs fail with specific
 errors rather than partial results.
+
+---
+
+## 19. Fourteenth pass — production readiness
+
+The fourteenth pass read the delivery path rather than the output: what CI
+actually runs, and what it would catch.
+
+**CI ran five of the eight gate suites.** The assessment fragility suite, the
+document processing runner suite, and the CI processing suite were absent —
+roughly 240 of the project's tests, including every test added across these
+fourteen reviews. `CLAUDE.md` stated that CI "runs the same gate", which was not
+true. All three now run in their own job.
+
+**The runner would have failed on the CI runtime.** CI pins Python 3.10; the
+single-document and batch runners both call `datetime.UTC`, which is 3.11+. The
+defect had never surfaced precisely because CI never ran those suites — one gap
+concealing the other. Both now use `datetime.timezone.utc`, and the target
+runtime is stated in `CLAUDE.md` alongside the constructs to avoid.
+
+**Nothing checked the committed reports.** The repository's own rule is that
+`reports/` is generated and must never be hand-edited, but no automation
+enforced it. CI now fails if the committed artifacts differ from regenerated
+output, and separately fails if regenerating twice produces a diff — the two
+properties the artifacts claim about themselves, checked rather than asserted.
+
+A system that publishes assessments of other people's governance has to hold its
+own delivery path to the same standard. Three of its guarantees were documented
+and unenforced; they are now enforced.
