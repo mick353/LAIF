@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import datetime as _dt
 import hashlib
+import functools
 import json
 import re
 import sys
@@ -1247,12 +1248,22 @@ def _preserve_initial_case(match: re.Match[str], replacement: str) -> str:
     return replacement
 
 
+# Compiled once. These 54 patterns were rebuilt on every call, and the function
+# runs tens of thousands of times over a large document's quote candidates —
+# re.escape, re.compile and the IGNORECASE flag lookup accounted for most of the
+# runtime of quote-bank construction. Behaviour and output are unchanged.
+_DISPLAY_QUOTE_REPAIR_PATTERNS = tuple(
+    (re.compile(rf"(?<![A-Za-z]){re.escape(_damaged)}(?![A-Za-z])", re.IGNORECASE),
+     _damaged, _repaired)
+    for _damaged, _repaired in DISPLAY_QUOTE_REPAIRS
+)
+
+
 def normalize_quote_for_display(quote: str) -> tuple[str, bool, str]:
     """Return deterministic presentation text while preserving the raw exact quote elsewhere."""
     display = quote or ""
     changed_repairs: list[str] = []
-    for damaged, repaired in DISPLAY_QUOTE_REPAIRS:
-        pattern = re.compile(rf"(?<![A-Za-z]){re.escape(damaged)}(?![A-Za-z])", re.IGNORECASE)
+    for pattern, damaged, repaired in _DISPLAY_QUOTE_REPAIR_PATTERNS:
         if pattern.search(display):
             display = pattern.sub(lambda m, r=repaired: _preserve_initial_case(m, r), display)
             changed_repairs.append(f"{damaged}->{repaired}")
@@ -1262,6 +1273,10 @@ def normalize_quote_for_display(quote: str) -> tuple[str, bool, str]:
     return display, False, ""
 
 
+# Quote quality is recomputed for the same candidate text many times over
+# (sorting, gating, display). The mapping is pure, so memoising it removes the
+# repetition without changing any result.
+@functools.lru_cache(maxsize=8192)
 def _normalized_for_quality(quote: str) -> str:
     clean = " ".join((quote or "").split())
     return normalize_quote_for_display(clean)[0]
@@ -1803,6 +1818,12 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
             "any vocabulary — the gaps below are missing machinery, not missing "
             "terminology."),
     }.get(alignment, "This document's structural position requires reviewer confirmation.")
+    if not assessment.get("english_language_readable", True):
+        verdict = (
+            "This assessment could not read the document. Every detection pattern in "
+            "this engine is written against English governance drafting, and this "
+            "text is not in English, so the scores and findings below describe the "
+            "limits of the instrument rather than the quality of the document.")
 
     # 2. What that means for the people it governs.
     binding = {
@@ -1892,6 +1913,16 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
 
     # Contradiction precedes the gap and the next action: it changes what the
     # rest of the finding means.
+    if not assessment.get("english_language_readable", True):
+        return " ".join([
+            verdict,
+            f"Detected English function-word ratio "
+            f"{assessment.get('english_function_word_ratio')}, against 0.15-0.37 for "
+            f"English governance drafting.",
+            "Assess this document with an instrument built for its language, or with "
+            "a certified translation; do not rely on the numbers below.",
+        ])
+
     parts = [verdict, binding, position, framing, classification,
              enumeration_txt, contradiction_txt, gap_txt, action]
     return " ".join(x for x in parts if x)
@@ -2049,6 +2080,43 @@ def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> l
     value_fired = len(fired.get("conceptual", ()))
 
     gaps: list[dict] = []
+    if not assessment.get("english_language_readable", True):
+        gaps.append({
+            "gap_id": "GAP-001",
+            "gap_title": "Document is not in a language this assessment can read",
+            "severity": "high",
+            "gap_type": "language_not_covered",
+            "document_type": doc_type,
+            "sector_profile": sector,
+            "document_profile_key": document_profile_key(assessment),
+            "detected_from": {
+                "expectation_signal": "governance document submitted for assessment",
+                "missing_control_signal": (
+                    f"English function-word ratio "
+                    f"{assessment.get('english_function_word_ratio')} — the engine's "
+                    f"detection patterns are English-only"),
+            },
+            "source_evidence_quote": "",
+            "source_evidence_location": "",
+            "source_evidence_quote_ids": fallback_quote_ids,
+            "related_scores": scores,
+            "related_governance_repair_fields": ["governance_force"],
+            "operational_meaning": (assessment.get("language_coverage_note") or ""),
+            "failure_mode": ("A near-zero score produced by a language limit is read as "
+                             "a finding about the document's governance."),
+            "affected_stakeholders": ["assurance reviewers", "the document's owner"],
+            "required_control_ids": ["CTRL-001"],
+            "control_artifact": ("A certified translation assessed in its place, or an "
+                                 "assessment instrument built for this language."),
+            "control_trigger": "Before any reliance is placed on this assessment.",
+            "control_threshold": ("No score, gap, or verdict from this run is cited for "
+                                  "this document."),
+            "reviewer_note": ("Discard the scores below. They measure what this engine "
+                              "could read, which is nothing."),
+        })
+        for quote in quote_bank:
+            quote["linked_gap_ids"] = [gaps[0]["gap_id"]]
+        return gaps
     if assessment.get("vocabulary_enumeration_risk") == "HIGH":
         gaps.append({
             "gap_id": "GAP-001",
@@ -2402,6 +2470,11 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         lines.append(executive_thesis(assessment, gaps, controls))
     else:
         lines.append(native_executive_thesis(assessment, gaps, controls))
+    if not assessment.get("english_language_readable", True):
+        lines += ["", "## Language coverage limit", "",
+                  f"- {assessment.get('language_coverage_note')}",
+                  "- Every score, verdict, and gap in this report is an artefact of that "
+                  "limit. None of it is a finding about the document."]
     lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Document type:** {doc_type}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}"
         + (f" (auto-detected from: {processing.get('sector_basis')}; override with --sector)"
            if processing.get("sector_basis") else ""), f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", f"- **Recommended use:** {assessment.get('recommended_use') or 'source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.'}", f"- **Limits:** {assessment.get('not_sufficient_for') or 'standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.'}", "- **In every case:** this is a reading of the document, not of the organisation. It cannot show whether the controls it describes are in place, current, or working.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", "## Key quoted evidence", ""]

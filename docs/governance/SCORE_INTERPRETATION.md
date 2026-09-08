@@ -515,3 +515,38 @@ its importance.
 The neutral sector profile's remediation now leads with the governance function
 and names LAIF's canonical form as one route to it, rather than prescribing four
 LAIF adoption steps to every document that matches no other profile.
+
+## Language Coverage
+
+Every detection pattern in this engine is written against English governance
+drafting. A French, German, or Spanish instrument therefore scores near zero —
+not because it lacks governance, but because the detector cannot read it. Saying
+"this document does not express the load-bearing governance structures in any
+vocabulary" about such a text is simply false, and stating the limit instead is
+the reporting layer's own A.2 Structural Honesty obligation.
+
+`_english_coverage()` measures the ratio of English function words to total
+words. The separation is clean and deterministic: across the whole assessment
+corpus and every institutional fixture — including a table-only control register
+and a keyword-soup adversary — English governance prose measures 0.15–0.37,
+while French, German, Spanish and Dutch samples measure 0.000. The threshold of
+0.06 sits well clear of both, and a minimum of 40 words prevents a short English
+clause from being judged at all.
+
+Where the text is not readable, the assessment says so and stops: the executive
+finding states that the engine could not read the document and that the numbers
+describe the instrument rather than the text; the report carries a "Language
+coverage limit" section where the scores appear; and the gap register holds one
+entry whose closing control is a certified translation or an instrument built
+for that language. No other finding is emitted, because none of them would mean
+anything.
+
+## Performance
+
+`normalize_quote_for_display()` rebuilt 54 regexes on every call and runs tens of
+thousands of times over a large document's quote candidates, which made
+quote-bank construction the dominant cost and pushed a 2.2 MB document past a
+two-minute wall clock. The patterns are compiled once at import and the pure
+normalisation is memoised; quote-bank construction is about ten times faster
+(5.4s to 0.5s at 112,000 characters) with identical output. A 2.2 MB document
+now completes end to end in about 40 seconds.

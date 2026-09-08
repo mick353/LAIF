@@ -2347,6 +2347,96 @@ class RemediationConsistencyTests(unittest.TestCase):
             self.assertIn(key, labels, f"stale signal-construct key: {key!r}")
 
 
+# The same substance as INSTITUTIONAL_STANDARD, in French. Every detection
+# pattern in the engine is English, so this must be reported as a limit of the
+# instrument, never as a finding about the document.
+FRENCH_POLICY = """# Politique de gouvernance de l'intelligence artificielle
+
+## 1. Portee
+La presente politique s'applique a toutes les entites du groupe. Tout manquement
+constitue une violation signalable du cadre de gestion des risques.
+
+## 2. Objet des restrictions
+Chaque controle protege un interet nomme. La restriction sur la decision de
+credit automatisee sans reexamen humain protege l'interet du demandeur a une
+decision qu'il peut comprendre et contester. Ni la restriction ni le droit de
+reexamen ne peuvent etre supprimes independamment l'un de l'autre.
+
+## 3. Conditions de mise en production
+Aucun modele n'entre en production sauf si toutes les conditions suivantes sont
+remplies simultanement : le proprietaire du modele peut produire une explication
+de toute decision individuelle ; les objectifs documentes correspondent aux
+objectifs mis en oeuvre ; le modele fonctionne dans les limites approuvees.
+
+## 4. Droits du client
+Tout client soumis a une decision automatisee peut demander un reexamen humain
+dans un delai de trente jours. Le reviseur peut annuler la decision.
+
+## 5. Surveillance
+Les proprietaires de modeles doivent surveiller la performance chaque mois. Tout
+depassement de cinq pour cent doit etre remonte au comite des risques.
+"""
+
+
+class LanguageCoverageTests(unittest.TestCase):
+    """A near-zero score caused by a language limit must never read as a finding."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.result = assess("FR", "policy", FRENCH_POLICY,
+                            assessment_mode="external_framework", sector="auto")
+
+    def test_non_english_text_is_detected(self) -> None:
+        self.assertFalse(self.result["english_language_readable"])
+        self.assertLess(self.result["english_function_word_ratio"], 0.06)
+
+    def test_english_documents_are_never_flagged(self) -> None:
+        import official_documents, sample_documents
+        corpus = [(e.get("name", k), e.get("text") or e.get("excerpt"))
+                  for coll in (official_documents.OFFICIAL_DOCUMENTS,
+                               sample_documents.DOCUMENTS)
+                  for k, e in coll.items()]
+        corpus += [("bank standard", INSTITUTIONAL_STANDARD),
+                   ("academic policy", ACADEMIC_POLICY),
+                   ("control register", CONTROL_REGISTER),
+                   ("governance soup", GOVERNANCE_SOUP),
+                   ("sales report", NonGovernanceTextTests.SALES_REPORT)]
+        for name, text in corpus:
+            result = assess(name, "policy", text, assessment_mode="external_framework",
+                            sector="general_ai_governance")
+            self.assertTrue(result["english_language_readable"],
+                            f"false language flag on {name}: "
+                            f"{result['english_function_word_ratio']}")
+
+    def test_the_finding_states_the_limit_and_nothing_else(self) -> None:
+        gaps = runner.build_governance_gap_register(self.result, [{"quote_id": "Q001"}])
+        finding = runner.executive_thesis(self.result, gaps, [])
+        self.assertIn("could not read the document", finding)
+        self.assertIn("do not rely on the numbers below", finding)
+        # The false claim this replaces.
+        self.assertNotIn("in any vocabulary", finding)
+
+    def test_the_register_carries_one_entry_naming_the_limit(self) -> None:
+        gaps = runner.build_governance_gap_register(self.result, [{"quote_id": "Q001"}])
+        self.assertEqual(len(gaps), 1)
+        self.assertEqual(gaps[0]["gap_type"], "language_not_covered")
+
+    def test_the_report_states_the_limit_where_the_numbers_appear(self) -> None:
+        gaps = runner.build_governance_gap_register(self.result, [{"quote_id": "Q001"}])
+        report = runner.build_institutional_report(
+            {"safe_output_stem": "x"}, {}, self.result, [{"quote_id": "Q001"}],
+            gaps, runner.build_failure_pathways(gaps, []),
+            runner.build_control_recommendations(gaps, [], []))
+        self.assertIn("## Language coverage limit", report)
+        self.assertIn("None of it is a finding about the document", report)
+
+    def test_a_short_text_is_not_judged(self) -> None:
+        """Too little text to separate a brief English clause from a brief French one."""
+        result = assess("short", "policy", "Le fournisseur doit agir.",
+                        assessment_mode="external_framework", sector="auto")
+        self.assertTrue(result["english_language_readable"])
+
+
 class NonGovernanceTextTests(unittest.TestCase):
     """Broadened detection must not turn ordinary prose into a governance finding."""
 

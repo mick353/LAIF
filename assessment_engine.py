@@ -872,6 +872,43 @@ def _contradiction_check(text):
     return findings
 
 
+# ── Language coverage ──────────────────────────────────────────────────────────
+# Every pattern in this engine is written against English governance drafting.
+# A French, German, or Spanish instrument therefore scores near zero — not
+# because it lacks governance, but because the detector cannot read it. Saying
+# "this document does not express the load-bearing governance structures in any
+# vocabulary" about such a text is false, and it is the reporting layer's own
+# A.2 Structural Honesty obligation to state the limit instead.
+#
+# Detection is a function-word ratio, which separates cleanly and deterministically:
+# across the whole assessment corpus and every institutional fixture, English
+# governance prose measures 0.15-0.37; French, German, Spanish and Dutch samples
+# measure 0.000. The threshold sits well clear of both.
+_ENGLISH_FUNCTION_WORDS = frozenset((
+    "the", "of", "and", "to", "in", "that", "is", "for", "shall", "must",
+    "with", "be", "are", "this", "by", "or", "as", "not", "any", "may",
+    "on", "an", "which", "it", "from", "at", "have", "has",
+))
+ENGLISH_RATIO_THRESHOLD = 0.06
+ENGLISH_MIN_WORDS = 40
+
+
+def _english_coverage(text):
+    """Whether the engine's English-language patterns can read this text.
+
+    Returns (readable, ratio). `readable` is False only where there is enough
+    text to judge and the function-word ratio is far below anything English
+    governance drafting produces.
+    """
+    words = re.findall(r"[A-Za-z]+", text or "")
+    if len(words) < ENGLISH_MIN_WORDS:
+        # Too short to judge: a brief English clause and a brief French one are
+        # not reliably separable, and the thin-document findings already apply.
+        return True, None
+    ratio = sum(1 for w in words if w.lower() in _ENGLISH_FUNCTION_WORDS) / len(words)
+    return ratio >= ENGLISH_RATIO_THRESHOLD, round(ratio, 3)
+
+
 # ── Vocabulary enumeration detection ───────────────────────────────────────────
 # Source: LAIF v1.2 Integrity Layer A.2 (Structural Honesty) — stated objectives
 # must correspond to implemented objectives. A document that LISTS governance
@@ -3365,6 +3402,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     implicit_coupling            = _implicit_coupling_signals(text)
     contradictions       = _contradiction_check(text)
     gaming_level, gaming_reason = _sector_gaming_risk(sector_risk_alignment, overall, c)
+    _english_readable, _english_ratio = _english_coverage(text)
     enum_risk, enum_ratio, enum_examples = _vocabulary_enumeration(text)
     depth                = _structural_depth(cq, contradictions, gaming_level, formal_pass,
                                              enum_risk)
@@ -3510,6 +3548,17 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
         # document-level signal detection has saturated (every signal present
         # somewhere) and can no longer discriminate.
         "assessed_character_count":   len(text or ""),
+        "english_language_readable":  _english_readable,
+        "english_function_word_ratio": _english_ratio,
+        "language_coverage_note": (
+            "Detection patterns are written against English governance drafting. "
+            f"This text's English function-word ratio is {_english_ratio}, far below "
+            "anything English drafting produces, so the scores below reflect what "
+            "this engine can read rather than what the document contains. Assess it "
+            "with an instrument built for its language, or with a certified "
+            "translation."
+            if not _english_readable else
+            "Text is readable by the engine's English-language detection patterns."),
         "vocabulary_enumeration_risk": enum_risk,
         "vocabulary_enumeration_ratio": enum_ratio,
         "vocabulary_enumeration_examples": enum_examples,

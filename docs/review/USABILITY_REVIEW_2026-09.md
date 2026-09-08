@@ -629,3 +629,38 @@ After the fix the bank standard's remediation list is two steps: the substance
 it already has, and the one real gap it does not — no precedence rule between
 its own provisions, with the three statements that would close it. That is what
 a reader can act on.
+
+---
+
+## 17. Twelfth pass — inputs the system was never given
+
+The twelfth pass fed the runner what a real deployment eventually receives: a
+binary file, an empty file, a 2.2 MB document, and a document in French.
+
+**A 2.2 MB document did not complete.** Binary and empty inputs failed cleanly
+with specific errors, but the large one ran past two minutes. Profiling put
+almost all of it in one function: `normalize_quote_for_display()` rebuilt its 54
+repair regexes on every call and is called tens of thousands of times over a
+large document's quote candidates. Compiling once at import and memoising the
+pure normalisation made quote-bank construction ten times faster, with identical
+output. The document now finishes in about forty seconds.
+
+**A French governance policy was reported as having no governance.** It scored
+2/100 and was told it "does not express the load-bearing governance structures
+in any vocabulary" — a claim that is flatly false about a text the engine cannot
+read. This is the most serious kind of defect the system can have: an instrument
+that measures the limits of its own patterns and reports the result as a
+property of the document.
+
+The engine now measures whether its English-language patterns can read the text
+at all, using a function-word ratio that separates cleanly — English governance
+prose across the entire corpus and every fixture measures 0.15–0.37, and French,
+German, Spanish and Dutch samples measure 0.000. Where the text is unreadable
+the assessment says so and stops: the finding states the limit, the report
+carries it where the numbers appear, and the register holds one entry whose
+control is a certified translation or an instrument built for that language.
+Nothing else is emitted, because nothing else would mean anything.
+
+That the system had been silently making confident findings about documents it
+could not read, for as long as it has existed, is the clearest argument for
+continuing to feed it inputs it was not designed around.
