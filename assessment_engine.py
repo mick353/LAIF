@@ -655,9 +655,11 @@ def _functional_alignment(text, coupling_quality):
                 m = re.search(pat, text, re.IGNORECASE | re.DOTALL)
                 if m:
                     fam_hits.append(fam_name)
-                    lo = max(0, m.start() - 20)
-                    hi = min(len(text), m.end() + 40)
-                    evidence.append(text[lo:hi].replace("\n", " ").strip()[:160])
+                    # Sentence-anchored, like every other public quotation. A
+                    # fixed offset window produced exemplar passages beginning
+                    # mid-word ("«rs, maintaining the connection between…»"),
+                    # which is exactly the evidence a reader is asked to adapt.
+                    evidence.append(_quote_at(text, m.start(), m.end(), max_len=160))
                     offsets.append(m.start())
                     break
 
@@ -5520,6 +5522,15 @@ def export_assessment_data(assessments, report_date=REPORT_DATE):
             # Integrity qualifiers: a consumer must be able to see that a
             # document's signals came from a term list, or that it revokes a
             # protection it states, without re-deriving either.
+            # Whether the engine's English-language patterns could read the
+            # text at all. A consumer must be able to discard a near-zero score
+            # that reflects the instrument rather than the document.
+            "language_coverage": {
+                "readable_by_engine":       r.get("english_language_readable", True),
+                "english_function_word_ratio": r.get("english_function_word_ratio"),
+                "note":                     r.get("language_coverage_note", ""),
+            },
+            "assessed_character_count": r.get("assessed_character_count", 0),
             "vocabulary_enumeration": {
                 "risk":     r.get("vocabulary_enumeration_risk", "LOW"),
                 "ratio":    r.get("vocabulary_enumeration_ratio", 0.0),
@@ -5554,6 +5565,14 @@ def export_assessment_data(assessments, report_date=REPORT_DATE):
 
     return {
         "schema":        "laif.assessment.v1",
+        "schema_revision": 3,
+        "schema_revision_note": (
+            "Revisions are additive only: fields are added, never removed or "
+            "redefined. r2 added functional_alignment locations, obligation "
+            "anchors, and score calibration; r3 added language_coverage, "
+            "vocabulary_enumeration, self_contradictions, and "
+            "assessed_character_count. A removal or a change of meaning would "
+            "take a new schema id."),
         "report_date":   report_date,
         "framework":     "LAIF v1.2 · Compliance Toolkit v1.1",
         "generator":     "test_real_world.py / assessment_engine.py",
@@ -5974,7 +5993,15 @@ def generate_markdown_report(assessments, report_date=REPORT_DATE):
         p(f"- **Conceptual proximity:** {r.get('conceptual_proximity_score', 0)}/100")
         p(f"- **Sector risk alignment:** {r.get('sector_risk_alignment', 0)}/100")
         p(f"- **Remediation effort:** {r.get('remediation_effort', 'unknown')}")
-        p(f"- **Primary structural gaps:** {_compact_list(r.get('primary_failure_modes', []), empty='none identified')}")
+        _structural_modes = [m for m in r.get("primary_failure_modes", [])
+                             if "certification channel" not in str(m).lower()
+                             and not str(m).startswith("terminological")]
+        _channel_modes = len(r.get("primary_failure_modes", [])) - len(_structural_modes)
+        p(f"- **Primary structural gaps:** "
+          f"{_compact_list(_structural_modes, empty='none identified')}"
+          + (f" (plus {_channel_modes} certification-channel note"
+             f"{'s' if _channel_modes != 1 else ''}, not a governance gap)"
+             if _channel_modes else ""))
         if r.get("strengths"):
             p(f"- **Structural strengths:** {_compact_list(r.get('strengths', []))}")
         p(f"- **Governance signal strength:** {r.get('governance_signal_strength', r.get('overall_readiness_score', 0))}")

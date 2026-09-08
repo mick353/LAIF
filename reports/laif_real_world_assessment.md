@@ -122,11 +122,11 @@ Evidence/auditability fixes (10); Reversibility/escalation fixes (10); LAIF-nati
 ## Peer Exemplars — What Good Looks Like in This Corpus
 For each core structure, the strongest expression found anywhere in this corpus, quoted with its location — a working example a document owner can adapt. Verdict order: DECLARED > FUNCTIONAL > PARTIAL. Structures no document expresses are named honestly.
 
-| Structure       | Best example in corpus                       | Strength | Text status                                                   | Where                                | Verbatim passage                                                                                                                   |
-| --------------- | -------------------------------------------- | -------- | ------------------------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Coupling        | US Executive Order 14110 — §4 Safety & §7 Wo | PARTIAL  | illustrative excerpt — verify against the official instrument | Section 7 — Supporting Workers       | «rs, maintaining the connection between obligations imposed on workers and the protections those obligations are intended to serve |
-| Integrity Layer | OECD Recommendation on AI (OECD/LEGAL/0449)  | PARTIAL  | verbatim official text                                        | 1.3. Transparency and explainability | «they should provide meaningful information, appropriate to the context, and consis»                                               |
-| Reversibility   | OECD Recommendation on AI (OECD/LEGAL/0449)  | PARTIAL  | verbatim official text                                        | 1.4. Robustness, security and safety | «red behaviour, they can be overridden, repaired, and/or decommissioned safely»                                                    |
+| Structure       | Best example in corpus                       | Strength | Text status                                                   | Where                                | Verbatim passage                                                                                                                  |
+| --------------- | -------------------------------------------- | -------- | ------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| Coupling        | US Executive Order 14110 — §4 Safety & §7 Wo | PARTIAL  | illustrative excerpt — verify against the official instrument | Section 7 — Supporting Workers       | «protections for workers, maintaining the connection between obligations imposed on workers and the protections those obligations |
+| Integrity Layer | OECD Recommendation on AI (OECD/LEGAL/0449)  | PARTIAL  | verbatim official text                                        | 1.3. Transparency and explainability | «To this end, they should provide meaningful information, appropriate to the context, and consistent with the state of art:»      |
+| Reversibility   | OECD Recommendation on AI (OECD/LEGAL/0449)  | PARTIAL  | verbatim official text                                        | 1.4. Robustness, security and safety | «undue harm or exhibit undesired behaviour, they can be overridden, repaired, and/or decommissioned safely as needed.»            |
 **Expressed by no document in this corpus:** Consistency, Self-Application — there is no peer example to adapt; an owner adding this would be setting the benchmark.
 
 
@@ -230,7 +230,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 57/100
 - **Sector risk alignment:** 20/100
 - **Remediation effort:** MEDIUM
-- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
+- **Primary structural gaps:** structural — no precedence rule between the document's own provisions (plus 1 certification-channel note, not a governance gap)
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +17 more
 - **Governance signal strength:** 60
 - **Structural dimension score:** 49/100
@@ -565,7 +565,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 84/100
 - **Sector risk alignment:** 40/100
 - **Remediation effort:** HIGH
-- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency); enforceability — insufficient mandatory operational requirements
+- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; enforceability — insufficient mandatory operational requirements (plus 1 certification-channel note, not a governance gap)
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
 - **Governance signal strength:** 39
 - **Structural dimension score:** 26/100
@@ -893,7 +893,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 47/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
-- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
+- **Primary structural gaps:** structural — no precedence rule between the document's own provisions (plus 1 certification-channel note, not a governance gap)
 - **Structural strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +16 more
 - **Governance signal strength:** 48
 - **Structural dimension score:** 41/100
@@ -1223,7 +1223,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 24/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
-- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency); conceptual — governance concepts insufficiently expressed
+- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; conceptual — governance concepts insufficiently expressed (plus 1 certification-channel note, not a governance gap)
 - **Structural strengths:** Expresses: safety; Expresses: contestability / redress; Expresses: risk governance; +10 more
 - **Governance signal strength:** 38
 - **Structural dimension score:** 20/100
@@ -1568,7 +1568,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 57/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** HIGH
-- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
+- **Primary structural gaps:** structural — no precedence rule between the document's own provisions (plus 1 certification-channel note, not a governance gap)
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +15 more
 - **Governance signal strength:** 50
 - **Structural dimension score:** 41/100
@@ -1904,7 +1904,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 39/100
 - **Sector risk alignment:** 40/100
 - **Remediation effort:** VERY HIGH
-- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency); conceptual — governance concepts insufficiently expressed
+- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; conceptual — governance concepts insufficiently expressed (plus 1 certification-channel note, not a governance gap)
 - **Structural strengths:** Expresses: transparency; Expresses: accountability; Expresses: human oversight; +11 more
 - **Governance signal strength:** 34
 - **Structural dimension score:** 26/100
@@ -2232,7 +2232,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 76/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** VERY HIGH
-- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency); auditability — obligations not checkable or traceable; +1 more
+- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; auditability — obligations not checkable or traceable; enforceability — insufficient mandatory operational requirements (plus 1 certification-channel note, not a governance gap)
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +9 more
 - **Governance signal strength:** 22
 - **Structural dimension score:** 12/100
@@ -2556,7 +2556,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 66/100
 - **Sector risk alignment:** 100/100
 - **Remediation effort:** HIGH
-- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
+- **Primary structural gaps:** structural — no precedence rule between the document's own provisions (plus 1 certification-channel note, not a governance gap)
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: accountability; +17 more
 - **Governance signal strength:** 54
 - **Structural dimension score:** 35/100
@@ -2891,7 +2891,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 49/100
 - **Sector risk alignment:** 80/100
 - **Remediation effort:** HIGH
-- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
+- **Primary structural gaps:** structural — no precedence rule between the document's own provisions (plus 1 certification-channel note, not a governance gap)
 - **Structural strengths:** Expresses: human rights / fundamental interests; Expresses: transparency; Expresses: explainability / interpretability; +13 more
 - **Governance signal strength:** 48
 - **Structural dimension score:** 41/100
@@ -3225,7 +3225,7 @@ This source does not pass the formal LAIF-native certification gate under LAIF c
 - **Conceptual proximity:** 49/100
 - **Sector risk alignment:** 60/100
 - **Remediation effort:** HIGH
-- **Primary structural gaps:** structural — no precedence rule between the document's own provisions; certification channel — LAIF-native vocabulary not used (expected for an external instrument; not a governance deficiency)
+- **Primary structural gaps:** structural — no precedence rule between the document's own provisions (plus 1 certification-channel note, not a governance gap)
 - **Structural strengths:** Expresses: transparency; Expresses: explainability / interpretability; Expresses: accountability; +14 more
 - **Governance signal strength:** 49
 - **Structural dimension score:** 28/100

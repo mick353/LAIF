@@ -664,3 +664,29 @@ Nothing else is emitted, because nothing else would mean anything.
 That the system had been silently making confident findings about documents it
 could not read, for as long as it has existed, is the clearest argument for
 continuing to feed it inputs it was not designed around.
+
+---
+
+## 18. Thirteenth pass — the passages a reader is asked to copy
+
+The Peer Exemplars table is the most directly useful thing the report produces:
+for each core structure, the strongest expression found anywhere in the corpus,
+quoted with its location, as a working example a document owner can adapt. Its
+quotes were being cut from a fixed offset window, so the Coupling exemplar read
+«rs, maintaining the connection between obligations imposed on workers…». Every
+other public quotation had been moved onto sentence anchoring in an earlier
+pass; functional-alignment evidence had not, and it is precisely the evidence
+the reader is invited to copy. Tests now check that the first token of every
+evidence passage is a whole word in the source, and that the passage is a
+verbatim substring of it.
+
+Two smaller corrections: the executive diagnostic summary still listed the
+certification-channel note under "Primary structural gaps", and the JSON export
+gained four fields across these reviews without a way for a consumer to tell
+which revision it is reading. The export now carries a `schema_revision` with
+the rule that revisions are additive only.
+
+Idempotency and robustness were checked at the same time: processing the same
+document twice into the same directory produces byte-identical output apart from
+the append-only processing index, and binary and empty inputs fail with specific
+errors rather than partial results.

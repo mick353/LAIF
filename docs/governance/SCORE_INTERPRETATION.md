@@ -550,3 +550,26 @@ two-minute wall clock. The patterns are compiled once at import and the pure
 normalisation is memoised; quote-bank construction is about ten times faster
 (5.4s to 0.5s at 112,000 characters) with identical output. A 2.2 MB document
 now completes end to end in about 40 seconds.
+
+## Export Schema Revisions
+
+`laif.assessment.v1` carries a `schema_revision` integer. Revisions are additive
+only — fields are added, never removed or redefined — so a consumer pinned to the
+schema id keeps working across them, and one that needs a newer field can test
+the revision. A removal or a change of meaning would take a new schema id.
+
+- r2 added functional-alignment locations, obligation anchors, and score
+  calibration.
+- r3 added `language_coverage`, `vocabulary_enumeration`, `self_contradictions`,
+  and `assessed_character_count` — the four fields a consumer needs to decide
+  whether a score is safe to use.
+
+## Quotation Quality
+
+Every passage the report shows is sentence-anchored through `_quote_at()`, and
+that includes functional-alignment evidence, which feeds the Peer Exemplars
+table. Exemplars are the passages a document owner is explicitly invited to
+adapt, and they were being cut from a fixed offset window: "«rs, maintaining the
+connection between obligations imposed on workers…»". Tests check that the first
+token of every evidence passage is a whole word as it appears in the source, and
+that the passage is a verbatim substring of it.

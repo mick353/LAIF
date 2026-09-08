@@ -2437,6 +2437,50 @@ class LanguageCoverageTests(unittest.TestCase):
         self.assertTrue(result["english_language_readable"])
 
 
+class QuoteQualityTests(unittest.TestCase):
+    """Every passage a reader is asked to read or adapt must be readable."""
+
+    def _evidence(self, text):
+        result = assess("x", "policy", text, assessment_mode="external_framework",
+                        sector="auto")
+        out = []
+        for construct, verdict in result["functional_alignment"].items():
+            out.extend((construct, e) for e in verdict.get("evidence", []))
+        return out
+
+    def test_functional_evidence_does_not_start_or_end_mid_word(self) -> None:
+        """A peer exemplar beginning "«rs, maintaining the connection…»" is the
+        evidence a document owner is invited to copy."""
+        import official_documents, sample_documents
+        corpus = [(e.get("name", k), e.get("text") or e.get("excerpt"))
+                  for coll in (official_documents.OFFICIAL_DOCUMENTS,
+                               sample_documents.DOCUMENTS)
+                  for k, e in coll.items()]
+        corpus += [("bank standard", INSTITUTIONAL_STANDARD),
+                   ("academic policy", ACADEMIC_POLICY)]
+        for name, text in corpus:
+            for construct, evidence in self._evidence(text):
+                if not evidence:
+                    continue
+                with self.subTest(document=name, construct=construct):
+                    head = evidence.split(maxsplit=1)[0]
+                    # The passage may legitimately start mid-sentence, but its
+                    # first token must be a whole word as it appears in the source.
+                    self.assertIn(head, text,
+                                  f"first token {head!r} is not a word in the source")
+
+    def test_evidence_is_a_verbatim_substring_of_the_source(self) -> None:
+        for name, text in (("bank standard", INSTITUTIONAL_STANDARD),
+                           ("academic policy", ACADEMIC_POLICY)):
+            normalised = " ".join(text.split())
+            for construct, evidence in self._evidence(text):
+                if not evidence:
+                    continue
+                with self.subTest(document=name, construct=construct):
+                    body = evidence.strip("…").strip()
+                    self.assertIn(" ".join(body.split()), normalised)
+
+
 class NonGovernanceTextTests(unittest.TestCase):
     """Broadened detection must not turn ordinary prose into a governance finding."""
 

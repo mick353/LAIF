@@ -5,6 +5,7 @@
   "document_count": 10,
   "documents": [
     {
+      "assessed_character_count": 14701,
       "assessed_text_sha256": "27b205ec652e0a289203f916a034e528275c79d5da307dc8782580dbe096b8a1",
       "assessment_mode": "external_framework",
       "calibration": {
@@ -60,6 +61,11 @@
         }
       },
       "jurisdiction": "United States (Federal)",
+      "language_coverage": {
+        "english_function_word_ratio": 0.303,
+        "note": "Text is readable by the engine's English-language detection patterns.",
+        "readable_by_engine": true
+      },
       "obligation_anchors": [
         {
           "location": "Section 2. Policy and Principles",
@@ -251,6 +257,7 @@
       }
     },
     {
+      "assessed_character_count": 8982,
       "assessed_text_sha256": "2767d797d5102afeb14b68f014676b5ffe843cc08109edccd196202001f4d9d4",
       "assessment_mode": "external_framework",
       "calibration": {
@@ -321,6 +328,11 @@
         }
       },
       "jurisdiction": "International (OECD member states)",
+      "language_coverage": {
+        "english_function_word_ratio": 0.302,
+        "note": "Text is readable by the engine's English-language detection patterns.",
+        "readable_by_engine": true
+      },
       "obligation_anchors": [],
       "primary_structural_gaps": [
         "structural — no precedence rule between the document's own provisions",
@@ -485,6 +497,7 @@
       }
     },
     {
+      "assessed_character_count": 15607,
       "assessed_text_sha256": "623c77daab39fccc67e56f38035c516d5edbf7fb45134f53e4cd576c9c0963b3",
       "assessment_mode": "external_framework",
       "calibration": {
@@ -540,6 +553,11 @@
         }
       },
       "jurisdiction": "United States",
+      "language_coverage": {
+        "english_function_word_ratio": 0.293,
+        "note": "Text is readable by the engine's English-language detection patterns.",
+        "readable_by_engine": true
+      },
       "obligation_anchors": [],
       "primary_structural_gaps": [
         "structural — no precedence rule between the document's own provisions",
@@ -703,6 +721,7 @@
       }
     },
     {
+      "assessed_character_count": 14950,
       "assessed_text_sha256": "7e3021badf4587dcc44d4e31ccbc53392b38f829051df3a0ca12c6accb2fd943",
       "assessment_mode": "external_framework",
       "calibration": {
@@ -760,6 +779,11 @@
         }
       },
       "jurisdiction": "United Kingdom",
+      "language_coverage": {
+        "english_function_word_ratio": 0.333,
+        "note": "Text is readable by the engine's English-language detection patterns.",
+        "readable_by_engine": true
+      },
       "obligation_anchors": [
         {
           "location": "Introduction",
@@ -913,6 +937,7 @@
       }
     },
     {
+      "assessed_character_count": 3146,
       "assessed_text_sha256": "b445198d70b6d16ae6209e5add86c44b25ffba13d97f1bddb650b2bc1ec24d2c",
       "assessment_mode": "external_framework",
       "calibration": {
@@ -972,6 +997,11 @@
         }
       },
       "jurisdiction": "European Union",
+      "language_coverage": {
+        "english_function_word_ratio": 0.338,
+        "note": "Text is readable by the engine's English-language detection patterns.",
+        "readable_by_engine": true
+      },
       "obligation_anchors": [
         {
           "location": "Article 9 — Risk Management System",
@@ -1153,6 +1183,7 @@
       }
     },
     {
+      "assessed_character_count": 2253,
       "assessed_text_sha256": "3eb8aa2a42a0c912215ce629e574acddf7c7c7defa5ac6907a75b5e08feab955",
       "assessment_mode": "external_framework",
       "calibration": {
@@ -1213,6 +1244,11 @@
         }
       },
       "jurisdiction": "United States",
+      "language_coverage": {
+        "english_function_word_ratio": 0.3,
+        "note": "Text is readable by the engine's English-language detection patterns.",
+        "readable_by_engine": true
+      },
       "obligation_anchors": [],
       "primary_structural_gaps": [
         "structural — no precedence rule between the document's own provisions",
@@ -1357,6 +1393,7 @@
       }
     },
     {
+      "assessed_character_count": 2153,
       "assessed_text_sha256": "2a8b7bd9efe990244d60eab43ba47098c8d9b97a7fe4a0b752a288bbd06dd788",
       "assessment_mode": "external_framework",
       "calibration": {
@@ -1416,6 +1453,11 @@
         }
       },
       "jurisdiction": "International (OECD member states)",
+      "language_coverage": {
+        "english_function_word_ratio": 0.303,
+        "note": "Text is readable by the engine's English-language detection patterns.",
+        "readable_by_engine": true
+      },
       "obligation_anchors": [],
       "primary_structural_gaps": [
         "structural — no precedence rule between the document's own provisions",
@@ -1550,6 +1592,7 @@
       }
     },
     {
+      "assessed_character_count": 1747,
       "assessed_text_sha256": "f56aa89da1a32bcbbe86c334859601757f60b8fd243b8b4741e6d6790c6a9f95",
       "assessment_mode": "external_framework",
       "calibration": {
@@ -1613,6 +1656,11 @@
         }
       },
       "jurisdiction": "United States (Federal)",
+      "language_coverage": {
+        "english_function_word_ratio": 0.295,
+        "note": "Text is readable by the engine's English-language detection patterns.",
+        "readable_by_engine": true
+      },
       "obligation_anchors": [
         {
           "location": "Section 4.1 — Ensuring the Safety and Security of AI",
@@ -1799,6 +1847,7 @@
       }
     },
     {
+      "assessed_character_count": 3156,
       "assessed_text_sha256": "656efe7e8ee449203a273ecbb924c73a24c2b631bd25942baf2f62c0407342df",
       "assessment_mode": "external_framework",
       "calibration": {
@@ -1863,6 +1912,11 @@
         }
       },
       "jurisdiction": "United Kingdom",
+      "language_coverage": {
+        "english_function_word_ratio": 0.244,
+        "note": "Text is readable by the engine's English-language detection patterns.",
+        "readable_by_engine": true
+      },
       "obligation_anchors": [
         {
           "location": "2. Clinical Validation Requirements",
@@ -2039,6 +2093,7 @@
       }
     },
     {
+      "assessed_character_count": 3620,
       "assessed_text_sha256": "966e46853cb2cd29eb19777d4a2d0d733c83e2b0b3da07f6a7e76f5f48bd760a",
       "assessment_mode": "external_framework",
       "calibration": {
@@ -2101,6 +2156,11 @@
         }
       },
       "jurisdiction": "United Kingdom",
+      "language_coverage": {
+        "english_function_word_ratio": 0.281,
+        "note": "Text is readable by the engine's English-language detection patterns.",
+        "readable_by_engine": true
+      },
       "obligation_anchors": [
         {
           "location": "Section 2 — Employer Obligations",
@@ -2280,5 +2340,7 @@
   "framework": "LAIF v1.2 · Compliance Toolkit v1.1",
   "generator": "test_real_world.py / assessment_engine.py",
   "report_date": "September 2026",
-  "schema": "laif.assessment.v1"
+  "schema": "laif.assessment.v1",
+  "schema_revision": 3,
+  "schema_revision_note": "Revisions are additive only: fields are added, never removed or redefined. r2 added functional_alignment locations, obligation anchors, and score calibration; r3 added language_coverage, vocabulary_enumeration, self_contradictions, and assessed_character_count. A removal or a change of meaning would take a new schema id."
 }
