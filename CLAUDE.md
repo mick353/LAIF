@@ -201,7 +201,7 @@ constructs (`datetime.UTC`, `tomllib`, `typing.Self`, `except*`).
 All of these must exit 0 before any commit:
 
 ```bash
-python3 validate.py                 # validation harness over the .txt corpus (rule failures = exit 1)
+python3 validate.py                 # validation harness over the .txt corpus, incl. .docx/.txt parity (rule failures = exit 1)
 python3 test_adversarial.py         # adversarial tests on guards and structural-depth checks
 python3 test_provenance.py          # provenance checks enforcing corpus citability claims
 python3 test_semantic_fidelity.py   # semantic-fidelity invariants: substance never outranked by vocabulary
@@ -315,7 +315,7 @@ and no longer discriminating.
 ### Editing Documents
 
 - `.docx` files are Microsoft Word format. Edit with Word, LibreOffice, or programmatically with `python-docx`.
-- Each governance document also has a `.txt` export; `validate.py` runs against the `.txt` corpus, so keep both formats in sync when editing.
+- Each governance document also has a `.txt` export; `validate.py` runs against the `.txt` corpus, so keep both formats in sync when editing. This is enforced: `python3 validate.py --check-corpus-formats` (also part of the baseline run and of CI) fails if the published `.docx` and the validated `.txt` disagree on any canonical term count, provision identifier count, or on body text beyond formatting.
 - `LAIF-Law-Aligned_Intelligence_Framework.txt` is the navigation index; `README.md` is the public-facing project description.
 - `docs/supporting/` holds verbatim ingested source texts (strict, no transformation). Editing these files breaks pinned hashes in `official_documents.py` by design — any change there must be re-verified against the authoritative source and re-pinned.
 

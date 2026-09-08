@@ -71,6 +71,11 @@ jobs:
       - name: Run evidence trace validation
         run: python3 validate.py --check-evidence-traces
 
+      # The .docx files are what a reader downloads; the .txt files are what the
+      # harness validates. Nothing checked that they say the same thing.
+      - name: Check published .docx matches validated .txt
+        run: python3 validate.py --check-corpus-formats
+
   adversarial:
     name: Adversarial tests
     needs: governance

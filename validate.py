@@ -18,8 +18,11 @@ Usage:
     python3 validate.py --check-evidence-traces   # evidence trace citation verification
 """
 
+import difflib
 import re
 import sys
+import xml.etree.ElementTree as ET
+import zipfile
 from pathlib import Path
 
 # Canonical LAIF terms and spec constants — imported for reference.
@@ -428,6 +431,112 @@ def load_corpus():
 
 
 # ── CHECK 2 — Header format ───────────────────────────────────────────────────
+
+# ── Published-format correspondence ──────────────────────────────────────────
+# The corpus ships in two formats: the .docx a reader downloads and the .txt
+# this harness validates. Nothing checked that they agree, so an edit made to
+# one format only would leave the published document saying something the
+# validated document does not — and the harness would pass.
+#
+# Extraction uses the standard library only (a .docx is a zip of XML), matching
+# the project's no-dependency constraint.
+
+CORPUS_FORMAT_PAIRS = {
+    "LAIF v1.2":             ("LAIF_v1.2.docx", "LAIF_v1.2.txt"),
+    "Executive Brief":       ("LAIF_Executive_Brief.docx", "LAIF_Executive_Brief.txt"),
+    "Public Article":        ("LAIF_Public_Article.docx", "LAIF_Public_Article.txt"),
+    "PDCA (GPT-4 Clinical)": ("LAIF_PDCA_GPT4_Clinical.docx", "LAIF_PDCA_GPT4_Clinical.txt"),
+    "Case Analysis":         ("LAIF_Case_Analysis.docx", "LAIF_Case_Analysis.txt"),
+    "Compliance Toolkit":    ("LAIF_Compliance_Toolkit.docx", "LAIF_Compliance_Toolkit.txt"),
+    "Policy Paper":          ("LAIF_Policy_Paper.docx", "LAIF_Policy_Paper.txt"),
+    "Regulatory Guide":      ("LAIF REGULATORY INTEGRATION GUIDE.docx",
+                              "LAIF_Regulatory_Integration_Guide.txt"),
+}
+
+# Load-bearing vocabulary. A change to a provision in one format shifts these
+# counts; ordinary formatting differences do not touch them. Measured across all
+# eight pairs, the counts agree exactly, so any mismatch is a real divergence.
+_FORMAT_PARITY_TERMS = (
+    "Coupling", "Coherence Test", "Integrity Layer", "Structural Transparency",
+    "Structural Honesty", "Structural Containment", "Materially Affects Interests",
+    "Reversibility", "PDCA",
+)
+_PROVISION_ID = r"\b(?:Provision\s+)?[A-D]\d\b"
+
+# Whole-text similarity floor. Table cells and list markers split differently
+# between the formats, so exact equality is not achievable; the measured range
+# is 0.995-1.000, and anything below this floor is a block of text present in
+# one format and not the other.
+_FORMAT_SIMILARITY_FLOOR = 0.98
+
+
+def _docx_text(path):
+    """Paragraph text from a .docx, using the standard library only."""
+    ns = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+    with zipfile.ZipFile(path) as archive:
+        root = ET.fromstring(archive.read("word/document.xml"))
+    return "\n".join(
+        "".join(node.text or "" for node in para.iter(ns + "t"))
+        for para in root.iter(ns + "p")
+    )
+
+
+def _normalise_for_comparison(text):
+    for a, b in (("\u2019", "'"), ("\u2018", "'"), ("\u201c", '"'), ("\u201d", '"'),
+                 ("\u2014", "-"), ("\u2013", "-"), ("\u00a0", " ")):
+        text = text.replace(a, b)
+    return re.sub(r"\s+", " ", text).strip().lower()
+
+
+def check_corpus_format_parity():
+    """The published .docx and the validated .txt must say the same thing."""
+    section("CHECK 9 — Published-format correspondence (.docx vs validated .txt)")
+    for label, (docx_name, txt_name) in sorted(CORPUS_FORMAT_PAIRS.items()):
+        docx_path, txt_path = REPO / docx_name, REPO / txt_name
+        if not docx_path.is_file() or not txt_path.is_file():
+            warn(f"{label} — format pair incomplete "
+                 f"({'missing .docx' if not docx_path.is_file() else 'missing .txt'})")
+            continue
+        try:
+            docx_raw = _docx_text(docx_path)
+        except Exception as exc:                      # pragma: no cover - corrupt file
+            fail(f"{label} — .docx could not be read: {exc}")
+            continue
+        txt_raw = txt_path.read_text(encoding="utf-8", errors="replace")
+
+        mismatches = []
+        for term in _FORMAT_PARITY_TERMS:
+            pattern = rf"\b{re.escape(term)}\b"
+            in_docx = len(re.findall(pattern, docx_raw))
+            in_txt = len(re.findall(pattern, txt_raw))
+            if in_docx != in_txt:
+                mismatches.append(f"{term} ({in_docx} in .docx, {in_txt} in .txt)")
+        provisions_docx = len(re.findall(_PROVISION_ID, docx_raw))
+        provisions_txt = len(re.findall(_PROVISION_ID, txt_raw))
+        if provisions_docx != provisions_txt:
+            mismatches.append(
+                f"provision identifiers ({provisions_docx} in .docx, "
+                f"{provisions_txt} in .txt)")
+
+        if mismatches:
+            fail(f"{label} — published and validated formats disagree on "
+                 f"load-bearing vocabulary: {'; '.join(mismatches)}. Edit both "
+                 f"formats, or re-export the .txt from the .docx.")
+            continue
+
+        ratio = difflib.SequenceMatcher(
+            None,
+            _normalise_for_comparison(docx_raw),
+            _normalise_for_comparison(txt_raw),
+        ).quick_ratio()
+        if ratio < _FORMAT_SIMILARITY_FLOOR:
+            fail(f"{label} — formats diverge in body text (similarity {ratio:.3f}, "
+                 f"floor {_FORMAT_SIMILARITY_FLOOR}); a passage is present in one "
+                 f"format and not the other.")
+        else:
+            ok(f"{label} — formats correspond (similarity {ratio:.3f}, "
+               f"vocabulary and provision counts identical)")
+
 
 def check_headers(docs):
     section("CHECK 2 — Document Header Format  (CLAUDE.md §Version Numbering)")
@@ -996,6 +1105,11 @@ def main():
         run_check_evidence_traces()
         return  # run_check_evidence_traces calls sys.exit internally
 
+    if "--check-corpus-formats" in sys.argv:
+        check_corpus_format_parity()
+        _print_summary()
+        sys.exit(1 if infra_results["fail"] > 0 else 0)
+
     print("╔════════════════════════════════════════════════════════════════╗")
     print("║  LAIF Validation Harness  ·  Law-Aligned Intelligence          ║")
     print("║  Framework v1.2  ·  Compliance Toolkit v1.1  ·  April 2026     ║")
@@ -1028,6 +1142,8 @@ def main():
         check_concept_anchoring(docs["LAIF v1.2"], V12_ANCHORING_CHECKS, "LAIF v1.2")
     else:
         fail("LAIF v1.2 unavailable — check 9 (v1.2 anchoring) skipped")
+
+    check_corpus_format_parity()
 
     _print_summary()
     sys.exit(1 if infra_results["fail"] > 0 else 0)
