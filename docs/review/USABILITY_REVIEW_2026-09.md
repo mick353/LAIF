@@ -1,7 +1,11 @@
 # LAIF System — Independent Usability Review
 
+**Status: closed.** Fifteen review passes, all findings resolved and pinned by
+tests. This document is the running record; §21 summarises it.
+
 **Date:** September 2026
-**Reviewed commit:** `cd85edd` (verified against `origin/main`, clean clone)
+**Reviewed commit:** `cd85edd` at the first pass; subsequent passes are recorded
+against the commits that resolved them (verified against `origin/main`, clean clone)
 **Method:** Live end-to-end use cases with documents not previously seen by the
 system, run through the production entry point (`scripts/laif_process_document.py`).
 No inspection-only findings — every observation below is reproduced from an
@@ -753,3 +757,59 @@ label implies concealment, and a charter conceals nothing; it says on its face
 what it is. Gaming detection now excepts the `values_charter` type, and the
 declaratory finding, which describes the same fact without the implication,
 stands alone.
+
+---
+
+## 21. Summary — what fifteen passes found
+
+The engine's *judgements* were rarely wrong. Almost every defect was in the
+distance between what the system measured and what it said — and the largest
+class, by a wide margin, was the system doing to other documents what it exists
+to stop others doing: reading vocabulary as substance.
+
+**Register bias (passes 2, 3, 7, 10).** Detection was keyed to the drafting
+register of the corpus LAIF was built against. `shall` counted and `must` did
+not; `provider` counted and `Chief Risk Officer` did not; `lifecycle` counted and
+`change control` did not; `proportionate to risk` counted and `a drift breach
+above 5%` did not. A bank standard that pairs every restriction with a named
+interest scored 35 with four constructs marked ABSENT, and was told it lacked
+owners, thresholds, and lifecycle scope — all of which it stated. Obligations
+written as table rows registered as no obligations at all.
+
+**The system contradicting itself (passes 9, 11, 15).** The appendix showed
+`Coupling: false` beside a report finding the document's obligations bound to the
+interests they protect. The remediation list said the substance was present and
+then said no restriction was bound to any interest "in any vocabulary". The
+institutional report said "no unclosed expectation" on a document whose one real
+gap the full report raised. Each was two layers keyed to different axes.
+
+**Findings that asked for nothing (passes 4, 10, 12).** A certification-channel
+item rendered through the generic template told readers to build a control for
+not having used LAIF's words. A gap register asserted gaps rather than detecting
+them. A portfolio matrix printed four constant columns for every document ever
+batched.
+
+**Confident findings about documents it could not read (pass 12).** A French
+policy scored 2/100 and was told it "does not express the load-bearing
+governance structures in any vocabulary". The system had been doing this for as
+long as it had existed.
+
+**The delivery path (pass 14).** CI ran five of eight suites — omitting roughly
+240 tests, including every test added across these reviews — and the runners
+called a Python 3.11 API against a 3.10 runner. One gap concealed the other.
+Nothing checked that the committed reports matched regenerated output, though
+the repository's own rules required both.
+
+**What holds it now.** Every rubric and construct signal is keyed to the function
+the language performs, bounded by guards that are each pinned by tests: a word
+list is not a document; analysing a failure is not committing it; a gap is what a
+document omits and a contradiction is what it revokes; instrument form is not
+subject matter; and the method states where it stops discriminating. The
+adversary built to exploit the breadth — governance vocabulary with no duties
+anywhere — is caught, quoted back, and blocked from the aligned verdict.
+
+Twelve document classes now produce distinct, defensible results, from a bank
+standard at 69 and FUNCTIONALLY ALIGNED to a sales report at 8, with a
+self-contradicting standard led by its contradictions, a supplier attestation
+framed as a claim needing verification, and a French policy told the truth about
+why its score is meaningless.
