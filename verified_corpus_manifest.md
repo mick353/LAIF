@@ -42,7 +42,7 @@ This manifest provides a human-readable index of all documents in the LAIF verif
 | citation_status | PRIMARY_CITABLE |
 | provenance_classification | AUTHORITATIVE_PRIMARY_SOURCE |
 | assessment_status | ASSESSED |
-| assessment_reference | `reports/laif_full_assessment.md` — Assessment 1 |
+| assessment_reference | `reports/laif_full_assessment.md` — Assessment 1 (narrative analysis, 5 May 2026, Refined Model v1.1 — historical; see `reports/README.md`) |
 
 **Provenance notes:** Ingested from user-supplied document in Strict Source Mode. No training-derived content used. URL verification against authoritative source not performed (no network access during ingestion). SHA256 is of the extracted markdown file at `docs/verified/raw/51a29205-OECD_Legal_Instruments.md`.
 
@@ -67,7 +67,7 @@ This manifest provides a human-readable index of all documents in the LAIF verif
 | citation_status | PRIMARY_CITABLE |
 | provenance_classification | AUTHORITATIVE_GOVERNMENT_PUBLICATION |
 | assessment_status | ASSESSED |
-| assessment_reference | `reports/laif_full_assessment.md` — Assessment 2 |
+| assessment_reference | `reports/laif_full_assessment.md` — Assessment 2 (narrative analysis, 5 May 2026, Refined Model v1.1 — historical; see `reports/README.md`) |
 
 **Provenance notes:** Revoked by Presidential action on 20 January 2025. Assessment reflects the instrument as in force at publication date (30 October 2023). SHA256 is of the extracted markdown. URL verification not performed during ingestion session.
 
@@ -92,7 +92,7 @@ This manifest provides a human-readable index of all documents in the LAIF verif
 | citation_status | PRIMARY_CITABLE |
 | provenance_classification | AUTHORITATIVE_GOVERNMENT_PUBLICATION |
 | assessment_status | ASSESSED |
-| assessment_reference | `reports/laif_full_assessment.md` — Assessment 3 |
+| assessment_reference | `reports/laif_full_assessment.md` — Assessment 3 (narrative analysis, 5 May 2026, Refined Model v1.1 — historical; see `reports/README.md`) |
 
 **Provenance notes:** Original PDF was unextractable (no PDF tooling available in ingestion session). User supplied a DOCX replacement. Extracted using python-docx with namespace-aware heading detection (`w:pStyle`). Content is verbatim from the DOCX; DOCX accuracy against the authoritative PDF was not independently verified. SHA256 is of the extracted markdown.
 
@@ -117,7 +117,7 @@ This manifest provides a human-readable index of all documents in the LAIF verif
 | citation_status | PRIMARY_CITABLE |
 | provenance_classification | REGULATORY_PUBLICATION |
 | assessment_status | ASSESSED |
-| assessment_reference | `reports/laif_full_assessment.md` — Assessment 4 |
+| assessment_reference | `reports/laif_full_assessment.md` — Assessment 4 (narrative analysis, 5 May 2026, Refined Model v1.1 — historical; see `reports/README.md`) |
 
 **Provenance notes:** NHS England procurement standard operative within the NHS England digital procurement process. Ingested from user-supplied document in Strict Source Mode. URL verification not performed. SHA256 is of the extracted markdown.
 

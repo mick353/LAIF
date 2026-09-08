@@ -343,7 +343,7 @@ The standard workflow for producing a LAIF assessment:
 
 1. **Source ingestion** — extract full text from supplied documents into `docs/supporting/` using Strict Source Mode (no training-derived content; all factual claims must be traceable to the ingested file).
 2. **Assessment** — apply LAIF v1.2 framework using only ingested source files and `LAIF_v1.2.txt`. Record verbatim quotes for all findings.
-3. **Write artifact** — write the complete assessment to `reports/laif_full_assessment.md` (or a named variant for a new corpus).
+3. **Write artifact** — a machine-generated assessment belongs in the deterministic pipeline (`test_real_world.py`), so CI regenerates and checks it. An authored narrative analysis goes to `reports/` with a row in `reports/README.md` giving its production date and model version. Every file in `reports/` must be one or the other; `tests/test_governance.py` fails otherwise.
 4. **Merge to main** — commit and push. The artifact is not authoritative until on `main`.
 
 ### Merge Discipline
@@ -366,7 +366,8 @@ Interpretation-layer refinements (adding dimensions, splitting classifications) 
 
 | Artifact | Location | Status |
 |----------|----------|--------|
-| Authoritative full corpus assessment | `reports/laif_full_assessment.md` | Canonical once on `main` |
+| Citable corpus assessment | `reports/laif_real_world_assessment.md` (+ executive summary, JSON export) | Generated, deterministic, corpus- and toolchain-fingerprinted, CI-verified against the committed copy |
+| Narrative corpus analysis | `reports/laif_full_assessment.md` | Historical — authored 5 May 2026 under Refined Model v1.1; not regenerated, not fingerprinted. Cite as reasoning at that date, not as current output. See `reports/README.md` |
 | Ingested source documents | `docs/supporting/` | Primary evidence; do not modify after ingestion |
 | Framework corpus (assessment engine inputs) | `sample_documents.py` + `corpus_manifest.md` | See provenance classifications before citing |
 

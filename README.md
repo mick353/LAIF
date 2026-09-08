@@ -234,9 +234,15 @@ LAIF applies to regulatory bodies and governance actors themselves — not only 
 
 **Assessment artifacts** (`reports/`):
 
-| File | Description |
-|------|-------------|
-| `laif_full_assessment.md` | **Authoritative** — full corpus assessment, refined model v1.1, all four instruments |
+| File | Kind | Description |
+|------|------|-------------|
+| `laif_real_world_assessment.md` | generated, CI-verified | Full assessment of the whole corpus — the artifact to cite. Deterministic, corpus-fingerprinted, regenerated and diffed by CI |
+| `laif_executive_summary.md` | generated, CI-verified | One page for executives, boards, and ministers |
+| `laif_assessment_data.json` | generated, CI-verified | Machine-readable export, schema `laif.assessment.v1` r4, with corpus and toolchain fingerprints |
+| `laif_full_assessment.md` | narrative, historical | Authored full-corpus analysis, 5 May 2026, Refined Model v1.1. Not regenerated and not fingerprinted; cite as reasoning recorded at that date, not as current output |
+| `laif_assessment_aus_ai_policy_v2.md` | narrative, historical | Authored analysis of the Australian government AI policy, 11 May 2026 |
+
+See `reports/README.md` for how each kind is produced and what verification stands behind it.
 
 ## Repository Governance
 

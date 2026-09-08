@@ -16,7 +16,8 @@
 |---|---|
 | Framework (LAIF v1.2) | Stable — published April 2026 |
 | Compliance Toolkit (v1.1) | Stable — published April 2026 |
-| Corpus assessment — refined model v1.1 | Complete — `reports/laif_full_assessment.md` on `main` |
+| Corpus assessment — generated, CI-verified | Complete — `reports/laif_real_world_assessment.md`, executive summary, and JSON export on `main`; deterministic and fingerprinted |
+| Corpus assessment — narrative, refined model v1.1 | Historical — `reports/laif_full_assessment.md` (5 May 2026); retained as the manifest's assessment reference, not regenerated. See `reports/README.md` |
 | Verified corpus infrastructure | Complete — `docs/verified/` with manifests, raw files, evidence traces |
 | Validated corpus mode | Complete — `python3 validate.py --verified-corpus` |
 | EU AI Act full-text ingestion | **READY_FOR_MANUAL_AUTHORITATIVE_INGESTION** — automated EUR-Lex retrieval blocked, manual acquisition workflow prepared |
@@ -48,7 +49,9 @@ No finding from a representative corpus assessment may be presented as a finding
 | DTAC v2.0 (NHS England, Feb 2026) | `docs/verified/raw/` | `d727228...` | ASSESSED |
 | EU AI Act (Reg. 2024/1689) | READY_FOR_MANUAL_AUTHORITATIVE_INGESTION | — | PENDING_INGESTION |
 
-**Authoritative assessment artifact:** `reports/laif_full_assessment.md` (on `main`, commit `e3a75f1` or later)
+**Citable assessment artifact:** `reports/laif_real_world_assessment.md` (generated, deterministic, corpus- and toolchain-fingerprinted, CI-verified), with `reports/laif_executive_summary.md` and `reports/laif_assessment_data.json`.
+
+**Narrative analysis retained as the manifest's assessment reference:** `reports/laif_full_assessment.md` (authored 5 May 2026, Refined Model v1.1; on `main`, commit `e3a75f1` or later). Not regenerated and not reflective of the current engine — see `reports/README.md`.
 
 **Provenance verification:** `python3 validate.py --verified-corpus` — all 4 ASSESSED documents produce hash-verified PASS.
 
