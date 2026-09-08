@@ -2341,6 +2341,7 @@
   "generator": "test_real_world.py / assessment_engine.py",
   "report_date": "September 2026",
   "schema": "laif.assessment.v1",
-  "schema_revision": 3,
-  "schema_revision_note": "Revisions are additive only: fields are added, never removed or redefined. r2 added functional_alignment locations, obligation anchors, and score calibration; r3 added language_coverage, vocabulary_enumeration, self_contradictions, and assessed_character_count. A removal or a change of meaning would take a new schema id."
+  "schema_revision": 4,
+  "schema_revision_note": "Revisions are additive only: fields are added, never removed or redefined. r2 added functional_alignment locations, obligation anchors, and score calibration; r3 added language_coverage, vocabulary_enumeration, self_contradictions, and assessed_character_count. A removal or a change of meaning would take a new schema id.",
+  "toolchain_fingerprint": "41b7535513d8a932"
 }

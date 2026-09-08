@@ -13,8 +13,31 @@ All terms in CANONICAL_TERMS are structurally load-bearing (LAIF v1.2 Part One,
 Toolkit §1). Paraphrases lose enforcement meaning because they de-couple the
 governance restriction from the specific human interest it protects.
 
-validate.py and assessment_engine.py may import from this module where
-safe to do so without altering their validated behaviour.
+What is actually single-sourced from here:
+
+  CANONICAL_TERMS     — the forbidden-paraphrase table. validate.py builds its
+                        PARAPHRASE_GUARDS patterns from this dict, and
+                        assessment_engine.py imports those guards from
+                        validate.py, so all three agree by construction.
+                        test_provenance.py checks that they cannot diverge.
+  PROVENANCE_CLASSES  — the corpus evidence tiers, used by test_provenance.py.
+
+What is NOT single-sourced from here, and why:
+
+  Scoring weights     — assessment_engine.TERMINOLOGY_RUBRIC is a weighted
+                        scoring instrument, not a terminology list. It shares
+                        most terms with CANONICAL_TERMS but is a different kind
+                        of object, and merging them would make a change of
+                        vocabulary silently change scores.
+  INTEGRITY_LAYER,    — descriptive structure for readers and downstream tools.
+  COHERENCE_TEST,       No module derives behaviour from them.
+  FRAMEWORK_TIERS,
+  DEPLOYMENT_RISK_TIERS
+
+An audit of this repository found that 8 of the 25 paraphrases declared here
+were never enforced, and that one enforced guard was absent from this table,
+while the docstring claimed the file was the single source of truth for exactly
+that. The table and the enforcement are now derived from one definition.
 """
 
 # ── Canonical terms and their forbidden paraphrases ──────────────────────────
@@ -49,12 +72,23 @@ CANONICAL_TERMS = {
         "rollback capability",
         "modifiability requirement",
     ],
+    # Toolkit §1.2 — the objective test for whether an output engages a person's
+    # legal, financial, health, reputational, or liberty interests. "material
+    # impact" is an informal substitute that drops the objective-test framing.
+    "Materially Affects Interests": [
+        "material impact",
+    ],
     "Coherence Test": [
         "coherence check",
         "alignment test",
         "governance test",
     ],
     "Integrity Layer": [
+        # Enforced since the guard was written; previously declared only in
+        # validate.py, which is how the two tables came apart.
+        "integrity conditions",
+        "integrity requirements",
+        "integrity criteria",
         "precondition layer",
         "baseline conditions",
         "deployment preconditions",

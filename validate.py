@@ -25,7 +25,7 @@ from pathlib import Path
 # Canonical LAIF terms and spec constants — imported for reference.
 # validate.py detection logic is NOT changed by this import.
 try:
-    from laif_spec import CANONICAL_TERMS, INTEGRITY_LAYER, COHERENCE_TEST  # noqa: F401
+    from laif_spec import CANONICAL_TERMS
 except ImportError:
     pass  # laif_spec.py is optional; validate.py remains self-contained
 
@@ -61,10 +61,46 @@ CONTEXT_WINDOW = 200
 #       (e.g. "unlike alignment", "beyond alignment", "rather than alignment")
 #
 # Everything else is flagged as a standalone substitution.
+def _forbidden_pattern(term):
+    """Build a guard's forbidden pattern from the canonical spec.
+
+    The spec declared 25 forbidden paraphrases; only 17 were enforced, because
+    validate.py restated the patterns by hand instead of deriving them. A
+    document could therefore substitute "precondition layer" for "Integrity
+    Layer" and pass a guard whose own specification forbids it. Deriving the
+    pattern here makes the declared standard and the enforced one the same
+    object — the correspondence LAIF's own A.2 Structural Honesty requires.
+
+    Optional trailing "s" is accepted on each paraphrase so that a plural
+    substitution cannot evade the guard.
+    """
+    paraphrases = CANONICAL_TERMS.get(term, [])
+    if not paraphrases:
+        raise KeyError(
+            f"paraphrase guard for {term!r} has no entry in "
+            f"laif_spec.CANONICAL_TERMS; guards may not be defined outside the "
+            f"canonical specification")
+    def _stem(phrase):
+        # A trailing plural "s" becomes optional, so a guard matches both
+        # "integrity condition" and "integrity conditions". A phrase that is not
+        # already plural is matched exactly — this reproduces the hand-written
+        # patterns' behaviour precisely, rather than inventing plurals like
+        # "output transparencys" that no drafter would write. Broadening a guard
+        # is a deliberate change to the standard, not a side effect of deriving
+        # its pattern.
+        body = re.escape(phrase.strip()).replace(r"\ ", r"\s+")
+        return body[:-1] + "s?" if phrase.rstrip().endswith("s") else body
+
+    alternatives = "|".join(
+        _stem(phrase) for phrase in sorted(paraphrases, key=len, reverse=True)
+    )
+    return rf"\b(?:{alternatives})\b"
+
+
 PARAPHRASE_GUARDS = [
     {
         "term":    "Coupling",
-        "forbidden": r"\b(alignment|connection|linkage)\b",
+        "forbidden": _forbidden_pattern("Coupling"),
         "allow_if_nearby":   r"\bCoupling\b",
         "allow_if_contrast": [
             r"unlike\b.{0,60}(alignment|connection|linkage)",
@@ -78,19 +114,19 @@ PARAPHRASE_GUARDS = [
     },
     {
         "term":    "Integrity Layer",
-        "forbidden": r"\b(integrity conditions?|integrity requirements?|integrity criteria)\b",
+        "forbidden": _forbidden_pattern("Integrity Layer"),
         "allow_if_nearby":   r"\bIntegrity Layer\b",
         "allow_if_contrast": [],
     },
     {
         "term":    "Coherence Test",
-        "forbidden": r"\bcoherence check\b",
+        "forbidden": _forbidden_pattern("Coherence Test"),
         "allow_if_nearby":   r"\bCoherence Test\b",
         "allow_if_contrast": [],
     },
     {
         "term":    "Materially Affects Interests",
-        "forbidden": r"\bmaterial impact\b",
+        "forbidden": _forbidden_pattern("Materially Affects Interests"),
         "allow_if_nearby":   r"\bMaterially Affects Interests\b",
         "allow_if_contrast": [],
     },
@@ -100,7 +136,7 @@ PARAPHRASE_GUARDS = [
     # are informal substitutes that lose the structural threshold requirement.
     {
         "term":    "Structural Transparency",
-        "forbidden": r"\b(?:transparency conditions?|output transparency)\b",
+        "forbidden": _forbidden_pattern("Structural Transparency"),
         "allow_if_nearby":   r"\bStructural Transparency\b",
         "allow_if_contrast": [
             r"(?:unlike|beyond|rather\s+than)\b.{0,80}(?:output transparency|transparency conditions?)",
@@ -112,7 +148,7 @@ PARAPHRASE_GUARDS = [
     # correspondence requirement.
     {
         "term":    "Structural Honesty",
-        "forbidden": r"\b(?:honesty conditions?|model honesty|system honesty)\b",
+        "forbidden": _forbidden_pattern("Structural Honesty"),
         "allow_if_nearby":   r"\bStructural Honesty\b",
         "allow_if_contrast": [],
     },
@@ -122,7 +158,7 @@ PARAPHRASE_GUARDS = [
     # substitutes that drop the all-conditions and edge-case coverage requirement.
     {
         "term":    "Structural Containment",
-        "forbidden": r"\b(?:boundary controls?|scope controls?|containment conditions?)\b",
+        "forbidden": _forbidden_pattern("Structural Containment"),
         "allow_if_nearby":   r"\bStructural Containment\b",
         "allow_if_contrast": [],
     },
@@ -132,8 +168,20 @@ PARAPHRASE_GUARDS = [
     # operational terms that omit the future-actor and governance-architecture dimensions.
     {
         "term":    "Reversibility",
-        "forbidden": r"\b(?:rollback\s+(?:requirement|clause|condition|capability)|modifiability\s+(?:requirement|clause))\b",
+        "forbidden": _forbidden_pattern("Reversibility"),
         "allow_if_nearby":   r"\bReversibility\b",
+        "allow_if_contrast": [],
+    },
+    # Source: Compliance Toolkit §2 — the PDCA is the Coherence Test's operational
+    # instrument. "pre-deployment assessment" and "deployment assessment" name a
+    # generic pre-release review and drop the binding to Q1/Q2/Q3; "PDCA
+    # equivalent" asserts an equivalence the Regulatory Integration Guide requires
+    # to be documented, not claimed. Declared in laif_spec since the file was
+    # written; enforced only after the audit found it had no guard.
+    {
+        "term":    "Pre-Deployment Coherence Assessment",
+        "forbidden": _forbidden_pattern("Pre-Deployment Coherence Assessment"),
+        "allow_if_nearby":   r"\bPre.Deployment Coherence Assessment\b|\bPDCA\b",
         "allow_if_contrast": [],
     },
 ]

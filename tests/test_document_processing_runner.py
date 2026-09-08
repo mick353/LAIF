@@ -2494,6 +2494,47 @@ class QuoteQualityTests(unittest.TestCase):
                     self.assertIn(" ".join(body.split()), normalised)
 
 
+class ToolchainProvenanceTests(unittest.TestCase):
+    """An artifact must name the code that produced it."""
+
+    def test_fingerprint_is_stable_within_a_version(self) -> None:
+        from assessment_engine import toolchain_fingerprint
+        self.assertEqual(toolchain_fingerprint(), toolchain_fingerprint())
+        self.assertNotEqual(toolchain_fingerprint(), "unavailable")
+        self.assertEqual(len(toolchain_fingerprint()), 16)
+
+    def test_it_tracks_the_files_that_decide_findings(self) -> None:
+        """A change to detection or reporting must change the fingerprint;
+        otherwise a stale artifact is indistinguishable from a current one."""
+        import hashlib
+        from assessment_engine import toolchain_fingerprint
+        root = REPO_ROOT
+        parts = [(root / n).read_bytes() for n in
+                 ("assessment_engine.py", "validate.py", "laif_spec.py",
+                  "scripts/laif_process_document.py")]
+        expected = hashlib.sha256(b"\x00".join(parts)).hexdigest()[:16]
+        self.assertEqual(toolchain_fingerprint(), expected)
+
+    def test_every_generated_artifact_carries_it(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            src = root / "doc.txt"
+            src.write_text(INSTITUTIONAL_STANDARD, encoding="utf-8")
+            out = root / "out"
+            subprocess.run(
+                [sys.executable, "scripts/laif_process_document.py", str(src),
+                 "--output-dir", str(out), "--mode", "external_framework",
+                 "--sector", "auto"],
+                cwd=REPO_ROOT, text=True, capture_output=True, check=True)
+            from assessment_engine import toolchain_fingerprint
+            payload = json.loads((out / "doc.laif.json").read_text(encoding="utf-8"))
+            self.assertEqual(
+                payload["processing_metadata"]["toolchain_fingerprint"],
+                toolchain_fingerprint())
+            index = (out / "laif_processing_index.jsonl").read_text(encoding="utf-8")
+            self.assertIn(toolchain_fingerprint(), index)
+
+
 class NonGovernanceTextTests(unittest.TestCase):
     """Broadened detection must not turn ordinary prose into a governance finding."""
 

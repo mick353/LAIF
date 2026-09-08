@@ -26,6 +26,7 @@ Spec alignment references:
 """
 
 import hashlib
+import functools
 import re
 import sys
 from collections import Counter
@@ -5319,6 +5320,33 @@ REPORT_DATE = "September 2026"
 FINGERPRINT_DISPLAY_CHARS = 16
 
 
+@functools.lru_cache(maxsize=1)
+def toolchain_fingerprint():
+    """Identity of the code that produced an assessment.
+
+    Every generated artifact records the corpus it read; none recorded the
+    engine that read it. An audit found committed batch outputs carrying
+    findings and wording the current engine no longer produces, with nothing in
+    them to say which version was responsible — a reproducibility claim that
+    could not be checked from the artifact.
+
+    A content hash of the engine and the runner, so it changes exactly when the
+    detection or reporting logic changes and needs no manual version bumping.
+    Falls back to "unavailable" rather than failing an assessment: this is
+    provenance metadata, not a gate.
+    """
+    try:
+        here = Path(__file__).resolve().parent
+        parts = []
+        for name in ("assessment_engine.py", "validate.py", "laif_spec.py",
+                     "scripts/laif_process_document.py"):
+            path = here / name
+            parts.append(path.read_bytes() if path.is_file() else b"")
+        return hashlib.sha256(b"\x00".join(parts)).hexdigest()[:16]
+    except Exception:
+        return "unavailable"
+
+
 def _corpus_fingerprint(assessments):
     """Stable identity of exactly which texts produced a set of results.
 
@@ -5575,7 +5603,10 @@ def export_assessment_data(assessments, report_date=REPORT_DATE):
 
     return {
         "schema":        "laif.assessment.v1",
-        "schema_revision": 3,
+        "schema_revision": 4,
+        # The code that produced this export, so a consumer can tell a stale
+        # artifact from a current one without diffing its contents.
+        "toolchain_fingerprint": toolchain_fingerprint(),
         "schema_revision_note": (
             "Revisions are additive only: fields are added, never removed or "
             "redefined. r2 added functional_alignment locations, obligation "

@@ -24,7 +24,12 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from assessment_engine import assess, classify_document_type, generate_markdown_report
+from assessment_engine import (
+    assess,
+    classify_document_type,
+    generate_markdown_report,
+    toolchain_fingerprint,
+)
 
 MIN_EXTRACTED_CHARACTERS = 20
 DEFAULT_OUTPUT_DIR = "laif_outputs"
@@ -442,6 +447,11 @@ def build_processing_metadata(
 ) -> dict:
     return {
         "processed_at_utc": processed_at_utc,
+        # Identity of the code that produced this artifact. Without it, a
+        # committed report cannot be told apart from one the current engine
+        # would produce, and the reproducibility claim cannot be checked from
+        # the artifact itself.
+        "toolchain_fingerprint": toolchain_fingerprint(),
         "input_path_original": input_path_original,
         "input_path": str(input_path),
         "runner_input_path": str(input_path),
@@ -489,6 +499,9 @@ def json_dump(path: Path, payload: dict) -> None:
 def index_record(processing: dict, extraction: dict, assessment: dict, input_path: Path, document_name: str) -> dict:
     return {
         "processed_at_utc": processing["processed_at_utc"],
+        # The append-only trail is the durable record of what was assessed and
+        # when; without the toolchain identity it cannot say by what.
+        "toolchain_fingerprint": processing.get("toolchain_fingerprint", ""),
         "original_file_name": processing["original_file_name"],
         "input_path_original": processing["input_path_original"],
         "input_path": str(input_path),

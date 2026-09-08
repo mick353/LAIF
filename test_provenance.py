@@ -153,6 +153,60 @@ check(all(isinstance(d.get("text"), str) and d["text"].strip() for d in combined
       "P3.2", f"combined corpus loads with assessable text ({len(combined)} documents)")
 
 
+# ── GROUP P4 — One source of truth per claim ─────────────────────────────────
+# An audit found two integrity claims in this repository that nothing enforced:
+# the canonical specification and the enforcement it describes had drifted
+# apart, and two independently hash-pinned copies of the same source texts had
+# nothing comparing them. Both are checked here because both underwrite the
+# citability claim this suite exists to defend.
+
+section("GROUP P4 — One source of truth per claim")
+
+import re as _re
+from laif_spec import CANONICAL_TERMS
+from validate import PARAPHRASE_GUARDS
+
+_guard_terms = {g["term"] for g in PARAPHRASE_GUARDS}
+_spec_terms = set(CANONICAL_TERMS)
+check(_guard_terms == _spec_terms, "P4.1",
+      "every canonical term has a guard and every guard has a canonical term"
+      + (f" (spec-only: {sorted(_spec_terms - _guard_terms)}; "
+         f"guard-only: {sorted(_guard_terms - _spec_terms)})"
+         if _guard_terms != _spec_terms else ""))
+
+_unenforced = []
+for _term, _paraphrases in CANONICAL_TERMS.items():
+    _guard = next((g for g in PARAPHRASE_GUARDS if g["term"] == _term), None)
+    if not _guard:
+        continue
+    for _phrase in _paraphrases:
+        if not _re.search(_guard["forbidden"], _phrase, _re.IGNORECASE):
+            _unenforced.append(f"{_term}: {_phrase!r}")
+check(not _unenforced, "P4.2",
+      "every forbidden paraphrase declared in laif_spec is actually enforced"
+      + (f" (unenforced: {_unenforced})" if _unenforced else
+         f" ({sum(len(v) for v in CANONICAL_TERMS.values())} paraphrases)"))
+
+_supporting = sorted(Path("docs/supporting").glob("*.md"))
+_divergent = []
+_paired = 0
+for _src in _supporting:
+    _mirror = Path("docs/verified/raw") / _src.name
+    if not _mirror.exists():
+        continue
+    _paired += 1
+    if _src.read_bytes() != _mirror.read_bytes():
+        _divergent.append(_src.name)
+check(not _divergent, "P4.3",
+      "docs/supporting and docs/verified/raw hold identical bytes for every "
+      "shared source"
+      + (f" (divergent: {_divergent})" if _divergent else
+         f" ({_paired} paired files)"))
+check(_paired > 0, "P4.4",
+      f"the two hash-pinned corpora share at least one source to cross-check "
+      f"({_paired} paired)")
+
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 
 print(f"\n{'═' * 66}")

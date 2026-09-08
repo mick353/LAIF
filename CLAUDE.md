@@ -220,6 +220,14 @@ python3 test_real_world.py    # writes reports/: full assessment (.md), executiv
 The report must be deterministic: running it twice must produce no diff. Never
 hand-edit `reports/` output — change the engine or corpus and regenerate.
 
+Every generated artifact records a `toolchain_fingerprint`: a content hash of
+`assessment_engine.py`, `validate.py`, `laif_spec.py`, and
+`scripts/laif_process_document.py`. **Any edit to those four files changes the
+fingerprint, so `reports/` must be regenerated in the same commit** — CI fails
+otherwise, with the regeneration command in the error. This is the point of the
+field: an artifact that cannot name the code that produced it cannot support a
+reproducibility claim.
+
 ### Corpus Provenance Rules (Machine-Enforced)
 
 The assessment corpus has two evidence tiers (full rules in `corpus_manifest.md`):
