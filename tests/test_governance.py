@@ -878,5 +878,63 @@ class DeadCodeTests(unittest.TestCase):
             f"judgement nobody reviewed.")
 
 
+class TestQualityTests(unittest.TestCase):
+    """A test that cannot fail is worse than no test: it reports coverage that
+    does not exist.
+
+    An audit found two — `assertTrue(True)` standing in for an untested branch,
+    and an equality assertion comparing an lru_cached function with itself.
+    """
+
+    REPO = Path(__file__).resolve().parents[1]
+
+    def _test_sources(self):
+        for path in sorted(self.REPO.rglob("test_*.py")):
+            rel = path.relative_to(self.REPO).as_posix()
+            if rel.startswith("laif_inputs/"):
+                continue
+            yield rel, path.read_text(encoding="utf-8")
+
+    def test_every_test_function_asserts_something(self) -> None:
+        import ast
+        empty = []
+        for rel, source in self._test_sources():
+            for node in ast.walk(ast.parse(source)):
+                if not isinstance(node, ast.FunctionDef) or not node.name.startswith("test_"):
+                    continue
+                asserts = any(
+                    isinstance(inner, ast.Assert)
+                    or (isinstance(inner, ast.Call)
+                        and isinstance(inner.func, ast.Attribute)
+                        and inner.func.attr.startswith(("assert", "fail")))
+                    for inner in ast.walk(node)
+                )
+                if not asserts:
+                    empty.append(f"{rel}:{node.name}")
+        self.assertEqual(empty, [], f"test functions with no assertion: {empty}")
+
+    def test_no_assertion_is_trivially_true(self) -> None:
+        import ast
+        trivial = []
+        for rel, source in self._test_sources():
+            for node in ast.walk(ast.parse(source)):
+                if not (isinstance(node, ast.Call)
+                        and isinstance(node.func, ast.Attribute)):
+                    continue
+                name = node.func.attr
+                if (name in ("assertTrue", "assertFalse")
+                        and node.args and isinstance(node.args[0], ast.Constant)):
+                    trivial.append(f"{rel}:{node.lineno} {name}(literal)")
+                if name in ("assertEqual", "assertIn", "assertIs") and len(node.args) >= 2:
+                    if ast.dump(node.args[0]) == ast.dump(node.args[1]):
+                        trivial.append(f"{rel}:{node.lineno} {name}(x, x)")
+        self.assertEqual(
+            trivial, [],
+            f"assertions that cannot fail: {trivial}. An assertion comparing a "
+            f"value with itself, or asserting a literal, reports coverage that "
+            f"does not exist. Assert the property the branch was written for, or "
+            f"delete the branch.")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

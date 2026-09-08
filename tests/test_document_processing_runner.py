@@ -112,7 +112,17 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
                             path.write_bytes(b"not a real pdf")
                             runner.extract_document(path, extractor)
                 else:
-                    self.assertTrue(True)
+                    # The extractor is installed. The property that matters is
+                    # the same one: a corrupt file must raise rather than
+                    # return empty or partial text that would be assessed as if
+                    # it were the document. assertTrue(True) asserted nothing
+                    # and made this branch look covered.
+                    with self.assertRaises(runner.ExtractionError):
+                        with tempfile.TemporaryDirectory() as td:
+                            suffix = ".docx" if extractor == "python-docx" else ".pdf"
+                            path = Path(td) / f"sample{suffix}"
+                            path.write_bytes(b"not a real document")
+                            runner.extract_document(path, extractor)
 
     def test_auto_sector_clinical_procurement_general(self) -> None:
         self.assertEqual(runner.auto_sector("clinical patient clinician safety incident"), "clinical_ai")
@@ -2498,10 +2508,19 @@ class ToolchainProvenanceTests(unittest.TestCase):
     """An artifact must name the code that produced it."""
 
     def test_fingerprint_is_stable_within_a_version(self) -> None:
+        """Stable across recomputation, not merely across cache hits.
+
+        The function is lru_cached, so calling it twice and comparing compares a
+        cached value with itself — an assertion that cannot fail. Clearing the
+        cache forces a genuine second computation from the files on disk.
+        """
         from assessment_engine import toolchain_fingerprint
-        self.assertEqual(toolchain_fingerprint(), toolchain_fingerprint())
-        self.assertNotEqual(toolchain_fingerprint(), "unavailable")
-        self.assertEqual(len(toolchain_fingerprint()), 16)
+        first = toolchain_fingerprint()
+        toolchain_fingerprint.cache_clear()
+        second = toolchain_fingerprint()
+        self.assertEqual(first, second)
+        self.assertNotEqual(first, "unavailable")
+        self.assertEqual(len(first), 16)
 
     def test_it_tracks_the_files_that_decide_findings(self) -> None:
         """A change to detection or reporting must change the fingerprint;
