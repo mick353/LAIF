@@ -719,3 +719,29 @@ properties the artifacts claim about themselves, checked rather than asserted.
 A system that publishes assessments of other people's governance has to hold its
 own delivery path to the same standard. Three of its guarantees were documented
 and unenforced; they are now enforced.
+
+---
+
+## 20. Fifteenth pass — the two layers disagreeing one last time
+
+Reading the finished institutional report end to end for the flagship document
+showed the engine and the register still giving different answers about the same
+text. The engine detects, and the full report raises, "no precedence rule between
+the document's own provisions" — the bank standard's one real finding. The
+register had no rule for it, so the institutional report — the first artifact a
+decision-maker reads — said "no unclosed expectation was detected".
+
+A gap rule now covers it: obligations imposed with no precedence rule between
+them, closed by a precedence and non-waiver clause, owned by the authority that
+approves amendments. The report's leading finding, failure pathway, control
+template, and residual-risk paragraph all follow from it.
+
+The empty-register test that broke as a result was pinning the wrong thing — the
+bank standard happening to have no gaps, rather than the rendering behaviour. It
+now exercises the empty path directly, and a new test asserts that any gap the
+engine raises reaches the register.
+
+**CI verification:** run 142 on `main` passed the expanded gate — all eight
+suites, on Python 3.10, including the two `reports/` checks. That run is what
+confirmed the `datetime.UTC` defect was real: the code could not have run on the
+pinned CI runtime before this pass.

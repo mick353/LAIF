@@ -571,6 +571,31 @@ GAP_RULES = [
         "control_threshold": "No reliance on a duty that has no currently named owner.",
     },
     {
+        # The engine detects this and the full report raises it; the register did
+        # not carry a rule for it, so the institutional report — the artifact a
+        # decision-maker reads first — reported "no unclosed expectation" on a
+        # document with a real, closable finding. Two layers, two answers.
+        "gap_type": "obligations_without_precedence_rule",
+        "title": "Obligations are imposed with no precedence rule between them",
+        "severity": "medium",
+        "present": ("enforceability", "mandatory language (shall/must)"),
+        "absent": ("structural", "provision hierarchy / precedence rule"),
+        "meaning": ("The document imposes duties but never says which provision "
+                    "prevails if two conflict, which cannot be waived, or what the "
+                    "document is subordinate to. A routine revision can therefore "
+                    "change what it actually requires without anyone treating that "
+                    "as a change of standard, and a reader facing two provisions "
+                    "that point different ways has no rule for deciding which "
+                    "governs."),
+        "control_artifact": ("A precedence clause stating which provisions prevail on "
+                             "conflict, which may not be waived or amended except by a "
+                             "named authority, and what instrument this document is "
+                             "subordinate to."),
+        "control_trigger": "Adoption of the document, and every amendment to it.",
+        "control_threshold": ("No amendment is made without recording whether it changes "
+                              "a provision the precedence clause protects."),
+    },
+    {
         "gap_type": "evidence_presence_without_sufficiency",
         "title": "Evidence is requested without a sufficiency standard",
         "severity": "high",
@@ -1757,6 +1782,7 @@ _CONTROL_NAME_BY_GAP = {
     "declaratory_without_operative_commitment": "Statement of Operative Commitments",
     "insufficient_operative_content": "Assessment of the Operative Instrument This Document Refers To",
     "vocabulary_without_operative_effect": "Rewrite of Named Controls into Operative Form",
+    "obligations_without_precedence_rule": "Precedence and Non-Waiver Clause",
 }
 
 # Instrument-specific naming applies only where the instrument is identified by
@@ -2359,6 +2385,7 @@ _CONTROL_OWNER_BY_GAP = {
     "lifecycle_without_change_control": "The change-control authority for the system, typically its technical design authority.",
     "safety_case_without_live_review": "The named Clinical Safety Officer.",
     "vocabulary_without_operative_effect": "The document's author, with the accountable owner who would have to discharge the duties it names.",
+    "obligations_without_precedence_rule": "The authority that approves amendments to this document.",
     "supplier_duty_without_deployer_acceptance": "The contract or procurement owner accepting the supplier assurance.",
 }
 

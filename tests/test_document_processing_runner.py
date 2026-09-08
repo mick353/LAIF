@@ -1582,14 +1582,27 @@ class InstitutionalRegisterDetectionTests(unittest.TestCase):
                              f"{false_positive} reported despite the document stating it")
 
     def test_empty_register_reads_as_a_finding_not_as_silence(self) -> None:
-        gaps = runner.build_governance_gap_register(self.result, [{"quote_id": "Q001"}])
+        """An empty register must state its own meaning. Rendered with no gaps,
+        every downstream section says what that absence does and does not mean
+        rather than appearing as blank headings."""
         report = runner.build_institutional_report(
             {"safe_output_stem": "x"}, {}, self.result, [{"quote_id": "Q001"}],
-            gaps, runner.build_failure_pathways(gaps, []),
-            runner.build_control_recommendations(gaps, [], []))
+            [], [], [])
         self.assertIn("No unclosed expectation was detected", report)
         self.assertNotIn("| Control ID |", report)
         self.assertIn("not a certificate of implementation", report)
+        self.assertIn("No failure pathway was traced", report)
+        self.assertIn("No remediation is required to the document", report)
+
+    def test_a_real_detected_gap_reaches_the_institutional_report(self) -> None:
+        """The engine raises the precedence finding; the register must carry it
+        too, or the first artifact a decision-maker reads reports no gap on a
+        document that has one."""
+        engine_gaps = " ".join(self.result.get("gaps", []))
+        self.assertIn("precedence rule", engine_gaps)
+        gaps = runner.build_governance_gap_register(self.result, [{"quote_id": "Q001"}])
+        self.assertIn("obligations_without_precedence_rule",
+                      {g["gap_type"] for g in gaps})
 
     def test_document_type_and_sector_route_to_institutional_profiles(self) -> None:
         self.assertEqual(classify_document_type(INSTITUTIONAL_STANDARD), "internal_policy")
