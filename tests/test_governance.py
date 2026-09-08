@@ -829,5 +829,54 @@ class ReportsDirectoryAccountabilityTests(unittest.TestCase):
                         f"without qualifying it: {line.strip()[:120]}")
 
 
+class DeadCodeTests(unittest.TestCase):
+    """Unreferenced functions accumulate, and one of them was dangerous.
+
+    An audit of the toolchain found seven functions no code called. One,
+    `_native_certification_label`, returned "FAIL / not LAIF-native / canonical
+    remediation required" for external documents — precisely the deficiency
+    framing that was removed from every live path. Dead code that encodes a
+    superseded judgement is a defect waiting to be wired back in.
+    """
+
+    REPO = Path(__file__).resolve().parents[1]
+    MODULES = (
+        "assessment_engine.py",
+        "validate.py",
+        "laif_spec.py",
+        "official_documents.py",
+        "sample_documents.py",
+        "scripts/laif_process_document.py",
+        "scripts/laif_batch_process_pending.py",
+    )
+
+    def test_no_unreferenced_functions_in_the_toolchain(self) -> None:
+        sources = {}
+        for path in self.REPO.rglob("*.py"):
+            rel = path.relative_to(self.REPO).as_posix()
+            if rel.startswith("laif_inputs/"):
+                continue
+            sources[rel] = path.read_text(encoding="utf-8")
+        corpus = "\n".join(sources.values())
+
+        dead = []
+        for module in self.MODULES:
+            text = sources.get(module, "")
+            for name in re.findall(r"^def (\w+)\(", text, re.M):
+                if name.startswith("__"):
+                    continue
+                references = len(re.findall(rf"\b{name}\b", corpus))
+                definitions = len(re.findall(rf"^def {name}\(", corpus, re.M))
+                if references - definitions == 0:
+                    dead.append(f"{module}:{name}")
+
+        self.assertEqual(
+            dead, [],
+            f"functions defined but never referenced anywhere in the toolchain "
+            f"or its tests: {dead}. Remove them, or reference them from the code "
+            f"path they were written for. A function nothing calls is a "
+            f"judgement nobody reviewed.")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

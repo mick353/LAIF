@@ -536,7 +536,6 @@ def append_index(output_dir: Path, record: dict) -> None:
         handle.write(json.dumps(record, sort_keys=True) + "\n")
 
 
-
 SIGNAL_CATEGORIES: list[tuple[str, tuple[str, ...], str]] = [
     ("risk management", ("risk management", "risk assessment", "risk", "govern", "map", "measure", "manage"), "source_risk_management"),
     ("human oversight", ("human oversight", "human review", "override", "intervention", "clinician review"), "operational_control"),
@@ -830,7 +829,6 @@ DISPLAY_QUOTE_REPAIRS: tuple[tuple[str, str], ...] = (
 )
 
 
-
 SPLIT_WORD_DAMAGE_REASON = "display quote contains unresolved PDF split-word extraction damage"
 SPLIT_WORD_ALLOWED_TOKENS = {
     "ai", "eu", "us", "uk", "iso", "nist", "act", "article", "risk",
@@ -1016,7 +1014,6 @@ def _finalize_primary_quote_bank(records: list[dict], low_confidence_quote_candi
     return primary
 
 
-
 def _verification_issue_reason(record: dict) -> str:
     exact = " ".join(str(record.get("exact_quote") or "").split())
     display = " ".join(str(record.get("display_quote") or exact).split())
@@ -1136,10 +1133,6 @@ def verification_relevance_assessment(record: dict) -> tuple[bool, int, str]:
     if not complete and not (unresolved_damage or extraction_damage):
         return False, score, "weak verification relevance: incomplete fragment without extraction damage requiring source repair"
     return True, score, "; ".join(reasons)
-
-
-def _is_governance_relevant_for_verification(record: dict) -> bool:
-    return verification_relevance_assessment(record)[0]
 
 
 def build_verification_required_evidence(candidates: list[dict], processing: dict, extraction: dict, limit: int = 12, admitted_quotes: list[dict] | None = None) -> list[dict]:
@@ -1351,7 +1344,6 @@ def _incomplete_quote_reason(quote: str) -> str:
     return ""
 
 
-
 def quote_has_complete_evidence_proposition(display_quote: str) -> tuple[bool, str]:
     """Return whether display text can stand alone as primary evidence.
 
@@ -1543,11 +1535,6 @@ def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
     return min(score, 95), "primary evidence: complete governance action with actor/control context"
 
 
-def _is_low_confidence_quote(quote: str, extraction: dict) -> tuple[bool, str]:
-    score, reason = quote_quality(quote, extraction)
-    return score < 70, reason
-
-
 def _candidate_quote_record(quote_id: str, start: int, end: int, quote: str, processing: dict, extraction: dict, assessment: dict, category: str, repair_field: str) -> dict:
     score, reason = quote_quality(quote, extraction)
     return {
@@ -1730,7 +1717,6 @@ def build_low_confidence_quote_candidates(text: str, processing: dict, extractio
         if len(candidates) >= limit:
             break
     return candidates
-
 
 
 def document_profile_key(assessment: dict) -> str:

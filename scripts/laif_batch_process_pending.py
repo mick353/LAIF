@@ -114,13 +114,6 @@ def copy_source(source: Path, destination_dir: Path) -> Path:
     return destination
 
 
-def move_source(source: Path, destination_dir: Path) -> Path:
-    destination_dir.mkdir(parents=True, exist_ok=True)
-    destination = destination_dir / source.name
-    shutil.move(str(source), str(destination))
-    return destination
-
-
 def run_phase_3t(source_path: Path, reports_dir: Path, mode: str, sector: str, extractor: str, original_pending_path: Path | str = "", stored_source_path: Path | str = "") -> subprocess.CompletedProcess[str]:
     command = [
         sys.executable,
@@ -220,7 +213,6 @@ def process_one(source: Path, args: argparse.Namespace) -> dict:
     metadata["metadata_dir"] = str(failed_metadata_dir)
     metadata_path = write_run_metadata(failed_metadata_dir, metadata)
     return {"status": "failed", "run_id": run_id, "source_path": str(source), "original_pending_path": str(source), "stored_source_path": metadata["stored_source_path"], "runner_input_path": metadata["runner_input_path"], "original_file_name": source.name, "source_sha256": source_hash, "metadata_path": str(metadata_path), "error_path": str(failed_run_dir / "error.txt")}
-
 
 
 def _load_document_bundle(success: dict) -> dict:

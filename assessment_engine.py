@@ -1303,7 +1303,6 @@ SECTOR_PROFILES = {
 }
 
 
-
 # Phase 3O sector / institutional diagnostic overlays. These fields enrich
 # diagnostic mapping and remediation wording only; they do not alter validate.py,
 # formal LAIF-native certification, scoring weights, or sector compliance gates.
@@ -1461,7 +1460,6 @@ def _sector_profile_patch_adjustments(patch, result):
     adjusted["evidence_artifact"] = context.get("evidence_artifact", adjusted["evidence_artifact"])
     adjusted["operational_control"] = context.get("operational_control", adjusted["operational_control"])
     return adjusted
-
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
@@ -2639,7 +2637,6 @@ def _directionality_penalty(text, score):
     return score, False
 
 
-
 # ── Phase 3V governance repair reporting helpers ─────────────────────────────
 # These helpers derive external-framework presentation fields from existing
 # deterministic diagnostics. They do not change scoring weights, formal
@@ -3676,72 +3673,6 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     return result
 
 
-# ── Plain-English practical meaning for Executive Summary ─────────────────────
-# Provides a one-sentence "so what?" for non-LAIF readers. Keyed from the
-# primary failure mode, not from scores — so it cannot drift from the actual
-# structural verdict.
-
-def _practical_meaning_exec(result):
-    """
-    Return a single plain-English sentence explaining what the assessment result
-    means for a non-LAIF audience (executives, policy teams, legal/compliance).
-    Returns empty string if document is STRONG PASS.
-    """
-    sc    = result.get("strong_laif_compliance", "FAIL")
-    cq    = result.get("coupling_quality", "ABSENT")
-    cs    = result.get("coupling_state", "ABSENT")
-    contras = result.get("contradictions", [])
-    gaming  = result.get("sector_gaming_risk", "LOW")
-    overall = result.get("overall_readiness_score", 0)
-
-    if sc == "STRONG PASS":
-        return ""
-    if cq == "NEGATED":
-        return (
-            "This document explicitly disclaims the structural protections that make "
-            "governance obligations enforceable — the most serious structural failure."
-        )
-    if contras:
-        return (
-            "This document states governance commitments that are contradicted by other "
-            "provisions — protections appear present but are negated in effect."
-        )
-    if cs == "FUNCTIONAL":
-        return (
-            "This document expresses the structural protections LAIF requires, in its own "
-            "vocabulary. It is not written in LAIF-native form, so it cannot be certified "
-            "against LAIF as-is — but the adoption distance is terminological and "
-            "documentary, not substantive."
-        )
-    if cs == "ABSENT":
-        return (
-            "This document imposes obligations but does not structurally protect the people "
-            "those obligations are meant to serve — each obligation can be removed "
-            "independently of any corresponding protection."
-        )
-    if cs == "IMPLICIT":
-        return (
-            "This document signals protective intent but does not structurally bind "
-            "obligations to the people they protect — the intent is present but "
-            "not enforceable as written."
-        )
-    if overall > 40 and sc != "STRONG PASS":
-        return (
-            "This document addresses the right governance areas but has not structured "
-            "its provisions in a way that makes them independently enforceable or "
-            "verifiable against a named standard."
-        )
-    return (
-        "This document does not yet meet the structural preconditions required to "
-        "provide reliable governance assurance for the people it governs."
-    )
-
-
-# ── Source location layer ─────────────────────────────────────────────────────
-# Turns character offsets into human-usable locations ("at §6(b)", "under
-# 'C1 - Clinical safety'") so every finding can point INTO the document.
-# Everything here is deterministic text analysis of the assessed source.
-
 _OUTLINE_PATTERNS = [
     re.compile(r"^#{1,6}\s+(.{3,80})$", re.MULTILINE),                       # markdown headings
     re.compile(r"^((?:Article|Section|SECTION|Part|PART|Chapter)\s+[\dIVXA-Z]+[^\n]{0,90})$", re.MULTILINE),
@@ -4137,32 +4068,6 @@ _GOVERNANCE_KW = frozenset([
 ])
 
 
-def _classify_signal(label):
-    """Return 'human_interest', 'governance', or 'structural' for a signal label."""
-    ll = label.lower()
-    for kw in _HUMAN_INTEREST_KW:
-        if kw in ll:
-            return "human_interest"
-    for kw in _GOVERNANCE_KW:
-        if kw in ll:
-            return "governance"
-    return "structural"
-
-
-def _group_signals(signals):
-    """
-    Partition a list of (label, weight) signal tuples into display groups.
-    Returns dict: {"human_interest": [...], "governance": [...], "structural": [...]}
-    """
-    groups = {"human_interest": [], "governance": [], "structural": []}
-    for label, w in signals:
-        groups[_classify_signal(label)].append((label, w))
-    return groups
-
-
-# ── Markdown report generator ─────────────────────────────────────────────────
-
-
 _GOVERNANCE_FORCE_COMPONENTS = (
     "mandate",
     "actor",
@@ -4290,7 +4195,6 @@ def _remediation_groups(steps):
         else:
             groups["Immediate clarity/control fixes"].append(step)
     return {name: values for name, values in groups.items() if values}
-
 
 
 _REMEDIATION_PATCH_KEYS = (
@@ -4862,7 +4766,6 @@ def _build_remediation_patches(result):
     return patches
 
 
-
 # ── Calibration and score-justification metadata ─────────────────────────────
 # These helpers are interpretive metadata only. They consume existing scores,
 # fired/missed signal labels, evidence traces, sector profile metadata, and
@@ -5111,11 +5014,6 @@ def _dimension_justification_records(result):
         })
     return records
 
-def _native_certification_label(result):
-    if result.get("assessment_mode") == "external_framework" and result.get("formal_laif_native_compliance", result.get("formal_laif_compliance")) == "FAIL":
-        return "FAIL / not LAIF-native / canonical remediation required"
-    return result.get("formal_laif_native_compliance", result.get("formal_laif_compliance", "FAIL"))
-
 
 def _safe_executive_verdict_text(result):
     """Return mode-scoped executive verdict wording for generated reports."""
@@ -5149,7 +5047,6 @@ def _safe_executive_verdict_text(result):
         "This document does not pass the formal LAIF-native certification gate under "
         "current LAIF criteria."
     )
-
 
 
 def _safe_executive_risk_text(risk):
