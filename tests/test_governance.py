@@ -878,6 +878,81 @@ class DeadCodeTests(unittest.TestCase):
             f"judgement nobody reviewed.")
 
 
+class GovernanceConfigCoverageTests(unittest.TestCase):
+    """The governance config must cover what it claims to govern.
+
+    An audit found protection on one of the two identically-situated narrative
+    artifacts, and the semantic-boundary advisory covering `test_adversarial.py`
+    but not `assessment_engine.py` — so a change to detection logic produced no
+    signal while a change to one of its tests did.
+    """
+
+    REPO = Path(__file__).resolve().parents[1]
+
+    def _config(self):
+        return json.loads(
+            (self.REPO / "scripts" / "governance" / "protected_paths.json")
+            .read_text(encoding="utf-8"))
+
+    def _narrative_artifacts(self):
+        manifest = (self.REPO / "reports" / "README.md").read_text(encoding="utf-8")
+        section = manifest.split("Narrative analyses", 1)[-1]
+        rows = [line for line in section.splitlines() if line.startswith("|")]
+        return {f"reports/{name}" for name in
+                re.findall(r"`([A-Za-z0-9_.-]+\.(?:md|json))`", "\n".join(rows))}
+
+    def test_every_narrative_artifact_is_protected(self) -> None:
+        """A record that must not drift needs the immutability control."""
+        protected = set(self._config()["protected_artifacts"])
+        unprotected = sorted(self._narrative_artifacts() - protected)
+        self.assertEqual(
+            unprotected, [],
+            f"narrative artifacts declared in reports/README.md but not listed in "
+            f"protected_artifacts: {unprotected}")
+
+    def test_generated_artifacts_are_not_protected(self) -> None:
+        """They must change with the engine; CI checks them by regeneration.
+
+        A path-level hard fail here would block every legitimate engine change
+        while adding no safety.
+        """
+        protected = set(self._config()["protected_artifacts"])
+        generated = {f"reports/{name}" for name in re.findall(
+            r'"reports"\s*/\s*"([^"]+)"',
+            (self.REPO / "test_real_world.py").read_text(encoding="utf-8"))}
+        overlap = sorted(protected & generated)
+        self.assertEqual(
+            overlap, [],
+            f"generated artifacts must not be path-protected: {overlap}")
+
+    def test_files_that_decide_semantics_are_boundary_sensitive(self) -> None:
+        sensitive = set(self._config()["semantic_sensitive_files"])
+        decides_semantics = {
+            "assessment_engine.py",
+            "laif_spec.py",
+            "validate.py",
+            "official_documents.py",
+            "sample_documents.py",
+            "scripts/laif_process_document.py",
+            "scripts/laif_batch_process_pending.py",
+            "test_provenance.py",
+            "test_semantic_fidelity.py",
+            "test_adversarial.py",
+        }
+        missing = sorted(decides_semantics - sensitive)
+        self.assertEqual(
+            missing, [],
+            f"files where a change can move a LAIF boundary, absent from "
+            f"semantic_sensitive_files: {missing}")
+
+    def test_every_configured_path_exists(self) -> None:
+        config = self._config()
+        for key in ("protected_artifacts", "semantic_sensitive_files"):
+            for path in config[key]:
+                self.assertTrue((self.REPO / path).exists(),
+                                f"{key} names a path that does not exist: {path}")
+
+
 class TestQualityTests(unittest.TestCase):
     """A test that cannot fail is worse than no test: it reports coverage that
     does not exist.

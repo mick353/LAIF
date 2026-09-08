@@ -133,3 +133,28 @@ Semantic-boundary checking remains advisory-only. It reports configured semantic
 Governance config validation enforces that configured semantic-sensitive file paths exist. Governance helper/check files are included in the semantic-sensitive set because changes to those files can change the repository's governance signals. The Phase 3B test suite in `tests/test_governance.py` validates shared governance helpers, config behavior, protected-artifact behavior, and semantic-boundary advisory behavior using `tests/governance_fixtures/valid_config.json`.
 
 This policy must not be read to overstate enforcement. Semantic-boundary warnings do not block merge. Governance tests do not change LAIF assessment scoring, detector logic, interpretation logic, or assessment semantics. Repository governance documentation does not imply external legal certification.
+
+## Which files carry LAIF semantics
+
+The advisory covers the files where a change can shift what LAIF *means*, as
+distinct from how it is presented. An audit found the list omitted
+`assessment_engine.py` — the file that decides every finding — while including
+`test_adversarial.py`, so a change to detection logic produced no boundary
+signal and a change to one of its tests did.
+
+The list now covers, alongside the governance machinery and the framework
+instructions:
+
+| File | Why a change here can move a boundary |
+|---|---|
+| `assessment_engine.py` | Detection, scoring, functional alignment, contradiction and enumeration guards, and every report the system emits |
+| `laif_spec.py` | The canonical terms and the forbidden-paraphrase table that `validate.py` derives its guards from |
+| `validate.py` | The strict gate over LAIF's own corpus, and the guards the engine imports |
+| `official_documents.py`, `sample_documents.py` | The assessment corpus and its provenance tiers |
+| `scripts/laif_process_document.py` | Document classification, sector routing, the gap register, and the institutional report |
+| `scripts/laif_batch_process_pending.py` | Portfolio-level findings across a set of documents |
+| `test_provenance.py`, `test_semantic_fidelity.py` | The invariants that hold substance above vocabulary and citability claims to evidence |
+
+The check remains advisory and path-level. It performs no semantic
+interpretation and does not block a merge; it exists so that a reviewer is told
+when a change touches a file where meaning lives.

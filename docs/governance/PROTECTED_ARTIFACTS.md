@@ -18,11 +18,41 @@ The distinction matters because ordinary documentation can be clarified without 
 
 ## Initial Protected Artifact Scope
 
-The initial protected artifact is:
+## What is protected, and what deliberately is not
 
-- `reports/laif_full_assessment.md`
+Two kinds of artifact live in `reports/`, and only one kind can be protected by
+a path-level hard fail.
 
-This file records the full corpus assessment. Do not edit or regenerate it in ordinary pull requests.
+**Protected — the narrative analyses.** Authored assessments that record
+conclusions at a date. They are a published record: nothing should change them
+as a side effect of other work, and an intentional change belongs in its own
+pull request with an explanation. These are the protected artifacts.
+
+**Deliberately not protected — the generated assessments.**
+`reports/laif_real_world_assessment.md`, `reports/laif_executive_summary.md` and
+`reports/laif_assessment_data.json` are a deterministic function of the corpus
+and the engine, and each carries a corpus fingerprint and a toolchain
+fingerprint. They *must* change whenever detection or reporting changes — CI
+fails if the committed copies do not match regenerated output. A path-level
+protection on them would block every legitimate engine change while adding no
+safety, because their integrity is already established by regeneration rather
+than by immutability.
+
+The distinction is the same one the framework applies to other people's
+documents: a control has to match the thing it is controlling. Immutability is
+the right control for a record; reproducibility is the right control for an
+output.
+
+The protected artifacts are:
+
+- `reports/laif_full_assessment.md` — full corpus assessment, authored 5 May 2026 under Refined Model v1.1
+- `reports/laif_assessment_aus_ai_policy_v2.md` — Australian government AI policy assessment, authored 11 May 2026
+
+Both record conclusions at a date. Do not edit or regenerate them in ordinary
+pull requests. `reports/README.md` describes how each artifact in that directory
+is produced and what verification stands behind it; the two lists are checked
+against each other by `tests/test_governance.py`, so a new narrative artifact
+cannot be added to the manifest without also being protected.
 
 ## Expected Handling
 
