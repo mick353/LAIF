@@ -120,10 +120,10 @@ Beyond the governance corpus, the repository ships a Python toolchain (stdlib on
 | `sample_documents.py` | Illustrative corpus — representative paraphrases (not citable) |
 | `scripts/laif_process_document.py` | Assesses one local document and writes the institutional report, technical appendix, quote bank, gap register, failure pathways, control recommendations, and analyst bundle |
 | `scripts/laif_batch_process_pending.py` | Batches a folder of documents and adds a portfolio report: governance-force matrix, recurring gaps, source roles, combined roadmap |
-| `test_provenance.py` | 48 machine-enforced checks on every citability claim |
-| `test_adversarial.py` | 82 adversarial tests on the guards and depth checks |
-| `test_semantic_fidelity.py` | 68 checks guaranteeing substance is never outranked by vocabulary and no document is falsely accused |
-| `tests/` | 240 further tests: governance and reporting, assessment fragility, the document runner, and the CI processing path |
+| `test_provenance.py` | Machine-enforced checks on every citability claim, and on the single-source-of-truth guarantees behind it |
+| `test_adversarial.py` | Adversarial tests on the detection guards, structural-depth checks, and sector-gaming detection |
+| `test_semantic_fidelity.py` | Checks guaranteeing substance is never outranked by vocabulary and no document is falsely accused |
+| `tests/` | Governance and reporting, assessment fragility, the document runner, and the CI processing path |
 | `test_real_world.py` | Runs the full assessment → three deterministic artifacts: `reports/laif_real_world_assessment.md` (full), `reports/laif_executive_summary.md` (one page), `reports/laif_assessment_data.json` (machine-readable, schema `laif.assessment.v1`) |
 
 The engine measures on two independent axes: **LAIF-native form** (is the document written as a LAIF instrument — external frameworks are expected to fail this) and **functional alignment** (is the *substance* of Coupling, the Integrity Layer, Consistency, Reversibility, and Self-Application expressed in the document's own vocabulary — grounded in LAIF v1.2 Part Eight and the Regulatory Integration Guide's SATISFIES/EXTENDS methodology). A document is never penalised for expressing LAIF's requirements in its own words, and never credited for using LAIF's words without the substance.
@@ -160,11 +160,24 @@ otherwise exploit:
 
 **Headline citable finding:** all four official instruments assessed from verbatim text fail the LAIF-native formal gate while averaging 53/100 conceptual proximity, and three of four are PARTIALLY ALIGNED at the construct level — real-world frameworks address the right governance dimensions, and partially express LAIF's structural mechanisms in their own idioms, but none enforces them through structural Coupling, the Coherence Test, or the Integrity Layer.
 
-Run everything:
+Run everything — each suite prints its own count, which is where the numbers
+live; a count repeated in prose only drifts:
 
 ```bash
-python3 validate.py && python3 test_adversarial.py && python3 test_provenance.py && python3 test_semantic_fidelity.py && python3 test_real_world.py
+python3 validate.py \
+  && python3 test_adversarial.py \
+  && python3 test_provenance.py \
+  && python3 test_semantic_fidelity.py \
+  && python3 tests/test_governance.py \
+  && python3 tests/test_assessment_fragility.py \
+  && python3 tests/test_document_processing_runner.py \
+  && python3 tests/test_github_actions_document_processing.py \
+  && python3 test_real_world.py
 ```
+
+CI runs exactly this set, on Python 3.10, plus two extra `validate.py` modes,
+the governance scripts, and two checks on `reports/`: that the committed
+artifacts match regenerated output, and that regeneration is deterministic.
 
 ---
 
