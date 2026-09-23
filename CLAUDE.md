@@ -198,7 +198,7 @@ what is committed matches regenerated output, and that regeneration is
 deterministic. **Target runtime is Python 3.10** — CI pins it, so avoid 3.11-only
 constructs (`datetime.UTC`, `tomllib`, `typing.Self`, `except*`).
 
-All of these must exit 0 before any commit:
+For a human local release/checkpoint, the complete pre-commit suite below should exit 0. For Codex, ChatGPT and other remote coding agents working through a pull request, `AGENTS.md` defines the CI-first exception: run targeted local checks while editing, then let the PR's GitHub Actions workflow execute the authoritative complete deterministic suite. Do not duplicate the entire suite in the agent session solely to run the same checks again in GitHub.
 
 ```bash
 python3 validate.py                 # validation harness over the .txt corpus, incl. .docx/.txt parity (rule failures = exit 1)
