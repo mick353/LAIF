@@ -8,24 +8,20 @@ A pull request is ready for merge when:
 
 - its purpose is clear and focused;
 - required validation commands have passed or skipped commands are explained;
-- CI checks for the branch have passed when available;
+- the applicable local verification checks have passed, or every omission is disclosed;
 - LAIF semantic impact has been disclosed;
 - protected assessment artifacts have not changed unintentionally;
 - reviewers understand whether the change is documentation/provenance-only or governance-sensitive.
 
-## CI Expectations
+## Local Verification Expectations
 
-The existing Phase 1 CI workflow is expected to run the repository validation and test suites. Pull requests should also be validated locally before review with:
+GitHub Actions is not part of the active merge gate. The legacy workflow does not trigger for pushes or pull requests. From the repository root run:
 
 ```bash
-python3 validate.py
-python3 validate.py --verified-corpus
-python3 validate.py --check-evidence-traces
-python3 test_adversarial.py
-python3 test_real_world.py
+python3 scripts/laif_verify.py --full --base-ref origin/main
 ```
 
-A passing CI run does not by itself approve semantic changes. It confirms that the automated checks completed successfully.
+This verifies governance paths, protected-artifact diff, semantic-boundary advisory, corpus, source formats, adversarial and semantic tests, document processing, report generation and committed-report drift. Run `python3 scripts/laif_verify.py` for a targeted checkpoint. Disclose unrun checks; an old CI badge is not proof of current validation.
 
 ## Reviewer Expectations
 
@@ -83,23 +79,9 @@ Rollback should be simple and conservative:
 
 Automated checks can identify failures or likely-sensitive changes, but they do not approve LAIF meaning. Human reviewers remain responsible for deciding whether a semantic-sensitive change is acceptable.
 
-## Phase 3 Governance Merge Lifecycle
+## Local Governance Merge Lifecycle
 
-Phase 3A governance stabilization and Phase 3B deterministic governance test coverage have been merged. The active CI lifecycle is:
-
-1. Run the governance job.
-2. Compile governance helper/check files.
-3. Validate the governance path configuration.
-4. Run protected-artifact drift detection.
-5. Run semantic-boundary advisory detection.
-6. Run the deterministic governance test suite.
-7. Allow downstream validation, adversarial, and real-world jobs to run only after governance succeeds.
-
-Protected-artifact detection is blocking: a configured protected artifact in the pull-request diff must be reverted or intentionally handled in a dedicated assessment-artifact pull request before merge.
-
-Semantic-boundary detection is advisory-only. It highlights configured semantic-sensitive files or configured exact-term hunk matches for reviewer attention, but it does not issue a semantic verdict and does not block merge by itself.
-
-Governance config validation is blocking for malformed configuration, missing required keys, duplicate or invalid entries, non-repository-relative paths, and configured path entries that do not exist. Governance helper/check files are themselves semantic-sensitive because changing them can change how repository-governance signals are generated.
+Phase 3 governance tests remain deterministic, but they run locally or in an operator-controlled environment rather than GitHub Actions. First compile and validate governance config, then test protected artefact drift against an explicit base ref and run semantic-boundary advisory checks. Continue with validation, adversarial, provenance and report checks only after those succeed. Protected artefact drift is blocking; semantic-boundary detection is advisory and requires reviewer judgement.
 
 ## Stale Branch and Contamination Discipline
 

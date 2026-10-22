@@ -12,7 +12,13 @@ This repository contains framework texts, assessment tooling, verified-source pr
 
 ## Required Local Validation Commands
 
-Run these commands from the repository root before marking a pull request ready for review:
+Use the local-only verifier before marking a pull request ready for review:
+
+```bash
+python3 scripts/laif_verify.py --full --base-ref origin/main
+```
+
+The individual commands remain available for targeted diagnosis:
 
 ```bash
 python3 validate.py
@@ -75,7 +81,7 @@ Treat this file as a recorded assessment artifact, not ordinary documentation. D
 
 A pull request should not be merged until:
 
-- applicable local checks and CI checks pass;
+- applicable local checks pass, with any skipped verification disclosed;
 - reviewers understand the scope of the change;
 - any semantic-sensitive changes have received dedicated review;
 - protected assessment artifacts have not drifted unintentionally;
@@ -102,16 +108,4 @@ Never reuse stale pull-request branches for later phases. Stale or contaminated 
 
 ## Current Governance Lifecycle
 
-Phase 3A governance stabilization and Phase 3B deterministic governance test coverage have both been merged. The CI governance job now runs before, and gates, the downstream validation, adversarial, and real-world jobs.
-
-The governance lifecycle is intentionally conservative:
-
-- protected-artifact checks are blocking when configured protected artifacts appear in the pull-request diff;
-- semantic-boundary checks are advisory-only and warn reviewers without blocking merge;
-- governance config validation enforces that configured path entries exist in the repository;
-- governance helper/check files are semantic-sensitive and should receive focused review when changed;
-- downstream validation, adversarial, and real-world CI jobs depend on the governance job.
-
-The Phase 3B test suite in `tests/test_governance.py` validates the shared governance helpers, config behavior, protected-artifact behavior, and advisory semantic-boundary behavior using `tests/governance_fixtures/valid_config.json`.
-
-These governance tests do not change LAIF assessment scoring, detector semantics, interpretation logic, or assessment conclusions.
+The Phase 3A/3B governance checks remain mandatory, but GitHub Actions is not used. Run the local verifier, providing a branch base ref when checking protected artefacts and semantic-sensitive diffs. Protected artefact drift blocks merge; semantic-boundary findings are advisory. The governance test suite covers shared helper and path checks. Existing scoring and source-integrity invariants must remain unchanged.

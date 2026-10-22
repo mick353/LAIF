@@ -192,13 +192,9 @@ LAIF v1.2 explicitly incorporates and integrates with:
 ### Commands — The Pre-Commit Gate
 
 The toolchain is plain Python 3 standard library (no package manager needed).
-CI (.github/workflows/ci.yml) runs every suite below, plus the two extra
-`validate.py` modes, the governance scripts, and two checks on `reports/`: that
-what is committed matches regenerated output, and that regeneration is
-deterministic. **Target runtime is Python 3.10** — CI pins it, so avoid 3.11-only
-constructs (`datetime.UTC`, `tomllib`, `typing.Self`, `except*`).
+The local verifier runs the baseline suites, extra validate.py modes, governance checks and report drift checks. GitHub Actions is not a verification dependency and automatic triggers are disabled. **Target runtime is Python 3.10** — avoid 3.11-only constructs (`datetime.UTC`, `tomllib`, `typing.Self`, `except*`).
 
-For a human local release/checkpoint, the complete pre-commit suite below should exit 0. For Codex, ChatGPT and other remote coding agents working through a pull request, `AGENTS.md` defines the CI-first exception: run targeted local checks while editing, then let the PR's GitHub Actions workflow execute the authoritative complete deterministic suite. Do not duplicate the entire suite in the agent session solely to run the same checks again in GitHub.
+Run targeted checks while editing and the full local gate before an approved merge where possible: `python3 scripts/laif_verify.py --full --base-ref origin/main`. Use `python3 scripts/laif_verify.py` for a quick targeted checkpoint. State any full-suite omissions explicitly. The commands below remain available individually.
 
 ```bash
 python3 validate.py                 # validation harness over the .txt corpus, incl. .docx/.txt parity (rule failures = exit 1)
@@ -223,7 +219,7 @@ hand-edit `reports/` output — change the engine or corpus and regenerate.
 Every generated artifact records a `toolchain_fingerprint`: a content hash of
 `assessment_engine.py`, `validate.py`, `laif_spec.py`, and
 `scripts/laif_process_document.py`. **Any edit to those four files changes the
-fingerprint, so `reports/` must be regenerated in the same commit** — CI fails
+fingerprint, so `reports/` must be regenerated in the same commit** — the local report-drift gate fails
 otherwise, with the regeneration command in the error. This is the point of the
 field: an artifact that cannot name the code that produced it cannot support a
 reproducibility claim.

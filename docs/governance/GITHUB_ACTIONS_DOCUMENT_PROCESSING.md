@@ -1,4 +1,7 @@
-# GitHub Actions Document Processing (Phase 3U)
+# GitHub Actions Document Processing (Phase 3U — historical, not in use)
+
+**Current practice (October 2026):** Use the local script `python3 scripts/laif_batch_process_pending.py` rather than GitHub Actions. The following describes legacy optional orchestration, not the active LAIF workflow. No automatic GitHub Actions triggers are enabled. See [local verification and evidence diagnostics](EVIDENCE_CHECKS.md).
+
 
 Phase 3U adds a manual GitHub Actions batch workflow for pending local documents. It is orchestration only: the workflow calls the Phase 3T document runner and does not change LAIF scoring, certification, validation, governance boundaries, protected artifacts, or generated reports under `reports/`.
 
