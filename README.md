@@ -31,7 +31,7 @@ See `docs/governance/DOCUMENT_PROCESSING_RUNNER.md` for extractor strategy, proc
 | **LAIF-native certification** | Strict evaluation of documents that claim or seek LAIF adoption. | PASS/FAIL is valid only under LAIF-native criteria; canonical LAIF terminology and structures are required. |
 | **External framework diagnostic assessment** | Model-relative review of external laws, standards, policies, procurement rules, vendor policies, and operational governance documents. | Findings identify governance-force, ambiguity, reversibility, auditability, enforceability, accountability, evidence, and remediation gaps; they are diagnostic, not certification. |
 | **Remediation / patch guidance** | Optional adoption pathway for organisations that want to strengthen or LAIF-align an instrument. | Maps diagnostic gaps to LAIF-native clauses, controls, evidence artefacts, and verification tests. |
-| **Repository governance / CI validation** | Internal project integrity checks for protected artifacts, semantic boundaries, provenance, and workflow safety. | CI PASS/FAIL describes repository workflow status, not the legal or governance validity of external documents. |
+| **Repository governance / local verification** | Local Python checks for protected artefacts, semantic boundaries, provenance and regression tests. | Software PASS/FAIL is not legal or governance certification. |
 
 ---
 
@@ -175,9 +175,7 @@ python3 validate.py \
   && python3 test_real_world.py
 ```
 
-CI runs exactly this set, on Python 3.10, plus two extra `validate.py` modes,
-the governance scripts, and two checks on `reports/`: that the committed
-artifacts match regenerated output, and that regeneration is deterministic.
+Use `python3 scripts/laif_verify.py --full --base-ref origin/main` to run the full local-only gate (including the extra validation modes, governance scripts and report drift checks). GitHub Actions is not required and push/PR triggers are disabled. Use `python3 scripts/laif_verify.py` for targeted checks.
 
 ---
 
@@ -267,7 +265,7 @@ Contribution and review expectations are documented in `CONTRIBUTING.md` and `do
 
 ## Governance Status
 
-Phase 3A governance stabilization and Phase 3B deterministic governance test coverage have been merged. The repository's CI governance job compiles and runs the governance checks before the validation, adversarial, and real-world CI jobs; those downstream jobs depend on governance completing successfully.
+Phase 3A governance stabilisation and Phase 3B deterministic governance test coverage have been merged. All active verification is now local/manual; the optional legacy CI workflow has no automatic push or pull-request triggers.
 
 Current governance behavior is deliberately scoped:
 
@@ -279,12 +277,20 @@ Current governance behavior is deliberately scoped:
 
 Governance documentation and tests do not alter LAIF assessment/scoring semantics, do not change assessment outcomes, and do not imply external legal certification. LAIF remains a structural governance framework rather than a legal determination or certification authority.
 
-## GitHub batch document processing
+## Local batch document processing
 
-LAIF includes a manual GitHub Actions workflow, **LAIF Process Pending Documents**, for Phase 3U batch processing. Add supported files (`.txt`, `.md`, `.markdown`, `.docx`, `.pdf`) to `laif_inputs/pending/`, run the workflow from the Actions tab, and download the artifact containing `laif_inputs/processed/**`, `laif_inputs/failed/**`, `laif_inputs/batch_summaries/**`, and `laif_batch_summary.json`.
+Run the existing standard-library batch runner locally:
 
-The workflow defaults to `commit_outputs=false`, so outputs remain in the workflow artifact unless explicitly committed. If `commit_outputs=true` is selected, processed/failed sources and batch summaries become repository history; do not use that mode for sensitive documents in public or broadly shared repositories. Each batch writes the latest summary to `laif_batch_summary.json` and permanent history to `laif_inputs/batch_summaries/<batch_run_id>.json`.
+```bash
+python3 scripts/laif_batch_process_pending.py --help
+python3 scripts/laif_batch_process_pending.py --max-files 20
+```
 
+It reads supported input files from `laif_inputs/pending/`, keeps processed and failed outputs under `laif_inputs/`, and produces batch summaries without GitHub Actions. Do not commit private source documents or generated sensitive reports into this public repository. The historical manual Actions workflow remains present but is not used by this workflow.
+
+## Optional source-evidence diagnostic
+
+`python3 scripts/laif_evidence_checks.py /private/evidence/manifest.json` checks source hashes, quoted policy claims, positive/negative tests and contradictory records. It is optional, human-review-only, and cannot certify LAIF governance or actual control effectiveness. See `docs/governance/EVIDENCE_CHECKS.md`.
 
 ## Governance repair reporting for external frameworks
 

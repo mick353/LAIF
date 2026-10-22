@@ -1,22 +1,33 @@
 # Repository agent instructions
 
-## CI-first verification
+## Local-first verification (GitHub Actions not used)
 
-LAIF already has a comprehensive GitHub Actions gate in `.github/workflows/ci.yml`. It runs governance checks, corpus validation, adversarial tests, provenance and semantic-fidelity tests, document-processing tests, real-world assessment regeneration, committed-report comparison and determinism checks.
+LAIF operates with local/manual Python checks. Do not initiate GitHub Actions
+runs, rely on status badges, or report a CI result as evidence of verification.
+The legacy workflow is not triggered by push or pull requests.
 
-For Codex, ChatGPT and other remote coding agents:
-
-1. Use a feature/fix branch and pull request for substantive changes.
-2. During implementation, run the smallest targeted checks needed for the files and layer being changed.
-3. Do not automatically repeat the complete LAIF verification suite locally immediately before pushing when GitHub Actions will run the same deterministic checks for that commit.
-4. Treat the current PR-head GitHub Actions result as the authoritative full repository software/governance gate.
-5. If CI fails, inspect the failing job and exact command first; reproduce only the relevant failure locally unless broader diagnosis is necessary.
-6. If a change intentionally affects generated `reports/`, regenerate the required artifacts before push when the repository contract requires those files to accompany the source change.
-7. Never weaken governance, protected-artifact, provenance, semantic-fidelity, deterministic-reporting or source-integrity controls merely to make CI pass.
-8. CI PASS is repository verification. It is not external legal certification or proof that a governance framework is substantively valid.
-
-Human contributors may still run the full suite locally when desired. This instruction exists to avoid making remote agents consume context and compute by duplicating a full deterministic suite that GitHub will immediately run again.
+1. Inspect current main, open pull requests, governance docs and relevant code.
+   Use a fresh branch from current main; compare before making changes.
+2. Run the smallest targeted tests during development; avoid duplicating full
+   test runs when no shared files or scoring semantics have changed.
+3. Run local verification for release/merge:
+   - quick: `python3 scripts/laif_verify.py`
+   - full: `python3 scripts/laif_verify.py --full --base-ref origin/main`
+4. The full local check is the recommended repository gate; if not runnable,
+   disclose exactly what was not run. Neither an unrun gate nor a historical
+   GitHub Actions status is a PASS.
+5. Preserve governance, protected artefact, source provenance, semantic fidelity,
+   exact-source checks and deterministic report identity.
+6. Changes to assessment_engine.py, validate.py, laif_spec.py or the document
+   processor require the generated-report fingerprint/reproducibility discipline
+   documented in CLAUDE.md.
+7. Never treat a software gate as legal certification or proof of LAIF validity.
 
 ## Semantic and provenance discipline
 
-Read `CLAUDE.md`, `CONTRIBUTING.md`, and the relevant `docs/governance/` material before modifying scoring, detection, reporting, corpus or protected artifacts. Preserve the distinction between LAIF-native form, external-framework diagnostic assessment, functional alignment, and legal authority.
+Read CLAUDE.md, CONTRIBUTING.md and relevant docs/governance/ material before
+changing scoring, detection, reporting, source corpora or protected artefacts.
+Preserve LAIF-native certification versus external-framework diagnostic
+assessment, functional alignment versus terminology, and legal authority
+boundaries. The new evidence diagnostic is optional and does not alter those
+boundaries.

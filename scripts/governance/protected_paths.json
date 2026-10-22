@@ -18,6 +18,8 @@
     "scripts/governance/governance_lib.py",
     "scripts/governance/protected_paths.json",
     "scripts/laif_batch_process_pending.py",
+    "scripts/laif_evidence_checks.py",
+    "scripts/laif_verify.py",
     "scripts/laif_process_document.py",
     "test_adversarial.py",
     "test_provenance.py",
