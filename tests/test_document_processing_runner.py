@@ -12,6 +12,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
@@ -122,6 +123,23 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
                             suffix = ".docx" if extractor == "python-docx" else ".pdf"
                             path = Path(td) / f"sample{suffix}"
                             path.write_bytes(b"not a real document")
+                            runner.extract_document(path, extractor)
+
+    def test_explicit_optional_extractor_wraps_parser_errors(self) -> None:
+        # This must pass regardless of which optional packages CI has installed.
+        backends = {
+            "docling": (".pdf", "extract_docling"),
+            "markitdown": (".pdf", "extract_markitdown"),
+            "python-docx": (".docx", "extract_python_docx"),
+            "pypdf": (".pdf", "extract_pypdf"),
+        }
+        with tempfile.TemporaryDirectory() as td:
+            for extractor, (suffix, backend) in backends.items():
+                with self.subTest(extractor=extractor):
+                    path = Path(td) / f"broken{suffix}"
+                    path.write_bytes(b"not a real document")
+                    with patch.object(runner, backend, side_effect=ValueError("broken parser")):
+                        with self.assertRaisesRegex(runner.ExtractionError, "extractor failed"):
                             runner.extract_document(path, extractor)
 
     def test_auto_sector_clinical_procurement_general(self) -> None:

@@ -201,14 +201,17 @@ def extract_document(path: Path, extractor: str = "auto") -> ExtractionResult:
     suffix = path.suffix.lower()
     if extractor == "builtin":
         return ensure_minimum_text(extract_builtin(path), path)
-    if extractor == "docling":
-        return ensure_minimum_text(extract_docling(path), path)
-    if extractor == "markitdown":
-        return ensure_minimum_text(extract_markitdown(path), path)
-    if extractor == "python-docx":
-        return ensure_minimum_text(extract_python_docx(path), path)
-    if extractor == "pypdf":
-        return ensure_minimum_text(extract_pypdf(path), path)
+    explicit_extractors = {
+        "docling": extract_docling,
+        "markitdown": extract_markitdown,
+        "python-docx": extract_python_docx,
+        "pypdf": extract_pypdf,
+    }
+    if extractor in explicit_extractors:
+        result, warning = _attempt(extractor, explicit_extractors[extractor], path)
+        if result is None:
+            raise ExtractionError(warning or f"{extractor} extractor failed for {path}")
+        return result
 
     warnings: list[str] = []
     attempts: list[tuple[str, Callable[[Path], ExtractionResult]]] = []
