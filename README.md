@@ -179,6 +179,17 @@ CI runs exactly this set, on Python 3.10, plus two extra `validate.py` modes,
 the governance scripts, and two checks on `reports/`: that the committed
 artifacts match regenerated output, and that regeneration is deterministic.
 
+**Full offline equivalent:** To execute the remaining CI checks as well,
+without GitHub Actions, run from a clean committed branch:
+
+```bash
+python3 -B scripts/verify_local.py --base-ref origin/main --receipt /tmp/laif-local-verification.json
+```
+
+The runner records the checked commit and base SHA, Python version and
+per-command outcomes. [Local verification guide](docs/governance/LOCAL_VERIFICATION.md)
+explains interpretation and the existing automatic GitHub workflow behaviour.
+
 ---
 
 ## Core Concepts at a Glance

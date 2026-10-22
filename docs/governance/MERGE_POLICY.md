@@ -27,6 +27,13 @@ python3 test_real_world.py
 
 A passing CI run does not by itself approve semantic changes. It confirms that the automated checks completed successfully.
 
+The same complete suite, including the committed-report comparison and
+determinism checks, can be executed **without GitHub Actions** using
+`python3 -B scripts/verify_local.py --base-ref origin/main` from a clean
+committed branch. An optional `--receipt` records the precise evidence. See
+`docs/governance/LOCAL_VERIFICATION.md`. This independent execution option
+does not itself change the existing CI merge expectations or automatic triggers.
+
 ## Reviewer Expectations
 
 Reviewers should verify:

@@ -17,6 +17,21 @@ For Codex, ChatGPT and other remote coding agents:
 
 Human contributors may still run the full suite locally when desired. This instruction exists to avoid making remote agents consume context and compute by duplicating a full deterministic suite that GitHub will immediately run again.
 
+## Offline verification option
+
+All checks can also be run without GitHub Actions by any agent with a local
+checkout, Python and Git. On a committed, clean review branch:
+
+```bash
+python3 -B scripts/verify_local.py --base-ref origin/main --receipt /tmp/laif-local-verification.json
+```
+
+The runner invokes all CI suites and the report-parity/determinism checks,
+without skipping PR-diff governance checks. See
+`docs/governance/LOCAL_VERIFICATION.md` for environment, receipt and scope
+details. This capability does not change the existing CI-first merge policy
+or GitHub's automatic workflow triggers.
+
 ## Semantic and provenance discipline
 
 Read `CLAUDE.md`, `CONTRIBUTING.md`, and the relevant `docs/governance/` material before modifying scoring, detection, reporting, corpus or protected artifacts. Preserve the distinction between LAIF-native form, external-framework diagnostic assessment, functional alignment, and legal authority.

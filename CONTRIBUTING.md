@@ -24,6 +24,19 @@ python3 test_real_world.py
 
 If a command cannot be run, state which command was skipped and why. Do not describe skipped checks as passing.
 
+For the **complete** repository software/governance suite in one command,
+including PR-base artifact checks, all validation modes, processing tests,
+committed-report comparison and deterministic regeneration, run from a clean
+committed branch:
+
+```bash
+python3 -B scripts/verify_local.py --base-ref origin/main --receipt /tmp/laif-local-verification.json
+```
+
+This does not use GitHub Actions or an external network service. It is an
+additional independent verification path; current CI review requirements
+remain unchanged. See `docs/governance/LOCAL_VERIFICATION.md`.
+
 ## Pull Request Expectations
 
 Every pull request should describe:
