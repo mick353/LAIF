@@ -1,6 +1,6 @@
 # Law-Aligned Intelligence Framework (LAIF)
 
-**Version 1.2 · Compliance Toolkit v1.1 · April 2026 · Governance Audit Series**
+**Version 1.2 · Compliance Toolkit v1.1 · October 2026 · Governance Audit Series**
 
 LAIF is a **structural governance integrity framework for AI-related institutional documents**. It asks whether high-level AI governance principles have been operationalised into enforceable, auditable, reversible, accountable structures that protect identifiable human and public interests.
 
