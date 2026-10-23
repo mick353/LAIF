@@ -68,7 +68,7 @@ The local batch runner processes the pending folder and writes per-document outp
 python3 scripts/laif_batch_process_pending.py --help
 ```
 
-Read its [processing and identity rules](governance/DOCUMENT_PROCESSING_RUNNER.md) before placing documents in the input queue. No GitHub Actions run is required.
+Read its [batch-processing reference](product/REFERENCE.md#batch-processing) before placing documents in the input queue. No GitHub Actions run is required.
 
 ## Make the human review count
 
@@ -78,7 +78,7 @@ Read its [processing and identity rules](governance/DOCUMENT_PROCESSING_RUNNER.m
 4. Ask for evidence that controls operate, including permitted-action tests and attempted-bypass tests.
 5. Record which findings were accepted, rejected or resolved with additional evidence.
 
-Software tests verify tool behaviour. They do not establish legal compliance or institutional control effectiveness. See [result interpretation](governance/RESULT_TAXONOMY.md) and [evidence diagnostic boundaries](governance/EVIDENCE_CHECKS.md).
+Software tests verify tool behaviour. They do not establish legal compliance or institutional control effectiveness. See [assessment method](product/METHOD.md) and [evidence diagnostic reference](product/REFERENCE.md#evidence-checks).
 
 ## Verify the toolkit
 
@@ -87,4 +87,4 @@ python3 scripts/laif_verify.py
 python3 scripts/laif_verify.py --full --base-ref origin/main
 ```
 
-Use the actual pre-change base SHA when inspecting an already merged change. The [independent offline verification record](verification/2026-10-23/README.md) includes executed results, negative controls and explicit omissions.
+Use the actual pre-change base SHA when inspecting an already merged change. The [quality guide](product/QUALITY.md) describes verified capabilities and runtime limits.
