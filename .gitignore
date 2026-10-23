@@ -1,3 +1,19 @@
 __pycache__/
 *.pyc
 laif_outputs/
+
+# Local environments and private processing workspaces
+.venv/
+.env
+.env.*
+!.env.example
+/laif_batch_summary.json
+/laif_inputs/pending/*
+!/laif_inputs/pending/.gitkeep
+/laif_inputs/processed/*
+!/laif_inputs/processed/.gitkeep
+!/laif_inputs/processed/README.md
+/laif_inputs/failed/*
+!/laif_inputs/failed/.gitkeep
+/laif_inputs/batch_summaries/*
+!/laif_inputs/batch_summaries/.gitkeep

@@ -63,7 +63,7 @@ To print the assessment without creating outputs:
 python3 scripts/laif_process_document.py docs/examples/vendor-policy.md --extractor builtin --no-write --print-report
 ```
 
-On Windows, use your Python launcher (for example, `py -3`) in place of `python3`. Windows execution is not covered by the published independent verification. Word and PDF extraction use optional local packages; see the [format and setup guide](docs/GETTING_STARTED.md). Keep private source documents and generated assessments out of this public repository.
+On Windows, use your Python launcher (for example, `py -3`) in place of `python3`. The [focused Windows text-example record](docs/verification/2026-10-23/windows-example.md) covers Python 3.11; the full independent gate remains verified on Linux. Word and PDF extraction use optional local packages; see the [format and setup guide](docs/GETTING_STARTED.md). Keep private source documents and generated assessments out of this public repository.
 
 ## What you get
 
