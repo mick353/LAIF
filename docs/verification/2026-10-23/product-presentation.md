@@ -12,7 +12,7 @@ This is a documentation, graphics and synthetic-example change. It does not alte
 - All three graphics were rendered and visually inspected for typography, clipping and accuracy. Social PNG is 1280×640 and below 1 MB.
 - Git diff whitespace checks passed. Subsequent changes only clarify reference wording, record unavailable settings access and add this verification record. After reconciliation and historical-model labelling, the 83 README/fragility tests were rerun and passed. The front-page introduction is model-independent and contains no GPT-4 reference; original clinical case files remain historical. No implementation code changed, so the complete earlier gate was not duplicated.
 
-Raw full-gate output: [verification.log.gz](verification.log.gz).
+Raw full-gate output: [product-presentation.log.gz](product-presentation.log.gz).
 
 Remaining settings work: repository About text, discovery topics and installation of the prepared social preview require a GitHub settings-capable connection or signed-in browser. Those settings have not been applied. No distribution licence was chosen for the owner.
 

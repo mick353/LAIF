@@ -10,7 +10,7 @@
 <p align="center">
   <a href="#try-it-locally">Try it locally</a> ·
   <a href="docs/examples/sample-assessment.md">Read a sample assessment</a> ·
-  <a href="LAIF_Executive_Brief.txt">Read the executive brief</a> ·
+  <a href="docs/product/OVERVIEW.md">Read the executive brief</a> ·
   <a href="docs/GETTING_STARTED.md">Getting started</a>
 </p>
 
@@ -73,10 +73,10 @@ On Windows, use your Python launcher (for example, `py -3`) in place of `python3
 - **Failure pathways:** structured explanations of how a documented commitment might fail to control a real decision.
 - **Control recommendations:** practical additions to review, adopt or reject in context.
 - **An analyst bundle:** Markdown and JSON for further work by a person or an AI assistant of your choice. LAIF does not call a model API to generate these outputs.
-- **Batch processing:** per-document outputs and a portfolio summary through the [local batch runner](docs/governance/DOCUMENT_PROCESSING_RUNNER.md).
-- **Optional evidence checks:** hashes, exact quotes, positive/negative test records, contradictions and duplicate identities. [Evidence diagnostic guide →](docs/governance/EVIDENCE_CHECKS.md)
+- **Batch processing:** per-document outputs and a portfolio summary through the [local batch runner](docs/product/REFERENCE.md#batch-processing).
+- **Optional evidence checks:** hashes, exact quotes, positive/negative test records, contradictions and duplicate identities. [Evidence diagnostic guide →](docs/product/REFERENCE.md#evidence-checks)
 
-[Explore the generated sample](docs/examples/README.md) · [Browse the corpus assessment](reports/laif_real_world_assessment.md) · [Read the one-page summary](reports/laif_executive_summary.md)
+[Explore the generated sample](docs/examples/README.md) · [Read the product overview](docs/product/OVERVIEW.md) · [Understand the method](docs/product/METHOD.md)
 
 ## Built for the people who have to ask the next question
 
@@ -103,23 +103,17 @@ These are LAIF's assessment criteria. Document analysis can identify how protect
 | **Remediation / patch guidance** | Suggested clauses, controls and evidence for a reviewer to consider. |
 | **Repository governance / local verification** | Software checks covering provenance, regressions and protected artefacts. A software pass is not governance certification. |
 
-## Inspect the evidence behind the software
+## Built to be inspected
 
-The [independent offline verification record](docs/verification/2026-10-23/README.md) includes actual execution logs, negative controls and reproducibility checks. The corrected version passed the full local gate with network access blocked, including a fresh environment without optional packages. That is evidence about software operation, not proof of institutional control effectiveness.
+LAIF produces source-linked findings and readable Markdown and JSON outputs. Its local verification suite covers regression cases, source provenance, negative controls and deterministic corpus-report generation.
 
-Run a targeted check:
+The full suite has been executed with network access blocked, including a standard-library-only environment. See [quality and verification](docs/product/QUALITY.md) for the checked capabilities and runtime limits.
 
 ```bash
 python3 scripts/laif_verify.py
 ```
 
-Run the complete local gate:
-
-```bash
-python3 scripts/laif_verify.py --full --base-ref origin/main
-```
-
-GitHub Actions is not required. For a merged change, use its pre-merge base SHA rather than unchanged `origin/main`: a change-sensitive check over an empty diff does not demonstrate protection. [Verification details and remaining source/runtime gaps →](docs/verification/2026-10-23/README.md)
+No GitHub Actions run is needed. [Complete verification instructions →](docs/product/REFERENCE.md#verification)
 
 ## Understand the boundaries
 
@@ -133,12 +127,10 @@ The toolkit is currently a local Python command-line workflow with generated rep
 
 | Start here | Go deeper |
 |---|---|
-| [Getting started](docs/GETTING_STARTED.md) | [Document processing guide](docs/governance/DOCUMENT_PROCESSING_RUNNER.md) |
-| [Executive brief](LAIF_Executive_Brief.txt) | [Core framework v1.2](LAIF_v1.2.txt) |
-| [Public introduction](LAIF_Public_Article.txt) | [Compliance Toolkit v1.1](LAIF_Compliance_Toolkit.txt) |
-| [Worked synthetic example](docs/examples/README.md) | [Technical reference and repository map](docs/product/REFERENCE.md) |
-| [Current corpus assessment](reports/laif_real_world_assessment.md) | [Source provenance manifest](corpus_manifest.md) |
-| [Contribution guide](CONTRIBUTING.md) | [Score interpretation](docs/governance/SCORE_INTERPRETATION.md) |
+| [Product overview](docs/product/OVERVIEW.md) | [How LAIF assesses governance](docs/product/METHOD.md) |
+| [Getting started](docs/GETTING_STARTED.md) | [Command and output reference](docs/product/REFERENCE.md) |
+| [Worked example](docs/examples/README.md) | [Quality and verification](docs/product/QUALITY.md) |
+| [Sample assessment](docs/examples/sample-assessment.md) | [Contribution guide](CONTRIBUTING.md) |
 
 **Questions or feedback?** [Open an issue](https://github.com/mick353/LAIF/issues/new) with your use case, command, Python version and a sanitised example. Do not upload confidential policies or operational logs. Maintained by [Michael Robinson](https://github.com/mick353).
 
