@@ -12,7 +12,7 @@ cd LAIF
 python3 scripts/laif_process_document.py docs/examples/vendor-policy.md --extractor builtin
 ```
 
-On Windows, replace `python3` with your installed Python launcher, such as `py -3`. Windows has not been independently verified in the published run.
+On Windows, replace `python3` with your installed Python launcher. Use `py -3 -X utf8` for commands that print Unicode validation results. The Python 3.11 Windows text example and evidence checks are covered by the [focused execution record](verification/2026-10-23/windows-example.md); the full independent gate remains verified on Linux.
 
 ## 2. Read the right output first
 
@@ -62,7 +62,7 @@ These packages are optional and installation needs network access. Text extracti
 
 ## Batch processing
 
-The local batch runner processes the pending folder and writes per-document outputs and portfolio summaries:
+The local batch runner processes the pending folder and writes per-document outputs and portfolio summaries. A fresh clone has an empty queue. Add only the documents you intend to process; local queues and outputs are ignored by Git:
 
 ```bash
 python3 scripts/laif_batch_process_pending.py --help

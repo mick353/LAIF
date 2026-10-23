@@ -8,7 +8,7 @@ This repository holds the Law-Aligned Intelligence Framework (LAIF), a constitut
 2. **A Python enforcement toolchain** — a validation harness, an assessment engine that scores external governance documents against LAIF, a two-tier assessment corpus with machine-verified provenance, and test suites. Plain Python 3, standard library only — no third-party dependencies.
 
 - **Version**: LAIF v1.2 | Compliance Toolkit v1.1
-- **Date**: April 2026
+- **Product documentation**: October 2026
 - **Purpose**: Governance Audit Series — provides a unified, constitutional-level reasoning structure for evaluating AI deployments, policies, and regulatory decisions.
 
 ---
@@ -17,12 +17,12 @@ This repository holds the Law-Aligned Intelligence Framework (LAIF), a constitut
 
 ```
 LAIF/
-├── LAIF-Law-Aligned_Intelligence_Framework.txt   # Navigation index / START HERE
+├── LAIF-Law-Aligned_Intelligence_Framework.txt   # Validated governance-corpus navigation index
 ├── README.md                                      # Project description and contents
 ├── CLAUDE.md                                      # This file — AI assistant guidance
 │
-│  # Governance corpus (each .docx has a matching .txt export for search/programmatic access)
-├── LAIF_Executive_Brief.docx / .txt   # 2-min overview; START HERE for new readers
+│  # Governance corpus (validated reference documents; not the product entry point)
+├── LAIF_Executive_Brief.docx / .txt   # Validated reference brief; product entry point: docs/product/OVERVIEW.md
 ├── LAIF_Public_Article.docx / .txt    # 5–7 min public-facing governance audit article
 ├── LAIF_v1.2.docx / .txt              # CORE: The principal framework text (the "constitution")
 ├── LAIF_PDCA_GPT4_Clinical.docx / .txt        # Applied PDCA: GPT-4 Clinical Documentation Assistant
@@ -412,3 +412,12 @@ No assessment may be performed from memory, reconstructed missing text, paraphra
 6. **The Integrity Layer is a threshold, not a score**: A system that partially satisfies A.1 does not receive partial credit — it fails A.1, and therefore fails the Integrity Layer precondition entirely.
 
 7. **"Materially affects interests" is an objective test**: It does not depend on operator intent. The standard is whether a reasonable person in the affected person's situation would regard the output as material.
+
+
+## Current product and clone layout
+
+Start users at `README.md`, `docs/GETTING_STARTED.md` and `docs/product/OVERVIEW.md`. The root DOCX/TXT governance corpus is required by `validate.py`; those files are retained deliberately, including the paired exports and applied case fixtures. Do not delete them as duplicate product copy.
+
+Pending, processed, failed and batch-summary folders start empty in a clone. Original public-source custody files live in `docs/verified/manual_ingest/`; moving them does not change manifest verification status. Prior batch outputs are preserved with their hashes in `docs/verification/2026-05-11/`. Local queue contents and outputs are ignored by default.
+
+The `.gitattributes` policy keeps source and report text as LF on Windows and Linux so source hashes and toolchain fingerprints reproduce across checkouts. No GitHub Actions run is required.

@@ -59,7 +59,7 @@ python3 scripts/laif_batch_process_pending.py --help
 python3 scripts/laif_batch_process_pending.py --max-files 20
 ```
 
-The batch runner reads supported documents from `laif_inputs/pending/`, maintains processed/failed queues, generates per-document outputs and produces batch and portfolio summaries. Inspect the command's options and output paths before processing a private collection. Keep confidential inputs and outputs out of public commits.
+The batch runner reads supported documents from `laif_inputs/pending/`, maintains processed/failed queues, generates per-document outputs and produces batch and portfolio summaries. A fresh clone has empty queues; place only your intended inputs there. Local queue contents and outputs are ignored by Git. Original public-source custody files are retained in `docs/verified/manual_ingest/`, and prior batch records are preserved under `docs/verification/2026-05-11/`. Inspect the command's options and output paths before processing a private collection. Keep confidential inputs and outputs out of public commits.
 
 ## Evidence checks
 

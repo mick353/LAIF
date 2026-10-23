@@ -1,0 +1,147 @@
+[
+  {
+    "from": "laif_inputs/pending/2023-24283.pdf",
+    "to": "docs/verified/manual_ingest/2023-24283.pdf",
+    "sha256": "46739dfc1af256961458d3b73fa4d6f4b447b38eaa72efd80966463818be68ab"
+  },
+  {
+    "from": "laif_inputs/pending/DTAC_Form_2.0_February_2026.docx",
+    "to": "docs/verified/manual_ingest/DTAC_Form_2.0_February_2026.docx",
+    "sha256": "fc8b64305d5b536ad1f9cafd7fd602ce9703adffaeceb5d9bdff46d25224ad60"
+  },
+  {
+    "from": "laif_inputs/pending/NIST.AI.100-1.docx",
+    "to": "docs/verified/manual_ingest/NIST.AI.100-1.docx",
+    "sha256": "8a8035bd30b35f733b24b35d5975bc98fa00dc600392a80ca0e70fb75ae33ba1"
+  },
+  {
+    "from": "laif_inputs/pending/NIST.AI.100-1.pdf",
+    "to": "docs/verified/manual_ingest/NIST.AI.100-1.pdf",
+    "sha256": "7576edb531d9848825814ee88e28b1795d3a84b435b4b797d3670eafdc4a89f1"
+  },
+  {
+    "from": "laif_inputs/pending/OJ_L_202401689_EN_TXT.pdf",
+    "to": "docs/verified/manual_ingest/OJ_L_202401689_EN_TXT.pdf",
+    "sha256": "bba630444b3278e881066774002a1d7824308934f49ccfa203e65be43692f55e"
+  },
+  {
+    "from": "laif_inputs/pending/Policy for the responsible use of AI in Government 2.0_0.pdf",
+    "duplicate_of": "docs/verified/manual_ingest/Policy for the responsible use of AI in Government 2.0_0.pdf",
+    "sha256": "94beda4e6e9f61e0dd5d5f17b45b18cf6015b20fd9aabe41d20318f725273c11"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062417596632Z__2023-24283/metadata/metadata.json",
+    "to": "docs/verification/2026-05-11/runs/run-1/metadata.json",
+    "sha256": "dcaf48803786f8bc8ed5bb9221feebd07a84d7777dca210ba44a60b8dae1e18e"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062417596632Z__2023-24283/reports/2023-24283.laif.json",
+    "to": "docs/verification/2026-05-11/runs/run-1/assessment.json",
+    "sha256": "8bf91fd9827114a6f309b286ddf7d89e64e481917ed9e3d698af08733900925c"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062417596632Z__2023-24283/reports/2023-24283.laif.md",
+    "to": "docs/verification/2026-05-11/runs/run-1/assessment.md",
+    "sha256": "bdcb48c2e8668db5da0d24650b7889156b33787e2ae29a344202bc3b1aed966a"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062417596632Z__2023-24283/reports/laif_processing_index.jsonl",
+    "to": "docs/verification/2026-05-11/runs/run-1/processing-index.jsonl",
+    "sha256": "2e56ff9c478ffa1d7637a9a4c3c0fb7d61f37fc639138ec663ac0c3c3108e56e"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062418900179Z__DTAC_Form_2.0_February_2026/metadata/metadata.json",
+    "to": "docs/verification/2026-05-11/runs/run-2/metadata.json",
+    "sha256": "65e19282390aaf1d018bad614f8e15b4747f01add1e5de7dc2f64bfde08170d2"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062418900179Z__DTAC_Form_2.0_February_2026/reports/DTAC_Form_2.0_February_2026.laif.json",
+    "to": "docs/verification/2026-05-11/runs/run-2/assessment.json",
+    "sha256": "d8d18d97c5c1bb7128c4613eb5dcc035eb0944bf156911a7046660bbb9d94112"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062418900179Z__DTAC_Form_2.0_February_2026/reports/DTAC_Form_2.0_February_2026.laif.md",
+    "to": "docs/verification/2026-05-11/runs/run-2/assessment.md",
+    "sha256": "f41a79941cc5ca2804494737a34e3295695c01bdd7af785989aa7c180cdc7604"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062418900179Z__DTAC_Form_2.0_February_2026/reports/laif_processing_index.jsonl",
+    "to": "docs/verification/2026-05-11/runs/run-2/processing-index.jsonl",
+    "sha256": "6930e8cc650ab02b766da3804f73482fe8ba443e19ab5b72802a48f61585001f"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062419232221Z__NIST.AI.100-1/metadata/metadata.json",
+    "to": "docs/verification/2026-05-11/runs/run-3/metadata.json",
+    "sha256": "b5176d29e0e00d7dee9e8a498a408079f0a9cdfff19922938fa9b34a2b240777"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062419232221Z__NIST.AI.100-1/reports/laif_processing_index.jsonl",
+    "to": "docs/verification/2026-05-11/runs/run-3/processing-index.jsonl",
+    "sha256": "18d58703cd01e25e9d6d61be3a603b6261fdbf4312d3a40bab86d00e912b8a62"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062419232221Z__NIST.AI.100-1/reports/NIST.AI.100-1.laif.json",
+    "to": "docs/verification/2026-05-11/runs/run-3/assessment.json",
+    "sha256": "8bb3d404cb19b2a43aea4175ab799dc65fd6f760e80f9dac11a6bf3ef11ec6df"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062419232221Z__NIST.AI.100-1/reports/NIST.AI.100-1.laif.md",
+    "to": "docs/verification/2026-05-11/runs/run-3/assessment.md",
+    "sha256": "b5eb82361ea486dadd3ed715e1957c854f947eda4eb6248ad1b3b735fcdaa967"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062419749446Z__NIST.AI.100-1/metadata/metadata.json",
+    "to": "docs/verification/2026-05-11/runs/run-4/metadata.json",
+    "sha256": "c2c3236be3efa5cde1f7d268cee58237b3af7bc7a6ac9fbe246497f775134ca2"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062419749446Z__NIST.AI.100-1/reports/laif_processing_index.jsonl",
+    "to": "docs/verification/2026-05-11/runs/run-4/processing-index.jsonl",
+    "sha256": "dff7af6b998274bbf2d024325d702159bd1900c623e0ea523028a64fbd4aa4a4"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062419749446Z__NIST.AI.100-1/reports/NIST.AI.100-1.laif.md",
+    "to": "docs/verification/2026-05-11/runs/run-4/assessment.md",
+    "sha256": "8e83275dba2daca7a19df1d04a71f7a012affa1aeea766d730659ba614088caf"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062420688877Z__OJ_L_202401689_EN_TXT/metadata/metadata.json",
+    "to": "docs/verification/2026-05-11/runs/run-5/metadata.json",
+    "sha256": "4c4468cba11ac2668ac98e6554e17952633c87f52861ac0d3d2065ef18103a49"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062420688877Z__OJ_L_202401689_EN_TXT/reports/laif_processing_index.jsonl",
+    "to": "docs/verification/2026-05-11/runs/run-5/processing-index.jsonl",
+    "sha256": "b03fef1b87a1982faa52713e736d5862fff8a34b586059ffe8314324598b294d"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062420688877Z__OJ_L_202401689_EN_TXT/reports/OJ_L_202401689_EN_TXT.laif.md",
+    "to": "docs/verification/2026-05-11/runs/run-5/assessment.md",
+    "sha256": "30eb4d5a3950b199f7d85841ae1752733d181d97dbf7b1613ae0e8b6a6008d22"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062425490450Z__Policy-for-the-responsible-use-of-AI-in-Government-2.0_0/metadata/metadata.json",
+    "to": "docs/verification/2026-05-11/runs/run-6/metadata.json",
+    "sha256": "49358ea93247df6c9e3607adb1ea0374ba3d76b43d8ae3468ccb5d3e960cefd2"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062425490450Z__Policy-for-the-responsible-use-of-AI-in-Government-2.0_0/reports/laif_processing_index.jsonl",
+    "to": "docs/verification/2026-05-11/runs/run-6/processing-index.jsonl",
+    "sha256": "946ece0069193bddc8940f95104a2c66b6e550dac229f6ab52d9802697ca015e"
+  },
+  {
+    "from": "laif_inputs/processed/20260511T062425490450Z__Policy-for-the-responsible-use-of-AI-in-Government-2.0_0/reports/Policy-for-the-responsible-use-of-AI-in-Government-2.0_0.laif.md",
+    "to": "docs/verification/2026-05-11/runs/run-6/assessment.md",
+    "sha256": "044165692ec286a1b30aa78794ec1c648e7e19762f8f66aa4bee6c5620cd3053"
+  },
+  {
+    "from": "laif_inputs/batch_summaries/20260511T062417595291Z__batch.json",
+    "to": "docs/verification/2026-05-11/batch_summaries/20260511T062417595291Z__batch.json",
+    "sha256": "d8554ce9ae38665ed9efbe3b725429be4f013dfdeaa7440e62b573c25ccb1770"
+  },
+  {
+    "from": "laif_batch_summary.json",
+    "to": "docs/verification/2026-05-11/latest_batch_summary.json",
+    "sha256": "d8554ce9ae38665ed9efbe3b725429be4f013dfdeaa7440e62b573c25ccb1770"
+  }
+]
