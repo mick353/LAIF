@@ -4,7 +4,7 @@
 
 <p align="center">
   <strong>Law-Aligned Intelligence Framework</strong><br>
-  A framework and local toolkit for reviewing AI governance documents.
+  A model-independent framework and local toolkit for reviewing AI governance documents.
 </p>
 
 <p align="center">
@@ -146,4 +146,4 @@ The toolkit is currently a local Python command-line workflow with generated rep
 
 ---
 
-LAIF v1.2 · Compliance Toolkit v1.1 · Framework corpus: April 2026
+LAIF v1.2 · Compliance Toolkit v1.1 · October 2026

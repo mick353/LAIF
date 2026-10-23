@@ -4,7 +4,9 @@ Detailed framework and toolchain background. For the product overview and quick 
 
 # Law-Aligned Intelligence Framework (LAIF)
 
-**Version 1.2 · Compliance Toolkit v1.1 · April 2026 · Governance Audit Series**
+**Version 1.2 · Compliance Toolkit v1.1 · October 2026**
+
+LAIF is model-independent. The clinical PDCA is a historical worked case study covering 2023–2025; its original model name and filenames identify that case, not the current scope or dependencies of the product. Original source documents retain their historical wording and dates.
 
 LAIF is a **structural governance integrity framework for AI-related institutional documents**. It asks whether high-level AI governance principles have been operationalised into enforceable, auditable, reversible, accountable structures that protect identifiable human and public interests.
 
@@ -66,7 +68,7 @@ For detailed interpretation rules, see `docs/governance/RESULT_TAXONOMY.md`, `do
 | Audience | Starting point |
 |----------|---------------|
 | **Regulators and policy bodies** | Executive Brief → LAIF v1.2 Part Seven (Self-Application) |
-| **AI operators and developers** | Executive Brief → PDCA (GPT-4 Clinical) → Compliance Toolkit |
+| **AI operators and developers** | Executive Brief → Compliance Toolkit → historical clinical PDCA (optional) |
 | **Procurement officers (federal)** | Regulatory Integration Guide Part Two (OMB M-24-18) |
 | **Legal and compliance counsel** | LAIF v1.2 → Regulatory Integration Guide Part One (EU AI Act) |
 | **Researchers and academics** | Policy Paper → Case Analysis → LAIF v1.2 |
@@ -100,7 +102,7 @@ Does the deployment preserve the capacity of future actors to modify or reverse 
     └── LAIF_v1.2                     — The authoritative framework text
 
 03  APPLICATIONS AND INTEGRATION
-    ├── LAIF_PDCA_GPT4_Clinical       — Applied PDCA: clinical AI deployment audit
+    ├── Historical clinical PDCA     — Worked case study, 2023–2025; see document index below
     ├── LAIF_Regulatory_Integration_Guide  — EU AI Act + US federal step-by-step
     ├── LAIF_Case_Analysis            — Retrospective analysis: 8 governance failures
     ├── LAIF_Compliance_Toolkit       — Operational definitions and standards (v1.1)
@@ -224,7 +226,7 @@ LAIF applies to regulatory bodies and governance actors themselves — not only 
 | `LAIF_Executive_Brief.docx` / `.txt` | DOCX + TXT | 2-min executive overview |
 | `LAIF_Public_Article.docx` / `.txt` | DOCX + TXT | Public-facing governance audit article |
 | `LAIF_v1.2.docx` / `.txt` | DOCX + TXT | Core framework document |
-| `LAIF_PDCA_GPT4_Clinical.docx` / `.txt` | DOCX + TXT | Applied PDCA assessment |
+| `LAIF_PDCA_GPT4_Clinical.docx` / `.txt` | DOCX + TXT | Historical clinical case study (2023–2025); original filename retained, not a product/model dependency |
 | `LAIF_Case_Analysis.docx` / `.txt` | DOCX + TXT | Retrospective case analysis (8 failures) |
 | `LAIF_Compliance_Toolkit.docx` / `.txt` | DOCX + TXT | Operational definitions v1.1 |
 | `LAIF_Policy_Paper.docx` / `.txt` | DOCX + TXT | Academic/policy paper |
@@ -264,7 +266,7 @@ Contribution and review expectations are documented in `CONTRIBUTING.md` and `do
 
 ---
 
-*LAIF v1.2 · Compliance Toolkit v1.1 · April 2026*
+*LAIF v1.2 · Compliance Toolkit v1.1 · October 2026*
 
 ## Governance Status
 

@@ -30,6 +30,10 @@ Suggested topics:
 
 These are proposed settings until verified as applied. The current connected GitHub tools can publish repository files and PRs but do not expose repository-description, topic or social-preview updates. The alternate GitHub metadata connector is not connected. A browser check also confirmed that GitHub is signed out, so settings could not be applied. No additional account connection has been created.
 
+## Historical examples
+
+The product introduction is model-independent and does not promote an old model as the current product. The clinical PDCA covering 2023–2025 remains an explicitly historical worked example in the technical reference. Its original source files and case details are preserved rather than being relabelled as evidence about a newer model. The public release presentation retains the owner's October 2026 date.
+
 ## Claim and adoption discipline
 
 - “Local toolkit”, “standard-library core” and “no model API key” describe the implemented text/Markdown path.
