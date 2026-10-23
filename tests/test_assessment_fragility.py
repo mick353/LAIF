@@ -554,7 +554,7 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
             "LAIF-native certification",
             "External framework diagnostic assessment",
             "Remediation / patch guidance",
-            "Repository governance / CI validation",
+            "Repository governance / local verification",
             "does not determine legal validity",
             "does not claim authority over external jurisdictions",
             "does not require external frameworks to use LAIF vocabulary",
