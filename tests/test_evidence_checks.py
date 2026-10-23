@@ -83,6 +83,38 @@ class EvidenceChecksTests(unittest.TestCase):
         self.control["evidence"][0]["quote"] = "invented successful result"
         self.assertEqual(self.status(), "EVIDENCE_INVALID")
 
+    def test_missing_or_malformed_evidence_quotes_never_count(self):
+        for quote in (None, "", "   ", [], {}, 7):
+            with self.subTest(quote=quote):
+                self.control["evidence"] = self._example_evidence()
+                self.control["evidence"][0]["quote"] = quote
+                self.assertEqual(self.status(), "EVIDENCE_INVALID")
+        self.control["evidence"] = self._example_evidence()
+        del self.control["evidence"][1]["quote"]
+        self.assertEqual(self.status(), "EVIDENCE_INVALID")
+
+    def test_malformed_test_metadata_is_diagnosed_without_crashing(self):
+        for field in ("type", "outcome", "test_id"):
+            for value in (None, [], {}, 7, ""):
+                with self.subTest(field=field, value=value):
+                    self.control["evidence"] = self._example_evidence()
+                    self.control["evidence"][0][field] = value
+                    self.assertEqual(self.status(), "EVIDENCE_INVALID")
+
+    def test_cli_strict_gate_rejects_missing_quote_and_malformed_metadata(self):
+        for field in ("quote", "type", "outcome"):
+            with self.subTest(field=field):
+                self.control["evidence"] = self._example_evidence()
+                self.control["evidence"][0][field] = None if field == "quote" else []
+                path = self.root / "manifest.json"
+                path.write_text(json.dumps(self.manifest), encoding="utf-8")
+                result = subprocess.run(
+                    [sys.executable, str(CHECKER), str(path), "--require-review-ready"],
+                    text=True, capture_output=True)
+                self.assertEqual(result.returncode, 1)
+                self.assertIn('"status": "EVIDENCE_INVALID"', result.stdout)
+                self.assertNotIn("Traceback", result.stderr)
+
     def test_outside_path_and_symlink_not_accepted(self):
         self.control["evidence"][0]["file"] = "../out-of-scope.txt"
         self.assertEqual(self.status(), "EVIDENCE_INVALID")

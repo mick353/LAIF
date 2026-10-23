@@ -1,0 +1,8 @@
+{
+  "baseline.log.gz": "d864cb0cd65ae60c1908b5ba155dde3a07fbb0e3ef414d92286955e355765055",
+  "full-offline.log.gz": "9ba7ecdde8e0fd853e95c3b6260642972394ba094faae01f5562cc2d5f0bbb0f",
+  "stdlib-offline.log.gz": "03be690ef2b30b6de00a911d7832c8abd4373bc544254537d703a2bb9b88d02c",
+  "negative-controls.log.gz": "c8e2a00d152f6d9b331e77e34512c2e7acad4c9fa7c8fa75218ba322302a0f64",
+  "governance-controls.log.gz": "4702c138ca8629c2bee39003d181cb3b63f05600d0f84085d8e921d362461965",
+  "targeted.log.gz": "6bc3943c1d3ac8103587cacbf7893f0a51bbd75142c7e618113f18c9fe35dcbc"
+}

@@ -1,0 +1,33 @@
+"""Verification harness: deny network connection/send syscalls in all descendants."""
+import ctypes
+import ctypes.util
+import errno
+import os
+import socket
+import sys
+
+lib = ctypes.CDLL(ctypes.util.find_library("seccomp"), use_errno=True)
+lib.seccomp_init.argtypes = [ctypes.c_uint32]
+lib.seccomp_init.restype = ctypes.c_void_p
+lib.seccomp_syscall_resolve_name.argtypes = [ctypes.c_char_p]
+lib.seccomp_syscall_resolve_name.restype = ctypes.c_int
+lib.seccomp_rule_add.argtypes = [ctypes.c_void_p, ctypes.c_uint32, ctypes.c_int, ctypes.c_uint]
+lib.seccomp_load.argtypes = [ctypes.c_void_p]
+lib.seccomp_release.argtypes = [ctypes.c_void_p]
+ctx = lib.seccomp_init(0x7fff0000)  # SCMP_ACT_ALLOW
+assert ctx
+for name in (b"connect", b"sendto", b"sendmsg", b"sendmmsg"):
+    number = lib.seccomp_syscall_resolve_name(name)
+    assert number >= 0
+    assert lib.seccomp_rule_add(ctx, 0x00050000 | errno.ENETUNREACH, number, 0) == 0
+assert lib.seccomp_load(ctx) == 0
+lib.seccomp_release(ctx)
+with socket.socket() as probe:
+    try:
+        probe.connect(("127.0.0.1", 9))
+    except OSError as exc:
+        assert exc.errno == errno.ENETUNREACH, exc
+    else:
+        raise AssertionError("network filter did not block connect")
+print("OFFLINE: kernel seccomp denies connect/sendto/sendmsg/sendmmsg; probe blocked; filter inherited by descendants", flush=True)
+os.execv(sys.executable, [sys.executable, *sys.argv[1:]])

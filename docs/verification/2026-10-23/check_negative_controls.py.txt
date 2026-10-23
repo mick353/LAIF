@@ -1,0 +1,40 @@
+"""Deliberately disable individual evidence protections in memory; tests must fail."""
+import io
+from pathlib import Path
+import sys
+import types
+import unittest
+
+repo = Path(__file__).parent / "LAIF"
+sys.path.insert(0, str(repo / "tests"))
+import test_evidence_checks as cases
+
+source = (repo / "scripts/laif_evidence_checks.py").read_text()
+mutations = (
+    ("ignore evidence hash", "if hashlib.sha256(data).hexdigest() != expected:", "if False:",
+     "test_tampered_artifact_and_invented_quote_do_not_count"),
+    ("ignore exact evidence quote", "if quote is not None and quote not in text:", "if False:",
+     "test_tampered_artifact_and_invented_quote_do_not_count"),
+    ("accept missing evidence quote", 'if not isinstance(test.get("quote"), str) or not test["quote"].strip():', "if False:",
+     "test_missing_or_malformed_evidence_quotes_never_count"),
+    ("ignore missing negative coverage", "elif not positive or not negative:", "elif False:",
+     "test_missing_negative_or_positive_controls_is_not_review_ready"),
+    ("ignore adverse outcome", 'failed |= outcome == "FAIL"', "failed = False",
+     "test_adverse_test_outcome_overrides_good_evidence"),
+    ("ignore contradictory records", "contradicted = True", "contradicted = False",
+     "test_conflicting_same_test_identity_detected"),
+    ("ignore duplicates", 'issues.append(f"record {index}: duplicate test identity")', "pass",
+     "test_duplicate_positive_outcome_cannot_inflate_coverage"),
+)
+original = cases.check_manifest
+for name, old, new, test in mutations:
+    assert source.count(old) == 1, name
+    module = types.ModuleType("mutated_evidence")
+    exec(compile(source.replace(old, new), str(repo / "scripts/laif_evidence_checks.py"), "exec"), module.__dict__)
+    cases.check_manifest = module.check_manifest
+    output = io.StringIO()
+    result = unittest.TextTestRunner(stream=output).run(cases.EvidenceChecksTests(test))
+    assert not result.wasSuccessful(), f"SURVIVED: {name}"
+    print(f"DETECTED: {name} ({len(result.failures)} assertion failures, {len(result.errors)} errors)")
+cases.check_manifest = original
+print("PASS: all 7 deliberately broken protections detected; repository source untouched")

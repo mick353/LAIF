@@ -1,0 +1,168 @@
+From ccfc8d4cf3658aa326fb92adea635ff729f8c148 Mon Sep 17 00:00:00 2001
+From: Codex <codex@openai.com>
+Date: Fri, 23 Oct 2026 09:22:52 +0200
+Subject: [PATCH] Fix evidence quote validation and normalise local parser
+ failures
+
+---
+ reports/laif_assessment_data.json        |  2 +-
+ scripts/laif_evidence_checks.py          |  7 +++++-
+ scripts/laif_process_document.py         | 19 ++++++++------
+ tests/test_assessment_fragility.py       |  2 +-
+ tests/test_document_processing_runner.py | 15 +++++++++++
+ tests/test_evidence_checks.py            | 32 ++++++++++++++++++++++++
+ 6 files changed, 66 insertions(+), 11 deletions(-)
+
+diff --git a/reports/laif_assessment_data.json b/reports/laif_assessment_data.json
+index 8c997d0..18e5cbf 100644
+--- a/reports/laif_assessment_data.json
++++ b/reports/laif_assessment_data.json
+@@ -2343,5 +2343,5 @@
+   "schema": "laif.assessment.v1",
+   "schema_revision": 4,
+   "schema_revision_note": "Revisions are additive only: fields are added, never removed or redefined. r2 added functional_alignment locations, obligation anchors, and score calibration; r3 added language_coverage, vocabulary_enumeration, self_contradictions, and assessed_character_count. A removal or a change of meaning would take a new schema id.",
+-  "toolchain_fingerprint": "b3cd1b65f5da3dd0"
++  "toolchain_fingerprint": "b9759941d75b8fbe"
+ }
+diff --git a/scripts/laif_evidence_checks.py b/scripts/laif_evidence_checks.py
+index bd83e3d..dc9a3bb 100644
+--- a/scripts/laif_evidence_checks.py
++++ b/scripts/laif_evidence_checks.py
+@@ -70,9 +70,14 @@ def check_manifest(manifest: dict, evidence_dir: Path) -> dict:
+                 issues.append(f"record {index}: not an object")
+                 continue
+             ttype, outcome, test_id = (test.get("type"), test.get("outcome"), test.get("test_id"))
+-            if ttype not in TEST_TYPES or outcome not in OUTCOMES or not isinstance(test_id, str) or not test_id.strip():
++            if (not isinstance(ttype, str) or ttype not in TEST_TYPES
++                    or not isinstance(outcome, str) or outcome not in OUTCOMES
++                    or not isinstance(test_id, str) or not test_id.strip()):
+                 issues.append(f"record {index}: invalid test metadata")
+                 continue
++            if not isinstance(test.get("quote"), str) or not test["quote"].strip():
++                issues.append(f"record {index}: missing source quote")
++                continue
+             try:
+                 _load_artifact(root, test.get("file"), test.get("sha256"), test.get("quote"))
+             except (ValueError, OSError, UnicodeError) as exc:
+diff --git a/scripts/laif_process_document.py b/scripts/laif_process_document.py
+index 039e8a9..703b85b 100755
+--- a/scripts/laif_process_document.py
++++ b/scripts/laif_process_document.py
+@@ -201,14 +201,17 @@ def extract_document(path: Path, extractor: str = "auto") -> ExtractionResult:
+     suffix = path.suffix.lower()
+     if extractor == "builtin":
+         return ensure_minimum_text(extract_builtin(path), path)
+-    if extractor == "docling":
+-        return ensure_minimum_text(extract_docling(path), path)
+-    if extractor == "markitdown":
+-        return ensure_minimum_text(extract_markitdown(path), path)
+-    if extractor == "python-docx":
+-        return ensure_minimum_text(extract_python_docx(path), path)
+-    if extractor == "pypdf":
+-        return ensure_minimum_text(extract_pypdf(path), path)
++    explicit_extractors = {
++        "docling": extract_docling,
++        "markitdown": extract_markitdown,
++        "python-docx": extract_python_docx,
++        "pypdf": extract_pypdf,
++    }
++    if extractor in explicit_extractors:
++        result, error = _attempt(extractor, explicit_extractors[extractor], path)
++        if result is None:
++            raise ExtractionError(error)
++        return result
+ 
+     warnings: list[str] = []
+     attempts: list[tuple[str, Callable[[Path], ExtractionResult]]] = []
+diff --git a/tests/test_assessment_fragility.py b/tests/test_assessment_fragility.py
+index 2682145..356fd6f 100644
+--- a/tests/test_assessment_fragility.py
++++ b/tests/test_assessment_fragility.py
+@@ -554,7 +554,7 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
+             "LAIF-native certification",
+             "External framework diagnostic assessment",
+             "Remediation / patch guidance",
+-            "Repository governance / CI validation",
++            "Repository governance / local verification",
+             "does not determine legal validity",
+             "does not claim authority over external jurisdictions",
+             "does not require external frameworks to use LAIF vocabulary",
+diff --git a/tests/test_document_processing_runner.py b/tests/test_document_processing_runner.py
+index 1742798..b9945f1 100644
+--- a/tests/test_document_processing_runner.py
++++ b/tests/test_document_processing_runner.py
+@@ -11,6 +11,7 @@ import subprocess
+ import sys
+ import tempfile
+ import unittest
++from unittest.mock import patch
+ from pathlib import Path
+ 
+ REPO_ROOT = Path(__file__).resolve().parents[1]
+@@ -124,6 +125,20 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
+                             path.write_bytes(b"not a real document")
+                             runner.extract_document(path, extractor)
+ 
++    def test_explicit_parser_failures_use_extraction_error(self) -> None:
++        for extractor, function in (
++            ("docling", "extract_docling"),
++            ("markitdown", "extract_markitdown"),
++            ("python-docx", "extract_python_docx"),
++            ("pypdf", "extract_pypdf"),
++        ):
++            with self.subTest(extractor=extractor), tempfile.TemporaryDirectory() as td:
++                path = Path(td) / "corrupt.pdf"
++                path.write_bytes(b"corrupt")
++                with patch.object(runner, function, side_effect=RuntimeError("invalid document")):
++                    with self.assertRaisesRegex(runner.ExtractionError, "invalid document"):
++                        runner.extract_document(path, extractor)
++
+     def test_auto_sector_clinical_procurement_general(self) -> None:
+         self.assertEqual(runner.auto_sector("clinical patient clinician safety incident"), "clinical_ai")
+         self.assertEqual(runner.auto_sector("procurement vendor contract audit access"), "procurement_vendor_governance")
+diff --git a/tests/test_evidence_checks.py b/tests/test_evidence_checks.py
+index ed3c5a6..d34df6e 100644
+--- a/tests/test_evidence_checks.py
++++ b/tests/test_evidence_checks.py
+@@ -83,6 +83,38 @@ class EvidenceChecksTests(unittest.TestCase):
+         self.control["evidence"][0]["quote"] = "invented successful result"
+         self.assertEqual(self.status(), "EVIDENCE_INVALID")
+ 
++    def test_missing_or_malformed_evidence_quotes_never_count(self):
++        for quote in (None, "", "   ", [], {}, 7):
++            with self.subTest(quote=quote):
++                self.control["evidence"] = self._example_evidence()
++                self.control["evidence"][0]["quote"] = quote
++                self.assertEqual(self.status(), "EVIDENCE_INVALID")
++        self.control["evidence"] = self._example_evidence()
++        del self.control["evidence"][1]["quote"]
++        self.assertEqual(self.status(), "EVIDENCE_INVALID")
++
++    def test_malformed_test_metadata_is_diagnosed_without_crashing(self):
++        for field in ("type", "outcome", "test_id"):
++            for value in (None, [], {}, 7, ""):
++                with self.subTest(field=field, value=value):
++                    self.control["evidence"] = self._example_evidence()
++                    self.control["evidence"][0][field] = value
++                    self.assertEqual(self.status(), "EVIDENCE_INVALID")
++
++    def test_cli_strict_gate_rejects_missing_quote_and_malformed_metadata(self):
++        for field in ("quote", "type", "outcome"):
++            with self.subTest(field=field):
++                self.control["evidence"] = self._example_evidence()
++                self.control["evidence"][0][field] = None if field == "quote" else []
++                path = self.root / "manifest.json"
++                path.write_text(json.dumps(self.manifest), encoding="utf-8")
++                result = subprocess.run(
++                    [sys.executable, str(CHECKER), str(path), "--require-review-ready"],
++                    text=True, capture_output=True)
++                self.assertEqual(result.returncode, 1)
++                self.assertIn('"status": "EVIDENCE_INVALID"', result.stdout)
++                self.assertNotIn("Traceback", result.stderr)
++
+     def test_outside_path_and_symlink_not_accepted(self):
+         self.control["evidence"][0]["file"] = "../out-of-scope.txt"
+         self.assertEqual(self.status(), "EVIDENCE_INVALID")
+-- 
+2.51.1
+

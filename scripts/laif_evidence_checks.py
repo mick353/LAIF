@@ -70,8 +70,13 @@ def check_manifest(manifest: dict, evidence_dir: Path) -> dict:
                 issues.append(f"record {index}: not an object")
                 continue
             ttype, outcome, test_id = (test.get("type"), test.get("outcome"), test.get("test_id"))
-            if ttype not in TEST_TYPES or outcome not in OUTCOMES or not isinstance(test_id, str) or not test_id.strip():
+            if (not isinstance(ttype, str) or ttype not in TEST_TYPES
+                    or not isinstance(outcome, str) or outcome not in OUTCOMES
+                    or not isinstance(test_id, str) or not test_id.strip()):
                 issues.append(f"record {index}: invalid test metadata")
+                continue
+            if not isinstance(test.get("quote"), str) or not test["quote"].strip():
+                issues.append(f"record {index}: missing source quote")
                 continue
             try:
                 _load_artifact(root, test.get("file"), test.get("sha256"), test.get("quote"))

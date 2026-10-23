@@ -11,6 +11,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -123,6 +124,20 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
                             path = Path(td) / f"sample{suffix}"
                             path.write_bytes(b"not a real document")
                             runner.extract_document(path, extractor)
+
+    def test_explicit_parser_failures_use_extraction_error(self) -> None:
+        for extractor, function in (
+            ("docling", "extract_docling"),
+            ("markitdown", "extract_markitdown"),
+            ("python-docx", "extract_python_docx"),
+            ("pypdf", "extract_pypdf"),
+        ):
+            with self.subTest(extractor=extractor), tempfile.TemporaryDirectory() as td:
+                path = Path(td) / "corrupt.pdf"
+                path.write_bytes(b"corrupt")
+                with patch.object(runner, function, side_effect=RuntimeError("invalid document")):
+                    with self.assertRaisesRegex(runner.ExtractionError, "invalid document"):
+                        runner.extract_document(path, extractor)
 
     def test_auto_sector_clinical_procurement_general(self) -> None:
         self.assertEqual(runner.auto_sector("clinical patient clinician safety incident"), "clinical_ai")
