@@ -134,7 +134,7 @@ The toolkit is currently a local Python command-line workflow with generated rep
 
 **Questions or feedback?** [Open an issue](https://github.com/mick353/LAIF/issues/new) with your use case, command, Python version and a sanitised example. Do not upload confidential policies or operational logs. Maintained by [Michael Robinson](https://github.com/mick353).
 
-**Licensing:** this repository does not currently include a distribution licence. Ask the maintainer about redistribution and commercial reuse; public availability does not itself grant those permissions.
+**Licensing:** original LAIF code and documentation are licensed under the [Apache License, Version 2.0](LICENSE), permitting use, modification and redistribution, including commercial use, under its terms. Retain the [NOTICE](NOTICE). Third-party reference documents and quotations retain their own terms; see [third-party notices and attribution](THIRD_PARTY_NOTICES.md).
 
 ---
 

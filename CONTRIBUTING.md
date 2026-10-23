@@ -2,6 +2,10 @@
 
 This repository contains framework texts, assessment tooling, verified-source provenance records, and published assessment artifacts. Contributions must keep those layers separate so that documentation updates do not accidentally alter LAIF semantics, scoring, detector behavior, interpretation logic, or assessment artifacts.
 
+## License and source attribution
+
+Original LAIF code and documentation are distributed under [Apache-2.0](LICENSE), with attribution in [NOTICE](NOTICE). Preserve existing notices and identify any third-party material and its applicable terms; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Do not apply LAIF's license to source documents or quotations owned by others.
+
 ## Contribution Workflow
 
 1. Start from the current repository state and keep changes focused.
