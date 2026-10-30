@@ -50,6 +50,7 @@ PUBLIC_DOCS = {"Executive Brief", "Public Article"}
 
 # Characters either side of a match to examine for context
 CONTEXT_WINDOW = 200
+HEADER_OPENING_LINE_COUNT = 12
 
 # CLAUDE.md §Terminology — context-aware paraphrase guards.
 # Source: LAIF_Compliance_Toolkit.txt §1 — canonical term definitions.
@@ -62,6 +63,8 @@ CONTEXT_WINDOW = 200
 #       (the forbidden word is used in discussion or contrast alongside the real term)
 #   (b) allow_if_contrast — explicit contrast phrasing detected in the window
 #       (e.g. "unlike alignment", "beyond alignment", "rather than alignment")
+#   (c) allow_if_match_prefix — the matched word starts a named external
+#       artefact category, rather than substituting for a LAIF relationship
 #
 # Everything else is flagged as a standalone substitution.
 def _forbidden_pattern(term):
@@ -114,6 +117,7 @@ PARAPHRASE_GUARDS = [
             r"in\s+contrast\b.{0,60}(alignment|connection|linkage)",
             r"differ.{0,60}(alignment|connection|linkage)",
         ],
+        "allow_if_match_prefix": [r"alignment\s+(?:documents?|specifications?)\b"],
     },
     {
         "term":    "Integrity Layer",
@@ -321,6 +325,7 @@ def find_paraphrase_violations(text, guard, window=CONTEXT_WINDOW):
     in a ±window char context. The match is suppressed (allowed) if:
       - guard["allow_if_nearby"] appears in the context window, or
       - any pattern in guard["allow_if_contrast"] matches the context window.
+      - the matched phrase begins a guard-listed external artefact category.
     Remaining matches are standalone substitutions and are returned as violations.
     """
     violations = []
@@ -332,6 +337,9 @@ def find_paraphrase_violations(text, guard, window=CONTEXT_WINDOW):
         if re.search(guard["allow_if_nearby"], ctx, re.IGNORECASE):
             continue
         if any(re.search(p, ctx, re.IGNORECASE) for p in guard.get("allow_if_contrast", [])):
+            continue
+        if any(re.match(p, text[m.start():], re.IGNORECASE)
+               for p in guard.get("allow_if_match_prefix", [])):
             continue
 
         violations.append((m.start(), ctx.replace("\n", " ").strip()))
@@ -538,13 +546,20 @@ def check_corpus_format_parity():
                f"vocabulary and provision counts identical)")
 
 
+def has_opening_header_date(text, expected_date="April 2026"):
+    """Recognize title-block metadata even after a long opening scope line."""
+    opening = "\n".join((text or "").splitlines()[:HEADER_OPENING_LINE_COUNT])
+    return expected_date in opening
+
+
 def check_headers(docs):
     section("CHECK 2 — Document Header Format  (CLAUDE.md §Version Numbering)")
     for label, text in docs.items():
-        if "April 2026" in text[:400]:
+        if has_opening_header_date(text):
             ok(label)
         else:
-            warn(f"{label} — 'April 2026' not found in opening 400 chars")
+            warn(f"{label} — 'April 2026' not found in opening title block "
+                 f"({HEADER_OPENING_LINE_COUNT} lines)")
 
 
 # ── CHECK 3 — Terminology precision ──────────────────────────────────────────
