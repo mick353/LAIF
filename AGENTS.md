@@ -1,6 +1,6 @@
 # Repository agent instructions
 
-**Active continuation record (30 October 2026):** [Windows verification / Work handover](docs/verification/2026-10-30/WORK_HANDOVER.md). This records the existing `Z:\laif` checkout, merged PRs #79/#80, the interrupted Git housekeeping event and the outstanding post-fix Windows gate. Read it before starting another LAIF verification pass; establish actual local access and check its status rather than redoing completed work.
+**Current verification record (30 October 2026):** [Windows local release verification](docs/verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md). The full local gate passed and was merged through PR #83. The [Work handover](docs/verification/2026-10-30/WORK_HANDOVER.md) preserves the earlier outstanding state as history. Check current Git and local access before another verification pass; avoid repeating completed work.
 
 ## Local-first verification (GitHub Actions not used)
 
