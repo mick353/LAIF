@@ -199,9 +199,8 @@ def extract_document(path: Path, extractor: str = "auto") -> ExtractionResult:
         raise ExtractionError(f"Input file does not exist or is not a regular file: {path}")
 
     suffix = path.suffix.lower()
-    if extractor == "builtin":
-        return ensure_minimum_text(extract_builtin(path), path)
     explicit_extractors = {
+        "builtin": extract_builtin,
         "docling": extract_docling,
         "markitdown": extract_markitdown,
         "python-docx": extract_python_docx,
