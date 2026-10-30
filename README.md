@@ -107,7 +107,7 @@ These are LAIF's assessment criteria. Document analysis can identify how protect
 
 LAIF produces source-linked findings and readable Markdown and JSON outputs. Its local verification suite covers regression cases, source provenance, negative controls and deterministic corpus-report generation.
 
-The full suite has been executed with network access blocked, including a standard-library-only environment. See [quality and verification](docs/product/QUALITY.md) for the checked capabilities and runtime limits.
+The baseline full suite has previously passed with network access blocked, including a standard-library-only environment. The 30 October assurance additions passed 56 focused offline tests, but the current full repository suite has not yet been rerun. See [quality and verification](docs/product/QUALITY.md) for the exact evidence and runtime limits.
 
 ```bash
 python3 scripts/laif_verify.py
