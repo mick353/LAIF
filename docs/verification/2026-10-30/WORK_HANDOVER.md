@@ -1,6 +1,6 @@
 # LAIF — Work continuation handover (30 October 2026)
 
-**Status: verification outstanding, not an implementation request.** This record is intended to let a fresh ChatGPT Work/Codex session resume the actual remaining work without relying on chat history. Check GitHub and local state again before acting; commit IDs below are the last *observed* state, not a guarantee of future state.
+**Status: Windows local repository verification completed on 30 October 2026.** See the [execution record](WINDOWS_RELEASE_VERIFICATION.md) for the current result and limits. The remainder of this document is the historical continuation brief; its earlier outstanding items describe the state before that run.
 
 ## Single objective
 
