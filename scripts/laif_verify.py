@@ -15,7 +15,8 @@ PYTHON = sys.executable
 
 def run(*command: str, env: dict | None = None) -> None:
     print("CHECK:", " ".join(command), flush=True)
-    subprocess.run(command, cwd=ROOT, env=env, check=True)
+    child_env = {**(env if env is not None else os.environ), "PYTHONIOENCODING": "utf-8"}
+    subprocess.run(command, cwd=ROOT, env=child_env, check=True)
 
 
 def main() -> int:

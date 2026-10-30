@@ -422,7 +422,7 @@ If you are having difficulties with accessing this document, please email: suppo
             index_path = out / "laif_processing_index.jsonl"
             lines = [json.loads(line) for line in index_path.read_text(encoding="utf-8").splitlines() if line.strip()]
             self.assertEqual(len(lines), 1)
-            self.assertEqual(lines[0]["input_path_original"], "docs/Relative Path Policy.txt")
+            self.assertEqual(lines[0]["input_path_original"], expected_original)
             self.assertTrue(Path(lines[0]["input_path"]).is_absolute())
             self.assertEqual(Path(lines[0]["input_path"]).resolve(), input_file.resolve())
             self.assertEqual(lines[0]["source_sha256"], expected_hash)

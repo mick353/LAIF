@@ -346,7 +346,7 @@ def main():
     # One-page executive summary — derived from the same results.
     summary = generate_executive_summary(
         results, report_date=REPORT_DATE,
-        full_report_path=str(REPORT_PATH.relative_to(Path(__file__).parent)),
+        full_report_path=REPORT_PATH.relative_to(Path(__file__).parent).as_posix(),
     )
     SUMMARY_PATH.write_text(summary, encoding="utf-8")
     print(f"  Executive summary written -> {SUMMARY_PATH.relative_to(Path(__file__).parent)}")
