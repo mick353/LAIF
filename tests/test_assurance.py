@@ -42,8 +42,11 @@ class AssuranceFixture(unittest.TestCase):
         path.parent.mkdir(exist_ok=True, parents=True)
         if isinstance(contents, dict):
             contents = json.dumps(contents, sort_keys=True) + "\n"
-        path.write_text(contents, encoding="utf-8")
-        return hashlib.sha256(contents.encode()).hexdigest()
+        # Write the exact bytes being hashed: Windows text mode otherwise
+        # translates LF into CRLF and invalidates fixture SHA-256 records.
+        payload = contents.encode("utf-8")
+        path.write_bytes(payload)
+        return hashlib.sha256(payload).hexdigest()
 
     def add_receipt(self, kind, decision):
         tid = f"test-{kind}"
@@ -80,6 +83,17 @@ class AssuranceFixture(unittest.TestCase):
 
 
 class SourceScopeTests(AssuranceFixture):
+    def test_fixture_hashes_match_actual_file_bytes(self):
+        self.assertEqual(
+            hashlib.sha256((self.root / "policy.md").read_bytes()).hexdigest(),
+            self.manifest["policy_sha256"],
+        )
+        for entry in self.control["execution_tests"]:
+            self.assertEqual(
+                hashlib.sha256((self.root / entry["receipt_file"]).read_bytes()).hexdigest(),
+                entry["receipt_sha256"],
+            )
+
     def test_complete_scope_and_receipts_is_review_ready_only(self):
         row = self.run_assurance()
         self.assertEqual(row["status"], "REVIEW_READY")

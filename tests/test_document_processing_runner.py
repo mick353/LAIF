@@ -399,8 +399,9 @@ If you are having difficulties with accessing this document, please email: suppo
             extraction = payload["extraction_metadata"]
             expected_hash = hashlib.sha256(input_file.read_bytes()).hexdigest()
 
-            self.assertEqual(processing["input_path_original"], "docs/Relative Path Policy.txt")
-            self.assertEqual(extraction["input_path_original"], "docs/Relative Path Policy.txt")
+            expected_original = str(Path("docs/Relative Path Policy.txt"))
+            self.assertEqual(processing["input_path_original"], expected_original)
+            self.assertEqual(extraction["input_path_original"], expected_original)
             self.assertTrue(Path(processing["input_path"]).is_absolute())
             self.assertTrue(Path(extraction["input_path"]).is_absolute())
             self.assertEqual(Path(processing["input_path"]).resolve(), input_file.resolve())
@@ -410,7 +411,7 @@ If you are having difficulties with accessing this document, please email: suppo
 
             markdown = next(out.glob("*.laif.md")).read_text(encoding="utf-8")
             self.assertIn("Original input path", markdown)
-            self.assertIn("docs/Relative Path Policy.txt", markdown)
+            self.assertIn(expected_original, markdown)
             self.assertIn("Resolved input path", markdown)
             self.assertIn(str(input_file.resolve()), markdown)
             self.assertIn("Original file name", markdown)

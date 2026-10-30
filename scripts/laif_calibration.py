@@ -119,8 +119,10 @@ def calibrate(dataset: dict, root: Path, *, require_adjudicated: bool = False) -
 def _write(path: Path, contents: str | dict) -> str:
     path.parent.mkdir(parents=True, exist_ok=True)
     data = (json.dumps(contents, indent=2, sort_keys=True) + "\n") if isinstance(contents, dict) else contents
-    path.write_text(data, encoding="utf-8")
-    return hashlib.sha256(data.encode("utf-8")).hexdigest()
+    # Canonical UTF-8 bytes, independent of the OS text newline convention.
+    payload = data.encode("utf-8")
+    path.write_bytes(payload)
+    return hashlib.sha256(payload).hexdigest()
 
 
 def make_synthetic_corpus(root: Path) -> Path:

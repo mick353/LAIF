@@ -1391,9 +1391,9 @@ class Phase3QCalibrationScoreJustificationTests(unittest.TestCase):
             self.assertIn(phrase, text)
 
     def test_phase_3q_unsafe_grep_gates_still_pass(self):
-        evidence_doc = Path("docs/governance/EVIDENCE_TRACE_MODEL.md").read_text()
-        engine = Path("assessment_engine.py").read_text()
-        real_world = Path("test_real_world.py").read_text()
+        evidence_doc = Path("docs/governance/EVIDENCE_TRACE_MODEL.md").read_text(encoding="utf-8")
+        engine = Path("assessment_engine.py").read_text(encoding="utf-8")
+        real_world = Path("test_real_world.py").read_text(encoding="utf-8")
         self.assertIn("matched_text must equal", evidence_doc)
         self.assertNotIn(LEGACY_FINAL_LABEL, engine)
         self.assertNotIn(LEGACY_FAILURE_LABEL, engine)
