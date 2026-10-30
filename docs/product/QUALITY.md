@@ -16,7 +16,7 @@ The consumer example has been processed with the built-in extractor. Its committ
 
 They provide evidence that the checked implementation operates locally and that the exercised protections detect their test cases. They do not measure universal detection accuracy or establish control effectiveness in a production organisation.
 
-The toolkit targets Python 3.10. The independent execution described here used Python 3.12; Python 3.10 and Windows execution have not been verified by that full run. A [separate focused Windows record](../verification/2026-10-23/windows-example.md) covers the Python 3.11 text example, evidence and local batch checks, governance checks and provenance mode. Optional Docling and MarkItDown adapters were not available for real-document extraction testing. Automatic classification and findings require human source review.
+The toolkit targets Python 3.10. The 23 October independent execution described above used Python 3.12 on Linux; it did not verify Python 3.10 or Windows. A [focused Windows record](../verification/2026-10-23/windows-example.md) covers the Python 3.11 text example, and the later [full Windows local gate](../verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md) covers Python 3.13.16. Python 3.10 has not been verified by those runs. Optional Docling and MarkItDown adapters were not available for real-document extraction testing. Automatic classification and findings require human source review.
 
 ## Run the checks yourself
 
