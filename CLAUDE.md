@@ -362,7 +362,7 @@ Interpretation-layer refinements (adding dimensions, splitting classifications) 
 
 | Artifact | Location | Status |
 |----------|----------|--------|
-| Citable corpus assessment | `reports/laif_real_world_assessment.md` (+ executive summary, JSON export) | Generated, deterministic, corpus- and toolchain-fingerprinted, CI-verified against the committed copy |
+| Citable corpus assessment | `reports/laif_real_world_assessment.md` (+ executive summary, JSON export) | Generated, deterministic, corpus- and toolchain-fingerprinted; matched the committed copy in the 30 October 2026 local Windows gate |
 | Narrative corpus analysis | `reports/laif_full_assessment.md` | Historical — authored 5 May 2026 under Refined Model v1.1; not regenerated, not fingerprinted. Cite as reasoning at that date, not as current output. See `reports/README.md` |
 | Ingested source documents | `docs/supporting/` | Primary evidence; do not modify after ingestion |
 | Framework corpus (assessment engine inputs) | `sample_documents.py` + `corpus_manifest.md` | See provenance classifications before citing |

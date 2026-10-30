@@ -6,6 +6,8 @@
 **Preferred origin URL:** https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689
 **Readiness date:** May 2026
 
+**Custody update (30 October 2026):** A PDF named `OJ_L_202401689_EN_TXT.pdf` is preserved in `docs/verified/manual_ingest/`. Its SHA-256 matches the [May batch relocation record](../../verification/2026-05-11/relocation-manifest.json). The historical batch processed this file, but no independently verified EUR-Lex acquisition or admission to the verified corpus is recorded. Check its origin against the authoritative source, or obtain a verified replacement, before completing the manifest and assessment. The pending status below remains in force.
+
 ---
 
 ## 1. Purpose

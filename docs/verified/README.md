@@ -27,7 +27,7 @@ docs/verified/
 | Provenance | Strict Source Mode ingestion | Strict Source Mode + manifest |
 | Citeability | PRIMARY_CITABLE (full text, no paraphrase) | PRIMARY_CITABLE + hash-verified |
 | Hash recorded | No | Yes (SHA256 of extracted markdown) |
-| EU AI Act | Not ingested | PENDING_INGESTION |
+| EU AI Act | Not present | Custody PDF held; PENDING_INGESTION |
 
 The `docs/supporting/` files are the **primary source** of the four instruments assessed in `reports/laif_full_assessment.md`. The `docs/verified/` tree adds provenance manifests and hash verification around those same sources.
 
