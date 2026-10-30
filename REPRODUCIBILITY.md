@@ -172,7 +172,7 @@ The **detection layer** covers whether Q1/Q2/Q3 pass or fail, Integrity Layer th
 |---|---|---|
 | Provenance | Strict Source Mode ingestion from user-supplied files | Same — plus SHA256 hash and provenance manifest |
 | Citeability | PRIMARY_CITABLE (full text, no paraphrase) | PRIMARY_CITABLE + hash-verified |
-| EU AI Act | Not ingested | PENDING_INGESTION (placeholder only) |
+| EU AI Act original OJ edition | Official PDF byte-matched and all 144 pages extracted | PENDING_ASSESSMENT; no reviewed full-document findings |
 | Sample corpus (`sample_documents.py`) | REPRESENTATIVE_EXCERPT — NON_CITABLE | Not present |
 
 **Representative corpus results are NOT equivalent to authoritative-source assessments.**

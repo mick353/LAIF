@@ -27,7 +27,7 @@ docs/verified/
 | Provenance | Strict Source Mode ingestion | Strict Source Mode + manifest |
 | Citeability | PRIMARY_CITABLE (full text, no paraphrase) | PRIMARY_CITABLE + hash-verified |
 | Hash recorded | No | Yes (SHA256 of extracted markdown) |
-| EU AI Act | Not present | Custody PDF held; PENDING_INGESTION |
+| EU AI Act original OJ edition | Full 144-page extract | Official PDF byte-matched; PENDING_ASSESSMENT |
 
 The `docs/supporting/` files are the **primary source** of the four instruments assessed in `reports/laif_full_assessment.md`. The `docs/verified/` tree adds provenance manifests and hash verification around those same sources.
 
@@ -49,9 +49,9 @@ All documents in this corpus were ingested under the following constraints:
 
 ## Limitations
 
-- URL verification against authoritative online sources was not performed during ingestion (no network access in ingestion session)
-- SHA256 hashes are of the extracted markdown files, not the original PDF/DOCX source files
-- EU AI Act full text not yet ingested — marked PENDING_INGESTION in manifest
+- The four legacy assessed sources lack independent upstream byte-equivalence checks. The EU AI Act original-edition PDF was independently matched to an official Publications Office download on 30 October 2026.
+- Raw-file SHA256 hashes are of extracted markdown; the EU AI Act manifest also records the original PDF SHA256.
+- EU AI Act original OJ edition is ingested and byte-matched to the official Publications Office PDF; its full-document LAIF assessment remains pending. The extract has not been manually proofread line by line.
 
 ---
 

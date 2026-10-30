@@ -2,7 +2,7 @@
 
 **Framework:** Law-Aligned Intelligence Framework v1.2  
 **Manifest version:** 1.0  
-**Date:** May 2026  
+**Original index:** May 2026; EU source status updated 30 October 2026
 **Schema:** `verified_manifest_schema.json`
 
 This manifest provides a human-readable index of all documents in the LAIF verified corpus. Machine-readable provenance records are in `docs/verified/manifests/*.json`.
@@ -17,7 +17,7 @@ This manifest provides a human-readable index of all documents in the LAIF verif
 | 2 | EO 14110 (Federal Register Vol. 88 No. 210) | US Federal | AUTHORITATIVE_GOVERNMENT_PUBLICATION | Verified | ASSESSED |
 | 3 | NIST AI 100-1 (AI RMF 1.0) | US Federal | AUTHORITATIVE_GOVERNMENT_PUBLICATION | Verified | ASSESSED |
 | 4 | DTAC v2.0 (NHS England, Feb 2026) | UK (NHS England) | REGULATORY_PUBLICATION | Verified | ASSESSED |
-| 5 | EU AI Act (Regulation 2024/1689) | European Union | AUTHORITATIVE_PRIMARY_SOURCE | Not ingested | PENDING_INGESTION |
+| 5 | EU AI Act (Regulation 2024/1689), original OJ edition | European Union | AUTHORITATIVE_PRIMARY_SOURCE | PDF and raw extract hash-verified | PENDING_ASSESSMENT |
 
 ---
 
@@ -123,7 +123,7 @@ This manifest provides a human-readable index of all documents in the LAIF verif
 
 ---
 
-### 5. EU AI Act — Regulation (EU) 2024/1689 *(PENDING)*
+### 5. EU AI Act — Regulation (EU) 2024/1689 *(source verified; assessment pending)*
 
 | Field | Value |
 |---|---|
@@ -131,34 +131,40 @@ This manifest provides a human-readable index of all documents in the LAIF verif
 | title | Regulation (EU) 2024/1689 of the European Parliament and of the Council |
 | jurisdiction | European Union |
 | source_type | binding_regulation |
-| authoritative_url | https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689 |
+| authoritative_url | https://op.europa.eu/en/publication-detail/-/publication/dc8116a1-3fe6-11ef-865a-01aa75ed71a1/language-en |
 | publication_date | 2024-07-12 |
-| citation_status | NON_CITABLE |
+| source_file_sha256 | `bba630444b3278e881066774002a1d7824308934f49ccfa203e65be43692f55e` |
+| sha256_hash | `7fb1ae279b6353a9da6bf7dd82218f3cfb2329cc1f9f1512aa269bc4985fe697` |
+| raw_filename | `eu_ai_act_2024_1689.md` |
+| extraction_boundaries | All 144 pages of the original Official Journal edition |
+| transformation_status | NORMALISED_FORMATTING_ONLY |
+| citation_status | PRIMARY_CITABLE for the original source; verify quoted clauses against PDF pages |
 | provenance_classification | AUTHORITATIVE_PRIMARY_SOURCE |
-| assessment_status | **PENDING_INGESTION** |
+| verification_status | AUTOMATED_VERIFIED; official PDF exactly matches preserved custody PDF |
+| assessment_status | **PENDING_ASSESSMENT** |
 
-**Provenance notes:** Not yet ingested as authoritative full text. Currently exists only as a REPRESENTATIVE_EXCERPT in `sample_documents.py` — that excerpt is non-citable and not suitable for authoritative assessment. Full-text ingestion from EUR-Lex is required before a LAIF v1.2 assessment can be conducted against this instrument as a PRIMARY_CITABLE source.
+**Provenance notes:** The official Publications Office original-edition PDF was downloaded on 30 October 2026 and matched the preserved May custody PDF byte for byte. All pages were extracted without intentional wording changes. See the [ingestion trace](docs/verified/extracted/eu-ai-act-2024-1689-ingestion-trace.md). The extract has not been proofread line by line; no full-document LAIF assessment is recorded. Later consolidated editions are distinct. The `sample_documents.py` excerpt remains non-citable regardless of this source admission.
 
 ---
 
 ## Corpus Limitations
 
-1. **URL verification not performed** — the four ingested documents were sourced from user-supplied files. Verification against the authoritative URLs listed above was not performed during ingestion. A future verification pass should download the documents from their authoritative URLs and compare SHA256 hashes.
+1. **Legacy URL verification gap** — the four previously assessed documents came from user-supplied files. Their assessed raw-text upstream equivalence remains unproven. The EU AI Act original PDF was independently byte-matched to an official download on 30 October 2026.
 
 2. **NIST DOCX provenance** — the NIST AI 100-1 ingestion relied on a user-supplied DOCX. The DOCX accuracy against the authoritative PDF has not been independently verified.
 
-3. **EU AI Act gap** — the EU AI Act is not represented in the verified corpus. Any assessment claims referencing the EU AI Act draw only on the REPRESENTATIVE_EXCERPT in `sample_documents.py` (which is non-citable).
+3. **EU AI Act assessment gap** — the original OJ full text is admitted as a source, but no reviewed full-document LAIF assessment exists. Existing representative-excerpt results remain non-citable and must not be promoted.
 
-4. **SHA256 scope** — hashes are of the extracted markdown files, not the original PDF/DOCX source files. They guarantee integrity of the ingested text within this repository but do not certify identity with the source file bytes.
+4. **SHA256 scope** — raw-file hashes are of the extracted Markdown. The EU AI Act manifest additionally records an original PDF hash matched to an official download; other raw-file hashes alone do not certify source-byte identity.
 
 ---
 
-*LAIF v1.2 · Verified Corpus Manifest v1.0 · May 2026*
+*LAIF v1.2 · Verified Corpus Manifest v1.0 · May 2026, EU source update October 2026*
 
 
-## EU AI Act Manual Readiness
+## EU AI Act Source Admission
 
-Regulation (EU) 2024/1689 is `READY_FOR_MANUAL_AUTHORITATIVE_INGESTION`. The readiness record is `docs/verified/pending/eu_ai_act_ingestion_ready.md`. No EU AI Act assessment is authoritative until a full source file is supplied, hashed, extracted, manifested, evidence-traced, and validated.
+The original OJ edition of Regulation (EU) 2024/1689 is `SOURCE_VERIFIED_PENDING_ASSESSMENT`. The former readiness record at `docs/verified/pending/eu_ai_act_ingestion_ready.md` is retained as history. Source verification and ingestion do not constitute a reviewed full-document assessment or current-law determination.
 
 
 ## Current Verification Taxonomy
@@ -169,4 +175,4 @@ Regulation (EU) 2024/1689 is `READY_FOR_MANUAL_AUTHORITATIVE_INGESTION`. The rea
 | EO 14110 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Local raw markdown hash verified; upstream equivalence not claimed |
 | NIST AI 100-1 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Local raw markdown hash verified; PDF-vs-DOCX remains unresolved |
 | DTAC v2.0 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Local raw markdown hash verified; upstream equivalence not claimed |
-| EU AI Act | Not yet acquired | NETWORK_BLOCKED_PENDING_HUMAN_SOURCE | AUTOMATED_URL_BLOCKED_HTTP_403 | Ready for manual authoritative ingestion |
+| EU AI Act original OJ edition | AUTOMATED_URL_RETRIEVAL | AUTOMATED_VERIFIED | AUTOMATED_URL_RETRIEVED | Official PDF matched preserved custody file; full assessment pending |
