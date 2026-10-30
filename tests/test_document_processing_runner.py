@@ -75,6 +75,17 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
             self.assertEqual(result.extractor_used, "builtin")
             self.assertIn("# Policy", result.text)
 
+    def test_explicit_builtin_invalid_utf8_fails_cleanly(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "invalid.txt"
+            path.write_bytes(b"\xff" * 30)
+            with self.assertRaisesRegex(runner.ExtractionError, "builtin extractor failed"):
+                runner.extract_document(path, "builtin")
+            completed = self.run_cli([str(path), "--extractor", "builtin", "--no-write"], check=False)
+            self.assertEqual(completed.returncode, 2)
+            self.assertIn("builtin extractor failed", completed.stderr)
+            self.assertNotIn("Traceback", completed.stderr)
+
     def test_empty_file_fails(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             path = Path(td) / "empty.txt"
