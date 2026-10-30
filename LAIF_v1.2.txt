@@ -1,6 +1,7 @@
  LAW-ALIGNED INTELLIGENCE FRAMEWORK
 Version 1.2  |  April 2026
 A Constitutional Scaffold for AI Governance
+Related LAIF documents: LAIF v1.2 Principal Text · PDCA-Full Assessment (GPT-4 Clinical) · Compliance Toolkit v1.1 · Regulatory Integration Guide · Case Analysis · Policy Paper
 CoupledConstraint + Enablement | Coherence Test3 Questions · All Scales | ConstitutionalScaffold, Not Statute
 Incorporates feedback from: EU AI Act (2024/1689) · Anthropic Constitutional AI · NIST AI RMF · OECD AI Principles · UNESCO AI Ethics
 PREAMBLE
