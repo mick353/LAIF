@@ -22,7 +22,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from assessment_engine import assess, generate_markdown_report, _safe_executive_risk_text
 from test_real_world import _print_scorecard
-from validate import CONTEXT_WINDOW, PARAPHRASE_GUARDS, find_paraphrase_violations
+from validate import (CONTEXT_WINDOW, PARAPHRASE_GUARDS,
+                      find_paraphrase_violations, has_opening_header_date)
 
 
 def _legacy_public_phrase(*parts):
@@ -310,6 +311,25 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
         for text in allowed_examples:
             with self.subTest(text=text):
                 self.assertEqual(find_paraphrase_violations(text, COUPLING_GUARD), [])
+
+    def test_external_alignment_document_does_not_hide_a_real_substitution(self):
+        text = (
+            "Internal alignment documents describe another system. "
+            "This policy uses alignment between restrictions and interests."
+        )
+        violations = find_paraphrase_violations(text, COUPLING_GUARD)
+        self.assertEqual(len(violations), 1)
+        self.assertIn("uses alignment", violations[0][1])
+
+    def test_external_alignment_artifact_names_are_not_coupling_substitutes(self):
+        text = "Other teams publish internal alignment documents and alignment specifications."
+        self.assertEqual(find_paraphrase_violations(text, COUPLING_GUARD), [])
+
+    def test_header_date_uses_opening_lines_not_character_slice(self):
+        long_scope = "Title\n" + ("Scope statement. " * 50) + "\nAssessment Date | April 2026\n"
+        date_after_title_block = "\n".join(["Title"] * 12 + ["Assessment Date | April 2026"])
+        self.assertTrue(has_opening_header_date(long_scope))
+        self.assertFalse(has_opening_header_date(date_after_title_block))
 
     def test_paraphrase_guard_context_window_boundary_is_characterized(self):
         """Near-threshold fixture documents the current ±CONTEXT_WINDOW behavior."""
