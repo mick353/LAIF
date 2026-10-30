@@ -60,3 +60,15 @@ REVIEW_READY means ready for human review, not operational effectiveness verifie
 A reviewer must independently confirm test execution, applicable permissions, monitoring coverage, operational provenance, independent negative controls and whether legitimate actions continue to work. These checks cannot determine legal validity, LAIF-native compliance, the Coherence Test, the Integrity Layer or PDCA outcomes. They do not alter assessment_engine.py, validate.py, report generation, official sources, or canonical meaning.
 
 Regression tests cover policy-only assertions, omitted controls, tampering, unsupported source quotes, adverse outcomes, contradictions, duplicate test IDs, path confinement, strict-gate exit behaviour and attribution/order invariance. They are synthetic test fixtures, not measured deployment false-positive rates.
+
+## Strict evidence scope, action receipts, calibration and operational review
+
+The optional [assurance and calibration extension](ASSURANCE_CALIBRATION.md) adds source inventories (including missing required attachments), receipt-derived ALLOW/BLOCK decisions, hypothetical check-removal and constant-output mutation probes, frozen labelled calibration with leak detection and confidence intervals, and a separately recorded operational-review/retest annex. Existing evidence manifests and scores remain unchanged.
+
+```bash
+python3 scripts/laif_assurance.py /private/evidence/manifest.json --strict-scope --strict-actions --require-review-ready
+python3 scripts/laif_calibration.py --make-synthetic-corpus /tmp/laif-calibration-synthetic
+python3 scripts/laif_calibration.py /tmp/laif-calibration-synthetic/dataset.json
+```
+
+A passed diagnostic is **not** independently verified operational evidence or LAIF-native certification. Synthetic calibration fixtures establish software behaviour, not institutional accuracy. No GitHub Actions or external model service is involved.

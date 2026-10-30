@@ -74,7 +74,7 @@ On Windows, use your Python launcher (for example, `py -3`) in place of `python3
 - **Control recommendations:** practical additions to review, adopt or reject in context.
 - **An analyst bundle:** Markdown and JSON for further work by a person or an AI assistant of your choice. LAIF does not call a model API to generate these outputs.
 - **Batch processing:** per-document outputs and a portfolio summary through the [local batch runner](docs/product/REFERENCE.md#batch-processing).
-- **Optional evidence checks:** hashes, exact quotes, positive/negative test records, contradictions and duplicate identities. [Evidence diagnostic guide →](docs/product/REFERENCE.md#evidence-checks)
+- **Optional evidence assurance:** hashes, exact quotes, required-source completeness, action receipts, negative-control mutation tests, operational review records and a reproducible synthetic calibration fixture. These are human-review diagnostics, not operational certification. [Evidence and calibration guide](docs/governance/ASSURANCE_CALIBRATION.md)
 
 [Explore the generated sample](docs/examples/README.md) · [Read the product overview](docs/product/OVERVIEW.md) · [Understand the method](docs/product/METHOD.md)
 
