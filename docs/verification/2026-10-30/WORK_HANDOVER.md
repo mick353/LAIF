@@ -20,7 +20,7 @@
 - On **30 October 2026**, GitHub `main` was `c7eb02d1ec46de176a635a04745385ff3a2980bd`; no open PRs were returned at that check. Confirm afresh.
 - [PR #79](https://github.com/mick353/LAIF/pull/79), merged as `ce36c674330ade828a094215dd29db85cd5d6b00`: optional source-scope checks, recorded execution decisions and mutation probes, synthetic calibration/holdout checks, and an operational-evidence annex. It **does not** modify core LAIF assessment scoring.
 - [PR #80](https://github.com/mick353/LAIF/pull/80), merged as `c7eb02d1ec46de176a635a04745385ff3a2980bd`: narrow Windows-portability corrections. Fixture files are now written as the exact UTF-8 bytes being SHA-256-hashed; a fragility test explicitly reads UTF-8; relative-path tests compare platform-specific formatting. These fixes were **not yet confirmed by a post-merge full Windows run**.
-- Relevant instructions: [AGENTS.md](../../AGENTS.md), [local verification reference](../product/REFERENCE.md#verification), [quality/evidence limits](../product/QUALITY.md), [assurance protocol](../governance/ASSURANCE_CALIBRATION.md), and [merge policy](../governance/MERGE_POLICY.md).
+- Relevant instructions: [AGENTS.md](../../../AGENTS.md), [local verification reference](../../product/REFERENCE.md#verification), [quality/evidence limits](../../product/QUALITY.md), [assurance protocol](../../governance/ASSURANCE_CALIBRATION.md), and [merge policy](../../governance/MERGE_POLICY.md).
 
 ## Local evidence and unresolved interruption
 
