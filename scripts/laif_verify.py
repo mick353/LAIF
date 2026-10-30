@@ -25,8 +25,11 @@ def main() -> int:
     args = parser.parse_args()
     env = {**os.environ, "GOVERNANCE_BASE_REF": args.base_ref} if args.base_ref else os.environ.copy()
     try:
-        run(PYTHON, "-m", "py_compile", "scripts/laif_evidence_checks.py", "scripts/laif_verify.py")
-        run(PYTHON, "tests/test_evidence_checks.py")
+        run(PYTHON, "-m", "py_compile", "scripts/laif_evidence_checks.py", "scripts/laif_assurance.py", "scripts/laif_calibration.py", "scripts/laif_verify.py")
+        # Full mode already runs these through unittest discovery; no duplicate work.
+        if not args.full:
+            run(PYTHON, "tests/test_evidence_checks.py")
+            run(PYTHON, "tests/test_assurance.py")
         run(PYTHON, "scripts/governance/check_governance_config.py")
         if args.full:
             if args.base_ref:

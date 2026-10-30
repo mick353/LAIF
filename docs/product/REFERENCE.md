@@ -74,6 +74,16 @@ The diagnostic checks file confinement and identity, quotations, declared test c
 
 `REVIEW_READY` means ready for human review of the supplied evidence. It does not establish truthful execution, independence, production coverage or operational effectiveness. Private test evidence should remain outside the public repository.
 
+### Optional strict assurance and calibration
+
+```bash
+python3 scripts/laif_assurance.py /private/evidence/manifest.json --strict-scope --strict-actions --mutation-probes --require-review-ready
+python3 scripts/laif_calibration.py --make-synthetic-corpus /tmp/laif-calibration-synthetic
+python3 scripts/laif_calibration.py /tmp/laif-calibration-synthetic/dataset.json
+```
+
+Strict assurance checks required/omitted sources, hash-pinned execution decisions and simulated check-removal/constant-output mutations; an optional operational annex records approval, execution, remediation and retest artefacts. Calibration reports frozen holdout results and false-positive/false-negative rates with intervals. **The included dataset is synthetic, not a human-labelled performance benchmark.** See [assurance protocol](../governance/ASSURANCE_CALIBRATION.md). Keep private artefacts outside this public repository.
+
 ## Verification
 
 ```bash

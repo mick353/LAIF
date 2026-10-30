@@ -74,7 +74,7 @@ On Windows, use your Python launcher (for example, `py -3`) in place of `python3
 - **Control recommendations:** practical additions to review, adopt or reject in context.
 - **An analyst bundle:** Markdown and JSON for further work by a person or an AI assistant of your choice. LAIF does not call a model API to generate these outputs.
 - **Batch processing:** per-document outputs and a portfolio summary through the [local batch runner](docs/product/REFERENCE.md#batch-processing).
-- **Optional evidence checks:** hashes, exact quotes, positive/negative test records, contradictions and duplicate identities. [Evidence diagnostic guide →](docs/product/REFERENCE.md#evidence-checks)
+- **Optional evidence assurance:** hashes, exact quotes, required-source completeness, action receipts, negative-control mutation tests, operational review records and a reproducible synthetic calibration fixture. These are human-review diagnostics, not operational certification. [Evidence and calibration guide](docs/governance/ASSURANCE_CALIBRATION.md)
 
 [Explore the generated sample](docs/examples/README.md) · [Read the product overview](docs/product/OVERVIEW.md) · [Understand the method](docs/product/METHOD.md)
 
@@ -107,7 +107,7 @@ These are LAIF's assessment criteria. Document analysis can identify how protect
 
 LAIF produces source-linked findings and readable Markdown and JSON outputs. Its local verification suite covers regression cases, source provenance, negative controls and deterministic corpus-report generation.
 
-The full suite has been executed with network access blocked, including a standard-library-only environment. See [quality and verification](docs/product/QUALITY.md) for the checked capabilities and runtime limits.
+The baseline full suite has previously passed with network access blocked, including a standard-library-only environment. The 30 October assurance additions passed 56 focused offline tests, but the current full repository suite has not yet been rerun. See [quality and verification](docs/product/QUALITY.md) for the exact evidence and runtime limits.
 
 ```bash
 python3 scripts/laif_verify.py

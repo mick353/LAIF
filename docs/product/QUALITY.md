@@ -4,7 +4,7 @@ LAIF's current document-processing core runs locally in Python. The text/Markdow
 
 ## What has been executed
 
-The complete local verifier has passed on Python 3.12 on Linux with network connection and send operations blocked by an inherited kernel filter. The full gate also passed in a fresh environment without optional Python packages.
+The **23 October baseline** complete local verifier passed on Python 3.12 on Linux with network connection and send operations blocked by an inherited kernel filter. That historical full gate also passed in a fresh environment without optional Python packages. These results predate the 30 October optional assurance and calibration extension.
 
 The executed gate covered 312 discovered tests, plus standalone adversarial, provenance and semantic-fidelity suites. Evidence-diagnostic tests are included in the discovered total. The gate also ran corpus validation, change-sensitive governance checks, repeated corpus-report generation and report-drift checks.
 
@@ -28,3 +28,9 @@ python3 scripts/laif_verify.py --full --base-ref origin/main
 See the [verification reference](REFERENCE.md#verification) for base-reference handling. No GitHub Actions run is required.
 
 [Product home](../../README.md) · [Getting started](../GETTING_STARTED.md) · [Worked example](../examples/README.md)
+
+## 30 October 2026 assurance extension: current verification boundary
+
+The optional source-scope, action-receipt, mutation, synthetic calibration and operational-review code was compiled and **56 focused local tests passed** in an isolated offline test directory. Two repeated synthetic-calibration reports matched byte for byte. The new blob contents were matched to local Git object hashes. These tests use a compatibility copy of the unchanged existing evidence checker rather than a complete repository checkout.
+
+**Not yet performed:** the current whole-repository `python3 scripts/laif_verify.py --full --base-ref <base>` suite; the complete checkout was unavailable in the implementation session. No result from the earlier 312-test baseline is represented as a fresh test of these new files. Real-world classifier error rates, independent replications, verified external reviewer identities and live enforcement outcomes remain unmeasured. The eight-case generated calibration corpus is synthetic and must not be advertised as field accuracy. No GitHub Actions was invoked.
