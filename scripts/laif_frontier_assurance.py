@@ -35,11 +35,25 @@ def _datetime(value: Any) -> datetime:
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
+def _unique_keys(pairs: list[tuple[str, Any]]) -> dict:
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"ambiguous JSON evidence: duplicate key {key!r}")
+        result[key] = value
+    return result
+
+
+def _nonfinite_number(value: str) -> None:
+    raise ValueError(f"non-standard JSON number in evidence: {value}")
+
+
 def _json_artifact(root: Path, record: Any, *, prefix: str = "") -> dict:
     if not isinstance(record, dict):
         raise ValueError("missing evidence reference")
     raw = artifact(root, record.get(prefix + "file"), record.get(prefix + "sha256"))
-    parsed = json.loads(raw.decode("utf-8"))
+    parsed = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_keys,
+                        parse_constant=_nonfinite_number)
     if not isinstance(parsed, dict):
         raise ValueError("evidence JSON must be an object")
     return parsed
@@ -124,7 +138,7 @@ def review_frontier(manifest: dict, root: Path, *, as_of: datetime) -> dict:
                 issues.append("control ID missing or reused across different safeguards")
             else:
                 seen_ids.add(cid)
-                if entry.get("enforcement_boundary") not in {"infrastructure", "supervised_host"}:
+                if entry.get("enforcement_boundary") not in ("infrastructure", "supervised_host"):
                     issues.append("model-level assurances alone cannot enforce a boundary")
                 if category == "independent_interrupt" and entry.get("enforcement_boundary") != "infrastructure":
                     issues.append("interruption must be independently enforced by infrastructure")
@@ -134,7 +148,7 @@ def review_frontier(manifest: dict, root: Path, *, as_of: datetime) -> dict:
                 op = operational_controls.get(cid)
                 if not op or op.get("deployment_id") != identity[0] or op.get("model_revision") != identity[1]:
                     issues.append("operational review is not bound to the model revision")
-                elif op.get("environment") not in {"staging", "production"}:
+                elif op.get("environment") not in ("staging", "production"):
                     issues.append("simulation-only operational record")
                 if op:
                     if _nonblank(op.get("executor")):
@@ -229,8 +243,15 @@ def review_frontier(manifest: dict, root: Path, *, as_of: datetime) -> dict:
                     issues.append("evaluation lacks a pinned result report")
                 else:
                     report = _json_artifact(root, receipt["test_report"])
-                    if report.get("run_id") != receipt.get("run_id") or report.get("model_revision") != identity[1] or report.get("decision") != recorded:
-                        issues.append("test report does not corroborate receipt decision and identity")
+                    bound_fields = ("deployment_id", "model_revision", "category", "run_id",
+                                    "method_id", "toolchain_version", "executed_at_utc", "decision")
+                    if any(report.get(field) != receipt.get(field) for field in bound_fields):
+                        issues.append("test report does not corroborate receipt decision, method, time and identity")
+                    observations = report.get("observations")
+                    if (not isinstance(observations, list) or not observations
+                            or any(not _nonblank(value) for value in observations)
+                            or not _nonblank(report.get("coverage_limitations"))):
+                        issues.append("test report lacks recorded observations or coverage limitations")
             except (ValueError, TypeError, OSError, UnicodeError, json.JSONDecodeError) as exc:
                 issues.append(f"evaluation evidence invalid: {exc}")
         evaluation_results.append({"category": category, "recorded_decision": recorded,
@@ -277,7 +298,8 @@ def main() -> int:
     parser.add_argument("--require-review-ready", action="store_true", help="nonzero exit unless records are ready for human review")
     args = parser.parse_args()
     try:
-        manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
+        manifest = json.loads(args.manifest.read_text(encoding="utf-8"),
+                              object_pairs_hook=_unique_keys, parse_constant=_nonfinite_number)
         instant = _datetime(args.as_of) if args.as_of else datetime.now(timezone.utc)
         result = review_frontier(manifest, args.manifest.parent, as_of=instant)
     except (ValueError, TypeError, OSError, UnicodeError, json.JSONDecodeError) as exc:

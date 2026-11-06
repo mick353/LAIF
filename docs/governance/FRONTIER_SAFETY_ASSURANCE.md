@@ -156,7 +156,11 @@ Each capability evaluation points to a SHA-256-pinned **JSON receipt** with:
 `evaluator`, a different `reviewer`, `executed_at_utc`, `reviewed_at_utc`,
 `decision` (`CLEAR`, `BLOCKING` or `INCONCLUSIVE`), and a nested `test_report`
 reference containing `file` and `sha256`. The test report JSON must corroborate
-`run_id`, `model_revision` and `decision`. Report evidence remains supplied,
+the deployment and model revision, category, run ID, method and toolchain
+version, execution timestamp and recorded decision. It must also contain a
+nonempty `observations` list and a `coverage_limitations` statement. These
+textual fields do not prove test quality or calibrated risk thresholds.
+Report evidence remains supplied,
 not independently authenticated; a `CLEAR` label does not establish a safe
 model. All assessments must follow the declared last material change.
 
@@ -179,7 +183,9 @@ legal authority.
 The tool flags obvious tampering, missing categories, future-dated or obsolete
 records, reuse of generic evidence, self-attested interruption, model-revision
 mismatch, positive/negative receipt contradictions and a release decision that
-predates testing. It cannot independently discover omitted evidence, verify
+predates testing. Hashed JSON evidence with duplicate keys or non-standard
+non-finite numbers is rejected as ambiguous. It cannot independently discover
+omitted evidence, verify
 the physical system state, authenticate people or logs, establish test
 representativeness, or certify a claimed `CLEAR` outcome. These are deliberate
 trust boundaries, not features to obscure with a high numeric score.

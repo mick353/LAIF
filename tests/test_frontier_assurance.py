@@ -81,8 +81,12 @@ class FrontierFixture(unittest.TestCase):
         for category in RISK_CATEGORIES:
             filename = f"eval-{category}.json"
             report_name = f"eval-report-{category}.json"
-            report_sha = self.write(report_name, {"run_id": f"eval-{category}", "model_revision": REVISION,
-                                                  "decision": "CLEAR", "observations": ["synthetic negative control"]})
+            report_sha = self.write(report_name, {"run_id": f"eval-{category}", "deployment_id": DEPLOYMENT,
+                                                  "model_revision": REVISION, "category": category,
+                                                  "method_id": "synthetic-protocol-v1", "toolchain_version": "fixture-v1",
+                                                  "executed_at_utc": "2026-11-05T09:00:00Z", "decision": "CLEAR",
+                                                  "observations": ["synthetic negative control"],
+                                                  "coverage_limitations": "synthetic records, not a real model evaluation"})
             sha = self.write(filename, {"deployment_id": DEPLOYMENT, "model_revision": REVISION,
                  "category": category, "run_id": f"eval-{category}", "method_id": "synthetic-protocol-v1",
                  "toolchain_version": "fixture-v1", "decision": "CLEAR", "environment": "staging",
@@ -142,6 +146,23 @@ class FrontierReviewTests(FrontierFixture):
         self.assertEqual(len(result["capabilities"]), len(RISK_CATEGORIES))
         self.assertIn("no authenticated execution", result["boundary"])
 
+    def test_malformed_manifest_fields_fail_closed(self):
+        invalid_fields = (
+            ("last_material_change_at_utc", []), ("review_due_at_utc", {}),
+            ("core_manifest", []), ("operational_annex", 42),
+            ("threat_register", "not-a-reference"), ("control_map", {}),
+            ("capability_evaluations", "not-an-array"), ("decision_receipt", None),
+        )
+        for field, bad_value in invalid_fields:
+            with self.subTest(field=field):
+                malformed = copy.deepcopy(self.manifest)
+                malformed[field] = bad_value
+                try:
+                    result = review_frontier(malformed, self.root, as_of=AS_OF)
+                except ValueError:
+                    continue  # CLI rejects malformed top-level schema as an input error.
+                self.assertNotEqual(result["status"], "REVIEW_READY")
+
     def test_missing_required_capability_does_not_pass(self):
         self.evals.pop()
         self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
@@ -178,6 +199,10 @@ class FrontierReviewTests(FrontierFixture):
         self.manifest["control_map"][0]["enforcement_boundary"] = "model_self_report"
         self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
 
+    def test_malformed_enforcement_boundary_fails_closed(self):
+        self.manifest["control_map"][0]["enforcement_boundary"] = ["infrastructure"]
+        self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
+
     def test_interrupt_requires_infrastructure_not_supervised_host(self):
         for row in self.manifest["control_map"]:
             if row["category"] == "independent_interrupt":
@@ -207,6 +232,10 @@ class FrontierReviewTests(FrontierFixture):
 
     def test_simulation_only_does_not_pass(self):
         self.operations["controls"][0]["environment"] = "simulated"
+        self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
+
+    def test_malformed_operational_environment_fails_closed(self):
+        self.operations["controls"][0]["environment"] = ["staging"]
         self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
 
     def test_old_operational_evidence_cannot_authorise_new_revision(self):
@@ -271,6 +300,19 @@ class FrontierReviewTests(FrontierFixture):
         result = review_frontier(self.manifest, self.root, as_of=AS_OF)
         self.assertEqual(result["status"], "EVIDENCE_INCOMPLETE")
 
+    def test_duplicate_json_keys_in_hash_pinned_receipt_fail_closed(self):
+        raw = '{"decision":"HOLD",' + json.dumps(self.approval, sort_keys=True)[1:] + "\n"
+        self.manifest["decision_receipt"]["sha256"] = self.write("decision.json", raw)
+        outcome = review_frontier(self.manifest, self.root, as_of=AS_OF)
+        self.assertEqual(outcome["status"], "EVIDENCE_INCOMPLETE")
+        self.assertTrue(any("duplicate key" in issue for issue in outcome["issues"]))
+
+    def test_nonfinite_number_in_pinned_evidence_fails_closed(self):
+        raw = json.dumps(self.threats, sort_keys=True).replace('"owner":', '"risk_score": NaN, "owner":')
+        self.manifest["threat_register"]["sha256"] = self.write("threats.json", raw)
+        outcome = review_frontier(self.manifest, self.root, as_of=AS_OF)
+        self.assertEqual(outcome["status"], "EVIDENCE_INCOMPLETE")
+
     def test_evaluation_receipt_cannot_contradict_its_pinned_report(self):
         category = RISK_CATEGORIES[0]
         path = self.root / f"eval-{category}.json"
@@ -280,6 +322,52 @@ class FrontierReviewTests(FrontierFixture):
         result = self.result()
         self.assertEqual(result["status"], "BLOCKING_FINDING")
         self.assertTrue(any("corroborate" in issue for issue in result["capabilities"][0]["issues"]))
+
+    def test_pinned_report_from_other_deployment_is_rejected(self):
+        category = RISK_CATEGORIES[0]
+        report_name = f"eval-report-{category}.json"
+        report = json.loads((self.root / report_name).read_text())
+        report["deployment_id"] = "other-deployment"
+        receipt_name = f"eval-{category}.json"
+        receipt = json.loads((self.root / receipt_name).read_text())
+        receipt["test_report"]["sha256"] = self.write(report_name, report)
+        self.write(receipt_name, receipt)
+        self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
+
+    def test_pinned_report_from_different_risk_category_is_rejected(self):
+        category = RISK_CATEGORIES[0]
+        report_name = f"eval-report-{category}.json"
+        report = json.loads((self.root / report_name).read_text())
+        report["category"] = RISK_CATEGORIES[1]
+        receipt_name = f"eval-{category}.json"
+        receipt = json.loads((self.root / receipt_name).read_text())
+        receipt["test_report"]["sha256"] = self.write(report_name, report)
+        self.write(receipt_name, receipt)
+        self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
+
+    def test_report_method_and_execution_time_must_match(self):
+        category = RISK_CATEGORIES[0]
+        report_name = f"eval-report-{category}.json"
+        report = json.loads((self.root / report_name).read_text())
+        report["method_id"] = "unreviewed-method"
+        report["executed_at_utc"] = "2026-10-01T00:00:00Z"
+        receipt_name = f"eval-{category}.json"
+        receipt = json.loads((self.root / receipt_name).read_text())
+        receipt["test_report"]["sha256"] = self.write(report_name, report)
+        self.write(receipt_name, receipt)
+        self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
+
+    def test_empty_observations_and_omitted_limitations_fail(self):
+        category = RISK_CATEGORIES[0]
+        report_name = f"eval-report-{category}.json"
+        report = json.loads((self.root / report_name).read_text())
+        report["observations"] = []
+        report.pop("coverage_limitations")
+        receipt_name = f"eval-{category}.json"
+        receipt = json.loads((self.root / receipt_name).read_text())
+        receipt["test_report"]["sha256"] = self.write(report_name, report)
+        self.write(receipt_name, receipt)
+        self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
 
     def test_missing_evaluation_report_does_not_pass(self):
         category = RISK_CATEGORIES[0]
@@ -308,6 +396,15 @@ class FrontierReviewTests(FrontierFixture):
         self.sync()
         refused = subprocess.run(command, check=False, capture_output=True, text=True)
         self.assertEqual(refused.returncode, 1, refused.stderr)
+
+    def test_cli_rejects_ambiguous_top_level_manifest(self):
+        raw = '{"schema":"made-up",' + json.dumps(self.manifest, sort_keys=True)[1:] + "\n"
+        self.write("frontier.json", raw)
+        proc = subprocess.run([sys.executable, str(ROOT / "scripts/laif_frontier_assurance.py"),
+                               str(self.root / "frontier.json"), "--require-review-ready"],
+                              check=False, capture_output=True, text=True)
+        self.assertEqual(proc.returncode, 2)
+        self.assertIn("duplicate key", proc.stderr)
 
 
 if __name__ == "__main__":

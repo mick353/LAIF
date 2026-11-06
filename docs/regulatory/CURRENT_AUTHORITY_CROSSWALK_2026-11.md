@@ -32,6 +32,17 @@ and the Commission's [current consolidated AI Act](https://eur-lex.europa.eu/eli
 Use the actual relevant consolidated text, amendments, transitional rules,
 classification and guidance at the date of the legal assessment.
 
+**Commencement is provision-specific.** As amended by
+[Regulation (EU) 2026/1744](https://eur-lex.europa.eu/eli/reg/2026/1744/oj/eng),
+the AI Act generally applies from **2 August 2026**, but Chapter III,
+Sections 1–3 requirements for Annex III high-risk systems apply from
+**2 December 2027**, and those for Annex I product-linked high-risk systems
+from **2 August 2028** (subject to the actual exceptions and transitional
+rules in Article 113). Chapter V general-purpose AI model obligations began
+applying on **2 August 2025**, with an additional transition for models placed
+on the market before that date under Article 111(3). These distinct dates
+must not be collapsed into one blanket AI Act compliance deadline.
+
 | Legal requirement / question | Possible LAIF contribution | Important remaining obligation or boundary |
 |---|---|---|
 | Risk classification, high-risk AI and prohibited practices (Arts 5–6, Annex III) | Coherence Test and documented classification reasoning | Statutory scope and exemptions must be determined under the AI Act itself. |
@@ -48,7 +59,7 @@ requires providers of general-purpose AI models with systemic risk to conduct
 and document adversarial evaluation, assess and mitigate systemic risks, report
 relevant serious incidents without undue delay, and ensure adequate
 cybersecurity protection of the model and its physical infrastructure. The
-Commission's [AI Act FAQ on AI agents](https://ai-act-service-desk.ec.europa.eu/en/faq?combine=ai+office&faq_category_id=All)
+Commission's [AI Act FAQ on AI agents](https://ai-act-service-desk.ec.europa.eu/en/faq)
 explains how agentic tool use can affect the systemic-risk analysis. Statutory
 implementation and any proposed amendments must be checked in force; a
 proposal is not an enacted rule.
@@ -75,6 +86,15 @@ correction:
 | OMB **M-24-10** | OMB **M-25-21**, federal agency use, innovation, governance and public trust | Update impact-assessment and internal governance cross-references; do not claim an old memo is active. |
 | OMB **M-24-18** | OMB **M-25-22**, federal AI acquisition | Update vendor-assurance and procurement cross-references; do not assert PDCA automatically satisfies contract requirements. |
 | Executive Order 14110 | Rescinded in January 2025 | Retain as historical source only, not current executive authority. |
+
+**Additional federal procurement policy:** [OMB M-26-04 (11 December 2025)](https://www.whitehouse.gov/wp-content/uploads/2025/12/M-26-04-Increasing-Public-Trust-in-Artificial-Intelligence-Through-Unbiased-AI-Principles.pdf)
+implements the administration's separate procurement requirements concerning
+the stated **Unbiased AI Principles** for covered large language models. It
+requires relevant contractual terms and agency procedures, subject to its
+defined scope and exceptions; it supplements, rather than replaces, the
+M-25-21/M-25-22 references above. Record its requirements separately from
+technical frontier-safety testing. LAIF does not endorse or independently
+validate the memo's policy assumptions.
 
 M-25-21 and M-25-22 are US federal guidance, not universal AI law. Scope,
 waivers, acquisition rules, agency implementation and later policy changes
