@@ -9,6 +9,7 @@
 
 <p align="center">
   <a href="#try-it-locally">Try it locally</a> ·
+  <a href="docs/research/SCHOLARLY_REPORTING.md">Neutral scholarly review</a> ·
   <a href="docs/examples/sample-assessment.md">Read a sample assessment</a> ·
   <a href="docs/product/OVERVIEW.md">Read the executive brief</a> ·
   <a href="docs/GETTING_STARTED.md">Getting started</a>
@@ -43,6 +44,20 @@ Use it to make a policy review more concrete, prepare better supplier questions,
 
 You need Git and Python 3. The published independent verification was executed on Python 3.12; the repository targets Python 3.10. Text and Markdown processing need no third-party packages or model API key.
 
+**For external scholarly, legal-policy or AI-safety audiences, use the
+source-bounded, non-promotional reporting path first.** It presents verified
+extracted-text matches and open review questions, while withholding
+unsupported compliance and safety conclusions:
+
+~~~bash
+python3 scripts/laif_research_report.py docs/examples/vendor-policy.md --scope excerpt --preview
+~~~
+
+[See the actual neutral sample](docs/examples/sample-scholarly-report.md) ·
+[Read the research and independent-review protocol](docs/research/SCHOLARLY_REPORTING.md).
+The more interpretive assessment runner below is primarily an internal
+diagnostic that needs human source, legal and operational review.
+
 ```bash
 git clone https://github.com/mick353/LAIF.git
 cd LAIF
@@ -68,6 +83,7 @@ On Windows, use your Python launcher (for example, `py -3`) in place of `python3
 ## What you get
 
 - **An institutional assessment:** a readable executive finding, strengths, gaps and suggested next actions.
+- **Optional neutral research dossier:** exact extracted passages, explicit source scope, SHA-pinned evidence and method versions, documented uncertainty, analyst annotations and independent second-reader disagreements; no automatic legal or safety certification.
 - **Traceable evidence:** source identity, SHA-256, source quotations and locations for review.
 - **A governance gap register:** missing control machinery, affected interests and recommended control artefacts.
 - **Failure pathways:** structured explanations of how a documented commitment might fail to control a real decision.
@@ -118,6 +134,11 @@ No GitHub Actions run is needed. [Complete verification instructions →](docs/p
 ## Understand the boundaries
 
 LAIF **does not determine legal validity** or legal enforceability. It **does not claim authority over external jurisdictions**, regulators or institutions, and **does not require external frameworks to use LAIF vocabulary** for diagnostic assessment. A **not LAIF-native** result does not mean legally invalid, unsafe or worthless.
+
+Historical comparison reports mix official and illustrative excerpts and may
+include superseded instruments; see the
+[legacy-result interpretation limits](docs/research/LEGACY_RESULT_BOUNDARIES.md)
+before citing them in academic or regulatory work.
 
 Scores are **deterministic rubric outputs**, not statistical confidence levels, regulatory ratings or independent certification. A supplied log, matching hash or `REVIEW_READY` status does not prove truthful execution or a working production control. Reviewers must examine source context, classification, supporting artefacts and counter-evidence.
 

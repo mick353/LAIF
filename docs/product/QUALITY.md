@@ -2,6 +2,15 @@
 
 LAIF's current document-processing core runs locally in Python. The text/Markdown path uses the standard library and does not require a model API key. Word and PDF support uses optional extraction packages.
 
+For external research and regulator-facing communication, use the
+[scholarly neutral report and review protocol](../research/SCHOLARLY_REPORTING.md).
+It reports source evidence and uncertainty rather than promoting native
+framework scores to legal or safety findings. This optional pathway is
+source-hashed, has a committed synthetic sample and is included in full
+local unit-test discovery. Independent construct validation and real-world
+classification error rates remain unmeasured; reviewer identities and
+independence declarations cannot be authenticated by the tool.
+
 ## What has been executed
 
 The **23 October baseline** complete local verifier passed on Python 3.12 on Linux with network connection and send operations blocked by an inherited kernel filter. That historical full gate also passed in a fresh environment without optional Python packages. These results predate the 30 October optional assurance and calibration extension.

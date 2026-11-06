@@ -2,6 +2,20 @@
 
 LAIF is a local Python toolkit. Start with its included synthetic document, inspect the outputs, then use a document you are authorised to review.
 
+**For scholarly, regulator-facing or external AI-safety discussion**, start
+with the [research-neutral evidence review](research/SCHOLARLY_REPORTING.md).
+It preserves quotations, provenance and uncertainty without presenting LAIF's
+internal scores as objective compliance or safety verdicts:
+
+~~~bash
+python3 scripts/laif_research_report.py docs/examples/vendor-policy.md --scope excerpt --preview
+~~~
+
+This previews the conservative report without writing files. Omit `--preview`
+to save a source-hashed report, evidence JSON and human-review template.
+The conventional document-processing path below is a more interpretive
+**internal diagnostic** workflow requiring expert review before public use.
+
 ## 1. Run the included example
 
 Install Git and Python 3. The project targets Python 3.10; the published independent verification used Python 3.12 on Linux. No model API key or third-party package is needed for the built-in text extractor.
