@@ -4,7 +4,7 @@
 
 **Base:** `origin/main` at `09f8687b58d1c5547cfe58bcf4e38aa7da3619a2`
 
-**Checked implementation commit:** `09482b1` (`feat/frontier-safety-assurance-20261106`)
+**Checked implementation commit:** `a991d3d` (`feat/frontier-safety-assurance-20261106`)
 **Runtime:** Linux, Python 3.12.14, local checkout; no GitHub Actions run.
 
 ## Scope
@@ -21,10 +21,10 @@
 
 | Check | Observed result |
 |---|---|
-| `python3 tests/test_frontier_assurance.py` | **PASS** — 32 tests; missing categories, forged decision labels, stale model revision, tampering, independent-interruption boundary, insufficient operational evidence, material change and release hold cases exercised. |
-| `python3 scripts/laif_verify.py` | **PASS** — source/evidence tests (17), existing assurance tests (57), new frontier tests (32), compile and governance config checks. |
+| `python3 tests/test_frontier_assurance.py` | **PASS** — 34 tests; missing categories, forged decision labels, stale model revision, tampering, malformed actor identity, independent-interruption boundary, insufficient operational evidence, material change and release hold cases exercised. |
+| `python3 scripts/laif_verify.py` | **PASS** — source/evidence tests (17), existing assurance tests (57), new frontier tests (34), compile and governance config checks. |
 | `python3 scripts/laif_verify.py --full --base-ref origin/main` | **PASS** — governance, protected-artifact diff, semantic advisory, all corpus validation modes, discovered and standalone tests, deterministic report regeneration and committed-report drift. |
-| `python3 -m unittest discover -s tests -p 'test_*.py'` | **PASS** — 405 discovered tests. |
+| `python3 -m unittest discover -s tests -p 'test_*.py'` | **PASS** — 407 discovered tests. |
 | `git diff --cached --check` before implementation commit | **PASS** — no whitespace errors. |
 | Protected narrative artifacts | **UNCHANGED** relative to base. |
 | Generated `reports/` | **UNCHANGED** after repeated regeneration; gate's `git diff --exit-code -- reports/` passed. |
@@ -40,7 +40,7 @@ review.
 
 ## Evidence boundaries and reviewer decisions
 
-The 32 new tests operate on synthetic controlled JSON records. They test
+The 34 new tests operate on synthetic controlled JSON records. They test
 checker invariants, **not** actual model capabilities, security boundaries,
 shutdown effectiveness, attack resistance, independent human identity,
 regulatory compliance, empirical calibration or real-world harm prevention.

@@ -137,7 +137,10 @@ def review_frontier(manifest: dict, root: Path, *, as_of: datetime) -> dict:
                 elif op.get("environment") not in {"staging", "production"}:
                     issues.append("simulation-only operational record")
                 if op:
-                    operating_actors.add(op.get("executor"))
+                    if _nonblank(op.get("executor")):
+                        operating_actors.add(op["executor"])
+                    else:
+                        issues.append("operational executor identity is missing or invalid")
                     try:
                         observed = _datetime(op.get("executed_at_utc"))
                         reviewed = _datetime(op.get("reviewed_at_utc"))
@@ -208,8 +211,8 @@ def review_frontier(manifest: dict, root: Path, *, as_of: datetime) -> dict:
                     issues.append("evaluation lacks run, method, toolchain or responsible actors")
                 if receipt.get("evaluator") == receipt.get("reviewer"):
                     issues.append("independent reviewer must differ from evaluator")
-                else:
-                    evaluator_names.add(receipt.get("evaluator"))
+                elif _nonblank(receipt.get("evaluator")):
+                    evaluator_names.add(receipt["evaluator"])
                 if receipt.get("environment") not in {"staging", "production"}:
                     issues.append("evaluation is simulation-only or environment unspecified")
                 executed = _datetime(receipt.get("executed_at_utc"))

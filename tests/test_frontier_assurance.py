@@ -201,6 +201,10 @@ class FrontierReviewTests(FrontierFixture):
         self.operations["controls"].pop()
         self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
 
+    def test_unhashable_operational_actor_fails_closed(self):
+        self.operations["controls"][0]["executor"] = ["invalid-identity"]
+        self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
+
     def test_simulation_only_does_not_pass(self):
         self.operations["controls"][0]["environment"] = "simulated"
         self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
@@ -247,6 +251,10 @@ class FrontierReviewTests(FrontierFixture):
 
     def test_approval_by_evaluator_is_not_independent(self):
         self.approval["approver"] = "evaluator-A"
+        self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
+
+    def test_unhashable_evaluator_identity_fails_closed(self):
+        self.edit_eval(RISK_CATEGORIES[0], evaluator=["invalid-identity"])
         self.assertEqual(self.status(), "EVIDENCE_INCOMPLETE")
 
     def test_shutdown_receipt_from_previous_revision_is_rejected(self):
