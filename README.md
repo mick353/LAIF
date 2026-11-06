@@ -75,6 +75,7 @@ On Windows, use your Python launcher (for example, `py -3`) in place of `python3
 - **An analyst bundle:** Markdown and JSON for further work by a person or an AI assistant of your choice. LAIF does not call a model API to generate these outputs.
 - **Batch processing:** per-document outputs and a portfolio summary through the [local batch runner](docs/product/REFERENCE.md#batch-processing).
 - **Optional evidence assurance:** hashes, exact quotes, required-source completeness, action receipts, negative-control mutation tests, operational review records and a reproducible synthetic calibration fixture. These are human-review diagnostics, not operational certification. [Evidence and calibration guide](docs/governance/ASSURANCE_CALIBRATION.md)
+- **Optional frontier/agentic AI safety review:** an offline evidence-gating adjunct for capability tests, independently enforced containment, model-change retests and human release records. [Scope, schema and limitations](docs/governance/FRONTIER_SAFETY_ASSURANCE.md). It does not evaluate a model or authorise deployment.
 
 [Explore the generated sample](docs/examples/README.md) · [Read the product overview](docs/product/OVERVIEW.md) · [Understand the method](docs/product/METHOD.md)
 
@@ -83,6 +84,8 @@ On Windows, use your Python launcher (for example, `py -3`) in place of `python3
 **Governance and assurance teams** can turn general commitments into review questions and evidence requests. **Procurement teams** can scrutinise supplier claims and contractual controls. **Test and release managers** can examine whether approval, monitoring, incident and rollback arrangements are actually specified. **Policy teams and researchers** can apply a consistent structural lens while retaining source quotations and transparent limits.
 
 LAIF includes diagnostic sector profiles for government services, departmental AI development, procurement, clinical AI, employment, education, financial services and general AI governance. Automatic document and sector classification is heuristic: reviewers should check it against the source and select a sector explicitly where needed.
+
+For frontier and autonomous AI safety, the repository now includes an **optional, proposed assurance extension** rather than a new canonical sector profile or changed scoring rule. It checks whether a supplied evidence package documents the expected safety controls; it does not perform live monitoring or independently prove that an AI can be stopped. See [Frontier Safety Assurance](docs/governance/FRONTIER_SAFETY_ASSURANCE.md). For current-law research, consult the [November 2026 authority crosswalk](docs/regulatory/CURRENT_AUTHORITY_CROSSWALK_2026-11.md); the published April 2026 regulatory guide remains a historical framework document, not a current-law compliance guarantee.
 
 ## The framework behind the toolkit
 

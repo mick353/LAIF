@@ -84,6 +84,15 @@ python3 scripts/laif_calibration.py /tmp/laif-calibration-synthetic/dataset.json
 
 Strict assurance checks required/omitted sources, hash-pinned execution decisions and simulated check-removal/constant-output mutations; an optional operational annex records approval, execution, remediation and retest artefacts. Calibration reports frozen holdout results and false-positive/false-negative rates with intervals. **The included dataset is synthetic, not a human-labelled performance benchmark.** See [assurance protocol](../governance/ASSURANCE_CALIBRATION.md). Keep private artefacts outside this public repository.
 
+### Optional frontier and autonomous AI evidence review
+
+```bash
+python3 scripts/laif_frontier_assurance.py /private/evidence/frontier.json --require-review-ready
+python3 scripts/laif_frontier_assurance.py /private/evidence/frontier.json --as-of 2026-11-06T12:00:00Z
+```
+
+The frontier review binds declared capability-evaluation receipts, per-risk threat pathways, external control boundaries, LAIF strict-assurance records and human release decisions to one model revision. It catches missing, contradictory, stale, future-dated and simulation-only evidence. It does **not** run tests on an AI system, authenticate the issuer of logs, provide continuous monitoring or certify safety. `REVIEW_READY` means only that the submitted record meets documentary conditions for further human review. See the [schema and limitations](../governance/FRONTIER_SAFETY_ASSURANCE.md). The [current-law research crosswalk](../regulatory/CURRENT_AUTHORITY_CROSSWALK_2026-11.md) separately tracks external legal authority without amending the historical framework.
+
 ## Verification
 
 ```bash
