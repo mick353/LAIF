@@ -1,0 +1,170 @@
+{
+  "schema": "laif.independent-review.v1",
+  "dossier_sha256": "fba8abb4212386d3c62c5230cc04551188fdc9379f8e89efd39759e15ece9cd3",
+  "reviewer_id": "REPLACE_WITH_REVIEWER_ID",
+  "independence_declaration": "unknown",
+  "original_source_inspected": false,
+  "instructions": "Independently inspect the original source and full context. Mark your independence accurately. Replace each verdict and add a specific reason. A declaration is not proof of reviewer identity or independence.",
+  "ratings": [
+    {
+      "target_id": "E001",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "E002",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "E003",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "E004",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "E005",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "E006",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "E007",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "E008",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "CR-A.1",
+      "verdict": "uncertain",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C001",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C002",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "CR-A.2",
+      "verdict": "uncertain",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C003",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C004",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "CR-A.3",
+      "verdict": "uncertain",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C005",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C006",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "CR-A.4",
+      "verdict": "uncertain",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C007",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C008",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "CR-Q1",
+      "verdict": "uncertain",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C009",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C010",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "CR-Q2",
+      "verdict": "uncertain",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C011",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C012",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "CR-Q3",
+      "verdict": "uncertain",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C013",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C014",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "CR-G.1",
+      "verdict": "uncertain",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C015",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    },
+    {
+      "target_id": "C016",
+      "verdict": "unverified",
+      "reason": "Review pending: full source context not yet checked."
+    }
+  ]
+}

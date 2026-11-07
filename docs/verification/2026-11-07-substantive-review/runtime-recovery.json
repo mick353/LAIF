@@ -1,0 +1,37 @@
+{
+  "python": "Python 3.13.18",
+  "platform": "Composio cloud Linux, separate from unavailable Work executor",
+  "pdf_reproduction": {
+    "version": "pdftotext 24.02.0",
+    "status": "PASS",
+    "source": "Official Ubuntu archive, private extracted runtime; no repository source repinning",
+    "packages": [
+      {
+        "url": "https://archive.ubuntu.com/ubuntu/pool/main/p/poppler/poppler-utils_24.02.0-1ubuntu9.11_amd64.deb",
+        "sha256": "babf881b89893f843701116f9f32917d19fa94dec337940b6dbeb27fe1a26fc8"
+      },
+      {
+        "url": "https://archive.ubuntu.com/ubuntu/pool/main/p/poppler/libpoppler134_24.02.0-1ubuntu9.11_amd64.deb",
+        "sha256": "fb25ad9d2bf31bf67840b8516bedc1a9bfc8f70d319c3eb9d341f722668e0151"
+      },
+      {
+        "url": "https://archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg-turbo/libjpeg-turbo8_2.1.5-2ubuntu2_amd64.deb",
+        "sha256": "f68b5b23bc8a1688fb787d2aed7e2cdf895a73022f6a5025e183162dac4500b2"
+      }
+    ]
+  },
+  "prior_attempts": [
+    {
+      "runtime": "Work executor",
+      "result": "transport disconnected; #104 merge already confirmed"
+    },
+    {
+      "runtime": "first fallback sandbox",
+      "result": "health-check shutdown during source build; interrupted full run not a PASS"
+    },
+    {
+      "extractor": "Poppler 25.03.0",
+      "result": "DTA reproduction mismatch; originals retained"
+    }
+  ]
+}

@@ -1,0 +1,902 @@
+{
+  "scope": "Tracked Markdown inventory and active local-file-link checks; historical sources and reports retained, not a fresh legal fact-check of historical statements.",
+  "counts": {
+    "active_guidance": 48,
+    "generated_or_worked_example": 10,
+    "dated_record": 97,
+    "source_text": 11,
+    "source_evidence_or_custody_record": 12
+  },
+  "files": [
+    {
+      "file": "AGENTS.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "CLAUDE.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "CONTRIBUTING.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "MANUAL_INGESTION_WORKFLOW.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "PUBLICATION_STATUS.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "README.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "REPRODUCIBILITY.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "THIRD_PARTY_NOTICES.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "corpus_manifest.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/GETTING_STARTED.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/examples/README.md",
+      "classification": "generated_or_worked_example",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/examples/sample-assessment.md",
+      "classification": "generated_or_worked_example",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/examples/sample-quote-bank.md",
+      "classification": "generated_or_worked_example",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/examples/sample-scholarly-report.md",
+      "classification": "generated_or_worked_example",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/examples/vendor-policy.md",
+      "classification": "generated_or_worked_example",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/AI_ANALYST_BUNDLE.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/ASSESSMENT_FRAGILITY.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/ASSURANCE_CALIBRATION.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/CALIBRATION_SCORE_JUSTIFICATION.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/DOCUMENT_PROCESSING_RUNNER.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/EVIDENCE_CHECKS.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/EVIDENCE_TRACE_MODEL.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/FRONTIER_SAFETY_ASSURANCE.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/GITHUB_ACTIONS_DOCUMENT_PROCESSING.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/GOVERNANCE_FORCE_MODEL.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/GOVERNANCE_REPAIR_REPORTING.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/INSTITUTIONAL_ANALYST_REPORTING.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/MERGE_POLICY.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/PROTECTED_ARTIFACTS.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/PUBLIC_REPORT_TEMPLATE.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/REMEDIATION_PATCH_SCHEMA.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/RESULT_TAXONOMY.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/ROLLBACK_RECOVERY.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/SCORE_INTERPRETATION.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/SECTOR_PROFILES.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/SEMANTIC_BOUNDARIES.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/SUBSTANTIVE_REVIEW.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/governance/SYSTEM_QA_RELEASE_AUDIT.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/product/METHOD.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/product/OVERVIEW.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/product/QUALITY.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/product/REFERENCE.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/product/USE_CASES.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/regulatory/CURRENT_AUTHORITY_CROSSWALK_2026-11.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/research/LEGACY_RESULT_BOUNDARIES.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/research/SCHOLARLY_REPORTING.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/research/SCHOLARLY_REPORT_TEMPLATE.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/review/2026-11-07-external-scholarly-critique-triage.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/review/INDEPENDENT_STUDY_OPERATIONS.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/review/USABILITY_REVIEW_2026-09.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/supporting/51a29205-OECD_Legal_Instruments.md",
+      "classification": "source_text",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/supporting/55eccce3-DTAC_Form_2.0_February_2026.md",
+      "classification": "source_text",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/supporting/5f667a6f-NIST.AI.1001.md",
+      "classification": "source_text",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/supporting/b0ef43db-202324283.md",
+      "classification": "source_text",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-05-11/README.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-05-11/runs/run-1/assessment.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-05-11/runs/run-2/assessment.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-05-11/runs/run-3/assessment.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-05-11/runs/run-4/assessment.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-05-11/runs/run-5/assessment.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-05-11/runs/run-6/assessment.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-10-23/README.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-10-23/current-product-package.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-10-23/product-presentation.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-10-23/windows-example.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-10-30/CROSS_REFERENCE_QA.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-10-30/OPERATIONAL_DOCUMENT_SMOKE.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-10-30/PARKED_BRANCH_TRIAGE.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-10-30/WORK_HANDOVER.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-06/FRONTIER_SAFETY_RELEASE_CHECK.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-assessment-repairs/COMBINED_VALIDATION.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-assessment-repairs/CONTINUED_VALIDATION.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-assessment-repairs/README.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-consolidated-candidate/README.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-consolidated-candidate/REASONING_REVIEW.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-consolidated-candidate/review-dossiers/dta/research_report.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-consolidated-candidate/review-dossiers/eu/research_report.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-control-evidence-reporting/README.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-control-evidence-reporting/actual-dta-policy-only.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-control-evidence-reporting/actual-release-records.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-control-evidence-reporting/notion-sync.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-generated-report-quality/README.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-generated-report-quality/au_dta_policy_v2_1/au_dta_policy_v2_1.institutional_report.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-generated-report-quality/au_dta_policy_v2_1/au_dta_policy_v2_1.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-generated-report-quality/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.institutional_report.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-generated-report-quality/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-portable-review/README.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-portable-review/demonstration/vendor-policy.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-portable-review/demonstration/vendor-policy.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-portable-review/demonstration/vendor-policy.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/51a29205-OECD_Legal_Instruments/51a29205-OECD_Legal_Instruments.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/51a29205-OECD_Legal_Instruments/51a29205-OECD_Legal_Instruments.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/55eccce3-DTAC_Form_2.0_February_2026/55eccce3-DTAC_Form_2.0_February_2026.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/55eccce3-DTAC_Form_2.0_February_2026/55eccce3-DTAC_Form_2.0_February_2026.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/5f667a6f-NIST.AI.1001/5f667a6f-NIST.AI.1001.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/5f667a6f-NIST.AI.1001/5f667a6f-NIST.AI.1001.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/README.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/au_dta_policy_v2_1/au_dta_policy_v2_1.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/au_dta_policy_v2_1/au_dta_policy_v2_1.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/b0ef43db-202324283/b0ef43db-202324283.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/b0ef43db-202324283/b0ef43db-202324283.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/eu-ai-act-2024-1689/eu_ai_act_2024_1689.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/eu-ai-act-2024-1689/eu_ai_act_2024_1689.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-real-source-assurance/notion-sync.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-reporting-challenge/README.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-reporting-challenge/au_dta_policy_v2_1/au_dta_policy_v2_1.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-reporting-challenge/au_dta_policy_v2_1/au_dta_policy_v2_1.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-reporting-challenge/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-reporting-challenge/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-substantive-review/5f667a6f-NIST.AI.1001/assessment.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-substantive-review/README.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-substantive-review/au_dta_policy_v2_1/assessment.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-substantive-review/notion-sync.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/README.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/REASONING_REVIEW.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/VALIDATION.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/au_dta_policy_v2_1.assessment.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.assessment.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/au_dta_policy_v2_1/Policy-for-the-responsible-use-of-AI-in-government-2_1_1.institutional_report.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/au_dta_policy_v2_1/Policy-for-the-responsible-use-of-AI-in-government-2_1_1.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/au_dta_policy_v2_1/Policy-for-the-responsible-use-of-AI-in-government-2_1_1.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/AI_ANALYST_PROMPT.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/AI_REPORT_VALIDATION_RULES.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/quote_bank.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/verification_required_evidence.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/eu_ai_act_amendment_2026_1744/OJ_L_202601744_EN_TXT.institutional_report.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/eu_ai_act_amendment_2026_1744/OJ_L_202601744_EN_TXT.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/eu_ai_act_amendment_2026_1744/OJ_L_202601744_EN_TXT.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/AI_ANALYST_PROMPT.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/AI_REPORT_VALIDATION_RULES.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/quote_bank.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/verification_required_evidence.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/AI_ANALYST_PROMPT.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/AI_REPORT_VALIDATION_RULES.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/quote_bank.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/verification_required_evidence.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/au_dta_policy_v2_1/au_dta_policy_v2_1.institutional_report.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/au_dta_policy_v2_1/au_dta_policy_v2_1.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/au_dta_policy_v2_1/au_dta_policy_v2_1.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/AI_ANALYST_PROMPT.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/AI_REPORT_VALIDATION_RULES.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/quote_bank.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/verification_required_evidence.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.institutional_report.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.laif.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07/regulatory/reviewed-text/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.technical_appendix.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/README.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/SOURCE_CURRENCY.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/extracted/51a29205-OECD-evidence-trace.md",
+      "classification": "source_evidence_or_custody_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/extracted/55eccce3-DTAC-evidence-trace.md",
+      "classification": "source_evidence_or_custody_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/extracted/5f667a6f-NIST-evidence-trace.md",
+      "classification": "source_evidence_or_custody_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/extracted/au_dta_policy_v2_1.md",
+      "classification": "source_evidence_or_custody_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/extracted/b0ef43db-EO14110-evidence-trace.md",
+      "classification": "source_evidence_or_custody_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/extracted/eu-ai-act-2024-1689-ingestion-trace.md",
+      "classification": "source_evidence_or_custody_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/extracted/eu_ai_act_amendment_2026_1744.md",
+      "classification": "source_evidence_or_custody_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/nist_reconciliation.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/pending/2026-11-07_SOURCE_SCOPED_PRELIMINARY_REVIEW.md",
+      "classification": "source_evidence_or_custody_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/pending/au_dta_policy_v2_1.md",
+      "classification": "source_evidence_or_custody_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/pending/eu_ai_act_2026_amendment.md",
+      "classification": "source_evidence_or_custody_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/pending/eu_ai_act_ingestion_ready.md",
+      "classification": "source_evidence_or_custody_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/raw/51a29205-OECD_Legal_Instruments.md",
+      "classification": "source_text",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/raw/55eccce3-DTAC_Form_2.0_February_2026.md",
+      "classification": "source_text",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/raw/5f667a6f-NIST.AI.1001.md",
+      "classification": "source_text",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/raw/au_dta_policy_v2_1.md",
+      "classification": "source_text",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/raw/b0ef43db-202324283.md",
+      "classification": "source_text",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/raw/eu_ai_act_2024_1689.md",
+      "classification": "source_text",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/raw/eu_ai_act_amendment_2026_1744.md",
+      "classification": "source_text",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verified/url_verification/verification_report.md",
+      "classification": "source_evidence_or_custody_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "laif_inputs/processed/README.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "reports/README.md",
+      "classification": "generated_or_worked_example",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "reports/laif_assessment_aus_ai_policy_v2.md",
+      "classification": "generated_or_worked_example",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "reports/laif_executive_summary.md",
+      "classification": "generated_or_worked_example",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "reports/laif_full_assessment.md",
+      "classification": "generated_or_worked_example",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "reports/laif_real_world_assessment.md",
+      "classification": "generated_or_worked_example",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "verified_corpus_manifest.md",
+      "classification": "active_guidance",
+      "unresolved_local_destinations": []
+    }
+  ]
+}

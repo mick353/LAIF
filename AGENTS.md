@@ -1,6 +1,6 @@
 # Repository agent instructions
 
-**Released verification (7 November 2026):** PR #103 merged to main at `eb3300e15790702805403ccf39887f6c20eeb3ef`, matching the 535-test verified tree `13e3fc206d60c569f0e02131ae4117b828fd5187`. The [whole-source reporting record](docs/verification/2026-11-07-real-source-assurance/README.md) preserves that release's checks and limits. The subsequent [control-evidence reporting pass](docs/verification/2026-11-07-control-evidence-reporting/README.md) is a separate candidate until merged. Earlier verification records remain historical. Inspect current Git/PR state before relying on a checkpoint.
+**Current verification checkpoint (7 November 2026):** The [substantive-review record](docs/verification/2026-11-07-substantive-review/README.md) contains the fresh 578-test full gate, focused checks, actual DTA/NIST authored assessments and pinned PDF reproduction. Its base is merged PR #104 at ededd1b58afc56dbd06ad0b20f8793b3d1e79e3b (555-test release). Inspect current Git/PR state to distinguish checkpoint, tested and merged stages; main remains authoritative. Earlier logs are historical.
 
 ## Local-first verification (GitHub Actions not used)
 

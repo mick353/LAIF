@@ -27,6 +27,7 @@ if str(ROOT / "scripts") not in sys.path:
 
 from assessment_engine import assess, toolchain_fingerprint
 from laif_spec import ASSESSMENT_CRITERIA
+from laif_criteria_review import validate_criteria_review, criterion_template
 from laif_process_document import (
     ExtractionError, build_extraction_quality_profile, build_low_confidence_quote_candidates,
     build_quote_bank, build_verification_required_evidence, extract_document,
@@ -161,10 +162,10 @@ def _evidence_manifest_sha256(observations: list[dict]) -> str:
 
 
 def _validated_annotations(path: Path | None, source_sha: str, manifest_sha: str,
-                           observations: list[dict]) -> list[dict]:
+                           observations: list[dict], data: dict | None = None) -> list[dict]:
     if path is None:
         return []
-    data = _read_json(path)
+    data = _read_json(path) if data is None else data
     if (data.get("schema") != ANNOTATION_SCHEMA or data.get("source_sha256") != source_sha
             or data.get("evidence_manifest_sha256") != manifest_sha):
         raise ResearchInputError("annotation schema, source SHA-256 or evidence manifest SHA-256 mismatch")
@@ -178,6 +179,11 @@ def _validated_annotations(path: Path | None, source_sha: str, manifest_sha: str
                   or data.get("toolkit_source_sha256") != sha256_file(ROOT / "LAIF_Compliance_Toolkit.txt")
                   or data.get("toolchain_fingerprint") != toolchain_fingerprint()):
         raise ResearchInputError("annotation framework or Toolkit basis SHA-256 mismatch")
+    if data.get("criteria_review") is not None:
+        if not bound:
+            raise ResearchInputError("criterion review requires current framework, Toolkit and toolchain identities")
+        if data.get("criteria_review_protocol_sha256") != sha256_file(ROOT / "scripts/laif_criteria_review.py"):
+            raise ResearchInputError("criterion-review protocol SHA-256 mismatch; generate a fresh template")
     output, seen = [], set()
     for item in findings:
         if not isinstance(item, dict):
@@ -254,7 +260,13 @@ def build_dossier(path: Path, *, extractor: str = "auto-local", source_scope: st
     eligible = bool(quality.get("primary_quote_eligible"))
     observations = _observations(text, quotes, eligible, max_quotes)
     manifest_sha = _evidence_manifest_sha256(observations)
-    findings = _validated_annotations(review_file, source_sha, manifest_sha, observations)
+    review_data = _read_json(review_file) if review_file else None
+    findings = _validated_annotations(review_file, source_sha, manifest_sha, observations, review_data)
+    try:
+        criteria_review = validate_criteria_review(review_data.get("criteria_review") if review_data else None, text)
+    except ValueError as exc:
+        raise ResearchInputError(str(exc)) from exc
+    criterion_keys = {row["criterion_id"] for row in criteria_review["criteria"]} if criteria_review else set()
     limits = [
         "Passage selection is heuristic and non-exhaustive; relevant clauses can be missed.",
         "Source scope and instrument status are operator declarations, not verified by this software.",
@@ -273,7 +285,7 @@ def build_dossier(path: Path, *, extractor: str = "auto-local", source_scope: st
         limits.append("No primary-quote-grade evidence was admitted: analysis must abstain pending better source material.")
     return {
         "schema": SCHEMA,
-        "status": "ANALYST_ANNOTATED_DRAFT" if findings else (
+        "status": "ANALYST_ANNOTATED_DRAFT" if findings or criteria_review else (
             "EVIDENCE_REVIEW_REQUIRED" if not observations else "EVIDENCE_INVENTORY_ONLY"),
         "report_date": date,
         "research_question": question.strip(),
@@ -294,6 +306,7 @@ def build_dossier(path: Path, *, extractor: str = "auto-local", source_scope: st
             "assessment_channel": "external_framework_candidate_signals_only",
             "sampling_design": "Heuristic candidate retrieval only; not random, comprehensive, or an estimator of safeguard prevalence.",
             "internal_engine_fingerprint": toolchain_fingerprint(),
+            "criteria_review_protocol_sha256": sha256_file(ROOT / "scripts/laif_criteria_review.py"),
             "framework_source_sha256": sha256_file(ROOT / "LAIF_v1.2.txt"),
             "toolkit_source_sha256": sha256_file(ROOT / "LAIF_Compliance_Toolkit.txt"),
             "scores_and_certification_excluded": True,
@@ -302,10 +315,11 @@ def build_dossier(path: Path, *, extractor: str = "auto-local", source_scope: st
         "evidence": observations,
         "evidence_manifest_sha256": manifest_sha,
         "reviewer_findings": findings,
+        "criteria_review": criteria_review,
         "criteria_coverage": [
             {"criterion_id": key, **criterion,
              "finding_ids": [row["finding_id"] for row in findings if key in row["criterion_ids"]],
-             "status": "ANALYST_CLAIMS_ATTACHED_REVIEW_REQUIRED" if any(key in row["criterion_ids"] for row in findings) else "NOT_ASSESSED"}
+             "status": "AUTHOR_DETERMINATION_SUPPLIED" if key in criterion_keys else ("ANALYST_CLAIMS_ATTACHED_REVIEW_REQUIRED" if any(key in row["criterion_ids"] for row in findings) else "NOT_ASSESSED")}
             for key, criterion in ASSESSMENT_CRITERIA.items()
         ],
         "review_questions": list(REVIEW_QUESTIONS),
@@ -386,12 +400,15 @@ def render_markdown(dossier: dict) -> str:
             "",
         ]
     lines += ["## Analyst interpretations and counterevidence", ""]
-    if not dossier["reviewer_findings"]:
+    if not dossier["reviewer_findings"] and not dossier.get("criteria_review"):
         lines += [
             "No analyst findings were supplied. The software deliberately does not convert undetected patterns "
             "into claims of missing safeguards or turn candidate quotations into legal conclusions.",
             "",
         ]
+    if dossier.get("criteria_review"):
+        from laif_process_document import criteria_review_sections
+        lines += criteria_review_sections(dossier["criteria_review"])
     for finding in dossier["reviewer_findings"]:
         lines += [
             f"### {_md_text(finding['finding_id'])} — {_md_text(finding['claim_type'])}",
@@ -428,7 +445,7 @@ def render_markdown(dossier: dict) -> str:
     return "\n".join(lines)
 
 
-def review_template(dossier: dict) -> dict:
+def review_template(dossier: dict, *, include_criteria: bool = False) -> dict:
     return {
         "schema": ANNOTATION_SCHEMA,
         "source_sha256": dossier["source"]["source_sha256"],
@@ -436,6 +453,7 @@ def review_template(dossier: dict) -> dict:
         "framework_source_sha256": dossier["method"].get("framework_source_sha256"),
         "toolkit_source_sha256": dossier["method"].get("toolkit_source_sha256"),
         "toolchain_fingerprint": dossier["method"].get("internal_engine_fingerprint"),
+        "criteria_review_protocol_sha256": dossier["method"].get("criteria_review_protocol_sha256"),
         "instructions": ("Add source-supported findings with unique finding_id, claim_type "
                          "(OBSERVATION/INFERENCE/HYPOTHESIS), statement, evidence_ids, "
                          "counterevidence_ids, at least one alternative explanation, limitations "
@@ -445,6 +463,7 @@ def review_template(dossier: dict) -> dict:
         "available_evidence_ids": [x["evidence_id"] for x in dossier["evidence"]],
         "available_criteria": [{"criterion_id": key, **row} for key, row in ASSESSMENT_CRITERIA.items()],
         "findings": [],
+        "criteria_review": criterion_template() if include_criteria else None,
     }
 
 
@@ -457,6 +476,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--source-url", default="", help="Attribution only; no network retrieval")
     parser.add_argument("--question", default=DEFAULT_QUESTION)
     parser.add_argument("--date", help="YYYY-MM-DD; provide for deterministic report dates")
+    parser.add_argument("--criteria-template", action="store_true", help="include unfilled records for all eight LAIF criteria")
     parser.add_argument("--review-file", type=Path, help="Optional human analyst findings from prior review template")
     parser.add_argument("--extractor", choices=("auto-local", "builtin", "python-docx", "pypdf"), default="auto-local")
     parser.add_argument("--max-quotes", type=int, default=8, help="1–12 exact extracted passages")
@@ -492,7 +512,7 @@ def main(argv: list[str] | None = None) -> int:
         template_path = args.output_dir / f"{stem}.review_template.json"
         report_path.write_text(report, encoding="utf-8")
         data_path.write_text(dossier_bytes, encoding="utf-8")
-        template_path.write_text(json.dumps(review_template(dossier), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        template_path.write_text(json.dumps(review_template(dossier, include_criteria=args.criteria_template), indent=2, sort_keys=True) + "\n", encoding="utf-8")
         print(f"Research report: {report_path}")
         print(f"Evidence JSON: {data_path}")
         print(f"Human review template: {template_path}")

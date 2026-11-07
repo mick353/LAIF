@@ -96,6 +96,8 @@ On Windows, use your Python launcher (for example, `py -3`) in place of `python3
 
 [Explore the generated sample](docs/examples/README.md) · [Read the product overview](docs/product/OVERVIEW.md) · [Understand the method](docs/product/METHOD.md)
 
+For substantive authored assessments, the [all-criterion workflow](docs/governance/SUBSTANTIVE_REVIEW.md) supplies explicit Integrity Layer, Q1a/Q1b, Consistency, Reversibility and Self-Application records with curated evidence and second-reader targets. Complete coverage remains distinct from satisfaction.
+
 ## Built for the people who have to ask the next question
 
 **Governance and assurance teams** can turn general commitments into review questions and evidence requests. **Procurement teams** can scrutinise supplier claims and contractual controls. **Test and release managers** can examine whether approval, monitoring, incident and rollback arrangements are actually specified. **Policy teams and researchers** can apply a consistent structural lens while retaining source quotations and transparent limits.

@@ -10,7 +10,7 @@
 - SHA-256 (original bytes): e8e8475acaf9fa54846ceac6b0bc8f5728e26e6f5b52ce83613150a791079523
 - SHA-256 (extracted text): 35ab55f754f39d61a1e24fa7a8cc844dc45bbf223fe88864f967951ae2f2b825
 - SHA-256 (admitted evidence manifest): 6fbe01991b61afa9b453e9b017aa1ce21bafb4de08bd9a16f11fa54d8ea3cf39
-- Research renderer SHA-256: 2be53373797cfa28c673376f598d8a68b2697447caea8048bff2fa28fb94780a
+- Research renderer SHA-256: 10299a898e564d8feb989a6f1f2ed1baadd998ae4c9b26025ebeaad6963eb39e
 - LAIF principal text SHA-256: c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407
 - Toolkit source SHA-256: 24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67
 - Declared scope: excerpt

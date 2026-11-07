@@ -39,6 +39,8 @@ peer-review completion or scientific validation.
 
 Each report is an aid to professional judgement. A reviewer checks the source context, confirms automatic classifications, and investigates whether supporting controls are documented elsewhere or operate in practice.
 
+A reviewer can supply a [source-bound substantive assessment](../governance/SUBSTANTIVE_REVIEW.md) with all eight criteria, applicability and curated quotations. The executive finding leads with that authored reasoning. Software checks references and coverage; it does not independently validate the judgement.
+
 ## Model-independent by design
 
 LAIF does not depend on a particular AI model or provider. Its core text and Markdown workflow runs locally in Python without a model API key. The tool produces its own structured diagnostic outputs; you may use the analyst bundle with an assistant of your choice for further work.

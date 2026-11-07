@@ -267,3 +267,7 @@ provenance, invalid JSON/URLs, independent-review limitations, disputed
 assessments and non-promotional reporting. The full local gate also checks
 protected artefacts and existing deterministic report regeneration. It does
 not send anything to GitHub Actions or an external AI API.
+
+## Substantive criterion reviews
+
+The --criteria-template flag creates unfilled records for all eight LAIF criteria. The completed criteria_review carries authored determinations, explicit Q1a/Q1b, applicability, alternatives, closing evidence and exact curated source spans beyond the automatic inventory. Its protocol is hash-bound. The processor --require-complete-review gate requires all eight records before writes. Partial reviews preserve unassessed areas; coverage is not satisfaction. Second-reader targets include every criterion and curated quotation. [Schema and boundaries](../governance/SUBSTANTIVE_REVIEW.md).
