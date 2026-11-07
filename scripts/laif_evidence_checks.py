@@ -9,12 +9,38 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import re
 from pathlib import Path
 
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 OUTCOMES = {"PASS", "FAIL"}
 TEST_TYPES = {"positive", "negative"}
+
+
+def read_json_object(text: str) -> dict:
+    """Reject ambiguous or non-finite evidence before interpreting its fields."""
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"ambiguous JSON evidence: duplicate key {key!r}")
+            result[key] = value
+        return result
+
+    def reject(value):
+        raise ValueError(f"non-finite JSON evidence number: {value}")
+
+    def finite(value):
+        parsed = float(value)
+        if not math.isfinite(parsed):
+            reject(value)
+        return parsed
+
+    result = json.loads(text, object_pairs_hook=unique, parse_constant=reject, parse_float=finite)
+    if not isinstance(result, dict):
+        raise ValueError("evidence JSON must be an object")
+    return result
 
 
 def _load_artifact(root: Path, name: str, expected: str, quote: str | None) -> str:
@@ -121,7 +147,7 @@ def main() -> int:
     parser.add_argument("--require-review-ready", action="store_true", help="exit nonzero unless all controls are ready")
     args = parser.parse_args()
     try:
-        result = check_manifest(json.loads(args.manifest.read_text(encoding="utf-8")), args.manifest.parent)
+        result = check_manifest(read_json_object(args.manifest.read_text(encoding="utf-8")), args.manifest.parent)
     except (ValueError, OSError, UnicodeError, json.JSONDecodeError) as exc:
         parser.error(str(exc))
     print(json.dumps(result, sort_keys=True, indent=2))

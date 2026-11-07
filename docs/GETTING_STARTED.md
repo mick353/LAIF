@@ -126,3 +126,22 @@ python3 scripts/laif_verify.py --full --base-ref origin/main
 ```
 
 Use the actual pre-change base SHA when inspecting an already merged change. The [quality guide](product/QUALITY.md) describes verified capabilities and runtime limits.
+
+## Review supplied control evidence
+
+Use the existing optional assurance checker when you have a policy plus evidence
+files, declared tests, action receipts or operational-review records. The
+[assurance guide](governance/ASSURANCE_CALIBRATION.md) defines the manifest.
+The readable reporting follow-up adds:
+
+```bash
+python3 -S scripts/laif_assurance.py /path/to/manifest.json --strict-scope --strict-actions --print-report
+python3 -S scripts/laif_assurance.py /path/to/manifest.json --strict-scope --strict-actions --markdown-report /path/to/control-review.md
+```
+
+Printing a report writes no file. Saving Markdown keeps JSON on stdout. The
+report distinguishes policy claims, declared test labels, checked action
+receipts and unauthenticated operational-review records. An explicit
+`--evidence-root /path/to/evidence` supports a manifest stored elsewhere; all
+referenced files must remain inside that root. Readability is not approval of
+the control or permission to deploy.

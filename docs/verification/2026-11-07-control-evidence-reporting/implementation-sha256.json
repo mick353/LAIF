@@ -1,0 +1,10 @@
+{
+  "base_commit": "eb3300e15790702805403ccf39887f6c20eeb3ef",
+  "scope": "Exact checker/reporting implementation used for this verification; pin this record and repository revision when reproducing the reports.",
+  "files": {
+    "scripts/laif_assurance.py": "79502fc8292fa36c2f7a1079c83d4df662f7d1ba62ee55439e393343c0043909",
+    "scripts/laif_evidence_checks.py": "312b818820cc6c2ed38c55327ea7ea529d72593381e08907decf98b6163b9e42",
+    "scripts/laif_calibration.py": "0bcb164b8ba0515a110a48c5007148f5682e0e5ce8166294a4fe73c3032b7c51",
+    "scripts/laif_frontier_assurance.py": "2c4df5637bf80eef13bcb45c8de2b85b69fa2c77daf88af62360cdd48757feeb"
+  }
+}

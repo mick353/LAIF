@@ -102,3 +102,37 @@ recorded human release decisions and risk-specific threat pathways. The
 implementation reuses this assurance module's strict source/action checks and
 operational annex; it does not alter the existing assessment channel or
 calibration findings. Its synthetic tests verify the *checker*, not model safety.
+
+## Readable policy-to-evidence reviews — November 2026 follow-up
+
+```bash
+python3 -S scripts/laif_assurance.py /private/evidence/manifest.json --strict-scope --strict-actions --print-report
+python3 -S scripts/laif_assurance.py /private/evidence/manifest.json --strict-scope --strict-actions --markdown-report /private/results/control-evidence.md
+```
+
+The readable report presents the policy quotation and hash, canonical manifest
+digest, required supporting sources, source reference checks, declared test
+records, checked receipt decisions and recorded environment/run identities. It
+then shows operational-review status, recorded executor/reviewer, remediation
+reference, retest outcome and unresolved issues. A later passing review cannot
+erase an adverse source/test diagnostic. Missing records remain visible.
+
+JSON includes additive `evidence_trace`, `execution_cases`, source-inventory and
+scope-attribution fields. Default stdout stays JSON; `--print-report` selects
+Markdown without writing it. `--markdown-report PATH` saves a report alongside
+JSON stdout. Inputs and evidence are protected from accidental output-path
+collision, including symlinks and hard links. An optional `--evidence-root PATH`
+sets an explicit confined root; the manifest directory remains the default.
+
+The evidence checker, assurance CLI/receipts, calibration dataset/case manifests
+and frontier assurance use the same strict JSON object reader. It rejects
+nested duplicate fields, NaN/Infinity, numeric overflow such as `1e999` and
+non-object roots. Malformed receipts produce invalid-evidence diagnostics;
+malformed manifest input exits before writing a report. This tightens parsing,
+not LAIF scoring or valid record outcomes.
+
+Reports describe supplied records. They do not establish that a self-reported
+test happened, authenticate a reviewer, find unlisted documents, prove protection
+in practice or grant legal authority. A real policy claim and an actual software
+release evidence package are exercised separately in the
+[control-evidence verification record](../verification/2026-11-07-control-evidence-reporting/README.md).

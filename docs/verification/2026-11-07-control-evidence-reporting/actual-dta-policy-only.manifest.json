@@ -1,0 +1,11 @@
+{
+  "policy_file": "docs/verified/raw/au_dta_policy_v2_1.md",
+  "policy_sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+  "review_scope": "One actual DTA deployment-gate claim, without a deployment evidence package or completeness attestation.",
+  "controls": [
+    {
+      "id": "dta-before-deployment-assessment",
+      "claim_quote": "Before the\nsolution is deployed, agencies must finalise the assessment and apply any agreed risk\ntreatments."
+    }
+  ]
+}

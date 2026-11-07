@@ -1,0 +1,40 @@
+{
+  "boundary": "Source completeness, when attested, is not proven exhaustive. Receipts and reviewer identity are not authenticated. No LAIF certification or operational validation.",
+  "controls": [
+    {
+      "evidence_grade": "POLICY_CLAIM_ONLY",
+      "evidence_trace": {
+        "claim_quote": "Before the\nsolution is deployed, agencies must finalise the assessment and apply any agreed risk\ntreatments.",
+        "claim_status": "EXACT_POLICY_TEXT_CHECKED",
+        "declared_test_records": [],
+        "required_source_ids": null
+      },
+      "execution_cases": [],
+      "execution_counts": {
+        "negative": 0,
+        "positive": 0
+      },
+      "execution_status": "EXECUTION_UNTESTED",
+      "id": "dta-before-deployment-assessment",
+      "issues": [
+        "strict scope requires a source inventory"
+      ],
+      "operational_annex": {
+        "issues": [],
+        "status": "NOT_SUPPLIED"
+      },
+      "original_status": "POLICY_ONLY",
+      "scope_status": "SCOPE_UNDECLARED",
+      "status": "SCOPE_UNDECLARED"
+    }
+  ],
+  "input_manifest_digest_sha256": "b8192f9ed112fced4fdb083db289e51468d873093f07256da046e5116e9d43b3",
+  "policy_file": "docs/verified/raw/au_dta_policy_v2_1.md",
+  "policy_sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+  "review_ready_count": 0,
+  "schema": "laif.assurance.v1",
+  "scope_attestation": null,
+  "source_inventory": [],
+  "strict_actions": true,
+  "strict_scope": true
+}

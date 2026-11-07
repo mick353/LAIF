@@ -9,6 +9,7 @@ import math
 from pathlib import Path
 
 from laif_assurance import artifact, assess_assurance, digest_json
+from laif_evidence_checks import read_json_object
 
 LABELS = {"READY", "NOT_READY"}
 SPLITS = {"development", "holdout"}
@@ -86,7 +87,7 @@ def calibrate(dataset: dict, root: Path, *, require_adjudicated: bool = False) -
                 raise ValueError("adjudicated case requires at least two distinct recorded reviewer votes")
             artifact(root, entry.get("adjudication_file"), entry.get("adjudication_sha256"), entry.get("adjudication_quote"))
         raw = artifact(root, entry["manifest_file"], entry["manifest_sha256"])
-        case_manifest = json.loads(raw.decode("utf-8"))
+        case_manifest = read_json_object(raw.decode("utf-8"))
         policy_hash = case_manifest.get("policy_sha256")
         if policy_hash in seen_policies and seen_policies[policy_hash] != entry["split"]:
             raise ValueError("policy content leakage across development and holdout")
@@ -188,7 +189,7 @@ def main() -> int:
             path = args.dataset
         else:
             parser.error("provide dataset or --make-synthetic-corpus")
-        report = calibrate(json.loads(path.read_text(encoding="utf-8")), path.parent,
+        report = calibrate(read_json_object(path.read_text(encoding="utf-8")), path.parent,
                            require_adjudicated=args.require_adjudicated)
     except (ValueError, OSError, UnicodeError, TypeError, KeyError, json.JSONDecodeError) as exc:
         parser.error(str(exc))

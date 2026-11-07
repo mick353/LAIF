@@ -1,0 +1,98 @@
+{
+  "boundary": "Source completeness, when attested, is not proven exhaustive. Receipts and reviewer identity are not authenticated. No LAIF certification or operational validation.",
+  "controls": [
+    {
+      "evidence_grade": "DECLARED_TEST_RECORDS",
+      "evidence_trace": {
+        "claim_quote": "Use the local-only verifier before marking a pull request ready for review:",
+        "claim_status": "EXACT_POLICY_TEXT_CHECKED",
+        "declared_test_records": [
+          {
+            "file": "docs/verification/2026-11-07-real-source-assurance/full-local-verification.log",
+            "outcome": "PASS",
+            "quote": "PASS: selected local checks (see NOT RUN notes for omissions).",
+            "sha256": "518c7a148a9adf9e55e6db0a581bada611b81f975c92fd7e0f8cf95beecf1f50",
+            "test_id": "actual-full-local-gate",
+            "type": "positive"
+          },
+          {
+            "file": "docs/verification/2026-11-07-real-source-assurance/integrity-tests.log",
+            "outcome": "PASS",
+            "quote": "Ran 13 tests in",
+            "sha256": "21b2edaafb65a0502fab9b56b42580528e39a225900a579715d35a6e05729506",
+            "test_id": "negative-regression-suite",
+            "type": "negative"
+          }
+        ],
+        "required_source_ids": [
+          "verifier",
+          "full-run",
+          "negative-suite",
+          "negative-cases"
+        ]
+      },
+      "execution_cases": [],
+      "execution_counts": {
+        "negative": 0,
+        "positive": 0
+      },
+      "execution_status": "EXECUTION_UNTESTED",
+      "id": "local-release-verification",
+      "issues": [],
+      "operational_annex": {
+        "issues": [],
+        "status": "NOT_SUPPLIED"
+      },
+      "original_status": "REVIEW_READY",
+      "scope_status": "SOURCE_CHECKED",
+      "status": "EXECUTION_UNTESTED"
+    }
+  ],
+  "input_manifest_digest_sha256": "351ae51bfc4cb41c7bc1ea585338a0e4ec6d4addab6b5ec8b706d3700ced7963",
+  "policy_file": "CONTRIBUTING.md",
+  "policy_sha256": "3705dceaea4c5f3448efd8f602cc5ddcb96574e521be085f478a477a0943886e",
+  "review_ready_count": 0,
+  "schema": "laif.assurance.v1",
+  "scope_attestation": {
+    "complete": true,
+    "inventory_sha256": "b5a83fb2200c6c6175f67b34d6f135408e547131585b94e2aa18ad6ae19ebe38",
+    "recorded_at_utc": "2026-11-07T08:01:25.014173Z",
+    "reviewer": "Work-Codex-documentary-acceptance"
+  },
+  "source_inventory": [
+    {
+      "disposition": "inspected",
+      "file": "scripts/laif_verify.py",
+      "id": "verifier",
+      "required": true,
+      "sha256": "9ada7526e05e196c58cb5780a2d4db6c2fcca88aaaa1ff9e83be91e246836fe1",
+      "validation_status": "EXACT_SOURCE_CHECKED"
+    },
+    {
+      "disposition": "inspected",
+      "file": "docs/verification/2026-11-07-real-source-assurance/full-local-verification.log",
+      "id": "full-run",
+      "required": true,
+      "sha256": "518c7a148a9adf9e55e6db0a581bada611b81f975c92fd7e0f8cf95beecf1f50",
+      "validation_status": "EXACT_SOURCE_CHECKED"
+    },
+    {
+      "disposition": "inspected",
+      "file": "docs/verification/2026-11-07-real-source-assurance/integrity-tests.log",
+      "id": "negative-suite",
+      "required": true,
+      "sha256": "21b2edaafb65a0502fab9b56b42580528e39a225900a579715d35a6e05729506",
+      "validation_status": "EXACT_SOURCE_CHECKED"
+    },
+    {
+      "disposition": "inspected",
+      "file": "tests/test_source_scan_integrity.py",
+      "id": "negative-cases",
+      "required": true,
+      "sha256": "43f3abf719ac231f9a160d287dff37e19ad56a404e4733ed88b0f9c43564aa41",
+      "validation_status": "EXACT_SOURCE_CHECKED"
+    }
+  ],
+  "strict_actions": true,
+  "strict_scope": true
+}

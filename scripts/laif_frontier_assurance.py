@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from laif_assurance import _nonblank, _utc, artifact, assess_assurance
+from laif_evidence_checks import read_json_object
 
 
 # Explicit versioned coverage requirements, not an assertion that these are
@@ -35,25 +36,11 @@ def _datetime(value: Any) -> datetime:
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
-def _unique_keys(pairs: list[tuple[str, Any]]) -> dict:
-    result = {}
-    for key, value in pairs:
-        if key in result:
-            raise ValueError(f"ambiguous JSON evidence: duplicate key {key!r}")
-        result[key] = value
-    return result
-
-
-def _nonfinite_number(value: str) -> None:
-    raise ValueError(f"non-standard JSON number in evidence: {value}")
-
-
 def _json_artifact(root: Path, record: Any, *, prefix: str = "") -> dict:
     if not isinstance(record, dict):
         raise ValueError("missing evidence reference")
     raw = artifact(root, record.get(prefix + "file"), record.get(prefix + "sha256"))
-    parsed = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_keys,
-                        parse_constant=_nonfinite_number)
+    parsed = read_json_object(raw.decode("utf-8"))
     if not isinstance(parsed, dict):
         raise ValueError("evidence JSON must be an object")
     return parsed
@@ -298,8 +285,7 @@ def main() -> int:
     parser.add_argument("--require-review-ready", action="store_true", help="nonzero exit unless records are ready for human review")
     args = parser.parse_args()
     try:
-        manifest = json.loads(args.manifest.read_text(encoding="utf-8"),
-                              object_pairs_hook=_unique_keys, parse_constant=_nonfinite_number)
+        manifest = read_json_object(args.manifest.read_text(encoding="utf-8"))
         instant = _datetime(args.as_of) if args.as_of else datetime.now(timezone.utc)
         result = review_frontier(manifest, args.manifest.parent, as_of=instant)
     except (ValueError, TypeError, OSError, UnicodeError, json.JSONDecodeError) as exc:

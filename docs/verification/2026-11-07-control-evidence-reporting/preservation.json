@@ -1,0 +1,46 @@
+{
+  "base_commit": "eb3300e15790702805403ccf39887f6c20eeb3ef",
+  "scope": "Complete baseline output files, protected historical report and all four scoring/fingerprint source files unchanged",
+  "files": [
+    {
+      "file": "reports/laif_real_world_assessment.md",
+      "sha256": "22cb274adc9583bb8a2cad4d84069917462942f94de04958f093a7f066eda5cb",
+      "identical_to_merged_main": true
+    },
+    {
+      "file": "reports/laif_executive_summary.md",
+      "sha256": "16559cdd15e166f64e3980212c13c80da0ab971c8b1a2c3064ae12ddbf12f6b9",
+      "identical_to_merged_main": true
+    },
+    {
+      "file": "reports/laif_assessment_data.json",
+      "sha256": "1838b131fc20de5423c4c31a32a185e95485ebe6c5b08bcc2d31bb2669fbbe4c",
+      "identical_to_merged_main": true
+    },
+    {
+      "file": "reports/laif_full_assessment.md",
+      "sha256": "24e7b3cd8fad55dd2f711f6ad867bc1ea975f8cd89c7739ded7c6421940f8c97",
+      "identical_to_merged_main": true
+    },
+    {
+      "file": "assessment_engine.py",
+      "sha256": "5c9ad8b5ab3c26db5a627bb309bfe3b8c8f441f0d86fea65506f09cb8c6d1a60",
+      "identical_to_merged_main": true
+    },
+    {
+      "file": "validate.py",
+      "sha256": "1149fe3aacfeff798124c73318f8ee065b4ef3e0d1a242090de41fc41340d61b",
+      "identical_to_merged_main": true
+    },
+    {
+      "file": "laif_spec.py",
+      "sha256": "5ebd4a4733d8c3c56c5ac075a3b89a2047fc7beae9c9eed1b86068b848bd66e4",
+      "identical_to_merged_main": true
+    },
+    {
+      "file": "scripts/laif_process_document.py",
+      "sha256": "c892225a44b0eab239057ea04724807ee71a6ef26b49fd258d94d97c44a37dfc",
+      "identical_to_merged_main": true
+    }
+  ]
+}

@@ -108,3 +108,15 @@ For an already merged change, supply its actual pre-change base SHA. Comparing u
 The semantic-boundary check is advisory. Protected-artifact drift is blocking. Neither constitutes automatic approval of a change's meaning.
 
 [Product home](../../README.md) · [Assessment method](METHOD.md) · [Quality and verification](QUALITY.md)
+
+## Readable control-evidence reviews
+
+`python3 scripts/laif_assurance.py MANIFEST --print-report` prints a Markdown
+review without writing a report. `--markdown-report PATH` saves Markdown while
+retaining JSON stdout. `--evidence-root PATH` explicitly sets the root for
+relative evidence references; the default remains the manifest's directory.
+Report paths that resolve to input/evidence files, including hard links, are
+rejected. Existing strict/readiness gates retain their meaning and exit status.
+A valid failure diagnostic can still be saved when a readiness gate returns 1.
+Ambiguous JSON, non-finite numbers and non-object input roots are rejected before
+interpretation. See [the evidence workflow](../governance/ASSURANCE_CALIBRATION.md).
