@@ -1,0 +1,71 @@
+{
+  "policy_file": "CONTRIBUTING.md",
+  "policy_sha256": "3705dceaea4c5f3448efd8f602cc5ddcb96574e521be085f478a477a0943886e",
+  "review_scope": "The supplied LAIF #103 software release records, not AI deployment or authenticated operational action.",
+  "source_inventory": [
+    {
+      "id": "verifier",
+      "file": "scripts/laif_verify.py",
+      "sha256": "9ada7526e05e196c58cb5780a2d4db6c2fcca88aaaa1ff9e83be91e246836fe1",
+      "required": true,
+      "disposition": "inspected"
+    },
+    {
+      "id": "full-run",
+      "file": "docs/verification/2026-11-07-real-source-assurance/full-local-verification.log",
+      "sha256": "518c7a148a9adf9e55e6db0a581bada611b81f975c92fd7e0f8cf95beecf1f50",
+      "required": true,
+      "disposition": "inspected"
+    },
+    {
+      "id": "negative-suite",
+      "file": "docs/verification/2026-11-07-real-source-assurance/integrity-tests.log",
+      "sha256": "21b2edaafb65a0502fab9b56b42580528e39a225900a579715d35a6e05729506",
+      "required": true,
+      "disposition": "inspected"
+    },
+    {
+      "id": "negative-cases",
+      "file": "tests/test_source_scan_integrity.py",
+      "sha256": "43f3abf719ac231f9a160d287dff37e19ad56a404e4733ed88b0f9c43564aa41",
+      "required": true,
+      "disposition": "inspected"
+    }
+  ],
+  "scope_attestation": {
+    "reviewer": "Work-Codex-documentary-acceptance",
+    "recorded_at_utc": "2026-11-07T08:01:25.014173Z",
+    "complete": true,
+    "inventory_sha256": "b5a83fb2200c6c6175f67b34d6f135408e547131585b94e2aa18ad6ae19ebe38"
+  },
+  "controls": [
+    {
+      "id": "local-release-verification",
+      "claim_quote": "Use the local-only verifier before marking a pull request ready for review:",
+      "required_source_ids": [
+        "verifier",
+        "full-run",
+        "negative-suite",
+        "negative-cases"
+      ],
+      "evidence": [
+        {
+          "test_id": "actual-full-local-gate",
+          "type": "positive",
+          "outcome": "PASS",
+          "file": "docs/verification/2026-11-07-real-source-assurance/full-local-verification.log",
+          "sha256": "518c7a148a9adf9e55e6db0a581bada611b81f975c92fd7e0f8cf95beecf1f50",
+          "quote": "PASS: selected local checks (see NOT RUN notes for omissions)."
+        },
+        {
+          "test_id": "negative-regression-suite",
+          "type": "negative",
+          "outcome": "PASS",
+          "file": "docs/verification/2026-11-07-real-source-assurance/integrity-tests.log",
+          "sha256": "21b2edaafb65a0502fab9b56b42580528e39a225900a579715d35a6e05729506",
+          "quote": "Ran 13 tests in"
+        }
+      ]
+    }
+  ]
+}

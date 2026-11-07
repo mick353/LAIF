@@ -137,7 +137,7 @@ python3 scripts/laif_verify.py
 
 No GitHub Actions run is needed. [Complete verification instructions →](docs/product/REFERENCE.md#verification)
 
-The [7 November whole-source reporting record](docs/verification/2026-11-07-real-source-assurance/README.md) documents the subsequent candidate across all seven retained source documents. It exercises default processing, attributed review import, preview and rejection cases. These are curated development regressions, not an independent accuracy study. The small vendor example remains an introductory demonstration.
+The [7 November whole-source reporting record](docs/verification/2026-11-07-real-source-assurance/README.md) documents merged PR #103 across all seven retained source documents. It exercises default processing, attributed review import, preview and rejection cases. These are curated development regressions, not an independent accuracy study. The small vendor example remains an introductory demonstration.
 
 ## Understand the boundaries
 
