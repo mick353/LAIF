@@ -1,0 +1,28 @@
+{
+  "baseline_main": "4e9a53ed15db3156a406a54de3748e56001ae30d",
+  "baseline_documents_preserved": 10,
+  "source_results": [
+    {
+      "document": "au_dta_policy_v2_1",
+      "primary_quotes": 11,
+      "quote_roles": {
+        "document_text": 11
+      },
+      "toolchain_fingerprint": "02a30260635b408a",
+      "same_source_scores_and_functional_results_preserved": true,
+      "report_leads_with_findings": true,
+      "attributed_record_sha256": "07cbf205f473f0449b5388cff235983ce266507021f9a966108ad703c0f1d730"
+    },
+    {
+      "document": "eu_ai_act_amendment_2026_1744",
+      "primary_quotes": 10,
+      "quote_roles": {
+        "operative_text": 10
+      },
+      "toolchain_fingerprint": "02a30260635b408a",
+      "same_source_scores_and_functional_results_preserved": true,
+      "report_leads_with_findings": true,
+      "attributed_record_sha256": "ac1f9b526574ffdad96c08ee9e31f0f1ed9c1357e18f38be710c8438bbbfc564"
+    }
+  ]
+}

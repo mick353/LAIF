@@ -1,0 +1,98 @@
+[
+  {
+    "id": "before-assess",
+    "expected": true,
+    "observed": true,
+    "matched": true
+  },
+  {
+    "id": "assess-before",
+    "expected": true,
+    "observed": true,
+    "matched": true
+  },
+  {
+    "id": "prohibited-unless",
+    "expected": true,
+    "observed": true,
+    "matched": true
+  },
+  {
+    "id": "release-only-after",
+    "expected": true,
+    "observed": true,
+    "matched": true
+  },
+  {
+    "id": "not-deploy-until",
+    "expected": true,
+    "observed": true,
+    "matched": true
+  },
+  {
+    "id": "not-proceed-until",
+    "expected": true,
+    "observed": true,
+    "matched": true
+  },
+  {
+    "id": "not-deploy-without",
+    "expected": true,
+    "observed": true,
+    "matched": true
+  },
+  {
+    "id": "wrapped-condition",
+    "expected": true,
+    "observed": true,
+    "matched": true
+  },
+  {
+    "id": "waiver",
+    "expected": false,
+    "observed": false,
+    "matched": true
+  },
+  {
+    "id": "no-requirement",
+    "expected": false,
+    "observed": false,
+    "matched": true
+  },
+  {
+    "id": "prohibition-negated",
+    "expected": false,
+    "observed": false,
+    "matched": true
+  },
+  {
+    "id": "quotation-example",
+    "expected": false,
+    "observed": false,
+    "matched": true
+  },
+  {
+    "id": "disconnected",
+    "expected": false,
+    "observed": false,
+    "matched": true
+  },
+  {
+    "id": "wrong-negative-action",
+    "expected": false,
+    "observed": false,
+    "matched": true
+  },
+  {
+    "id": "permission-without",
+    "expected": false,
+    "observed": false,
+    "matched": true
+  },
+  {
+    "id": "recital-only",
+    "expected": false,
+    "observed": false,
+    "matched": true
+  }
+]

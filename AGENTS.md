@@ -1,6 +1,6 @@
 # Repository agent instructions
 
-**Current verification record (30 October 2026):** [Windows local release verification](docs/verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md). The full local gate passed and was merged through PR #83. The [Work handover](docs/verification/2026-10-30/WORK_HANDOVER.md) preserves the earlier outstanding state as history. Check current Git and local access before another verification pass; avoid repeating completed work.
+**Released verification (7 November 2026):** PR #100 merged to main at `4e9a53ed15db3156a406a54de3748e56001ae30d`; its 496-test full local gate was re-executed after merge. The [release and reporting-challenge record](docs/verification/2026-11-07-reporting-challenge/README.md) distinguishes that released checkpoint from the subsequent source/report improvements. The [30 October Windows verification](docs/verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md) and [earlier Work handover](docs/verification/2026-10-30/WORK_HANDOVER.md) remain historical records. Check current Git/PR state before relying on a checkpoint.
 
 ## Local-first verification (GitHub Actions not used)
 

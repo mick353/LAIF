@@ -1,6 +1,6 @@
 # LAIF assessment — Australian DTA Policy v2.1
 
-**As at:** 7 November 2026, Australia/Sydney. **Status:** PR #100 reasoning revision of the PR #98 assessment; unmerged and noncanonical. **Method:** Codex-authored source analysis against LAIF v1.2 and Compliance Toolkit v1.1, accompanied by actual unchanged-engine external-framework processing. This is neither an independent scholarly validation nor a legal compliance certificate.
+**As at:** 7 November 2026, Australia/Sydney. **Status:** source-scoped author assessment released through PR #100 on 7 November 2026; not independently validated. **Method:** Codex-authored source analysis against LAIF v1.2 and Compliance Toolkit v1.1, accompanied by actual unchanged-engine external-framework processing. This is neither an independent scholarly validation nor a legal compliance certificate.
 
 ## Substantive LAIF determination
 
@@ -26,7 +26,7 @@ This is an assessment of the policy's **governance design**, using the policy as
 
 The principal text governs: Part One Principles 1, 2 and 5; Part Two §§2.1–2.5; Part Three Sets A–D; Part Four §§4.2–4.5; Part Five's three questions; §7.4 self-application; and Part Nine's evidence, tiering and sign-off rules. Toolkit v1.1 Modules 1–3 operationalise the test where consistent with the principal text.
 
-The candidate corrects the former three-property wording in §2.4 to align with §§2.5/9.4 and retains the §2.5 applicability condition. This assessment uses that corrected candidate text; the correction and assessment remain unmerged. Retained machine-output snapshots are historical executions, not newly generated substantive judgements. Framework SHA-256: `c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407`; Toolkit SHA-256: `24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67`.
+PR #100 corrected the former three-property wording in §2.4 to align with §§2.5/9.4 and retains the §2.5 applicability condition. This assessment uses that corrected candidate text; the correction and assessment were released through PR #100. Retained machine-output snapshots are historical executions, not newly generated substantive judgements. Framework SHA-256: `c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407`; Toolkit SHA-256: `24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67`.
 
 Findings below are analyst judgements, not machine-generated verdicts. Quotations displayed in prose collapse layout whitespace only; full exact paragraphs/lists, raw offsets and page identities are in the evidence JSON. Absence findings concern the complete 26-page PDF, not just a quoted sentence.
 
@@ -36,7 +36,7 @@ The subject is a governance instrument, not an identified deployment. Part Five 
 
 The operator burdens and noncompliance thresholds in §§7.1 and 9.1 apply in their stated conduct/proceeding/PDCA contexts. No deployment subject, mandatory-PDCA omission, alleged conduct producing likely harm or operator failure to produce requested evidence is established here. Those provisions cannot turn this reviewer’s incomplete source coverage into a presumption against a legislature or agency. The reports therefore distinguish textual correspondences, document-level non-equivalence, unresolved dependencies and potential implementation risks.
 
-Structural Calibration is included under §§2.4–2.5 and 9.1/9.4. The candidate corrects the former three-property wording in §2.4 to match the fourth property already stated in §§2.5/9.4. Its §2.5 applicability trigger concerns decision-makers without independent verification capacity; no general failure is inferred for uses outside that trigger. This revision uses the corrected candidate framework, not a claim that the correction has been adopted on main. Toolkit SHA-256: `24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67`.
+Structural Calibration is included under §§2.4–2.5 and 9.1/9.4. PR #100 corrected the former three-property wording in §2.4 to match the fourth property already stated in §§2.5/9.4. Its §2.5 applicability trigger concerns decision-makers without independent verification capacity; no general failure is inferred for uses outside that trigger. This revision uses the corrected framework released on main through PR #100. Toolkit SHA-256: `24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67`.
 
 Q3 requires proportionate justification and strong procedure for irreversible decisions, not guaranteed reversibility of every consequence. Stop/override, authorisation, compensation and interim safeguards are possible means of meeting that requirement; no particular remedy is invented as universally mandatory. A documented inability to revise or an unjustified irreversible permission would support an adverse finding. An unanswered question in this review does not establish either.
 
@@ -167,4 +167,4 @@ Both pypdf PDF processing and the reviewed-text route executed successfully; ret
 
 The engine classifies `public_sector_policy`, returns formal LAIF-native `FAIL`, structural score **41**, and `ABSENT` for its five functional construct families. These are reproducible software outputs under its current rules, not established legal or empirical conclusions. In particular, Q003–Q011 show operative protective controls despite the family labels. Institutional report prose about missing machinery overstates what those labels establish; use this source-scoped analysis and exact evidence rather than repeating that prose as a finding about the policy. Scores are not percentages of compliance or safety.
 
-The protected historical report is not recalculated or contradicted by silently applying a different engine. These are separate dated assessments with distinct methods. Human policy/semantic review remains outstanding; implementation assurance requires the actual agency evidence listed above.
+The protected historical report is not recalculated or contradicted by silently applying a different engine. These are separate dated assessments with distinct methods. Independent policy/semantic review of these conclusions remains outstanding; implementation assurance requires the actual agency evidence listed above.

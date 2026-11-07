@@ -4,7 +4,7 @@
   "review_date": "2026-11-07",
   "review_status": "AUTHOR_ANALYSIS_NOT_INDEPENDENT",
   "assessment_path": "docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.assessment.md",
-  "assessment_sha256": "213028c30f1b013cfc8f3b26489485c780c7c047a21c70aba4434e48d15bc9e8",
+  "assessment_sha256": "ebb5ea6cdd8f219ea81b675537a37660b952d30aa77ba25d958a865848813a52",
   "framework_sha256": "c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407",
   "toolkit_sha256": "24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67",
   "source_pdf_sha256": "0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386",
