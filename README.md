@@ -121,6 +121,14 @@ LAIF **does not determine legal validity** or legal enforceability. It **does no
 
 Scores are **deterministic rubric outputs**, not statistical confidence levels, regulatory ratings or independent certification. A supplied log, matching hash or `REVIEW_READY` status does not prove truthful execution or a working production control. Reviewers must examine source context, classification, supporting artefacts and counter-evidence.
 
+Independent empirical accuracy and construct validity have not been established
+by the published software checks. Static governance-document analysis does not
+evaluate an AI model's adversarial capabilities or demonstrate containment or
+catastrophic-risk control. Legal conclusions also depend on the applicable law,
+role, commencement and complete evidence. See the
+[dated scholarly-validation research register](docs/review/2026-11-07-external-scholarly-critique-triage.md)
+for proposed independent testing and evidence boundaries; proposals are not results.
+
 The toolkit is currently a local Python command-line workflow with generated reports. It does not provide a hosted service, graphical application or live deployment monitoring.
 
 ## Explore further

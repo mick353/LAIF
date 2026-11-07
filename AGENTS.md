@@ -33,3 +33,30 @@ Preserve LAIF-native certification versus external-framework diagnostic
 assessment, functional alignment versus terminology, and legal authority
 boundaries. The new evidence diagnostic is optional and does not alter those
 boundaries.
+
+## Independent scholarship, legal analysis and frontier-AI safety
+
+- Treat LAIF as a testable analytical method, not as an authority to promote.
+  Lead external reports with the research question, sources, method, findings,
+  uncertainties and alternatives. Explain LAIF terminology only when necessary.
+- Identify the exact branch, revision, corpus, execution mode and evidence tier.
+  Draft pull requests are proposals, not canonical features or verified results.
+  Do not present remembered conversations or third-party summaries as inspection.
+- Distinguish internal software verification and deterministic rubric consistency
+  from independently established construct validity, regulatory compliance,
+  deployment safety and scientific effectiveness. Never turn a scoring output,
+  synthetic fixture or a passing test count into an externally validated claim.
+- For legislation, check primary text, jurisdiction, commencement, role,
+  qualification, exceptions and legally binding status; report interpretive
+  ambiguity. A missing document or control claim is not proof of a legal breach.
+- Documentary governance assurance cannot demonstrate adversarial robustness,
+  containment effectiveness, deceptive behaviour or catastrophic-risk
+  probabilities. Dynamic model evaluations must be separately supplied,
+  sourced, scoped and reviewed; no native dynamic testing is implied.
+- For empirical-validation proposals specify blinded independent reviewers,
+  sampling and exclusions, human agreement before adjudication, target labels,
+  prespecified metrics, confidence intervals and error analysis. Distinguish
+  inter-human reliability from model-versus-consensus agreement.
+
+See [the external scholarly critique triage](docs/review/2026-11-07-external-scholarly-critique-triage.md)
+for a dated, non-canonical research plan and an explicit record of limitations.

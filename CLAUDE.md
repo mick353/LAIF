@@ -204,7 +204,7 @@ python3 test_semantic_fidelity.py   # semantic-fidelity invariants: substance ne
 python3 tests/test_governance.py    # governance/reporting suite
 python3 tests/test_assessment_fragility.py          # fragility suite
 python3 tests/test_document_processing_runner.py    # batch runner suite
-python3 tests/test_github_actions_document_processing.py  # CI processing suite
+python3 tests/test_github_actions_document_processing.py  # legacy-named compatibility tests; run locally
 ```
 
 To regenerate the assessment report (also acts as an integration test):
@@ -311,7 +311,7 @@ and no longer discriminating.
 ### Editing Documents
 
 - `.docx` files are Microsoft Word format. Edit with Word, LibreOffice, or programmatically with `python-docx`.
-- Each governance document also has a `.txt` export; `validate.py` runs against the `.txt` corpus, so keep both formats in sync when editing. This is enforced: `python3 validate.py --check-corpus-formats` (also part of the baseline run and of CI) fails if the published `.docx` and the validated `.txt` disagree on any canonical term count, provision identifier count, or on body text beyond formatting.
+- Each governance document also has a `.txt` export; `validate.py` runs against the `.txt` corpus, so keep both formats in sync when editing. The local baseline and `python3 validate.py --check-corpus-formats` fail if the published `.docx` and the validated `.txt` disagree on any canonical term count, provision identifier count, or on body text beyond formatting.
 - `LAIF-Law-Aligned_Intelligence_Framework.txt` is the navigation index; `README.md` is the public-facing project description.
 - `docs/supporting/` holds verbatim ingested source texts (strict, no transformation). Editing these files breaks pinned hashes in `official_documents.py` by design — any change there must be re-verified against the authoritative source and re-pinned.
 
@@ -339,13 +339,32 @@ The standard workflow for producing a LAIF assessment:
 
 1. **Source ingestion** — extract full text from supplied documents into `docs/supporting/` using Strict Source Mode (no training-derived content; all factual claims must be traceable to the ingested file).
 2. **Assessment** — apply LAIF v1.2 framework using only ingested source files and `LAIF_v1.2.txt`. Record verbatim quotes for all findings.
-3. **Write artifact** — a machine-generated assessment belongs in the deterministic pipeline (`test_real_world.py`), so CI regenerates and checks it. An authored narrative analysis goes to `reports/` with a row in `reports/README.md` giving its production date and model version. Every file in `reports/` must be one or the other; `tests/test_governance.py` fails otherwise.
+3. **Write artifact** — a machine-generated assessment belongs in the deterministic pipeline (`test_real_world.py`), so the local verifier regenerates and checks it. An authored narrative analysis goes to `reports/` with a row in `reports/README.md` giving its production date and model version. Every file in `reports/` must be one or the other; `tests/test_governance.py` fails otherwise.
 4. **Merge to main** — commit and push. The artifact is not authoritative until on `main`.
 
 ### Merge Discipline
 
 - Merge feature branches into `main` before writing the final assessment artifact. This ensures the ingested source files referenced in the assessment are present on `main` when the assessment is committed.
 - Do not write assessment artifacts on feature branches and then push separately — the source documents and assessment must arrive on `main` together.
+
+### External Scholarly and AI-Safety Reporting Boundary
+
+Keep external reports neutral and source-first: problem, methodology, primary
+evidence, competing interpretations, uncertainty, operational significance,
+reproducibility and limits. A report need not persuade its audience to adopt
+LAIF to be useful. Identify exact source hashes and the committed implementation
+revision; do not present draft-PR additions as features of `main`.
+
+The software suite verifies reproducibility and enforcement of local rules. It
+does **not** establish independent construct validity, legal compliance,
+real-world control effectiveness or frontier-model safety. Static document
+assurance can assess stated governance arrangements, not model behaviour under
+adversarial or out-of-distribution conditions. Legally binding duties require
+primary-source interpretation for the relevant role and effective date;
+uncertainty remains explicit. Proposed empirical studies need external,
+blinded human reviewers and a pre-registered scoring protocol. See
+`docs/review/2026-11-07-external-scholarly-critique-triage.md` for bounded
+research questions and the disposition of an unverified external critique.
 
 ### Interpretation-Layer vs Detection-Layer Distinction
 

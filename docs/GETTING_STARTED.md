@@ -12,7 +12,7 @@ cd LAIF
 python3 scripts/laif_process_document.py docs/examples/vendor-policy.md --extractor builtin
 ```
 
-On Windows, replace `python3` with your installed Python launcher. Use `py -3 -X utf8` for commands that print Unicode validation results. The Python 3.11 Windows text example and evidence checks are covered by the [focused execution record](verification/2026-10-23/windows-example.md); the full independent gate remains verified on Linux.
+On Windows, replace `python3` with your installed Python launcher. Use `py -3 -X utf8` for commands that print Unicode validation results. The Python 3.11 Windows text example and evidence checks are covered by the [focused execution record](verification/2026-10-23/windows-example.md); the [30 October full local Windows gate](verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md) was separately recorded on Python 3.13.16.
 
 ## 2. Read the right output first
 

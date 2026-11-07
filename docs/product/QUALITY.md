@@ -12,6 +12,14 @@ Seven deliberate in-memory mutations disabled individual evidence protections. T
 
 The consumer example has been processed with the built-in extractor. Its committed institutional assessment and quote bank match actual generated output, and the assessment records the matching input SHA-256.
 
+**Independent validity remains an open research question.** The tests reported
+here assess execution and specified invariants, not measured agreement with
+independent legal or AI-safety experts, real-world AI behaviour or regulatory
+enforcement findings. Any study claiming accuracy must identify its independent
+corpus and blind reviewers, pre-register the target decisions and statistics,
+report disagreements and confidence intervals, and publish negative cases.
+See the [research register and validation protocol](../review/2026-11-07-external-scholarly-critique-triage.md).
+
 ## What those results mean
 
 They provide evidence that the checked implementation operates locally and that the exercised protections detect their test cases. They do not measure universal detection accuracy or establish control effectiveness in a production organisation.
