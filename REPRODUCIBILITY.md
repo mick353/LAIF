@@ -2,7 +2,7 @@
 
 **Framework:** Law-Aligned Intelligence Framework v1.2  
 **Assessment model:** Refined Model v1.1  
-**Date:** May 2026
+**Original specification:** May 2026; reporting guidance updated 7 November 2026
 
 ---
 
@@ -48,10 +48,10 @@ The acquisition channel does not itself prove authority. Authority is establishe
 ### 1.2 Assessment Execution
 
 **Step 1 — Integrity Layer (Section A):**
-Apply LAIF v1.2 §§2.1–2.3 to the ingested source. For each property:
+Apply LAIF v1.2 §§2.1–2.3 and Structural Calibration under §2.5 where applicable to the ingested source. For each property:
 - Read the relevant source sections
 - Determine whether the property is structurally satisfied
-- Record the determination (STRONG / MODERATE / WEAK) with verbatim citation
+- Record the source-bounded determination with verbatim citation. Historical STRONG / MODERATE / WEAK descriptions are not a substitute for the four-property threshold or sufficient deployment evidence.
 - The Integrity Layer is a threshold: partial satisfaction = failure
 
 **Step 2 — Coherence Test (Section B):**
@@ -159,7 +159,7 @@ The **detection layer** covers whether Q1/Q2/Q3 pass or fail, Integrity Layer th
 - Q1 PASS/FAIL criteria (LAIF v1.2 Part One, §2.4 equivalent normative force)
 - Q2 PASS/FAIL criteria (LAIF v1.2 Part One, consistency standard)
 - Q3 PASS/FAIL criteria (LAIF v1.2 Part One, reversibility standard)
-- Integrity Layer property thresholds (LAIF v1.2 Part Two, §§2.1–2.3)
+- Integrity Layer property thresholds (LAIF v1.2 Part Two, §§2.1–2.3 and §2.5 where applicable)
 - Automatic failure on Integrity Layer non-satisfaction
 
 ---
@@ -229,3 +229,9 @@ python3 tests/test_governance.py
 Local protected-artifact and semantic-boundary checks skip pull-request diff detection when no PR base ref is available. In CI, the PR base comes from the GitHub pull-request context. Locally, set `GOVERNANCE_BASE_REF` or `GITHUB_BASE_REF` when deterministic diff detection is needed.
 
 The Phase 3B suite validates shared governance helpers, governance config validation, protected-artifact blocking behavior, and semantic-boundary advisory behavior using `tests/governance_fixtures/valid_config.json`. Semantic-boundary warnings are not merge blockers. Governance tests do not change assessment scoring, detector behavior, interpretation logic, published reports, or the verified corpus.
+
+## Source-bound reporting updates — 7 November 2026
+
+The normal external report supports attributed analysis from registered source records and optional `--review-file` import for other local documents. A completed review is tied to source bytes, extracted text, exact evidence inventory, framework, Toolkit and toolchain. Claims remain attributed and unverified; unmapped criteria stay unassessed. Generate a fresh template after a source or method change.
+
+Whole-source retrieval records bounded, spatially distributed witnesses and counts. Structured rows retain column context and are not interpreted as completed questionnaire answers. A runtime integrity gate checks exact spans and evidence references before output writes. None of these checks establishes complete semantic coverage. See [the whole-source verification record](docs/verification/2026-11-07-real-source-assurance/README.md).

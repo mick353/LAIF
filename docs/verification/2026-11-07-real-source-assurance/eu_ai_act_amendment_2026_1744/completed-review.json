@@ -1,0 +1,107 @@
+{
+  "schema": "laif.research-annotations.v1",
+  "source_sha256": "dfcdbe4c3da4ce06f7b39bade40b4b08c132718352ef70b670ef8f163fb9a5b0",
+  "evidence_manifest_sha256": "310f061d406a5c7fa3714844997c6f9e75fe6bc23a3094c29cbec97b31b9153c",
+  "framework_source_sha256": "c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407",
+  "toolkit_source_sha256": "24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67",
+  "toolchain_fingerprint": "eb1262365cf5c5c3",
+  "instructions": "Add source-supported findings with unique finding_id, claim_type (OBSERVATION/INFERENCE/HYPOTHESIS), statement, evidence_ids, counterevidence_ids, at least one alternative explanation, limitations and analyst_id. Optional criterion_ids map claims to the listed LAIF criteria. Keep the source/evidence/framework/Toolkit hashes and toolchain fingerprint unchanged. A populated file is still an unverified analyst claim.",
+  "available_evidence_ids": [
+    "E001",
+    "E002",
+    "E003",
+    "E004",
+    "E005",
+    "E006",
+    "E007",
+    "E008",
+    "E009",
+    "E010"
+  ],
+  "available_criteria": [
+    {
+      "criterion_id": "A.1",
+      "name": "Structural Transparency",
+      "source": "2.1",
+      "question": "What meaningful account, uncertainty and limitations must an affected person be able to obtain?"
+    },
+    {
+      "criterion_id": "A.2",
+      "name": "Structural Honesty",
+      "source": "2.2",
+      "question": "What requires objective correspondence and robust behaviour across evaluation and deployment?"
+    },
+    {
+      "criterion_id": "A.3",
+      "name": "Structural Containment",
+      "source": "2.3",
+      "question": "What bounds actions, access and resources, and provides oversight, interruption and appropriate authorisation?"
+    },
+    {
+      "criterion_id": "A.4",
+      "name": "Structural Calibration",
+      "source": "2.5",
+      "question": "Where section 2.5 applies, what evidence links expressed confidence to observed real-world performance?"
+    },
+    {
+      "criterion_id": "Q1",
+      "name": "Coupling",
+      "source": "Part Five, Question One; 2.4",
+      "question": "Which restriction/permission and specific human interest are paired inseparably, with protection as enforceable as the restriction?"
+    },
+    {
+      "criterion_id": "Q2",
+      "name": "Consistency",
+      "source": "Part Five, Question Two",
+      "question": "Does the reasoning remain defensible for the smallest actor and universal application, including justified exceptions?"
+    },
+    {
+      "criterion_id": "Q3",
+      "name": "Reversibility",
+      "source": "Part Five, Question Three; provisions D1-D2",
+      "question": "Is future revision preserved and irreversibility justified with proportionate authority and procedure?"
+    },
+    {
+      "criterion_id": "G.1",
+      "name": "Self-Application",
+      "source": "4.3; 7.4",
+      "question": "What subjects governance actors themselves to review, transparency and effective challenge?"
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F001",
+      "claim_type": "INFERENCE",
+      "statement": "The supplied amendment requires initial-provider cooperation, information and reasonably expected technical access for new providers' obligations. This is positive evidence of an information-access mechanism in that relationship, not a general individual explanation right or proof of effective transparency.",
+      "evidence_ids": [
+        "E001"
+      ],
+      "counterevidence_ids": [],
+      "criterion_ids": [
+        "A.1"
+      ],
+      "alternative_explanations": [
+        "Other provisions or operational evidence may establish stronger or qualified protection."
+      ],
+      "limitations": "Authored development acceptance annotation. Not independent legal review, a complete LAIF assessment or proof of implementation.",
+      "analyst_id": "Work-Codex-source-reporting-acceptance-2026-11-07"
+    },
+    {
+      "finding_id": "F002",
+      "claim_type": "INFERENCE",
+      "statement": "The supplied amendment directs serious-incident reporting to the AI Office for the specified high-risk systems. The actor and routing condition matter; the passage alone does not show that incidents are detected, contained or remedied in practice.",
+      "evidence_ids": [
+        "E003"
+      ],
+      "counterevidence_ids": [],
+      "criterion_ids": [
+        "A.3"
+      ],
+      "alternative_explanations": [
+        "Other provisions or operational evidence may establish stronger or qualified protection."
+      ],
+      "limitations": "Authored development acceptance annotation. Not independent legal review, a complete LAIF assessment or proof of implementation.",
+      "analyst_id": "Work-Codex-source-reporting-acceptance-2026-11-07"
+    }
+  ]
+}

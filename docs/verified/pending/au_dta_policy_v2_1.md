@@ -1,5 +1,7 @@
 # DTA AI-in-Government Policy v2.1 — Source Deposited; Verification Pending
 
+**Release status update — 7 November 2026:** PR #98 and the consolidated PR #100 are merged. Both deposited sources, source-specific manifests, exact extraction/evidence records and attributed assessments are available on `main`. The deposit/pending descriptions below are historical. DTA origin remains human-attested; EU PDF byte equivalence is verified. The original 2024 Act is admitted as an original-edition source, while its complete substantive assessment remains pending. See the [current publication status](../../../PUBLICATION_STATUS.md).
+
 **Completion update (7 November 2026):** The following deposit checklist is retained as history. PDF SHA-256, full extraction, provenance manifest, exact page-bounded evidence traces and separate source-scoped assessment are completed on PR #98. See the [execution record](../../verification/2026-11-07/regulatory/README.md). Human legal/policy review and merge remain outstanding. DTA is HUMAN_ATTESTED_AUTHORITATIVE; upstream retrieval returned HTTP 503 twice, so byte equivalence is not claimed.
 
 **As at:** 7 November 2026 (AEDT)  

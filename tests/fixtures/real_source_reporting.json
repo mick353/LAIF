@@ -1,0 +1,30 @@
+{
+  "51a29205-OECD_Legal_Instruments": [
+    {"anchor": "Stakeholders should proactively engage", "statement": "The OECD text recommends responsible stewardship for beneficial outcomes, including reducing inequalities. This is a proposed human-interest protection; this passage alone does not establish enforceable equivalence under Q1.", "criterion_ids": ["Q1", "Q2"]},
+    {"anchor": "AI system lifecycle", "statement": "The supplied lifecycle definition includes retirement or decommissioning. Naming a lifecycle phase does not establish a workable reversal mechanism for material consequences.", "criterion_ids": ["Q3"]}
+  ],
+  "55eccce3-DTAC_Form_2.0_February_2026": [
+    {"anchor": "NHS England has developed a DPIA template", "statement": "The DPIA guidance connects health-data use to significant effects on individuals and identifies a need for manufacturer information. It also recognises that some answers depend on the deploying organisation's context. It does not establish that a particular supplier has completed an adequate DPIA.", "criterion_ids": ["Q1", "A.1"]},
+    {"anchor": "The Clinical Safety Case Report should present", "statement": "The text expects a clinical safety case supported by evidence for a defined application and environment. This is a context-specific assurance expectation, not observed proof of containment or calibrated confidence for a deployed system.", "criterion_ids": ["A.3", "A.4"]}
+  ],
+  "5f667a6f-NIST.AI.1001": [
+    {"anchor": "While GOVERN applies to all stages", "statement": "The NIST text distinguishes cross-lifecycle governance from context-specific application of MAP, MEASURE and MANAGE. That structure supports contextual review, but does not itself establish consistent treatment or effective reversibility in an implementation.", "criterion_ids": ["Q2", "Q3"]},
+    {"anchor": "AI risks should not be considered in isolation", "statement": "NIST recommends considering AI risks within organisational risk management. A recommendation to integrate risk management is not evidence that comparable actors have received consistent treatment.", "criterion_ids": ["Q2"]}
+  ],
+  "au_dta_policy_v2_1": [
+    {"anchor": "Before the solution is deployed", "statement": "DTA v2.1 expressly requires agencies to finalise assessment and apply agreed risk treatments before deployment. This is positive evidence of a deployment gate; the passage does not demonstrate all four Integrity Layer properties in operation.", "criterion_ids": ["A.3"]},
+    {"anchor": "incident remediation must be overseen", "statement": "The policy assigns oversight of incident remediation to an appropriate governance body or senior executive. The duty supports accountable response, while the reversibility of any particular harm still needs case-specific evidence.", "criterion_ids": ["A.3", "Q3"]}
+  ],
+  "b0ef43db-202324283": [
+    {"anchor": "To advance research, development, and implementation related to privacy", "statement": "The historical order directs funding for a privacy research coordination network. This connects an action to privacy protection, but funding a research programme does not by itself establish equivalent enforceable protection for each affected individual.", "criterion_ids": ["Q1"]},
+    {"anchor": "To mitigate privacy risks potentially exacerbated by AI", "statement": "The historical order directs OMB to evaluate commercially available information and agency standards. This establishes the text of a review duty at the order's date, not current authority or demonstrated protection outcomes after revocation.", "criterion_ids": ["Q1", "A.1"]}
+  ],
+  "eu-ai-act-2024-1689": [
+    {"anchor": "The risk management measures referred to in paragraph 2", "statement": "The original Act's text requires relevant residual risks for high-risk AI systems to be judged acceptable. This recognises a risk-management condition; its application and effectiveness cannot be established from the quoted paragraph alone.", "criterion_ids": ["A.3"]},
+    {"anchor": "An appeal procedure against decisions of the notified bodies", "statement": "The original Act expressly provides an appeal procedure against notified-body decisions, including conformity certificates. This is positive evidence of a challenge route in that scope; it must not be generalised into a complete remedy for every person affected by an AI system.", "criterion_ids": ["Q1", "Q2"]}
+  ],
+  "eu_ai_act_amendment_2026_1744": [
+    {"anchor": "That initial provider shall closely cooperate", "statement": "The supplied amendment requires initial-provider cooperation, information and reasonably expected technical access for new providers' obligations. This is positive evidence of an information-access mechanism in that relationship, not a general individual explanation right or proof of effective transparency.", "criterion_ids": ["A.1"]},
+    {"anchor": "By way of derogation from Article 73", "statement": "The supplied amendment directs serious-incident reporting to the AI Office for the specified high-risk systems. The actor and routing condition matter; the passage alone does not show that incidents are detected, contained or remedied in practice.", "criterion_ids": ["A.3"]}
+  ]
+}

@@ -36,9 +36,9 @@ Start with `laif_outputs/vendor-policy.institutional_report.md`.
 |---|---|
 | `vendor-policy.institutional_report.md` | Executive finding, quoted evidence, strengths, gaps and practical next steps |
 | `vendor-policy.technical_appendix.md` | Technical scoring and interpretation detail |
-| `vendor-policy.laif.md` and `.laif.json` | Full assessment and machine-readable data |
+| `vendor-policy.laif.md` and `.laif.json` | External review copy and machine-readable assessment data |
 | `analyst/vendor-policy/quote_bank.md` | Check quotations against the input |
-| `analyst/vendor-policy/governance_gap_register.json` | Inspect the identified control gaps |
+| `analyst/vendor-policy/governance_gap_register.json` | Review unverified control questions and retrieved counterevidence |
 | `analyst/vendor-policy/control_recommendations.json` | Turn gaps into proposed controls for human review |
 | `analyst/vendor-policy/AI_ANALYST_PROMPT.md` | Instructions for further analysis with an assistant of your choice |
 
@@ -59,6 +59,30 @@ python3 scripts/laif_process_document.py /path/to/your-policy.md --extractor bui
 ```
 
 Use `--no-write --print-report` to print without writing report or index files. Run `python3 scripts/laif_process_document.py --help` for all options.
+
+The report separates source-backed prose from structured questionnaire/framework
+rows. A blank choice such as “Provided / Not provided” is not a supplier answer.
+The analyst bundle retains bounded witnesses from different parts of the source,
+exact locations, retrieved counts and limits. These are retrieval diagnostics;
+they do not establish complete coverage or legal force. Known repository sources
+also show their recorded version, verification status and provenance limitations.
+
+To add a substantive analyst assessment, generate a source-locked review template
+with the [scholarly workflow](research/SCHOLARLY_REPORTING.md), complete the
+findings, then import that file:
+
+```bash
+python3 scripts/laif_process_document.py /path/to/your-policy.md --extractor builtin --review-file /path/to/completed-review.json --output-dir /path/to/private-results
+```
+
+Imported findings retain the author's claims, alternatives, limits and criterion
+mapping. Unmapped criteria stay unassessed. Changes to the source or toolchain
+require a fresh template and rechecked findings. The software checks evidence
+identity; a qualified reader must check whether the interpretation follows.
+
+The [whole-source verification record](verification/2026-11-07-real-source-assurance/README.md)
+covers all seven retained documents. These are curated development cases, not
+independent assessment-accuracy evidence.
 
 ## Word and PDF
 

@@ -1,6 +1,6 @@
 # Repository agent instructions
 
-**Released verification (7 November 2026):** PR #101 merged to main at `13e828688e35082228714c7c405abd5cc8de9b69`, matching the 502-test verified tree. The [portable-review verification](docs/verification/2026-11-07-portable-review/README.md) distinguishes that merged release from the subsequent generic review-import enhancement. Earlier [reporting challenge](docs/verification/2026-11-07-reporting-challenge/README.md), [Windows verification](docs/verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md) and [Work handover](docs/verification/2026-10-30/WORK_HANDOVER.md) records remain historical. Inspect current Git/PR state before relying on a checkpoint.
+**Released verification (7 November 2026):** PR #102 merged to main at `cce91f2558475276e35a953eecc108567aa37e74`, matching the 515-test verified tree `bb1f8d4ecf318dcc6147332153fb7c3101fb27bc`. The [portable-review verification](docs/verification/2026-11-07-portable-review/README.md) records that release's checks and limits. The subsequent [whole-source reporting pass](docs/verification/2026-11-07-real-source-assurance/README.md) is a separate candidate until merged. Earlier verification records remain historical. Inspect current Git/PR state before relying on a checkpoint.
 
 ## Local-first verification (GitHub Actions not used)
 

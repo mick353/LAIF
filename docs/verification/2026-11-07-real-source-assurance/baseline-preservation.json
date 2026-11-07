@@ -1,0 +1,6 @@
+{
+  "base_commit": "cce91f2558475276e35a953eecc108567aa37e74",
+  "documents_compared": 10,
+  "comparison": "complete generated assessment JSON, excluding only top-level toolchain_fingerprint",
+  "all_other_fields_identical": true
+}

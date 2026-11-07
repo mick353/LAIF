@@ -181,12 +181,12 @@ The original OJ edition of Regulation (EU) 2024/1689 is `SOURCE_VERIFIED_PENDING
 
 ## Versioned regulatory additions — PR #98, 7 November 2026
 
-These are separate source-scoped PR review assessments, not revisions of the protected historical reports or of the baseline engine corpus. They become canonical only after approval and merge.
+These are separate source-scoped assessments, not revisions of protected historical reports or the baseline engine corpus. PR #98 and consolidated PR #100 are merged; the sources and attributed assessments are available on main. Publication does not establish independent legal validity.
 
 | Source | PDF SHA-256 | Verification | Extraction / assessment |
 |---|---|---|---|
 | DTA Policy v2.1 | `7da206ff9bb77c5c4505577ea2fd11367700b38f4ff8c4e4592501e95221e5c2` | HUMAN_ATTESTED_AUTHORITATIVE; two upstream HTTP 503 responses; no upstream-byte equivalence claim | 26 pages, 17 exact quotation traces; [manifest](docs/verified/manifests/au_dta_policy_v2_1.json), [assessment](docs/verification/2026-11-07/regulatory/au_dta_policy_v2_1.assessment.md) |
-| Regulation (EU) 2026/1744 | `0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386` | AUTOMATED_VERIFIED; fresh official PDF bytes match | 41 pages, 27 exact quotation traces; [manifest](docs/verified/manifests/eu_ai_act_amendment_2026_1744.json), [assessment](docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.assessment.md) |
+| Regulation (EU) 2026/1744 | `0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386` | AUTOMATED_VERIFIED; fresh official PDF bytes match | 41 pages, 28 exact quotation traces; [manifest](docs/verified/manifests/eu_ai_act_amendment_2026_1744.json), [assessment](docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.assessment.md) |
 
-Both records separately pin raw-text hashes and preserve original files. Verify with `python3 scripts/laif_verify_regulatory_ingestion.py`; optional `--reextract` reproduces the extraction with Poppler. The original 2024 EU Act admission from PR #90 is included in this candidate; its full-document assessment remains pending. The additions do not establish a fully verified consolidated Act or institutional compliance. See [execution and portability](docs/verification/2026-11-07/regulatory/README.md).
+Both records separately pin raw-text hashes and preserve original files. Verify with `python3 scripts/laif_verify_regulatory_ingestion.py`; optional `--reextract` reproduces the extraction with Poppler. The original 2024 EU Act admission is included on main; its full-document assessment remains pending. The additions do not establish a fully verified consolidated Act or institutional compliance. See [execution and portability](docs/verification/2026-11-07/regulatory/README.md).
 

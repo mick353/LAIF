@@ -11,7 +11,13 @@ local unit-test discovery. Independent construct validation and real-world
 classification error rates remain unmeasured; reviewer identities and
 independence declarations cannot be authenticated by the tool.
 
-## What has been executed
+## Current release and whole-source candidate
+
+PR #102 merged at `cce91f2558475276e35a953eecc108567aa37e74`, matching its verified 515-test tree. The [portable-review record](../verification/2026-11-07-portable-review/README.md) preserves executed results and limits. The [subsequent whole-source reporting record](../verification/2026-11-07-real-source-assurance/README.md) covers all seven retained raw documents with source-specific acceptance annotations and broad workflow tests. It is a separate candidate until merged. Its final full local gate passed 535 discovered tests plus additional checks, with all 28 real-source workflow CLI executions included. Read that record for logs and limits; earlier counts below are dated evidence.
+
+The small synthetic sample tests workflow mechanics. It is insufficient to demonstrate interpretation quality across institutions. The wider curated corpus tests source formats and known reporting failures, but still does not measure independent accuracy or deployment outcomes.
+
+## Historical execution records
 
 The **23 October baseline** complete local verifier passed on Python 3.12 on Linux with network connection and send operations blocked by an inherited kernel filter. That historical full gate also passed in a fresh environment without optional Python packages. These results predate the 30 October optional assurance and calibration extension.
 
@@ -46,7 +52,7 @@ See the [verification reference](REFERENCE.md#verification) for base-reference h
 
 [Product home](../../README.md) · [Getting started](../GETTING_STARTED.md) · [Worked example](../examples/README.md)
 
-## 30 October 2026 assurance extension: current verification boundary
+## 30 October 2026 assurance extension: historical verification boundary
 
 The optional source-scope, action-receipt, mutation, synthetic calibration and operational-review code was compiled and **56 focused local tests passed** in an isolated offline test directory. Two repeated synthetic-calibration reports matched byte for byte. The new blob contents were matched to local Git object hashes. These tests use a compatibility copy of the unchanged existing evidence checker rather than a complete repository checkout.
 
