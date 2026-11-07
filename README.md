@@ -9,6 +9,7 @@
 
 <p align="center">
   <a href="#try-it-locally">Try it locally</a> ·
+  <a href="docs/research/SCHOLARLY_REPORTING.md">Neutral scholarly review</a> ·
   <a href="docs/examples/sample-assessment.md">Read a sample assessment</a> ·
   <a href="docs/product/OVERVIEW.md">Read the executive brief</a> ·
   <a href="docs/GETTING_STARTED.md">Getting started</a>
@@ -43,6 +44,20 @@ Use it to make a policy review more concrete, prepare better supplier questions,
 
 You need Git and Python 3. The published independent verification was executed on Python 3.12; the repository targets Python 3.10. Text and Markdown processing need no third-party packages or model API key.
 
+**For external scholarly, legal-policy or AI-safety audiences, use the
+source-bounded, non-promotional reporting path first.** It presents verified
+extracted-text matches and open review questions, while withholding
+unsupported compliance and safety conclusions:
+
+~~~bash
+python3 scripts/laif_research_report.py docs/examples/vendor-policy.md --scope excerpt --preview
+~~~
+
+[See the actual neutral sample](docs/examples/sample-scholarly-report.md) ·
+[Read the research and independent-review protocol](docs/research/SCHOLARLY_REPORTING.md).
+The more interpretive assessment runner below is primarily an internal
+diagnostic that needs human source, legal and operational review.
+
 ```bash
 git clone https://github.com/mick353/LAIF.git
 cd LAIF
@@ -68,6 +83,7 @@ On Windows, use your Python launcher (for example, `py -3`) in place of `python3
 ## What you get
 
 - **An institutional assessment:** a readable executive finding, strengths, gaps and suggested next actions.
+- **Optional neutral research dossier:** exact extracted passages, explicit source scope, SHA-pinned evidence and method versions, documented uncertainty, analyst annotations and independent second-reader disagreements; no automatic legal or safety certification.
 - **Traceable evidence:** source identity, SHA-256, source quotations and locations for review.
 - **A governance gap register:** missing control machinery, affected interests and recommended control artefacts.
 - **Failure pathways:** structured explanations of how a documented commitment might fail to control a real decision.
@@ -75,6 +91,7 @@ On Windows, use your Python launcher (for example, `py -3`) in place of `python3
 - **An analyst bundle:** Markdown and JSON for further work by a person or an AI assistant of your choice. LAIF does not call a model API to generate these outputs.
 - **Batch processing:** per-document outputs and a portfolio summary through the [local batch runner](docs/product/REFERENCE.md#batch-processing).
 - **Optional evidence assurance:** hashes, exact quotes, required-source completeness, action receipts, negative-control mutation tests, operational review records and a reproducible synthetic calibration fixture. These are human-review diagnostics, not operational certification. [Evidence and calibration guide](docs/governance/ASSURANCE_CALIBRATION.md)
+- **Optional frontier/agentic AI safety review:** an offline evidence-gating adjunct for capability tests, independently enforced containment, model-change retests and human release records. [Scope, schema and limitations](docs/governance/FRONTIER_SAFETY_ASSURANCE.md). It does not evaluate a model or authorise deployment.
 
 [Explore the generated sample](docs/examples/README.md) · [Read the product overview](docs/product/OVERVIEW.md) · [Understand the method](docs/product/METHOD.md)
 
@@ -83,6 +100,8 @@ On Windows, use your Python launcher (for example, `py -3`) in place of `python3
 **Governance and assurance teams** can turn general commitments into review questions and evidence requests. **Procurement teams** can scrutinise supplier claims and contractual controls. **Test and release managers** can examine whether approval, monitoring, incident and rollback arrangements are actually specified. **Policy teams and researchers** can apply a consistent structural lens while retaining source quotations and transparent limits.
 
 LAIF includes diagnostic sector profiles for government services, departmental AI development, procurement, clinical AI, employment, education, financial services and general AI governance. Automatic document and sector classification is heuristic: reviewers should check it against the source and select a sector explicitly where needed.
+
+For frontier and autonomous AI safety, the repository now includes an **optional, proposed assurance extension** rather than a new canonical sector profile or changed scoring rule. It checks whether a supplied evidence package documents the expected safety controls; it does not perform live monitoring or independently prove that an AI can be stopped. See [Frontier Safety Assurance](docs/governance/FRONTIER_SAFETY_ASSURANCE.md). For current-law research, consult the [November 2026 authority crosswalk](docs/regulatory/CURRENT_AUTHORITY_CROSSWALK_2026-11.md); the published April 2026 regulatory guide remains a historical framework document, not a current-law compliance guarantee.
 
 ## The framework behind the toolkit
 
@@ -119,7 +138,20 @@ No GitHub Actions run is needed. [Complete verification instructions →](docs/p
 
 LAIF **does not determine legal validity** or legal enforceability. It **does not claim authority over external jurisdictions**, regulators or institutions, and **does not require external frameworks to use LAIF vocabulary** for diagnostic assessment. A **not LAIF-native** result does not mean legally invalid, unsafe or worthless.
 
+Historical comparison reports mix official and illustrative excerpts and may
+include superseded instruments; see the
+[legacy-result interpretation limits](docs/research/LEGACY_RESULT_BOUNDARIES.md)
+before citing them in academic or regulatory work.
+
 Scores are **deterministic rubric outputs**, not statistical confidence levels, regulatory ratings or independent certification. A supplied log, matching hash or `REVIEW_READY` status does not prove truthful execution or a working production control. Reviewers must examine source context, classification, supporting artefacts and counter-evidence.
+
+Independent empirical accuracy and construct validity have not been established
+by the published software checks. Static governance-document analysis does not
+evaluate an AI model's adversarial capabilities or demonstrate containment or
+catastrophic-risk control. Legal conclusions also depend on the applicable law,
+role, commencement and complete evidence. See the
+[dated scholarly-validation research register](docs/review/2026-11-07-external-scholarly-critique-triage.md)
+for proposed independent testing and evidence boundaries; proposals are not results.
 
 The toolkit is currently a local Python command-line workflow with generated reports. It does not provide a hosted service, graphical application or live deployment monitoring.
 

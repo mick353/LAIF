@@ -1,0 +1,425 @@
+{
+  "scope": "Execution and assessment review record; inventory excludes itself",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 9119,
+      "sha256": "d0d69de93d2c522b2031e2ca82ed007343f6786cd43848ec362fa08256c6ae26"
+    },
+    {
+      "path": "REASONING_REVIEW.md",
+      "bytes": 4649,
+      "sha256": "20f117f1c3510b8d812b5858e9c1784ca1c44104ef0465cb8d7e6f47a9c1879c"
+    },
+    {
+      "path": "VALIDATION.md",
+      "bytes": 6244,
+      "sha256": "3ad95d87011187b70e52cbb2fb70dd066d716425f25213cc5b85d382006d9fea"
+    },
+    {
+      "path": "au_dta_policy_v2_1.assessment.md",
+      "bytes": 30284,
+      "sha256": "e56b25625b3ee0db7b00ae3b91b996e683a0b7efc155716f5bd0551f13b3cccd"
+    },
+    {
+      "path": "au_dta_policy_v2_1.pages.json",
+      "bytes": 4942,
+      "sha256": "5d364a4f4522673a3c6de3a676b464949f929b6f9a18ac2934af7702b2c9c478"
+    },
+    {
+      "path": "dta_version_delta.json",
+      "bytes": 3839,
+      "sha256": "3b35b2afb2e2e0916b1b779c63c9358e7e73b61ace764c26083e352edc75512e"
+    },
+    {
+      "path": "eu_ai_act_amendment_2026_1744.assessment.md",
+      "bytes": 39190,
+      "sha256": "850edc946bff871ec058854242a329c50f83b1003845377ea09c0b7d160e93dc"
+    },
+    {
+      "path": "eu_ai_act_amendment_2026_1744.pages.json",
+      "bytes": 7461,
+      "sha256": "75fecd107e918e870bf451a309cd1cd2362bcf26911095757699b9a3fd6bd339"
+    },
+    {
+      "path": "full-verification.log",
+      "bytes": 268803,
+      "sha256": "f8aaa57387addc94176e3958d8b1626967041db70f8029ff45b28ea752bf2a4e"
+    },
+    {
+      "path": "original_act_article_113_dependency.txt",
+      "bytes": 3418,
+      "sha256": "6476f1bcb722ea3a1bacf4523f0bee99be3e5ba52fb319696d47e72d52c7d885"
+    },
+    {
+      "path": "original_act_dependency.json",
+      "bytes": 1178,
+      "sha256": "46561cff212c1c2279c530c39d8979e8085f13fde7d0ea07eed46b2acc90a4f9"
+    },
+    {
+      "path": "original_act_substantive_evidence.json",
+      "bytes": 20161,
+      "sha256": "05472de0a3542ab738e021011a5f909b55f7e578c4483022c1bf3f9c5f07bcbb"
+    },
+    {
+      "path": "original_act_upstream_verification.json",
+      "bytes": 388,
+      "sha256": "072274f8bd9a5d38da39023b0eba0d56bca9fb56003b62f66ab1e62cf8defe4a"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/Policy-for-the-responsible-use-of-AI-in-government-2_1_1.institutional_report.md",
+      "bytes": 13038,
+      "sha256": "e8325b16aa9521105d03b91c1d80cd52e7eb14f7ed478b4e9d1add5453adb8a0"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/Policy-for-the-responsible-use-of-AI-in-government-2_1_1.laif.json",
+      "bytes": 94942,
+      "sha256": "adc6a9cd774192bb64d335cc38a77f70d423b8c8b1bdbef95fe836414bda8fb1"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/Policy-for-the-responsible-use-of-AI-in-government-2_1_1.laif.md",
+      "bytes": 50413,
+      "sha256": "10378afb3ffabcf06c85237d438fcc4acae8d125e2623fb03a370c74732244a5"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/Policy-for-the-responsible-use-of-AI-in-government-2_1_1.technical_appendix.md",
+      "bytes": 72253,
+      "sha256": "a0aa47a7b45a99df9164e7135e10e5ded609b1e4235105ea6f672ce44628fb43"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/AI_ANALYST_INPUT_BUNDLE.json",
+      "bytes": 116860,
+      "sha256": "d924e952b2f449986429bae10a69c4366253e5807031aa4402183d3430a35d23"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/AI_ANALYST_PROMPT.md",
+      "bytes": 3373,
+      "sha256": "e4e6bd5ec1702ce450f8315cf10b8e91cd57123fd169a398c9eb9f48d41106ac"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/AI_REPORT_VALIDATION_RULES.md",
+      "bytes": 378,
+      "sha256": "3186ec3986983a0486e3f51036eb21101e504f6ee25a840c042b61df2203d8e0"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/analyst_bundle.json",
+      "bytes": 116860,
+      "sha256": "d924e952b2f449986429bae10a69c4366253e5807031aa4402183d3430a35d23"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/control_recommendations.json",
+      "bytes": 6870,
+      "sha256": "f6743cba4d3982a4d0ca0984cad7a5953e67e83c230cf087d9f94b3c1e9d4a19"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/failure_pathways.json",
+      "bytes": 6318,
+      "sha256": "4ae9e111c0f8fb4a075e16b443d71c591a0394d3b90b74c1564e5ca930398908"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/governance_gap_register.json",
+      "bytes": 7183,
+      "sha256": "4231378d622f70fb30f844170a19a1b85ad2d47c16b8c92abb45fd85b3de176a"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/quote_bank.jsonl",
+      "bytes": 18743,
+      "sha256": "67512df21537ef24db2a3c41e6adbc0e2b2d6291e8fcd6b1d00f824d39966093"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/quote_bank.md",
+      "bytes": 6187,
+      "sha256": "b688113874fcb40c44c0160f70a54fcbab79c0d7905c7e475fbea3f7a20a55cc"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/verification_required_evidence.md",
+      "bytes": 1072,
+      "sha256": "83959472898016751f1db80497cfd8fedcc213cdd722ca1051bf7d0fc08d2995"
+    },
+    {
+      "path": "pypdf-diagnostic/au_dta_policy_v2_1/laif_processing_index.jsonl",
+      "bytes": 1938,
+      "sha256": "db5f295316728c233ce0f215f6c61bbe8b694865aa472ac0e28d614634c74bd3"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/OJ_L_202601744_EN_TXT.institutional_report.md",
+      "bytes": 6694,
+      "sha256": "8b4a08946b1a2db332a50b454195d56b84cfd931b4831decdee59e72632ba10a"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/OJ_L_202601744_EN_TXT.laif.json",
+      "bytes": 94210,
+      "sha256": "64b01a1211bdd6a8a6f4ad55d48629f6dbc52a8c68e662439439b1e9e3b606a6"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/OJ_L_202601744_EN_TXT.laif.md",
+      "bytes": 49986,
+      "sha256": "e1743923311e84868e360ee016d101bdd28647e46ce3ce94f17cca116f31f00e"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/OJ_L_202601744_EN_TXT.technical_appendix.md",
+      "bytes": 68514,
+      "sha256": "c4f671bb5f3958207f33f951bc1850dcb56f77fa87b8eb56e67c5730ff1d5b0d"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/AI_ANALYST_INPUT_BUNDLE.json",
+      "bytes": 98018,
+      "sha256": "f433c6f8e06a49f67b966eb237028ab360b0f1bc317d1823bd5fc32adfda2e3c"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/AI_ANALYST_PROMPT.md",
+      "bytes": 3373,
+      "sha256": "e4e6bd5ec1702ce450f8315cf10b8e91cd57123fd169a398c9eb9f48d41106ac"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/AI_REPORT_VALIDATION_RULES.md",
+      "bytes": 378,
+      "sha256": "3186ec3986983a0486e3f51036eb21101e504f6ee25a840c042b61df2203d8e0"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/analyst_bundle.json",
+      "bytes": 97770,
+      "sha256": "9ce4435be9591940d8961c3d5fdfa665a73d9da930bee47b40b743984a8ac193"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/control_recommendations.json",
+      "bytes": 2343,
+      "sha256": "b28c70f6459b795c29f868034d93abf29ac7fa37141d76f7bc189d46551c9039"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/failure_pathways.json",
+      "bytes": 2156,
+      "sha256": "96461fa0ca4ddce2f662d5325ae443a95e978e59c788c161c276afd71f025efa"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/governance_gap_register.json",
+      "bytes": 2379,
+      "sha256": "320d84256ba3590a25953b39bb28a5e51c0126af431674609b805186988eba7e"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/quote_bank.jsonl",
+      "bytes": 18679,
+      "sha256": "a2fd2f0c14cad0181e4aa149986971521e46fbd2a7a256e183c39d3322bd80c1"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/quote_bank.md",
+      "bytes": 427,
+      "sha256": "ceb0e4044553c710753d74ee3f2969312437a4d5a508b6946dd2b99edfd4750f"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/verification_required_evidence.md",
+      "bytes": 112,
+      "sha256": "5a37daa3f916f7e1ad05f7cc3368d221af5e8ba623b43aeda5c7a8bd2dbf3689"
+    },
+    {
+      "path": "pypdf-diagnostic/eu_ai_act_amendment_2026_1744/laif_processing_index.jsonl",
+      "bytes": 1618,
+      "sha256": "187c280caa7c6f30c7c334f691758159f24536cb313d0f6b9bab5e8555cf58a8"
+    },
+    {
+      "path": "pypdf-diagnostic/run_manifest.json",
+      "bytes": 1595,
+      "sha256": "baec1dc8f7120edee9f3e605ded17916c6f02b1bb0dd5f685e908574f1322e8a"
+    },
+    {
+      "path": "pypdf-run.log",
+      "bytes": 3100,
+      "sha256": "ae7f540d5b475210f2040912d2c008f820a7073a3794c3f4d06a56a2210e599b"
+    },
+    {
+      "path": "quick-verification.log",
+      "bytes": 1008,
+      "sha256": "6d52165487b53fda79cb5869cfef9896aaa3eed2207c1988b5043a92c674200b"
+    },
+    {
+      "path": "reasoning-review-validation.log",
+      "bytes": 246,
+      "sha256": "1a7ecf12f8124cef6618eb27aab5982cae631dd4e41542048372ac43dad0194f"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/AI_ANALYST_INPUT_BUNDLE.json",
+      "bytes": 117009,
+      "sha256": "810de8ca19dcdfc19913d1227acfce2032712e8da4c399afb1d41071a42f4fef"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/AI_ANALYST_PROMPT.md",
+      "bytes": 3373,
+      "sha256": "e4e6bd5ec1702ce450f8315cf10b8e91cd57123fd169a398c9eb9f48d41106ac"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/AI_REPORT_VALIDATION_RULES.md",
+      "bytes": 378,
+      "sha256": "3186ec3986983a0486e3f51036eb21101e504f6ee25a840c042b61df2203d8e0"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/analyst_bundle.json",
+      "bytes": 117009,
+      "sha256": "810de8ca19dcdfc19913d1227acfce2032712e8da4c399afb1d41071a42f4fef"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/control_recommendations.json",
+      "bytes": 8964,
+      "sha256": "973298fac7a3061b4ce57679c17218e92562faea3db4de9fae1de0baefbd6f60"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/failure_pathways.json",
+      "bytes": 8115,
+      "sha256": "2041d6fcef59346a92862a66bc7339eb52283f4d7552db54d7d00e18c29ca017"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/governance_gap_register.json",
+      "bytes": 9381,
+      "sha256": "32ddfcf1199377f4d41536a853012db393a3a39ac3c8380a16abb305b0d3f57d"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/quote_bank.jsonl",
+      "bytes": 19933,
+      "sha256": "b04289bd502f8c4d909f159f9c597eefae32c31355cec197d83e96c4c282d020"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/quote_bank.md",
+      "bytes": 5872,
+      "sha256": "65a22ad0528d60ce01b8301e5d83d82b44418b478b7441f8fcef7b91fa1961ce"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/verification_required_evidence.md",
+      "bytes": 112,
+      "sha256": "5a37daa3f916f7e1ad05f7cc3368d221af5e8ba623b43aeda5c7a8bd2dbf3689"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/au_dta_policy_v2_1.institutional_report.md",
+      "bytes": 14129,
+      "sha256": "102b1867c576e78bf1bd7df3eb88d4762c5140dec49a0703083e14afc87d54d0"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/au_dta_policy_v2_1.laif.json",
+      "bytes": 93052,
+      "sha256": "55db5f9a9f680a2ab2075b0028d47621570ee10fb370d7cf6b13925471a8a47e"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/au_dta_policy_v2_1.laif.md",
+      "bytes": 50512,
+      "sha256": "cd68a5e0d099765e492c21571eb2f93f30c6f83d5c3714fe33831b64b603319a"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/au_dta_policy_v2_1.technical_appendix.md",
+      "bytes": 65620,
+      "sha256": "36b545da95de0921e8e96acb2025309435c6d89fdbec495db0079188f6d8bf40"
+    },
+    {
+      "path": "reviewed-text/au_dta_policy_v2_1/laif_processing_index.jsonl",
+      "bytes": 1549,
+      "sha256": "b2f845ab8b8589e428b25911cecab80a5aa7be51d9cc9a755ece4d79f96ccd32"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/AI_ANALYST_INPUT_BUNDLE.json",
+      "bytes": 99218,
+      "sha256": "ff99a6900a5df384e9c3e6c94841d914c19a8f0c702546a1c848affa7085d480"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/AI_ANALYST_PROMPT.md",
+      "bytes": 3373,
+      "sha256": "e4e6bd5ec1702ce450f8315cf10b8e91cd57123fd169a398c9eb9f48d41106ac"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/AI_REPORT_VALIDATION_RULES.md",
+      "bytes": 378,
+      "sha256": "3186ec3986983a0486e3f51036eb21101e504f6ee25a840c042b61df2203d8e0"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/analyst_bundle.json",
+      "bytes": 99218,
+      "sha256": "ff99a6900a5df384e9c3e6c94841d914c19a8f0c702546a1c848affa7085d480"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/control_recommendations.json",
+      "bytes": 36,
+      "sha256": "251220eade6aefa9a66881afe621f134e9b5fbea7e5cbeecd9b6582aec1040fd"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/failure_pathways.json",
+      "bytes": 29,
+      "sha256": "a7a55f3319cc0cf37c85f555bcea4c4b59a1bfc4a792b97ca0fa4cb650aee6a9"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/governance_gap_register.json",
+      "bytes": 17,
+      "sha256": "ce03626a05cda81d234cc8b4a8041eb42808c28c6ba29be0abd7aaebb2282dd9"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/quote_bank.jsonl",
+      "bytes": 25614,
+      "sha256": "65144dd1d16bc1f74acc260493f7a15e90dc41d15b23e90b4b062a5e6cfa71b6"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/quote_bank.md",
+      "bytes": 8259,
+      "sha256": "1ed1775884c684ea0baca263db94e314c07328cc0b4e3d38669c2b43cf856683"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/verification_required_evidence.md",
+      "bytes": 769,
+      "sha256": "5268e2ac51b22cc4fb392d99ba14d48ca8a7436896e7c8053329ecab07fb6ffa"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.institutional_report.md",
+      "bytes": 7224,
+      "sha256": "4731420aa042bd45ba90a938c2ccf2a247f8ede3539c7356d8462e38906fe707"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.laif.json",
+      "bytes": 94624,
+      "sha256": "09ee802ee39217fd11d811cf7c6ae3c1031d9b1ad0dfeb47744e9cf140c503a0"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.laif.md",
+      "bytes": 46845,
+      "sha256": "f5e45af20bb9c17f6a713a1dda12922e6f631b9ca062863b7b148e74e14e3ed8"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.technical_appendix.md",
+      "bytes": 68168,
+      "sha256": "4d448e65862a6b1ce9d2f68b430c634ef6177b132cbfbc442e006672645a583b"
+    },
+    {
+      "path": "reviewed-text/eu_ai_act_amendment_2026_1744/laif_processing_index.jsonl",
+      "bytes": 1680,
+      "sha256": "237c541d18ce0b43750693bb0a14630aa3467d925f366ab483f7428dabf19ace"
+    },
+    {
+      "path": "reviewed-text/run_manifest.json",
+      "bytes": 1557,
+      "sha256": "8c4d39e10392791c990457d4566c20de87ad983ad2ec552ec7c132180e23198a"
+    },
+    {
+      "path": "source-verification.log",
+      "bytes": 155,
+      "sha256": "fcb3f07a0e2a60ce760a9ad5da78e8928aef6ac1fe3da33ad6f8b99da1a8546c"
+    },
+    {
+      "path": "stdlib-regression.log",
+      "bytes": 2890,
+      "sha256": "3cc6c21e34f1a6bb66bcfbe5814ea36014ab362da2e0ccf5173cc4fa1e4827c4"
+    },
+    {
+      "path": "substantive-correction-validation.log",
+      "bytes": 269113,
+      "sha256": "bdf4ccaeab3cf64ddb48967c7523aa9f67f85d52aea9bedf51d880e512e30dcc"
+    },
+    {
+      "path": "substantive_findings.json",
+      "bytes": 3377,
+      "sha256": "015bc8b9584feb0de0b0a0fc2edd8b12cd2a24e05a8c02a3c5bbae44b17ad227"
+    },
+    {
+      "path": "upstream_retrieval.json",
+      "bytes": 1036,
+      "sha256": "0b4337dab2209fb57f6154cd547cfb59c91b196c4823c460c1072d348db0328b"
+    },
+    {
+      "path": "verified-text-run.log",
+      "bytes": 2877,
+      "sha256": "ad30ae010d41673db6ab33df75e1e295b27772a32efd5e585fec65b60069a43f"
+    }
+  ]
+}

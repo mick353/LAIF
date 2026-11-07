@@ -45,7 +45,7 @@ the assessed text never silently splices passages. Exact SHA-256 pins live in
 
 | # | Document Name | Source Type | Jurisdiction | Year | Provenance | Citable? | Intended Use |
 |---|---------------|-------------|--------------|------|------------|----------|--------------|
-| 1 | EU AI Act — Art. 9, 13 & 14 | binding_regulation | European Union | 2024 | REPRESENTATIVE_EXCERPT | No | real-world baseline *(official ingestion pending — see Coverage Notes)* |
+| 1 | EU AI Act — Art. 9, 13 & 14 | binding_regulation | European Union | 2024 | REPRESENTATIVE_EXCERPT | No | real-world baseline; full original-edition source admitted separately, assessment pending |
 | 2 | NIST AI RMF — Govern & Map Functions | voluntary_framework | United States | 2023 | REPRESENTATIVE_EXCERPT | No | real-world baseline; paraphrase contrast for O3 |
 | 3 | OECD AI Principles (2019, rev. 2024) | international_principles | International (OECD) | 2024 | REPRESENTATIVE_EXCERPT | No | real-world baseline; paraphrase contrast for O2 |
 | 4 | US Executive Order 14110 — §4 Safety & §7 Workers | executive_directive | United States (Federal) | 2023 | REPRESENTATIVE_EXCERPT | No | paraphrase stress-test (embedded 'linkage'/'connection' guard triggers); paraphrase contrast for O1 |

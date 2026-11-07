@@ -69,24 +69,23 @@ The `.txt` index maps documents into three tiers:
 
 ## Core Framework Concepts
 
-### The Three Foundational Principles (LAIF v1.2, Part One)
+### The Five Foundational Principles (LAIF v1.2, Part One)
 
-These are non-amendable and underpin every provision:
+The principal text names five non-amendable principles. Do not substitute a summary of other framework features for this list:
 
-1. **Coherence Standard** — A governance provision is structurally coherent only if it is simultaneously:
-   - **Coupled**: The restriction identifies and protects the specific human interest it serves. Neither can be weakened in isolation.
-   - **Consistent**: The reasoning justifying the provision at one scale would also justify comparable provisions at significantly smaller and larger scales.
-   - **Revisable**: Future actors can modify or reverse the provision without dismantling the broader governance architecture.
+1. **The Coherence Standard** — Coupling, Consistency and revisability must hold together.
+2. **The Coupling Requirement** — constraints and paired protections are one structural obligation, not independently disposable commitments.
+3. **The Non-Accumulation Principle** — every provision needs a distinct grounded function; implicit obligations are not accumulated through ambiguity.
+4. **The Temporal Separation Principle** — capability- and time-specific conditions belong in revisable schedules or subsidiary instruments.
+5. **The Consistency Principle** — the same reasoning standard applies across actors and scales, with principled justification for differences.
 
-2. **Framework Hierarchy** — Operational standards (Toolkit) are subordinate to Provisions; Provisions are subordinate to Foundational Principles.
-
-3. **Self-Application** — The framework applies to regulatory bodies and governance actors themselves, not only to AI system operators.
+Framework hierarchy is described in the principal text and Parts Two/Eight; self-application is explicit in §7.4. They are important features, but are not Principle 2 and Principle 3 respectively.
 
 ### The Coherence Test (Three Questions)
 
 The primary decision instrument applied in the PDCA and case analyses:
 
-- **Q1 — Coupling**: Does the deployment identify and protect the specific human interest at risk? (Most commonly failed.) Under the **refined model v1.1**, Q1 is assessed on two sub-dimensions:
+- **Q1 — Coupling**: Does the deployment identify and protect the specific human interest at risk? (No independent prevalence claim is made.) Under the **refined model v1.1**, Q1 is assessed on two sub-dimensions:
   - **Q1a — Structural Pairing** (`NONE` / `IMPLICIT` / `EXPLICIT`): Does the instrument's architecture pair each restriction with the specific human interest it protects?
   - **Q1b — Enforcement Strength** (`NONE` / `SOFT` / `HARD`): Does the pairing carry enforceable normative force equivalent to the restriction imposed?
 - **Q2 — Consistency**: Would the governance logic produce just and workable outcomes if applied across all comparable actors and scales?
@@ -96,17 +95,18 @@ A deployment must pass all three questions. Failure at Q1 constitutes automatic 
 
 ### The Integrity Layer (LAIF v1.2, Part Two)
 
-Three properties required as a **precondition of lawful deployment** — all must be satisfied simultaneously:
+Four properties required as a **precondition of lawful deployment** — all must be satisfied where applicable; calibration follows §2.5:
 
 - **A.1 Structural Transparency**: The system can produce, on request, a comprehensible account of the basis for its outputs, including confidence/uncertainty and material limitations.
 - **A.2 Structural Honesty**: Stated optimisation objectives correspond to actual implemented objectives. System performs consistently whether or not it is being evaluated.
 - **A.3 Structural Containment**: The system operates within documented operational boundaries in all tested conditions (including edge cases) and does not initiate materially irreversible actions without triggering the appropriate authorisation process.
+- **A.4 Structural Calibration**: Where §2.5 applies, expressed confidence corresponds to observed accuracy in comparable intended deployment contexts; documented empirical evidence is required.
 
 ### The Pre-Deployment Coherence Assessment (PDCA)
 
 The PDCA is the primary **operational instrument** of LAIF. It is a structured audit process applied before system deployment. It is structured into:
 
-- **Section A** — Integrity Layer Verification (A.1–A.3 above)
+- **Section A** — Integrity Layer Verification (A.1–A.4 above)
 - **Section B** — Coherence Test Documentation (Q1–Q3)
 - Additional sections assess specific provision compliance
 
@@ -124,7 +124,7 @@ LAIF uses standardised terminology throughout. AI assistants working in this rep
 |------|-----------|
 | **Coherence Test** | The three-question test (Coupling, Consistency, Reversibility) — always capitalised |
 | **PDCA** | Pre-Deployment Coherence Assessment — the operational audit instrument |
-| **Integrity Layer** | The three preconditions (Transparency, Honesty, Containment) |
+| **Integrity Layer** | The four properties (Transparency, Honesty, Containment, Calibration where §2.5 applies) |
 | **Coupling** | The structural pairing of a restriction with the human interest it protects |
 | **Provision** | A specific governance requirement derived from Foundational Principles (e.g. Provision A1, A2) |
 | **Operational Standard** | A Toolkit-level definition subordinate to Provisions |
@@ -204,7 +204,7 @@ python3 test_semantic_fidelity.py   # semantic-fidelity invariants: substance ne
 python3 tests/test_governance.py    # governance/reporting suite
 python3 tests/test_assessment_fragility.py          # fragility suite
 python3 tests/test_document_processing_runner.py    # batch runner suite
-python3 tests/test_github_actions_document_processing.py  # CI processing suite
+python3 tests/test_github_actions_document_processing.py  # legacy-named compatibility tests; run locally
 ```
 
 To regenerate the assessment report (also acts as an integration test):
@@ -311,7 +311,7 @@ and no longer discriminating.
 ### Editing Documents
 
 - `.docx` files are Microsoft Word format. Edit with Word, LibreOffice, or programmatically with `python-docx`.
-- Each governance document also has a `.txt` export; `validate.py` runs against the `.txt` corpus, so keep both formats in sync when editing. This is enforced: `python3 validate.py --check-corpus-formats` (also part of the baseline run and of CI) fails if the published `.docx` and the validated `.txt` disagree on any canonical term count, provision identifier count, or on body text beyond formatting.
+- Each governance document also has a `.txt` export; `validate.py` runs against the `.txt` corpus, so keep both formats in sync when editing. The local baseline and `python3 validate.py --check-corpus-formats` fail if the published `.docx` and the validated `.txt` disagree on any canonical term count, provision identifier count, or on body text beyond formatting.
 - `LAIF-Law-Aligned_Intelligence_Framework.txt` is the navigation index; `README.md` is the public-facing project description.
 - `docs/supporting/` holds verbatim ingested source texts (strict, no transformation). Editing these files breaks pinned hashes in `official_documents.py` by design — any change there must be re-verified against the authoritative source and re-pinned.
 
@@ -339,13 +339,32 @@ The standard workflow for producing a LAIF assessment:
 
 1. **Source ingestion** — extract full text from supplied documents into `docs/supporting/` using Strict Source Mode (no training-derived content; all factual claims must be traceable to the ingested file).
 2. **Assessment** — apply LAIF v1.2 framework using only ingested source files and `LAIF_v1.2.txt`. Record verbatim quotes for all findings.
-3. **Write artifact** — a machine-generated assessment belongs in the deterministic pipeline (`test_real_world.py`), so CI regenerates and checks it. An authored narrative analysis goes to `reports/` with a row in `reports/README.md` giving its production date and model version. Every file in `reports/` must be one or the other; `tests/test_governance.py` fails otherwise.
+3. **Write artifact** — a machine-generated assessment belongs in the deterministic pipeline (`test_real_world.py`), so the local verifier regenerates and checks it. An authored narrative analysis goes to `reports/` with a row in `reports/README.md` giving its production date and model version. Every file in `reports/` must be one or the other; `tests/test_governance.py` fails otherwise.
 4. **Merge to main** — commit and push. The artifact is not authoritative until on `main`.
 
 ### Merge Discipline
 
 - Merge feature branches into `main` before writing the final assessment artifact. This ensures the ingested source files referenced in the assessment are present on `main` when the assessment is committed.
 - Do not write assessment artifacts on feature branches and then push separately — the source documents and assessment must arrive on `main` together.
+
+### External Scholarly and AI-Safety Reporting Boundary
+
+Keep external reports neutral and source-first: problem, methodology, primary
+evidence, competing interpretations, uncertainty, operational significance,
+reproducibility and limits. A report need not persuade its audience to adopt
+LAIF to be useful. Identify exact source hashes and the committed implementation
+revision; do not present draft-PR additions as features of `main`.
+
+The software suite verifies reproducibility and enforcement of local rules. It
+does **not** establish independent construct validity, legal compliance,
+real-world control effectiveness or frontier-model safety. Static document
+assurance can assess stated governance arrangements, not model behaviour under
+adversarial or out-of-distribution conditions. Legally binding duties require
+primary-source interpretation for the relevant role and effective date;
+uncertainty remains explicit. Proposed empirical studies need external,
+blinded human reviewers and a pre-registered scoring protocol. See
+`docs/review/2026-11-07-external-scholarly-critique-triage.md` for bounded
+research questions and the disposition of an unverified external critique.
 
 ### Interpretation-Layer vs Detection-Layer Distinction
 

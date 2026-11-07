@@ -22,7 +22,18 @@ LAIF makes those questions easier to examine systematically. Its outputs connect
 
 ## What a review produces
 
-The main institutional report gives a readable executive finding, quoted evidence, strengths, gaps and next actions. Supporting outputs include a technical appendix, quote bank, governance gap register, failure pathways, control recommendations and structured JSON.
+The internal diagnostic report gives a readable executive finding, quoted
+evidence, strengths, gaps and next actions. Supporting outputs include a
+technical appendix, quote bank, governance gap register, failure pathways,
+control recommendations and structured JSON. Automatically inferred gaps are
+**not legal or operational findings by default**.
+
+For research publication or regulator-facing analysis, use the
+[neutral scholarly reporting path](../research/SCHOLARLY_REPORTING.md).
+It separates exact-source observations from human-attributed interpretations,
+preserves source scope, versions and code fingerprints, and supports
+source-locked second-reader disagreement records without claiming
+peer-review completion or scientific validation.
 
 Each report is an aid to professional judgement. A reviewer checks the source context, confirms automatic classifications, and investigates whether supporting controls are documented elsewhere or operate in practice.
 

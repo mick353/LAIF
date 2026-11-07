@@ -1,0 +1,490 @@
+{
+  "boundary": "Input provenance and reviewer independence are declared, not verified by this tool. A snapshot hash is not proof the holdout was registered before inspection. Undefined ratios are null; abstentions are not negative predictions. Wilson intervals assume independent Bernoulli observations and do not account for document clusters, multiplicity or selection bias. No F1 interval is provided. The report does not validate LAIF theory, field accuracy, legal compliance or model safety.",
+  "comparator_script_sha256": "b817e7bdc87282817bebd71ec6f05218a30f716428b01eaa40f9c4e2f83eda46",
+  "declared_evaluated_revision": "0000000000000000000000000000000000000000",
+  "declared_label_provenance": "SYNTHETIC",
+  "declared_protocol_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "holdout_snapshot_sha256": "21706e351037eaf61f13feb3a1ab3f4084fdd5b006d21e77bcbf21895c88cdf1",
+  "input_canonical_sha256": "b8154fd48311291baa375ce9190871e8f0fb5bf0b1acb7d8224dd548679d5d23",
+  "schema": "laif.comparative-study-report.v1",
+  "splits": {
+    "development": {
+      "by_attribute": {},
+      "errors_or_abstentions": {
+        "checklist": [],
+        "keyword": [],
+        "laif": []
+      },
+      "human_pairwise_agreement_before_adjudication": [],
+      "n": 0,
+      "paired_comparisons": {
+        "checklist": {
+          "baseline_only_correct": 0,
+          "both_correct": 0,
+          "both_wrong": 0,
+          "common_answered_n": 0,
+          "laif_only_correct": 0,
+          "warning": "Paired descriptive counts only; abstentions excluded, not statistical significance."
+        },
+        "keyword": {
+          "baseline_only_correct": 0,
+          "both_correct": 0,
+          "both_wrong": 0,
+          "common_answered_n": 0,
+          "laif_only_correct": 0,
+          "warning": "Paired descriptive counts only; abstentions excluded, not statistical significance."
+        }
+      },
+      "systems": {
+        "checklist": {
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "TP": 0,
+          "abstained": 0,
+          "accuracy_on_answered": null,
+          "answered": 0,
+          "coverage": null,
+          "f1": null,
+          "f1_interval": null,
+          "false_negative_rate": null,
+          "false_positive_rate": null,
+          "n": 0,
+          "precision": null,
+          "precision_wilson95": null,
+          "recall": null,
+          "recall_wilson95": null
+        },
+        "keyword": {
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "TP": 0,
+          "abstained": 0,
+          "accuracy_on_answered": null,
+          "answered": 0,
+          "coverage": null,
+          "f1": null,
+          "f1_interval": null,
+          "false_negative_rate": null,
+          "false_positive_rate": null,
+          "n": 0,
+          "precision": null,
+          "precision_wilson95": null,
+          "recall": null,
+          "recall_wilson95": null
+        },
+        "laif": {
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "TP": 0,
+          "abstained": 0,
+          "accuracy_on_answered": null,
+          "answered": 0,
+          "coverage": null,
+          "f1": null,
+          "f1_interval": null,
+          "false_negative_rate": null,
+          "false_positive_rate": null,
+          "n": 0,
+          "precision": null,
+          "precision_wilson95": null,
+          "recall": null,
+          "recall_wilson95": null
+        }
+      }
+    },
+    "holdout": {
+      "by_attribute": {
+        "escalation_path": {
+          "checklist": {
+            "FN": 0,
+            "FP": 0,
+            "TN": 1,
+            "TP": 0,
+            "abstained": 0,
+            "accuracy_on_answered": 1.0,
+            "answered": 1,
+            "coverage": 1.0,
+            "f1": null,
+            "f1_interval": null,
+            "false_negative_rate": null,
+            "false_positive_rate": 0.0,
+            "n": 1,
+            "precision": null,
+            "precision_wilson95": null,
+            "recall": null,
+            "recall_wilson95": null
+          },
+          "keyword": {
+            "FN": 0,
+            "FP": 0,
+            "TN": 1,
+            "TP": 0,
+            "abstained": 0,
+            "accuracy_on_answered": 1.0,
+            "answered": 1,
+            "coverage": 1.0,
+            "f1": null,
+            "f1_interval": null,
+            "false_negative_rate": null,
+            "false_positive_rate": 0.0,
+            "n": 1,
+            "precision": null,
+            "precision_wilson95": null,
+            "recall": null,
+            "recall_wilson95": null
+          },
+          "laif": {
+            "FN": 0,
+            "FP": 1,
+            "TN": 0,
+            "TP": 0,
+            "abstained": 0,
+            "accuracy_on_answered": 0.0,
+            "answered": 1,
+            "coverage": 1.0,
+            "f1": 0.0,
+            "f1_interval": null,
+            "false_negative_rate": null,
+            "false_positive_rate": 1.0,
+            "n": 1,
+            "precision": 0.0,
+            "precision_wilson95": [
+              0.0,
+              0.793451
+            ],
+            "recall": null,
+            "recall_wilson95": null
+          }
+        },
+        "monitoring_threshold": {
+          "checklist": {
+            "FN": 0,
+            "FP": 0,
+            "TN": 0,
+            "TP": 1,
+            "abstained": 0,
+            "accuracy_on_answered": 1.0,
+            "answered": 1,
+            "coverage": 1.0,
+            "f1": 1.0,
+            "f1_interval": null,
+            "false_negative_rate": 0.0,
+            "false_positive_rate": null,
+            "n": 1,
+            "precision": 1.0,
+            "precision_wilson95": [
+              0.206549,
+              1.0
+            ],
+            "recall": 1.0,
+            "recall_wilson95": [
+              0.206549,
+              1.0
+            ]
+          },
+          "keyword": {
+            "FN": 0,
+            "FP": 0,
+            "TN": 0,
+            "TP": 0,
+            "abstained": 1,
+            "accuracy_on_answered": null,
+            "answered": 0,
+            "coverage": 0.0,
+            "f1": null,
+            "f1_interval": null,
+            "false_negative_rate": null,
+            "false_positive_rate": null,
+            "n": 1,
+            "precision": null,
+            "precision_wilson95": null,
+            "recall": null,
+            "recall_wilson95": null
+          },
+          "laif": {
+            "FN": 1,
+            "FP": 0,
+            "TN": 0,
+            "TP": 0,
+            "abstained": 0,
+            "accuracy_on_answered": 0.0,
+            "answered": 1,
+            "coverage": 1.0,
+            "f1": 0.0,
+            "f1_interval": null,
+            "false_negative_rate": 1.0,
+            "false_positive_rate": null,
+            "n": 1,
+            "precision": null,
+            "precision_wilson95": null,
+            "recall": 0.0,
+            "recall_wilson95": [
+              0.0,
+              0.793451
+            ]
+          }
+        },
+        "named_control_owner": {
+          "checklist": {
+            "FN": 1,
+            "FP": 0,
+            "TN": 0,
+            "TP": 0,
+            "abstained": 0,
+            "accuracy_on_answered": 0.0,
+            "answered": 1,
+            "coverage": 1.0,
+            "f1": 0.0,
+            "f1_interval": null,
+            "false_negative_rate": 1.0,
+            "false_positive_rate": null,
+            "n": 1,
+            "precision": null,
+            "precision_wilson95": null,
+            "recall": 0.0,
+            "recall_wilson95": [
+              0.0,
+              0.793451
+            ]
+          },
+          "keyword": {
+            "FN": 0,
+            "FP": 0,
+            "TN": 0,
+            "TP": 1,
+            "abstained": 0,
+            "accuracy_on_answered": 1.0,
+            "answered": 1,
+            "coverage": 1.0,
+            "f1": 1.0,
+            "f1_interval": null,
+            "false_negative_rate": 0.0,
+            "false_positive_rate": null,
+            "n": 1,
+            "precision": 1.0,
+            "precision_wilson95": [
+              0.206549,
+              1.0
+            ],
+            "recall": 1.0,
+            "recall_wilson95": [
+              0.206549,
+              1.0
+            ]
+          },
+          "laif": {
+            "FN": 0,
+            "FP": 0,
+            "TN": 0,
+            "TP": 1,
+            "abstained": 0,
+            "accuracy_on_answered": 1.0,
+            "answered": 1,
+            "coverage": 1.0,
+            "f1": 1.0,
+            "f1_interval": null,
+            "false_negative_rate": 0.0,
+            "false_positive_rate": null,
+            "n": 1,
+            "precision": 1.0,
+            "precision_wilson95": [
+              0.206549,
+              1.0
+            ],
+            "recall": 1.0,
+            "recall_wilson95": [
+              0.206549,
+              1.0
+            ]
+          }
+        },
+        "reversal_mechanism": {
+          "checklist": {
+            "FN": 0,
+            "FP": 0,
+            "TN": 1,
+            "TP": 0,
+            "abstained": 0,
+            "accuracy_on_answered": 1.0,
+            "answered": 1,
+            "coverage": 1.0,
+            "f1": null,
+            "f1_interval": null,
+            "false_negative_rate": null,
+            "false_positive_rate": 0.0,
+            "n": 1,
+            "precision": null,
+            "precision_wilson95": null,
+            "recall": null,
+            "recall_wilson95": null
+          },
+          "keyword": {
+            "FN": 0,
+            "FP": 1,
+            "TN": 0,
+            "TP": 0,
+            "abstained": 0,
+            "accuracy_on_answered": 0.0,
+            "answered": 1,
+            "coverage": 1.0,
+            "f1": 0.0,
+            "f1_interval": null,
+            "false_negative_rate": null,
+            "false_positive_rate": 1.0,
+            "n": 1,
+            "precision": 0.0,
+            "precision_wilson95": [
+              0.0,
+              0.793451
+            ],
+            "recall": null,
+            "recall_wilson95": null
+          },
+          "laif": {
+            "FN": 0,
+            "FP": 0,
+            "TN": 0,
+            "TP": 0,
+            "abstained": 1,
+            "accuracy_on_answered": null,
+            "answered": 0,
+            "coverage": 0.0,
+            "f1": null,
+            "f1_interval": null,
+            "false_negative_rate": null,
+            "false_positive_rate": null,
+            "n": 1,
+            "precision": null,
+            "precision_wilson95": null,
+            "recall": null,
+            "recall_wilson95": null
+          }
+        }
+      },
+      "errors_or_abstentions": {
+        "checklist": [
+          "synthetic-01"
+        ],
+        "keyword": [
+          "synthetic-02",
+          "synthetic-04"
+        ],
+        "laif": [
+          "synthetic-02",
+          "synthetic-03",
+          "synthetic-04"
+        ]
+      },
+      "human_pairwise_agreement_before_adjudication": [
+        {
+          "cohen_kappa": 0.5,
+          "n": 4,
+          "observed_agreement": 0.75,
+          "reviewer_a": "synthetic-A",
+          "reviewer_b": "synthetic-B"
+        }
+      ],
+      "n": 4,
+      "paired_comparisons": {
+        "checklist": {
+          "baseline_only_correct": 2,
+          "both_correct": 0,
+          "both_wrong": 0,
+          "common_answered_n": 3,
+          "laif_only_correct": 1,
+          "warning": "Paired descriptive counts only; abstentions excluded, not statistical significance."
+        },
+        "keyword": {
+          "baseline_only_correct": 1,
+          "both_correct": 1,
+          "both_wrong": 0,
+          "common_answered_n": 2,
+          "laif_only_correct": 0,
+          "warning": "Paired descriptive counts only; abstentions excluded, not statistical significance."
+        }
+      },
+      "systems": {
+        "checklist": {
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "TP": 1,
+          "abstained": 0,
+          "accuracy_on_answered": 0.75,
+          "answered": 4,
+          "coverage": 1.0,
+          "f1": 0.666667,
+          "f1_interval": null,
+          "false_negative_rate": 0.5,
+          "false_positive_rate": 0.0,
+          "n": 4,
+          "precision": 1.0,
+          "precision_wilson95": [
+            0.206549,
+            1.0
+          ],
+          "recall": 0.5,
+          "recall_wilson95": [
+            0.094531,
+            0.905469
+          ]
+        },
+        "keyword": {
+          "FN": 0,
+          "FP": 1,
+          "TN": 1,
+          "TP": 1,
+          "abstained": 1,
+          "accuracy_on_answered": 0.666667,
+          "answered": 3,
+          "coverage": 0.75,
+          "f1": 0.666667,
+          "f1_interval": null,
+          "false_negative_rate": 0.0,
+          "false_positive_rate": 0.5,
+          "n": 4,
+          "precision": 0.5,
+          "precision_wilson95": [
+            0.094531,
+            0.905469
+          ],
+          "recall": 1.0,
+          "recall_wilson95": [
+            0.206549,
+            1.0
+          ]
+        },
+        "laif": {
+          "FN": 1,
+          "FP": 1,
+          "TN": 0,
+          "TP": 1,
+          "abstained": 1,
+          "accuracy_on_answered": 0.333333,
+          "answered": 3,
+          "coverage": 0.75,
+          "f1": 0.5,
+          "f1_interval": null,
+          "false_negative_rate": 0.5,
+          "false_positive_rate": 1.0,
+          "n": 4,
+          "precision": 0.5,
+          "precision_wilson95": [
+            0.094531,
+            0.905469
+          ],
+          "recall": 0.5,
+          "recall_wilson95": [
+            0.094531,
+            0.905469
+          ]
+        }
+      }
+    }
+  },
+  "status": "DESCRIPTIVE_COMPARISON_ONLY",
+  "study_id": "SYNTHETIC_DO_NOT_CITE"
+}

@@ -197,6 +197,9 @@ PARAPHRASE_GUARDS = [
 # Source: LAIF v1.2 Part Two — Integrity Layer A.1/A.2/A.3 are preconditions
 #   of lawful deployment; all three must be satisfied simultaneously.
 #   Partial satisfaction = failure. No partial credit.
+# These three findings belong to the historical GPT-4 clinical assessment.
+# They do not verify the complete four-property framework threshold or
+# establish a calibration determination for a new deployment.
 INTEGRITY_PATTERNS = [
     ("A.1  Structural Transparency", r"A\.1 FINDING\s*:(.*?)(?=A\.2 FINDING|B\.1|\Z)"),
     ("A.2  Structural Honesty",       r"A\.2 FINDING\s*:(.*?)(?=A\.3 FINDING|B\.1|\Z)"),
@@ -206,14 +209,14 @@ INTEGRITY_PATTERNS = [
 # Source: LAIF v1.2 Part One — Coherence Test: Q1 Coupling, Q2 Consistency,
 #   Q3 Reversibility. All three must be answered affirmatively.
 #   Failure at Q1 (Coupling) = automatic failure of the full Coherence Test.
-#   Q1 is the most commonly failed question (CLAUDE.md §The Coherence Test).
+#   No independent prevalence or accuracy claim follows from this check.
 COHERENCE_PATTERNS = [
     ("Q1  Coupling",      r"B\.1 FINDING\s*:(.*?)(?=B\.2 FINDING|\Z)"),
     ("Q2  Consistency",   r"B\.2 FINDING\s*:(.*?)(?=B\.3 FINDING|\Z)"),
     ("Q3  Reversibility", r"B\.3 FINDING\s*:(.*?)(?=SECTION C|\Z)"),
 ]
 
-# Source: LAIF v1.2 Principle 3 — Framework Hierarchy is load-bearing:
+# Source: LAIF v1.2 Part Two operationalisation note and Part Eight:
 #   Operational Standards (Toolkit) < Provisions < Foundational Principles.
 #   Provisions cannot contradict Principles. Principles are non-amendable.
 # Source: LAIF v1.2 Part Seven — Self-Application: governance actors and
@@ -723,7 +726,10 @@ VALID_VERIFICATION   = {
     "HASH_VERIFIED_LOCAL_ONLY",
     "REJECTED_UNVERIFIED",
 }
-VALID_NETWORK_STATUS = {"AUTOMATED_URL_BLOCKED_HTTP_403", "NOT_ATTEMPTED", "AUTOMATED_URL_RETRIEVED"}
+VALID_NETWORK_STATUS = {
+    "AUTOMATED_URL_BLOCKED_HTTP_403", "AUTOMATED_URL_FAILED_HTTP_503",
+    "NOT_ATTEMPTED", "AUTOMATED_URL_RETRIEVED",
+}
 
 
 def _load_manifests():

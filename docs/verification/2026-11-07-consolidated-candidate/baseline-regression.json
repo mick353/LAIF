@@ -1,0 +1,47 @@
+{
+  "base_commit": "09f8687b58d1c5547cfe58bcf4e38aa7da3619a2",
+  "comparison": "component and aggregate scores, formal categories, functional alignment evidence (excluding corrected explanation prose), source identity and provenance",
+  "documents": [
+    {
+      "document": "US Executive Order 14110 \u2014 \u00a72 Principles, \u00a76 Workers, \u00a77 Civil Rights (official text)",
+      "scores_categories_and_functional_evidence_preserved": true
+    },
+    {
+      "document": "OECD Recommendation on AI (OECD/LEGAL/0449) \u2014 Sections 1 & 2 (official text)",
+      "scores_categories_and_functional_evidence_preserved": true
+    },
+    {
+      "document": "NIST AI RMF 1.0 (NIST AI 100-1) \u2014 GOVERN & MAP Functions (official text)",
+      "scores_categories_and_functional_evidence_preserved": true
+    },
+    {
+      "document": "NHS England DTAC v2.0 (February 2026) \u2014 Introduction & C1 Clinical Safety (official text)",
+      "scores_categories_and_functional_evidence_preserved": true
+    },
+    {
+      "document": "EU AI Act \u2014 Art. 9, 13 & 14",
+      "scores_categories_and_functional_evidence_preserved": true
+    },
+    {
+      "document": "NIST AI RMF \u2014 Govern & Map Functions",
+      "scores_categories_and_functional_evidence_preserved": true
+    },
+    {
+      "document": "OECD AI Principles (2019, rev. 2024)",
+      "scores_categories_and_functional_evidence_preserved": true
+    },
+    {
+      "document": "US Executive Order 14110 \u2014 \u00a74 Safety & \u00a77 Workers",
+      "scores_categories_and_functional_evidence_preserved": true
+    },
+    {
+      "document": "NHS England \u2014 AI in Clinical Decision Support (Policy Framework)",
+      "scores_categories_and_functional_evidence_preserved": true
+    },
+    {
+      "document": "TUC/CIPD \u2014 Framework for Fair AI in Employment Decisions",
+      "scores_categories_and_functional_evidence_preserved": true
+    }
+  ],
+  "status": "PASS"
+}

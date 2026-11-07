@@ -1,0 +1,42 @@
+{
+  "document_id": "eu_ai_act_amendment_2026_1744",
+  "title": "Regulation (EU) 2026/1744 amending Regulations (EU) 2024/1689, (EU) 2018/1139 and (EU) 2023/1230 (Digital Omnibus on AI)",
+  "jurisdiction": "European Union",
+  "source_type": "binding_regulation",
+  "authoritative_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32026R1744",
+  "authoritative_origin_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32026R1744",
+  "retrieval_date_utc": "2026-11-07T04:12:30Z",
+  "retrieval_method": "user_supplied_pdf_strict_source_mode",
+  "publication_date": "2026-07-24",
+  "version_identifier": "Regulation (EU) 2026/1744",
+  "sha256_hash": "dfcdbe4c3da4ce06f7b39bade40b4b08c132718352ef70b670ef8f163fb9a5b0",
+  "raw_filename": "eu_ai_act_amendment_2026_1744.md",
+  "extraction_boundaries": {
+    "full_document": true,
+    "sections": [],
+    "notes": "All 41 PDF pages, page-delimited Poppler layout extraction. No OCR. Tables remain layout text, not reconstructed cells."
+  },
+  "transformation_status": "NORMALISED_FORMATTING_ONLY",
+  "acquisition_channel": "HUMAN_GITHUB_DEPOSIT",
+  "acquired_by": "mick353 (repository owner); checked by Codex cloud session",
+  "acquired_at_utc": "2026-11-07T03:43:36Z",
+  "acquisition_note": "Owner-deposited source; timestamp records custody move commit a22160948a80bf4344e310f031f1465f7d1a0d59, not an independently known download time. Fresh official EUR-Lex PDF HTTP 200 exactly matches deposited bytes.",
+  "source_file_sha256": "0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386",
+  "source_file": "docs/verified/manual_ingest/OJ_L_202601744_EN_TXT.pdf",
+  "transformation_chain": [
+    "Exact repository PDF bytes retained unchanged.",
+    "Poppler pdftotext 24.02.0 -layout -enc UTF-8 <PDF> -; split output at form feeds, retain page text exactly, discard terminal empty form-feed segment.",
+    "Prepend two LF plus <!-- PDF page N --> plus LF before each page; no word repair, paraphrase, summary or OCR.",
+    "Assess with canonical builtin extractor; normalise text through existing processor unchanged."
+  ],
+  "verification_status": "AUTOMATED_VERIFIED",
+  "network_status": "AUTOMATED_URL_RETRIEVED",
+  "citation_status": "PRIMARY_CITABLE",
+  "provenance_classification": "AUTHORITATIVE_PRIMARY_SOURCE",
+  "assessment_status": "ASSESSED",
+  "assessment_reference": "docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.assessment.md (source-scoped PR review assessment; not merged/canonical)",
+  "evidence_trace": "docs/verified/extracted/eu_ai_act_amendment_2026_1744.evidence.json",
+  "page_index": "docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.pages.json",
+  "quote_review": "Exact selected spans verified against extracted pages; key DTA classification and EU applicability pages visually inspected. No claim of exhaustive glyph-by-glyph review. PDF governs ambiguous text.",
+  "provenance_notes": "PRIMARY_CITABLE for this version-specific document text, not proof of institutional implementation, current consolidated EU law, or legal compliance. Existing baseline corpus and protected reports unchanged. Poppler used to avoid documented pypdf intra-word spacing damage; pypdf run snapshot retained separately."
+}

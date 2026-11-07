@@ -60,6 +60,52 @@
           "verdict": "ABSENT"
         }
       },
+      "integrity_requirement_diagnostics": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
       "jurisdiction": "United States (Federal)",
       "language_coverage": {
         "english_function_word_ratio": 0.303,
@@ -88,8 +134,8 @@
       "remediation": [
         {
           "concrete_fix": "For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).",
-          "problem": "Restriction-protection pairing not established — no governance restriction is bound to the specific interest it protects, in any vocabulary.",
-          "why_it_matters": "Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+          "problem": "Restriction-protection pairing not detected; verify the complete instrument and incorporated protections before proposing changes.",
+          "why_it_matters": "If source-based review confirms absent or separable pairing, the restriction may lack an adequately bound protection. This is a risk to test, not a substantive Q1 failure established by a pattern non-match (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
           "concrete_fix": "Address the 4 missed signals for this dimension. Critical gaps: risk stratification / proportionality, provision hierarchy / precedence rule, governing body bound by its own rules (self-application). Full signal breakdown in the Scores section.",
@@ -97,14 +143,14 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
-          "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
-          "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
+          "concrete_fix": "Establish a deployment gate covering all four properties where applicable simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases; (iv) where section 2.5 applies, expressed confidence corresponds to observed performance in comparable deployment contexts. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
+          "problem": "Complete Integrity Layer deployment gate not detected; review transparency, honesty, containment and calibration requirements where applicable.",
+          "why_it_matters": "Without a threshold gate, a system can be deployed while any applicable Integrity Layer property is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the risk requiring source-based review; its prevalence is not established by these rules (LAIF v1.2 Part Two)."
         },
         {
           "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
           "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
-          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Part Eight); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
@@ -249,6 +295,7 @@
       "source_url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
       "structural_alignment": "STRUCTURALLY UNALIGNED",
       "structural_depth": "WEAK",
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW",
       "vocabulary_enumeration": {
         "examples": [],
         "ratio": 0.0,
@@ -327,6 +374,52 @@
           "verdict": "ABSENT"
         }
       },
+      "integrity_requirement_diagnostics": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 2230,
+          "matched_text": "meaningful\ninformation",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": 2208
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
       "jurisdiction": "International (OECD member states)",
       "language_coverage": {
         "english_function_word_ratio": 0.302,
@@ -342,14 +435,14 @@
       "provenance": "OFFICIAL_EXCERPT",
       "remediation": [
         {
-          "concrete_fix": "Convert each detected implicit signal into an explicit Coupling declaration: 'Coupling between [the restriction already present] and [the specific human interest the detected protective language names], with equivalent normative force on both sides — neither may be weakened in isolation.' The governance intent is present; only the structural binding is missing (Toolkit §2 B.1).",
+          "concrete_fix": "Convert each detected implicit signal into an explicit Coupling declaration: 'Coupling between [the restriction already present] and [the specific human interest the detected protective language names], with equivalent normative force on both sides — neither may be weakened in isolation.' The protective signal is present; full structural binding requires source review (Toolkit §2 B.1).",
           "problem": "Implicit protective signals present but not declared as structural Coupling.",
-          "why_it_matters": "The document already expresses protective intent — detected: «AI actors should be accountable for the proper functioning of AI systems and for the respect of». However, implicit intent does not constitute structural Coupling: the protection can be removed without affecting the obligation it was meant to serve. The upgrade required is structural, not conceptual (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+          "why_it_matters": "The document already expresses protective intent — detected: «AI actors should be accountable for the proper functioning of AI systems and for the respect of». However, implicit intent does not constitute structural Coupling: verify whether the protection and obligation can be weakened independently before concluding a structural repair is required (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
           "concrete_fix": "Address the 4 missed signals for this dimension. Critical gaps: mandatory language (shall/must), risk-proportionate thresholds, enforcement consequences / penalties. Full signal breakdown in the Scores section.",
           "problem": "Enforceability score critically low (20/100) — most deficient dimension after Coupling.",
-          "why_it_matters": "Without enforceable obligations, regulatory bodies cannot hold operators accountable for governance failures. The standard is aspirational rather than operationally binding — no party can be required to comply."
+          "why_it_matters": "If source review confirms no applicable enforceable obligations, accountability may be limited. Verify legal, contractual and institutional authority; a missing pattern is not proof that the instrument is voluntary."
         },
         {
           "concrete_fix": "Address the 6 missed signals for this dimension. Critical gaps: mandatory obligation language (shall/must), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously). Full signal breakdown in the Scores section.",
@@ -357,14 +450,14 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
-          "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
-          "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
+          "concrete_fix": "Establish a deployment gate covering all four properties where applicable simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases; (iv) where section 2.5 applies, expressed confidence corresponds to observed performance in comparable deployment contexts. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
+          "problem": "Complete Integrity Layer deployment gate not detected; review transparency, honesty, containment and calibration requirements where applicable.",
+          "why_it_matters": "Without a threshold gate, a system can be deployed while any applicable Integrity Layer property is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the risk requiring source-based review; its prevalence is not established by these rules (LAIF v1.2 Part Two)."
         },
         {
           "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
           "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
-          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Part Eight); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
@@ -489,6 +582,7 @@
       "source_url": "https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0449",
       "structural_alignment": "PARTIALLY ALIGNED",
       "structural_depth": "WEAK",
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW",
       "vocabulary_enumeration": {
         "examples": [],
         "ratio": 0.0,
@@ -552,6 +646,52 @@
           "verdict": "ABSENT"
         }
       },
+      "integrity_requirement_diagnostics": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
       "jurisdiction": "United States",
       "language_coverage": {
         "english_function_word_ratio": 0.293,
@@ -567,8 +707,8 @@
       "remediation": [
         {
           "concrete_fix": "For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).",
-          "problem": "Restriction-protection pairing not established — no governance restriction is bound to the specific interest it protects, in any vocabulary.",
-          "why_it_matters": "Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+          "problem": "Restriction-protection pairing not detected; verify the complete instrument and incorporated protections before proposing changes.",
+          "why_it_matters": "If source-based review confirms absent or separable pairing, the restriction may lack an adequately bound protection. This is a risk to test, not a substantive Q1 failure established by a pattern non-match (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
           "concrete_fix": "Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application). Full signal breakdown in the Scores section.",
@@ -576,14 +716,14 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
-          "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
-          "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
+          "concrete_fix": "Establish a deployment gate covering all four properties where applicable simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases; (iv) where section 2.5 applies, expressed confidence corresponds to observed performance in comparable deployment contexts. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
+          "problem": "Complete Integrity Layer deployment gate not detected; review transparency, honesty, containment and calibration requirements where applicable.",
+          "why_it_matters": "Without a threshold gate, a system can be deployed while any applicable Integrity Layer property is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the risk requiring source-based review; its prevalence is not established by these rules (LAIF v1.2 Part Two)."
         },
         {
           "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
           "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
-          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Part Eight); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
@@ -713,6 +853,7 @@
       "source_url": "https://doi.org/10.6028/NIST.AI.100-1",
       "structural_alignment": "PARTIALLY ALIGNED",
       "structural_depth": "WEAK",
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW",
       "vocabulary_enumeration": {
         "examples": [],
         "ratio": 0.0,
@@ -778,6 +919,52 @@
           "verdict": "ABSENT"
         }
       },
+      "integrity_requirement_diagnostics": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
       "jurisdiction": "United Kingdom",
       "language_coverage": {
         "english_function_word_ratio": 0.333,
@@ -803,8 +990,8 @@
       "remediation": [
         {
           "concrete_fix": "For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).",
-          "problem": "Restriction-protection pairing not established — no governance restriction is bound to the specific interest it protects, in any vocabulary.",
-          "why_it_matters": "Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+          "problem": "Restriction-protection pairing not detected; verify the complete instrument and incorporated protections before proposing changes.",
+          "why_it_matters": "If source-based review confirms absent or separable pairing, the restriction may lack an adequately bound protection. This is a risk to test, not a substantive Q1 failure established by a pattern non-match (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
           "concrete_fix": "Address the 7 missed signals for this dimension. Critical gaps: numbered sub-requirements, risk stratification / proportionality, review / monitoring mechanisms. Full signal breakdown in the Scores section.",
@@ -817,14 +1004,14 @@
           "why_it_matters": "Low conceptual proximity indicates the document's governance intent is not substantially aligned with LAIF values. The adoption gap is more fundamental than terminology — substantive governance redesign is required, not just terminological substitution."
         },
         {
-          "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
-          "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
-          "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
+          "concrete_fix": "Establish a deployment gate covering all four properties where applicable simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases; (iv) where section 2.5 applies, expressed confidence corresponds to observed performance in comparable deployment contexts. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
+          "problem": "Complete Integrity Layer deployment gate not detected; review transparency, honesty, containment and calibration requirements where applicable.",
+          "why_it_matters": "Without a threshold gate, a system can be deployed while any applicable Integrity Layer property is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the risk requiring source-based review; its prevalence is not established by these rules (LAIF v1.2 Part Two)."
         },
         {
           "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
           "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
-          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Part Eight); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI alert suppression' → 'Coupling between alert suppression rules and the patient's interest in receiving clinically accurate recommendations' (Toolkit §2 B.1).",
@@ -929,6 +1116,7 @@
       "source_url": "https://transform.england.nhs.uk/key-tools-and-info/digital-technology-assessment-criteria-dtac/",
       "structural_alignment": "PARTIALLY ALIGNED",
       "structural_depth": "WEAK",
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW",
       "vocabulary_enumeration": {
         "examples": [],
         "ratio": 0.0,
@@ -996,6 +1184,52 @@
           "verdict": "ABSENT"
         }
       },
+      "integrity_requirement_diagnostics": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 1656,
+          "matched_text": "interpret the\nsystem's output",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": 1627
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 1929,
+          "matched_text": "within the scope of its intended purpose",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": 1889
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
       "jurisdiction": "European Union",
       "language_coverage": {
         "english_function_word_ratio": 0.338,
@@ -1024,8 +1258,8 @@
       "remediation": [
         {
           "concrete_fix": "For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).",
-          "problem": "Restriction-protection pairing not established — no governance restriction is bound to the specific interest it protects, in any vocabulary.",
-          "why_it_matters": "Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+          "problem": "Restriction-protection pairing not detected; verify the complete instrument and incorporated protections before proposing changes.",
+          "why_it_matters": "If source-based review confirms absent or separable pairing, the restriction may lack an adequately bound protection. This is a risk to test, not a substantive Q1 failure established by a pattern non-match (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
           "concrete_fix": "Address the 4 missed signals for this dimension. Critical gaps: threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule, governing body bound by its own rules (self-application). Full signal breakdown in the Scores section.",
@@ -1033,14 +1267,14 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
-          "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
-          "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
+          "concrete_fix": "Establish a deployment gate covering all four properties where applicable simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases; (iv) where section 2.5 applies, expressed confidence corresponds to observed performance in comparable deployment contexts. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
+          "problem": "Complete Integrity Layer deployment gate not detected; review transparency, honesty, containment and calibration requirements where applicable.",
+          "why_it_matters": "Without a threshold gate, a system can be deployed while any applicable Integrity Layer property is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the risk requiring source-based review; its prevalence is not established by these rules (LAIF v1.2 Part Two)."
         },
         {
           "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
           "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
-          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Part Eight); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
@@ -1175,6 +1409,7 @@
       "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689",
       "structural_alignment": "PARTIALLY ALIGNED",
       "structural_depth": "WEAK",
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW",
       "vocabulary_enumeration": {
         "examples": [],
         "ratio": 0.0,
@@ -1243,6 +1478,52 @@
           "verdict": "ABSENT"
         }
       },
+      "integrity_requirement_diagnostics": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
       "jurisdiction": "United States",
       "language_coverage": {
         "english_function_word_ratio": 0.3,
@@ -1259,8 +1540,8 @@
       "remediation": [
         {
           "concrete_fix": "For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).",
-          "problem": "Restriction-protection pairing not established — no governance restriction is bound to the specific interest it protects, in any vocabulary.",
-          "why_it_matters": "Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+          "problem": "Restriction-protection pairing not detected; verify the complete instrument and incorporated protections before proposing changes.",
+          "why_it_matters": "If source-based review confirms absent or separable pairing, the restriction may lack an adequately bound protection. This is a risk to test, not a substantive Q1 failure established by a pattern non-match (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
           "concrete_fix": "Address the 6 missed signals for this dimension. Critical gaps: mandatory obligation language (shall/must), risk stratification / proportionality, threshold gate conditions (all must pass simultaneously). Full signal breakdown in the Scores section.",
@@ -1270,17 +1551,17 @@
         {
           "concrete_fix": "Address the 3 missed signals for this dimension. Critical gaps: mandatory language (shall/must), risk-proportionate thresholds, non-discretionary operational mandates. Full signal breakdown in the Scores section.",
           "problem": "Enforceability score critically low (40/100) — most deficient dimension after Coupling.",
-          "why_it_matters": "Without enforceable obligations, regulatory bodies cannot hold operators accountable for governance failures. The standard is aspirational rather than operationally binding — no party can be required to comply."
+          "why_it_matters": "If source review confirms no applicable enforceable obligations, accountability may be limited. Verify legal, contractual and institutional authority; a missing pattern is not proof that the instrument is voluntary."
         },
         {
-          "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
-          "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
-          "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
+          "concrete_fix": "Establish a deployment gate covering all four properties where applicable simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases; (iv) where section 2.5 applies, expressed confidence corresponds to observed performance in comparable deployment contexts. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
+          "problem": "Complete Integrity Layer deployment gate not detected; review transparency, honesty, containment and calibration requirements where applicable.",
+          "why_it_matters": "Without a threshold gate, a system can be deployed while any applicable Integrity Layer property is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the risk requiring source-based review; its prevalence is not established by these rules (LAIF v1.2 Part Two)."
         },
         {
           "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
           "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
-          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Part Eight); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
@@ -1385,6 +1666,7 @@
       "source_url": "https://airc.nist.gov/RMF",
       "structural_alignment": "STRUCTURALLY UNALIGNED",
       "structural_depth": "WEAK",
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW",
       "vocabulary_enumeration": {
         "examples": [],
         "ratio": 0.0,
@@ -1452,6 +1734,52 @@
           "verdict": "ABSENT"
         }
       },
+      "integrity_requirement_diagnostics": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 1141,
+          "matched_text": "meaningful information",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": 1119
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
       "jurisdiction": "International (OECD member states)",
       "language_coverage": {
         "english_function_word_ratio": 0.303,
@@ -1468,14 +1796,14 @@
       "provenance": "REPRESENTATIVE_EXCERPT",
       "remediation": [
         {
-          "concrete_fix": "Convert each detected implicit signal into an explicit Coupling declaration: 'Coupling between [the restriction already present] and [the specific human interest the detected protective language names], with equivalent normative force on both sides — neither may be weakened in isolation.' The governance intent is present; only the structural binding is missing (Toolkit §2 B.1).",
+          "concrete_fix": "Convert each detected implicit signal into an explicit Coupling declaration: 'Coupling between [the restriction already present] and [the specific human interest the detected protective language names], with equivalent normative force on both sides — neither may be weakened in isolation.' The protective signal is present; full structural binding requires source review (Toolkit §2 B.1).",
           "problem": "Implicit protective signals present but not declared as structural Coupling.",
-          "why_it_matters": "The document already expresses protective intent — detected: «AI actors should be accountable for the proper functioning of AI systems and for the respect of». However, implicit intent does not constitute structural Coupling: the protection can be removed without affecting the obligation it was meant to serve. The upgrade required is structural, not conceptual (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+          "why_it_matters": "The document already expresses protective intent — detected: «AI actors should be accountable for the proper functioning of AI systems and for the respect of». However, implicit intent does not constitute structural Coupling: verify whether the protection and obligation can be weakened independently before concluding a structural repair is required (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
           "concrete_fix": "Address the 5 missed signals for this dimension. Critical gaps: multiple mandatory obligations (shall/must pairs), numbered traceable requirements, evidence / documentation requirements. Full signal breakdown in the Scores section.",
           "problem": "Auditability score critically low (0/100) — most deficient dimension after Coupling.",
-          "why_it_matters": "Without numbered, traceable obligations, a PDCA auditor has no objective basis to verify compliance — compliance claims rest on assertions rather than verifiable evidence. External audit cannot proceed."
+          "why_it_matters": "If source review confirms inadequate traceable obligations and evidence, auditability may be limited. A low pattern score does not establish that external audit is impossible."
         },
         {
           "concrete_fix": "Address the 8 missed signals for this dimension. Critical gaps: numbered sub-requirements, mandatory obligation language (shall/must), risk stratification / proportionality. Full signal breakdown in the Scores section.",
@@ -1483,14 +1811,14 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
-          "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
-          "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
+          "concrete_fix": "Establish a deployment gate covering all four properties where applicable simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases; (iv) where section 2.5 applies, expressed confidence corresponds to observed performance in comparable deployment contexts. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
+          "problem": "Complete Integrity Layer deployment gate not detected; review transparency, honesty, containment and calibration requirements where applicable.",
+          "why_it_matters": "Without a threshold gate, a system can be deployed while any applicable Integrity Layer property is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the risk requiring source-based review; its prevalence is not established by these rules (LAIF v1.2 Part Two)."
         },
         {
           "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
           "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
-          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Part Eight); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
@@ -1584,6 +1912,7 @@
       "source_url": "https://oecd.ai/en/ai-principles",
       "structural_alignment": "PARTIALLY ALIGNED",
       "structural_depth": "WEAK",
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW",
       "vocabulary_enumeration": {
         "examples": [],
         "ratio": 0.0,
@@ -1655,6 +1984,52 @@
           "verdict": "ABSENT"
         }
       },
+      "integrity_requirement_diagnostics": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 769,
+          "matched_text": "meaningful explanations",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": 746
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
       "jurisdiction": "United States (Federal)",
       "language_coverage": {
         "english_function_word_ratio": 0.295,
@@ -1683,8 +2058,8 @@
       "remediation": [
         {
           "concrete_fix": "For each restriction, name the specific interest it protects and bind the two together so that neither can be weakened without the other, with the protection as enforceable as the restriction. The document's own vocabulary is sufficient for the structure; the canonical form ('Coupling between [restriction] and [interest], with equivalent normative force' — Toolkit §2 B.1) is required only on the LAIF-native certification path, where an equivalence mapping is the alternative (Regulatory Integration Guide Part One).",
-          "problem": "Restriction-protection pairing not established — no governance restriction is bound to the specific interest it protects, in any vocabulary.",
-          "why_it_matters": "Without structural Coupling, no governance restriction is paired with the specific human interest it protects. Each restriction can be weakened independently. Q1 (Coupling) failure = automatic failure of the full Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+          "problem": "Restriction-protection pairing not detected; verify the complete instrument and incorporated protections before proposing changes.",
+          "why_it_matters": "If source-based review confirms absent or separable pairing, the restriction may lack an adequately bound protection. This is a risk to test, not a substantive Q1 failure established by a pattern non-match (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
           "concrete_fix": "Address the 5 missed signals for this dimension. Critical gaps: full lifecycle scope declared, threshold gate conditions (all must pass simultaneously), provision hierarchy / precedence rule. Full signal breakdown in the Scores section.",
@@ -1692,14 +2067,14 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
-          "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
-          "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
+          "concrete_fix": "Establish a deployment gate covering all four properties where applicable simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases; (iv) where section 2.5 applies, expressed confidence corresponds to observed performance in comparable deployment contexts. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
+          "problem": "Complete Integrity Layer deployment gate not detected; review transparency, honesty, containment and calibration requirements where applicable.",
+          "why_it_matters": "Without a threshold gate, a system can be deployed while any applicable Integrity Layer property is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the risk requiring source-based review; its prevalence is not established by these rules (LAIF v1.2 Part Two)."
         },
         {
           "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
           "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
-          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Part Eight); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Bind each restriction to the specific interest it protects, so neither can be weakened without the other and the protection is as enforceable as the restriction (LAIF's canonical form for this is Coupling — v1.2 Principle 2, Toolkit §2 B.1 — but the document's own wording carries the same structure).",
@@ -1839,6 +2214,7 @@
       "source_url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence",
       "structural_alignment": "PARTIALLY ALIGNED",
       "structural_depth": "WEAK",
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW",
       "vocabulary_enumeration": {
         "examples": [],
         "ratio": 0.0,
@@ -1911,6 +2287,52 @@
           "verdict": "ABSENT"
         }
       },
+      "integrity_requirement_diagnostics": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 2482,
+          "matched_text": "disclose the AI system's material limitations",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": 2437
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 2849,
+          "matched_text": "surface out-of-scope",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": 2829
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
       "jurisdiction": "United Kingdom",
       "language_coverage": {
         "english_function_word_ratio": 0.244,
@@ -1938,9 +2360,9 @@
       "provenance": "REPRESENTATIVE_EXCERPT",
       "remediation": [
         {
-          "concrete_fix": "Convert each detected implicit signal into an explicit Coupling declaration: 'Coupling between [the restriction already present] and [the specific human interest the detected protective language names], with equivalent normative force on both sides — neither may be weakened in isolation.' The governance intent is present; only the structural binding is missing (Toolkit §2 B.1).",
+          "concrete_fix": "Convert each detected implicit signal into an explicit Coupling declaration: 'Coupling between [the restriction already present] and [the specific human interest the detected protective language names], with equivalent normative force on both sides — neither may be weakened in isolation.' The protective signal is present; full structural binding requires source review (Toolkit §2 B.1).",
           "problem": "Implicit protective signals present but not declared as structural Coupling.",
-          "why_it_matters": "The document already expresses protective intent — detected: «2 Patients have the right to request a human clinician review of any AI-assisted clinical recomm». However, implicit intent does not constitute structural Coupling: the protection can be removed without affecting the obligation it was meant to serve. The upgrade required is structural, not conceptual (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+          "why_it_matters": "The document already expresses protective intent — detected: «2 Patients have the right to request a human clinician review of any AI-assisted clinical recomm». However, implicit intent does not constitute structural Coupling: verify whether the protection and obligation can be weakened independently before concluding a structural repair is required (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
           "concrete_fix": "Address the 5 missed signals for this dimension. Critical gaps: numbered sub-requirements, risk stratification / proportionality, provision hierarchy / precedence rule. Full signal breakdown in the Scores section.",
@@ -1948,14 +2370,14 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
-          "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
-          "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
+          "concrete_fix": "Establish a deployment gate covering all four properties where applicable simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases; (iv) where section 2.5 applies, expressed confidence corresponds to observed performance in comparable deployment contexts. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
+          "problem": "Complete Integrity Layer deployment gate not detected; review transparency, honesty, containment and calibration requirements where applicable.",
+          "why_it_matters": "Without a threshold gate, a system can be deployed while any applicable Integrity Layer property is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the risk requiring source-based review; its prevalence is not established by these rules (LAIF v1.2 Part Two)."
         },
         {
           "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
           "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
-          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Part Eight); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Declare Coupling between each clinical restriction and the specific patient interest it protects. Rewrite: 'AI alert suppression' → 'Coupling between alert suppression rules and the patient's interest in receiving clinically accurate recommendations' (Toolkit §2 B.1).",
@@ -2085,6 +2507,7 @@
       "source_url": "",
       "structural_alignment": "PARTIALLY ALIGNED",
       "structural_depth": "WEAK",
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW",
       "vocabulary_enumeration": {
         "examples": [],
         "ratio": 0.0,
@@ -2155,6 +2578,52 @@
           "verdict": "ABSENT"
         }
       },
+      "integrity_requirement_diagnostics": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 779,
+          "matched_text": "meaningful explanation",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": 757
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
       "jurisdiction": "United Kingdom",
       "language_coverage": {
         "english_function_word_ratio": 0.281,
@@ -2182,9 +2651,9 @@
       "provenance": "REPRESENTATIVE_EXCERPT",
       "remediation": [
         {
-          "concrete_fix": "Convert each detected implicit signal into an explicit Coupling declaration: 'Coupling between [the restriction already present] and [the specific human interest the detected protective language names], with equivalent normative force on both sides — neither may be weakened in isolation.' The governance intent is present; only the structural binding is missing (Toolkit §2 B.1).",
+          "concrete_fix": "Convert each detected implicit signal into an explicit Coupling declaration: 'Coupling between [the restriction already present] and [the specific human interest the detected protective language names], with equivalent normative force on both sides — neither may be weakened in isolation.' The protective signal is present; full structural binding requires source review (Toolkit §2 B.1).",
           "problem": "Implicit protective signals present but not declared as structural Coupling.",
-          "why_it_matters": "The document already expresses protective intent — detected: «gnate an individual responsible for compliance with this framework. This individual shall have». However, implicit intent does not constitute structural Coupling: the protection can be removed without affecting the obligation it was meant to serve. The upgrade required is structural, not conceptual (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+          "why_it_matters": "The document already expresses protective intent — detected: «gnate an individual responsible for compliance with this framework. This individual shall have». However, implicit intent does not constitute structural Coupling: verify whether the protection and obligation can be weakened independently before concluding a structural repair is required (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
         },
         {
           "concrete_fix": "Address the 6 missed signals for this dimension. Critical gaps: full lifecycle scope declared, risk stratification / proportionality, threshold gate conditions (all must pass simultaneously). Full signal breakdown in the Scores section.",
@@ -2192,14 +2661,14 @@
           "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what the document actually requires without anyone treating it as a change of standard — foundational protections are not locked against erosion over time."
         },
         {
-          "concrete_fix": "Establish a deployment gate with three conditions that must all hold simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
-          "problem": "No all-conditions-must-pass deployment gate — deployment is not conditioned on transparency, honesty, and containment being simultaneously satisfied.",
-          "why_it_matters": "Without a threshold gate, a system can be deployed while any of the three core preconditions is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the single most common structural failure this model detects (LAIF v1.2 Part Two)."
+          "concrete_fix": "Establish a deployment gate covering all four properties where applicable simultaneously — (i) the system can produce a meaningful account of any output that materially affects a person; (ii) stated objectives correspond to implemented objectives, verified by independent review; (iii) the system operates within documented boundaries in all tested conditions, escalating out-of-scope cases; (iv) where section 2.5 applies, expressed confidence corresponds to observed performance in comparable deployment contexts. The document's own vocabulary is sufficient; the canonical form is the Integrity Layer (Toolkit §1.3–§1.5), required only on the LAIF-native certification path.",
+          "problem": "Complete Integrity Layer deployment gate not detected; review transparency, honesty, containment and calibration requirements where applicable.",
+          "why_it_matters": "Without a threshold gate, a system can be deployed while any applicable Integrity Layer property is unmet: the ability to account for its outputs, the correspondence of stated to implemented objectives, and operation within documented boundaries. Partial satisfaction functioning as approval is the risk requiring source-based review; its prevalence is not established by these rules (LAIF v1.2 Part Two)."
         },
         {
           "concrete_fix": "Add three statements the text currently leaves unanswered: which provision prevails if two conflict; which provisions cannot be waived, disapplied, or amended except by a named authority; and what instrument this document is itself subordinate to. A conflicts clause, a 'without prejudice to' clause, a waiver bar, or a stated parent framework each satisfies this; LAIF's three-tier form — Foundational Principles (non-amendable) → Provisions → Operational Standards — is one way of stating all three at once.",
           "problem": "No precedence rule between the document's own provisions: nothing states which prevails on conflict, what cannot be waived, or what this document is subordinate to.",
-          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Principle 3); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
+          "why_it_matters": "Where a document sets no precedence between its own provisions, a routine operational revision can change what it actually requires without anyone treating it as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs. LAIF states this as a three-tier hierarchy with a non-amendable apex (v1.2 Part Eight); instruments more often state it as a conflicts clause or a waiver bar. The property is the same."
         },
         {
           "concrete_fix": "Assign an HR policy owner with legal/compliance and bias-review support for adverse-action controls.",
@@ -2329,6 +2798,7 @@
       "source_url": "",
       "structural_alignment": "PARTIALLY ALIGNED",
       "structural_depth": "WEAK",
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW",
       "vocabulary_enumeration": {
         "examples": [],
         "ratio": 0.0,
@@ -2343,5 +2813,5 @@
   "schema": "laif.assessment.v1",
   "schema_revision": 4,
   "schema_revision_note": "Revisions are additive only: fields are added, never removed or redefined. r2 added functional_alignment locations, obligation anchors, and score calibration; r3 added language_coverage, vocabulary_enumeration, self_contradictions, and assessed_character_count. A removal or a change of meaning would take a new schema id.",
-  "toolchain_fingerprint": "e0e3292e34444f18"
+  "toolchain_fingerprint": "353082c7f580ce76"
 }

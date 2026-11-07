@@ -1,0 +1,19 @@
+{
+  "results": [
+    {
+      "source": "au_dta_policy_v2_1",
+      "primary_quotes": 10,
+      "exact_spans_verified": true,
+      "toolchain_fingerprint": "353082c7f580ce76",
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW"
+    },
+    {
+      "source": "eu_ai_act_amendment_2026_1744",
+      "primary_quotes": 12,
+      "exact_spans_verified": true,
+      "toolchain_fingerprint": "353082c7f580ce76",
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW"
+    }
+  ],
+  "claim": "Execution and exact quote spans; not independent substantive validation"
+}

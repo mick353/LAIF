@@ -1,0 +1,53 @@
+{
+  "base": "09f8687b58d1c5547cfe58bcf4e38aa7da3619a2",
+  "pull_requests": [
+    {
+      "number": 89,
+      "branch": "docs/cross-reference-blocks-20261030",
+      "head_sha": "69899a289087208a610d07f1c9f1f266ff95ea2f",
+      "draft": true
+    },
+    {
+      "number": 90,
+      "branch": "source/eu-ai-act-official-ingestion-20261030",
+      "head_sha": "d352fc84456a3bfa3050fe5b9c6ee3c0dd43d891",
+      "draft": true
+    },
+    {
+      "number": 94,
+      "branch": "feat/frontier-safety-assurance-20261106",
+      "head_sha": "93a875750609c3045830191a8919a7d07b2ad1f5",
+      "draft": true
+    },
+    {
+      "number": 95,
+      "branch": "feat/scholarly-neutral-reporting-20261107",
+      "head_sha": "ec2416dd3bcb83db9add5334518b75c5e8ced606",
+      "draft": true
+    },
+    {
+      "number": 96,
+      "branch": "docs/scholarly-governance-reconciliation-20261107",
+      "head_sha": "d0f2bcc790ecc5d163fb25b126c45cb280bd057a",
+      "draft": true
+    },
+    {
+      "number": 97,
+      "branch": "feat/independent-benchmark-20261107",
+      "head_sha": "e4f2e973754ef40daeba4b9b4fe773d7099c02d6",
+      "draft": true
+    },
+    {
+      "number": 98,
+      "branch": "docs/authoritative-source-currency-20261107",
+      "head_sha": "476ac685b16579ebeb918423355178c518cacbcc",
+      "draft": false
+    },
+    {
+      "number": 99,
+      "branch": "fix/laif-assessment-integrity-20261107",
+      "head_sha": "0aa6e495769ed0a0b855000be94a21762381be20",
+      "draft": false
+    }
+  ]
+}

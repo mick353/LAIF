@@ -124,4 +124,32 @@ Manual ingestion is provenance and custody infrastructure only. It does not alte
 - interpretation-layer semantics
 - existing assessment conclusions
 
+## 7. Versioned Updates and Historical Custody
+
+When a regulator, standards body or agency revises a source, first inspect the
+[dated source-currency register](docs/verified/SOURCE_CURRENCY.md). **Do not**
+replace the old version in place or delete the evidence that supports prior
+assessments. File identity, source authority and *current applicability* are
+separate questions.
+
+1. Record the instrument ID, jurisdiction, publisher, publication/version date,
+   any amendments, effective dates, legal status and the *as-at* date of the
+   intended assessment.
+2. Keep the original file and its hashes; admit the replacement as a **new
+   versioned source** with its own source-byte and extracted-text hashes. Treat
+   a consolidated text as a dated research aid where the underlying original
+   and amending acts are the legally authoritative instruments.
+3. Record a reviewable old-to-new delta and identify which previous conclusions
+   may be date-limited, without silently rewriting protected reports.
+4. Re-run source-specific validation and processing only after provenance is
+   accepted. Independent interpretation of legal changes and operational impact
+   remains a human-review step.
+5. If the updated official file is inaccessible, create a pending record with
+   the exact official URL, acquisition blocker and missing hashes. A web-search
+   snippet, scraped summary or generated reconstruction is not an ingested
+   authoritative source.
+
+The register is an **on-demand review**, not an automatic guarantee that any
+instrument remains current after its check date.
+
 *LAIF v1.2 · Manual Authoritative Ingestion Workflow · May 2026*

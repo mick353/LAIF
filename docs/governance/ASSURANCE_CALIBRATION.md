@@ -92,3 +92,13 @@ An authorisation artefact must name the deployment, and execution/review artefac
 - **Cost:** standard library and local compute only; obtaining independent gold labels and real operational evidence is a separate human/research cost.
 
 **Boundaries:** none of these tools calls an AI API or initiates GitHub Actions. Nothing here proves lawful deployment, independent audit, actual monitoring coverage, production safety, or truth of a self-authored source. Respect applicable legal authority and the existing LAIF-native versus external-framework diagnostic separation.
+
+## Optional frontier-safety evidence layer (6 November 2026)
+
+The [frontier and autonomous AI assurance protocol](FRONTIER_SAFETY_ASSURANCE.md)
+adds a separately invocable, stricter evidence bundle for dangerous-capability
+evaluation, independent control boundaries, model revision/change tracking,
+recorded human release decisions and risk-specific threat pathways. The
+implementation reuses this assurance module's strict source/action checks and
+operational annex; it does not alter the existing assessment channel or
+calibration findings. Its synthetic tests verify the *checker*, not model safety.

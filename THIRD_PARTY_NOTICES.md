@@ -22,3 +22,9 @@ These source records establish the attribution retained in this repository. They
 The text/Markdown core uses the Python standard library. Optional extractors such as python-docx, pypdf/PyPDF2, Docling and MarkItDown are separately installed packages, not vendored source in this repository. Their own licenses apply to their distributions. References to those packages do not relicense them.
 
 The LAIF SVG/PNG product graphics are original project assets; the SVGs use font-family references and do not bundle font programs. Publisher names and logos appearing in reference documents are not LAIF trademarks and do not imply endorsement of LAIF.
+
+
+## Versioned regulatory sources added on PR #98
+
+- Commonwealth of Australia (Digital Transformation Agency), *Policy for the responsible use of AI in government*, version 2.1 (2026): the deposited PDF, extracted text and quotations retain the source's CC BY 4.0 attribution and exceptions for the Commonwealth Coat of Arms and separately noted material (PDF page 2).
+- European Union, Regulation (EU) 2026/1744: the deposited Official Journal PDF, extracted text and quotations remain EU source material under the [EUR-Lex legal notice](https://eur-lex.europa.eu/content/legal-notice/legal-notice.html). LAIF does not relicense them as Apache-2.0.

@@ -1,0 +1,44 @@
+{
+  "method": "Analyst application of LAIF v1.2 principal text, not engine-generated findings or empirical certification",
+  "assessed_at_local_date": "2026-11-07",
+  "framework_sha256": "1935ab3924148c0fdce68369146582f434786f584bf38f5e0c740b545e8819a1",
+  "framework_drafting_issue": "Section 2.4 says three properties; Sections 2.5 and 9.1/9.4 require the fourth, Structural Calibration. All four included; framework and engine unchanged.",
+  "decisions": {
+    "au_dta_policy_v2_1": {
+      "report": "au_dta_policy_v2_1.assessment.md",
+      "integrity": {
+        "Structural Transparency": "NOT_ESTABLISHED",
+        "Structural Honesty": "NOT_ESTABLISHED",
+        "Structural Containment": "NOT_ESTABLISHED",
+        "Structural Calibration": "NOT_ESTABLISHED"
+      },
+      "q1": "FULL_COUPLING_NOT_DEMONSTRATED_BY_MAPPED_TEXT",
+      "q1a": "DIRECT_RISK_TREATMENT_LINK_FULL_INSEPARABLE_PAIRING_NOT_ESTABLISHED",
+      "q1b": "MANDATORY_AGENCY_DUTIES_EQUIVALENT_PERSON_ACCESSIBLE_FORCE_NOT_ESTABLISHED",
+      "q2": "PARTIALLY_SUPPORTED_FULL_TEST_NOT_ESTABLISHED",
+      "q3": "PARTIALLY_SUPPORTED_FULL_TEST_NOT_ESTABLISHED",
+      "overall": "COMPLETE_COHERENCE_NOT_DEMONSTRATED_NO_GLOBAL_STRUCTURAL_FAILURE_ESTABLISHED",
+      "principal_gap": "Mandatory administrative controls do not themselves establish equally enforceable individual protections or a four-property deployment evidence gate.",
+      "integrity_scope": "Instrument requirement mapping; actual system behaviour and deployment authorisation are not assessed"
+    },
+    "eu_ai_act_amendment_2026_1744": {
+      "report": "eu_ai_act_amendment_2026_1744.assessment.md",
+      "integrity": {
+        "Structural Transparency": "STRONG_DEFINED_SCOPE_FULL_COVERAGE_NOT_ESTABLISHED",
+        "Structural Honesty": "PARTIALLY_SUPPORTED_FULL_PROPERTY_NOT_ESTABLISHED",
+        "Structural Containment": "STRONG_DEFINED_SCOPE_FULL_PROPERTY_NOT_ESTABLISHED",
+        "Structural Calibration": "PARTIALLY_SUPPORTED_FULL_PROPERTY_NOT_ESTABLISHED"
+      },
+      "q1": "SUPPORTED_FOR_CONDITIONAL_SIMPLIFICATION_FULL_TRANSITION_PACKAGE_NOT_ESTABLISHED",
+      "q1a": "EXPLICIT_IN_IDENTIFIED_CLAUSES_INCOMPLETE_FULL_TRANSITION_PACKAGE",
+      "q1b": "BINDING_DUTIES_AND_RIGHTS_ESTABLISHED_FULL_EQUIVALENT_FORCE_CLASSIFICATION_UNDETERMINED",
+      "q2": "SUPPORTED_PROPORTIONALITY_FULL_PACKAGE_NOT_ESTABLISHED",
+      "q3": "SUBSTANTIAL_SUPPORT_FULL_TEST_NOT_ESTABLISHED",
+      "overall": "COMPLETE_COHERENCE_NOT_DEMONSTRATED_NO_GLOBAL_STRUCTURAL_FAILURE_ESTABLISHED",
+      "principal_gap": "Equivalent protection for affected classes during deferred/legacy application intervals is not demonstrated; strong existing explanation and stop/override rights are expressly credited.",
+      "integrity_scope": "Instrument requirement mapping; actual system behaviour and deployment authorisation are not assessed"
+    }
+  },
+  "boundary": "Part Five governs instrument review. Sections 7.1/9.1 burdens apply in their conduct/proceeding/deployment contexts, not automatically to incomplete reviewer source coverage. No global structural failure, deployment decision, institutional breach or legal invalidity established.",
+  "calibration_scope": "Include Section 2.5 where decision-makers lack independent verification capacity; four-property reading follows Sections 9.1/9.4 without silently amending Section 2.4."
+}

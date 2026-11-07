@@ -1628,8 +1628,10 @@ class InstitutionalRegisterDetectionTests(unittest.TestCase):
         self.assertIn("No unclosed expectation was detected", report)
         self.assertNotIn("| Control ID |", report)
         self.assertIn("not a certificate of implementation", report)
-        self.assertIn("No failure pathway was traced", report)
-        self.assertIn("No remediation is required to the document", report)
+        self.assertIn("No failure pathway was generated", report)
+        self.assertIn("not evidence that no repair is needed", report)
+        self.assertNotIn("No remediation is required to the document", report)
+        self.assertNotIn("residual risk is no longer in the drafting", report)
 
     def test_a_real_detected_gap_reaches_the_institutional_report(self) -> None:
         """The engine raises the precedence finding; the register must carry it

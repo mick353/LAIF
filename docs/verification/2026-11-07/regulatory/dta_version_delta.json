@@ -1,0 +1,128 @@
+{
+  "historical_pdf": "docs/verified/manual_ingest/Policy for the responsible use of AI in Government 2.0_0.pdf",
+  "historical_pdf_sha256": "94beda4e6e9f61e0dd5d5f17b45b18cf6015b20fd9aabe41d20318f725273c11",
+  "old_page_count": 22,
+  "new_page_count": 26,
+  "method": "Poppler 24.02.0 layout extraction, Unicode whitespace collapsed only; no word edits",
+  "old_page_extracted_sha256": [
+    "02e5905812e5d7867b44c85562ed2ef2a9d67d570f0ead3335077adba301cc37",
+    "c1d981cdce73fe54d909dd170a26953c16c403d2abb05984f147d10ccc56e8bb",
+    "a08083480ff5f2617b03de7576c9a5ff0a583398198634688186c7cbfe788647",
+    "d7979ba3d888880bf7dcb35f7accc5ebbfb09220bb9dfb43295ee32b3c573c4b",
+    "5bd1c0a805e2beb7ffdb99d891a00b7113ddcf85b3aa0b3b2be092978d4446d0",
+    "8d79133bcf0eab98176cf86c94afd24d270af0e04a77055cd362a6c914a77947",
+    "dae3926d8a07aebeb46336224f233ffe1c51c3a0f8c463853007d1acb7fda731",
+    "5eefa5c1960272b522e0852a96392a47a2bf06dd60021f2e76a01f80094319a8",
+    "21442f66ec5afffa3fbd389a45754d2bfa888bce33ef9b3c0d5b5adecd816e60",
+    "4c18a1837ebe5c5ea0785a3b4b8626c3234da72a7a80b2f622cb56ca8dee1a43",
+    "5032f431a309e86f63aa91031557485f076c69a8b2397ecfa055adfaee2d1118",
+    "e9cf3ca50d34e6ed95d147e35000052a2f8c67ea475d0bc7e33c06c39d74dafe",
+    "e77e801ba245dc8c9fda034a6a6bc24c9e30d19594876ab537c2950247367e9c",
+    "22a44f9ec89dbef0dc60d25fab81427f4463c5bbafbb68f0ea5fc85be26ff3c3",
+    "3a9c7ae24ca4de95eb110190ac41440d6e1dc831b9ea103ba781d9ab7fed22f0",
+    "aa45d3dbd2c3e29cf7a67d239906ac330a64416d4c81c1a4e3f46f93177dfb35",
+    "a3fe7b0b8661c379b14d12492f5114b1ffa3d897090ec3c037dccb06c9182a57",
+    "7336271793313067523c4f6f1f6dc7728cab88e072a709d2a320e4cf13c8ad5d",
+    "e1e4fe7fc5f1c519b60cd859ba808bdd2929ec18cd2e8f50d0f4b4f191cd66d5",
+    "8d7b8fdf287835acbef8bd27ef9b310aa0ae04cf6a6cd9f5c7cb2f7b2f8838eb",
+    "0c56fd901cc6928973b5ebae82f7695c7800d456d1b834618b5727205b0e8375",
+    "8c3e0dada351c645977209f19e01d07ad5117bc937dd2df0f67d473f7d3e5286"
+  ],
+  "comparison": [
+    {
+      "page": 1,
+      "equal_ignoring_whitespace": false
+    },
+    {
+      "page": 2,
+      "equal_ignoring_whitespace": false
+    },
+    {
+      "page": 3,
+      "equal_ignoring_whitespace": false
+    },
+    {
+      "page": 4,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 5,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 6,
+      "equal_ignoring_whitespace": false
+    },
+    {
+      "page": 7,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 8,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 9,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 10,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 11,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 12,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 13,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 14,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 15,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 16,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 17,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 18,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 19,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 20,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 21,
+      "equal_ignoring_whitespace": true
+    },
+    {
+      "page": 22,
+      "equal_ignoring_whitespace": true
+    }
+  ],
+  "new_pages": [
+    23,
+    24,
+    25,
+    26
+  ],
+  "conclusion": "Pages 7-22 identical ignoring whitespace. Pages 1-6 version/front-matter/application-date changes; pages 23-26 add Appendix D. No claim that linked standards or external classification versions were unchanged."
+}

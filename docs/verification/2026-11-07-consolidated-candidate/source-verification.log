@@ -1,0 +1,3 @@
+PASS: 2 PDFs and raw-text hashes, complete page maps and 44 exact page-bounded quotes
+PASS: original-Act contextual PDF and six passage hashes
+PASS: Poppler extraction reproduces committed raw text byte-for-byte

@@ -1,0 +1,16 @@
+[
+  {
+    "file": "LAIF_v1.2.docx",
+    "comparison_revision": "0aa6e495769ed0a0b855000be94a21762381be20",
+    "changed_package_parts": [
+      "word/document.xml"
+    ]
+  },
+  {
+    "file": "LAIF REGULATORY INTEGRATION GUIDE.docx",
+    "comparison_revision": "69899a289087208a610d07f1c9f1f266ff95ea2f",
+    "changed_package_parts": [
+      "word/document.xml"
+    ]
+  }
+]

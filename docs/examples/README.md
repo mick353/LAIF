@@ -2,6 +2,16 @@
 
 This example is an invented supplier policy for an AI assistant supporting public services. It includes some safeguards and deliberately leaves several controls unspecified. It is synthetic demonstration material, not a customer case study, production evidence or a recommended policy template.
 
+For an external scholarly audience, generate the
+[source-bounded research-neutral inventory](../research/SCHOLARLY_REPORTING.md)
+first. The sample institutional assessment linked below is a **heuristic
+internal diagnostic**, not a publishable legal evaluation or a validated
+comparison against other frameworks.
+
+- [View the actual source-bounded scholarly preview](sample-scholarly-report.md):
+  generated with a fixed date, explicit excerpt scope and no analyst
+  conclusions. A regression test compares it byte-for-byte against the tool.
+
 - [Read the source policy](vendor-policy.md).
 - [Read the actual generated institutional assessment](sample-assessment.md).
 - [Inspect the actual generated quote bank](sample-quote-bank.md).
@@ -10,6 +20,9 @@ Run it yourself from the repository root:
 
 ```bash
 python3 scripts/laif_process_document.py docs/examples/vendor-policy.md --extractor builtin
+
+# Neutral preview with source-locked quotations and no written files:
+python3 scripts/laif_research_report.py docs/examples/vendor-policy.md --scope excerpt --preview
 ```
 
 The committed sample outputs were copied from the local runner without editorial changes. The institutional assessment contains the source SHA-256, and the quote bank contains source quotations. Neither file establishes operational effectiveness. The runner's generated `.laif.md`/JSON metadata includes run-specific timestamps and output paths; these are not a promise of whole-file identity across different machines or run times.

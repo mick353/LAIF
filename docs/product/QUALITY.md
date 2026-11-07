@@ -2,6 +2,15 @@
 
 LAIF's current document-processing core runs locally in Python. The text/Markdown path uses the standard library and does not require a model API key. Word and PDF support uses optional extraction packages.
 
+For external research and regulator-facing communication, use the
+[scholarly neutral report and review protocol](../research/SCHOLARLY_REPORTING.md).
+It reports source evidence and uncertainty rather than promoting native
+framework scores to legal or safety findings. This optional pathway is
+source-hashed, has a committed synthetic sample and is included in full
+local unit-test discovery. Independent construct validation and real-world
+classification error rates remain unmeasured; reviewer identities and
+independence declarations cannot be authenticated by the tool.
+
 ## What has been executed
 
 The **23 October baseline** complete local verifier passed on Python 3.12 on Linux with network connection and send operations blocked by an inherited kernel filter. That historical full gate also passed in a fresh environment without optional Python packages. These results predate the 30 October optional assurance and calibration extension.
@@ -11,6 +20,14 @@ The executed gate covered 312 discovered tests, plus standalone adversarial, pro
 Seven deliberate in-memory mutations disabled individual evidence protections. Their corresponding regression tests detected every mutation through assertion failures, demonstrating that these tests can reject the broken behaviour they are intended to guard against.
 
 The consumer example has been processed with the built-in extractor. Its committed institutional assessment and quote bank match actual generated output, and the assessment records the matching input SHA-256.
+
+**Independent validity remains an open research question.** The tests reported
+here assess execution and specified invariants, not measured agreement with
+independent legal or AI-safety experts, real-world AI behaviour or regulatory
+enforcement findings. Any study claiming accuracy must identify its independent
+corpus and blind reviewers, pre-register the target decisions and statistics,
+report disagreements and confidence intervals, and publish negative cases.
+See the [research register and validation protocol](../review/2026-11-07-external-scholarly-critique-triage.md).
 
 ## What those results mean
 

@@ -1,0 +1,32 @@
+Original input path: /workspace/scratch/a966521d6ca7/LAIF/docs/verified/manual_ingest/Policy for the responsible use of AI in government 2_1_1.pdf
+Resolved input path: /workspace/scratch/a966521d6ca7/LAIF/docs/verified/manual_ingest/Policy for the responsible use of AI in government 2_1_1.pdf
+Original file name: Policy for the responsible use of AI in government 2_1_1.pdf
+Processed at UTC: 2026-11-07T04:18:13Z
+Source SHA-256: 7da206ff9bb77c5c4505577ea2fd11367700b38f4ff8c4e4592501e95221e5c2
+Extractor used: pypdf
+Extracted characters: 38833
+Assessment mode: external_framework
+Sector profile: government_service_delivery
+Markdown report: /workspace/scratch/a966521d6ca7/final-pypdf-run/au_dta_policy_v2_1/Policy-for-the-responsible-use-of-AI-in-government-2_1_1.laif.md
+JSON report: /workspace/scratch/a966521d6ca7/final-pypdf-run/au_dta_policy_v2_1/Policy-for-the-responsible-use-of-AI-in-government-2_1_1.laif.json
+Institutional report: /workspace/scratch/a966521d6ca7/final-pypdf-run/au_dta_policy_v2_1/Policy-for-the-responsible-use-of-AI-in-government-2_1_1.institutional_report.md
+Technical appendix: /workspace/scratch/a966521d6ca7/final-pypdf-run/au_dta_policy_v2_1/Policy-for-the-responsible-use-of-AI-in-government-2_1_1.technical_appendix.md
+Analyst bundle: /workspace/scratch/a966521d6ca7/final-pypdf-run/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/analyst_bundle.json
+Processing index: /workspace/scratch/a966521d6ca7/final-pypdf-run/au_dta_policy_v2_1/laif_processing_index.jsonl
+Original input path: /workspace/scratch/a966521d6ca7/LAIF/docs/verified/manual_ingest/OJ_L_202601744_EN_TXT.pdf
+Resolved input path: /workspace/scratch/a966521d6ca7/LAIF/docs/verified/manual_ingest/OJ_L_202601744_EN_TXT.pdf
+Original file name: OJ_L_202601744_EN_TXT.pdf
+Processed at UTC: 2026-11-07T04:18:14Z
+Source SHA-256: 0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386
+Extractor used: pypdf
+Extracted characters: 157135
+Assessment mode: external_framework
+Sector profile: government_service_delivery
+Markdown report: /workspace/scratch/a966521d6ca7/final-pypdf-run/eu_ai_act_amendment_2026_1744/OJ_L_202601744_EN_TXT.laif.md
+JSON report: /workspace/scratch/a966521d6ca7/final-pypdf-run/eu_ai_act_amendment_2026_1744/OJ_L_202601744_EN_TXT.laif.json
+Institutional report: /workspace/scratch/a966521d6ca7/final-pypdf-run/eu_ai_act_amendment_2026_1744/OJ_L_202601744_EN_TXT.institutional_report.md
+Technical appendix: /workspace/scratch/a966521d6ca7/final-pypdf-run/eu_ai_act_amendment_2026_1744/OJ_L_202601744_EN_TXT.technical_appendix.md
+Analyst bundle: /workspace/scratch/a966521d6ca7/final-pypdf-run/eu_ai_act_amendment_2026_1744/analyst/OJ_L_202601744_EN_TXT/analyst_bundle.json
+Processing index: /workspace/scratch/a966521d6ca7/final-pypdf-run/eu_ai_act_amendment_2026_1744/laif_processing_index.jsonl
+PASS: documentary processing completed; inspect /workspace/scratch/a966521d6ca7/final-pypdf-run/run_manifest.json and the generated reports.
+NOT VERIFIED: upstream equivalence, corpus admission, legal conclusions, operational AI safety.
