@@ -12,13 +12,14 @@
         "Structural Containment": "NOT_ESTABLISHED",
         "Structural Calibration": "NOT_ESTABLISHED"
       },
-      "q1": "NOT_SATISFIED_BY_POLICY_ALONE",
-      "q1a": "EXPLICIT_FOR_SCREENING_AND_TREATMENT_INCOMPLETE_FOR_INDIVIDUAL_RIGHTS",
+      "q1": "FULL_COUPLING_NOT_DEMONSTRATED_BY_MAPPED_TEXT",
+      "q1a": "DIRECT_RISK_TREATMENT_LINK_FULL_INSEPARABLE_PAIRING_NOT_ESTABLISHED",
       "q1b": "MANDATORY_AGENCY_DUTIES_EQUIVALENT_PERSON_ACCESSIBLE_FORCE_NOT_ESTABLISHED",
       "q2": "PARTIALLY_SUPPORTED_FULL_TEST_NOT_ESTABLISHED",
       "q3": "PARTIALLY_SUPPORTED_FULL_TEST_NOT_ESTABLISHED",
-      "overall": "COMPLETE_COHERENCE_TEST_NOT_SATISFIED_ON_ASSESSED_TEXT",
-      "principal_gap": "Mandatory administrative controls do not themselves establish equally enforceable individual protections or a four-property deployment evidence gate."
+      "overall": "COMPLETE_COHERENCE_NOT_DEMONSTRATED_NO_GLOBAL_STRUCTURAL_FAILURE_ESTABLISHED",
+      "principal_gap": "Mandatory administrative controls do not themselves establish equally enforceable individual protections or a four-property deployment evidence gate.",
+      "integrity_scope": "Instrument requirement mapping; actual system behaviour and deployment authorisation are not assessed"
     },
     "eu_ai_act_amendment_2026_1744": {
       "report": "eu_ai_act_amendment_2026_1744.assessment.md",
@@ -30,12 +31,14 @@
       },
       "q1": "SUPPORTED_FOR_CONDITIONAL_SIMPLIFICATION_FULL_TRANSITION_PACKAGE_NOT_ESTABLISHED",
       "q1a": "EXPLICIT_IN_IDENTIFIED_CLAUSES_INCOMPLETE_FULL_TRANSITION_PACKAGE",
-      "q1b": "HARD_WITHIN_APPLICABLE_STATUTORY_DUTIES_AND_RIGHTS_EQUIVALENCE_REQUIRES_SCOPE_AND_ACCESS",
+      "q1b": "BINDING_DUTIES_AND_RIGHTS_ESTABLISHED_FULL_EQUIVALENT_FORCE_CLASSIFICATION_UNDETERMINED",
       "q2": "SUPPORTED_PROPORTIONALITY_FULL_PACKAGE_NOT_ESTABLISHED",
       "q3": "SUBSTANTIAL_SUPPORT_FULL_TEST_NOT_ESTABLISHED",
-      "overall": "COMPLETE_COHERENCE_TEST_NOT_SATISFIED_ON_ASSESSED_EVIDENCE",
-      "principal_gap": "Equivalent protection for affected classes during deferred/legacy application intervals is not demonstrated; strong existing explanation and stop/override rights are expressly credited."
+      "overall": "COMPLETE_COHERENCE_NOT_DEMONSTRATED_NO_GLOBAL_STRUCTURAL_FAILURE_ESTABLISHED",
+      "principal_gap": "Equivalent protection for affected classes during deferred/legacy application intervals is not demonstrated; strong existing explanation and stop/override rights are expressly credited.",
+      "integrity_scope": "Instrument requirement mapping; actual system behaviour and deployment authorisation are not assessed"
     }
   },
-  "boundary": "Insufficient evidence cannot establish an affirmative LAIF threshold; it does not prove the opposite proposition or statutory noncompliance. No tested deployment, institutional breach or legal invalidity finding."
+  "boundary": "Part Five governs instrument review. Sections 7.1/9.1 burdens apply in their conduct/proceeding/deployment contexts, not automatically to incomplete reviewer source coverage. No global structural failure, deployment decision, institutional breach or legal invalidity established.",
+  "calibration_scope": "Include Section 2.5 where decision-makers lack independent verification capacity; four-property reading follows Sections 9.1/9.4 without silently amending Section 2.4."
 }

@@ -1,10 +1,15 @@
 {
-  "scope": "Dated execution record including substantive assessment correction; inventory excludes itself",
+  "scope": "Execution and assessment review record; inventory excludes itself",
   "files": [
     {
       "path": "README.md",
-      "bytes": 8789,
-      "sha256": "7ebd1d888efff81c4eed6f0ca3d69a57699b956fcb2a158fa2f55c1833983a91"
+      "bytes": 9119,
+      "sha256": "d0d69de93d2c522b2031e2ca82ed007343f6786cd43848ec362fa08256c6ae26"
+    },
+    {
+      "path": "REASONING_REVIEW.md",
+      "bytes": 4649,
+      "sha256": "20f117f1c3510b8d812b5858e9c1784ca1c44104ef0465cb8d7e6f47a9c1879c"
     },
     {
       "path": "VALIDATION.md",
@@ -13,8 +18,8 @@
     },
     {
       "path": "au_dta_policy_v2_1.assessment.md",
-      "bytes": 27841,
-      "sha256": "78f752a173d675c0cc3f01711997cade543e793da27993a41ad1c68047a43ec0"
+      "bytes": 30284,
+      "sha256": "e56b25625b3ee0db7b00ae3b91b996e683a0b7efc155716f5bd0551f13b3cccd"
     },
     {
       "path": "au_dta_policy_v2_1.pages.json",
@@ -28,8 +33,8 @@
     },
     {
       "path": "eu_ai_act_amendment_2026_1744.assessment.md",
-      "bytes": 36303,
-      "sha256": "a4d87cdf17d696d9dcfb12c6bb8815655c23b4530260d0ff560220e6efea3046"
+      "bytes": 39190,
+      "sha256": "850edc946bff871ec058854242a329c50f83b1003845377ea09c0b7d160e93dc"
     },
     {
       "path": "eu_ai_act_amendment_2026_1744.pages.json",
@@ -227,6 +232,11 @@
       "sha256": "6d52165487b53fda79cb5869cfef9896aaa3eed2207c1988b5043a92c674200b"
     },
     {
+      "path": "reasoning-review-validation.log",
+      "bytes": 246,
+      "sha256": "1a7ecf12f8124cef6618eb27aab5982cae631dd4e41542048372ac43dad0194f"
+    },
+    {
       "path": "reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/AI_ANALYST_INPUT_BUNDLE.json",
       "bytes": 117009,
       "sha256": "810de8ca19dcdfc19913d1227acfce2032712e8da4c399afb1d41071a42f4fef"
@@ -398,8 +408,8 @@
     },
     {
       "path": "substantive_findings.json",
-      "bytes": 2803,
-      "sha256": "01dd0369e335adad7df6845f7a6651d6c86f99963c321529c99981df92c22b1a"
+      "bytes": 3377,
+      "sha256": "015bc8b9584feb0de0b0a0fc2edd8b12cd2a24e05a8c02a3c5bbae44b17ad227"
     },
     {
       "path": "upstream_retrieval.json",

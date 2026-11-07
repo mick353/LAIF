@@ -6,10 +6,14 @@
 
 The first pass completed ingestion but did not fully apply LAIF. The reports now lead with explicit Integrity Layer findings (including Structural Calibration), Q1a/Q1b, smaller/larger-scale reasoning, consequence-level reversibility, self-application, provision mappings and priority repairs. These are analyst judgements grounded in exact source evidence, separate from the unchanged engine outputs. See `substantive_findings.json` for the structured record.
 
-- **DTA:** the supplied policy alone does not satisfy the complete Coherence Test; mandatory agency procedures do not establish equivalent person-accessible protections or the full deployment evidence gate.
-- **EU:** explicit protection floors and statutory explanation/override rights receive substantive credit; the full package does not establish equivalent protection across the deferred/legacy intervals on the assessed evidence. This is not a legal-invalidity or institutional-breach finding.
+- **DTA:** document-level gaps and unresolved incorporated protections mean complete coherence is not demonstrated; this is not a demonstrated global structural failure.
+- **EU:** explicit protection floors and statutory explanation/override rights receive substantive credit; the full package does not establish equivalent protection across the deferred/legacy intervals on the assessed evidence. This is an incomplete affirmative assessment, not a demonstrated global structural failure, legal-invalidity or institutional-breach finding.
 
 The principal text includes Structural Calibration in §2.5 and four properties in §9.4, despite older three-property wording elsewhere. All four are assessed, and no source or scoring semantics were edited to conceal the discrepancy. The original 2024 Act was additionally fetched from EUR-Lex and matched the deposited bytes; six original-article evidence records inform the substantive EU assessment without replacing PR #90.
+
+## Reasoning review
+
+The [reasoning review](REASONING_REVIEW.md) separates instrument requirements from actual deployment evidence, corrects unsupported failure language and qualifies normative-force classification. The reports and structured findings now use the same evidential status.
 
 ## Read the two assessments
 
