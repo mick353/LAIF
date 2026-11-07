@@ -1590,7 +1590,7 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
             if any(term.lower() in lo for term in terms):
                 matching_spans.append((start, end, sentence))
         if matching_spans:
-            best = max(matching_spans, key=lambda item: (_profile_quote_score(item[2], assessment), quote_quality(item[2], extraction)[0], len(item[2])))
+            best = max(matching_spans, key=lambda item: (source_passage_role(text, item[0]) == "operative_text", _profile_quote_score(item[2], assessment), quote_quality(item[2], extraction)[0], len(item[2])))
         if best is None:
             for term in terms:
                 idx = lowered_text.find(term.lower())
@@ -1639,7 +1639,7 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
         if len(records) >= 12:
             break
     if len(records) < 12:
-        for start, end, quote in spans:
+        for start, end, quote in sorted(spans, key=lambda item: source_passage_role(text, item[0]) != "operative_text"):
             start, end, quote = _expand_incomplete_candidate(text, start, end, quote)
             if any(existing["exact_quote"] == quote for existing in records):
                 continue
@@ -1696,6 +1696,10 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
                 "linked_governance_repair_field": "source_excerpt", "linked_gap_ids": [], "low_confidence_reason": "",
                 "quote_quality_score": score, "quote_quality_reason": reason,
             })
+    for record in records:
+        record["passage_role"] = source_passage_role(text, record["start_offset"])
+        if record["passage_role"] == "recital_context":
+            record["what_it_does_not_prove"] += " This is recital context, not itself an operative duty."
     return _finalize_primary_quote_bank(records, low_confidence_quote_candidates)
 
 
@@ -2087,9 +2091,31 @@ SOURCE_CONTROL_RULES = {
 }
 
 
+def source_passage_role(text: str, start: int) -> str:
+    marker = re.search(r"(?:HAS|HAVE) ADOPTED THIS (?:REGULATION|DIRECTIVE)", text, re.I)
+    if marker:
+        return "recital_context" if start < marker.end() else "operative_text"
+    return "document_text"
+
+
+def _conditional_deployment_gate(text: str) -> bool:
+    """Recognise a deployment prohibition tied to assessment/approval evidence."""
+    if re.search(r"\bnot\s+(?:prohibited|forbidden)\b", text, re.I):
+        return False
+    condition = r".{0,140}\b(?:assess(?:ment)?|approv\w*|safety review)\b"
+    patterns = (
+        r"\b(?:deployment|release)\b.{0,40}\b(?:prohibited|forbidden)\b.{0,30}\b(?:unless|until)\b" + condition,
+        r"\b(?:must|shall|may)\s+not\s+(?:deploy\w*|proceed|release\w*)\b.{0,70}\b(?:until|without|before)\b" + condition,
+        r"\b(?:may|can)\s+(?:be\s+)?(?:released?|deploy\w*)\b.{0,40}\bonly\s+(?:after|if)\b" + condition,
+    )
+    if re.search(r"\bassessment\b.{0,25}\bnot\s+(?:complete|approved)\b", text, re.I):
+        return False
+    return any(re.search(pattern, text, re.I) for pattern in patterns)
+
+
 def source_control_observations(text: str) -> list[dict]:
     observations = []
-    operative_start = re.search(r"HAVE? ADOPTED THIS (?:REGULATION|DIRECTIVE)", text, re.I)
+    operative_start = re.search(r"(?:HAS|HAVE) ADOPTED THIS (?:REGULATION|DIRECTIVE)", text, re.I)
     for kind, (name, pattern) in SOURCE_CONTROL_RULES.items():
         for start, end, quote in _sentence_spans(text):
             if operative_start and start < operative_start.end():
@@ -2097,12 +2123,13 @@ def source_control_observations(text: str) -> list[dict]:
             if len(quote) > 3500:
                 continue  # Do not clip an oversized clause into apparent evidence.
             clean = " ".join(quote.split())
-            if not re.search(pattern, clean, re.I):
+            conditional_gate = kind == "deployment_gate" and _conditional_deployment_gate(clean)
+            if not re.search(pattern, clean, re.I) and not conditional_gate:
                 continue
             # Exclude explicit denial/waiver; the mere words are not a control.
-            if re.search(r"\b(?:need not|not required|no obligation|not obliged|no right|may not|shall not be required)\b", clean, re.I):
+            if not conditional_gate and re.search(r"\b(?:need not|not required|no obligation|not obliged|no right|may not|shall not be required)\b", clean, re.I):
                 continue
-            if kind != "protection_floor" and re.search(r"\b(?:must|shall|should|may)\s+not\b", clean, re.I):
+            if kind != "protection_floor" and not conditional_gate and re.search(r"\b(?:must|shall|should|may)\s+not\b", clean, re.I):
                 continue
             if re.search(r"\b(?:example|hypothetical|illustrative)\b", clean, re.I):
                 continue
@@ -2180,7 +2207,7 @@ def attributed_reasoning_sections(review: dict) -> list[str]:
              f"Principal SHA-256: {record['framework_sha256']}; Toolkit SHA-256: {record['toolkit_sha256']}.", "",
              "| Criterion | Recorded determination | Reasoning |", "| --- | --- | --- |"]
     for row in record["criteria_findings"]:
-        lines.append(f"| {row['criterion_id']} | {_safe_report_text(row['determination'])} | {_safe_report_text(row['reasoning'])} |")
+        lines.append(f"| {row['criterion_id']} | {_safe_report_text(row['determination'].replace('_', ' ').lower())} | {_safe_report_text(row['reasoning'])} |")
     lines += ["", "### Evidence and closing conditions", "",
               "Trace IDs below identify the curated source evidence included in the analyst bundle; they are distinct from this run's machine-selected Q001-style quote IDs.", ""]
     for row in record["criteria_findings"]:
@@ -2714,7 +2741,8 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     if primary_quote_eligible:
         for q in primary_quotes[:6]:
             quote_text = q.get("display_quote") or q["exact_quote"]
-            lines.append(f"- **{q['quote_id']} — {q['signal_category']}:** “{quote_text}”")
+            role = q.get("passage_role", "document_text").replace("_", " ")
+            lines.append(f"- **{q['quote_id']} — {q['signal_category']} ({role}):** “{quote_text}”")
     verification_required_evidence = verification_required_evidence or []
     if not primary_quotes:
         if not primary_quote_eligible:
@@ -3165,7 +3193,8 @@ def run(args: argparse.Namespace) -> int:
     else:
         base_report = generate_markdown_report([assessment], report_date=processed_at[:10],
                                                generation_command="python3 scripts/laif_process_document.py")
-    markdown_report = markdown_metadata_block(processing, extraction_metadata, assessment) + base_report
+    metadata = markdown_metadata_block(processing, extraction_metadata, assessment)
+    markdown_report = (base_report + "\n" + metadata if assessment.get("assessment_mode") == "external_framework" else metadata + base_report)
     payload = {
         "processing_metadata": processing,
         "extraction_metadata": extraction_metadata,

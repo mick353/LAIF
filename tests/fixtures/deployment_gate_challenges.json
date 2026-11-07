@@ -1,0 +1,21 @@
+{
+  "scope": "Author-labelled synthetic development challenges; not independent field accuracy",
+  "cases": [
+    {"id":"before-assess","text":"Before deployment, agencies must complete the risk assessment.","gate":true},
+    {"id":"assess-before","text":"Providers shall complete a safety assessment before deployment.","gate":true},
+    {"id":"prohibited-unless","text":"Deployment is prohibited unless an independent risk assessment has been approved.","gate":true},
+    {"id":"release-only-after","text":"A system may be released only after safety approval.","gate":true},
+    {"id":"not-deploy-until","text":"The agency must not deploy the service until the risk assessment is complete.","gate":true},
+    {"id":"not-proceed-until","text":"Deployment shall not proceed until the safety assessment is approved.","gate":true},
+    {"id":"not-deploy-without","text":"Providers may not deploy without an approved risk assessment.","gate":true},
+    {"id":"wrapped-condition","text":"Deployment is prohibited\nunless the safety assessment has been approved.","gate":true},
+    {"id":"waiver","text":"Agencies need not complete a risk assessment before deployment.","gate":false},
+    {"id":"no-requirement","text":"A risk assessment is not required before deployment.","gate":false},
+    {"id":"prohibition-negated","text":"Deployment is not prohibited unless the risk assessment identifies unacceptable harm.","gate":false},
+    {"id":"quotation-example","text":"For example, a policy might say deployment is prohibited unless a risk assessment is approved.","gate":false},
+    {"id":"disconnected","text":"Deployment is scheduled for Monday. An assessment shall be approved in the insurance department.","gate":false},
+    {"id":"wrong-negative-action","text":"Before deployment staff must not complete an assessment.","gate":false},
+    {"id":"permission-without","text":"Providers may deploy without completing any risk assessment.","gate":false},
+    {"id":"recital-only","text":"Before deployment providers shall assess risks.\n\nHAVE ADOPTED THIS REGULATION:\n\nArticle 1\nProviders may supply goods.","gate":false}
+  ]
+}

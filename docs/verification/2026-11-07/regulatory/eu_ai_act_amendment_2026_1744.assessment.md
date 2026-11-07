@@ -1,6 +1,6 @@
 # LAIF assessment — Regulation (EU) 2026/1744
 
-**As at:** 7 November 2026, Australia/Sydney. **Status:** PR #100 reasoning revision of the PR #98 assessment; unmerged and noncanonical. **Method:** Codex-authored source analysis against LAIF v1.2, plus actual unchanged-engine external-framework processing. This assesses the amending instrument, not a fully verified consolidated AI Act, institutional compliance or independent legal advice.
+**As at:** 7 November 2026, Australia/Sydney. **Status:** source-scoped author assessment released through PR #100 on 7 November 2026; not independently validated. **Method:** Codex-authored source analysis against LAIF v1.2, plus actual unchanged-engine external-framework processing. This assesses the amending instrument, not a fully verified consolidated AI Act, institutional compliance or independent legal advice.
 
 ## Substantive LAIF determination
 
@@ -25,7 +25,7 @@ These are analyst findings under LAIF's standard, not a new detector output or a
 
 ### Governing test and evidence scope
 
-Apply LAIF Part One Principles 1, 2 and 5; §§2.1–2.5; Provision Sets A–D; §§4.3–4.5; Part Five; §7.4; and the evidence discipline in §§9.1/9.4. Include Structural Calibration where §2.5 applies. Candidate §2.4 now aligns with §§2.5/9.4; the correction remains unmerged. Framework SHA-256: `c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407`.
+Apply LAIF Part One Principles 1, 2 and 5; §§2.1–2.5; Provision Sets A–D; §§4.3–4.5; Part Five; §7.4; and the evidence discipline in §§9.1/9.4. Include Structural Calibration where §2.5 applies. Released §2.4 now aligns with §§2.5/9.4; the correction was released through PR #100. Framework SHA-256: `c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407`.
 
 Both original and amending PDFs now match fresh EUR-Lex downloads byte-for-byte. Original Act contextual evidence is retained in `original_act_substantive_evidence.json` as EUO-9, EUO-13, EUO-14, EUO-15, EUO-85, EUO-86, EUO-111-1 and EUO-113, with exact extracted text and PDF-page bounds. This does not replace PR #90's corpus-admission work. The amending PDF evidence is Q001–Q028. Prose quotes collapse layout whitespace only; exact source text is retained in JSON.
 
@@ -37,7 +37,7 @@ The subject is a governance instrument, not an identified deployment. Part Five 
 
 The operator burdens and noncompliance thresholds in §§7.1 and 9.1 apply in their stated conduct/proceeding/PDCA contexts. No deployment subject, mandatory-PDCA omission, alleged conduct producing likely harm or operator failure to produce requested evidence is established here. Those provisions cannot turn this reviewer’s incomplete source coverage into a presumption against a legislature or agency. The reports therefore distinguish textual correspondences, document-level non-equivalence, unresolved dependencies and potential implementation risks.
 
-Structural Calibration is included under §§2.4–2.5 and 9.1/9.4. The candidate corrects the former three-property wording in §2.4 to match the fourth property already stated in §§2.5/9.4. Its §2.5 applicability trigger concerns decision-makers without independent verification capacity; no general failure is inferred for uses outside that trigger. This revision uses the corrected candidate framework, not a claim that the correction has been adopted on main. Toolkit SHA-256: `24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67`.
+Structural Calibration is included under §§2.4–2.5 and 9.1/9.4. PR #100 corrected the former three-property wording in §2.4 to match the fourth property already stated in §§2.5/9.4. Its §2.5 applicability trigger concerns decision-makers without independent verification capacity; no general failure is inferred for uses outside that trigger. This revision uses the corrected framework released on main through PR #100. Toolkit SHA-256: `24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67`.
 
 Q3 requires proportionate justification and strong procedure for irreversible decisions, not guaranteed reversibility of every consequence. Stop/override, authorisation, compensation and interim safeguards are possible means of meeting that requirement; no particular remedy is invented as universally mandatory. A documented inability to revise or an unjustified irreversible permission would support an adverse finding. An unanswered question in this review does not establish either.
 
@@ -213,4 +213,4 @@ No complete Coherence Test or simultaneous Integrity Layer pass is certified her
 
 These labels are software observations under a narrow rubric, not a legal finding that the regulation lacks substantive protections. The generated institutional report also identifies whole-document signal saturation, then emits stronger “no remediation” wording; an empty gap register is **not accepted here as completeness evidence**. Its quoted snippets include incomplete propositions. Use the curated exact-page evidence and this analysis, not those snippets as stand-alone legal quotations. No scoring/detector rules were changed to obtain a preferred answer.
 
-Remaining review: join the separately controlled original Act admission, relevant consolidated/implementing/sector texts, and a concrete actor/product/date before final current-law reliance. Human legal/semantic review is outstanding; PR #98 is not merged.
+Remaining review: join the separately controlled original Act admission, relevant consolidated/implementing/sector texts, and a concrete actor/product/date before final current-law reliance. Independent legal/semantic review of these conclusions remains outstanding; release through PR #100 does not establish independent validation.

@@ -34,7 +34,7 @@
   "citation_status": "PRIMARY_CITABLE",
   "provenance_classification": "AUTHORITATIVE_PRIMARY_SOURCE",
   "assessment_status": "ASSESSED",
-  "assessment_reference": "docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.assessment.md (source-scoped PR review assessment; not merged/canonical)",
+  "assessment_reference": "docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.assessment.md (dated source-scoped author assessment released through PR #100; not independent legal certification)",
   "evidence_trace": "docs/verified/extracted/eu_ai_act_amendment_2026_1744.evidence.json",
   "page_index": "docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.pages.json",
   "quote_review": "Exact selected spans verified against extracted pages; key DTA classification and EU applicability pages visually inspected. No claim of exhaustive glyph-by-glyph review. PDF governs ambiguous text.",
