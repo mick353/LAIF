@@ -26,6 +26,10 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from scripts.laif_evidence_display import (
+    evidence_links, locate, passage, anchor,
+)
+
 from assessment_engine import (
     assess,
     classify_document_type,
@@ -2292,7 +2296,8 @@ def load_submitted_review(source: Path, extracted_text: str, review_file: Path, 
             raise ResearchInputError("review file changed during validation; resubmit a stable file")
     except (ResearchInputError, OSError) as exc:
         raise ExtractionError(f"Submitted analyst review rejected: {exc}") from exc
-    return {"status": "SOURCE_BOUND_SUBMISSION_NOT_INDEPENDENTLY_VERIFIED",
+    return {"source_name": source.name,
+            "status": "SOURCE_BOUND_SUBMISSION_NOT_INDEPENDENTLY_VERIFIED",
             "review_file_name": review_file.name, "review_file_sha256": review_hash,
             "source_sha256": dossier["source"]["source_sha256"], "method": dossier["method"],
             "evidence_manifest_sha256": dossier["evidence_manifest_sha256"],
@@ -2308,30 +2313,32 @@ def submitted_review_sections(review: dict) -> list[str]:
              "They do not replace any separately attributed repository assessment.", "",
              f"Review file SHA-256: {review['review_file_sha256']}",
              f"Evidence manifest SHA-256: {review['evidence_manifest_sha256']}", ""]
+    by_id = {row["evidence_id"]: row for row in review["evidence"]}
     for row in review["findings"]:
         lines += [f"### {row['finding_id']} — {row['claim_type']}", "",
                   _safe_report_text(row["statement"]), "",
                   f"- Analyst (self-identified): {_safe_report_text(row['analyst_id'])}",
                   f"- Criteria: {', '.join(row['criterion_ids']) or 'not mapped'}",
-                  f"- Supporting passages: {', '.join(row['evidence_ids'])}",
-                  f"- Counterevidence: {', '.join(row['counterevidence_ids']) or 'none nominated; not proof of absence'}",
+                  "- Supporting passages: " + evidence_links(row["evidence_ids"], "submitted"),
+                  "- Counterevidence: " + (evidence_links(row["counterevidence_ids"], "submitted") or "none nominated; not proof of absence"),
                   "- Alternatives: " + "; ".join(_safe_report_text(value) for value in row["alternative_explanations"]),
                   "- Limits: " + _safe_report_text(row["limitations"]), ""]
+        for identity in dict.fromkeys(row["evidence_ids"] + row["counterevidence_ids"]):
+            lines += passage(by_id[identity], identity, "submitted", source=review.get("source_name", "supplied source"), with_anchor=False)
     if review.get("criteria_review"):
         lines += ["Criterion-review protocol SHA-256: " + review["method"]["criteria_review_protocol_sha256"], ""]
-        lines += criteria_review_sections(review["criteria_review"])
+        lines += criteria_review_sections(review["criteria_review"], review.get("source_name", "supplied source"))
     lines += ["### Submitted-review coverage", "", "| Criterion | Submitted claims | Review state |", "| --- | --- | --- |"]
     for row in review["criteria_coverage"]:
         lines.append(f"| {row['criterion_id']} | {', '.join(row['finding_ids']) or 'none'} | {row['status'].replace('_', ' ').lower()} |")
     lines += ["", "### Submitted-review evidence", "",
               "E001-style IDs here refer to this review's source-locked evidence inventory, not the processor's Q001 or curated trace IDs.", ""]
     for row in review["evidence"]:
-        lines += [f"- **{row['evidence_id']}** — extracted characters {row['start_char']}–{row['end_char']}: "
-                  + _safe_report_text(row["exact_quote"]), ""]
+        lines += passage(row, row["evidence_id"], "submitted", source=review.get("source_name", "supplied source"))
     return lines
 
 
-def criteria_review_sections(review: dict) -> list[str]:
+def criteria_review_sections(review: dict, source_name: str = "supplied source") -> list[str]:
     safe = _safe_report_text
     lines = ["## Authored substantive LAIF criterion review", "", review["boundary"], "",
              "Analyst (self-identified): " + safe(review["analyst_id"]) + "; as at: " + safe(review["as_at_date"]),
@@ -2359,8 +2366,8 @@ def criteria_review_sections(review: dict) -> list[str]:
                       "Restriction or permission: " + safe(c["restriction"]),
                       "Equivalent normative force: " + safe(c["equivalent_normative_force"]), ""]
         for evidence in row["source_excerpts"]:
-            lines += ["- **" + evidence["evidence_id"] + "** — extracted characters " + str(evidence["start_char"]) + "–" + str(evidence["end_char"]) + ": " + safe(evidence["exact_quote"]),
-                      "  Context (author supplied): " + safe(evidence["context"]), ""]
+            lines += passage(evidence, evidence["evidence_id"], "criteria", source=source_name)
+            lines += ["Context (author supplied): " + safe(evidence["context"]), ""]
     return lines + [""]
 
 
@@ -2394,16 +2401,30 @@ def attributed_reasoning_sections(review: dict) -> list[str]:
              f"Recorded review: {record['review_date']}; status: {record['review_status']}.",
              f"Assessment source: {record['assessment_path']}; SHA-256: {record['assessment_sha256']}.",
              f"Principal SHA-256: {record['framework_sha256']}; Toolkit SHA-256: {record['toolkit_sha256']}.", "",
-             "| Criterion | Recorded determination | Reasoning |", "| --- | --- | --- |"]
+             "| Criterion | Recorded determination | Reasoning | Source passages |", "| --- | --- | --- | --- |"]
     for row in record["criteria_findings"]:
-        lines.append(f"| {row['criterion_id']} | {_safe_report_text(row['determination'].replace('_', ' ').lower())} | {_safe_report_text(row['reasoning'])} |")
+        lines.append(f"| {row['criterion_id']} | {_safe_report_text(row['determination'].replace('_', ' ').lower())} | {_safe_report_text(row['reasoning'])} | [Read quotations](#{anchor('criterion', row['criterion_id'])}) |")
     lines += ["", "### Evidence and closing conditions", "",
-              "Trace IDs below identify the curated source evidence included in the analyst bundle; they are distinct from this run's machine-selected Q001-style quote IDs.", ""]
+              "Quotations below reproduce the retained source passages. Trace IDs link to their first full quotation in this report. Exact offsets remain in the JSON audit records.", ""]
+    evidence = {row["trace_id"]: row for row in review["curated_source_evidence"]}
+    shown = set()
     for row in record["criteria_findings"]:
-        lines += [f"- **{row['criterion_id']}** — {', '.join(row['trace_ids'])}. Closing evidence: {_safe_report_text(row['closure_evidence'])}"]
-    lines += ["", "### Applicability cases", ""]
+        lines += [f'<a id="{anchor("criterion", row["criterion_id"])}"></a>', "",
+                  f"#### {row['criterion_id']} — supporting source passages", "",
+                  "Reasoning: " + _safe_report_text(row["reasoning"]), "",
+                  "Evidence: " + evidence_links(row["trace_ids"], "trace"), "",
+                  "Closing evidence: " + _safe_report_text(row["closure_evidence"]), ""]
+        for identity in row["trace_ids"]:
+            item = evidence[identity]
+            source = item.get("source_document") or "EU AI Act — Regulation (EU) 2024/1689"
+            lines += passage(item, identity, "trace", source=source, with_anchor=identity not in shown)
+            shown.add(identity)
+    lines += ["### Applicability cases", ""]
     for case in record["applicability_cases"]:
-        lines += [f"- **{case['case_id']} — {_safe_report_text(case['assumptions'])}:** {_safe_report_text(case['determination'])} Evidence: {', '.join(case['trace_ids'])}."]
+        lines += [f"- **{case['case_id']} — {_safe_report_text(case['assumptions'])}:** {_safe_report_text(case['determination'])} Evidence: " + evidence_links(case["trace_ids"], "trace") + "."]
+    for identity, item in evidence.items():
+        if identity not in shown:
+            lines += passage(item, identity, "trace", source=item.get("source_document", "EU AI Act — Regulation (EU) 2024/1689"))
     return lines + ["", "These hypothetical cases do not establish actual institutional conduct. Detailed qualifications and alternatives remain in the attributed assessment and decision record.", ""]
 
 
@@ -2415,14 +2436,10 @@ def source_review_sections(assessment: dict) -> list[str]:
     observations = assessment.get("source_control_observations", [])
     lines = ["## Source-backed control observations", "",
              "These exact extracted passages identify potential mechanisms. They do not establish complete LAIF satisfaction, present applicability or operational effectiveness.", ""]
-    displayed_types = set()
     for row in observations:
-        if row["control_type"] in displayed_types:
-            continue
-        displayed_types.add(row["control_type"])
-        location = f"PDF page {row['pdf_page']}" if row.get("pdf_page") else f"extracted line {row['extracted_line']}"
-        lines += [f"### {row['control_id']} — {row['name']}", "", "> " + _safe_report_text(row.get("display_quote", row["exact_quote"])).replace("\n", "\n> "), "",
-                  f"{location}; extracted characters {row['start_char']}–{row['end_char']}. Language signal: {row.get('language_signal', 'not classified')}. {row['scope_limit']}", ""]
+        lines += [f"### {row['control_id']} — {row['name']}", ""]
+        lines += passage(row, row["control_id"], "source", display=True)
+        lines += [f"Language signal: {row.get('language_signal', 'not classified')}. {row['scope_limit']}", ""]
     if not observations:
         lines += ["No mechanism witness met these retrieval rules. This is not evidence of absent protection.", ""]
     coverage = assessment.get("source_scan_coverage", {})
@@ -2430,15 +2447,15 @@ def source_review_sections(assessment: dict) -> list[str]:
         lines += ["## Retrieval coverage and source format", "",
                   f"Scanned {coverage['sentence_candidates']} sentence candidates; retained {len(observations)} witnesses with a per-type limit of {coverage['selection_limit_per_type']}. "
                   f"{coverage['oversized_candidates_requiring_review']} oversized candidates require separate review. "
-                  "One witness per category is displayed above; all retained witnesses and exact locations are in the analyst bundle.",
+                  "All retained witnesses are quoted above; exact offsets remain in the analyst bundle.",
                   coverage["boundary"], "",
                   f"Structured framework/questionnaire rows: {coverage['structured_rows_found']} found; {coverage['structured_rows_retained']} retained. "
                   "Provided/not-provided choices are template fields, not observed supplier responses.", ""]
     if assessment.get("source_evidence_requests"):
         lines += ["### Structured source rows — responses and implementation not assessed", "",
                   "Read each row with its column headings and source context. Evidence requests and framework practices do not establish completed or failed institutional controls.", ""]
-        for row in assessment["source_evidence_requests"][:3]:
-            lines += [f"- **{row['request_id']}** — extracted line {row['extracted_line']}: " + _safe_report_text(row["exact_quote"]), ""]
+        for row in assessment["source_evidence_requests"]:
+            lines += passage(row, row["request_id"], "request")
             if row.get("column_context"):
                 lines += ["  Column headings: " + _safe_report_text(row["column_context"]["exact_quote"]), ""]
     from laif_spec import ASSESSMENT_CRITERIA
@@ -2452,7 +2469,7 @@ def source_review_sections(assessment: dict) -> list[str]:
               "| Criterion | Candidate evidence | Required reasoning |", "| --- | --- | --- |"]
     for key, criterion in ASSESSMENT_CRITERIA.items():
         refs = [row["control_id"] for row in observations if row["control_type"] in mapping[key]]
-        lines.append(f"| {key} — {criterion['name']} | {', '.join(refs) or 'Not located by these rules'} | {criterion['question']} |")
+        lines.append(f"| {key} — {criterion['name']} | {evidence_links(refs, 'source') or 'Not located by these rules'} | {criterion['question']} |")
     return lines + ["", "Determine scope, role, jurisdiction, dates and incorporated protections before resolving these questions. Review existing evidence before recommending any new control.", ""]
 
 
@@ -2960,10 +2977,11 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     primary_quote_eligible = True if extraction_quality_profile is None else bool(extraction_quality_profile.get("primary_quote_eligible"))
     primary_quotes = _gate_passing_primary_quotes(quote_bank) if primary_quote_eligible else []
     if primary_quote_eligible:
-        for q in primary_quotes[:6]:
-            quote_text = q.get("display_quote") or q["exact_quote"]
+        for q in primary_quotes:
             role = q.get("passage_role", "document_text").replace("_", " ")
-            lines.append(f"- **{q['quote_id']} — {q['signal_category']} ({role}):** “{quote_text}”")
+            lines += [f"### {q['quote_id']} — {q['signal_category']} ({role})", ""]
+            lines += passage(q, q["quote_id"], "quote", source=processing.get("original_file_name", "supplied source"), display=True)
+    quoted_ids = {row["quote_id"] for row in primary_quotes}
     verification_required_evidence = verification_required_evidence or []
     if not primary_quotes:
         if not primary_quote_eligible:
@@ -3038,7 +3056,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     lines += ["## Operational gap analysis", ""]
     if gaps:
         for gap in gaps:
-            lines.append(f"- **{gap['gap_id']} ({gap['severity']}):** {gap['operational_meaning']} Evidence: {', '.join(gap.get('source_evidence_quote_ids', [])) or 'not linked; review required'}. Related source mechanisms: {', '.join(gap.get('counterevidence_control_ids', [])) or 'not located by these rules'}.")
+            lines.append(f"- **{gap['gap_id']} ({gap['severity']}):** {gap['operational_meaning']} Evidence: {(evidence_links([identity for identity in gap.get('source_evidence_quote_ids', []) if identity in quoted_ids], 'quote') or 'No linked primary quotation; review technical evidence') if primary_quote_eligible else 'Primary quotation unavailable; see verification-required evidence'}. Related source mechanisms: {evidence_links(gap.get('counterevidence_control_ids', []), 'source') or 'not located by these rules'}.")
     else:
         lines.append("- No additional question was generated by these rules. Review clause-level coverage and applicability before examining implementation; an empty register is not a clean assessment.")
     lines += ["", "## Priority remediation roadmap", ""]
@@ -3213,6 +3231,11 @@ def prepare_report_materials(processing: dict, extraction: dict, assessment: dic
                  "verification_required_evidence": verification_required_evidence,
                  "extraction_quality_profile": extraction_quality_profile, "gaps": gaps,
                  "pathways": pathways, "controls": controls}
+    for rows, start_key, end_key in ((quote_bank, "start_offset", "end_offset"),
+            (assessment.get("source_control_observations", []), "start_char", "end_char"),
+            (assessment.get("source_evidence_requests", []), "start_char", "end_char")):
+        for row in rows:
+            row["source_location"] = locate(extracted_text, row[start_key], row[end_key])
     validate_report_materials(extracted_text, assessment, materials)
     return materials
 
@@ -3286,10 +3309,9 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
             f"- **Signal category:** {q['signal_category']}",
             f"- **Quality score:** {q.get('quote_quality_score')} — {q.get('quote_quality_reason')}",
             "",
-            "- **Display quote:**",
-            f"> {display_quote}",
-            "",
         ]
+        quote_md += ["- **Display quote:**", ""]
+        quote_md += passage(q, q["quote_id"], "quote", source=processing.get("original_file_name", "supplied source"), display=True)
         if display_quote != q["exact_quote"]:
             quote_md += [
                 "- **Trace/audit note:** display quote deterministically normalised from exact extracted substring; raw exact quote retained below and in the analyst bundle.",

@@ -10,7 +10,7 @@
 - SHA-256 (original bytes): e8e8475acaf9fa54846ceac6b0bc8f5728e26e6f5b52ce83613150a791079523
 - SHA-256 (extracted text): 35ab55f754f39d61a1e24fa7a8cc844dc45bbf223fe88864f967951ae2f2b825
 - SHA-256 (admitted evidence manifest): 6fbe01991b61afa9b453e9b017aa1ce21bafb4de08bd9a16f11fa54d8ea3cf39
-- Research renderer SHA-256: 10299a898e564d8feb989a6f1f2ed1baadd998ae4c9b26025ebeaad6963eb39e
+- Research renderer SHA-256: 56a61d9f3ff24d1bb72be6b01ead5e5aaf4f27e440fb72accbac8b088ca5cccc
 - LAIF principal text SHA-256: c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407
 - Toolkit source SHA-256: 24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67
 - Declared scope: excerpt
@@ -29,39 +29,63 @@ Passage presence is an observation; a claim about implementation, absence of pro
 
 ### E001 — retrieval hint: risk management
 
+<a id="research-e001"></a>
+
+**E001** — vendor-policy.md; section “Example supplier AI governance policy”; extracted-text line 7
+
 > The service manager must maintain a record of material incidents and arrange an annual review of the service.
 
-Extracted-text line 7; characters 532–641. This establishes only that the passage appears in the extracted text.
+This establishes only that the passage appears in the extracted text.
 
 ### E002 — retrieval hint: human oversight
 
+<a id="research-e002"></a>
+
+**E002** — vendor-policy.md; section “Example supplier AI governance policy”; extracted-text line 9
+
 > A human reviewer must check a draft before it is sent to a member of the public.
 
-Extracted-text line 9; characters 931–1011. This establishes only that the passage appears in the extracted text.
+This establishes only that the passage appears in the extracted text.
 
 ### E003 — retrieval hint: enforcement/consequence
 
+<a id="research-e003"></a>
+
+**E003** — vendor-policy.md; section “Example supplier AI governance policy”; extracted-text line 5
+
 > The assistant provides recommendations to staff; it must not make final eligibility decisions or issue notices without human approval.
 
-Extracted-text line 5; characters 318–452. This establishes only that the passage appears in the extracted text.
+This establishes only that the passage appears in the extracted text.
 
 ### E004 — retrieval hint: procurement/supplier assurance
 
+<a id="research-e004"></a>
+
+**E004** — vendor-policy.md; section “Example supplier AI governance policy”; extracted-text line 9
+
 > The procurement team must request evidence of testing before deployment.
 
-Extracted-text line 9; characters 775–847. This establishes only that the passage appears in the extracted text.
+This establishes only that the passage appears in the extracted text.
 
 ### E005 — retrieval hint: display-normalised source evidence
 
+<a id="research-e005"></a>
+
+**E005** — vendor-policy.md; section “Example supplier AI governance policy”; extracted-text line 7
+
 > The supplier will monitor the system and consider improvements when appropriate.
 
-Extracted-text line 7; characters 693–773. This establishes only that the passage appears in the extracted text.
+This establishes only that the passage appears in the extracted text.
 
 ### E006 — retrieval hint: display-normalised source evidence
 
+<a id="research-e006"></a>
+
+**E006** — vendor-policy.md; section “Example supplier AI governance policy”; extracted-text line 9
+
 > The supplier must describe the intended use, material limitations and known risks.
 
-Extracted-text line 9; characters 848–930. This establishes only that the passage appears in the extracted text.
+This establishes only that the passage appears in the extracted text.
 
 ## Analyst interpretations and counterevidence
 

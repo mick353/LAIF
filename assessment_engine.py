@@ -5326,7 +5326,7 @@ def toolchain_fingerprint():
         here = Path(__file__).resolve().parent
         parts = []
         for name in ("assessment_engine.py", "validate.py", "laif_spec.py",
-                     "scripts/laif_process_document.py"):
+                     "scripts/laif_process_document.py", "scripts/laif_evidence_display.py"):
             path = here / name
             parts.append(path.read_bytes() if path.is_file() else b"")
         return hashlib.sha256(b"\x00".join(parts)).hexdigest()[:16]

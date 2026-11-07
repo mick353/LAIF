@@ -27,6 +27,10 @@ python3 scripts/laif_research_report.py docs/examples/vendor-policy.md --scope e
 
 The committed sample outputs were copied from the local runner without editorial changes. The institutional assessment contains the source SHA-256, and the quote bank contains source quotations. Neither file establishes operational effectiveness. The runner's generated `.laif.md`/JSON metadata includes run-specific timestamps and output paths; these are not a promise of whole-file identity across different machines or run times.
 
+The samples were refreshed on 7 November 2026 for readable quotations and
+evidence navigation. The [actual regulatory and NIST reports](../verification/2026-11-07-readable-evidence/README.md)
+exercise the same presentation with retained real sources.
+
 Look for the discussion of monitoring without thresholds or escalation, obligations without consequences, missing precedence and lifecycle controls, and protections already expressed. Review the automatic document classification as well: it is a heuristic suggestion, not an authoritative description of the source's legal form.
 
 To reproduce the committed outputs into a separate folder:

@@ -175,7 +175,15 @@ class ActualSubstantiveSourceTests(unittest.TestCase):
     def cases(self):
         for key in ('au_dta_policy_v2_1','5f667a6f-NIST.AI.1001'):
             m=json.loads((ROOT/'docs/verified/manifests'/f'{key}.json').read_text(encoding='utf-8'))
-            yield key,m,ROOT/'docs/verified/raw'/m['raw_filename'],ROOT/'docs/verification/2026-11-07-substantive-review'/key/'completed-review.json'
+            source=ROOT/'docs/verified/raw'/m['raw_filename']
+            historical=json.loads((ROOT/'docs/verification/2026-11-07-substantive-review'/key/'completed-review.json').read_text(encoding='utf-8'))
+            # Revalidate historical authored content under today's presentation.
+            # Preserve source/evidence identities and every substantive record.
+            current=research.review_template(research.build_dossier(source))
+            historical['toolchain_fingerprint']=current['toolchain_fingerprint']
+            path=self.root/(key+'-current-review.json')
+            path.write_text(json.dumps(historical),encoding='utf-8')
+            yield key,m,source,path
 
     def test_actual_sources_all_criteria_coupling_and_limits(self):
         for key,m,source,path in self.cases():

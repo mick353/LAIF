@@ -1,0 +1,12 @@
+{
+  "tested_implementation_commit": "26c62f987c5e1c8aee3843220cd9baafadb3d571",
+  "tested_implementation_tree": "a52b2a4f9bee959a8047eb86109bb907d7033c03",
+  "full_exit_code": 0,
+  "discovered_tests": 587,
+  "unit_test_seconds": 145.308,
+  "skips": 0,
+  "full_log_sha256": "794616ccf386c4f13859ccf693ddffbd4cbd05ea71667e61e50db18dea17f6c4",
+  "targeted_tests": 228,
+  "runtime": "Work cloud Linux / Python 3.12.14",
+  "post_gate_changes": "Execution records and documentation only; no production code change."
+}

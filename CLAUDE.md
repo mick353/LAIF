@@ -13,6 +13,15 @@ This repository holds the Law-Aligned Intelligence Framework (LAIF), a constitut
 
 ---
 
+## Current verification checkpoint — 7 November 2026
+
+The [readable-evidence follow-up](docs/verification/2026-11-07-readable-evidence/README.md)
+starts from merged PR #105 (`368334a346138b28e9735e71a464dca6fe9ff393`).
+Its fresh Work cloud Python 3.12.14 gate passed 587 tests plus additional checks;
+228 targeted tests and pinned PDF reproduction passed. Current reports quote
+supporting passages beside findings and link evidence IDs to quotations. Earlier
+dated reports retain their original presentation. Scoring and conclusions are unchanged.
+
 ## Repository Structure
 
 ```
@@ -218,7 +227,7 @@ hand-edit `reports/` output — change the engine or corpus and regenerate.
 
 Every generated artifact records a `toolchain_fingerprint`: a content hash of
 `assessment_engine.py`, `validate.py`, `laif_spec.py`, and
-`scripts/laif_process_document.py`. **Any edit to those four files changes the
+`scripts/laif_process_document.py` and `scripts/laif_evidence_display.py`. **Any edit to these files changes the
 fingerprint, so `reports/` must be regenerated in the same commit** — the local report-drift gate fails
 otherwise, with the regeneration command in the error. This is the point of the
 field: an artifact that cannot name the code that produced it cannot support a

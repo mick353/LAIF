@@ -1,0 +1,614 @@
+{
+  "record": {
+    "schema": "laif.regulatory-reasoning.v1",
+    "document_id": "eu_ai_act_amendment_2026_1744",
+    "review_date": "2026-11-07",
+    "review_status": "AUTHOR_ANALYSIS_NOT_INDEPENDENT",
+    "assessment_path": "docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.assessment.md",
+    "assessment_sha256": "ebb5ea6cdd8f219ea81b675537a37660b952d30aa77ba25d958a865848813a52",
+    "framework_sha256": "c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407",
+    "toolkit_sha256": "24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67",
+    "source_pdf_sha256": "0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386",
+    "source_text_sha256": "dfcdbe4c3da4ce06f7b39bade40b4b08c132718352ef70b670ef8f163fb9a5b0",
+    "criteria_findings": [
+      {
+        "criterion_id": "A.1",
+        "determination": "STRONG_TEXTUAL_SUPPORT_WHERE_APPLICABLE",
+        "reasoning": "Articles 13, 85 and 86 supply concrete information and complaint routes. Article 86 scope, alternative Union-law rights and Article 111 legacy applicability must be joined.",
+        "trace_ids": [
+          "EUO-13",
+          "EUO-85",
+          "EUO-86",
+          "eu_ai_act_amendment_2026_1744-Q020"
+        ],
+        "closure_evidence": "Map the actual person/system/date and applicable explanation route, then verify usable content and access.",
+        "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+        "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+      },
+      {
+        "criterion_id": "A.2",
+        "determination": "PARTIAL_SUPPORT",
+        "reasoning": "Lifecycle testing, documentation and investigation duties enable verification; the mapping does not establish full objective correspondence and robustness under pressure.",
+        "trace_ids": [
+          "EUO-9",
+          "eu_ai_act_amendment_2026_1744-Q009",
+          "eu_ai_act_amendment_2026_1744-Q015"
+        ],
+        "closure_evidence": "Identify equivalent assurance obligations and deployment evidence without demanding system test results inside the statute.",
+        "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+        "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+      },
+      {
+        "criterion_id": "A.3",
+        "determination": "STRONG_TEXTUAL_SUPPORT_WHERE_APPLICABLE",
+        "reasoning": "Article 14 provides override and safe-stop controls; scope, timing and irreversible-action authority remain distinct.",
+        "trace_ids": [
+          "EUO-14",
+          "eu_ai_act_amendment_2026_1744-Q020",
+          "eu_ai_act_amendment_2026_1744-Q022",
+          "eu_ai_act_amendment_2026_1744-Q023"
+        ],
+        "closure_evidence": "Resolve applicable regime and evidence for agent boundaries, interruption and proportionate authority.",
+        "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+        "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+      },
+      {
+        "criterion_id": "A.4",
+        "determination": "CONDITIONAL_REQUIREMENT_NOT_ESTABLISHED",
+        "reasoning": "Testing, accuracy information and robustness support performance assurance but do not themselves establish confidence calibration where section 2.5 applies.",
+        "trace_ids": [
+          "EUO-9",
+          "EUO-13",
+          "EUO-15"
+        ],
+        "closure_evidence": "Identify applicable confidence/accuracy validation; no universal new metric is inferred.",
+        "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+        "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+      },
+      {
+        "criterion_id": "Q1",
+        "determination": "POSITIVE_CLAUSES_COMPLETE_PACKAGE_NOT_DEMONSTRATED",
+        "reasoning": "Sector-equivalence and SME simplification retain protection floors. Legacy applicability prevents assuming one explanation route closes every transitional class.",
+        "trace_ids": [
+          "eu_ai_act_amendment_2026_1744-Q002",
+          "eu_ai_act_amendment_2026_1744-Q010",
+          "eu_ai_act_amendment_2026_1744-Q020",
+          "eu_ai_act_amendment_2026_1744-Q028",
+          "EUO-86"
+        ],
+        "closure_evidence": "Establish interim protection and equivalent enforceability for each affected class.",
+        "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+        "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+      },
+      {
+        "criterion_id": "Q2",
+        "determination": "PARTIAL_SUPPORT",
+        "reasoning": "Risk-proportionate burden reduction can be principled while retaining protection; transition and sector distinctions still need harm-based reasons.",
+        "trace_ids": [
+          "eu_ai_act_amendment_2026_1744-Q002",
+          "eu_ai_act_amendment_2026_1744-Q010",
+          "eu_ai_act_amendment_2026_1744-Q020"
+        ],
+        "closure_evidence": "Compare equivalent harms across actor, sector and time categories; justify differential protection.",
+        "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+        "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+      },
+      {
+        "criterion_id": "Q3",
+        "determination": "PARTIAL_SUPPORT",
+        "reasoning": "Stop/override and procedural controls support revisability; later commencement alone cannot justify irreversible interim effects.",
+        "trace_ids": [
+          "EUO-14",
+          "eu_ai_act_amendment_2026_1744-Q016",
+          "eu_ai_act_amendment_2026_1744-Q018",
+          "eu_ai_act_amendment_2026_1744-Q019",
+          "eu_ai_act_amendment_2026_1744-Q020"
+        ],
+        "closure_evidence": "Identify consequence-specific justification, authority and protective procedure.",
+        "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+        "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+      },
+      {
+        "criterion_id": "G.1",
+        "determination": "SUBSTANTIAL_TEXTUAL_SUPPORT_OPERATION_UNASSESSED",
+        "reasoning": "Judicial authorisation, access and defence safeguards constrain enforcement actors. Their effectiveness and accessibility are not established by existence alone.",
+        "trace_ids": [
+          "eu_ai_act_amendment_2026_1744-Q016",
+          "eu_ai_act_amendment_2026_1744-Q018",
+          "eu_ai_act_amendment_2026_1744-Q019"
+        ],
+        "closure_evidence": "Verify relevant review routes and accountable use in the concrete jurisdiction.",
+        "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+        "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+      }
+    ],
+    "principle_coverage": [
+      {
+        "principle_id": 1,
+        "addressed_by": [
+          "Q1",
+          "Q2",
+          "Q3"
+        ]
+      },
+      {
+        "principle_id": 2,
+        "addressed_by": [
+          "Q1"
+        ]
+      },
+      {
+        "principle_id": 3,
+        "addressed_by_section": "Non-Accumulation and Temporal Separation"
+      },
+      {
+        "principle_id": 4,
+        "addressed_by_section": "Non-Accumulation and Temporal Separation"
+      },
+      {
+        "principle_id": 5,
+        "addressed_by": [
+          "Q2",
+          "G.1"
+        ]
+      }
+    ],
+    "applicability_cases": [
+      {
+        "case_id": "C01",
+        "assumptions": "Person otherwise within Article 86 and Annex III scope",
+        "determination": "Join Article 86 exceptions/subsidiarity, original general commencement and Article 111 before asserting an available explanation right.",
+        "trace_ids": [
+          "EUO-86",
+          "EUO-113",
+          "eu_ai_act_amendment_2026_1744-Q020",
+          "eu_ai_act_amendment_2026_1744-Q028"
+        ],
+        "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+      },
+      {
+        "case_id": "C02",
+        "assumptions": "Commercial legacy high-risk operator without qualifying design change established",
+        "determination": "Article 111(2) concerns application of the Regulation, not only technical duties. Identify applicable interim or alternative protection; no universal absence of remedy is established.",
+        "trace_ids": [
+          "eu_ai_act_amendment_2026_1744-Q020"
+        ],
+        "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+      },
+      {
+        "case_id": "C03",
+        "assumptions": "Public-authority intended legacy use outside Article 111(1)",
+        "determination": "Read the 2 August 2030 compliance backstop and significant-change condition. Neither blanket exemption nor equivalent interim protection is established.",
+        "trace_ids": [
+          "eu_ai_act_amendment_2026_1744-Q020"
+        ],
+        "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+      },
+      {
+        "case_id": "C04",
+        "assumptions": "Annex X large-scale IT-system component within Article 111(1)",
+        "determination": "Use its separate before-2-August-2027 cutoff and 31 December 2030 compliance rule, retaining Article 5 reservation.",
+        "trace_ids": [
+          "EUO-111-1"
+        ],
+        "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+      },
+      {
+        "case_id": "C05",
+        "assumptions": "Specified new Article 5 prohibitions",
+        "determination": "Article 113(a), not the separate Article 50 transition, supplies 2 December 2026 application. Provider/deployer and safeguard conditions still govern.",
+        "trace_ids": [
+          "eu_ai_act_amendment_2026_1744-Q006",
+          "eu_ai_act_amendment_2026_1744-Q007",
+          "eu_ai_act_amendment_2026_1744-Q028"
+        ],
+        "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+      },
+      {
+        "case_id": "C06",
+        "assumptions": "Synthetic-content provider placed on market before 2 August 2026",
+        "determination": "Article 111(4) sets Article 50(2) compliance by 2 December 2026; it does not decide all Article 50 or Article 5 duties.",
+        "trace_ids": [
+          "eu_ai_act_amendment_2026_1744-Q021"
+        ],
+        "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+      }
+    ],
+    "verification_boundary": "Hash and reference integrity checks do not verify logical entailment, legal correctness, reviewer independence or control effectiveness."
+  },
+  "record_path": "docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.decisions.json",
+  "record_sha256": "ac1f9b526574ffdad96c08ee9e31f0f1ed9c1357e18f38be710c8438bbbfc564",
+  "curated_source_evidence": [
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q001",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 15,
+      "supports": "original_act_amendment",
+      "matched_text": "Regulation (EU) 2024/1689 is amended as follows:",
+      "start_char": 82475,
+      "end_char": 82523,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q002",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 16,
+      "supports": "sector_equivalence",
+      "matched_text": "(b) such limitation does not reduce the overall level of protection provided for by this Regulation.",
+      "start_char": 84838,
+      "end_char": 84938,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q003",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 16,
+      "supports": "literacy",
+      "matched_text": "1.   Providers and deployers of AI systems shall take measures to support the development of AI literacy of their staff\n             and other persons dealing with the operation and use of AI systems on their behalf, taking into account their technical\n             knowledge, experience, education and training and the context the AI systems are to be used in, and considering the\n             persons or groups of persons on whom the AI systems are to be used. This obligation does not require providers or\n             deployers to guarantee any specific level of AI literacy of any individual.",
+      "start_char": 86486,
+      "end_char": 87083,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q004",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 17,
+      "supports": "bias_necessity",
+      "matched_text": "(a) the bias detection and correction cannot be effectively fulfilled by processing other data, including synthetic or\n               anonymised data;",
+      "start_char": 88939,
+      "end_char": 89089,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q005",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 17,
+      "supports": "no_universal_bias_duty",
+      "matched_text": "This paragraph does not create any obligation to conduct such bias detection and correction.’;",
+      "start_char": 91182,
+      "end_char": 91276,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q006",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 18,
+      "supports": "prohibitions",
+      "matched_text": "‘(ba) the placing on the market, the putting into service or the use of an AI system that generates or manipulates\n                      realistic images, videos, audio or similar material of an identifiable natural person’s intimate parts, or of an\n                      identifiable natural person engaged in sexually explicit activities, without that person’s freely-given, specific,\n                      informed, unambiguous and explicit consent for that generation or manipulation;",
+      "start_char": 91745,
+      "end_char": 92233,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q007",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 18,
+      "supports": "provider_conditions",
+      "matched_text": "(ii) the system’s design, training, architecture, capabilities or user-facing functionalities make that generation or\n                            manipulation a reasonably foreseeable and reproducible outcome, without requiring significant technical\n                            modification, and the system does not have reasonable and adequate technical safety measures and other\n                            safeguards to reliably prevent that generation or manipulation, taking into account reasonably foreseeable\n                            misuse, and to correct observed or reported misuse;",
+      "start_char": 93130,
+      "end_char": 93725,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q008",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 18,
+      "supports": "safety_component",
+      "matched_text": "1b.     Notwithstanding paragraph 1a, AI systems the failure or malfunctioning of which would endanger health and\n             safety shall qualify as safety components.",
+      "start_char": 94828,
+      "end_char": 94997,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q009",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 19,
+      "supports": "documentation",
+      "matched_text": "‘That technical documentation shall be drawn up in such a way as to demonstrate that the high-risk AI system\n           complies with the requirements set out in this Section and to provide national competent authorities and notified\n           bodies with the necessary information in a clear and comprehensive form to assess the compliance of the AI system\n           with those requirements. It shall contain, at a minimum, the elements set out in Annex IV. SMEs, including start-ups,\n           and SMCs, may provide the elements of the technical documentation specified in Annex IV in a simplified manner. To\n           that end, the Commission shall establish a simplified technical documentation form targeted at the needs of SMEs,\n           including start-ups, and SMCs. Where an SME, including a start-up, or an SMC, opts to provide the information\n           required in Annex IV in a simplified manner, it shall use the form referred to in this paragraph. Notified bodies shall\n           accept the form for the purposes of the conformity assessment.’;",
+      "start_char": 96615,
+      "end_char": 97681,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q010",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 19,
+      "supports": "proportionality",
+      "matched_text": "‘2.   The implementation of the aspects referred to in paragraph 1 shall be proportionate to the size of the provider’s\n           organisation, in particular, if the provider is an SME, including a start-up, or an SMC. Providers shall, in any event,\n           respect the degree of rigour and the level of protection required to ensure the compliance of their high-risk AI systems\n           with this Regulation.’;",
+      "start_char": 97765,
+      "end_char": 98182,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q011",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 20,
+      "supports": "supply_chain",
+      "matched_text": "‘4.   The provider of a high-risk AI system and the third party that supplies an AI system, AI model, tools,\n                services, components, or processes that are used or integrated in a high-risk AI system shall, by written agreement,\n                specify the necessary information, capabilities, technical access and other assistance based on the generally\n                acknowledged state of the art, in order to enable the provider of the high-risk AI system to fully comply with the\n                obligations set out in this Regulation. This paragraph shall not apply to third parties making accessible to the\n                public tools, services, processes, or components, other than general-purpose AI models, under a free and\n                open-source licence.’;",
+      "start_char": 100327,
+      "end_char": 101114,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q012",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 20,
+      "supports": "FRIA",
+      "matched_text": "‘4.   If any of the obligations laid down in this Article is already met through the data protection impact\n                assessment conducted pursuant to Article 35 of Regulation (EU) 2016/679 or Article 27 of Directive (EU)\n                2016/680, the deployer may, when conducting the fundamental rights impact assessment referred to in\n                paragraph 1 of this Article, include cross-references to the relevant sections of that data protection impact\n                assessment or include relevant parts thereof in the fundamental rights impact assessment.’;",
+      "start_char": 101246,
+      "end_char": 101823,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q013",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 23,
+      "supports": "sandbox_date",
+      "matched_text": "‘1.   Member States shall ensure that their competent authorities establish at least one AI regulatory sandbox at\n               national level, which shall be operational by 2 August 2027. That sandbox may also be established jointly with the\n               competent authorities of other Member States. The Commission may provide technical support, advice and tools\n               for the establishment and operation of AI regulatory sandboxes.’;",
+      "start_char": 115269,
+      "end_char": 115717,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q014",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 26,
+      "supports": "supervision",
+      "matched_text": "‘1.   SMEs, including start-ups, may comply with certain elements of the quality management system required by\n             Article 17 in a simplified manner, provided that they do not have partner enterprises or linked enterprises within the\n             meaning of Recommendation 2003/361/EC. For that purpose, the Commission shall develop guidelines on the\n             elements of the quality management system which may be complied with in a simplified manner considering the\n             needs of SMEs, without affecting the level of protection or the need for compliance with the requirements in respect of\n             high-risk AI systems.’;\n\n\n        (27) in Article 64, the following paragraph is added:\n\n\n             ‘3.   Without prejudice to the budgetary procedure, the AI Office shall be allocated adequate resources to effectively\n             perform its duties and exercise its powers in relation to the enforcement of this Regulation.’;\n\n\n        (28) in Article 69, paragraph 2 is replaced by the following:\n\n\n             ‘2.   The Member States may be required to pay fees for the advice and support provided by the experts at a rate\n             equivalent to the remuneration fees applicable to the Commission pursuant to the implementing act referred to in\n             Article 68(1).’;\n\n\n        (29) in Article 70, paragraph 8 is replaced by the following:\n\n\n             ‘8.    National competent authorities may provide guidance and advice on the implementation of this Regulation, in\n             particular to SMEs, including start-ups, and SMCs, taking into account the guidance and advice of the Board and the\n             Commission, as appropriate. Whenever national competent authorities intend to provide guidance and advice with\n             regard to an AI system in areas covered by other Union law, the national competent authorities under that Union law\n             shall be consulted, as appropriate.’;\n\n\n        (30) in Article 72, paragraph 3 is replaced by the following:\n\n\n             ‘3.   The post-market monitoring system shall be based on a post-market monitoring plan. The post-market\n             monitoring plan shall be part of the technical documentation referred to in Annex IV. The Commission, taking utmost\n             account of the opinion of the Board, shall adopt guidance, including a template, on the post-market monitoring plan\n             by 2 September 2027.’;\n\n\n        (31) Article 75 is amended as follows:\n\n\n             (a) the heading is replaced by the following:\n\n\n                ‘Market surveillance and control of AI systems and mutual assistance’;\n\n\n             (b) paragraph 1 is replaced by the following:\n\n\n                ‘1.   The AI Office shall be exclusively competent for the supervision and enforcement of the obligations under\n                this Regulation in relation to the following AI systems:\n\n\n                (a) AI systems based on general-purpose AI models where the model and the system are developed by the same\n                    provider, or by providers forming part of the same undertaking as that provider, with the exception of:\n\n\n                     (i) AI systems related to products covered by the Union harmonisation legislation listed in Annex I;\n\n\n                     (ii) AI systems referred to in point 2 of Annex III;",
+      "start_char": 125920,
+      "end_char": 129266,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q015",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 28,
+      "supports": "investigation",
+      "matched_text": "The AI Office shall, without undue delay and in any event no later than four months following receipt of the\n                 request, inform the single point of contact of its intention to exercise its powers in accordance with Article 75a or\n                 of its reasons for not exercising its powers. If the AI Office decides to exercise its powers in accordance with\n                 Article 75a, it shall periodically inform that single point of contact about major developments in the proceedings\n                 and the outcome of such proceedings, without disclosing any confidential information.’;",
+      "start_char": 135952,
+      "end_char": 136562,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q016",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 30,
+      "supports": "judicial_control",
+      "matched_text": "Where an on-site inspection of business premises, land or property requires authorisation by a judicial authority in\n        accordance with national law, the AI Office shall apply for such an authorisation. The AI Office may also apply for\n        such authorisation as a precautionary measure. Where such an authorisation is applied for, the national judicial\n        authority shall promptly verify that the coercive measures envisaged are neither arbitrary nor excessive having regard\n        to the subject matter of the investigation or inspection and the documents provided by the AI Office with the decision.\n        In its verification of the proportionality of coercive measures, the national judicial authority may ask the AI Office for\n        detailed explanations, in particular relating to the grounds the AI Office has for suspecting that an infringement of this\n        Regulation has taken place and the seriousness of the suspected infringement and, where relevant, the nature of the\n        involvement of the person subject to the coercive measures. The national judicial authority shall not review the\n        necessity of the investigation or inspection nor demand information from the case file of the AI Office. In accordance\n        with the Treaties, the legality of the decision of the AI Office is subject to review only by the Court of Justice of the\n        European Union.",
+      "start_char": 142632,
+      "end_char": 144036,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q017",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 31,
+      "supports": "enforcement",
+      "matched_text": "1.    Where the AI Office finds that an operator falling within the scope of Article 75(1) does not comply with the\n           relevant provisions of this Regulation or with commitments made binding pursuant to Article 75b, it shall\n           adopt a decision establishing such non-compliance.\n\n\n           2.    Before adopting a decision pursuant to paragraph 1, the AI Office shall communicate its preliminary findings to\n           the operator concerned. In the preliminary findings, the AI Office shall explain the measures that it is considering\n           taking, or that it considers that the operator concerned should take, in order to effectively address the preliminary\n           findings.",
+      "start_char": 147395,
+      "end_char": 148098,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q018",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 32,
+      "supports": "procedural_rights",
+      "matched_text": "1.   Article 18 of Regulation (EU) 2019/1020 shall apply mutatis mutandis to operators subject to the AI Office’s\n        competence pursuant to Article 75(1) of this Regulation, without prejudice to more specific procedural rights\n        provided for in this Regulation.",
+      "start_char": 153213,
+      "end_char": 153485,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q019",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 33,
+      "supports": "defence",
+      "matched_text": "OJ L, 24.7.2026                                                                                                                            EN\n           2.    The rights of defence and of access to the file of operators falling within the scope of Article 75(1) shall be fully\n           respected in proceedings. In view of the possible adoption of decisions on the basis of Article 75c(1), those operators\n           shall be entitled to have access to the AI Office file under the terms of a negotiated disclosure, subject to the legitimate\n           interest of the operator or other person concerned in the protection of their business secrets. The AI Office shall have\n           the power to adopt decisions setting out such terms of disclosure in the case of disagreement between the parties. The\n           right of access to the file shall not extend to confidential information and internal documents of the AI Office, the\n           Board, competent market surveillance authorities or other public authorities of the Member States. In particular, the\n           right of access shall not extend to correspondence between the AI Office and those authorities. Nothing in this\n           paragraph shall prevent the AI Office from disclosing and using information necessary to prove an infringement.",
+      "start_char": 153646,
+      "end_char": 154955,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q020",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 35,
+      "supports": "legacy_public_authority",
+      "matched_text": "‘2.    Without prejudice to the application of Article 5 as referred to in Article 113, third paragraph, point (a), this\n               Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of\n               this Article, that have been placed on the market or put into service before the date of application of Chapter III\n               referred to in Article 113, only if, as from that date, those systems are subject to significant changes in their\n               designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities\n               shall take the necessary steps to comply with the requirements and obligations laid down in this Regulation by\n               2 August 2030.’;",
+      "start_char": 164731,
+      "end_char": 165529,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q021",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 35,
+      "supports": "synthetic_content",
+      "matched_text": "‘4.    Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or\n               text content, that have been placed on the market before 2 August 2026 shall take the necessary steps in order to\n               comply with Article 50(2) by 2 December 2026.’;",
+      "start_char": 165596,
+      "end_char": 165901,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q022",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 35,
+      "supports": "Annex_III_date",
+      "matched_text": "(i) 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III; and",
+      "start_char": 166456,
+      "end_char": 166565,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q023",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 35,
+      "supports": "Annex_I_date",
+      "matched_text": "(ii) 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I;’;",
+      "start_char": 166586,
+      "end_char": 166690,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q024",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 38,
+      "supports": "agentic_designation",
+      "matched_text": "AIH 0401                    AI systems based on other emerging AI technologies not covered by other codes,\n                                                including Agentic AI",
+      "start_char": 172251,
+      "end_char": 172426,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q025",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 39,
+      "supports": "aviation_and_machinery",
+      "matched_text": "Article 32, the following paragraph is added:\n\n\n\n          ‘3.    When adopting delegated acts pursuant to paragraph 1 concerning AI systems which are safety components\n          within the meaning of Regulation (EU) 2024/1689, the requirements set out in Chapter III, Section 2, of that Regulation\n          shall be taken into account.’;\n\n\n\n      (4) in Article 36, the following paragraph is added:\n\n\n\n          ‘3.   Without prejudice to paragraph 2, when adopting implementing acts pursuant to paragraph 1 concerning AI\n          systems which are safety components within the meaning of Regulation (EU) 2024/1689, the requirements set out in\n          Chapter III, Section 2, of that Regulation shall be taken into account.’;\n\n\n\n      (5) in Article 39 the following paragraph is added:\n\n\n\n          ‘3.    When adopting delegated acts pursuant to paragraph 1 concerning AI systems which are safety components\n          within the meaning of Regulation (EU) 2024/1689, the requirements set out in Chapter III, Section 2, of that Regulation\n          shall be taken into account.’;\n\n\n\n      (6) in Article 50, the following paragraph is added:\n\n\n\n          ‘3.   Without prejudice to paragraph 2, when adopting implementing acts pursuant to paragraph 1 concerning AI\n          systems which are safety components within the meaning of Regulation (EU) 2024/1689, the requirements set out in\n          Chapter III, Section 2, of that Regulation shall be taken into account.’;\n\n\n\n      (7) in Article 53, the following paragraph is added:\n\n\n\n          ‘3.   Without prejudice to paragraph 2, when adopting implementing acts pursuant to paragraph 1 concerning AI\n          systems which are safety components within the meaning of Regulation (EU) 2024/1689, the requirements set out in\n          Chapter III, Section 2, of that Regulation shall be taken into account.’\n\n\n\n\n                                                                  Article 3\n                                             Amendments to Regulation (EU) 2023/1230\n\n\n\n      Regulation (EU) 2023/1230 is amended as follows:",
+      "start_char": 174701,
+      "end_char": 176793,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q026",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 40,
+      "supports": "machinery_date",
+      "matched_text": "When adopting the delegated acts referred to in the third paragraph, the Commission shall take into account the\n           objectives of Regulation (EU) 2024/1689 and ensure a level of protection consistent with that Regulation. Those\n           delegated acts shall apply by 2 August 2028.",
+      "start_char": 177930,
+      "end_char": 178220,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q027",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 41,
+      "supports": "entry_into_force",
+      "matched_text": "This Regulation shall enter into force on the third day following that of its publication in the Official Journal of the European\n      Union.",
+      "start_char": 182184,
+      "end_char": 182326,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q028",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 35,
+      "supports": "complete_application_rule_including_new_prohibitions_and_Article_6_5_exception",
+      "matched_text": "      (40) in Article 113, the third paragraph is amended as follows:\n\n           (a) point (a) is replaced by the following:\n\n               ‘(a) Chapters I and II shall apply from 2 February 2025, with the exception of Article 5(1), first subparagraph,\n                    points (ba) and (bb), and Article 5(1a) and (1b) which shall apply from 2 December 2026;’;\n\n           (b) point (c) is replaced by the following:\n\n               ‘(c) Chapter III, Sections 1, 2, and 3, with the exception of Article 6(5), shall apply from:\n\n                    (i) 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III; and\n\n                   (ii) 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I;’;\n\n           (c) the following point is added:\n\n               ‘(d) Articles 102 to 110 shall apply from 27 July 2026.’;",
+      "start_char": 165903,
+      "end_char": 166810,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact source presence only. Join original Article 113 general rule and unchanged point (b), Article 111 and relevant operator/system facts before a current-law determination."
+    },
+    {
+      "trace_id": "EUO-9",
+      "article": 9,
+      "first_pdf_page": 56,
+      "last_pdf_page": 57,
+      "start_char": 334858,
+      "end_char": 339728,
+      "matched_text": "\n\n\n\n                                                               Article 9\n                                                     Risk management system\n\n\n     1.   A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI\n     systems.\n\n\n     2.     The risk management system shall be understood as a continuous iterative process planned and run throughout the\n     entire lifecycle of a high-risk AI system, requiring regular systematic review and updating. It shall comprise the following\n     steps:\n\n\n     (a) the identification and analysis of the known and the reasonably foreseeable risks that the high-risk AI system can pose\n         to health, safety or fundamental rights when the high-risk AI system is used in accordance with its intended purpose;\n\n\n     (b) the estimation and evaluation of the risks that may emerge when the high-risk AI system is used in accordance with its\n         intended purpose, and under conditions of reasonably foreseeable misuse;\n\n\n     (c) the evaluation of other risks possibly arising, based on the analysis of data gathered from the post-market monitoring\n         system referred to in Article 72;\n\n\n     (d) the adoption of appropriate and targeted risk management measures designed to address the risks identified pursuant to\n         point (a).\n\n\n     3.   The risks referred to in this Article shall concern only those which may be reasonably mitigated or eliminated through\n     the development or design of the high-risk AI system, or the provision of adequate technical information.\n\n\n     4.    The risk management measures referred to in paragraph 2, point (d), shall give due consideration to the effects and\n     possible interaction resulting from the combined application of the requirements set out in this Section, with a view to\n     minimising risks more effectively while achieving an appropriate balance in implementing the measures to fulfil those\n     requirements.\n\n\n     5.    The risk management measures referred to in paragraph 2, point (d), shall be such that the relevant residual risk\n     associated with each hazard, as well as the overall residual risk of the high-risk AI systems is judged to be acceptable.\n\n\n     In identifying the most appropriate risk management measures, the following shall be ensured:\n\n\n     (a) elimination or reduction of risks identified and evaluated pursuant to paragraph 2 in as far as technically feasible\n         through adequate design and development of the high-risk AI system;\n\n\n     (b) where appropriate, implementation of adequate mitigation and control measures addressing risks that cannot be\n         eliminated;\n\n\n     (c) provision of information required pursuant to Article 13 and, where appropriate, training to deployers.\n\n\n     With a view to eliminating or reducing risks related to the use of the high-risk AI system, due consideration shall be given\n     to the technical knowledge, experience, education, the training to be expected by the deployer, and the presumable context\n     in which the system is intended to be used.\n\n56/144                                                                                  ELI: http://data.europa.eu/eli/reg/2024/1689/oj\n\fOJ L, 12.7.2024                                                                                                                           EN\n      6.   High-risk AI systems shall be tested for the purpose of identifying the most appropriate and targeted risk management\n      measures. Testing shall ensure that high-risk AI systems perform consistently for their intended purpose and that they are in\n      compliance with the requirements set out in this Section.\n\n      7.    Testing procedures may include testing in real-world conditions in accordance with Article 60.\n\n      8.    The testing of high-risk AI systems shall be performed, as appropriate, at any time throughout the development\n      process, and, in any event, prior to their being placed on the market or put into service. Testing shall be carried out against\n      prior defined metrics and probabilistic thresholds that are appropriate to the intended purpose of the high-risk AI system.\n\n      9.   When implementing the risk management system as provided for in paragraphs 1 to 7, providers shall give\n      consideration to whether in view of its intended purpose the high-risk AI system is likely to have an adverse impact on\n      persons under the age of 18 and, as appropriate, other vulnerable groups.\n\n      10.     For providers of high-risk AI systems that are subject to requirements regarding internal risk management processes\n      under other relevant provisions of Union law, the aspects provided in paragraphs 1 to 9 may be part of, or combined with,\n      the risk management procedures established pursuant to that law.",
+      "sha256": "7a5b5d8fee3f3ff8e331b519f4860d18d44cd09c9c49f9db57ed1d64d305a9c1"
+    },
+    {
+      "trace_id": "EUO-13",
+      "article": 13,
+      "first_pdf_page": 59,
+      "last_pdf_page": 60,
+      "start_char": 348705,
+      "end_char": 352562,
+      "matched_text": "\n\n\n\n                                                                Article 13\n                                        Transparency and provision of information to deployers\n\n      1.    High-risk AI systems shall be designed and developed in such a way as to ensure that their operation is sufficiently\n      transparent to enable deployers to interpret a system’s output and use it appropriately. An appropriate type and degree of\n      transparency shall be ensured with a view to achieving compliance with the relevant obligations of the provider and\n      deployer set out in Section 3.\n\n      2.    High-risk AI systems shall be accompanied by instructions for use in an appropriate digital format or otherwise that\n      include concise, complete, correct and clear information that is relevant, accessible and comprehensible to deployers.\n\n      3.    The instructions for use shall contain at least the following information:\n\n      (a) the identity and the contact details of the provider and, where applicable, of its authorised representative;\n\n      (b) the characteristics, capabilities and limitations of performance of the high-risk AI system, including:\n\n            (i) its intended purpose;\n\n           (ii) the level of accuracy, including its metrics, robustness and cybersecurity referred to in Article 15 against which the\n                high-risk AI system has been tested and validated and which can be expected, and any known and foreseeable\n                circumstances that may have an impact on that expected level of accuracy, robustness and cybersecurity;\n\n           (iii) any known or foreseeable circumstance, related to the use of the high-risk AI system in accordance with its\n                 intended purpose or under conditions of reasonably foreseeable misuse, which may lead to risks to the health and\n                 safety or fundamental rights referred to in Article 9(2);\n\n           (iv) where applicable, the technical capabilities and characteristics of the high-risk AI system to provide information\n                that is relevant to explain its output;\n\nELI: http://data.europa.eu/eli/reg/2024/1689/oj                                                                                      59/144\n\fEN                                                                                                                      OJ L, 12.7.2024\n\n          (v) when appropriate, its performance regarding specific persons or groups of persons on which the system is\n              intended to be used;\n\n\n         (vi) when appropriate, specifications for the input data, or any other relevant information in terms of the training,\n              validation and testing data sets used, taking into account the intended purpose of the high-risk AI system;\n\n\n         (vii) where applicable, information to enable deployers to interpret the output of the high-risk AI system and use it\n               appropriately;\n\n\n     (c) the changes to the high-risk AI system and its performance which have been pre-determined by the provider at the\n         moment of the initial conformity assessment, if any;\n\n\n     (d) the human oversight measures referred to in Article 14, including the technical measures put in place to facilitate the\n         interpretation of the outputs of the high-risk AI systems by the deployers;\n\n\n     (e) the computational and hardware resources needed, the expected lifetime of the high-risk AI system and any necessary\n         maintenance and care measures, including their frequency, to ensure the proper functioning of that AI system, including\n         as regards software updates;\n\n\n     (f) where relevant, a description of the mechanisms included within the high-risk AI system that allows deployers to\n         properly collect, store and interpret the logs in accordance with Article 12.",
+      "sha256": "c9a6def8e8b3fdd463e7d7ef8c58d9b68b888c3e6a81acba062a5f15fdc3ed2a"
+    },
+    {
+      "trace_id": "EUO-14",
+      "article": 14,
+      "first_pdf_page": 60,
+      "last_pdf_page": 61,
+      "start_char": 352562,
+      "end_char": 356348,
+      "matched_text": "\n\n\n\n\n                                                               Article 14\n                                                          Human oversight\n\n\n     1.    High-risk AI systems shall be designed and developed in such a way, including with appropriate human-machine\n     interface tools, that they can be effectively overseen by natural persons during the period in which they are in use.\n\n\n     2.   Human oversight shall aim to prevent or minimise the risks to health, safety or fundamental rights that may emerge\n     when a high-risk AI system is used in accordance with its intended purpose or under conditions of reasonably foreseeable\n     misuse, in particular where such risks persist despite the application of other requirements set out in this Section.\n\n\n     3.   The oversight measures shall be commensurate with the risks, level of autonomy and context of use of the high-risk\n     AI system, and shall be ensured through either one or both of the following types of measures:\n\n\n     (a) measures identified and built, when technically feasible, into the high-risk AI system by the provider before it is placed\n         on the market or put into service;\n\n\n     (b) measures identified by the provider before placing the high-risk AI system on the market or putting it into service and\n         that are appropriate to be implemented by the deployer.\n\n\n     4.   For the purpose of implementing paragraphs 1, 2 and 3, the high-risk AI system shall be provided to the deployer in\n     such a way that natural persons to whom human oversight is assigned are enabled, as appropriate and proportionate:\n\n\n     (a) to properly understand the relevant capacities and limitations of the high-risk AI system and be able to duly monitor its\n         operation, including in view of detecting and addressing anomalies, dysfunctions and unexpected performance;\n\n\n     (b) to remain aware of the possible tendency of automatically relying or over-relying on the output produced by a high-risk\n         AI system (automation bias), in particular for high-risk AI systems used to provide information or recommendations for\n         decisions to be taken by natural persons;\n\n\n     (c) to correctly interpret the high-risk AI system’s output, taking into account, for example, the interpretation tools and\n         methods available;\n\n60/144                                                                                   ELI: http://data.europa.eu/eli/reg/2024/1689/oj\n\fOJ L, 12.7.2024                                                                                                                         EN\n      (d) to decide, in any particular situation, not to use the high-risk AI system or to otherwise disregard, override or reverse\n          the output of the high-risk AI system;\n\n\n      (e) to intervene in the operation of the high-risk AI system or interrupt the system through a ‘stop’ button or a similar\n          procedure that allows the system to come to a halt in a safe state.\n\n\n      5.    For high-risk AI systems referred to in point 1(a) of Annex III, the measures referred to in paragraph 3 of this Article\n      shall be such as to ensure that, in addition, no action or decision is taken by the deployer on the basis of the identification\n      resulting from the system unless that identification has been separately verified and confirmed by at least two natural\n      persons with the necessary competence, training and authority.\n\n\n      The requirement for a separate verification by at least two natural persons shall not apply to high-risk AI systems used for\n      the purposes of law enforcement, migration, border control or asylum, where Union or national law considers the\n      application of this requirement to be disproportionate.",
+      "sha256": "d963aa686edc7325e10d0784eddcca9cc2c321e1f1ba66d0078b377cdf65172d"
+    },
+    {
+      "trace_id": "EUO-15",
+      "article": 15,
+      "first_pdf_page": 61,
+      "last_pdf_page": 62,
+      "start_char": 356348,
+      "end_char": 359499,
+      "matched_text": "\n\n\n\n\n                                                                Article 15\n                                              Accuracy, robustness and cybersecurity\n\n\n      1.   High-risk AI systems shall be designed and developed in such a way that they achieve an appropriate level of accuracy,\n      robustness, and cybersecurity, and that they perform consistently in those respects throughout their lifecycle.\n\n\n      2.   To address the technical aspects of how to measure the appropriate levels of accuracy and robustness set out in\n      paragraph 1 and any other relevant performance metrics, the Commission shall, in cooperation with relevant stakeholders\n      and organisations such as metrology and benchmarking authorities, encourage, as appropriate, the development of\n      benchmarks and measurement methodologies.\n\n\n      3.    The levels of accuracy and the relevant accuracy metrics of high-risk AI systems shall be declared in the accompanying\n      instructions of use.\n\n\n      4.    High-risk AI systems shall be as resilient as possible regarding errors, faults or inconsistencies that may occur within\n      the system or the environment in which the system operates, in particular due to their interaction with natural persons or\n      other systems. Technical and organisational measures shall be taken in this regard.\n\n\n      The robustness of high-risk AI systems may be achieved through technical redundancy solutions, which may include\n      backup or fail-safe plans.\n\n\n      High-risk AI systems that continue to learn after being placed on the market or put into service shall be developed in such\n      a way as to eliminate or reduce as far as possible the risk of possibly biased outputs influencing input for future operations\n      (feedback loops), and as to ensure that any such feedback loops are duly addressed with appropriate mitigation measures.\n\n\n      5.    High-risk AI systems shall be resilient against attempts by unauthorised third parties to alter their use, outputs or\n      performance by exploiting system vulnerabilities.\n\n\n      The technical solutions aiming to ensure the cybersecurity of high-risk AI systems shall be appropriate to the relevant\n      circumstances and the risks.\n\n\n      The technical solutions to address AI specific vulnerabilities shall include, where appropriate, measures to prevent, detect,\n      respond to, resolve and control for attacks trying to manipulate the training data set (data poisoning), or pre-trained\n      components used in training (model poisoning), inputs designed to cause the AI model to make a mistake (adversarial\n      examples or model evasion), confidentiality attacks or model flaws.\n\nELI: http://data.europa.eu/eli/reg/2024/1689/oj                                                                                     61/144\n\fEN                                                                                                                     OJ L, 12.7.2024\n\n                                                             SECTION 3\n                        Obligations of providers and deployers of high-risk AI systems and other parties",
+      "sha256": "4ae0eea48db67e94a078e833d9dc1260b687a713c3dfbfc1420c914efe56b195"
+    },
+    {
+      "trace_id": "EUO-85",
+      "article": 85,
+      "first_pdf_page": 110,
+      "last_pdf_page": 110,
+      "start_char": 582704,
+      "end_char": 583441,
+      "matched_text": "\n\n\n\n                                                               Article 85\n                               Right to lodge a complaint with a market surveillance authority\n\n     Without prejudice to other administrative or judicial remedies, any natural or legal person having grounds to consider that\n     there has been an infringement of the provisions of this Regulation may submit complaints to the relevant market\n     surveillance authority.\n\n     In accordance with Regulation (EU) 2019/1020, such complaints shall be taken into account for the purpose of conducting\n     market surveillance activities, and shall be handled in line with the dedicated procedures established therefor by the market\n     surveillance authorities.",
+      "sha256": "c68cd5d45d40baaba8b3ea8de39fa8b6c81e01ab13d212ae215ba6b7eaa65b37"
+    },
+    {
+      "trace_id": "EUO-86",
+      "article": 86,
+      "first_pdf_page": 110,
+      "last_pdf_page": 110,
+      "start_char": 583441,
+      "end_char": 584583,
+      "matched_text": "\n\n\n\n                                                               Article 86\n                                       Right to explanation of individual decision-making\n\n     1.    Any affected person subject to a decision which is taken by the deployer on the basis of the output from a high-risk AI\n     system listed in Annex III, with the exception of systems listed under point 2 thereof, and which produces legal effects or\n     similarly significantly affects that person in a way that they consider to have an adverse impact on their health, safety or\n     fundamental rights shall have the right to obtain from the deployer clear and meaningful explanations of the role of the AI\n     system in the decision-making procedure and the main elements of the decision taken.\n\n     2.   Paragraph 1 shall not apply to the use of AI systems for which exceptions from, or restrictions to, the obligation\n     under that paragraph follow from Union or national law in compliance with Union law.\n\n     3.   This Article shall apply only to the extent that the right referred to in paragraph 1 is not otherwise provided for under\n     Union law.",
+      "sha256": "4648b876eea58578f097364ee350280a557d3f2f31760ddbc77f84b387293a9f"
+    },
+    {
+      "trace_id": "EUO-111-1",
+      "article": 111,
+      "first_pdf_page": 121,
+      "last_pdf_page": 121,
+      "start_char": 629670,
+      "end_char": 630541,
+      "matched_text": "Article 111\n      AI systems already placed on the market or put into service and general-purpose AI models already placed on the\n                                                          marked\n\n      1.   Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), AI systems which are\n      components of the large-scale IT systems established by the legal acts listed in Annex X that have been placed on the market\n      or put into service before 2 August 2027 shall be brought into compliance with this Regulation by 31 December 2030.\n\n      The requirements laid down in this Regulation shall be taken into account in the evaluation of each large-scale IT system\n      established by the legal acts listed in Annex X to be undertaken as provided for in those legal acts and where those legal acts\n      are replaced or amended.\n\n",
+      "sha256": "8edaadff7e6c39ca6ee9d1981aa820dca808d4231da1bb7402c7d9995204cba9",
+      "operative_scope": "Unamended paragraph 1 only; paragraph 2 is replaced by the 2026 amendment."
+    },
+    {
+      "trace_id": "EUO-113",
+      "article": 113,
+      "first_pdf_page": 123,
+      "last_pdf_page": 123,
+      "start_char": 638465,
+      "end_char": 639105,
+      "matched_text": "Article 113\n                                                   Entry into force and application\n      This Regulation shall enter into force on the twentieth day following that of its publication in the Official Journal of the\n      European Union.\n      It shall apply from 2 August 2026.\n      However:\n      (a) Chapters I and II shall apply from 2 February 2025;\n      (b) Chapter III Section 4, Chapter V, Chapter VII and Chapter XII and Article 78 shall apply from 2 August 2025, with the\n          exception of Article 101;\n      (c) Article 6(1) and the corresponding obligations in this Regulation shall apply from 2 August 2027.\n\n",
+      "sha256": "b3e95d692e06027fd04159c7b16588c3dfac08e63b3342d692e9cd8a09f19d50",
+      "operative_scope": "Only the general application rule and point (b) are relied on as unchanged. Points (a) and (c) must be read as replaced by amendment point (40)."
+    }
+  ],
+  "attribution": "Existing repository author analysis; not produced by pattern matching or independently reviewed."
+}
