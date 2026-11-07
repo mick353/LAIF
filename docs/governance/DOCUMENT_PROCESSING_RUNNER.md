@@ -1,6 +1,6 @@
 # LAIF Document Processing Runner
 
-The Phase 3T document processing runner is a local ingestion wrapper around the existing LAIF assessment engine. It extracts text from a local input document, passes the extracted text to `assess(...)`, renders the actual LAIF markdown report with `generate_markdown_report([result])`, and writes optional markdown, JSON, and JSONL index artifacts.
+The Phase 3T document processing runner is a local ingestion wrapper around the existing LAIF assessment engine. It extracts local document text and passes it to `assess(...)`. External mode renders a source-bounded institutional review, with separately attributed findings when available; the technical appendix retains rubric diagnostics. Native mode retains its strict internal assessment channel. The runner writes optional Markdown, JSON and JSONL index artefacts.
 
 The runner is intentionally a wrapper. It does not change scoring, formal LAIF-native compliance, certification gates, validation behavior, governance scripts, protected artifacts, verified corpus files, manifests, or generated reports under `reports/`.
 
@@ -27,7 +27,7 @@ Use `--no-write` to run extraction and assessment without writing markdown, JSON
 The runner supports:
 
 - `--mode external_framework|laif_native` — defaults to `external_framework`; `laif_native` maps into the existing strict LAIF-native certification channel.
-- `--sector auto|general_ai_governance|government_service_delivery|departmental_ai_development|procurement_vendor_governance|clinical_ai|employment_hr_ai|education_ai` — defaults to `auto`.
+- `--sector auto|general_ai_governance|government_service_delivery|departmental_ai_development|procurement_vendor_governance|clinical_ai|employment_hr_ai|education_ai|financial_services_ai` — defaults to `auto`.
 - `--source-type` — source-type metadata passed into assessment.
 - `--document-name` — assessment document name; defaults to the input file stem.
 - `--output-dir` — selected output directory; defaults to `laif_outputs`.
@@ -77,7 +77,7 @@ The original source identity is preserved separately in metadata so safe filenam
 - markdown output path
 - JSON output path
 
-The markdown report begins with a processing metadata block containing Processed at UTC, Original file name, Source SHA-256, Extractor used, Extracted characters, Assessment mode, Sector profile, Safe output stem, Markdown output path, and JSON output path.
+The Markdown report contains a processing metadata block containing Processed at UTC, Original file name, Source SHA-256, Extractor used, Extracted characters, Assessment mode, Sector profile, Safe output stem, Markdown output path, and JSON output path.
 
 ## JSON Output Shape
 
@@ -152,7 +152,7 @@ The document runner preserves `original_pending_path`, `stored_source_path`, and
 
 The single-document runner now writes institutional analyst reports and AI-ready bundle files beside the existing `.laif.md` and `.laif.json` outputs. These outputs are deterministic local artifacts and do not call external model APIs. For external-framework mode, the institutional report leads with governance repair, operational gaps, failure pathways, and control recommendations rather than LAIF-native failure.
 
-## Source-bounded external reporting — November 2026 candidate
+## Source-bounded external reporting — released November 2026
 
 For external-framework single-document runs, `.laif.md` and `.institutional_report.md` now present the same source-led review. They carry bounded source-control observations, exact locations, review questions and source identity. The corpus-comparison renderer remains for the baseline corpus; a standalone upload is no longer labelled an illustrative corpus document by default. `--no-write --print-report` uses the same external report surface without writing files.
 
@@ -173,3 +173,11 @@ For PDF/DOCX inputs use the matching local extractor and preserve identical extr
 The report and JSON/analyst bundles retain the submitted findings, E-style evidence inventory, alternatives, limits and coverage. These are unverified analyst submissions. They do not grant source authority, establish independent review, turn attached claims into passing criteria or overwrite separately attributed repository analysis. Unmapped areas remain unassessed. No-write preview uses the same validated findings without writing files. The optional review is revalidated through the existing scholarly pipeline; ordinary runs retain their current path.
 
 See the [executed portable-review example and verification](../verification/2026-11-07-portable-review/README.md).
+
+## Whole-source evidence and reporting — 7 November 2026
+
+Source-backed prose, structured rows requiring context and attributed analyst judgements are separate. The bundle includes `source_control_observations`, `source_evidence_requests`, `source_scan_coverage` and recorded `source_provenance`. Structured rows retain available column headings; “Provided / Not provided” choices are not inferred answers. Recommendations identified by “should” are labelled separately from other control wording; neither label establishes legal force.
+
+The complete candidate stream is scanned; up to three spatially distributed witnesses per mechanism type are retained. One per type appears in the main report. Counts, omitted oversized candidates and retrieval limits remain explicit. The retained inventory is not complete semantic coverage. Exact source spans, cross-artifact evidence references and coverage counts are checked before writes. Original source/version qualifications remain visible; legacy local-hash verification is not promoted to official-origin equivalence.
+
+See the [whole-source execution record](../verification/2026-11-07-real-source-assurance/README.md) and [plain-English use cases](../product/USE_CASES.md). This reporting follow-up remains a candidate until merged; scoring weights and formal verdict rules are unchanged.

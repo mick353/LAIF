@@ -17,6 +17,7 @@ The default mode is `external_framework`, the sector is automatically selected, 
 | `--sector PROFILE` | Select a diagnostic sector instead of the automatic heuristic |
 | `--document-name NAME` | Set the report's document name |
 | `--source-type TYPE` | Supply source-type metadata |
+| `--review-file PATH` | Attach completed, source-locked analyst findings in external mode; requires fresh source/method identities |
 | `--output-dir PATH` | Choose where reports and analyst outputs are written |
 | `--extractor builtin` | Process text or Markdown without optional packages |
 | `--extractor python-docx` | Process Word documents using an installed optional parser |

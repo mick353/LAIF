@@ -47,5 +47,7 @@
     ],
     "http_status": 403,
     "note": "These EUR-Lex routes were blocked in the historical automated session. The official Publications Office original-edition PDF was retrieved and byte-matched on 30 October 2026."
-  }
+  },
+  "source_file": "docs/verified/manual_ingest/OJ_L_202401689_EN_TXT.pdf",
+  "instrument_status": "ORIGINAL_EDITION_NOT_CONSOLIDATED"
 }

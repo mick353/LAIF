@@ -35,5 +35,7 @@
     "Stored as docs/verified/raw/b0ef43db-202324283.md."
   ],
   "verification_status": "HASH_VERIFIED_LOCAL_ONLY",
-  "network_status": "AUTOMATED_URL_BLOCKED_HTTP_403"
+  "network_status": "AUTOMATED_URL_BLOCKED_HTTP_403",
+  "instrument_status": "HISTORICAL_REVOKED",
+  "status_source": "https://www.govinfo.gov/content/pkg/DCPD-202500115/html/DCPD-202500115.htm"
 }

@@ -38,3 +38,7 @@ python3 scripts/laif_process_document.py docs/examples/vendor-policy.md --extrac
 Compare `laif_outputs/product-demo/vendor-policy.institutional_report.md` with `docs/examples/sample-assessment.md`, and `laif_outputs/product-demo/analyst/vendor-policy/quote_bank.md` with `docs/examples/sample-quote-bank.md`.
 
 [Back to the product overview](../../README.md) · [Full getting-started guide](../GETTING_STARTED.md)
+
+## Beyond the introductory example
+
+The small synthetic source demonstrates mechanics. It is insufficient to assess reporting quality across laws, voluntary guidance and questionnaire tables. The [whole-source reporting record](../verification/2026-11-07-real-source-assurance/README.md) exercises all seven retained raw documents and includes actual reports and source-specific acceptance findings. Those known development cases are broader regression evidence, not independent assessment accuracy or seven complete substantive assessments. For a plain-English overview, see [uses across fields](../product/USE_CASES.md).

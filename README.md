@@ -12,6 +12,7 @@
   <a href="docs/research/SCHOLARLY_REPORTING.md">Neutral scholarly review</a> ·
   <a href="docs/examples/sample-assessment.md">Read a sample assessment</a> ·
   <a href="docs/product/OVERVIEW.md">Read the executive brief</a> ·
+  <a href="docs/product/USE_CASES.md">Uses across fields</a> ·
   <a href="docs/GETTING_STARTED.md">Getting started</a>
 </p>
 
@@ -85,7 +86,7 @@ On Windows, use your Python launcher (for example, `py -3`) in place of `python3
 - **An institutional assessment:** a readable executive finding, strengths, gaps and suggested next actions.
 - **Optional neutral research dossier:** exact extracted passages, explicit source scope, SHA-pinned evidence and method versions, documented uncertainty, analyst annotations and independent second-reader disagreements; no automatic legal or safety certification.
 - **Traceable evidence:** source identity, SHA-256, source quotations and locations for review.
-- **A governance gap register:** missing control machinery, affected interests and recommended control artefacts.
+- **A governance gap register:** unverified control questions, retrieved counterevidence and proposed control artefacts for review.
 - **Failure pathways:** structured explanations of how a documented commitment might fail to control a real decision.
 - **Control recommendations:** practical additions to review, adopt or reject in context.
 - **An analyst bundle:** Markdown and JSON for further work by a person or an AI assistant of your choice. LAIF does not call a model API to generate these outputs.
@@ -111,7 +112,7 @@ The primary instrument is the **Pre-Deployment Coherence Assessment (PDCA)**. It
 2. **Consistency:** would the same reasoning work across comparable actors and scales?
 3. **Reversibility:** can future actors revise the arrangement and correct its consequences?
 
-The **Integrity Layer** adds Structural Transparency, Structural Honesty and Structural Containment: explain the basis of outputs, align stated and implemented objectives, and stay within authorised boundaries. **Self-Application** extends scrutiny to governance actors themselves.
+The **Integrity Layer** requires Structural Transparency, Structural Honesty, Structural Containment and Structural Calibration where §2.5 applies: explain outputs and limitations, align stated and implemented objectives, stay within authorised boundaries, and support confidence claims with comparable-context empirical evidence. **Self-Application** extends scrutiny to governance actors themselves.
 
 These are LAIF's assessment criteria. Document analysis can identify how protections are expressed; operational evidence and human judgement are needed to establish whether they work in practice.
 
@@ -122,17 +123,21 @@ These are LAIF's assessment criteria. Document analysis can identify how protect
 | **Remediation / patch guidance** | Suggested clauses, controls and evidence for a reviewer to consider. |
 | **Repository governance / local verification** | Software checks covering provenance, regressions and protected artefacts. A software pass is not governance certification. |
 
+[Uses across fields and expansion opportunities](docs/product/USE_CASES.md) explains practical applications, implemented support and the evidence still needed.
+
 ## Built to be inspected
 
 LAIF produces source-linked findings and readable Markdown and JSON outputs. Its local verification suite covers regression cases, source provenance, negative controls and deterministic corpus-report generation.
 
-The baseline full suite previously passed with network access blocked, including a standard-library-only environment. The 30 October assurance additions first passed 56 focused offline tests. A later [full Windows local verification](docs/verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md) passed on the current repository code: 369 discovered tests, two skips, provenance and semantic checks, deterministic report regeneration, and no committed-report drift. See [quality and verification](docs/product/QUALITY.md) for the evidence boundaries.
+The baseline full suite previously passed with network access blocked, including a standard-library-only environment. The 30 October assurance additions first passed 56 focused offline tests. A later [full Windows local verification](docs/verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md) passed on the code at that checkpoint: 369 discovered tests, two skips, provenance and semantic checks, deterministic report regeneration, and no committed-report drift. See [quality and verification](docs/product/QUALITY.md) for the evidence boundaries.
 
 ```bash
 python3 scripts/laif_verify.py
 ```
 
 No GitHub Actions run is needed. [Complete verification instructions →](docs/product/REFERENCE.md#verification)
+
+The [7 November whole-source reporting record](docs/verification/2026-11-07-real-source-assurance/README.md) documents the subsequent candidate across all seven retained source documents. It exercises default processing, attributed review import, preview and rejection cases. These are curated development regressions, not an independent accuracy study. The small vendor example remains an introductory demonstration.
 
 ## Understand the boundaries
 

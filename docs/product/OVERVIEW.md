@@ -20,6 +20,8 @@ LAIF makes those questions easier to examine systematically. Its outputs connect
 | Review multiple documents | Identify recurring gaps and organise follow-up work across the portfolio |
 | Check a control-evidence manifest | Verify file identity, exact quotations, declared positive/negative tests and contradictory records |
 
+See [uses across fields and expansion opportunities](USE_CASES.md) for concrete tasks, implemented support and remaining field-evidence needs.
+
 ## What a review produces
 
 The internal diagnostic report gives a readable executive finding, quoted
@@ -45,7 +47,7 @@ The product is a command-line toolkit with generated reports. Word and PDF extra
 
 ## The assessment method
 
-The Coherence Test examines whether restrictions protect identifiable human interests, whether the reasoning works consistently across comparable situations, and whether arrangements and consequences can be revised. The Integrity Layer examines transparency, honesty and authorised boundaries. Self-Application extends scrutiny to governance actors.
+The Coherence Test examines whether restrictions protect identifiable human interests, whether the reasoning works consistently across comparable situations, and whether arrangements and consequences can be revised. The Integrity Layer examines transparency, honesty, authorised boundaries and empirically supported calibration where applicable. Self-Application extends scrutiny to governance actors.
 
 External documents can express safeguards in their own vocabulary. The separate LAIF-native mode evaluates documents that explicitly claim or seek LAIF adoption against its stricter internal criteria.
 

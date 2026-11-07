@@ -2,13 +2,19 @@
 
 **Framework:** Law-Aligned Intelligence Framework v1.2  
 **Assessment model:** Refined Model v1.1  
-**Original publication record:** May 2026; source status updated 30 October 2026
+**Original publication record:** May 2026; source and reporting status updated 7 November 2026
 
 ---
 
 > **Scope notice:** LAIF assessments are constitutional-governance analyses and are **not legal determinations**. Nothing in this repository constitutes legal advice, and no finding should be construed as establishing legal liability, regulatory compliance status, or any other legal consequence. The Coherence Test is a structural reasoning instrument applied to governance architecture; it does not determine whether any actor has violated any law.
 
 ---
+
+## Release and evidence checkpoint — 7 November 2026
+
+PR #102 is merged to `main` at `cce91f2558475276e35a953eecc108567aa37e74` with the verified 515-test tree. DTA v2.1 and EU 2026/1744 source-scoped assessments were released through PR #100; DTA origin is human-attested, EU PDF identity is independently byte-matched. The original 2024 Act remains an original-edition source pending a complete substantive assessment. Running it in the processor does not change that status.
+
+The [whole-source reporting follow-up](docs/verification/2026-11-07-real-source-assurance/README.md) is a separate candidate. Its seven retained real documents and authored acceptance annotations are broader than the synthetic example, but are not independent field validation. See [uses and expansion opportunities](docs/product/USE_CASES.md).
 
 ## 1. Current Maturity State
 
@@ -48,6 +54,8 @@ No finding from a representative corpus assessment may be presented as a finding
 | NIST AI 100-1 | `docs/verified/raw/` | `44ac320...` | ASSESSED |
 | DTAC v2.0 (NHS England, Feb 2026) | `docs/verified/raw/` | `d727228...` | ASSESSED |
 | EU AI Act (Reg. 2024/1689), original OJ edition | `docs/verified/raw/eu_ai_act_2024_1689.md` | `7fb1ae2...` | PENDING_ASSESSMENT |
+| Australian DTA policy v2.1 | `docs/verified/raw/au_dta_policy_v2_1.md` | `3165de7...` | Dated substantive assessment; human-attested origin |
+| EU Regulation 2026/1744 | `docs/verified/raw/eu_ai_act_amendment_2026_1744.md` | `dfcdbe4...` | Dated substantive assessment; original PDF byte-matched |
 
 **Citable assessment artifact:** `reports/laif_real_world_assessment.md` (generated, deterministic, corpus- and toolchain-fingerprinted; matched its committed copy in the [30 October Windows local gate](docs/verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md)), with `reports/laif_executive_summary.md` and `reports/laif_assessment_data.json`.
 
@@ -114,7 +122,7 @@ The NIST AI RMF ingestion relied on a user-supplied DOCX file. The DOCX accuracy
 
 **Not covered by current tooling:**
 - Automated detection of training-derived content (enforced at assessor level; not mechanically verifiable)
-- Verbatim quote accuracy against raw source files (evidence trace verification checks section existence, not quote precision)
+- Exhaustive verbatim proof across all historical traces. The newer runner checks exact spans, and the regulatory gate checks 45 selected page-bounded quotations plus eight original-Act passages; the older 39-section check alone does not establish quote precision.
 
 ---
 

@@ -34,13 +34,13 @@ The `docs/supporting/` files are the **primary source** of the four instruments 
 
 ## Manual Ingestion
 
-When automated URL retrieval is blocked, authoritative sources may be supplied through `HUMAN_GITHUB_DEPOSIT` or `HUMAN_SESSION_UPLOAD`. Exact supplied files are staged in `docs/verified/manual_ingest/`; authority is established by the manifest record, SHA256 hashes, transformation chain, citation status, provenance classification, and verification status. See `MANUAL_INGESTION_WORKFLOW.md`.
+When automated URL retrieval is blocked, authoritative sources may be supplied through `HUMAN_GITHUB_DEPOSIT` or `HUMAN_SESSION_UPLOAD`. Exact supplied files are staged in `docs/verified/manual_ingest/`; authority is established by the manifest record, SHA256 hashes, transformation chain, citation status, provenance classification, and verification status. See [the manual ingestion workflow](../../MANUAL_INGESTION_WORKFLOW.md).
 
 ## Portable processing of newly deposited sources
 
-The DTA v2.1 and EU Regulation 2026/1744 PDFs are held in `manual_ingest/` on PR #98. Source-specific manifests, full page-delimited extractions, exact quotation traces and separate assessments are now recorded in the [7 November review](../verification/2026-11-07/regulatory/README.md). Until merged, these are review artefacts, not canonical `main` results.
+The DTA v2.1 and EU Regulation 2026/1744 PDFs are held in `manual_ingest/` and were released with their source records and assessments through merged PR #100. Source-specific manifests, full page-delimited extractions, exact quotation traces and separate assessments are now recorded in the [7 November review](../verification/2026-11-07/regulatory/README.md). They are available on `main`. Human-attested DTA origin remains distinct from independently byte-matched EU origin; assessment publication does not prove implementation or legal compliance.
 
-From **any Python 3.10+ environment with a clone of this branch**, the reviewed-text route requires only the standard library:
+From **any Python 3.10+ environment with a clone of the repository**, the reviewed-text route requires only the standard library:
 
 ```bash
 python3 scripts/laif_verify_regulatory_ingestion.py

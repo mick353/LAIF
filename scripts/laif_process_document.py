@@ -10,6 +10,7 @@ changes, certification changes, or governance/protected-artifact mutations.
 from __future__ import annotations
 
 import argparse
+import bisect
 import datetime as _dt
 import hashlib
 import html
@@ -1328,6 +1329,8 @@ def _incomplete_quote_reason(quote: str) -> str:
     lower = clean.lower()
     if not clean:
         return "empty quote"
+    if re.match(r"^\([ivxlcdm]+\)\s+(?:when|where|its|their)\b", clean, re.I):
+        return "list continuation requires its governing provision and conditions"
     if re.match(r"^[a-z,;:]", clean) or clean.endswith(",") or INCOMPLETE_END_RE.search(clean):
         return "incomplete quote could not be expanded to complete evidence statement"
     if not quote_has_complete_evidence_proposition(clean)[0]:
@@ -1510,6 +1513,10 @@ def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
         return 20, "extractor reported low confidence"
     if not raw_clean:
         return 0, "empty quote"
+    if "|" in quote:
+        return 30, "table cell/row requires its source column and assessment context"
+    if len(re.findall(r"\b(?:GOVERN|MAP|MEASURE|MANAGE)\s+\d+\.\d+", raw_clean)) > 1:
+        return 30, "concatenated framework table entries require context"
     if re.search(r"\S {3,}\S", quote) and not re.search(r"\b(?:must|shall|required)\b", raw_clean, re.I):
         return 30, "tabular extract requires column/context verification"
     if BOILERPLATE_QUOTE_RE.search(raw_clean):
@@ -2086,15 +2093,22 @@ SOURCE_CONTROL_RULES = {
     "change_control": ("Material-change reassessment", r"\b(?:material|significant)\s+chang\w*\b.{0,220}\b(?:assess\w*|validat\w*|review\w*|design\w*)\b|\b(?:re[- ]?validat\w*|re[- ]?assess\w*)\b.{0,180}\bchang\w*\b"),
     "human_override": ("Human override or interruption", r"\b(?:override|overrid\w*|interrupt\w*|stop button|stop mechanism)\b.{0,120}\b(?:output\w*|system\w*|operat\w*|safe)\b|\b(?:system\w*|output\w*)\b.{0,120}\b(?:overrid\w*|interrupt\w*|stop mechanism)\b"),
     "performance_evidence": ("Performance or testing evidence", r"\b(?:must|shall)\b.{0,200}\b(?:test\w*|accurac\w*|metrics?|performance)\b"),
-    "accountability": ("Named accountability or governing review", r"\b(?:must|shall)\b.{0,180}\b(?:accountable official|responsible|governing|executive|owner|board)\b"),
+    "accountability": ("Responsibility assignment or governing review", r"\b(?:must|shall)\b.{0,180}\b(?:accountable\s+(?:official|for|to)|responsible\s+(?:for|person|official|officer|authority)|governing|executive|owner|board)\b"),
     "protection_floor": ("Protection floor or proportionality condition", r"\b(?:shall|must|does not|without)\b.{0,180}\b(?:protection|rigour|fundamental rights)\b"),
 }
 
 
-def source_passage_role(text: str, start: int) -> str:
+@functools.lru_cache(maxsize=8)
+def _operative_boundary(text: str) -> int | None:
+    """Bounded cache avoids rescanning a long Act for every candidate quote."""
     marker = re.search(r"(?:HAS|HAVE) ADOPTED THIS (?:REGULATION|DIRECTIVE)", text, re.I)
-    if marker:
-        return "recital_context" if start < marker.end() else "operative_text"
+    return marker.end() if marker else None
+
+
+def source_passage_role(text: str, start: int) -> str:
+    boundary = _operative_boundary(text)
+    if boundary is not None:
+        return "recital_context" if start < boundary else "operative_text"
     return "document_text"
 
 
@@ -2113,20 +2127,31 @@ def _conditional_deployment_gate(text: str) -> bool:
     return any(re.search(pattern, text, re.I) for pattern in patterns)
 
 
-def source_control_observations(text: str) -> list[dict]:
+def source_control_scan(text: str, per_type: int = 3) -> dict:
+    """Scan the complete candidate stream, retain bounded diverse witnesses."""
+    if not 1 <= per_type <= 10:
+        raise ValueError("per-type witness limit must be 1-10")
     observations = []
-    operative_start = re.search(r"(?:HAS|HAVE) ADOPTED THIS (?:REGULATION|DIRECTIVE)", text, re.I)
+    spans = _sentence_spans(text)
+    boundary = _operative_boundary(text)
+    pages = list(re.finditer(r"<!-- PDF page (\d+) -->", text))
+    page_positions = [m.start() for m in pages]
+    counts = {kind: 0 for kind in SOURCE_CONTROL_RULES}
+    retained = counts.copy()
+    candidates = {kind: [] for kind in SOURCE_CONTROL_RULES}
     for kind, (name, pattern) in SOURCE_CONTROL_RULES.items():
-        for start, end, quote in _sentence_spans(text):
-            if operative_start and start < operative_start.end():
-                continue  # Recitals supply context, not operative duties.
+        # Recommendations are evidence of proposed practice, not statutory duties.
+        if kind not in ("deployment_gate", "human_override"):
+            pattern = pattern.replace("must|shall", "must|shall|should")
+        for start, end, quote in spans:
+            if boundary is not None and start < boundary:
+                continue
             if len(quote) > 3500:
-                continue  # Do not clip an oversized clause into apparent evidence.
+                continue
             clean = " ".join(quote.split())
             conditional_gate = kind == "deployment_gate" and _conditional_deployment_gate(clean)
             if not re.search(pattern, clean, re.I) and not conditional_gate:
                 continue
-            # Exclude explicit denial/waiver; the mere words are not a control.
             if not conditional_gate and re.search(r"\b(?:need not|not required|no obligation|not obliged|no right|may not|shall not be required)\b", clean, re.I):
                 continue
             if kind != "protection_floor" and not conditional_gate and re.search(r"\b(?:must|shall|should|may)\s+not\b", clean, re.I):
@@ -2135,18 +2160,77 @@ def source_control_observations(text: str) -> list[dict]:
                 continue
             if _unrepaired_extraction_damage_reason(quote, _normalized_for_quality(quote)) or _incomplete_quote_reason(_normalized_for_quality(quote)):
                 continue
-            pages = list(re.finditer(r"<!-- PDF page (\d+) -->", text[:start]))
-            observations.append({
-                "control_id": f"OBS-{len(observations)+1:03d}", "control_type": kind,
-                "name": name, "exact_quote": quote, "display_quote": normalize_quote_for_display(quote)[0], "start_char": start, "end_char": end,
+            if "|" in quote or len(re.findall(r"\b(?:GOVERN|MAP|MEASURE|MANAGE)\s+\d+\.\d+", quote)) > 1:
+                # Table context is retained below, never presented as clean prose.
+                continue
+            counts[kind] += 1
+            page_index = bisect.bisect_right(page_positions, start) - 1
+            language = "recommendation" if re.search(r"\bshould\b", clean, re.I) and not re.search(r"\b(?:must|shall)\b", clean, re.I) else "control_wording"
+            candidates[kind].append({
+                "control_type": kind,
+                "name": name, "exact_quote": quote, "display_quote": normalize_quote_for_display(quote)[0],
+                "start_char": start, "end_char": end,
                 "extracted_line": text.count("\n", 0, start) + 1,
-                "pdf_page": int(pages[-1].group(1)) if pages else None,
-                "status": "TEXTUAL_CONTROL_CANDIDATE",
-                "scope_limit": "Read scope, exceptions, commencement and related provisions; this witness does not establish equivalent protection or implementation.",
+                "pdf_page": int(pages[page_index].group(1)) if page_index >= 0 else None,
+                "language_signal": language, "status": "TEXTUAL_CONTROL_CANDIDATE",
+                "scope_limit": "Read scope, exceptions, commencement and related provisions. Wording does not establish legal force, equivalent protection or implementation.",
             })
-            if sum(r["control_type"] == kind for r in observations) >= 1:
-                break
-    return observations
+    for kind, rows in candidates.items():
+        limit = min(len(rows), per_type)
+        indices = [0] if limit == 1 else [round(i*(len(rows)-1)/(limit-1)) for i in range(limit)]
+        for index in indices:
+            row = rows[index]
+            row["control_id"] = f"OBS-{len(observations)+1:03d}"
+            observations.append(row)
+            retained[kind] += 1
+    requests = []
+    request_count = 0
+    structured_count = 0
+    table_header = None
+    previous_row = None
+    for match in re.finditer(r"^.*$", text, re.M):
+        row = match.group()
+        if not row.strip():
+            table_header = None
+        if row.lstrip().startswith("|") and re.fullmatch(r"[| :\-]+", row.strip()):
+            table_header = previous_row
+        is_request = bool(re.search(r"\?|\bplease\s+(?:provide|supply|detail|attach|set out|confirm)\b", row, re.I))
+        is_practice = bool(re.search(r"\b(?:GOVERN|MAP|MEASURE|MANAGE)\s+\d+\.\d+", row))
+        is_control = bool(re.search(r"\b(?:must|shall|should|required)\b", row, re.I))
+        current_row = {"exact_quote": row, "start_char": match.start(), "end_char": match.end()}
+        previous_row = current_row
+        if not row.lstrip().startswith("|") or not (is_request or is_practice or is_control):
+            continue
+        structured_count += 1
+        request_count += int(is_request)
+        if len(row) > 8000:
+            continue
+        requests.append({"request_id": f"REQ-{len(requests)+1:03d}", "exact_quote": row,
+                         "start_char": match.start(), "end_char": match.end(),
+                         "extracted_line": text.count("\n", 0, match.start())+1,
+                         "response_status": "NOT_INFERRED_FROM_TEMPLATE" if is_request else "NOT_INFERRED_FROM_SOURCE_ROW",
+                         "row_kind": "evidence_request" if is_request else ("framework_practice" if is_practice else "structured_control_text"),
+                         "column_context": table_header,
+                         "status": "STRUCTURED_SOURCE_REQUIRES_CONTEXT"})
+    if len(requests) > 12:
+        requests = [requests[round(i*(len(requests)-1)/11)] for i in range(12)]
+    for index, row in enumerate(requests, 1):
+        row["request_id"] = f"REQ-{index:03d}"
+    return {"observations": observations, "requests": requests, "coverage": {
+        "source_characters": len(text), "sentence_candidates": len(spans),
+        "oversized_candidates_requiring_review": sum(len(row[2]) > 3500 for row in spans),
+        "recital_candidates_excluded": sum(row[0] < boundary for row in spans) if boundary else 0,
+        "matched_by_type": counts, "retained_by_type": retained, "selection_limit_per_type": per_type,
+        "request_rows_found": request_count,
+        "request_rows_retained": sum(r["row_kind"] == "evidence_request" for r in requests),
+        "structured_rows_found": structured_count, "structured_rows_retained": len(requests),
+        "selection_strategy": "deterministic_spatial_spread_within_each_type",
+        "complete_semantic_coverage": "NOT_ESTABLISHED",
+        "boundary": "Counts describe heuristic candidate retrieval only, not complete obligations, legal scope or assessment accuracy."}}
+
+
+def source_control_observations(text: str) -> list[dict]:
+    return source_control_scan(text)["observations"]
 
 
 def source_provenance(path: Path, source_hash: str) -> dict:
@@ -2170,6 +2254,12 @@ def source_provenance(path: Path, source_hash: str) -> dict:
                 "citation_status": manifest.get("citation_status", "not recorded"),
                 "authority_url": manifest.get("authoritative_origin_url", manifest.get("authoritative_url", "")),
                 "pdf_sha256": manifest.get("source_file_sha256"),
+                "version_identifier": manifest.get("version_identifier", "not recorded"),
+                "publication_date": manifest.get("publication_date", "not recorded"),
+                "instrument_status": manifest.get("instrument_status", "NOT_INDEPENDENTLY_CHECKED"),
+                "status_source": manifest.get("status_source"),
+                "source_qualifications": manifest.get("provenance_notes", "No scope qualification recorded"),
+                "declared_extraction_scope": manifest.get("extraction_boundaries", {}),
                 "boundary": "Existing repository provenance, not a new authority or current-law verification."}
     return {"status": "LOCAL_SOURCE_AUTHORITY_UNVERIFIED", "citation_status": "NOT_ESTABLISHED",
             "boundary": "Local source bytes identified; no authoritative-origin verification supplied."}
@@ -2287,12 +2377,32 @@ def source_review_sections(assessment: dict) -> list[str]:
     observations = assessment.get("source_control_observations", [])
     lines = ["## Source-backed control observations", "",
              "These exact extracted passages identify potential mechanisms. They do not establish complete LAIF satisfaction, present applicability or operational effectiveness.", ""]
+    displayed_types = set()
     for row in observations:
+        if row["control_type"] in displayed_types:
+            continue
+        displayed_types.add(row["control_type"])
         location = f"PDF page {row['pdf_page']}" if row.get("pdf_page") else f"extracted line {row['extracted_line']}"
         lines += [f"### {row['control_id']} — {row['name']}", "", "> " + _safe_report_text(row.get("display_quote", row["exact_quote"])).replace("\n", "\n> "), "",
-                  f"{location}; extracted characters {row['start_char']}–{row['end_char']}. {row['scope_limit']}", ""]
+                  f"{location}; extracted characters {row['start_char']}–{row['end_char']}. Language signal: {row.get('language_signal', 'not classified')}. {row['scope_limit']}", ""]
     if not observations:
         lines += ["No mechanism witness met these retrieval rules. This is not evidence of absent protection.", ""]
+    coverage = assessment.get("source_scan_coverage", {})
+    if coverage:
+        lines += ["## Retrieval coverage and source format", "",
+                  f"Scanned {coverage['sentence_candidates']} sentence candidates; retained {len(observations)} witnesses with a per-type limit of {coverage['selection_limit_per_type']}. "
+                  f"{coverage['oversized_candidates_requiring_review']} oversized candidates require separate review. "
+                  "One witness per category is displayed above; all retained witnesses and exact locations are in the analyst bundle.",
+                  coverage["boundary"], "",
+                  f"Structured framework/questionnaire rows: {coverage['structured_rows_found']} found; {coverage['structured_rows_retained']} retained. "
+                  "Provided/not-provided choices are template fields, not observed supplier responses.", ""]
+    if assessment.get("source_evidence_requests"):
+        lines += ["### Structured source rows — responses and implementation not assessed", "",
+                  "Read each row with its column headings and source context. Evidence requests and framework practices do not establish completed or failed institutional controls.", ""]
+        for row in assessment["source_evidence_requests"][:3]:
+            lines += [f"- **{row['request_id']}** — extracted line {row['extracted_line']}: " + _safe_report_text(row["exact_quote"]), ""]
+            if row.get("column_context"):
+                lines += ["  Column headings: " + _safe_report_text(row["column_context"]["exact_quote"]), ""]
     from laif_spec import ASSESSMENT_CRITERIA
     mapping = {"A.1": ("public_disclosure", "challenge_route"), "A.2": ("performance_evidence",),
                "A.3": ("deployment_gate", "human_override", "incident_response"),
@@ -2776,7 +2886,11 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
                   f"- Manifest: {provenance.get('manifest', 'none')}",
                   f"- Recorded origin: {provenance.get('authority_url') or 'not supplied'}",
                   f"- Original PDF SHA-256: {provenance.get('pdf_sha256') or 'not supplied'}",
-                  "- " + provenance["boundary"], ""]
+                  "- " + provenance["boundary"],
+                  "- Recorded version: " + _safe_report_text(str(provenance.get("version_identifier", "not recorded"))),
+                  "- Recorded instrument status: " + _safe_report_text(str(provenance.get("instrument_status", "not independently checked"))),
+                  "- Instrument-status source: " + _safe_report_text(str(provenance.get("status_source") or "not supplied")),
+                  "- Source qualifications: " + _safe_report_text(str(provenance.get("source_qualifications", "not supplied"))), ""]
     if assessment.get("attributed_reasoning"):
         lines += attributed_reasoning_sections(assessment["attributed_reasoning"])
     if assessment.get("submitted_review"):
@@ -3010,6 +3124,36 @@ def build_validation_rules() -> str:
     return """# AI Report Validation Rules\n\n- Every quote must exist in `quote_bank`.\n- Every recommendation must map to a gap/control ID.\n- No invented legal obligations.\n- No invented citation.\n- No unsupported certification or legal-validity claim.\n- Required sections must be present.\n- Technical appendix must be preserved.\n- Low-confidence evidence must not be used as primary support.\n"""
 
 
+def validate_report_materials(text: str, assessment: dict, materials: dict) -> None:
+    """Fail before output writes if source spans or cross-artifact IDs disagree."""
+    groups = ((materials["quote_bank"], "quote_id", "start_offset", "end_offset"),
+              (assessment.get("source_control_observations", []), "control_id", "start_char", "end_char"),
+              (assessment.get("source_evidence_requests", []), "request_id", "start_char", "end_char"))
+    for rows, id_key, start_key, end_key in groups:
+        ids = [row.get(id_key) for row in rows]
+        if any(not isinstance(value, str) for value in ids) or len(set(ids)) != len(ids):
+            raise ExtractionError("Report evidence IDs are missing or duplicated")
+        for row in rows:
+            start, end = row.get(start_key), row.get(end_key)
+            if (type(start) is not int or type(end) is not int or not 0 <= start < end <= len(text)
+                    or text[start:end] != row.get("exact_quote")):
+                raise ExtractionError("Report evidence does not match its exact source span")
+    for row in assessment.get("source_evidence_requests", []):
+        context = row.get("column_context")
+        if context and text[context["start_char"]:context["end_char"]] != context["exact_quote"]:
+            raise ExtractionError("Structured evidence column context does not match source")
+    qids = {row["quote_id"] for row in materials["quote_bank"]}
+    oids = {row["control_id"] for row in assessment.get("source_control_observations", [])}
+    for gap in materials["gaps"]:
+        if (any(value not in qids for value in gap.get("source_evidence_quote_ids", []))
+                or any(value not in oids for value in gap.get("counterevidence_control_ids", []))):
+            raise ExtractionError("Report review question contains an unknown evidence reference")
+    coverage = assessment.get("source_scan_coverage")
+    if coverage and (sum(coverage["retained_by_type"].values()) != len(oids)
+                     or coverage["complete_semantic_coverage"] != "NOT_ESTABLISHED"):
+        raise ExtractionError("Report coverage metadata disagrees with retained evidence")
+
+
 def prepare_report_materials(processing: dict, extraction: dict, assessment: dict, extracted_text: str) -> dict:
     low_confidence_quote_candidates = build_low_confidence_quote_candidates(extracted_text, processing, extraction, assessment)
     quote_bank = build_quote_bank(extracted_text, processing, extraction, assessment, low_confidence_quote_candidates)
@@ -3021,10 +3165,12 @@ def prepare_report_materials(processing: dict, extraction: dict, assessment: dic
     gaps = build_governance_gap_register(assessment, quote_bank)
     pathways = build_failure_pathways(gaps, quote_bank)
     controls = build_control_recommendations(gaps, pathways, quote_bank)
-    return {"low_confidence_quote_candidates": low_confidence_quote_candidates, "quote_bank": quote_bank,
-            "verification_required_evidence": verification_required_evidence,
-            "extraction_quality_profile": extraction_quality_profile, "gaps": gaps,
-            "pathways": pathways, "controls": controls}
+    materials = {"low_confidence_quote_candidates": low_confidence_quote_candidates, "quote_bank": quote_bank,
+                 "verification_required_evidence": verification_required_evidence,
+                 "extraction_quality_profile": extraction_quality_profile, "gaps": gaps,
+                 "pathways": pathways, "controls": controls}
+    validate_report_materials(extracted_text, assessment, materials)
+    return materials
 
 
 def write_institutional_outputs(output_dir: Path, processing: dict, extraction: dict, assessment: dict, extracted_text: str, materials: dict | None = None) -> dict:
@@ -3043,6 +3189,8 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
         "scores": {k: assessment.get(k) for k in ("structural_score", "terminology_score", "conceptual_proximity_score", "auditability_score", "enforceability_score", "overall_readiness_score")},
         "quote_bank": quote_bank,
         "source_control_observations": assessment.get("source_control_observations", []),
+        "source_evidence_requests": assessment.get("source_evidence_requests", []),
+        "source_scan_coverage": assessment.get("source_scan_coverage", {}),
         "source_provenance": assessment.get("source_provenance", {}),
         "attributed_reasoning": assessment.get("attributed_reasoning"),
         "submitted_review": assessment.get("submitted_review"),
@@ -3243,7 +3391,10 @@ def run(args: argparse.Namespace) -> int:
         processed_at_utc=processed_at,
     )
     assessment["diagnostic_interpretation_status"] = "UNREVIEWED_LEXICAL_RUBRIC_OUTPUT"
-    assessment["source_control_observations"] = source_control_observations(extraction.text)
+    source_scan = source_control_scan(extraction.text)
+    assessment["source_control_observations"] = source_scan["observations"]
+    assessment["source_evidence_requests"] = source_scan["requests"]
+    assessment["source_scan_coverage"] = source_scan["coverage"]
     assessment["source_provenance"] = source_provenance(input_path, source_hash)
     assessment["attributed_reasoning"] = source_reasoning_record(assessment["source_provenance"])
     assessment["submitted_review"] = (load_submitted_review(input_path, extraction.text, args.review_file, source_hash)

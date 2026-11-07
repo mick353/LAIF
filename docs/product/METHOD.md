@@ -23,6 +23,9 @@ Can future actors revise the arrangement and correct its consequences? Reviewers
 | Structural Transparency | Whether the basis for outputs, uncertainty and material limitations can be explained |
 | Structural Honesty | Whether stated objectives correspond to implementation and behaviour |
 | Structural Containment | Whether the system stays within documented boundaries and triggers authorisation for materially irreversible actions |
+| Structural Calibration (where §2.5 applies) | Whether expressed confidence matches observed accuracy in comparable intended contexts, supported by empirical evidence |
+
+Current principal text §2.4 explicitly requires all four properties, with Calibration assessed under §2.5 where applicable. Earlier assessment records describe a three-versus-four wording discrepancy that was corrected before this reporting pass. Those dated records are preserved; they do not override the current principal text.
 
 A document can specify these protections. Demonstrating their operation requires evidence from the relevant deployment.
 
