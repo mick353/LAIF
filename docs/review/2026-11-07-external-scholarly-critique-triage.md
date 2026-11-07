@@ -98,7 +98,10 @@ explicit implementation authorisation.
 **Question:** For specified, observable governance-document constructs, how
 accurately and usefully does LAIF identify source-supported attributes and
 legal-analysis questions compared with independently adjudicated humans?
-This does not ask whether LAIF can prove “AI safety” as a single property.
+**Incremental-value question:** Does it do better than a straightforward
+structured checklist or a reproducible keyword/obligation extraction baseline
+under comparable input, review-time and reviewer conditions? This does not ask
+whether LAIF can prove “AI safety” as a single property.
 
 1. **Pre-register constructs and outcomes.** Define labels and abstention:
    e.g. assignment of responsibility, monitoring trigger, incident escalation,
@@ -128,20 +131,34 @@ This does not ask whether LAIF can prove “AI safety” as a single property.
    false positives and negatives, prevalence and uncertainty intervals;
    disaggregate by case type and measure quotation accuracy. Also ask blind
    reviewers whether findings are practically useful and traceable.
-7. **Use negative and adversarial controls.** Pre-specify document mutations
+7. **Measure incremental value against baselines.** Freeze a plain-language
+   checklist based on published governance categories and a transparent local
+   keyword/obligation extraction rule. Pre-register matched access to documents,
+   time and reviewer instructions. Compare error rates, evidence traceability,
+   useful findings not duplicated by the baselines, and time-to-insight. Avoid
+   treating checklist categories as an independent legal ground truth.
+8. **Use negative and adversarial controls.** Pre-specify document mutations
    involving contradictions, swapped provider/deployer duties, absent control
-   evidence, misleading vocabulary and time-dependent obligations; assess
-   sensitivity and unintended verdict flips. Keep fixtures and field
-   outcomes labelled separately.
-8. **Replicate, criticise and report.** An independent second evaluator
+   evidence, novel synonyms, misleading boilerplate and time-dependent
+   obligations; assess sensitivity and unintended verdict flips. Test language
+   and translation variants in a separate explicitly supported scope: do not
+   assume multilingual capability. Keep fixtures and field outcomes separate.
+9. **Usability pilot with non-specialist operators.** Recruit authorised
+   policy/procurement participants without Python experience, observe whether
+   they can complete the existing local quick-start and correctly interpret
+   the limitations, and measure task completion, setup failures, time,
+   comprehension and confidence versus actual correctness. Test revisions
+   iteratively without changing the held-out validation protocol.
+10. **Replicate, criticise and report.** An independent second evaluator
    reproduces selected records from the pinned revision. Publish source
    manifests, exclusions, disagreement, failure cases and limits before any
    efficacy claim; no retroactive optimisation on held-out data.
 
 **Minimum research outputs:** preregistered protocol, corpus/manifest and
 legal-scope log, independent annotation manual and agreement, disaggregated
-performance/error analysis with intervals, adversarial results, reproduction
-instructions and external reviewer sign-off. **Not yet executed.**
+performance/error analysis with intervals, baseline-comparison results,
+adversarial results, observed usability findings, reproduction instructions
+and external reviewer sign-off. **Not yet executed.**
 
 ## Scholarly output acceptance criteria
 
@@ -173,7 +190,7 @@ A report that can stand on its own, even for audiences uninterested in LAIF:
 | --- | --- | --- |
 | P0 | Correct current guides and source provenance | Main/draft status, latest checked SHA, source links, unvalidated claims and no invented CLI/results. |
 | P1 | Semantic review of PRs #89/#90/#94/#95 | Source-level diff, legal and safety boundaries, local tests, human review decision; no automatic merge. |
-| P2 | Blinded independent validation pilot | External reviewers, locked corpus/protocol, independent labels, metrics, error register and replication report. |
+| P2 | Blinded validation and usability pilot | External reviewers, locked corpus/protocol, independent labels, fair checklist/keyword comparisons, error register, usability findings and replication report. |
 | P3 | Extended study or dynamic safety-evidence interface | Independent funding/permission/safety scoping, new approval and external test evidence where appropriate. |
 
 Project authorisation for scholarly review and documentation does **not**
