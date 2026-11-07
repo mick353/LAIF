@@ -2,6 +2,15 @@
 
 **Executed:** 7 November 2026 (Australia/Sydney), in Work's cloud Python environment. **Branch:** `docs/authoritative-source-currency-20261107`, starting at `4170f1825f5b05e4085c99c837658da097275687`; main at `09f8687b58d1c5547cfe58bcf4e38aa7da3619a2`. No merge authorised or performed.
 
+## Substantive assessment correction
+
+The first pass completed ingestion but did not fully apply LAIF. The reports now lead with explicit Integrity Layer findings (including Structural Calibration), Q1a/Q1b, smaller/larger-scale reasoning, consequence-level reversibility, self-application, provision mappings and priority repairs. These are analyst judgements grounded in exact source evidence, separate from the unchanged engine outputs. See `substantive_findings.json` for the structured record.
+
+- **DTA:** the supplied policy alone does not satisfy the complete Coherence Test; mandatory agency procedures do not establish equivalent person-accessible protections or the full deployment evidence gate.
+- **EU:** explicit protection floors and statutory explanation/override rights receive substantive credit; the full package does not establish equivalent protection across the deferred/legacy intervals on the assessed evidence. This is not a legal-invalidity or institutional-breach finding.
+
+The principal text includes Structural Calibration in §2.5 and four properties in §9.4, despite older three-property wording elsewhere. All four are assessed, and no source or scoring semantics were edited to conceal the discrepancy. The original 2024 Act was additionally fetched from EUR-Lex and matched the deposited bytes; six original-article evidence records inform the substantive EU assessment without replacing PR #90.
+
 ## Read the two assessments
 
 - [Australian DTA Policy v2.1](au_dta_policy_v2_1.assessment.md): applicability, staged deadlines, exact v2.0 comparison and LAIF interpretation.
@@ -20,7 +29,7 @@ Full text is in `docs/verified/raw/`, manifests in `docs/verified/manifests/`, a
 
 Extraction used Poppler `pdftotext 24.02.0 -layout -enc UTF-8`. All page text is retained, with only explicit page separators added. No word repair, paraphrase, OCR or synthetic substitute was used. Poppler emitted two DTA “Invalid Font Weight” warnings, retained in the page map; these are not hidden or treated as text validation. Exact trace spans and reproduced text hashes passed separately. Key DTA classification (p23) and EU application/transition (p35) pages were rendered and visually checked. This is not an exhaustive glyph-by-glyph comparison of 67 pages. Tables retain layout columns; the original PDF governs ambiguity.
 
-The original EU Act admission remains with PR #90. The amendment is not a consolidated Act. DTA v2.0 and original EU PDF bytes remain unchanged; the DTA comparison records the baseline PDF hash and all old-page extraction hashes in `dta_version_delta.json`. Pages 7–22 match v2.1 ignoring whitespace; Appendix D is new on pp23–26. Linked external standards were not version-compared.
+The original EU Act corpus admission remains with PR #90; contextual source verification and six passages used in this assessment are independently recorded here. The amendment is not a consolidated Act. DTA v2.0 and original EU PDF bytes remain unchanged; the DTA comparison records the baseline PDF hash and all old-page extraction hashes in `dta_version_delta.json`. Pages 7–22 match v2.1 ignoring whitespace; Appendix D is new on pp23–26. Linked external standards were not version-compared.
 
 ## Actual processing and reproducibility
 

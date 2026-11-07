@@ -1,6 +1,114 @@
-# LAIF source-scoped assessment — Regulation (EU) 2026/1744
+# LAIF assessment — Regulation (EU) 2026/1744
 
 **As at:** 7 November 2026, Australia/Sydney. **Status:** PR #98 review assessment, unmerged and noncanonical. **Method:** Codex-authored source analysis against LAIF v1.2, plus actual unchanged-engine external-framework processing. This assesses the amending instrument, not a fully verified consolidated AI Act, institutional compliance or independent legal advice.
+
+## Substantive LAIF determination
+
+**Overall finding: the amendment contains strong examples of coherent conditional enablement, but the complete amendment package does not establish a satisfactory answer to all three LAIF questions on the evidence assessed.** Simplification with an enforceable protection floor is materially different from simplification without demonstrated compensating protection. The former is visible in amended Articles 2(13) and 17(2). The latter remains unresolved for the postponed high-risk obligations and transition arrangements. That distinction, rather than the presence or absence of LAIF terminology, controls this assessment.
+
+This is a substantive constitutional review of Regulation 2026/1744's changes. Relevant unchanged original-Act provisions are included as counterevidence. It is not a statement that the Act is legally invalid, that the EU lacks individual rights, or that all high-risk duties have the same application date. No actual AI deployment has been tested or certified.
+
+| LAIF decision | Determination | Controlling reason |
+|---|---|---|
+| Structural Transparency, §2.1 | STRONGLY SUPPORTED IN DEFINED CATEGORIES; FULL LAIF COVERAGE NOT ESTABLISHED | Original Articles 13 and 86 provide deployer information and an individual explanation right, but with defined scope/exceptions and not the complete universal §2.1 account requirement. |
+| Structural Honesty, §2.2 | PARTLY SUPPORTED; NOT ESTABLISHED IN FULL | Documentation, testing and investigation powers support verification; objective correspondence and evaluation-independent behaviour are not demonstrated for every governed system. |
+| Structural Containment, §2.3 | STRONGLY SUPPORTED FOR APPLICABLE HIGH-RISK SYSTEMS; NOT ESTABLISHED IN FULL | Original Article 14 provides override/stop controls; applicability, full agent scope limits and irreversible-action authority remain distinct requirements. |
+| Structural Calibration, §2.5 | PARTLY SUPPORTED; NOT ESTABLISHED IN FULL | Original Articles 9, 13 and 15 require testing/metrics/accuracy disclosure, but do not by themselves demonstrate correspondence between each relevant confidence expression and observed real-world accuracy. |
+| Integrity Layer deployment threshold | NOT ESTABLISHED FOR A DEPLOYMENT | Legal controls are not a completed evidence-supported PDCA, and no system evidence was supplied. |
+| Q1 Coupling, protected simplification clauses | SUPPORTED WITHIN THEIR EXPRESSED CONDITIONS | The permission to simplify is expressly paired with a binding protection floor; implementation equivalence and access still require verification. |
+| Q1 Coupling, complete amendment package | NOT SATISFIED ON CURRENT DOCUMENTARY EVIDENCE | Compensating protection for every affected class during postponed application is not established; this is not a finding that no other law protects them. |
+| Q2 Consistency | SUPPORTED FOR PROPORTIONALITY; FULL PACKAGE NOT ESTABLISHED | Size-sensitive burden reduction retains a protection floor, but transition, sector and enforcement differences require a demonstrated harm-based justification. |
+| Q3 Reversibility | SUBSTANTIAL SUPPORT; FULL TEST NOT ESTABLISHED | Override, stop, reopen/review and delegated-act controls exist; irreversible effects during a protection interval are not necessarily cured by later commencement or review. |
+| Complete Coherence Test | NOT SATISFIED ON THE ASSESSED EVIDENCE | A satisfactory answer is required to all three questions; the complete package's Q1 and Q3 evidence is insufficient. |
+
+These are analyst findings under LAIF's standard, not a new detector output or a percentage of legal compliance. A non-established proposition is not asserted false; it cannot supply the affirmative evidence needed to pass the complete test. The clause-level positive findings must not be erased by the overall decision.
+
+### Governing test and evidence scope
+
+Apply LAIF Part One Principles 1, 2 and 5; §§2.1–2.5; Provision Sets A–D; §§4.3–4.5; Part Five; §7.4; and the evidence discipline in §§9.1/9.4. Include Structural Calibration: despite the older “three” wording in §2.4, §§2.5/9.4 expressly require the fourth property. This interpretive issue is disclosed, not silently amended. Framework SHA-256: `1935ab3924148c0fdce68369146582f434786f584bf38f5e0c740b545e8819a1`.
+
+Both original and amending PDFs now match fresh EUR-Lex downloads byte-for-byte. Original Act contextual evidence is retained in `original_act_substantive_evidence.json` as EUO-9, EUO-13, EUO-14, EUO-15, EUO-85 and EUO-86, with exact extracted text and PDF-page bounds. This does not replace PR #90's corpus-admission work. The amending PDF evidence is Q001–Q027. Prose quotes collapse layout whitespace only; exact source text is retained in JSON.
+
+The original provisions below were checked against the amendment's operative change register: the amendment does not replace Articles 9, 13, 14, 15, 85 or 86. This review does not certify every possible intervening implementing/delegated act, national procedure or product-sector rule.
+
+### Section A — Integrity Layer
+
+**A.1 Structural Transparency — important actual protections; not complete LAIF coverage.** Original Article 13 requires high-risk operation to be sufficiently transparent for deployers to interpret outputs; instructions must include capabilities, limitations and performance metrics (EUO-13, pp59–60). Original Article 86 gives specified adversely affected persons a right to “clear and meaningful explanations” of AI's role and the main elements of a decision (EUO-86, p110). Original Article 85 supplies a complaint route (EUO-85). Any assessment saying the EU framework merely announces transparency or creates no explanation right would be wrong.
+
+The remaining LAIF difference is **coverage and content**. Article 86 concerns specified Annex III decision situations, excludes point 2 and permits stated legal exceptions; its wording is not identical to §2.1's complete meaningful account of any materially consequential output, including material uncertainty and limitations. Article 13 information goes to deployers and must reach the affected person through the applicable route. **Determination:** strong correspondence within defined scope, not proof of complete LAIF-equivalent entitlement for all material uses. **Closure:** identify each use category, the applicable explanation route and deadline, and test whether the person receives all material elements without an unjustified barrier.
+
+**A.2 Structural Honesty — verification capacity is real, but full robustness is not established.** Original Article 9 requires lifecycle risk management and pre-market testing, including appropriate metrics and probabilistic thresholds (EUO-9). Amended Article 11 retains technical-documentation minimums; Articles 75a–75d provide information, inspection and enforcement routes (Q009, Q014–Q019). These are concrete tools for checking provider claims, not mere goodwill.
+
+LAIF's extra question is whether the objective actually implemented corresponds to the objective disclosed, and whether behaviour remains honest when the system can distinguish evaluation from deployment. Neither a legal obligation to test nor a completed document is evidence that this behavioural property holds in a particular system. The amendment does not supply that missing empirical result. **Closure:** make objective correspondence and evaluation/deployment/adversarial consistency explicit in the evidence accepted for a materially consequential system, or demonstrate equivalent requirements already binding under the applicable assurance route.
+
+**A.3 Structural Containment — strong control correspondence with temporal limits.** Original Article 14 explicitly enables human supervisors to disregard, override or reverse outputs and interrupt operation through a stop mechanism reaching a safe state (EUO-14, pp60–61). It also scales oversight to risk, autonomy and context. The earlier pypdf result must not be used to say containment machinery is absent.
+
+The LAIF comparison still asks whether all relevant autonomous action, access escalation and resource acquisition are bounded, whether logs and interrupts work under adversarial conditions, and whether materially irreversible actions require authority proportionate to consequence. Article 14's defined high-risk regime is not automatically an all-system answer. Furthermore, the amendment changes application timing for specified Chapter III duties (Q022/Q023); presence in the statute and present applicability are separate. **Closure:** demonstrate the applicable date/category, tested controls, authority delegation and protections against irreversible consequences rather than inferring readiness from the written stop-button duty.
+
+**A.4 Structural Calibration — accuracy obligations are not enough to assume confidence calibration.** Original Article 9(8) refers to testing against prior-defined metrics and probabilistic thresholds; Articles 13/15 require accuracy-related information and lifecycle robustness (EUO-9/13/15). These substantially support a performance-evidence architecture. They should be credited.
+
+LAIF §2.5 nevertheless tests a specific correspondence: where outputs express confidence that materially affects a person's decision, does that expressed confidence match observed accuracy in comparable real contexts? High average accuracy alone cannot establish it. The amendment's documentary and proportionality changes do not furnish the empirical result. **Closure:** require or identify domain- and subgroup-relevant confidence/uncertainty validation, evidence currency after change, and action where material overconfidence appears. This is an assurance requirement, not an invented claim that the Act bans every uncalibrated probability or mandates one universal metric.
+
+**Integrity decision:** the evidence supports several strong statutory analogues. It does not support deployment authorisation under LAIF without a system-specific four-property evidence pack. This is not a finding that every EU-regulated deployment fails those properties.
+
+### Section B — Coherence Test applied to the regulatory changes
+
+**Q1 — Coupling.** The assessment must identify the exact permission/constraint, beneficiary, protection, enforceable force and accessible route in each case. An aggregate whole-document score cannot do this.
+
+| Regulatory decision | Paired interests and protection | LAIF Q1 finding |
+|---|---|---|
+| Limit overlapping requirements where sector law protects equally, Article 2(13) | Reduces provider duplication; permits limitation only with equivalent/higher health/safety/fundamental-rights protection and no reduction in overall protection, with delegated specification (Q002). | **Structurally supported.** Enablement and protection are expressly linked. Equivalence must be demonstrated requirement by requirement, including the affected class and enforcement route. |
+| Proportionate implementation for SME/SMC providers, Article 17(2) | Reduces size-related compliance burden while expressly retaining required rigour and protection (Q010). | **Structurally supported.** Cost can scale without a textual licence to lower the protection floor. De facto weaker enforcement would defeat the pairing, but is not established here. |
+| Exceptional sensitive-data processing for bias correction, Article 4a | Enables detection/correction that could protect discriminated groups; requires strict necessity, unavailable effective alternatives, access/security limits, non-transfer and deletion safeguards (p17, Q004/Q005). | **Supported for the permission's privacy safeguards.** Paragraph 2's lack of a new general detection duty does not itself cancel existing discrimination duties. A LAIF B2 implementation must still identify what actually triggers investigation/remediation. |
+| Specific harmful synthetic-content prohibitions, Article 5 additions | Protects identifiable persons' dignity/sexual privacy and children; distinguishes provider design/safeguard conditions from deployer-purpose conditions (Q006/Q007). | **Strong explicit protective pairing.** Verify foreseeable/reproducible misuse and safeguard effectiveness; do not equate compliant generic capability with prohibited use. |
+| Postpone specified high-risk duties and allow legacy transitions, Articles 111/113 | Enables implementation time and continuity; exposes affected classes to a changed interval before specified safeguards apply (Q020–Q023). | **Equivalent interim protection NOT ESTABLISHED in this evidence set.** The amendment's dates alone do not identify the applicable alternative rights, controls and remedy for each affected class during that interval. Existing law may supply them; it must be mapped rather than assumed absent or sufficient. |
+
+For the last row, the failure is to demonstrate the complete coupling, not the proposition that all postponement is wrong. Under LAIF, a defensible transitional permission needs a documented protective counterpart. For example, a critical-service continuity need could justify more implementation time if temporary testing, human review, accessible remedy and stop authority preserve appropriate protection. Whether those measures already exist is an evidence question. The complete package cannot receive an affirmative Q1 answer until it is resolved.
+
+**Q1a Structural Pairing:** **EXPLICIT in the clauses identified above; incomplete or dependent on outside instruments for the full transition package.** **Q1b Enforcement Strength:** **HARD within applicable statutory duties and rights**, unlike a merely voluntary framework. But legal bindingness does not by itself prove equivalent scope, equal access and equally effective enforcement for every paired protection. Article 86 and Article 85 demonstrate individual routes; their defined scope and practical procedure still matter.
+
+**Worked test:** consider a hypothetical person adversely affected during the transitional interval by a system in a deferred high-risk category. Do not assume that the future technical duty or its postponement extinguishes an already applicable explanation right or national remedy. Instead ask: which actual control prevents the harm now; who can invoke it; what evidence must the operator produce; can a decision be stopped or corrected in time? If the obligation map answers all four with adequate force, the transition may pass Q1. The supplied amendment record alone does not establish that answer for all affected classes. This is a test scenario, not an observed incident.
+
+**Q2 — Consistency: supported proportionality, unresolved package-level justification.** Scale down to a small provider and up to a dominant provider: Article 17(2)'s logic is defensible because it varies implementation effort while preserving rigour. Sectoral equivalence is likewise principled if the same real protection is achieved through another route. Identical paperwork is not required by LAIF.
+
+Now test exceptions: does the same material harm receive equivalent protection whether the product is governed through one sector route or another; whether an operator falls under the AI Office or a national authority; or whether the affected system entered the market just before a transition date? An institutional allocation or historic date can have an administrable justification, but that alone does not establish proportionality to harm. The original and amended acts contain important safeguards; the assessment has not verified the alternative protection for every transition/sector class. **Determination:** no established finding of arbitrary discrimination, but no evidence-supported full-package Q2 pass. **Closure:** a harm/actor/category/time matrix with principled reasons for differential treatment and equivalent protective outcomes.
+
+**Q3 — Reversibility: strong mechanisms, incomplete consequence protection.** Original Article 14 gives output override and interruption. Amended Article 75b allows proceedings to reopen under stated conditions (p30); court review and defence/access safeguards constrain enforcement (Q016/Q018/Q019); delegated-act powers are constrained by parliamentary/council objection and revocation (p34). These are substantive revisability mechanisms.
+
+However, later rules, reopening a file or stopping a system cannot necessarily restore intimate material already distributed, a missed medical intervention, an exhausted legal deadline or a lost opportunity. The amendment package must therefore be assessed for **consequence reversibility**, not merely amendability. Where application is postponed, what prevents an irreversible outcome during the interval, and what prior authorisation and compensating protection operate? The reviewed evidence does not demonstrate a complete answer across all categories. **Determination:** partial satisfaction, not an affirmative complete Q3 result. **Closure:** explicit consequence/authority analysis, interim safeguards and timely remedy before harm becomes non-restorable; no universal sunset is invented as a mandatory LAIF condition.
+
+### Section C — Provisions, self-application and structural risk
+
+| LAIF requirement | Positive source evidence | Outstanding requirement |
+|---|---|---|
+| A1: meaningful account and human review | Original Articles 13, 85, 86; amended documentation/access provisions | Confirm scope, material uncertainty/limitations, accessibility and timely remedy for the actual category. |
+| A2: non-manipulation and disclosure of interests | AI Act architecture and specific prohibited-practice amendments protect particular interests | Complete mapping of unchanged prohibitions/disclosure rules and their exceptions is required before claiming equivalence for all material interactions. |
+| B2: nondiscrimination and protective bias analysis | Article 4a guarded processing; Article 10 data-governance links | Establish the applicable testing/remediation duty and its enforcement; do not infer it from permission alone or deny existing duties because paragraph 2 creates none. |
+| B3: contestable power | Rights-authority cooperation and information access; challenge and review channels | Test whether enforcement concentration or supplier dependency forecloses practical contestation. Centralisation alone is not proof of a B3 violation. |
+| C1–C3: oversight and objective correspondence | Article 75a information/inspection access, experts and enforceable measures | Actual truthful disclosures, conflicts controls and behavioural verification; statutory powers do not prove exercise or effectiveness. |
+| D1–D2: irreversible actions and future choice | Stop/override, reopen/review, delegated-act controls | Consequence-scaled advance authority and compensating protection for irreversible effects, including during transitions. |
+| §§4.3, 7.4: governance self-application | Judicial review, publication, rights of defence and access to the file (pp30–33) | Verify standing, practical access, time and remedy for each affected class, rather than equating operator procedural rights with complete citizen protection. |
+
+**Self-application finding:** materially stronger than a governance system with unchecked regulator discretion. The amendment expressly constrains enforcement actors through procedural and judicial mechanisms. It is still not evidence that they comply in practice or that every affected person's challenge is equally accessible. Those are independently testable questions under LAIF, not grounds to erase the protection already written into the instrument.
+
+### Priority repairs / verification needed to close the LAIF findings
+
+| Priority | Required action | Responsible role | Acceptance evidence |
+|---|---|---|---|
+| 1 | Complete the protective counterpart for deferred/legacy categories | Legislative/sector policy owner and competent authority | For each class/date: binding interim protection, beneficiary, access route, enforcement and residual irreversible-risk justification. Prefer evidence of existing adequate law before new rules. |
+| 1 | Convert statutory requirements into an evidence-supported four-property deployment gate | Provider/deployer assurance owner | Objective, explanation, containment and calibration evidence; independent challenge for high stakes; no score offsets an unsupported property. |
+| 1 | Verify practical explanation/complaint/correction routes | Deployer and relevant authority | Article 86/85 and other routes mapped to scope; tested request, disclosure, escalation and timely correction. |
+| 2 | Demonstrate rather than declare sectoral equivalence and proportional implementation | Commission/sector authorities and conformity assessors | Requirement-level equivalence record preserving scope, rigour and enforcement access. |
+| 2 | Test irreversible consequences and authority limits | Provider/deployer governing body with legal oversight | Scenario tests, delegated authority, effective stop/override and compensating protections appropriate to permanence. |
+| 2 | Test the governance actors' own accountability | Independent oversight / competent review bodies | Access, publication, conflicts and review evidence covering affected persons as well as regulated operators. |
+
+**Final LAIF judgement:** retain and enforce the amendment's strong protection floors and procedural safeguards. Do not assume that simplified paperwork, postponed application or a binding legal form proves a fully coherent protection relationship. The remaining work is a specific protection-and-evidence map for the permissions being extended, not a demand that EU legislation adopt LAIF's branding.
+
+---
+
+## Regulatory change, applicability and execution appendices
+
+The following operative register and date matrix support the substantive determination. Machine outputs are retained as diagnostic observations, not substituted for the assessment above. The original-Act upstream verification has now been completed for the contextual evidence used here; earlier wording describing that check as unavailable is historical to the first execution pass.
 
 ## Finding and authority
 

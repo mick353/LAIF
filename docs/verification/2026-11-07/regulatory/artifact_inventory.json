@@ -1,20 +1,20 @@
 {
-  "scope": "Dated execution record; inventory excludes itself",
+  "scope": "Dated execution record including substantive assessment correction; inventory excludes itself",
   "files": [
     {
       "path": "README.md",
-      "bytes": 7246,
-      "sha256": "fc6be56e38872a5b1b9c17f81b2fa387037f9091563f5386abf243d33c43d715"
+      "bytes": 8789,
+      "sha256": "7ebd1d888efff81c4eed6f0ca3d69a57699b956fcb2a158fa2f55c1833983a91"
     },
     {
       "path": "VALIDATION.md",
-      "bytes": 4979,
-      "sha256": "314628d088807e7a3f4be9fe4392298c61075bb23092eeef8255be993dedd8f1"
+      "bytes": 6244,
+      "sha256": "3ad95d87011187b70e52cbb2fb70dd066d716425f25213cc5b85d382006d9fea"
     },
     {
       "path": "au_dta_policy_v2_1.assessment.md",
-      "bytes": 10345,
-      "sha256": "72730a60abc6200e438e0f475d7e147d83cb37fa0282d3fe9842babcebef3ca8"
+      "bytes": 27841,
+      "sha256": "78f752a173d675c0cc3f01711997cade543e793da27993a41ad1c68047a43ec0"
     },
     {
       "path": "au_dta_policy_v2_1.pages.json",
@@ -28,8 +28,8 @@
     },
     {
       "path": "eu_ai_act_amendment_2026_1744.assessment.md",
-      "bytes": 14130,
-      "sha256": "e1d5f4016641acb84c83b95a62d4c9feb422d24238f566ec52463037f53c70f6"
+      "bytes": 36303,
+      "sha256": "a4d87cdf17d696d9dcfb12c6bb8815655c23b4530260d0ff560220e6efea3046"
     },
     {
       "path": "eu_ai_act_amendment_2026_1744.pages.json",
@@ -50,6 +50,16 @@
       "path": "original_act_dependency.json",
       "bytes": 1178,
       "sha256": "46561cff212c1c2279c530c39d8979e8085f13fde7d0ea07eed46b2acc90a4f9"
+    },
+    {
+      "path": "original_act_substantive_evidence.json",
+      "bytes": 20161,
+      "sha256": "05472de0a3542ab738e021011a5f909b55f7e578c4483022c1bf3f9c5f07bcbb"
+    },
+    {
+      "path": "original_act_upstream_verification.json",
+      "bytes": 388,
+      "sha256": "072274f8bd9a5d38da39023b0eba0d56bca9fb56003b62f66ab1e62cf8defe4a"
     },
     {
       "path": "pypdf-diagnostic/au_dta_policy_v2_1/Policy-for-the-responsible-use-of-AI-in-government-2_1_1.institutional_report.md",
@@ -380,6 +390,16 @@
       "path": "stdlib-regression.log",
       "bytes": 2890,
       "sha256": "3cc6c21e34f1a6bb66bcfbe5814ea36014ab362da2e0ccf5173cc4fa1e4827c4"
+    },
+    {
+      "path": "substantive-correction-validation.log",
+      "bytes": 269113,
+      "sha256": "bdf4ccaeab3cf64ddb48967c7523aa9f67f85d52aea9bedf51d880e512e30dcc"
+    },
+    {
+      "path": "substantive_findings.json",
+      "bytes": 2803,
+      "sha256": "01dd0369e335adad7df6845f7a6651d6c86f99963c321529c99981df92c22b1a"
     },
     {
       "path": "upstream_retrieval.json",

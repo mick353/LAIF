@@ -86,10 +86,29 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     try:
         total = sum(verify_source(ROOT, key, args.reextract) for key in IDS)
+        # Contextual original-Act evidence is distinct from PR #90's corpus
+        # admission. Verify its actual PDF and recorded passages as well.
+        context = json.loads((ROOT / "docs/verification/2026-11-07/regulatory/original_act_substantive_evidence.json").read_text(encoding="utf-8"))
+        source = ROOT / context["source_pdf"]
+        if digest(source.read_bytes()) != context["source_sha256"]:
+            raise ValueError("Original Act contextual PDF hash mismatch")
+        for trace in context["traces"]:
+            if digest(trace["matched_text"].encode("utf-8")) != trace["sha256"]:
+                raise ValueError("Original Act contextual passage hash mismatch")
+        if args.reextract:
+            result = subprocess.run(["pdftotext", "-layout", "-enc", "UTF-8", str(source), "-"],
+                                    capture_output=True, check=True)
+            text = result.stdout.decode("utf-8")
+            if digest(result.stdout) != context["full_extraction_sha256"]:
+                raise ValueError("Original Act contextual extraction hash mismatch")
+            for trace in context["traces"]:
+                if text[trace["start_char"]:trace["end_char"]] != trace["matched_text"]:
+                    raise ValueError("Original Act contextual quotation mismatch")
     except (OSError, ValueError, KeyError, IndexError, subprocess.CalledProcessError) as exc:
         print(f"FAIL: {exc}")
         return 1
     print(f"PASS: {len(IDS)} PDFs and raw-text hashes, complete page maps and {total} exact page-bounded quotes")
+    print("PASS: original-Act contextual PDF and six passage hashes")
     if args.reextract:
         print("PASS: Poppler extraction reproduces committed raw text byte-for-byte")
     return 0

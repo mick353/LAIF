@@ -1,0 +1,41 @@
+{
+  "method": "Analyst application of LAIF v1.2 principal text, not engine-generated findings or empirical certification",
+  "assessed_at_local_date": "2026-11-07",
+  "framework_sha256": "1935ab3924148c0fdce68369146582f434786f584bf38f5e0c740b545e8819a1",
+  "framework_drafting_issue": "Section 2.4 says three properties; Sections 2.5 and 9.1/9.4 require the fourth, Structural Calibration. All four included; framework and engine unchanged.",
+  "decisions": {
+    "au_dta_policy_v2_1": {
+      "report": "au_dta_policy_v2_1.assessment.md",
+      "integrity": {
+        "Structural Transparency": "NOT_ESTABLISHED",
+        "Structural Honesty": "NOT_ESTABLISHED",
+        "Structural Containment": "NOT_ESTABLISHED",
+        "Structural Calibration": "NOT_ESTABLISHED"
+      },
+      "q1": "NOT_SATISFIED_BY_POLICY_ALONE",
+      "q1a": "EXPLICIT_FOR_SCREENING_AND_TREATMENT_INCOMPLETE_FOR_INDIVIDUAL_RIGHTS",
+      "q1b": "MANDATORY_AGENCY_DUTIES_EQUIVALENT_PERSON_ACCESSIBLE_FORCE_NOT_ESTABLISHED",
+      "q2": "PARTIALLY_SUPPORTED_FULL_TEST_NOT_ESTABLISHED",
+      "q3": "PARTIALLY_SUPPORTED_FULL_TEST_NOT_ESTABLISHED",
+      "overall": "COMPLETE_COHERENCE_TEST_NOT_SATISFIED_ON_ASSESSED_TEXT",
+      "principal_gap": "Mandatory administrative controls do not themselves establish equally enforceable individual protections or a four-property deployment evidence gate."
+    },
+    "eu_ai_act_amendment_2026_1744": {
+      "report": "eu_ai_act_amendment_2026_1744.assessment.md",
+      "integrity": {
+        "Structural Transparency": "STRONG_DEFINED_SCOPE_FULL_COVERAGE_NOT_ESTABLISHED",
+        "Structural Honesty": "PARTIALLY_SUPPORTED_FULL_PROPERTY_NOT_ESTABLISHED",
+        "Structural Containment": "STRONG_DEFINED_SCOPE_FULL_PROPERTY_NOT_ESTABLISHED",
+        "Structural Calibration": "PARTIALLY_SUPPORTED_FULL_PROPERTY_NOT_ESTABLISHED"
+      },
+      "q1": "SUPPORTED_FOR_CONDITIONAL_SIMPLIFICATION_FULL_TRANSITION_PACKAGE_NOT_ESTABLISHED",
+      "q1a": "EXPLICIT_IN_IDENTIFIED_CLAUSES_INCOMPLETE_FULL_TRANSITION_PACKAGE",
+      "q1b": "HARD_WITHIN_APPLICABLE_STATUTORY_DUTIES_AND_RIGHTS_EQUIVALENCE_REQUIRES_SCOPE_AND_ACCESS",
+      "q2": "SUPPORTED_PROPORTIONALITY_FULL_PACKAGE_NOT_ESTABLISHED",
+      "q3": "SUBSTANTIAL_SUPPORT_FULL_TEST_NOT_ESTABLISHED",
+      "overall": "COMPLETE_COHERENCE_TEST_NOT_SATISFIED_ON_ASSESSED_EVIDENCE",
+      "principal_gap": "Equivalent protection for affected classes during deferred/legacy application intervals is not demonstrated; strong existing explanation and stop/override rights are expressly credited."
+    }
+  },
+  "boundary": "Insufficient evidence cannot establish an affirmative LAIF threshold; it does not prove the opposite proposition or statutory noncompliance. No tested deployment, institutional breach or legal invalidity finding."
+}

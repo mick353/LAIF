@@ -29,3 +29,10 @@ The full verifier actually ran governance configuration, protected-artifact and 
 ## Review readiness
 
 The execution/source-processing work is complete and locally verified. These are separate **draft source-scoped assessments**, not replacements for protected reports. The PR is ready for source/policy/legal/semantic review, not automatically approved for merge. DTA upstream-byte equivalence, human review and a fully joined/consolidated EU-law assessment remain limitations. Original-Act admission stays with PR #90. No unrelated PR was changed and no merge was performed.
+
+
+## Substantive assessment correction
+
+The initial execution pass was not a complete substantive LAIF assessment. Both reports now include four Integrity Layer properties, Q1a/Q1b, explicit Coherence Test determinations, scale/reversibility reasoning, self-application, provision mappings and evidence-based closing actions. Exact source traces were expanded from arbitrary line windows to full layout paragraphs/operative lists without changing PDF or raw extraction bytes. Original EU Act contextual evidence now includes six directly extracted articles, and its PDF matches a fresh official EUR-Lex download. New verification checks the original PDF/passage hashes and, with `--reextract`, exact offsets against a fresh extraction. See `substantive-correction-validation.log` for executed correction checks.
+
+Correction verification completed: source/44-quote/page checks and all six original-Act contextual passages passed, including fresh extraction identity. The full local gate was re-executed and passed with 382 discovered tests plus direct suites, protected artefact checks and deterministic baseline regeneration. `python -S` source verification also passed. The engine, framework source, protected reports and historical source bytes remain unchanged.
