@@ -1,0 +1,37 @@
+{
+  "control_recommendations": [
+    {
+      "cadence": "Before deployment, after material change, after incident, and at least quarterly while in operational use.",
+      "control_id": "CTRL-001",
+      "control_name": "High-Risk AI Technical Documentation Sufficiency Gate",
+      "decision_consequence": "Proceed only with complete evidence; otherwise pause, remediate, escalate, or reject supplier/system use.",
+      "implementation_steps": [
+        "Locate the expectation this closes: Section A of Annex I to Regulation (EU) 2024/1689, suc h as Regulation \u2014 \u201coblig ated to document its assessment before that AI system is placed on the market or put into service.\u201d",
+        "Create the artefact: Evidence acceptance criteria defining required content, currency, and reviewer competence for each requested artefact.",
+        "Set the trigger: Each submission of evidence under the document.",
+        "Set the stop condition: Evidence that does not meet the stated criteria is rejected rather than filed.",
+        "Assign a named owner and an independent reviewer, and record outcomes in an auditable register."
+      ],
+      "linked_failure_pathways": [
+        "PATH-001"
+      ],
+      "linked_gap_ids": [
+        "GAP-001"
+      ],
+      "minimum_evidence": "Current owner sign-off, implementation artifact, threshold log, review cadence record, and exception/escalation register.",
+      "owner": "The assurance reviewer who accepts or rejects evidence submitted under this document.",
+      "priority": "immediate",
+      "required_artifact": "Evidence acceptance criteria defining required content, currency, and reviewer competence for each requested artefact.",
+      "residual_risk_if_not_implemented": "The institution may rely on governance language that does not control real-world decisions or harms.",
+      "risk_addressed": "Evidence is requested without a sufficiency standard",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ],
+      "suggested_template_row": "CTRL-001 | owner | artifact | trigger | threshold | cadence | decision consequence | quote IDs Q001, Q002, Q003",
+      "threshold": "Evidence that does not meet the stated criteria is rejected rather than filed.",
+      "trigger": "Each submission of evidence under the document."
+    }
+  ]
+}

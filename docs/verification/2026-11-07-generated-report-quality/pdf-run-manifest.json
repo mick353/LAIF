@@ -1,0 +1,33 @@
+{
+  "human_quote_and_legal_review": "REQUIRED",
+  "official_upstream_byte_equivalence": "NOT_VERIFIED",
+  "results": [
+    {
+      "assessed_input": "docs/verified/manual_ingest/Policy for the responsible use of AI in government 2_1_1.pdf",
+      "assessed_input_sha256": "7da206ff9bb77c5c4505577ea2fd11367700b38f4ff8c4e4592501e95221e5c2",
+      "extractor": "pypdf",
+      "id": "au_dta_policy_v2_1",
+      "output_dir": "/workspace/scratch/a966521d6ca7/professional-delivery-pdf/au_dta_policy_v2_1",
+      "processor_exit_code": 0,
+      "repository_path": "docs/verified/manual_ingest/Policy for the responsible use of AI in government 2_1_1.pdf",
+      "source_bytes": 489079,
+      "source_hash_verified": true,
+      "source_sha256": "7da206ff9bb77c5c4505577ea2fd11367700b38f4ff8c4e4592501e95221e5c2"
+    },
+    {
+      "assessed_input": "docs/verified/manual_ingest/OJ_L_202601744_EN_TXT.pdf",
+      "assessed_input_sha256": "0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386",
+      "extractor": "pypdf",
+      "id": "eu_ai_act_amendment_2026_1744",
+      "output_dir": "/workspace/scratch/a966521d6ca7/professional-delivery-pdf/eu_ai_act_amendment_2026_1744",
+      "processor_exit_code": 0,
+      "repository_path": "docs/verified/manual_ingest/OJ_L_202601744_EN_TXT.pdf",
+      "source_bytes": 1121625,
+      "source_hash_verified": true,
+      "source_sha256": "0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386"
+    }
+  ],
+  "schema": "laif-regulatory-pdf-run-v1",
+  "scope": "documentary assessment only; not legal certification",
+  "source_admission": "NOT_PERFORMED"
+}

@@ -1,0 +1,17 @@
+CHECK: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -m py_compile scripts/laif_evidence_checks.py scripts/laif_assurance.py scripts/laif_calibration.py scripts/laif_verify.py
+CHECK: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python tests/test_evidence_checks.py
+.................
+----------------------------------------------------------------------
+Ran 17 tests in 0.164s
+
+OK
+CHECK: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python tests/test_assurance.py
+.........................................................
+----------------------------------------------------------------------
+Ran 57 tests in 0.151s
+
+OK
+CHECK: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python scripts/governance/check_governance_config.py
+Governance config valid: /workspace/scratch/a966521d6ca7/LAIF/scripts/governance/protected_paths.json
+Protected artifact paths: 2
+PASS: selected local checks (see NOT RUN notes for omissions).

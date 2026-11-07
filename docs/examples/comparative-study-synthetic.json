@@ -1,0 +1,61 @@
+{
+  "schema": "laif.comparative-study.v1",
+  "study_id": "SYNTHETIC_DO_NOT_CITE",
+  "label_provenance": "SYNTHETIC",
+  "protocol_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "evaluated_revision": "0000000000000000000000000000000000000000",
+  "cases": [
+    {
+      "id": "synthetic-01",
+      "family": "toy-example-01",
+      "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "split": "holdout",
+      "attribute": "named_control_owner",
+      "reference": true,
+      "reviewer_votes": [
+        {"reviewer": "synthetic-A", "value": true},
+        {"reviewer": "synthetic-B", "value": true}
+      ],
+      "predictions": {"laif": true, "checklist": false, "keyword": true}
+    },
+    {
+      "id": "synthetic-02",
+      "family": "toy-example-02",
+      "source_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "split": "holdout",
+      "attribute": "monitoring_threshold",
+      "reference": true,
+      "reviewer_votes": [
+        {"reviewer": "synthetic-A", "value": true},
+        {"reviewer": "synthetic-B", "value": false}
+      ],
+      "predictions": {"laif": false, "checklist": true, "keyword": null}
+    },
+    {
+      "id": "synthetic-03",
+      "family": "toy-example-03",
+      "source_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "split": "holdout",
+      "attribute": "escalation_path",
+      "reference": false,
+      "reviewer_votes": [
+        {"reviewer": "synthetic-A", "value": false},
+        {"reviewer": "synthetic-B", "value": false}
+      ],
+      "predictions": {"laif": true, "checklist": false, "keyword": false}
+    },
+    {
+      "id": "synthetic-04",
+      "family": "toy-example-04",
+      "source_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "split": "holdout",
+      "attribute": "reversal_mechanism",
+      "reference": false,
+      "reviewer_votes": [
+        {"reviewer": "synthetic-A", "value": false},
+        {"reviewer": "synthetic-B", "value": false}
+      ],
+      "predictions": {"laif": null, "checklist": false, "keyword": true}
+    }
+  ]
+}

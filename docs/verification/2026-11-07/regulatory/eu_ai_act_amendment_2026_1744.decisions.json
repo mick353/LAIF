@@ -1,0 +1,217 @@
+{
+  "schema": "laif.regulatory-reasoning.v1",
+  "document_id": "eu_ai_act_amendment_2026_1744",
+  "review_date": "2026-11-07",
+  "review_status": "AUTHOR_ANALYSIS_NOT_INDEPENDENT",
+  "assessment_path": "docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.assessment.md",
+  "assessment_sha256": "213028c30f1b013cfc8f3b26489485c780c7c047a21c70aba4434e48d15bc9e8",
+  "framework_sha256": "c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407",
+  "toolkit_sha256": "24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67",
+  "source_pdf_sha256": "0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386",
+  "source_text_sha256": "dfcdbe4c3da4ce06f7b39bade40b4b08c132718352ef70b670ef8f163fb9a5b0",
+  "criteria_findings": [
+    {
+      "criterion_id": "A.1",
+      "determination": "STRONG_TEXTUAL_SUPPORT_WHERE_APPLICABLE",
+      "reasoning": "Articles 13, 85 and 86 supply concrete information and complaint routes. Article 86 scope, alternative Union-law rights and Article 111 legacy applicability must be joined.",
+      "trace_ids": [
+        "EUO-13",
+        "EUO-85",
+        "EUO-86",
+        "eu_ai_act_amendment_2026_1744-Q020"
+      ],
+      "closure_evidence": "Map the actual person/system/date and applicable explanation route, then verify usable content and access.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "A.2",
+      "determination": "PARTIAL_SUPPORT",
+      "reasoning": "Lifecycle testing, documentation and investigation duties enable verification; the mapping does not establish full objective correspondence and robustness under pressure.",
+      "trace_ids": [
+        "EUO-9",
+        "eu_ai_act_amendment_2026_1744-Q009",
+        "eu_ai_act_amendment_2026_1744-Q015"
+      ],
+      "closure_evidence": "Identify equivalent assurance obligations and deployment evidence without demanding system test results inside the statute.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "A.3",
+      "determination": "STRONG_TEXTUAL_SUPPORT_WHERE_APPLICABLE",
+      "reasoning": "Article 14 provides override and safe-stop controls; scope, timing and irreversible-action authority remain distinct.",
+      "trace_ids": [
+        "EUO-14",
+        "eu_ai_act_amendment_2026_1744-Q020",
+        "eu_ai_act_amendment_2026_1744-Q022",
+        "eu_ai_act_amendment_2026_1744-Q023"
+      ],
+      "closure_evidence": "Resolve applicable regime and evidence for agent boundaries, interruption and proportionate authority.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "A.4",
+      "determination": "CONDITIONAL_REQUIREMENT_NOT_ESTABLISHED",
+      "reasoning": "Testing, accuracy information and robustness support performance assurance but do not themselves establish confidence calibration where section 2.5 applies.",
+      "trace_ids": [
+        "EUO-9",
+        "EUO-13",
+        "EUO-15"
+      ],
+      "closure_evidence": "Identify applicable confidence/accuracy validation; no universal new metric is inferred.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "Q1",
+      "determination": "POSITIVE_CLAUSES_COMPLETE_PACKAGE_NOT_DEMONSTRATED",
+      "reasoning": "Sector-equivalence and SME simplification retain protection floors. Legacy applicability prevents assuming one explanation route closes every transitional class.",
+      "trace_ids": [
+        "eu_ai_act_amendment_2026_1744-Q002",
+        "eu_ai_act_amendment_2026_1744-Q010",
+        "eu_ai_act_amendment_2026_1744-Q020",
+        "eu_ai_act_amendment_2026_1744-Q028",
+        "EUO-86"
+      ],
+      "closure_evidence": "Establish interim protection and equivalent enforceability for each affected class.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "Q2",
+      "determination": "PARTIAL_SUPPORT",
+      "reasoning": "Risk-proportionate burden reduction can be principled while retaining protection; transition and sector distinctions still need harm-based reasons.",
+      "trace_ids": [
+        "eu_ai_act_amendment_2026_1744-Q002",
+        "eu_ai_act_amendment_2026_1744-Q010",
+        "eu_ai_act_amendment_2026_1744-Q020"
+      ],
+      "closure_evidence": "Compare equivalent harms across actor, sector and time categories; justify differential protection.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "Q3",
+      "determination": "PARTIAL_SUPPORT",
+      "reasoning": "Stop/override and procedural controls support revisability; later commencement alone cannot justify irreversible interim effects.",
+      "trace_ids": [
+        "EUO-14",
+        "eu_ai_act_amendment_2026_1744-Q016",
+        "eu_ai_act_amendment_2026_1744-Q018",
+        "eu_ai_act_amendment_2026_1744-Q019",
+        "eu_ai_act_amendment_2026_1744-Q020"
+      ],
+      "closure_evidence": "Identify consequence-specific justification, authority and protective procedure.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "G.1",
+      "determination": "SUBSTANTIAL_TEXTUAL_SUPPORT_OPERATION_UNASSESSED",
+      "reasoning": "Judicial authorisation, access and defence safeguards constrain enforcement actors. Their effectiveness and accessibility are not established by existence alone.",
+      "trace_ids": [
+        "eu_ai_act_amendment_2026_1744-Q016",
+        "eu_ai_act_amendment_2026_1744-Q018",
+        "eu_ai_act_amendment_2026_1744-Q019"
+      ],
+      "closure_evidence": "Verify relevant review routes and accountable use in the concrete jurisdiction.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    }
+  ],
+  "principle_coverage": [
+    {
+      "principle_id": 1,
+      "addressed_by": [
+        "Q1",
+        "Q2",
+        "Q3"
+      ]
+    },
+    {
+      "principle_id": 2,
+      "addressed_by": [
+        "Q1"
+      ]
+    },
+    {
+      "principle_id": 3,
+      "addressed_by_section": "Non-Accumulation and Temporal Separation"
+    },
+    {
+      "principle_id": 4,
+      "addressed_by_section": "Non-Accumulation and Temporal Separation"
+    },
+    {
+      "principle_id": 5,
+      "addressed_by": [
+        "Q2",
+        "G.1"
+      ]
+    }
+  ],
+  "applicability_cases": [
+    {
+      "case_id": "C01",
+      "assumptions": "Person otherwise within Article 86 and Annex III scope",
+      "determination": "Join Article 86 exceptions/subsidiarity, original general commencement and Article 111 before asserting an available explanation right.",
+      "trace_ids": [
+        "EUO-86",
+        "EUO-113",
+        "eu_ai_act_amendment_2026_1744-Q020",
+        "eu_ai_act_amendment_2026_1744-Q028"
+      ],
+      "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+    },
+    {
+      "case_id": "C02",
+      "assumptions": "Commercial legacy high-risk operator without qualifying design change established",
+      "determination": "Article 111(2) concerns application of the Regulation, not only technical duties. Identify applicable interim or alternative protection; no universal absence of remedy is established.",
+      "trace_ids": [
+        "eu_ai_act_amendment_2026_1744-Q020"
+      ],
+      "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+    },
+    {
+      "case_id": "C03",
+      "assumptions": "Public-authority intended legacy use outside Article 111(1)",
+      "determination": "Read the 2 August 2030 compliance backstop and significant-change condition. Neither blanket exemption nor equivalent interim protection is established.",
+      "trace_ids": [
+        "eu_ai_act_amendment_2026_1744-Q020"
+      ],
+      "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+    },
+    {
+      "case_id": "C04",
+      "assumptions": "Annex X large-scale IT-system component within Article 111(1)",
+      "determination": "Use its separate before-2-August-2027 cutoff and 31 December 2030 compliance rule, retaining Article 5 reservation.",
+      "trace_ids": [
+        "EUO-111-1"
+      ],
+      "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+    },
+    {
+      "case_id": "C05",
+      "assumptions": "Specified new Article 5 prohibitions",
+      "determination": "Article 113(a), not the separate Article 50 transition, supplies 2 December 2026 application. Provider/deployer and safeguard conditions still govern.",
+      "trace_ids": [
+        "eu_ai_act_amendment_2026_1744-Q006",
+        "eu_ai_act_amendment_2026_1744-Q007",
+        "eu_ai_act_amendment_2026_1744-Q028"
+      ],
+      "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+    },
+    {
+      "case_id": "C06",
+      "assumptions": "Synthetic-content provider placed on market before 2 August 2026",
+      "determination": "Article 111(4) sets Article 50(2) compliance by 2 December 2026; it does not decide all Article 50 or Article 5 duties.",
+      "trace_ids": [
+        "eu_ai_act_amendment_2026_1744-Q021"
+      ],
+      "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+    }
+  ],
+  "verification_boundary": "Hash and reference integrity checks do not verify logical entailment, legal correctness, reviewer independence or control effectiveness."
+}

@@ -1,0 +1,136 @@
+{
+  "control_recommendations": [
+    {
+      "cadence": "Before deployment, after material change, after incident, and at least quarterly while in operational use.",
+      "control_id": "CTRL-001",
+      "control_name": "Precedence and Non-Waiver Clause",
+      "decision_consequence": "Proceed only with complete evidence; otherwise pause, remediate, escalate, or reject supplier/system use.",
+      "implementation_steps": [
+        "Locate the expectation this closes: Page iii \u2014 \u201crequirements agencies must follow. Recommended actions and considerations are also included where relevant.\u201d",
+        "Create the artefact: A precedence clause stating which provisions prevail on conflict, which may not be waived or amended except by a named authority, and what instrument this document is subordinate to.",
+        "Set the trigger: Adoption of the document, and every amendment to it.",
+        "Set the stop condition: No amendment is made without recording whether it changes a provision the precedence clause protects.",
+        "Assign a named owner and an independent reviewer, and record outcomes in an auditable register."
+      ],
+      "linked_failure_pathways": [
+        "PATH-001"
+      ],
+      "linked_gap_ids": [
+        "GAP-001"
+      ],
+      "minimum_evidence": "Current owner sign-off, implementation artifact, threshold log, review cadence record, and exception/escalation register.",
+      "owner": "The authority that approves amendments to this document.",
+      "priority": "near_term",
+      "required_artifact": "A precedence clause stating which provisions prevail on conflict, which may not be waived or amended except by a named authority, and what instrument this document is subordinate to.",
+      "residual_risk_if_not_implemented": "The institution may rely on governance language that does not control real-world decisions or harms.",
+      "risk_addressed": "Obligations are imposed with no precedence rule between them",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ],
+      "suggested_template_row": "CTRL-001 | owner | artifact | trigger | threshold | cadence | decision consequence | quote IDs Q001, Q002, Q003",
+      "threshold": "No amendment is made without recording whether it changes a provision the precedence clause protects.",
+      "trigger": "Adoption of the document, and every amendment to it."
+    },
+    {
+      "cadence": "Before deployment, after material change, after incident, and at least quarterly while in operational use.",
+      "control_id": "CTRL-002",
+      "control_name": "Breach Consequence Schedule",
+      "decision_consequence": "Proceed only with complete evidence; otherwise pause, remediate, escalate, or reject supplier/system use.",
+      "implementation_steps": [
+        "Locate the expectation this closes: Page iii \u2014 \u201crequirements agencies must follow. Recommended actions and considerations are also included where relevant.\u201d",
+        "Create the artefact: Consequence schedule mapping each class of breach to a defined response, up to suspension of use.",
+        "Set the trigger: Any identified breach or exception request.",
+        "Set the stop condition: No breach is closed without a recorded consequence or a documented, authorised exception.",
+        "Assign a named owner and an independent reviewer, and record outcomes in an auditable register."
+      ],
+      "linked_failure_pathways": [
+        "PATH-002"
+      ],
+      "linked_gap_ids": [
+        "GAP-002"
+      ],
+      "minimum_evidence": "Current owner sign-off, implementation artifact, threshold log, review cadence record, and exception/escalation register.",
+      "owner": "The policy owner, jointly with whoever can suspend use of the system.",
+      "priority": "near_term",
+      "required_artifact": "Consequence schedule mapping each class of breach to a defined response, up to suspension of use.",
+      "residual_risk_if_not_implemented": "The institution may rely on governance language that does not control real-world decisions or harms.",
+      "risk_addressed": "Requirements carry no stated consequence for non-compliance",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ],
+      "suggested_template_row": "CTRL-002 | owner | artifact | trigger | threshold | cadence | decision consequence | quote IDs Q001, Q002, Q003",
+      "threshold": "No breach is closed without a recorded consequence or a documented, authorised exception.",
+      "trigger": "Any identified breach or exception request."
+    },
+    {
+      "cadence": "Before deployment, after material change, after incident, and at least quarterly while in operational use.",
+      "control_id": "CTRL-003",
+      "control_name": "Deployment Gate with Stop Authority",
+      "decision_consequence": "Proceed only with complete evidence; otherwise pause, remediate, escalate, or reject supplier/system use.",
+      "implementation_steps": [
+        "Locate the expectation this closes: Page iii \u2014 \u201cand undertake risk-based use case-level actions.\u201d",
+        "Create the artefact: Deployment gate listing the conditions that must all hold before go-live, and who signs each.",
+        "Set the trigger: Every new deployment and every material change to an existing one.",
+        "Set the stop condition: Deployment does not proceed while any gate condition is unmet.",
+        "Assign a named owner and an independent reviewer, and record outcomes in an auditable register."
+      ],
+      "linked_failure_pathways": [
+        "PATH-003"
+      ],
+      "linked_gap_ids": [
+        "GAP-003"
+      ],
+      "minimum_evidence": "Current owner sign-off, implementation artifact, threshold log, review cadence record, and exception/escalation register.",
+      "owner": "The authority empowered to withhold deployment approval.",
+      "priority": "immediate",
+      "required_artifact": "Deployment gate listing the conditions that must all hold before go-live, and who signs each.",
+      "residual_risk_if_not_implemented": "The institution may rely on governance language that does not control real-world decisions or harms.",
+      "risk_addressed": "Risk is discussed without a gate that can stop deployment",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ],
+      "suggested_template_row": "CTRL-003 | owner | artifact | trigger | threshold | cadence | decision consequence | quote IDs Q001, Q002, Q003",
+      "threshold": "Deployment does not proceed while any gate condition is unmet.",
+      "trigger": "Every new deployment and every material change to an existing one."
+    },
+    {
+      "cadence": "Before deployment, after material change, after incident, and at least quarterly while in operational use.",
+      "control_id": "CTRL-004",
+      "control_name": "Human Review and Accountability Evidence Log",
+      "decision_consequence": "Proceed only with complete evidence; otherwise pause, remediate, escalate, or reject supplier/system use.",
+      "implementation_steps": [
+        "Locate the expectation this closes: Page iii \u2014 \u201ca pathway for staff to report AI safety concerns, including AI incidents. \u2022 pathways for the public to report AI safety concerns,\u201d",
+        "Create the artefact: Published route by which an affected person can contest an outcome, with owner, timescale, and reversal authority.",
+        "Set the trigger: Any decision materially affecting a person, and any complaint received.",
+        "Set the stop condition: No decision pathway operates without a stated contest route.",
+        "Assign a named owner and an independent reviewer, and record outcomes in an auditable register."
+      ],
+      "linked_failure_pathways": [
+        "PATH-004"
+      ],
+      "linked_gap_ids": [
+        "GAP-004"
+      ],
+      "minimum_evidence": "Current owner sign-off, implementation artifact, threshold log, review cadence record, and exception/escalation register.",
+      "owner": "The complaints or appeals owner, with authority to reverse a decision.",
+      "priority": "immediate",
+      "required_artifact": "Published route by which an affected person can contest an outcome, with owner, timescale, and reversal authority.",
+      "residual_risk_if_not_implemented": "The institution may rely on governance language that does not control real-world decisions or harms.",
+      "risk_addressed": "Affected people have no route to challenge an outcome",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ],
+      "suggested_template_row": "CTRL-004 | owner | artifact | trigger | threshold | cadence | decision consequence | quote IDs Q001, Q002, Q003",
+      "threshold": "No decision pathway operates without a stated contest route.",
+      "trigger": "Any decision materially affecting a person, and any complaint received."
+    }
+  ]
+}

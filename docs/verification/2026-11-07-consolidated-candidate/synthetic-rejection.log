@@ -1,0 +1,3 @@
+usage: laif_study_compare.py [-h] [--require-human] [--format {summary,json}]
+                             study
+laif_study_compare.py: error: human-adjudicated labels required; synthetic inputs rejected

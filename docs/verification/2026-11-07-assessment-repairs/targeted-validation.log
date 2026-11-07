@@ -1,0 +1,20 @@
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.320s
+
+OK
+Original input path: /tmp/tmpzhv58ia5/policy.txt
+Resolved input path: /tmp/tmpzhv58ia5/policy.txt
+Original file name: policy.txt
+Processed at UTC: 2026-11-07T05:01:52Z
+Source SHA-256: 7c534deee2de2a7b7c9d9c5124520aea48d0d7001d882eda84987eb4415d2808
+Extractor used: builtin
+Extracted characters: 63
+Assessment mode: external_framework
+Sector profile: general_ai_governance
+Markdown report: /tmp/tmpzhv58ia5/out/policy.laif.md
+JSON report: /tmp/tmpzhv58ia5/out/policy.laif.json
+Institutional report: /tmp/tmpzhv58ia5/out/policy.institutional_report.md
+Technical appendix: /tmp/tmpzhv58ia5/out/policy.technical_appendix.md
+Analyst bundle: /tmp/tmpzhv58ia5/out/analyst/policy/analyst_bundle.json
+Processing index: /tmp/tmpzhv58ia5/out/laif_processing_index.jsonl

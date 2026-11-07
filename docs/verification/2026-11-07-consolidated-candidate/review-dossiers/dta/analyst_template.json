@@ -1,0 +1,70 @@
+{
+  "schema": "laif.research-annotations.v1",
+  "source_sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+  "evidence_manifest_sha256": "852c101949eaea7a8bc5eae891bd524004d5848cfd2de2bf0c63906def37ff91",
+  "framework_source_sha256": "c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407",
+  "toolkit_source_sha256": "24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67",
+  "toolchain_fingerprint": "353082c7f580ce76",
+  "instructions": "Add source-supported findings with unique finding_id, claim_type (OBSERVATION/INFERENCE/HYPOTHESIS), statement, evidence_ids, counterevidence_ids, at least one alternative explanation, limitations and analyst_id. Optional criterion_ids map claims to the listed LAIF criteria. Keep the source/evidence/framework/Toolkit hashes and toolchain fingerprint unchanged. A populated file is still an unverified analyst claim.",
+  "available_evidence_ids": [
+    "E001",
+    "E002",
+    "E003",
+    "E004",
+    "E005",
+    "E006",
+    "E007",
+    "E008"
+  ],
+  "available_criteria": [
+    {
+      "criterion_id": "A.1",
+      "name": "Structural Transparency",
+      "source": "2.1",
+      "question": "What meaningful account, uncertainty and limitations must an affected person be able to obtain?"
+    },
+    {
+      "criterion_id": "A.2",
+      "name": "Structural Honesty",
+      "source": "2.2",
+      "question": "What requires objective correspondence and robust behaviour across evaluation and deployment?"
+    },
+    {
+      "criterion_id": "A.3",
+      "name": "Structural Containment",
+      "source": "2.3",
+      "question": "What bounds actions, access and resources, and provides oversight, interruption and appropriate authorisation?"
+    },
+    {
+      "criterion_id": "A.4",
+      "name": "Structural Calibration",
+      "source": "2.5",
+      "question": "Where section 2.5 applies, what evidence links expressed confidence to observed real-world performance?"
+    },
+    {
+      "criterion_id": "Q1",
+      "name": "Coupling",
+      "source": "Part Five, Question One; 2.4",
+      "question": "Which restriction/permission and specific human interest are paired inseparably, with protection as enforceable as the restriction?"
+    },
+    {
+      "criterion_id": "Q2",
+      "name": "Consistency",
+      "source": "Part Five, Question Two",
+      "question": "Does the reasoning remain defensible for the smallest actor and universal application, including justified exceptions?"
+    },
+    {
+      "criterion_id": "Q3",
+      "name": "Reversibility",
+      "source": "Part Five, Question Three; provisions D1-D2",
+      "question": "Is future revision preserved and irreversibility justified with proportionate authority and procedure?"
+    },
+    {
+      "criterion_id": "G.1",
+      "name": "Self-Application",
+      "source": "4.3; 7.4",
+      "question": "What subjects governance actors themselves to review, transparency and effective challenge?"
+    }
+  ],
+  "findings": []
+}

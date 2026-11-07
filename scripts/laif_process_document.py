@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import datetime as _dt
 import hashlib
+import html
 import functools
 import json
 import re
@@ -751,25 +752,22 @@ ACTION_QUOTE_TERMS = STRONG_QUOTE_TERMS + ("manage", "assign", "maintain", "prot
 BOILERPLATE_QUOTE_RE = re.compile(r"(difficulties with accessing|accessibility|contact us|support@|@\w|email:|telephone|copyright|isbn|all rights reserved|certain commercial entities, equipment, or materials may be identified)", re.IGNORECASE)
 GENERIC_FRAGMENT_RE = re.compile(r"(?:requirements agencies must follow|monitoring, will help ensure|this document in order to describe|to combat this risk, the federal government will ensure that the collection|the assessment must be documented and take|the notification shall contain the conclusions of the assessment|by la ying down those r ules|this regulation ensures the free moveme nt, cross-border , of)", re.IGNORECASE)
 PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:super vision|inv estig ation|enf or cement|monitor ing|obliga tion|ar ticle|ser ious|general-pur pose|g eneral-pur pose|provid er|provid ed|ensur ing|har monisation|uni on|f alsifi ed|accompanie d|r isk|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment|syste ms?|g enerated|cont ent|ai-g enerated|f or|exper ience|regard ing|marke t|post-mark et|impro ving|cor rective|classif ied|inter preted|ite rative|r un|f ocused|mitiga tion|comp et ent author ity|author ity|comp et ent|super visory|notifi cation|docu mentation|imple mentation|imple ment|assess ment|require ments|deci sions?)\b", re.IGNORECASE)
-INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|take|taken|should|must|shall|will|through|within|including|regarding|by|from|under|related\s+to|in\s+relation\s+to|as\s+part\s+of|in\s+order\s+to|their\s+ai|the\s+agency\s+make|broader\s+enterprise|ai\s+systems\s+work|nist\s+will\s+review)\s*$", re.IGNORECASE)
+INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|in|at|as|between|among|take|taken|should|must|shall|will|through|within|including|regarding|by|from|under|related\s+to|in\s+relation\s+to|as\s+part\s+of|in\s+order\s+to|their\s+ai|the\s+agency\s+make|broader\s+enterprise|ai\s+systems\s+work|nist\s+will\s+review)\s*$", re.IGNORECASE)
 TOC_QUOTE_RE = re.compile(r"^\s*(?:\d+(?:\.\d+)*\s+){0,2}[A-Z][A-Za-z&/ -]{2,70}\s+\d{1,4}\s*$")
 TITLE_ONLY_RE = re.compile(r"^[A-Z][A-Za-z0-9&/:,() -]{8,80}$")
 BROKEN_GLYPH_RE = re.compile(r"\b[A-Za-z]{1,3}(?:\s+[A-Za-z]{1,3}){4,}\b", re.IGNORECASE)
 
 
 def _sentence_spans(text: str) -> list[tuple[int, int, str]]:
-    spans: list[tuple[int, int, str]] = []
-    for match in re.finditer(r"[^.!?\n]*(?:[.!?]|\n|$)", text):
-        sent = match.group(0).strip()
-        if len(sent) < 20:
-            continue
-        start = text.find(sent, match.start())
-        if start >= 0:
-            spans.append((start, start + len(sent), sent))
-    if not spans and text.strip():
-        snippet = text.strip()[:500]
-        start = text.find(snippet)
-        spans.append((start, start + len(snippet), snippet))
+    """Sentence candidates inside paragraphs; a PDF line wrap is not an ending."""
+    spans = []
+    for paragraph in re.finditer(r"[^\n]+(?:\n(?![ \t]*\n)[^\n]+)*", text):
+        for match in re.finditer(r".+?(?:[.!?](?=\s|$)|$)", paragraph.group(), re.DOTALL):
+            value = match.group().strip()
+            if len(value) < 20:
+                continue
+            start = paragraph.start() + match.start() + len(match.group()) - len(match.group().lstrip())
+            spans.append((start, start + len(value), value))
     return spans
 
 
@@ -1364,6 +1362,11 @@ def quote_has_complete_evidence_proposition(display_quote: str) -> tuple[bool, s
     if re.search(r"\bdra\s+w\b", lower):
         return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
 
+    # A finite main clause does not make a dangling complement complete:
+    # "shall demonstrate that the high-risk AI system" still lacks its predicate.
+    if re.search(r"\b(?:demonstrat\w*|ensur\w*|show\w*)\s+that\s+(?:the|a|an|each)\s+(?:high-risk\s+)?(?:ai\s+systems?|providers?|deployers?|agenc(?:y|ies))\s*$", lower):
+        return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
+
     incomplete_endings = (
         "on the use of high-risk",
         "before that system is placed on the market or put into",
@@ -1464,28 +1467,36 @@ def _profile_quote_score(sentence: str, assessment: dict) -> int:
 
 
 def _expanded_sentence_window(text: str, start: int, end: int) -> tuple[int, int, str]:
+    # Keep the complete containing paragraph, including a preceding condition
+    # or subject. Never search punctuation beyond its end into another clause.
     para_start = text.rfind("\n\n", 0, start)
     para_start = 0 if para_start < 0 else para_start + 2
     para_end = text.find("\n\n", end)
     para_end = len(text) if para_end < 0 else para_end
-    sent_start = max(para_start, text.rfind(".", para_start, start) + 1, text.rfind("!", para_start, start) + 1, text.rfind("?", para_start, start) + 1)
-    sent_ends = [idx for idx in (text.find(".", end), text.find("!", end), text.find("?", end)) if idx >= 0]
-    sent_end = min(sent_ends) + 1 if sent_ends else para_end
-    expanded = text[sent_start:sent_end].strip()
-    expanded_start = text.find(expanded, sent_start) if expanded else start
-    if expanded and expanded_start >= 0:
-        return expanded_start, expanded_start + len(expanded), expanded
-    return start, end, text[start:end].strip()
+    value = text[para_start:para_end].strip()
+    offset = para_start + len(text[para_start:para_end]) - len(text[para_start:para_end].lstrip())
+    return offset, offset + len(value), value
+
 
 
 def _expand_incomplete_candidate(text: str, start: int, end: int, quote: str) -> tuple[int, int, str]:
     """Expand bridge-ending evidence only to source sentence/paragraph boundaries."""
     display_quote = _normalized_for_quality(quote)
-    if not _incomplete_quote_reason(display_quote):
+    # PDF line boundaries are not necessarily sentence boundaries. Retain
+    # qualifiers in a continuing source paragraph even when the prefix alone
+    # happens to look like a complete legal proposition.
+    remainder = text[end:]
+    paragraph_tail = re.split(r"\n[ \t]*\n", remainder, maxsplit=1)[0]
+    continues = bool(paragraph_tail.strip()) and not re.search(r"[.!?;:]\s*[’'\"]?$", display_quote)
+    if not _incomplete_quote_reason(display_quote) and not continues:
         return start, end, quote
     expanded_start, expanded_end, expanded_quote = _expanded_sentence_window(text, start, end)
     expanded_display = _normalized_for_quality(expanded_quote)
     if (expanded_start, expanded_end, expanded_quote) != (start, end, quote) and not _incomplete_quote_reason(expanded_display):
+        return expanded_start, expanded_end, expanded_quote
+    if continues and expanded_quote != quote:
+        # Do not fall back to a deceptively clean prefix if the full source
+        # continuation is damaged; quality/admission gates will downgrade it.
         return expanded_start, expanded_end, expanded_quote
     return start, end, quote
 
@@ -1499,6 +1510,8 @@ def quote_quality(quote: str, extraction: dict) -> tuple[int, str]:
         return 20, "extractor reported low confidence"
     if not raw_clean:
         return 0, "empty quote"
+    if re.search(r"\S {3,}\S", quote) and not re.search(r"\b(?:must|shall|required)\b", raw_clean, re.I):
+        return 30, "tabular extract requires column/context verification"
     if BOILERPLATE_QUOTE_RE.search(raw_clean):
         return 10, "generic disclaimer or identification boilerplate"
     if GENERIC_FRAGMENT_RE.search(raw_clean):
@@ -1627,6 +1640,7 @@ def build_quote_bank(text: str, processing: dict, extraction: dict, assessment: 
             break
     if len(records) < 12:
         for start, end, quote in spans:
+            start, end, quote = _expand_incomplete_candidate(text, start, end, quote)
             if any(existing["exact_quote"] == quote for existing in records):
                 continue
             score, reason = quote_quality(quote, extraction)
@@ -1835,15 +1849,15 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
     # 1. Verdict — derived, never templated.
     verdict = {
         "FUNCTIONALLY ALIGNED": (
-            "This document already expresses the structural protections a governance "
-            "instrument needs, in its own vocabulary."),
+            "The current rules detect several structural protection signals in this "
+            "document’s own vocabulary; full adequacy requires source-based review."),
         "PARTIALLY ALIGNED": (
-            "This document carries part of the structural machinery a governance "
-            "instrument needs; the rest is absent rather than differently worded."),
+            "The current rules detect some structural governance signals in this "
+            "document; non-detection of other signals does not establish their absence."),
         "STRUCTURALLY UNALIGNED": (
-            "This document does not express the load-bearing governance structures in "
-            "any vocabulary — the gaps below are missing machinery, not missing "
-            "terminology."),
+            "The current rules did not establish the complete functional construct "
+            "patterns. These are detector limits requiring source review, not proof of "
+            "missing protection."),
     }.get(alignment, "This document's structural position requires reviewer confirmation.")
     if not assessment.get("english_language_readable", True):
         verdict = (
@@ -1854,10 +1868,10 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
 
     # 2. What that means for the people it governs.
     binding = {
-        "STRUCTURAL": "Its obligations are explicitly bound to the interests they protect.",
-        "FUNCTIONAL": "Its obligations are bound to the interests they protect, in the document's own words.",
-        "IMPLICIT": "It signals protective intent, but its obligations are not bound to any identifiable beneficiary.",
-        "ABSENT": "Its obligations are not tied to the people they are meant to protect.",
+        "STRUCTURAL": "Explicit pairing signals were detected; equivalent protective force requires review.",
+        "FUNCTIONAL": "Functional pairing signals were detected in the document's own words; adequacy requires review.",
+        "IMPLICIT": "Protective interests are signalled; the complete restriction-to-protection relationship requires source review.",
+        "ABSENT": "The detector did not establish the full restriction-to-protection relationship; absence of protection is not demonstrated.",
     }.get(coupling, "")
     if assessment.get("vocabulary_enumeration_risk") == "HIGH":
         binding = ("Whether its obligations are bound to the interests they protect "
@@ -2055,6 +2069,155 @@ def _evidence_for_signal(assessment: dict, dimension: str, label: str) -> dict:
             "quote_withheld": bool(damaged),
         }
     return {}
+
+
+# Additive source observations: bounded textual witnesses, not compliance passes.
+# Each match retains its original span; words elsewhere in a long document are
+# never assembled into an invented control relationship.
+SOURCE_CONTROL_RULES = {
+    "deployment_gate": ("Pre-deployment assessment/treatment gate", r"\bbefore\b.{0,100}\bdeploy\w*\b.{0,100}\b(?:must|shall)\b.{0,160}\b(?:assess\w*|approv\w*|treatments?)\b|\b(?:must|shall)\b.{0,160}\b(?:assess\w*|approv\w*|treatments?)\b.{0,100}\bbefore\b.{0,80}\bdeploy\w*\b"),
+    "public_disclosure": ("Public disclosure requirement", r"\b(?:must|shall)\b.{0,140}\b(?:publicly available|public disclosure|disclos\w*|publish\w*)\b"),
+    "challenge_route": ("Complaint, explanation or challenge route", r"\b(?:right to|may|shall|must)\b.{0,150}\b(?:complaint\w*|appeal\w*|explanation\w*|contest\w*)\b|\bpathways?\b.{0,100}\bpublic\b.{0,100}\breport\b.{0,100}\bconcerns?\b"),
+    "incident_response": ("Incident response and remediation", r"\b(?:must|shall)\b.{0,250}\b(?:incidents?|remediat\w*)\b|\bincidents?\b.{0,180}\b(?:remediat\w*|escalat\w*|supervis\w*)\b"),
+    "change_control": ("Material-change reassessment", r"\b(?:material|significant)\s+chang\w*\b.{0,220}\b(?:assess\w*|validat\w*|review\w*|design\w*)\b|\b(?:re[- ]?validat\w*|re[- ]?assess\w*)\b.{0,180}\bchang\w*\b"),
+    "human_override": ("Human override or interruption", r"\b(?:override|overrid\w*|interrupt\w*|stop button|stop mechanism)\b.{0,120}\b(?:output\w*|system\w*|operat\w*|safe)\b|\b(?:system\w*|output\w*)\b.{0,120}\b(?:overrid\w*|interrupt\w*|stop mechanism)\b"),
+    "performance_evidence": ("Performance or testing evidence", r"\b(?:must|shall)\b.{0,200}\b(?:test\w*|accurac\w*|metrics?|performance)\b"),
+    "accountability": ("Named accountability or governing review", r"\b(?:must|shall)\b.{0,180}\b(?:accountable official|responsible|governing|executive|owner|board)\b"),
+    "protection_floor": ("Protection floor or proportionality condition", r"\b(?:shall|must|does not|without)\b.{0,180}\b(?:protection|rigour|fundamental rights)\b"),
+}
+
+
+def source_control_observations(text: str) -> list[dict]:
+    observations = []
+    operative_start = re.search(r"HAVE? ADOPTED THIS (?:REGULATION|DIRECTIVE)", text, re.I)
+    for kind, (name, pattern) in SOURCE_CONTROL_RULES.items():
+        for start, end, quote in _sentence_spans(text):
+            if operative_start and start < operative_start.end():
+                continue  # Recitals supply context, not operative duties.
+            if len(quote) > 3500:
+                continue  # Do not clip an oversized clause into apparent evidence.
+            clean = " ".join(quote.split())
+            if not re.search(pattern, clean, re.I):
+                continue
+            # Exclude explicit denial/waiver; the mere words are not a control.
+            if re.search(r"\b(?:need not|not required|no obligation|not obliged|no right|may not|shall not be required)\b", clean, re.I):
+                continue
+            if kind != "protection_floor" and re.search(r"\b(?:must|shall|should|may)\s+not\b", clean, re.I):
+                continue
+            if re.search(r"\b(?:example|hypothetical|illustrative)\b", clean, re.I):
+                continue
+            if _unrepaired_extraction_damage_reason(quote, _normalized_for_quality(quote)) or _incomplete_quote_reason(_normalized_for_quality(quote)):
+                continue
+            pages = list(re.finditer(r"<!-- PDF page (\d+) -->", text[:start]))
+            observations.append({
+                "control_id": f"OBS-{len(observations)+1:03d}", "control_type": kind,
+                "name": name, "exact_quote": quote, "display_quote": normalize_quote_for_display(quote)[0], "start_char": start, "end_char": end,
+                "extracted_line": text.count("\n", 0, start) + 1,
+                "pdf_page": int(pages[-1].group(1)) if pages else None,
+                "status": "TEXTUAL_CONTROL_CANDIDATE",
+                "scope_limit": "Read scope, exceptions, commencement and related provisions; this witness does not establish equivalent protection or implementation.",
+            })
+            if sum(r["control_type"] == kind for r in observations) >= 1:
+                break
+    return observations
+
+
+def source_provenance(path: Path, source_hash: str) -> dict:
+    """Resolve existing repository admission; never admit an arbitrary upload."""
+    for manifest_path in sorted((REPO_ROOT / "docs/verified/manifests").glob("*.json")):
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        raw = REPO_ROOT / "docs/verified/raw" / str(manifest.get("raw_filename", ""))
+        pdf = REPO_ROOT / str(manifest.get("source_file", ""))
+        matched_raw = path.resolve() == raw.resolve()
+        matched_pdf = path.resolve() == pdf.resolve()
+        if not (matched_raw or matched_pdf):
+            continue
+        expected = manifest.get("sha256_hash") if matched_raw else manifest.get("source_file_sha256")
+        if source_hash != expected:
+            raise ExtractionError("Repository source hash differs from its provenance manifest")
+        if manifest.get("source_file_sha256"):
+            if not pdf.resolve().is_relative_to(REPO_ROOT) or not pdf.is_file() or sha256_file(pdf) != manifest["source_file_sha256"]:
+                raise ExtractionError("Original source identity differs from its provenance manifest")
+        return {"document_id": manifest_path.stem, "status": "RECORDED_MANIFEST_MATCH", "manifest": str(manifest_path.relative_to(REPO_ROOT)),
+                "verification_status": manifest.get("verification_status", "not recorded"),
+                "citation_status": manifest.get("citation_status", "not recorded"),
+                "authority_url": manifest.get("authoritative_origin_url", manifest.get("authoritative_url", "")),
+                "pdf_sha256": manifest.get("source_file_sha256"),
+                "boundary": "Existing repository provenance, not a new authority or current-law verification."}
+    return {"status": "LOCAL_SOURCE_AUTHORITY_UNVERIFIED", "citation_status": "NOT_ESTABLISHED",
+            "boundary": "Local source bytes identified; no authoritative-origin verification supplied."}
+
+
+def source_reasoning_record(provenance: dict) -> dict | None:
+    """Carry existing attributed analysis into reports; never invent a review."""
+    key = provenance.get("document_id")
+    if not key:
+        return None
+    path = REPO_ROOT / "docs/verification/2026-11-07/regulatory" / f"{key}.decisions.json"
+    if not path.is_file():
+        return None
+    from scripts.laif_verify_regulatory_ingestion import verify_decisions, verify_source
+    try:
+        verify_source(REPO_ROOT, key)
+        verify_decisions(REPO_ROOT, key)
+    except (OSError, ValueError, KeyError, IndexError) as exc:
+        raise ExtractionError(f"Source-bound reasoning cannot be used: {exc}") from exc
+    record = json.loads(path.read_text(encoding="utf-8"))
+    manifest = json.loads((REPO_ROOT / provenance["manifest"]).read_text(encoding="utf-8"))
+    evidence = json.loads((REPO_ROOT / manifest["evidence_trace"]).read_text(encoding="utf-8"))["traces"]
+    if key == "eu_ai_act_amendment_2026_1744":
+        evidence += json.loads((path.parent / "original_act_substantive_evidence.json").read_text(encoding="utf-8"))["traces"]
+    return {"record": record, "record_path": str(path.relative_to(REPO_ROOT)),
+            "record_sha256": sha256_file(path), "curated_source_evidence": evidence,
+            "attribution": "Existing repository author analysis; not produced by pattern matching or independently reviewed."}
+
+
+def attributed_reasoning_sections(review: dict) -> list[str]:
+    record = review["record"]
+    lines = ["## Attributed substantive LAIF assessment", "", review["attribution"], "",
+             f"Recorded review: {record['review_date']}; status: {record['review_status']}.",
+             f"Assessment source: {record['assessment_path']}; SHA-256: {record['assessment_sha256']}.",
+             f"Principal SHA-256: {record['framework_sha256']}; Toolkit SHA-256: {record['toolkit_sha256']}.", "",
+             "| Criterion | Recorded determination | Reasoning |", "| --- | --- | --- |"]
+    for row in record["criteria_findings"]:
+        lines.append(f"| {row['criterion_id']} | {_safe_report_text(row['determination'])} | {_safe_report_text(row['reasoning'])} |")
+    lines += ["", "### Evidence and closing conditions", "",
+              "Trace IDs below identify the curated source evidence included in the analyst bundle; they are distinct from this run's machine-selected Q001-style quote IDs.", ""]
+    for row in record["criteria_findings"]:
+        lines += [f"- **{row['criterion_id']}** — {', '.join(row['trace_ids'])}. Closing evidence: {_safe_report_text(row['closure_evidence'])}"]
+    lines += ["", "### Applicability cases", ""]
+    for case in record["applicability_cases"]:
+        lines += [f"- **{case['case_id']} — {_safe_report_text(case['assumptions'])}:** {_safe_report_text(case['determination'])} Evidence: {', '.join(case['trace_ids'])}."]
+    return lines + ["", "These hypothetical cases do not establish actual institutional conduct. Detailed qualifications and alternatives remain in the attributed assessment and decision record.", ""]
+
+
+def _safe_report_text(value: str) -> str:
+    return re.sub(r"([\\`*_{}\[\]()#!|])", r"\\\1", html.escape(value, quote=False))
+
+
+def source_review_sections(assessment: dict) -> list[str]:
+    observations = assessment.get("source_control_observations", [])
+    lines = ["## Source-backed control observations", "",
+             "These exact extracted passages identify potential mechanisms. They do not establish complete LAIF satisfaction, present applicability or operational effectiveness.", ""]
+    for row in observations:
+        location = f"PDF page {row['pdf_page']}" if row.get("pdf_page") else f"extracted line {row['extracted_line']}"
+        lines += [f"### {row['control_id']} — {row['name']}", "", "> " + _safe_report_text(row.get("display_quote", row["exact_quote"])).replace("\n", "\n> "), "",
+                  f"{location}; extracted characters {row['start_char']}–{row['end_char']}. {row['scope_limit']}", ""]
+    if not observations:
+        lines += ["No mechanism witness met these retrieval rules. This is not evidence of absent protection.", ""]
+    from laif_spec import ASSESSMENT_CRITERIA
+    mapping = {"A.1": ("public_disclosure", "challenge_route"), "A.2": ("performance_evidence",),
+               "A.3": ("deployment_gate", "human_override", "incident_response"),
+               "A.4": ("performance_evidence",), "Q1": ("protection_floor", "challenge_route", "deployment_gate"),
+               "Q2": ("protection_floor",), "Q3": ("human_override", "change_control"),
+               "G.1": ("accountability", "challenge_route")}
+    lines += ["## LAIF reasoning and outstanding evidence", "",
+              "Each row is an evidence-linked review question. The processor has not made a substantive Coherence Test determination. Performance testing is not by itself confidence calibration.", "",
+              "| Criterion | Candidate evidence | Required reasoning |", "| --- | --- | --- |"]
+    for key, criterion in ASSESSMENT_CRITERIA.items():
+        refs = [row["control_id"] for row in observations if row["control_type"] in mapping[key]]
+        lines.append(f"| {key} — {criterion['name']} | {', '.join(refs) or 'Not located by these rules'} | {criterion['question']} |")
+    return lines + ["", "Determine scope, role, jurisdiction, dates and incorporated protections before resolving these questions. Review existing evidence before recommending any new control.", ""]
 
 
 def _assessment_source_text(assessment: dict, quote_bank: list[dict]) -> str:
@@ -2326,6 +2489,28 @@ def build_governance_gap_register(assessment: dict, quote_bank: list[dict]) -> l
                 "reviewer_note": "Confirm whether a fuller version or a downstream operating procedure exists; assess that instead.",
             })
 
+    observations = assessment.get("source_control_observations", [])
+    gate_found = any(row["control_type"] == "deployment_gate" for row in observations)
+    if gate_found:
+        gaps = [g for g in gaps if g["gap_type"] != "risk_without_closure_gate"]
+    for gap in gaps:
+        gap["review_status"] = "UNVERIFIED_REVIEW_QUESTION"
+        gap["gap_title"] = "Review " + control_name_for_gap(gap)
+        gap["operational_meaning"] = (
+            "The heuristic did not establish the adequacy of this control. "
+            "Check the complete source, incorporated instruments and implementation evidence for: "
+            + gap.get("control_artifact", "the relevant control") +
+            " A non-match does not establish absence or institutional failure.")
+        gap["failure_mode"] = "Potential risk if source review confirms inadequate " + gap["gap_type"].replace("_", " ")
+        # Do not attach unrelated Q001-Q003 as if they supported an absence claim.
+        gap["source_evidence_quote_ids"] = [q["quote_id"] for q in quote_bank
+            if gap.get("source_evidence_quote") and q.get("exact_quote", "") in gap["source_evidence_quote"]]
+        related = {"obligation_without_owner": ("accountability",),
+                   "risk_without_closure_gate": ("deployment_gate",),
+                   "incident_reporting_without_redress": ("challenge_route",),
+                   "policy_without_enforcement_consequence": ("incident_response",),
+                   "lifecycle_without_change_control": ("change_control",)}.get(gap["gap_type"], ())
+        gap["counterevidence_control_ids"] = [row["control_id"] for row in observations if row["control_type"] in related]
     for quote in quote_bank:
         quote["linked_gap_ids"] = [gap["gap_id"] for gap in gaps if quote["quote_id"] in gap["source_evidence_quote_ids"]]
     return gaps
@@ -2353,22 +2538,24 @@ def build_failure_pathways(gaps: list[dict], quote_bank: list[dict]) -> list[dic
             "pathway_id": f"PATH-{idx:03d}",
             "title": f"{gap['gap_title']} — failure pathway",
             "severity": gap.get("severity", "medium"),
+            "scenario_status": "HYPOTHETICAL_NOT_OBSERVED",
             "steps": [
+                "Hypothesis for review, not an observed failure.",
                 expectation,
                 gap.get("operational_meaning", ""),
                 (f"The institution cites this expectation as assurance, but the "
                  f"closing control — {gap.get('control_artifact', 'a documented control')[0].lower()}"
                  f"{gap.get('control_artifact', 'a documented control')[1:].rstrip('.')} — "
-                 f"does not exist or is not current."),
-                "A decision or deployment proceeds on the strength of the document alone.",
-                "If the outcome is wrong, there is no record that this expectation controlled the decision, and no defined route to correct it.",
+                 f"would be inadequate if source and implementation review confirm it is absent or stale."),
+                "If a decision proceeds without the applicable control, the resulting harm may be harder to prevent or correct.",
+                "Test this scenario against the control already specified and the actual decision records.",
             ],
             "source_evidence_quote": quote,
             "source_evidence_location": where,
             "source_evidence_quote_ids": gap.get("source_evidence_quote_ids", []),
             "triggering_gap_ids": [gap["gap_id"]],
             "likely_institutional_failure": gap.get("failure_mode", "Paper compliance without live operational control."),
-            "consequence": f"Reliance on {gap.get('gap_title', 'this expectation').lower()} cannot be evidenced after the fact.",
+            "consequence": "Potential consequence only; source and implementation review required.",
             "required_controls": [ctrl],
             "detection_signal": f"Absence or staleness of: {gap.get('control_artifact', 'the closing control')}",
             "escalation_gate": gap.get("control_threshold", "Pause reliance until the required artifact and accountable owner are confirmed."),
@@ -2407,6 +2594,8 @@ def build_control_recommendations(gaps: list[dict], pathways: list[dict], quote_
             "control_name": control_name_for_gap(gap),
             "priority": "immediate" if gap.get("severity") == "high" else "near_term",
             "risk_addressed": gap.get("failure_mode"),
+            "recommendation_status": "CONDITIONAL_ON_REVIEW",
+            "source_requirement": False,
             "source_evidence_quote_ids": gap.get("source_evidence_quote_ids", []),
             "linked_gap_ids": [gap["gap_id"]],
             "linked_failure_pathways": [path_by_gap.get(gap["gap_id"])] if path_by_gap.get(gap["gap_id"]) else [],
@@ -2416,15 +2605,15 @@ def build_control_recommendations(gaps: list[dict], pathways: list[dict], quote_
             "implementation_steps": [
                 (f"Locate the expectation this closes: {gap.get('source_evidence_location') or 'see linked evidence'}"
                  + (f" — “{gap.get('source_evidence_quote')}”" if gap.get("source_evidence_quote") else "")),
-                f"Create the artefact: {gap.get('control_artifact', 'a signed control record')}",
+                f"Locate and evaluate the existing artefact first; propose a change only if inadequate: {gap.get('control_artifact', 'a signed control record')}",
                 f"Set the trigger: {gap.get('control_trigger', 'deployment or material change')}",
                 f"Set the stop condition: {gap.get('control_threshold', 'no reliance without current evidence')}",
                 "Assign a named owner and an independent reviewer, and record outcomes in an auditable register.",
             ],
             "trigger": gap.get("control_trigger", "New deployment, material change, incident, or scheduled assurance review."),
             "threshold": gap.get("control_threshold", "No continued reliance when required evidence is absent, stale, or unapproved."),
-            "cadence": "Before deployment, after material change, after incident, and at least quarterly while in operational use.",
-            "decision_consequence": "Proceed only with complete evidence; otherwise pause, remediate, escalate, or reject supplier/system use.",
+            "cadence": "Use the applicable source requirement; determine any additional cadence through documented risk review.",
+            "decision_consequence": "Confirm applicable authority and requirements before recommending a pause or other intervention.",
             "residual_risk_if_not_implemented": "The institution may rely on governance language that does not control real-world decisions or harms.",
             "suggested_template_row": f"{control_id} | owner | artifact | trigger | threshold | cadence | decision consequence | quote IDs {', '.join(gap.get('source_evidence_quote_ids', []))}",
         })
@@ -2456,24 +2645,10 @@ def empty_register_meaning(assessment: dict) -> str:
             "obligation stated in another. For an instrument of this size, assess it "
             "section by section rather than reading an empty register as a clean one.")
     return (
-        "No unclosed expectation was detected: every governance expectation this "
-        "document creates has a corresponding control in the same document. This "
+        "No unclosed expectation was detected by the current rules. This does not establish that every expectation this "
+        "document creates has a corresponding control. This "
         "is a finding about the text, not a certificate of implementation — the "
         "controls still have to exist and operate in practice.")
-
-
-def _residual_risk_clause(gaps: list[dict]) -> str:
-    """Name what is actually unclosed in THIS document."""
-    unclosed = []
-    for gap in gaps[:4]:
-        title = (gap.get("gap_title") or "").strip().rstrip(".")
-        if title:
-            unclosed.append(title[0].lower() + title[1:])
-    if not unclosed:
-        return "expectations it creates remain unclosed."
-    if len(unclosed) == 1:
-        return f"{unclosed[0]}."
-    return "; ".join(unclosed[:-1]) + f"; and {unclosed[-1]}."
 
 
 def _md_list(items: list[str], empty: str = "Reviewer confirmation required.") -> str:
@@ -2485,19 +2660,39 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     doc_type = assessment.get("document_type", "unknown_governance_document")
     force = assessment.get("governance_force_profile") or assessment.get("governance_force_summary") or "source governance force requires reviewer confirmation"
     lines = [
-        f"# Institutional Governance Assessment — {processing.get('original_file_name')}", "",
+        f"# Institutional Governance Assessment — {assessment.get('document_name') or processing.get('original_file_name')}", "",
+        "**Report date:** " + str(processing.get("processed_at_utc", "not recorded"))[:10],
+        "Generated by `python3 scripts/laif_process_document.py`.", "",
         "*For: the governance, assurance, procurement, or clinical owner deciding "
         "whether this document can be relied on. Read this file first; the "
-        "technical appendix carries scoring detail and evidence traces, and the "
-        "full assessment report carries located evidence and placement guidance. "
+        "technical appendix carries raw rubric diagnostics and evidence traces. "
         "This is a diagnostic of the document as written — not a legal "
         "determination, and not proof of what an organisation actually does.*", "",
         "## Executive finding", "",
     ]
-    if mode == "external_framework":
+    if mode == "external_framework" and "source_control_observations" in assessment:
+        rows = assessment["source_control_observations"]
+        lines.append(f"The source contains {len(rows)} candidate control passages across {len({r['control_type'] for r in rows})} mechanism categories. "
+                     "These provide a starting point for LAIF review; they do not settle scope, equivalent enforceability, consistency or justified irreversibility. "
+                     f"{len(gaps)} heuristic review questions remain. Classified as `{doc_type}`. Full source-based assessment and deployment evidence are required for a substantive determination.")
+    elif mode == "external_framework":
         lines.append(executive_thesis(assessment, gaps, controls))
     else:
         lines.append(native_executive_thesis(assessment, gaps, controls))
+    if "source_provenance" in assessment:
+        provenance = assessment["source_provenance"]
+        lines += ["", "## Source provenance", "",
+                  f"- Status: {provenance['status']}",
+                  f"- Existing verification: {provenance.get('verification_status', 'not supplied')}",
+                  f"- Citation status: {provenance['citation_status']}",
+                  f"- Manifest: {provenance.get('manifest', 'none')}",
+                  f"- Recorded origin: {provenance.get('authority_url') or 'not supplied'}",
+                  f"- Original PDF SHA-256: {provenance.get('pdf_sha256') or 'not supplied'}",
+                  "- " + provenance["boundary"], ""]
+    if assessment.get("attributed_reasoning"):
+        lines += attributed_reasoning_sections(assessment["attributed_reasoning"])
+    if "source_control_observations" in assessment:
+        lines += source_review_sections(assessment)
     if not assessment.get("english_language_readable", True):
         lines += ["", "## Language coverage limit", "",
                   f"- {assessment.get('language_coverage_note')}",
@@ -2505,7 +2700,15 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
                   "limit. None of it is a finding about the document."]
     lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Document type:** {doc_type}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}"
         + (f" (auto-detected from: {processing.get('sector_basis')}; override with --sector)"
-           if processing.get("sector_basis") else ""), f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", f"- **Recommended use:** {assessment.get('recommended_use') or 'source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.'}", f"- **Limits:** {assessment.get('not_sufficient_for') or 'standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.'}", "- **In every case:** this is a reading of the document, not of the organisation. It cannot show whether the controls it describes are in place, current, or working.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", "## Key quoted evidence", ""]
+           if processing.get("sector_basis") else ""), f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", f"- **Recommended use:** {assessment.get('recommended_use') or 'source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.'}", f"- **Limits:** {assessment.get('not_sufficient_for') or 'standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.'}", "- **In every case:** this is a reading of the document, not of the organisation. It cannot show whether the controls it describes are in place, current, or working.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", ""]
+    if not assessment.get("attributed_reasoning"):
+        lines += ["", "## Integrity Layer requirement signals", "",
+                  "All four properties are listed. A matched phrase is not a substantive pass; a non-match is not proof of absence. Assess what the instrument requires separately from actual system behaviour. Calibration applies under LAIF section 2.5.", "",
+                  "| Property | Source section | Detector observation |", "| --- | --- | --- |"]
+        for item in assessment.get("integrity_requirement_diagnostics", []):
+            lines.append(f"| {item['property']} | {item['source_section']} | {item['signal_status']} |")
+        lines += ["", "Substantive Coherence Test determination: source-based review required. Scores, terminology and gap registers do not provide that determination.", ""]
+    lines += ["", "## Key quoted evidence", ""]
     primary_quote_eligible = True if extraction_quality_profile is None else bool(extraction_quality_profile.get("primary_quote_eligible"))
     primary_quotes = _gate_passing_primary_quotes(quote_bank) if primary_quote_eligible else []
     if primary_quote_eligible:
@@ -2566,16 +2769,15 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
                          + (f" Text: \u201c{repaired.strip()}\u201d" if context and not damaged
                             else " Source text withheld: extraction damage; verify in the source."))
         lines.append("")
-    lines += ["", "## What the document controls well", "", _md_list(assessment.get("strengths", [])[:8], "No deterministic strengths detected."), "", "## What the document does not control", ""]
+    lines += ["", "## What the document controls well", "", _md_list(assessment.get("strengths", [])[:8], "No deterministic strengths detected."), "", "## Control questions requiring review", ""]
     lines.append(_md_list(
         [g["gap_title"] + f" ({g['gap_id']})" for g in gaps[:8]],
         empty_register_meaning(assessment)))
     lines += ["", "## Hidden failure pathways", ""]
-    lines += ([("Failure pathway summaries below show how paperwork compliance can "
-                "proceed without live operational control.")] if pathways else
-              [("No failure pathway was traced: no expectation in this document was "
-                "left without a closing control, so there is no paperwork-compliance "
-                "route to trace from the text itself. Operational failure remains "
+    lines += ([("Failure pathway scenarios below are hypotheses to test against existing controls; they are not observed failures.")] if pathways else
+              [("No failure pathway was generated. This does not establish that every expectation is "
+                "closed or that no paperwork-compliance "
+                "route exists. Operational failure also remains "
                 "possible through non-implementation, which this assessment cannot see.")])
     lines += [""]
     for pth in pathways:
@@ -2587,17 +2789,15 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     lines += ["## Operational gap analysis", ""]
     if gaps:
         for gap in gaps:
-            lines.append(f"- **{gap['gap_id']} ({gap['severity']}):** {gap['operational_meaning']} Evidence: {', '.join(gap.get('source_evidence_quote_ids', [])) or 'review required'}.")
+            lines.append(f"- **{gap['gap_id']} ({gap['severity']}):** {gap['operational_meaning']} Evidence: {', '.join(gap.get('source_evidence_quote_ids', [])) or 'not linked; review required'}. Related source mechanisms: {', '.join(gap.get('counterevidence_control_ids', [])) or 'not located by these rules'}.")
     else:
-        lines.append("- No operational gap was detected in the assessed text. Assurance "
-                     "review should now move from the document to its implementation "
-                     "record: the artefacts, owners, and decision logs the document names.")
+        lines.append("- No additional question was generated by these rules. Review clause-level coverage and applicability before examining implementation; an empty register is not a clean assessment.")
     lines += ["", "## Priority remediation roadmap", ""]
     if controls:
         for ctrl in controls[:8]:
             lines.append(f"- **{ctrl['priority']} — {ctrl['control_id']}:** {ctrl['control_name']}; owner: {ctrl['owner']}; artifact: {ctrl['required_artifact']}")
     else:
-        lines.append("- No remediation is required to the document. Verify that the "
+        lines.append("- No specific remediation was generated. This is not evidence that no repair is needed. Review the source and verify whether "
                      "controls it already specifies are in place, current, and "
                      "evidenced.")
     lines += ["", "## Control implementation templates", ""]
@@ -2606,16 +2806,12 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         for ctrl in controls[:8]:
             lines.append(f"| {ctrl['control_id']} | {ctrl['owner']} | {ctrl['required_artifact']} | {ctrl['trigger']} | {ctrl['threshold']} | {ctrl['cadence']} | {ctrl['decision_consequence']} |")
     else:
-        lines.append("- No control template is issued: the document specifies its own "
-                     "controls, triggers, and thresholds. Use those as the implementation "
+        lines.append("- No control template was generated; this does not establish complete "
+                     "controls, triggers or thresholds. Use source-based review as the "
                      "baseline rather than substituting generic ones.")
     lines += ["", "## Residual risk if no action is taken", ""]
-    lines += ([("The failure pathway is paperwork compliance without live operational "
-                "control. Specifically, this document can be cited as assurance while "
-                + _residual_risk_clause(gaps) + " Until those controls exist and are "
-                "current, a decision made on the strength of this document is not "
-                "governed by it.")] if gaps else
-              [("The residual risk is no longer in the drafting. It is in the gap between "
+    lines += ([("Potential residual risks require source and implementation review. The questions above do not establish that controls are absent or that a decision is ungoverned.")] if gaps else
+              [("An empty register does not establish that drafting risks are closed. Review both the source requirements and the gap between "
                 "what this document requires and what is actually done: unevidenced "
                 "controls, lapsed reviews, and unrecorded exceptions. That gap is invisible "
                 "to a document assessment and must be tested against implementation records.")])
@@ -2634,10 +2830,16 @@ def build_technical_appendix(processing: dict, extraction: dict, assessment: dic
     lines += ["", "## Extraction metadata", ""]
     for key in ("extractor_requested", "extractor_used", "extraction_confidence", "extracted_characters", "warning_count", "warnings", "error_count", "errors", "network_access_used"):
         lines.append(f"- **{key}:** {extraction.get(key)}")
+    lines += ["", "## Integrity Layer requirement signals", "",
+              "All four properties are listed. A matched phrase is not a substantive pass; a non-match is not proof of absence. Assess what the instrument requires separately from actual system behaviour. Calibration applies under LAIF section 2.5.", "",
+              "| Property | Source section | Detector observation |", "| --- | --- | --- |"]
+    for item in assessment.get("integrity_requirement_diagnostics", []):
+        lines.append(f"| {item['property']} | {item['source_section']} | {item['signal_status']} |")
+    lines += ["", "Substantive Coherence Test determination: source-based review required. Scores, terminology and gap registers do not provide that determination.", ""]
     lines += ["", "## Scoring table", "", "| Score | Value |", "| --- | --- |"]
     for key in scores:
         lines.append(f"| {key} | {assessment.get(key)} |")
-    lines += ["", "## Governance repair fields", "", "```json", json.dumps({k: assessment.get(k) for k in assessment if k.startswith('governance_') or k in ('document_type','assessment_mode')}, indent=2, sort_keys=True), "```", "", "## Evidence traces", "", "```json", json.dumps(assessment.get("evidence_traces", []), indent=2, sort_keys=True), "```", "", "## Remediation patches", "", "```json", json.dumps(assessment.get("remediation_patches", []), indent=2, sort_keys=True), "```", "", "## Construct coverage — form and substance", "",
+    lines += ["", "## Governance repair fields", "", "```json", json.dumps({k: assessment.get(k) for k in assessment if k.startswith('governance_') or k in ('document_type','assessment_mode')}, indent=2, sort_keys=True), "```", "", "## Evidence traces", "", "```json", json.dumps(assessment.get("evidence_traces", []), indent=2, sort_keys=True), "```", "", "## Remediation patches", "", "Legacy rubric suggestions, not confirmed deficiencies or source-imposed obligations. Reconcile them with the located controls, attributed analysis and applicable authority before proposing a change.", "", "```json", json.dumps(assessment.get("remediation_patches", []), indent=2, sort_keys=True), "```", "", "## Construct coverage — form and substance", "",
         ("Two independent readings of the same constructs. **LAIF-native form** asks "
          "whether the document uses LAIF's canonical term; every external instrument "
          "is expected to answer no, and that answer says nothing about its governance. "
@@ -2650,7 +2852,8 @@ def build_technical_appendix(processing: dict, extraction: dict, assessment: dic
     _functional = assessment.get("functional_alignment", {}) or {}
     _substance_of = {"Structural Transparency": "Integrity Layer",
                      "Structural Honesty": "Integrity Layer",
-                     "Structural Containment": "Integrity Layer"}
+                     "Structural Containment": "Integrity Layer",
+                     "Structural Calibration": "Integrity Layer"}
     for _construct in sorted(set(_coverage) | set(_functional)):
         _form = "present" if _coverage.get(_construct) else "absent"
         _key = _substance_of.get(_construct, _construct)
@@ -2699,7 +2902,9 @@ Use only the provided deterministic analyst bundle, high-quality `quote_bank`, d
 - Do not invent missing source context to rescue weak quotes.
 - Distinguish “source says X” from “institution has implemented X.”
 - Convert generic controls into client-ready implementation actions with owner, artifact, threshold, cadence, and decision consequence.
-- Explain failure pathways in plain institutional terms: what breaks, who owns it, what evidence is missing, and what decision should stop.
+- Treat gap-register entries as unverified review questions and failure pathways as hypothetical scenarios. Check source_control_observations as counterevidence before asserting a missing control.
+- Explain a potential failure pathway only conditionally; do not invent an operational failure, stop order, quarterly cadence or source-imposed duty.
+- When attributed_reasoning is supplied, preserve its authorship, source/method hashes, qualifications and separate curated trace IDs. It is not a newly generated or independent assessment.
 - Distinguish legal force from operational force. A legal or policy source may be authoritative while still lacking local implementation evidence.
 - Distinguish evidence presence from evidence sufficiency. A requested document, record, or quote is not proof that evidence is current, complete, reviewed, or accepted.
 - Include an executive version and a technical appendix.
@@ -2713,7 +2918,7 @@ def build_validation_rules() -> str:
     return """# AI Report Validation Rules\n\n- Every quote must exist in `quote_bank`.\n- Every recommendation must map to a gap/control ID.\n- No invented legal obligations.\n- No invented citation.\n- No unsupported certification or legal-validity claim.\n- Required sections must be present.\n- Technical appendix must be preserved.\n- Low-confidence evidence must not be used as primary support.\n"""
 
 
-def write_institutional_outputs(output_dir: Path, processing: dict, extraction: dict, assessment: dict, extracted_text: str) -> dict:
+def prepare_report_materials(processing: dict, extraction: dict, assessment: dict, extracted_text: str) -> dict:
     low_confidence_quote_candidates = build_low_confidence_quote_candidates(extracted_text, processing, extraction, assessment)
     quote_bank = build_quote_bank(extracted_text, processing, extraction, assessment, low_confidence_quote_candidates)
     quote_bank = _finalize_primary_quote_bank(quote_bank, low_confidence_quote_candidates)
@@ -2724,6 +2929,19 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
     gaps = build_governance_gap_register(assessment, quote_bank)
     pathways = build_failure_pathways(gaps, quote_bank)
     controls = build_control_recommendations(gaps, pathways, quote_bank)
+    return {"low_confidence_quote_candidates": low_confidence_quote_candidates, "quote_bank": quote_bank,
+            "verification_required_evidence": verification_required_evidence,
+            "extraction_quality_profile": extraction_quality_profile, "gaps": gaps,
+            "pathways": pathways, "controls": controls}
+
+
+def write_institutional_outputs(output_dir: Path, processing: dict, extraction: dict, assessment: dict, extracted_text: str, materials: dict | None = None) -> dict:
+    materials = materials or prepare_report_materials(processing, extraction, assessment, extracted_text)
+    low_confidence_quote_candidates = materials["low_confidence_quote_candidates"]
+    quote_bank = materials["quote_bank"]
+    verification_required_evidence = materials["verification_required_evidence"]
+    extraction_quality_profile = materials["extraction_quality_profile"]
+    gaps, pathways, controls = (materials[key] for key in ("gaps", "pathways", "controls"))
     primary_quote_eligible = bool(extraction_quality_profile.get("primary_quote_eligible"))
     bundle = {
         "document_metadata": {"original_file_name": processing.get("original_file_name"), "source_sha256": processing.get("source_sha256"), "document_type": assessment.get("document_type"), "sector_profile": assessment.get("sector_profile")},
@@ -2732,6 +2950,9 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
         "governance_repair_fields": {k: assessment.get(k) for k in assessment if k.startswith("governance_")},
         "scores": {k: assessment.get(k) for k in ("structural_score", "terminology_score", "conceptual_proximity_score", "auditability_score", "enforceability_score", "overall_readiness_score")},
         "quote_bank": quote_bank,
+        "source_control_observations": assessment.get("source_control_observations", []),
+        "source_provenance": assessment.get("source_provenance", {}),
+        "attributed_reasoning": assessment.get("attributed_reasoning"),
         "verification_required_extracted_evidence": verification_required_evidence,
         "extraction_quality_profile": extraction_quality_profile,
         "primary_quote_eligible": primary_quote_eligible,
@@ -2925,6 +3146,10 @@ def run(args: argparse.Namespace) -> int:
         runner_input_path=str(input_path),
         processed_at_utc=processed_at,
     )
+    assessment["diagnostic_interpretation_status"] = "UNREVIEWED_LEXICAL_RUBRIC_OUTPUT"
+    assessment["source_control_observations"] = source_control_observations(extraction.text)
+    assessment["source_provenance"] = source_provenance(input_path, source_hash)
+    assessment["attributed_reasoning"] = source_reasoning_record(assessment["source_provenance"])
     # The basis must explain the profile the assessment used, not a separately
     # derived one — the report shows them side by side.
     if selected_sector == "auto":
@@ -2932,7 +3157,14 @@ def run(args: argparse.Namespace) -> int:
         basis = auto_sector_basis(extraction.text, used).get("basis", "")
         if basis:
             processing["sector_basis"] = basis
-    base_report = generate_markdown_report([assessment])
+    materials = prepare_report_materials(processing, extraction_metadata, assessment, extraction.text)
+    if assessment.get("assessment_mode") == "external_framework":
+        base_report = build_institutional_report(processing, extraction_metadata, assessment,
+            materials["quote_bank"], materials["gaps"], materials["pathways"], materials["controls"],
+            materials["verification_required_evidence"], materials["extraction_quality_profile"])
+    else:
+        base_report = generate_markdown_report([assessment], report_date=processed_at[:10],
+                                               generation_command="python3 scripts/laif_process_document.py")
     markdown_report = markdown_metadata_block(processing, extraction_metadata, assessment) + base_report
     payload = {
         "processing_metadata": processing,
@@ -2946,8 +3178,10 @@ def run(args: argparse.Namespace) -> int:
             Path(processing["markdown_output_path"]).write_text(markdown_report, encoding="utf-8")
         if args.json_output:
             json_dump(Path(processing["json_output_path"]), payload)
-        analyst_outputs = write_institutional_outputs(args.output_dir, processing, extraction_metadata, assessment, extraction.text)
+        analyst_outputs = write_institutional_outputs(args.output_dir, processing, extraction_metadata, assessment, extraction.text, materials)
         payload["institutional_analyst_outputs"] = {
+            "source_control_observation_count": len(assessment["source_control_observations"]),
+            "attributed_reasoning_status": "SOURCE_BOUND_AUTHOR_ANALYSIS" if assessment.get("attributed_reasoning") else "NOT_SUPPLIED",
             "quote_bank_count": len(analyst_outputs["quote_bank"]),
             "gap_count": len(analyst_outputs["gap_register"]),
             "failure_pathway_count": len(analyst_outputs["failure_pathways"]),

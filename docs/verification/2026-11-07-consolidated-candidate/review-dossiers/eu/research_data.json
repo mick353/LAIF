@@ -1,0 +1,204 @@
+{
+  "criteria_coverage": [
+    {
+      "criterion_id": "A.1",
+      "finding_ids": [],
+      "name": "Structural Transparency",
+      "question": "What meaningful account, uncertainty and limitations must an affected person be able to obtain?",
+      "source": "2.1",
+      "status": "NOT_ASSESSED"
+    },
+    {
+      "criterion_id": "A.2",
+      "finding_ids": [],
+      "name": "Structural Honesty",
+      "question": "What requires objective correspondence and robust behaviour across evaluation and deployment?",
+      "source": "2.2",
+      "status": "NOT_ASSESSED"
+    },
+    {
+      "criterion_id": "A.3",
+      "finding_ids": [],
+      "name": "Structural Containment",
+      "question": "What bounds actions, access and resources, and provides oversight, interruption and appropriate authorisation?",
+      "source": "2.3",
+      "status": "NOT_ASSESSED"
+    },
+    {
+      "criterion_id": "A.4",
+      "finding_ids": [],
+      "name": "Structural Calibration",
+      "question": "Where section 2.5 applies, what evidence links expressed confidence to observed real-world performance?",
+      "source": "2.5",
+      "status": "NOT_ASSESSED"
+    },
+    {
+      "criterion_id": "Q1",
+      "finding_ids": [],
+      "name": "Coupling",
+      "question": "Which restriction/permission and specific human interest are paired inseparably, with protection as enforceable as the restriction?",
+      "source": "Part Five, Question One; 2.4",
+      "status": "NOT_ASSESSED"
+    },
+    {
+      "criterion_id": "Q2",
+      "finding_ids": [],
+      "name": "Consistency",
+      "question": "Does the reasoning remain defensible for the smallest actor and universal application, including justified exceptions?",
+      "source": "Part Five, Question Two",
+      "status": "NOT_ASSESSED"
+    },
+    {
+      "criterion_id": "Q3",
+      "finding_ids": [],
+      "name": "Reversibility",
+      "question": "Is future revision preserved and irreversibility justified with proportionate authority and procedure?",
+      "source": "Part Five, Question Three; provisions D1-D2",
+      "status": "NOT_ASSESSED"
+    },
+    {
+      "criterion_id": "G.1",
+      "finding_ids": [],
+      "name": "Self-Application",
+      "question": "What subjects governance actors themselves to review, transparency and effective challenge?",
+      "source": "4.3; 7.4",
+      "status": "NOT_ASSESSED"
+    }
+  ],
+  "evidence": [
+    {
+      "category": "data protection",
+      "end_char": 102437,
+      "evidence_id": "E001",
+      "evidence_status": "EXTRACTED_TEXT_MATCH_ONLY",
+      "exact_quote": "This template shall, where\n                relevant, give deployers the possibility to include cross-references to the relevant sections of the data protection\n                impact assessment or include relevant parts thereof in the fundamental rights impact assessment pursuant to\n                paragraph 4.",
+      "extracted_line": 1314,
+      "interpretation_limit": "Passage exists in extracted text; it does not prove implementation, scope completeness or legal effect.",
+      "start_char": 102125
+    },
+    {
+      "category": "audit/documentation",
+      "end_char": 97393,
+      "evidence_id": "E002",
+      "evidence_status": "EXTRACTED_TEXT_MATCH_ONLY",
+      "exact_quote": "To\n           that end, the Commission shall establish a simplified technical documentation form targeted at the needs of SMEs,\n           including start-ups, and SMCs.",
+      "extracted_line": 1220,
+      "interpretation_limit": "Passage exists in extracted text; it does not prove implementation, scope completeness or legal effect.",
+      "start_char": 97224
+    },
+    {
+      "category": "accountability/owner",
+      "end_char": 133019,
+      "evidence_id": "E003",
+      "evidence_status": "EXTRACTED_TEXT_MATCH_ONLY",
+      "exact_quote": "The AI Office shall be responsible for conformity assessments and tests of AI systems referred to in\n               paragraph 1 of this Article that are classified as high-risk and subject to a third-party conformity assessment\n               pursuant to Article 43 before such AI systems are placed on the market or put into service.",
+      "extracted_line": 1840,
+      "interpretation_limit": "Passage exists in extracted text; it does not prove implementation, scope completeness or legal effect.",
+      "start_char": 132685
+    },
+    {
+      "category": "enforcement/consequence",
+      "end_char": 86946,
+      "evidence_id": "E004",
+      "evidence_status": "EXTRACTED_TEXT_MATCH_ONLY",
+      "exact_quote": "Providers and deployers of AI systems shall take measures to support the development of AI literacy of their staff\n             and other persons dealing with the operation and use of AI systems on their behalf, taking into account their technical\n             knowledge, experience, education and training and the context the AI systems are to be used in, and considering the\n             persons or groups of persons on whom the AI systems are to be used.",
+      "extracted_line": 1029,
+      "interpretation_limit": "Passage exists in extracted text; it does not prove implementation, scope completeness or legal effect.",
+      "start_char": 86489
+    },
+    {
+      "category": "bias/discrimination/fairness",
+      "end_char": 16487,
+      "evidence_id": "E005",
+      "evidence_status": "EXTRACTED_TEXT_MATCH_ONLY",
+      "exact_quote": "Furthermore, to enable providers of high-risk AI systems to lawfully undertake bias detection and correction\n               activities in preparation for compliance with the requirements for high-risk AI systems, including Article 10(2),\n               points (f) and (g), of Regulation (EU) 2024/1689, the legal basis established by Article 4a of Regulation\n               (EU) 2024/1689 should apply from the date of entry into application of that Regulation.",
+      "extracted_line": 202,
+      "interpretation_limit": "Passage exists in extracted text; it does not prove implementation, scope completeness or legal effect.",
+      "start_char": 16026
+    },
+    {
+      "category": "display-normalised source evidence",
+      "end_char": 4985,
+      "evidence_id": "E006",
+      "evidence_status": "EXTRACTED_TEXT_MATCH_ONLY",
+      "exact_quote": "States’ competent authorities ensure that the supervision, enforcement and monitoring of sectoral and national laws",
+      "extracted_line": 87,
+      "interpretation_limit": "Passage exists in extracted text; it does not prove implementation, scope completeness or legal effect.",
+      "start_char": 4870
+    },
+    {
+      "category": "display-normalised source evidence",
+      "end_char": 32386,
+      "evidence_id": "E007",
+      "evidence_status": "EXTRACTED_TEXT_MATCH_ONLY",
+      "exact_quote": "The unified assessment procedure should be carried",
+      "extracted_line": 368,
+      "interpretation_limit": "Passage exists in extracted text; it does not prove implementation, scope completeness or legal effect.",
+      "start_char": 32336
+    },
+    {
+      "category": "display-normalised source evidence",
+      "end_char": 34889,
+      "evidence_id": "E008",
+      "evidence_status": "EXTRACTED_TEXT_MATCH_ONLY",
+      "exact_quote": "Moreover, it should be clarified that where a provider of a high-risk AI",
+      "extracted_line": 394,
+      "interpretation_limit": "Passage exists in extracted text; it does not prove implementation, scope completeness or legal effect.",
+      "start_char": 34817
+    }
+  ],
+  "evidence_manifest_sha256": "8bba7a8bf49a4cbc9048f799b23988d313b2ca0bf98334b9accf7147f2cdcf9a",
+  "independent_replication": "NOT_PERFORMED",
+  "limitations": [
+    "Passage selection is heuristic and non-exhaustive; relevant clauses can be missed.",
+    "Source scope and instrument status are operator declarations, not verified by this software.",
+    "Exact extracted passages require inspection against the original document before external citation.",
+    "Extracted-text character and line offsets are not verified page or original-byte citations.",
+    "A missing lexical signal does not establish that an obligation, right or safeguard is absent.",
+    "Other legal instruments, procedures and operational evidence may change the interpretation.",
+    "The method has no independently validated sensitivity, specificity or legal-validity measure.",
+    "Analyst identities and annotations are recorded but not independently authenticated."
+  ],
+  "low_confidence_candidate_count": 12,
+  "method": {
+    "analytical_lens": "Law-Aligned Intelligence Framework (LAIF) v1.2, openly disclosed, not endorsed or legally authoritative",
+    "assessment_channel": "external_framework_candidate_signals_only",
+    "framework_source_sha256": "c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407",
+    "inference_policy": "Only exact-source observations are machine-produced; absence, legal effect, implementation and validity require human evidence.",
+    "internal_engine_fingerprint": "353082c7f580ce76",
+    "method_version": "research-neutral-presentation-v1",
+    "renderer_sha256": "2be53373797cfa28c673376f598d8a68b2697447caea8048bff2fa28fb94780a",
+    "sampling_design": "Heuristic candidate retrieval only; not random, comprehensive, or an estimator of safeguard prevalence.",
+    "scores_and_certification_excluded": true,
+    "toolkit_source_sha256": "24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67"
+  },
+  "primary_quote_grade": true,
+  "report_date": "2026-11-07",
+  "research_question": "Which governance commitments and evidence requirements are explicit in the supplied material?",
+  "review_questions": [
+    "Which human interests, actors, duties and conditions does the source explicitly connect?",
+    "Are obligations binding here, or does their force arise from another instrument or contract?",
+    "What external law, guidance or operational documentation could qualify an apparent gap?",
+    "What independent evidence would distinguish a stated control from an implemented one?",
+    "How can decisions be contested, changed, suspended or reversed in the full governance setting?",
+    "What counterexample or alternative reading would overturn the provisional interpretation?"
+  ],
+  "reviewer_findings": [],
+  "schema": "laif.research-dossier.v1",
+  "scholarly_validation": "NOT_ESTABLISHED",
+  "source": {
+    "extracted_characters": 182973,
+    "extracted_text_sha256": "277779a8aa6c3f661925f647c787cd6b2eff65d1f5ddab8315210169a8f3717c",
+    "extraction_confidence": "high",
+    "extractor": "builtin",
+    "file_name": "eu_ai_act_amendment_2026_1744.md",
+    "instrument_status": "asserted_current",
+    "jurisdiction_claim": "European Union",
+    "provenance": "LOCAL_DOCUMENT_NOT_AUTHORITY_VERIFIED",
+    "source_scope": "declared_full_document",
+    "source_sha256": "dfcdbe4c3da4ce06f7b39bade40b4b08c132718352ef70b670ef8f163fb9a5b0",
+    "source_url_claim": "not supplied"
+  },
+  "status": "EVIDENCE_INVENTORY_ONLY",
+  "verification_required_evidence_count": 1
+}

@@ -2,7 +2,7 @@
 
 **Framework:** Law-Aligned Intelligence Framework v1.2  
 **Assessment model:** Refined Model v1.1  
-**Date:** May 2026
+**Original publication record:** May 2026; source status updated 30 October 2026
 
 ---
 
@@ -20,7 +20,7 @@
 | Corpus assessment — narrative, refined model v1.1 | Historical — `reports/laif_full_assessment.md` (5 May 2026); retained as the manifest's assessment reference, not regenerated. See `reports/README.md` |
 | Verified corpus infrastructure | Complete — `docs/verified/` with manifests, raw files, evidence traces |
 | Validated corpus mode | Complete — `python3 validate.py --verified-corpus` |
-| EU AI Act full-text ingestion | **READY_FOR_MANUAL_AUTHORITATIVE_INGESTION** — automated EUR-Lex retrieval blocked, manual acquisition workflow prepared |
+| EU AI Act full-text ingestion | **SOURCE_VERIFIED_PENDING_ASSESSMENT** — original OJ PDF matched an official Publications Office download; 144 pages extracted, full LAIF assessment pending |
 
 ---
 
@@ -47,7 +47,7 @@ No finding from a representative corpus assessment may be presented as a finding
 | EO 14110 (Fed. Reg. Vol. 88 No. 210) | `docs/verified/raw/` | `2cbab05...` | ASSESSED |
 | NIST AI 100-1 | `docs/verified/raw/` | `44ac320...` | ASSESSED |
 | DTAC v2.0 (NHS England, Feb 2026) | `docs/verified/raw/` | `d727228...` | ASSESSED |
-| EU AI Act (Reg. 2024/1689) | READY_FOR_MANUAL_AUTHORITATIVE_INGESTION | — | PENDING_INGESTION |
+| EU AI Act (Reg. 2024/1689), original OJ edition | `docs/verified/raw/eu_ai_act_2024_1689.md` | `7fb1ae2...` | PENDING_ASSESSMENT |
 
 **Citable assessment artifact:** `reports/laif_real_world_assessment.md` (generated, deterministic, corpus- and toolchain-fingerprinted; matched its committed copy in the [30 October Windows local gate](docs/verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md)), with `reports/laif_executive_summary.md` and `reports/laif_assessment_data.json`.
 
@@ -55,9 +55,9 @@ No finding from a representative corpus assessment may be presented as a finding
 
 **Provenance verification:** `python3 validate.py --verified-corpus` — all 4 ASSESSED documents produce hash-verified PASS.
 
-**EU AI Act readiness state:** EUR-Lex returned HTTP 403 Forbidden on all URL variants tested in automated session (May 2026). This is no longer treated as terminal blocking. The document is `READY_FOR_MANUAL_AUTHORITATIVE_INGESTION`: a human maintainer may download Regulation (EU) 2024/1689 from EUR-Lex and supply it through `HUMAN_GITHUB_DEPOSIT` or `HUMAN_SESSION_UPLOAD`. See `docs/verified/pending/eu_ai_act_ingestion_ready.md` and `docs/verified/manifests/eu-ai-act-2024-1689.json`.
+**EU AI Act source state:** The May 2026 EUR-Lex retrieval attempts were blocked. On 30 October 2026 the original OJ PDF was downloaded from the official Publications Office and matched the preserved custody PDF byte for byte. All 144 pages are extracted and hash-pinned. See `docs/verified/extracted/eu-ai-act-2024-1689-ingestion-trace.md` and the manifest. The extract has not been manually proofread line by line, and no full-document LAIF assessment is yet recorded. Later consolidated editions are a separate source/version.
 
-**Custody is not ingestion:** `docs/verified/manual_ingest/OJ_L_202401689_EN_TXT.pdf` is already preserved from the May 2026 batch. Its SHA-256 (`bba630444b3278e881066774002a1d7824308934f49ccfa203e65be43692f55e`) matches the [relocation record](docs/verification/2026-05-11/relocation-manifest.json). The historical batch processed that file, but its origin was not independently verified and it was not admitted to the verified EU AI Act corpus. The manifest remains `PENDING_INGESTION`; no authoritative assessment or upstream equivalence is claimed from this custody copy.
+**Custody and origin:** `docs/verified/manual_ingest/OJ_L_202401689_EN_TXT.pdf` is preserved from the May 2026 batch. Its SHA-256 (`bba630444b3278e881066774002a1d7824308934f49ccfa203e65be43692f55e`) matches both the [relocation record](docs/verification/2026-05-11/relocation-manifest.json) and a direct official Publications Office download on 30 October 2026. This proves file equivalence to that official original-edition PDF, not assessment validity or the currency of later law.
 
 
 ### 3.1 Acquisition and Verification Taxonomy
@@ -75,7 +75,7 @@ The verified corpus now distinguishes source custody from source authority. The 
 | EO 14110 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Not claimed |
 | NIST AI 100-1 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Not claimed |
 | DTAC v2.0 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Not claimed |
-| EU AI Act | Custody PDF held; authoritative acquisition not recorded | NETWORK_BLOCKED_PENDING_HUMAN_SOURCE | AUTOMATED_URL_BLOCKED_HTTP_403 | Not claimed |
+| EU AI Act original OJ edition | AUTOMATED_URL_RETRIEVAL | AUTOMATED_VERIFIED | AUTOMATED_URL_RETRIEVED | Exact PDF SHA-256 match to official Publications Office download |
 
 ---
 
@@ -154,7 +154,8 @@ Changes required before claiming full publication readiness:
 
 | Gap | Priority | Blocking reason | Action |
 |---|---|---|---|
-| EU AI Act full-text ingestion | High | Custody PDF exists, but upstream identity and manifest admission are unverified; automated EUR-Lex access was blocked | Establish authoritative origin of the custody PDF or supply a verified replacement, then complete extraction, manifest and evidence trace |
+| EU AI Act full-text ingestion | **Resolved for original OJ edition** | — | Official PDF byte match, 144-page extraction, manifest, and ingestion trace recorded 30 October 2026; full assessment remains separate |
+| EU AI Act full-document assessment | High | No reviewed full-document assessment or clause-level quote check is recorded | Assess the admitted original-edition source under the existing LAIF model; review every cited clause against the official PDF before publication |
 | URL verification pass | Medium | All authoritative URLs return HTTP 403 from automated session | Human-initiated verification against each listed URL |
 | NIST DOCX accuracy verification | Medium | NIST PDF at doi.org/10.6028/NIST.AI.100-1 returns HTTP 403 | Human download of PDF; textual comparison with extracted markdown |
 | Evidence trace section verification | **Resolved** | — | `python3 validate.py --check-evidence-traces` — 39/39 PASS |

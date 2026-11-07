@@ -151,3 +151,11 @@ The document runner preserves `original_pending_path`, `stored_source_path`, and
 ## Phase 3W institutional analyst outputs
 
 The single-document runner now writes institutional analyst reports and AI-ready bundle files beside the existing `.laif.md` and `.laif.json` outputs. These outputs are deterministic local artifacts and do not call external model APIs. For external-framework mode, the institutional report leads with governance repair, operational gaps, failure pathways, and control recommendations rather than LAIF-native failure.
+
+## Source-bounded external reporting — November 2026 candidate
+
+For external-framework single-document runs, `.laif.md` and `.institutional_report.md` now present the same source-led review. They carry bounded source-control observations, exact locations, review questions and source identity. The corpus-comparison renderer remains for the baseline corpus; a standalone upload is no longer labelled an illustrative corpus document by default. `--no-write --print-report` uses the same external report surface without writing files.
+
+Existing verified-corpus manifests are resolved only for their registered paths and matching hashes; the original PDF identity is checked where recorded. This reads an existing admission and does not create one. Arbitrary uploads remain authority-unverified. The two currently registered regulatory decision records are included only after report/framework/Toolkit/source identity and curated evidence references validate. Their analysis is explicitly attributed to its author, and not claimed as newly produced or independently validated by the processor. Sources without such a record receive evidence-linked review questions, not fabricated determinations.
+
+The technical appendix preserves raw rubric diagnostics and formal-channel boundaries. Unverified gaps are review questions, potential failure pathways are hypotheses, and suggested controls are conditional proposals rather than source-imposed duties. Scores and formal certification rules are unchanged. See the [executed report-quality verification and generated examples](../verification/2026-11-07-generated-report-quality/README.md).

@@ -1,0 +1,15 @@
+{
+  "scope": "Limited original-source dependency check, not original-Act corpus admission; PR #90 remains independent",
+  "source_pdf": "docs/verified/manual_ingest/OJ_L_202401689_EN_TXT.pdf",
+  "source_pdf_sha256": "bba630444b3278e881066774002a1d7824308934f49ccfa203e65be43692f55e",
+  "physical_pdf_page": 123,
+  "extractor": "pdftotext 24.02.0 -f 123 -l 123 -layout -enc UTF-8",
+  "extracted_page": "docs/verification/2026-11-07/regulatory/original_act_article_113_dependency.txt",
+  "extracted_page_sha256": "6476f1bcb722ea3a1bacf4523f0bee99be3e5ba52fb319696d47e72d52c7d885",
+  "observations": [
+    "Original Article 113 second paragraph specifies general application from 2 August 2026.",
+    "Original third paragraph point (b) specifies Chapter III Section 4, Chapters V, VII, XII and Article 78 from 2 August 2025, except Article 101.",
+    "Amendment change point (40) replaces points (a) and (c), adds (d), and does not replace point (b) or the general-application paragraph."
+  ],
+  "limitations": "A limited combination of deposited original and upstream-verified amendment, not a complete legal/consolidation review or proof of all other intervening amendments."
+}

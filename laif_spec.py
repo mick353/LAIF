@@ -101,13 +101,15 @@ CANONICAL_TERMS = {
 }
 
 # ── Integrity Layer component identifiers ────────────────────────────────────
-# Source: LAIF v1.2 Part Two — all three must be satisfied simultaneously.
+# Source: LAIF v1.2 §§2.1–2.5 and §9.4 — four properties, including
+# calibration where §2.5 applies. This registry does not alter scoring weights.
 # Partial satisfaction = full failure (threshold gate, not checklist).
 
 INTEGRITY_LAYER = {
     "A.1": "Structural Transparency",
     "A.2": "Structural Honesty",
     "A.3": "Structural Containment",
+    "A.4": "Structural Calibration",
 }
 
 # ── Coherence Test questions ──────────────────────────────────────────────────
@@ -120,8 +122,29 @@ COHERENCE_TEST = {
     "Q3": "Reversibility — does the deployment preserve future actors' capacity to reverse or modify?",
 }
 
+# Descriptive registry derived from the principal text, not scoring weights.
+FOUNDATIONAL_PRINCIPLES = {
+    1: "The Coherence Standard",
+    2: "The Coupling Requirement",
+    3: "The Non-Accumulation Principle",
+    4: "The Temporal Separation Principle",
+    5: "The Consistency Principle",
+}
+
+ASSESSMENT_CRITERIA = {
+    "A.1": {"name": "Structural Transparency", "source": "2.1", "question": "What meaningful account, uncertainty and limitations must an affected person be able to obtain?"},
+    "A.2": {"name": "Structural Honesty", "source": "2.2", "question": "What requires objective correspondence and robust behaviour across evaluation and deployment?"},
+    "A.3": {"name": "Structural Containment", "source": "2.3", "question": "What bounds actions, access and resources, and provides oversight, interruption and appropriate authorisation?"},
+    "A.4": {"name": "Structural Calibration", "source": "2.5", "question": "Where section 2.5 applies, what evidence links expressed confidence to observed real-world performance?"},
+    "Q1": {"name": "Coupling", "source": "Part Five, Question One; 2.4", "question": "Which restriction/permission and specific human interest are paired inseparably, with protection as enforceable as the restriction?"},
+    "Q2": {"name": "Consistency", "source": "Part Five, Question Two", "question": "Does the reasoning remain defensible for the smallest actor and universal application, including justified exceptions?"},
+    "Q3": {"name": "Reversibility", "source": "Part Five, Question Three; provisions D1-D2", "question": "Is future revision preserved and irreversibility justified with proportionate authority and procedure?"},
+    "G.1": {"name": "Self-Application", "source": "4.3; 7.4", "question": "What subjects governance actors themselves to review, transparency and effective challenge?"},
+}
+
 # ── Framework hierarchy ───────────────────────────────────────────────────────
-# Source: LAIF v1.2 Principle 3 — Framework Hierarchy.
+# Source: LAIF v1.2 Part Two operationalisation note and Part Eight;
+# Principle 3 is Non-Accumulation, not Framework Hierarchy.
 # Tier 1 (Foundational Principles) > Tier 2 (Provisions) > Tier 3 (Operational Standards).
 # Tier 3 can be revised; Tier 1 and Tier 2 cannot be contradicted by Tier 3 revisions.
 

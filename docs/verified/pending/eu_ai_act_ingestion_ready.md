@@ -1,12 +1,12 @@
 # EU AI Act — Manual Authoritative Ingestion Readiness
 
 **Document:** Regulation (EU) 2024/1689 — Artificial Intelligence Act
-**Status:** READY_FOR_MANUAL_AUTHORITATIVE_INGESTION
+**Status:** SOURCE_VERIFIED_PENDING_ASSESSMENT (30 October 2026); the May readiness procedure below is retained as history
 **Preferred source:** EUR-Lex Regulation (EU) 2024/1689
 **Preferred origin URL:** https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689
 **Readiness date:** May 2026
 
-**Custody update (30 October 2026):** A PDF named `OJ_L_202401689_EN_TXT.pdf` is preserved in `docs/verified/manual_ingest/`. Its SHA-256 matches the [May batch relocation record](../../verification/2026-05-11/relocation-manifest.json). The historical batch processed this file, but no independently verified EUR-Lex acquisition or admission to the verified corpus is recorded. Check its origin against the authoritative source, or obtain a verified replacement, before completing the manifest and assessment. The pending status below remains in force.
+**Source verification (30 October 2026):** An automated download from the [official Publications Office original-edition record](https://op.europa.eu/en/publication-detail/-/publication/dc8116a1-3fe6-11ef-865a-01aa75ed71a1/language-en) matched the preserved `OJ_L_202401689_EN_TXT.pdf` byte for byte. All 144 pages were extracted into `docs/verified/raw/eu_ai_act_2024_1689.md`; the [source and extraction trace](../extracted/eu-ai-act-2024-1689-ingestion-trace.md) and manifest record the hashes and limitations. Source admission is complete. A full LAIF assessment and clause-level editorial review remain pending. The original May procedure below is historical.
 
 ---
 
