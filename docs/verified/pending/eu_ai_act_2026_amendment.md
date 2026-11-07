@@ -8,7 +8,7 @@
 - Original instrument: Regulation (EU) 2024/1689, Official Journal 12 July 2024. Its separate original-source admission remains in draft [PR #90](https://github.com/mick353/LAIF/pull/90).
 - Amendment: Regulation (EU) **2026/1744** of 8 July 2026, published in Official Journal 24 July 2026, 41 pages.
 - Official ELI: http://data.europa.eu/eli/reg/2026/1744/oj
-- Repository PDF: [OJ_L_202601744_EN_TXT.pdf](../OJ_L_202601744_EN_TXT.pdf)
+- Repository PDF: [OJ_L_202601744_EN_TXT.pdf](../manual_ingest/OJ_L_202601744_EN_TXT.pdf)
 - Acquisition: `HUMAN_GITHUB_DEPOSIT`, uploaded by repository owner to PR #98 on 7 November 2026.
 - Git blob SHA-1: `90143567e4272f0684cfeaca5af66836c6b0b11e`. **Not** a PDF SHA-256 or upstream-byte equivalence assertion.
 - EUR-Lex dated consolidated edition (not admitted): https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A02024R1689-20260727
