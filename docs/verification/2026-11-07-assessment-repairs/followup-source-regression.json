@@ -1,0 +1,25 @@
+{
+  "scope": "Executed source processing after JSON inference and quotation completeness repairs; not a new substantive assessment",
+  "results": [
+    {
+      "document": "au_dta_policy_v2_1",
+      "source_sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+      "toolchain_fingerprint": "d8f690e541b014d9",
+      "scores_and_categories_preserved": true,
+      "primary_quotes": 10,
+      "primary_quote_completeness_gate_passed": true,
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW",
+      "primary_quote_exact_spans_verified": true
+    },
+    {
+      "document": "eu_ai_act_amendment_2026_1744",
+      "source_sha256": "dfcdbe4c3da4ce06f7b39bade40b4b08c132718352ef70b670ef8f163fb9a5b0",
+      "toolchain_fingerprint": "d8f690e541b014d9",
+      "scores_and_categories_preserved": true,
+      "primary_quotes": 12,
+      "primary_quote_completeness_gate_passed": true,
+      "substantive_coherence_determination": "REQUIRES_SOURCE_BASED_REVIEW",
+      "primary_quote_exact_spans_verified": true
+    }
+  ]
+}

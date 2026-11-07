@@ -14,6 +14,30 @@ from scripts import laif_process_document as runner
 
 
 class AssessmentEvidenceBoundaryTests(unittest.TestCase):
+    def test_json_remediation_does_not_turn_missing_patterns_into_failure(self):
+        result = assess("Policy", "policy", "Agencies must identify AI risks and assign an owner.", assessment_mode="external_framework")
+        narrative = json.dumps({k: result[k] for k in ("plain_reading", "structured_findings", "structured_remediation_steps", "score_trace")})
+        self.assertNotIn("This dimension is absent from the document", narrative)
+        self.assertNotIn("no governance restriction is bound", narrative)
+        self.assertNotIn("restrictions not bound to human interests", narrative)
+        self.assertNotIn("Q1 (Coupling) failure = automatic", narrative)
+        self.assertIn("source", narrative.lower())
+
+    def test_dangling_complement_cannot_be_primary_evidence(self):
+        incomplete = "That technical documentation shall demonstrate that the high-risk AI system"
+        complete = incomplete + " complies with the applicable requirements."
+        self.assertFalse(runner.quote_has_complete_evidence_proposition(incomplete)[0])
+        self.assertTrue(runner.quote_has_complete_evidence_proposition(complete)[0])
+        self.assertTrue(runner._incomplete_quote_reason("The AI Office shall review systems referred to in"))
+
+    def test_pdf_line_prefix_expands_to_retain_source_qualifier(self):
+        prefix = "Providers shall train their staff"
+        text = prefix + "\nand other persons using AI on their behalf, taking account of the use context."
+        start, end, quote = runner._expand_incomplete_candidate(text, 0, len(prefix), prefix)
+        self.assertEqual(text[start:end], quote)
+        self.assertIn("other persons", quote)
+        self.assertIn("use context.", quote)
+
     def test_all_four_properties_reported_without_inventing_passes(self):
         text = "Agencies must name an accountable official and maintain a register."
         result = assess("Government policy", "sector_policy", text, assessment_mode="external_framework")

@@ -1,1 +1,1 @@
-PASS: 10 baseline documents preserve scores, formal verdicts, detector categories, functional evidence and score traces.
+PASS: all ten baseline documents preserve component/aggregate scores, formal verdicts, detector categories, functional evidence, score-trace signals and weights. Explanatory reason text is deliberately corrected.

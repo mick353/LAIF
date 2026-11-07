@@ -39,3 +39,5 @@ This branch contains an intentional framework clarification, reporting interpret
 These checks verify the implemented boundaries and reproducibility. They do not independently validate the framework’s theory, the full source-based reasoning or an institution’s actual compliance.
 
 Combined PR #98 + #99 integration was also executed and passed: **388 discovered tests plus the additional gates**. See [COMBINED_VALIDATION.md](COMBINED_VALIDATION.md) for exact component/tree identities and boundaries. Neither PR was merged.
+
+Latest follow-up: JSON/remediation inference paths and incomplete primary quotations are repaired and regression-tested. Current full gate: **382 tests**; combined source + repair gate: **391 tests**. See [CONTINUED_VALIDATION.md](CONTINUED_VALIDATION.md); earlier 379/388 counts above describe the initial repair revision.

@@ -1634,8 +1634,8 @@ def _score_reason(dim, score, fired, missed):
     n_total = n_fired + len(missed)
     if score == 0:
         return (
-            f"No {dim} signals present — none of the {n_total} expected signals matched. "
-            f"This dimension is absent from the document."
+            f"No {dim} signals detected — none of the {n_total} expected patterns matched. "
+            "This does not establish that the dimension is absent from the document."
         )
     if score >= 80:
         top = ", ".join(lbl for lbl, _ in fired[:2])
@@ -1772,8 +1772,8 @@ def _executive_summary(result):
     if gaming == "HIGH":
         risks.append(
             f"High sector gaming risk: sector keyword density is elevated while substantive "
-            f"governance content is low (overall {overall}/100). This pattern would not "
-            f"produce just outcomes at the individual-decision scale — failing Q2 Consistency. "
+            f"governance signal scores are low (overall {overall}/100). This pattern warrants "
+            f"source review; it does not establish a substantive Q2 Consistency failure. "
             f"(LAIF v1.2 Principle 5)"
         )
     elif gaming == "MEDIUM" and len(risks) < 3:
@@ -1793,8 +1793,8 @@ def _executive_summary(result):
     if enforce < 30 and len(risks) < 3:
         risks.append(
             f"Low enforceability ({enforce}/100): mandatory language ('shall'), named "
-            f"responsible parties, and enforcement consequences are largely absent. "
-            f"Governance provisions are aspirational rather than operationally binding."
+            f"responsible parties and consequences have few matching signals. "
+            "This score does not establish that the instrument is non-binding; verify its authority and incorporated rules."
         )
     risks = risks[:3]
 
@@ -1859,13 +1859,13 @@ def _executive_summary(result):
         why = ("Primary structural gap: LAIF-native declaration absent — Coupling "
                "substance is functionally present in the document's own vocabulary.")
     elif cq in ("ABSENT", "SHALLOW", "NEGATED"):
-        why = "Primary structural gap: Coupling not structurally declared."
+        why = "Complete Coupling pairing not detected; verify source protections and their force."
     elif contras:
-        why = "Primary structural gap: Integrity Layer not enforced as precondition."
+        why = "Complete Integrity Layer precondition not detected; verify the source requirements."
     elif not result.get("construct_coverage", {}).get("Coherence Test"):
         why = "Primary structural gap: Coherence Test not applied."
     else:
-        why = "Primary structural gap: Integrity Layer not enforced as precondition."
+        why = "Complete Integrity Layer precondition not detected; verify the source requirements."
 
     # ── Position Assessment ───────────────────────────────────────────────────
     # Auto-built from construct coverage, coupling_state, and conceptual proximity.
@@ -1884,7 +1884,7 @@ def _executive_summary(result):
         contains.append("implicit Coupling signals (protective intent present)")
 
     if cs == "STRUCTURAL":
-        position_result = "Structurally compliant with LAIF"
+        position_result = "Explicit Coupling structure detected; complete LAIF compliance is not established"
     elif cs == "FUNCTIONAL":
         position_result = ("Functionally aligned with LAIF in its own vocabulary — "
                            "not LAIF-native")
@@ -1901,9 +1901,9 @@ def _executive_summary(result):
     elif cs != "STRUCTURAL":
         not_enforced.append("Complete Coupling pairing not detected; review restriction-to-interest mapping")
     if not cc.get("Coherence Test"):
-        not_enforced.append("Coherence Test not applied — Q1/Q2/Q3 not documented")
+        not_enforced.append("Coherence Test documentation not detected; verify the complete source")
     if not cc.get("Integrity Layer"):
-        not_enforced.append("Integrity Layer not declared as a deployment precondition")
+        not_enforced.append("Integrity Layer declaration not detected; verify equivalent deployment requirements")
 
     position_assessment = {
         "contains":    contains,
@@ -1933,14 +1933,14 @@ _DIM_CONSEQUENCE = {
         "terminological substitution."
     ),
     "auditability": (
-        "Without numbered, traceable obligations, a PDCA auditor has no objective "
-        "basis to verify compliance — compliance claims rest on assertions rather "
-        "than verifiable evidence. External audit cannot proceed."
+        "If source review confirms inadequate traceable obligations and evidence, "
+        "auditability may be limited. A low pattern score does not establish that "
+        "external audit is impossible."
     ),
     "enforceability": (
-        "Without enforceable obligations, regulatory bodies cannot hold operators "
-        "accountable for governance failures. The standard is aspirational rather "
-        "than operationally binding — no party can be required to comply."
+        "If source review confirms no applicable enforceable obligations, accountability "
+        "may be limited. Verify legal, contractual and institutional authority; "
+        "a missing pattern is not proof that the instrument is voluntary."
     ),
 }
 
@@ -2241,8 +2241,8 @@ def _structured_remediation(result):
             "why_it_matters": (
                 f"The document already expresses protective intent — detected: "
                 f"«{first_signal}». However, implicit intent does not constitute structural "
-                f"Coupling: the protection can be removed without affecting the obligation it "
-                f"was meant to serve. The upgrade required is structural, not conceptual "
+                f"Coupling: verify whether the protection and obligation can be weakened "
+                f"independently before concluding a structural repair is required "
                 f"(LAIF v1.2 Principle 2; Toolkit §2 B.1)."
             ),
             "concrete_fix": (
@@ -2250,16 +2250,15 @@ def _structured_remediation(result):
                 "'Coupling between [the restriction already present] and [the specific human "
                 "interest the detected protective language names], with equivalent normative "
                 "force on both sides — neither may be weakened in isolation.' "
-                "The governance intent is present; only the structural binding is missing "
+                "The protective signal is present; full structural binding requires source review "
                 "(Toolkit §2 B.1)."
             ),
         })
     elif cq in ("ABSENT", "SHALLOW", "NEGATED") and _cstate not in ("FUNCTIONAL", "STRUCTURAL"):
         cq_r = result["coupling_quality_reason"]
         if cq == "ABSENT":
-            problem = ("Restriction-protection pairing not established — no governance "
-                       "restriction is bound to the specific interest it protects, in "
-                       "any vocabulary.")
+            problem = ("Restriction-protection pairing not detected; verify the complete "
+                       "instrument and incorporated protections before proposing changes.")
         elif cq == "SHALLOW":
             problem = f"Coupling declared SHALLOW — {cq_r[:110]}"
         else:
@@ -2267,10 +2266,10 @@ def _structured_remediation(result):
         steps.append({
             "problem": problem,
             "why_it_matters": (
-                "Without structural Coupling, no governance restriction is paired with the "
-                "specific human interest it protects. Each restriction can be weakened "
-                "independently. Q1 (Coupling) failure = automatic failure of the full "
-                "Coherence Test (LAIF v1.2 Principle 2; Toolkit §2 B.1)."
+                "If source-based review confirms absent or separable pairing, the restriction "
+                "may lack an adequately bound protection. This is a risk to test, not a "
+                "substantive Q1 failure established by a pattern non-match "
+                "(LAIF v1.2 Principle 2; Toolkit §2 B.1)."
             ),
             "concrete_fix": (
                 "For each restriction, name the specific interest it protects and bind "
@@ -2364,7 +2363,7 @@ def _structured_remediation(result):
                 "property is unmet: the ability to account for its outputs, the "
                 "correspondence of stated to implemented objectives, and operation within "
                 "documented boundaries. Partial satisfaction functioning as approval is the "
-                "single most common structural failure this model detects (LAIF v1.2 Part Two)."
+                "risk requiring source-based review; its prevalence is not established by these rules (LAIF v1.2 Part Two)."
             ),
             "concrete_fix": (
                 "Establish a deployment gate covering all four properties where applicable "

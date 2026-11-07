@@ -751,7 +751,7 @@ ACTION_QUOTE_TERMS = STRONG_QUOTE_TERMS + ("manage", "assign", "maintain", "prot
 BOILERPLATE_QUOTE_RE = re.compile(r"(difficulties with accessing|accessibility|contact us|support@|@\w|email:|telephone|copyright|isbn|all rights reserved|certain commercial entities, equipment, or materials may be identified)", re.IGNORECASE)
 GENERIC_FRAGMENT_RE = re.compile(r"(?:requirements agencies must follow|monitoring, will help ensure|this document in order to describe|to combat this risk, the federal government will ensure that the collection|the assessment must be documented and take|the notification shall contain the conclusions of the assessment|by la ying down those r ules|this regulation ensures the free moveme nt, cross-border , of)", re.IGNORECASE)
 PDF_INTR_WORD_DAMAGE_RE = re.compile(r"\b(?:super vision|inv estig ation|enf or cement|monitor ing|obliga tion|ar ticle|ser ious|general-pur pose|g eneral-pur pose|provid er|provid ed|ensur ing|har monisation|uni on|f alsifi ed|accompanie d|r isk|la ying|r ules|a rtificial|i ntelligence|p rovider|d eployer|o bligation|a ssessment|syste ms?|g enerated|cont ent|ai-g enerated|f or|exper ience|regard ing|marke t|post-mark et|impro ving|cor rective|classif ied|inter preted|ite rative|r un|f ocused|mitiga tion|comp et ent author ity|author ity|comp et ent|super visory|notifi cation|docu mentation|imple mentation|imple ment|assess ment|require ments|deci sions?)\b", re.IGNORECASE)
-INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|take|taken|should|must|shall|will|through|within|including|regarding|by|from|under|related\s+to|in\s+relation\s+to|as\s+part\s+of|in\s+order\s+to|their\s+ai|the\s+agency\s+make|broader\s+enterprise|ai\s+systems\s+work|nist\s+will\s+review)\s*$", re.IGNORECASE)
+INCOMPLETE_END_RE = re.compile(r"\b(?:are|is|and|or|to|of|the|that|with|for|in|at|as|between|among|take|taken|should|must|shall|will|through|within|including|regarding|by|from|under|related\s+to|in\s+relation\s+to|as\s+part\s+of|in\s+order\s+to|their\s+ai|the\s+agency\s+make|broader\s+enterprise|ai\s+systems\s+work|nist\s+will\s+review)\s*$", re.IGNORECASE)
 TOC_QUOTE_RE = re.compile(r"^\s*(?:\d+(?:\.\d+)*\s+){0,2}[A-Z][A-Za-z&/ -]{2,70}\s+\d{1,4}\s*$")
 TITLE_ONLY_RE = re.compile(r"^[A-Z][A-Za-z0-9&/:,() -]{8,80}$")
 BROKEN_GLYPH_RE = re.compile(r"\b[A-Za-z]{1,3}(?:\s+[A-Za-z]{1,3}){4,}\b", re.IGNORECASE)
@@ -1364,6 +1364,11 @@ def quote_has_complete_evidence_proposition(display_quote: str) -> tuple[bool, s
     if re.search(r"\bdra\s+w\b", lower):
         return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
 
+    # A finite main clause does not make a dangling complement complete:
+    # "shall demonstrate that the high-risk AI system" still lacks its predicate.
+    if re.search(r"\b(?:demonstrat\w*|ensur\w*|show\w*)\s+that\s+(?:the|a|an|each)\s+(?:high-risk\s+)?(?:ai\s+systems?|providers?|deployers?|agenc(?:y|ies))\s*$", lower):
+        return False, INCOMPLETE_EVIDENCE_PROPOSITION_REASON
+
     incomplete_endings = (
         "on the use of high-risk",
         "before that system is placed on the market or put into",
@@ -1481,11 +1486,21 @@ def _expanded_sentence_window(text: str, start: int, end: int) -> tuple[int, int
 def _expand_incomplete_candidate(text: str, start: int, end: int, quote: str) -> tuple[int, int, str]:
     """Expand bridge-ending evidence only to source sentence/paragraph boundaries."""
     display_quote = _normalized_for_quality(quote)
-    if not _incomplete_quote_reason(display_quote):
+    # PDF line boundaries are not necessarily sentence boundaries. Retain
+    # qualifiers in a continuing source paragraph even when the prefix alone
+    # happens to look like a complete legal proposition.
+    remainder = text[end:]
+    paragraph_tail = re.split(r"\n[ \t]*\n", remainder, maxsplit=1)[0]
+    continues = bool(paragraph_tail.strip()) and not re.search(r"[.!?;:]\s*[’'\"]?$", display_quote)
+    if not _incomplete_quote_reason(display_quote) and not continues:
         return start, end, quote
     expanded_start, expanded_end, expanded_quote = _expanded_sentence_window(text, start, end)
     expanded_display = _normalized_for_quality(expanded_quote)
     if (expanded_start, expanded_end, expanded_quote) != (start, end, quote) and not _incomplete_quote_reason(expanded_display):
+        return expanded_start, expanded_end, expanded_quote
+    if continues and expanded_quote != quote:
+        # Do not fall back to a deceptively clean prefix if the full source
+        # continuation is damaged; quality/admission gates will downgrade it.
         return expanded_start, expanded_end, expanded_quote
     return start, end, quote
 
