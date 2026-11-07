@@ -38,14 +38,23 @@ When automated URL retrieval is blocked, authoritative sources may be supplied t
 
 ## Portable processing of newly deposited sources
 
-The DTA v2.1 and EU Regulation 2026/1744 PDFs are held in `manual_ingest/` on draft PR #98. From **any Python environment with a clone of this branch**, install optional `pypdf` in a virtual environment and run:
+The DTA v2.1 and EU Regulation 2026/1744 PDFs are held in `manual_ingest/` on PR #98. Source-specific manifests, full page-delimited extractions, exact quotation traces and separate assessments are now recorded in the [7 November review](../verification/2026-11-07/regulatory/README.md). Until merged, these are review artefacts, not canonical `main` results.
+
+From **any Python 3.10+ environment with a clone of this branch**, the reviewed-text route requires only the standard library:
+
+```bash
+python3 scripts/laif_verify_regulatory_ingestion.py
+python3 scripts/laif_process_regulatory_sources.py --verified-text --output-dir /tmp/laif-regulatory-review
+```
+
+For direct PDF extraction, install optional `pypdf` in a virtual environment and run:
 
 ```bash
 python3 -m pip install pypdf
 python3 scripts/laif_process_regulatory_sources.py --output-dir /tmp/laif-regulatory-review
 ```
 
-The runner uses the canonical `laif_process_document.py` engine for both files and writes source SHA-256 identities, assessment outputs and a JSON run manifest. It fails on missing/invalid PDFs and processor errors. This is a **documentary processing entry point**, not an automated admission to `PRIMARY_CITABLE` or a legal-compliance verdict. Full source extraction, provenance manifests, quote checking and local verification remain separate required steps under `MANUAL_INGESTION_WORKFLOW.md`. The script does not create a hosted execution service or require GitHub Actions.
+The runner uses the canonical `laif_process_document.py` engine for both files and writes source SHA-256 identities, assessment outputs and a JSON run manifest. It fails on missing/invalid PDFs and processor errors. This is a **documentary processing entry point**, not an automated admission to `PRIMARY_CITABLE` or a legal-compliance verdict. Source admission is recorded separately under `MANUAL_INGESTION_WORKFLOW.md`; the runner itself does not promote sources. `--verified-text` checks pinned raw/PDF hashes and uses explicit instrument context, avoiding the documented pypdf spacing damage. Its assessment source hash identifies extracted text; the run manifest links it to the PDF hash. The script does not create a hosted execution service or require GitHub Actions.
 
 ## Ingestion Constraints
 
@@ -60,8 +69,8 @@ All documents in this corpus were ingested under the following constraints:
 
 ## Limitations
 
-- URL verification against authoritative online sources was not performed during ingestion (no network access in ingestion session)
-- SHA256 hashes are of the extracted markdown files, not the original PDF/DOCX source files
+- Legacy sources retain their historical URL-verification limitations. The 2026 EU amendment has automated upstream byte equivalence; DTA v2.1 is human-attested after two HTTP 503 responses.
+- Legacy hashes are of extracted markdown. The two new regulatory records separately pin original PDF and extracted-text SHA-256 hashes.
 - EU AI Act full text not yet ingested — marked PENDING_INGESTION in manifest
 
 ---

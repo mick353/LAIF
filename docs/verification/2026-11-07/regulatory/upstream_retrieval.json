@@ -1,0 +1,25 @@
+[
+  {
+    "id": "dta",
+    "url": "https://www.digital.gov.au/sites/default/files/documents/2026-10/Policy%20for%20the%20responsible%20use%20of%20AI%20in%20government%202_1_1.pdf",
+    "checked_at_utc": "2026-11-07T04:12:30.857066+00:00",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "id": "eu",
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32026R1744",
+    "checked_at_utc": "2026-11-07T04:12:30.857709+00:00",
+    "status": 200,
+    "final_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32026R1744",
+    "content_type": "application/pdf",
+    "bytes": 1121625,
+    "sha256": "0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386",
+    "pdf": true
+  },
+  {
+    "id": "dta_retry",
+    "url": "https://www.digital.gov.au/sites/default/files/documents/2026-10/Policy%20for%20the%20responsible%20use%20of%20AI%20in%20government%202_1_1.pdf",
+    "checked_at_utc": "2026-11-07T04:12:53.498287+00:00",
+    "error": "HTTP Error 503: Service Unavailable"
+  }
+]

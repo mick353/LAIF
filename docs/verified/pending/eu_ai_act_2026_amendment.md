@@ -1,5 +1,7 @@
 # EU AI Act — Regulation 2026/1744 Deposited; Verification Pending
 
+**Completion update (7 November 2026):** The following deposit checklist is retained as history. PDF SHA-256, full extraction, provenance manifest, exact page-bounded evidence traces and separate source-scoped assessment are completed on PR #98. See the [execution record](../../verification/2026-11-07/regulatory/README.md). Human legal/policy review and merge remain outstanding. EU upstream-byte equivalence is verified; original-Act admission remains independently controlled by PR #90.
+
 **As at:** 7 November 2026 (AEDT)  
 **Status:** `SOURCE_DEPOSITED_PENDING_VERIFICATION` for the amending regulation. This is **not** a verified consolidated text or completed legal assessment.
 

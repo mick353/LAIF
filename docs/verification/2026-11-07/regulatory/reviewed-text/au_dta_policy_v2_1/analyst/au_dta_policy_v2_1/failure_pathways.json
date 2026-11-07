@@ -1,0 +1,120 @@
+{
+  "failure_pathways": [
+    {
+      "consequence": "Reliance on obligations are imposed with no precedence rule between them cannot be evidenced after the fact.",
+      "detection_signal": "Absence or staleness of: A precedence clause stating which provisions prevail on conflict, which may not be waived or amended except by a named authority, and what instrument this document is subordinate to.",
+      "escalation_gate": "No amendment is made without recording whether it changes a provision the precedence clause protects.",
+      "likely_institutional_failure": "Obligations are imposed with no precedence rule between them",
+      "pathway_id": "PATH-001",
+      "required_controls": [
+        "CTRL-001"
+      ],
+      "severity": "medium",
+      "source_evidence_location": "Page iii",
+      "source_evidence_quote": "requirements agencies must follow. Recommended actions and considerations are also included where relevant.",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ],
+      "steps": [
+        "The document raises **mandatory language (shall/must)** at \u201cPage iii\u201d: \u201crequirements agencies must follow. Recommended actions and considerations are also included where relevant.\u201d",
+        "The document imposes duties but never says which provision prevails if two conflict, which cannot be waived, or what the document is subordinate to. A routine revision can therefore change what it actually requires without anyone treating that as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs.",
+        "The institution cites this expectation as assurance, but the closing control \u2014 a precedence clause stating which provisions prevail on conflict, which may not be waived or amended except by a named authority, and what instrument this document is subordinate to \u2014 does not exist or is not current.",
+        "A decision or deployment proceeds on the strength of the document alone.",
+        "If the outcome is wrong, there is no record that this expectation controlled the decision, and no defined route to correct it."
+      ],
+      "title": "Obligations are imposed with no precedence rule between them \u2014 failure pathway",
+      "triggering_gap_ids": [
+        "GAP-001"
+      ]
+    },
+    {
+      "consequence": "Reliance on government ai policy requires exception and incident escalation consequence cannot be evidenced after the fact.",
+      "detection_signal": "Absence or staleness of: Consequence schedule mapping each class of breach to a defined response, up to suspension of use.",
+      "escalation_gate": "No breach is closed without a recorded consequence or a documented, authorised exception.",
+      "likely_institutional_failure": "Requirements carry no stated consequence for non-compliance",
+      "pathway_id": "PATH-002",
+      "required_controls": [
+        "CTRL-002"
+      ],
+      "severity": "medium",
+      "source_evidence_location": "Page iii",
+      "source_evidence_quote": "requirements agencies must follow. Recommended actions and considerations are also included where relevant.",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ],
+      "steps": [
+        "The document raises **mandatory language (shall/must)** at \u201cPage iii\u201d: \u201crequirements agencies must follow. Recommended actions and considerations are also included where relevant.\u201d",
+        "The document states requirements but attaches no consequence to breaching them, so compliance rests on goodwill and a breach produces no defined institutional response.",
+        "The institution cites this expectation as assurance, but the closing control \u2014 consequence schedule mapping each class of breach to a defined response, up to suspension of use \u2014 does not exist or is not current.",
+        "A decision or deployment proceeds on the strength of the document alone.",
+        "If the outcome is wrong, there is no record that this expectation controlled the decision, and no defined route to correct it."
+      ],
+      "title": "Government AI policy requires exception and incident escalation consequence \u2014 failure pathway",
+      "triggering_gap_ids": [
+        "GAP-002"
+      ]
+    },
+    {
+      "consequence": "Reliance on risk is discussed without a gate that can stop deployment cannot be evidenced after the fact.",
+      "detection_signal": "Absence or staleness of: Deployment gate listing the conditions that must all hold before go-live, and who signs each.",
+      "escalation_gate": "Deployment does not proceed while any gate condition is unmet.",
+      "likely_institutional_failure": "Risk is discussed without a gate that can stop deployment",
+      "pathway_id": "PATH-003",
+      "required_controls": [
+        "CTRL-003"
+      ],
+      "severity": "high",
+      "source_evidence_location": "Page iii",
+      "source_evidence_quote": "and undertake risk-based use case-level actions.",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ],
+      "steps": [
+        "The document raises **risk governance** at \u201cPage iii\u201d: \u201cand undertake risk-based use case-level actions.\u201d",
+        "The document engages with risk but sets no precondition that must hold before deployment proceeds, so risk can be documented and deployment can continue regardless of what the assessment found.",
+        "The institution cites this expectation as assurance, but the closing control \u2014 deployment gate listing the conditions that must all hold before go-live, and who signs each \u2014 does not exist or is not current.",
+        "A decision or deployment proceeds on the strength of the document alone.",
+        "If the outcome is wrong, there is no record that this expectation controlled the decision, and no defined route to correct it."
+      ],
+      "title": "Risk is discussed without a gate that can stop deployment \u2014 failure pathway",
+      "triggering_gap_ids": [
+        "GAP-003"
+      ]
+    },
+    {
+      "consequence": "Reliance on affected people have no route to challenge an outcome cannot be evidenced after the fact.",
+      "detection_signal": "Absence or staleness of: Published route by which an affected person can contest an outcome, with owner, timescale, and reversal authority.",
+      "escalation_gate": "No decision pathway operates without a stated contest route.",
+      "likely_institutional_failure": "Affected people have no route to challenge an outcome",
+      "pathway_id": "PATH-004",
+      "required_controls": [
+        "CTRL-004"
+      ],
+      "severity": "high",
+      "source_evidence_location": "Page iii",
+      "source_evidence_quote": "a pathway for staff to report AI safety concerns, including AI incidents. \u2022 pathways for the public to report AI safety concerns,",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ],
+      "steps": [
+        "The document raises **safety** at \u201cPage iii\u201d: \u201ca pathway for staff to report AI safety concerns, including AI incidents. \u2022 pathways for the public to report AI safety concerns,\u201d",
+        "The document addresses safety but gives the people affected by a decision nothing they can invoke \u2014 no appeal, review, or remedy \u2014 so harm to an individual has no defined path to correction.",
+        "The institution cites this expectation as assurance, but the closing control \u2014 published route by which an affected person can contest an outcome, with owner, timescale, and reversal authority \u2014 does not exist or is not current.",
+        "A decision or deployment proceeds on the strength of the document alone.",
+        "If the outcome is wrong, there is no record that this expectation controlled the decision, and no defined route to correct it."
+      ],
+      "title": "Affected people have no route to challenge an outcome \u2014 failure pathway",
+      "triggering_gap_ids": [
+        "GAP-004"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # Authoritative Source Currency Review — 7 November 2026
 
+**Completion update:** PR #98 now contains executed processing, full extraction, manifests, page/quote checks and separate draft assessments for both deposited PDFs. See the [execution record](../verification/2026-11-07/regulatory/README.md). EU upstream bytes match; DTA origin remains human-attested after HTTP 503. The initial discovery register below is retained as dated history and is superseded for these two ingestion statuses. Neither draft result is canonical before merge.
+
 **Purpose:** Identify which external reference documents can support a *current* assessment, without erasing the historical corpus or changing LAIF's assessment semantics. This is a dated source-review record, **not** an updated source ingestion or a legal determination.
 
 ## Evidence and custody boundary

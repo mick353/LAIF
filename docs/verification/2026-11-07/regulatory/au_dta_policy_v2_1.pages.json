@@ -1,0 +1,167 @@
+{
+  "source_pdf": "docs/verified/manual_ingest/Policy for the responsible use of AI in government 2_1_1.pdf",
+  "source_sha256": "7da206ff9bb77c5c4505577ea2fd11367700b38f4ff8c4e4592501e95221e5c2",
+  "raw_file": "docs/verified/raw/au_dta_policy_v2_1.md",
+  "raw_sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+  "extractor": "pdftotext 24.02.0 -layout -enc UTF-8",
+  "stderr": "Syntax Warning: Invalid Font Weight\nSyntax Warning: Invalid Font Weight\n",
+  "page_count": 26,
+  "pages": [
+    {
+      "page": 1,
+      "start_char": 22,
+      "end_char": 86,
+      "text_sha256": "df36ffeccbddbac8773e0a43507d5e2498229c82c9db68c58ba20d4215451caf"
+    },
+    {
+      "page": 2,
+      "start_char": 108,
+      "end_char": 1005,
+      "text_sha256": "58f8b62bc1aefb40f030f9fbf346ba408f399f60a2a2675d4aaf9235b8abab68"
+    },
+    {
+      "page": 3,
+      "start_char": 1027,
+      "end_char": 5858,
+      "text_sha256": "54544f77ac6509074138353e56af226fda9bd97684d86a94c621f153fa06bd3d"
+    },
+    {
+      "page": 4,
+      "start_char": 5880,
+      "end_char": 7965,
+      "text_sha256": "d7979ba3d888880bf7dcb35f7accc5ebbfb09220bb9dfb43295ee32b3c573c4b"
+    },
+    {
+      "page": 5,
+      "start_char": 7987,
+      "end_char": 9477,
+      "text_sha256": "5bd1c0a805e2beb7ffdb99d891a00b7113ddcf85b3aa0b3b2be092978d4446d0"
+    },
+    {
+      "page": 6,
+      "start_char": 9499,
+      "end_char": 11008,
+      "text_sha256": "eaf02de926b702d6028f958794d96096f2139407b3aed6fc4bb1a09d08ee9585"
+    },
+    {
+      "page": 7,
+      "start_char": 11030,
+      "end_char": 12521,
+      "text_sha256": "dae3926d8a07aebeb46336224f233ffe1c51c3a0f8c463853007d1acb7fda731"
+    },
+    {
+      "page": 8,
+      "start_char": 12543,
+      "end_char": 13128,
+      "text_sha256": "5eefa5c1960272b522e0852a96392a47a2bf06dd60021f2e76a01f80094319a8"
+    },
+    {
+      "page": 9,
+      "start_char": 13150,
+      "end_char": 13568,
+      "text_sha256": "21442f66ec5afffa3fbd389a45754d2bfa888bce33ef9b3c0d5b5adecd816e60"
+    },
+    {
+      "page": 10,
+      "start_char": 13591,
+      "end_char": 15253,
+      "text_sha256": "4c18a1837ebe5c5ea0785a3b4b8626c3234da72a7a80b2f622cb56ca8dee1a43"
+    },
+    {
+      "page": 11,
+      "start_char": 15276,
+      "end_char": 16909,
+      "text_sha256": "5032f431a309e86f63aa91031557485f076c69a8b2397ecfa055adfaee2d1118"
+    },
+    {
+      "page": 12,
+      "start_char": 16932,
+      "end_char": 18991,
+      "text_sha256": "e9cf3ca50d34e6ed95d147e35000052a2f8c67ea475d0bc7e33c06c39d74dafe"
+    },
+    {
+      "page": 13,
+      "start_char": 19014,
+      "end_char": 20841,
+      "text_sha256": "e77e801ba245dc8c9fda034a6a6bc24c9e30d19594876ab537c2950247367e9c"
+    },
+    {
+      "page": 14,
+      "start_char": 20864,
+      "end_char": 22488,
+      "text_sha256": "22a44f9ec89dbef0dc60d25fab81427f4463c5bbafbb68f0ea5fc85be26ff3c3"
+    },
+    {
+      "page": 15,
+      "start_char": 22511,
+      "end_char": 24054,
+      "text_sha256": "3a9c7ae24ca4de95eb110190ac41440d6e1dc831b9ea103ba781d9ab7fed22f0"
+    },
+    {
+      "page": 16,
+      "start_char": 24077,
+      "end_char": 25649,
+      "text_sha256": "aa45d3dbd2c3e29cf7a67d239906ac330a64416d4c81c1a4e3f46f93177dfb35"
+    },
+    {
+      "page": 17,
+      "start_char": 25672,
+      "end_char": 26585,
+      "text_sha256": "a3fe7b0b8661c379b14d12492f5114b1ffa3d897090ec3c037dccb06c9182a57"
+    },
+    {
+      "page": 18,
+      "start_char": 26608,
+      "end_char": 27652,
+      "text_sha256": "7336271793313067523c4f6f1f6dc7728cab88e072a709d2a320e4cf13c8ad5d"
+    },
+    {
+      "page": 19,
+      "start_char": 27675,
+      "end_char": 28845,
+      "text_sha256": "e1e4fe7fc5f1c519b60cd859ba808bdd2929ec18cd2e8f50d0f4b4f191cd66d5"
+    },
+    {
+      "page": 20,
+      "start_char": 28868,
+      "end_char": 30288,
+      "text_sha256": "8d7b8fdf287835acbef8bd27ef9b310aa0ae04cf6a6cd9f5c7cb2f7b2f8838eb"
+    },
+    {
+      "page": 21,
+      "start_char": 30311,
+      "end_char": 32089,
+      "text_sha256": "0c56fd901cc6928973b5ebae82f7695c7800d456d1b834618b5727205b0e8375"
+    },
+    {
+      "page": 22,
+      "start_char": 32112,
+      "end_char": 33404,
+      "text_sha256": "8c3e0dada351c645977209f19e01d07ad5117bc937dd2df0f67d473f7d3e5286"
+    },
+    {
+      "page": 23,
+      "start_char": 33427,
+      "end_char": 35568,
+      "text_sha256": "153915866ec08dd90a60de7b336e7e4485f64f654c48198bef1a10736997ce19"
+    },
+    {
+      "page": 24,
+      "start_char": 35591,
+      "end_char": 38811,
+      "text_sha256": "cb5bcd66e6d67200094671d2ab97ed741fb40d9f066474b6f356a9b085571326"
+    },
+    {
+      "page": 25,
+      "start_char": 38834,
+      "end_char": 42056,
+      "text_sha256": "2a87e20737b8bfbe610bdac5b05780ec36e3053999c552a7b2a75e0827a99873"
+    },
+    {
+      "page": 26,
+      "start_char": 42079,
+      "end_char": 44402,
+      "text_sha256": "34315be006eefd440cf91fcc0c17dec1becef7b8c6811b9c3b8a63e88e8613f4"
+    }
+  ]
+}

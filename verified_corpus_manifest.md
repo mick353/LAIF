@@ -170,3 +170,15 @@ Regulation (EU) 2024/1689 is `READY_FOR_MANUAL_AUTHORITATIVE_INGESTION`. The rea
 | NIST AI 100-1 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Local raw markdown hash verified; PDF-vs-DOCX remains unresolved |
 | DTAC v2.0 | HUMAN_SESSION_UPLOAD | HASH_VERIFIED_LOCAL_ONLY | AUTOMATED_URL_BLOCKED_HTTP_403 | Local raw markdown hash verified; upstream equivalence not claimed |
 | EU AI Act | Not yet acquired | NETWORK_BLOCKED_PENDING_HUMAN_SOURCE | AUTOMATED_URL_BLOCKED_HTTP_403 | Ready for manual authoritative ingestion |
+
+
+## Versioned regulatory additions — PR #98, 7 November 2026
+
+These are separate source-scoped PR review assessments, not revisions of the protected historical reports or of the baseline engine corpus. They become canonical only after approval and merge.
+
+| Source | PDF SHA-256 | Verification | Extraction / assessment |
+|---|---|---|---|
+| DTA Policy v2.1 | `7da206ff9bb77c5c4505577ea2fd11367700b38f4ff8c4e4592501e95221e5c2` | HUMAN_ATTESTED_AUTHORITATIVE; two upstream HTTP 503 responses; no upstream-byte equivalence claim | 26 pages, 17 exact quotation traces; [manifest](docs/verified/manifests/au_dta_policy_v2_1.json), [assessment](docs/verification/2026-11-07/regulatory/au_dta_policy_v2_1.assessment.md) |
+| Regulation (EU) 2026/1744 | `0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386` | AUTOMATED_VERIFIED; fresh official PDF bytes match | 41 pages, 27 exact quotation traces; [manifest](docs/verified/manifests/eu_ai_act_amendment_2026_1744.json), [assessment](docs/verification/2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.assessment.md) |
+
+Both records separately pin raw-text hashes and preserve original files. Verify with `python3 scripts/laif_verify_regulatory_ingestion.py`; optional `--reextract` reproduces the extraction with Poppler. The original 2024 EU Act remains a separate pending admission controlled by PR #90. The additions do not establish a fully verified consolidated Act or institutional compliance. See [execution and portability](docs/verification/2026-11-07/regulatory/README.md).

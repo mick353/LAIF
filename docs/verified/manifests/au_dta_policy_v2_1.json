@@ -1,0 +1,42 @@
+{
+  "document_id": "au_dta_policy_v2_1",
+  "title": "Policy for the responsible use of AI in government v2.1",
+  "jurisdiction": "Australia (Commonwealth)",
+  "source_type": "sector_policy",
+  "authoritative_url": "https://www.digital.gov.au/sites/default/files/documents/2026-10/Policy%20for%20the%20responsible%20use%20of%20AI%20in%20government%202_1_1.pdf",
+  "authoritative_origin_url": "https://www.digital.gov.au/sites/default/files/documents/2026-10/Policy%20for%20the%20responsible%20use%20of%20AI%20in%20government%202_1_1.pdf",
+  "retrieval_date_utc": "NOT_RETRIEVED_FROM_URL",
+  "retrieval_method": "user_supplied_pdf_strict_source_mode",
+  "publication_date": "2026-10-21",
+  "version_identifier": "2.1",
+  "sha256_hash": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+  "raw_filename": "au_dta_policy_v2_1.md",
+  "extraction_boundaries": {
+    "full_document": true,
+    "sections": [],
+    "notes": "All 26 PDF pages, page-delimited Poppler layout extraction. No OCR. Tables remain layout text, not reconstructed cells."
+  },
+  "transformation_status": "NORMALISED_FORMATTING_ONLY",
+  "acquisition_channel": "HUMAN_GITHUB_DEPOSIT",
+  "acquired_by": "mick353 (repository owner); checked by Codex cloud session",
+  "acquired_at_utc": "2026-11-07T03:43:36Z",
+  "acquisition_note": "Owner-deposited source; timestamp records custody move commit a22160948a80bf4344e310f031f1465f7d1a0d59, not an independently known download time. Owner supplied and identified the official DTA source; two download attempts returned HTTP 503. Human-attested origin, not independently proven upstream byte equivalence.",
+  "source_file_sha256": "7da206ff9bb77c5c4505577ea2fd11367700b38f4ff8c4e4592501e95221e5c2",
+  "source_file": "docs/verified/manual_ingest/Policy for the responsible use of AI in government 2_1_1.pdf",
+  "transformation_chain": [
+    "Exact repository PDF bytes retained unchanged.",
+    "Poppler pdftotext 24.02.0 -layout -enc UTF-8 <PDF> -; split output at form feeds, retain page text exactly, discard terminal empty form-feed segment.",
+    "Prepend two LF plus <!-- PDF page N --> plus LF before each page; no word repair, paraphrase, summary or OCR.",
+    "Assess with canonical builtin extractor; normalise text through existing processor unchanged."
+  ],
+  "verification_status": "HUMAN_ATTESTED_AUTHORITATIVE",
+  "network_status": "AUTOMATED_URL_FAILED_HTTP_503",
+  "citation_status": "PRIMARY_CITABLE",
+  "provenance_classification": "AUTHORITATIVE_GOVERNMENT_PUBLICATION",
+  "assessment_status": "ASSESSED",
+  "assessment_reference": "docs/verification/2026-11-07/regulatory/au_dta_policy_v2_1.assessment.md (source-scoped PR review assessment; not merged/canonical)",
+  "evidence_trace": "docs/verified/extracted/au_dta_policy_v2_1.evidence.json",
+  "page_index": "docs/verification/2026-11-07/regulatory/au_dta_policy_v2_1.pages.json",
+  "quote_review": "Exact selected spans verified against extracted pages; key DTA classification and EU applicability pages visually inspected. No claim of exhaustive glyph-by-glyph review. PDF governs ambiguous text.",
+  "provenance_notes": "PRIMARY_CITABLE for this version-specific document text, not proof of institutional implementation, current consolidated EU law, or legal compliance. Existing baseline corpus and protected reports unchanged. Poppler used to avoid documented pypdf intra-word spacing damage; pypdf run snapshot retained separately."
+}

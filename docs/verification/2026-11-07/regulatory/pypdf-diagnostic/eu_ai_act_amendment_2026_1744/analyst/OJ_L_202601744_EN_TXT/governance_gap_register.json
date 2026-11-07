@@ -1,0 +1,51 @@
+{
+  "gaps": [
+    {
+      "affected_stakeholders": [
+        "accurate and non-arbitrary service eligibility decisions",
+        "procedural fairness, reasons, and administrative review",
+        "continuity of public services and service-impact transparency"
+      ],
+      "control_artifact": "Evidence acceptance criteria defining required content, currency, and reviewer competence for each requested artefact.",
+      "control_threshold": "Evidence that does not meet the stated criteria is rejected rather than filed.",
+      "control_trigger": "Each submission of evidence under the document.",
+      "detected_from": {
+        "expectation_signal": "auditability: evidence / documentation requirements",
+        "missing_control_signal": "auditability: specific, measurable obligations"
+      },
+      "document_profile_key": "eu_ai_act",
+      "document_type": "unknown_governance_document",
+      "failure_mode": "Evidence is requested without a sufficiency standard",
+      "gap_id": "GAP-001",
+      "gap_title": "EU AI Act technical documentation requires evidence sufficiency gate",
+      "gap_type": "evidence_presence_without_sufficiency",
+      "operational_meaning": "The document asks for documentation but does not state what makes that documentation adequate, so any artefact can satisfy the request and the assurance value of the evidence is unknown.",
+      "related_governance_repair_fields": [
+        "operational_closure",
+        "evidence_sufficiency",
+        "governance_force"
+      ],
+      "related_scores": {
+        "auditability_score": 80,
+        "conceptual_proximity_score": 50,
+        "enforceability_score": 80,
+        "overall_readiness_score": 59,
+        "structural_score": 67,
+        "terminology_score": 0
+      },
+      "required_control_ids": [
+        "CTRL-001"
+      ],
+      "reviewer_note": "Confirm whether implementation artifacts outside this source document already close this gap.",
+      "sector_profile": "government_service_delivery",
+      "severity": "high",
+      "source_evidence_location": "Section A of Annex I to Regulation (EU) 2024/1689, suc h as Regulation",
+      "source_evidence_quote": "oblig ated to document its assessment before that AI system is placed on the market or put into service.",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ]
+    }
+  ]
+}

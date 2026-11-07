@@ -1,5 +1,7 @@
 # Source-scoped preliminary review — DTA v2.1 and EU 2026/1744
 
+**Historical pre-ingestion note:** Superseded for execution/status by the [completed PR #98 review record](../../verification/2026-11-07/regulatory/README.md). Retained to preserve the original observations and open questions.
+
 **As-at:** 7 November 2026 (AEDT)  
 **Branch:** `docs/authoritative-source-currency-20261107` (draft PR #98)  
 **Method:** Direct reading of the two owner-deposited PDFs and page-specific source excerpts, plus GitHub repository/source-custody inspection. This is a **pre-ingestion research note**, not a LAIF engine output, independent legal opinion, full-document comparison or certified source admission.

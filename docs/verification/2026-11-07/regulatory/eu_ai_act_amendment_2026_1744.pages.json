@@ -1,0 +1,257 @@
+{
+  "source_pdf": "docs/verified/manual_ingest/OJ_L_202601744_EN_TXT.pdf",
+  "source_sha256": "0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386",
+  "raw_file": "docs/verified/raw/eu_ai_act_amendment_2026_1744.md",
+  "raw_sha256": "dfcdbe4c3da4ce06f7b39bade40b4b08c132718352ef70b670ef8f163fb9a5b0",
+  "extractor": "pdftotext 24.02.0 -layout -enc UTF-8",
+  "stderr": "",
+  "page_count": 41,
+  "pages": [
+    {
+      "page": 1,
+      "start_char": 22,
+      "end_char": 4343,
+      "text_sha256": "0f85ea0d7122ec5ea6735b4a487e2b8e00b774925f4be9cd241a3931c638666b"
+    },
+    {
+      "page": 2,
+      "start_char": 4365,
+      "end_char": 9065,
+      "text_sha256": "8d3f1cfb0827d5210e39433658d2504ac1782fb696ef14803d791eaef338962d"
+    },
+    {
+      "page": 3,
+      "start_char": 9087,
+      "end_char": 14678,
+      "text_sha256": "c14e4518ecda3ada4a58041082b8820f1f431848c2ea362c55790ad03071aecf"
+    },
+    {
+      "page": 4,
+      "start_char": 14700,
+      "end_char": 20258,
+      "text_sha256": "4d71aeeca501b4dc4bf12e2f0e9b1f2800a16caa87ab99d629e32f2b03319936"
+    },
+    {
+      "page": 5,
+      "start_char": 20280,
+      "end_char": 27783,
+      "text_sha256": "f3b0eae71574c9fbc551b9577e7d0c9b50005a167572550ab98e9544a69bb3bd"
+    },
+    {
+      "page": 6,
+      "start_char": 27805,
+      "end_char": 34228,
+      "text_sha256": "a1a2d79993e4fa14c597adf800c502203948a6b9a3ddb614535690fbf9bd68f2"
+    },
+    {
+      "page": 7,
+      "start_char": 34250,
+      "end_char": 40083,
+      "text_sha256": "7f184522b7d3cd0fe4005056d1bb81731c2648258b2f8c759eed2ab1932e6de1"
+    },
+    {
+      "page": 8,
+      "start_char": 40105,
+      "end_char": 45391,
+      "text_sha256": "e5251f5e04b320d24c6facacbcfcacf70164e0b47310985c1d45b244d7f7ad0b"
+    },
+    {
+      "page": 9,
+      "start_char": 45413,
+      "end_char": 50376,
+      "text_sha256": "559a3480dece18784e6227dafe860fc408dd9ef1e3cdb9a77f07127568574809"
+    },
+    {
+      "page": 10,
+      "start_char": 50399,
+      "end_char": 56606,
+      "text_sha256": "790d163420c911db8a7a8fce976fae527d206f8d2b3e83a2f50ecf21d7dcdf8c"
+    },
+    {
+      "page": 11,
+      "start_char": 56629,
+      "end_char": 62969,
+      "text_sha256": "9f4b63c64907cdcacc997e9aa2003477aab9f92f3bcef2b26111944171fca096"
+    },
+    {
+      "page": 12,
+      "start_char": 62992,
+      "end_char": 69818,
+      "text_sha256": "c142a2216967ac4ff8c53beed3230bb585e288ff8e79b57fd4e5aa22ee82fd53"
+    },
+    {
+      "page": 13,
+      "start_char": 69841,
+      "end_char": 76363,
+      "text_sha256": "76ad2c19dc5c88c90dd396cce5974485a29da7c058dd3610de46f0026dcf0229"
+    },
+    {
+      "page": 14,
+      "start_char": 76386,
+      "end_char": 81521,
+      "text_sha256": "48805570d38712057647e954daf1966778353e4951b1cbdc6f7fde2e42ba98b0"
+    },
+    {
+      "page": 15,
+      "start_char": 81544,
+      "end_char": 84071,
+      "text_sha256": "a8f45438afe9b52e4349689d6246a9f0acd9c00baea909aebc6ea0ee7b16e2a1"
+    },
+    {
+      "page": 16,
+      "start_char": 84094,
+      "end_char": 87956,
+      "text_sha256": "cab4f9088b7120c314a488a30971f5aaaa7d01e580a0d156e4f64ea99583b692"
+    },
+    {
+      "page": 17,
+      "start_char": 87979,
+      "end_char": 91419,
+      "text_sha256": "5a5e042e3cc624326a600e61a1c8f08e4f66329ee00b8fd6c438601708088914"
+    },
+    {
+      "page": 18,
+      "start_char": 91442,
+      "end_char": 95543,
+      "text_sha256": "2f95958277c987cd38782a36c14aba4276e4b5ca96231544f4055e86e8505fcb"
+    },
+    {
+      "page": 19,
+      "start_char": 95566,
+      "end_char": 99609,
+      "text_sha256": "a793e72dcbbde97001134a3648ec902e4ea2fbd4ab356e9c0f3b8fa00cc9bd78"
+    },
+    {
+      "page": 20,
+      "start_char": 99632,
+      "end_char": 104138,
+      "text_sha256": "62b866ac055b26bc2007c914a9e67a7003a7b8a8e09a811ee987cc678b0447e2"
+    },
+    {
+      "page": 21,
+      "start_char": 104161,
+      "end_char": 109142,
+      "text_sha256": "82ff8af06f9824b0eeba8424df94f02583c9849ebb7d2dff5674a68470731ae0"
+    },
+    {
+      "page": 22,
+      "start_char": 109165,
+      "end_char": 114278,
+      "text_sha256": "cc53be65c921324f21fe98f71fc0ed0d73b79722af7104324e8286bf0886c660"
+    },
+    {
+      "page": 23,
+      "start_char": 114301,
+      "end_char": 118334,
+      "text_sha256": "80a32e66eedcb8aa12629c7d8cc4a4ba7bc9ff54ec88f28eb4e87110e5ca3c07"
+    },
+    {
+      "page": 24,
+      "start_char": 118357,
+      "end_char": 121974,
+      "text_sha256": "0bef67b780cdc294885c626d7e85ebe35e256fe7c24ea80df64e265d8a055f29"
+    },
+    {
+      "page": 25,
+      "start_char": 121997,
+      "end_char": 125673,
+      "text_sha256": "643f5cd958ef6a9949fc8e16c5eb3c45c33ed3ad5528692a6f95988b53b0e8ac"
+    },
+    {
+      "page": 26,
+      "start_char": 125696,
+      "end_char": 129407,
+      "text_sha256": "448931186aa803e9d566a2501c302aa72c442644cc2a88dc97460fb0c1a00c66"
+    },
+    {
+      "page": 27,
+      "start_char": 129430,
+      "end_char": 133874,
+      "text_sha256": "aef20ce1d58aec6f62dd0e810b8e6791ace9ae56c684855ba6f6b4fb4e24d21f"
+    },
+    {
+      "page": 28,
+      "start_char": 133897,
+      "end_char": 138414,
+      "text_sha256": "1be8ddc35c6342a1f3985d77fc6289f13fb24d65bb66e6168e2242220172b41c"
+    },
+    {
+      "page": 29,
+      "start_char": 138437,
+      "end_char": 142465,
+      "text_sha256": "f34b41388ddb076398ff94e5a1eb978564abfb26b6e076cf888b41756ec23b89"
+    },
+    {
+      "page": 30,
+      "start_char": 142488,
+      "end_char": 146707,
+      "text_sha256": "ff7986a9dcd6850ec48a99ca3a75845b6d599b89dc2b693b22564e8b91bd77d1"
+    },
+    {
+      "page": 31,
+      "start_char": 146730,
+      "end_char": 150655,
+      "text_sha256": "4f96635c05ab6d2c63960829b6f8844715838861aa855dd33a9e850ba52ef2b5"
+    },
+    {
+      "page": 32,
+      "start_char": 150678,
+      "end_char": 153623,
+      "text_sha256": "34b3c5e88690d0607d14d519caf3ab837152944e44f667b9f1c7d87aaed07dbb"
+    },
+    {
+      "page": 33,
+      "start_char": 153646,
+      "end_char": 158573,
+      "text_sha256": "6562bd1b2434d4d4234b6e09a1fbc602edcbe0e3f1312f54501293816f1f9dc0"
+    },
+    {
+      "page": 34,
+      "start_char": 158596,
+      "end_char": 163106,
+      "text_sha256": "2182932c845b381ae56ce823f0443ba6139790e6ceecc3665a331ce96f3eb8d6"
+    },
+    {
+      "page": 35,
+      "start_char": 163129,
+      "end_char": 166956,
+      "text_sha256": "b3ef260e5aedcf5f74067d8382ade6056269c4c973d939b55a2ec0d4afadb0c6"
+    },
+    {
+      "page": 36,
+      "start_char": 166979,
+      "end_char": 169645,
+      "text_sha256": "ab939a6af5fda1cf67c80ce351b7422774e16d3618069e253ddfa3fedd8f4276"
+    },
+    {
+      "page": 37,
+      "start_char": 169668,
+      "end_char": 171725,
+      "text_sha256": "6c32fafe51a57a2a3a30f1874338d074ef41b55a48b4e30ee6d0eb3c57da398f"
+    },
+    {
+      "page": 38,
+      "start_char": 171748,
+      "end_char": 174523,
+      "text_sha256": "e75f96a8d0ae497f5d8955b094d91b4f2fd04784a72bac35d97a1adfdffaff7e"
+    },
+    {
+      "page": 39,
+      "start_char": 174546,
+      "end_char": 177748,
+      "text_sha256": "91f531b77336decd189d6070d37ea3f02129ac56fb072adcd0d0f4cf77ecbbc8"
+    },
+    {
+      "page": 40,
+      "start_char": 177771,
+      "end_char": 181852,
+      "text_sha256": "5cdce97d9ae75b33265b2cadbd6b14aa87e04ea98d26d7c9ce674d995d796033"
+    },
+    {
+      "page": 41,
+      "start_char": 181875,
+      "end_char": 182976,
+      "text_sha256": "050b75ec25ee4b855fe0ef15ba4028bc579cd093160e550f96e8397e585dfb79"
+    }
+  ]
+}

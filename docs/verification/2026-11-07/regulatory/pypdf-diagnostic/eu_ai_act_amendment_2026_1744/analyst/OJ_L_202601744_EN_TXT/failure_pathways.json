@@ -1,0 +1,33 @@
+{
+  "failure_pathways": [
+    {
+      "consequence": "Reliance on eu ai act technical documentation requires evidence sufficiency gate cannot be evidenced after the fact.",
+      "detection_signal": "Absence or staleness of: Evidence acceptance criteria defining required content, currency, and reviewer competence for each requested artefact.",
+      "escalation_gate": "Evidence that does not meet the stated criteria is rejected rather than filed.",
+      "likely_institutional_failure": "Evidence is requested without a sufficiency standard",
+      "pathway_id": "PATH-001",
+      "required_controls": [
+        "CTRL-001"
+      ],
+      "severity": "high",
+      "source_evidence_location": "Section A of Annex I to Regulation (EU) 2024/1689, suc h as Regulation",
+      "source_evidence_quote": "oblig ated to document its assessment before that AI system is placed on the market or put into service.",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ],
+      "steps": [
+        "The document raises **evidence / documentation requirements** at \u201cSection A of Annex I to Regulation (EU) 2024/1689, suc h as Regulation\u201d: \u201coblig ated to document its assessment before that AI system is placed on the market or put into service.\u201d",
+        "The document asks for documentation but does not state what makes that documentation adequate, so any artefact can satisfy the request and the assurance value of the evidence is unknown.",
+        "The institution cites this expectation as assurance, but the closing control \u2014 evidence acceptance criteria defining required content, currency, and reviewer competence for each requested artefact \u2014 does not exist or is not current.",
+        "A decision or deployment proceeds on the strength of the document alone.",
+        "If the outcome is wrong, there is no record that this expectation controlled the decision, and no defined route to correct it."
+      ],
+      "title": "EU AI Act technical documentation requires evidence sufficiency gate \u2014 failure pathway",
+      "triggering_gap_ids": [
+        "GAP-001"
+      ]
+    }
+  ]
+}

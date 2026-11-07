@@ -1,0 +1,145 @@
+{
+  "gaps": [
+    {
+      "affected_stakeholders": [
+        "accurate and non-arbitrary service eligibility decisions",
+        "procedural fairness, reasons, and administrative review",
+        "continuity of public services and service-impact transparency"
+      ],
+      "control_artifact": "A precedence clause stating which provisions prevail on conflict, which may not be waived or amended except by a named authority, and what instrument this document is subordinate to.",
+      "control_threshold": "No amendment is made without recording whether it changes a provision the precedence clause protects.",
+      "control_trigger": "Adoption of the document, and every amendment to it.",
+      "detected_from": {
+        "expectation_signal": "enforceability: mandatory language (shall/must)",
+        "missing_control_signal": "structural: provision hierarchy / precedence rule"
+      },
+      "document_profile_key": "australian_policy",
+      "document_type": "public_sector_policy",
+      "failure_mode": "Obligations are imposed with no precedence rule between them",
+      "gap_id": "GAP-001",
+      "gap_title": "Obligations are imposed with no precedence rule between them",
+      "gap_type": "obligations_without_precedence_rule",
+      "operational_meaning": "The document imposes duties but never says which provision prevails if two conflict, which cannot be waived, or what the document is subordinate to. A routine revision can therefore change what it actually requires without anyone treating that as a change of standard, and a reader facing two provisions that point different ways has no rule for deciding which governs.",
+      "related_governance_repair_fields": [
+        "operational_closure",
+        "evidence_sufficiency",
+        "governance_force"
+      ],
+      "related_scores": {
+        "auditability_score": 100,
+        "conceptual_proximity_score": 65,
+        "enforceability_score": 100,
+        "overall_readiness_score": 63,
+        "structural_score": 41,
+        "terminology_score": 0
+      },
+      "required_control_ids": [
+        "CTRL-001"
+      ],
+      "reviewer_note": "Confirm whether implementation artifacts outside this source document already close this gap.",
+      "sector_profile": "government_service_delivery",
+      "severity": "medium",
+      "source_evidence_location": "start of document",
+      "source_evidence_quote": "requirements agencies must follow. Recommended actions and considerations are also included where relevant.",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ]
+    },
+    {
+      "affected_stakeholders": [
+        "accurate and non-arbitrary service eligibility decisions",
+        "procedural fairness, reasons, and administrative review",
+        "continuity of public services and service-impact transparency"
+      ],
+      "control_artifact": "Deployment gate listing the conditions that must all hold before go-live, and who signs each.",
+      "control_threshold": "Deployment does not proceed while any gate condition is unmet.",
+      "control_trigger": "Every new deployment and every material change to an existing one.",
+      "detected_from": {
+        "expectation_signal": "conceptual: risk governance",
+        "missing_control_signal": "structural: threshold gate conditions (all must pass simultaneously)"
+      },
+      "document_profile_key": "australian_policy",
+      "document_type": "public_sector_policy",
+      "failure_mode": "Risk is discussed without a gate that can stop deployment",
+      "gap_id": "GAP-002",
+      "gap_title": "Risk is discussed without a gate that can stop deployment",
+      "gap_type": "risk_without_closure_gate",
+      "operational_meaning": "The document engages with risk but sets no precondition that must hold before deployment proceeds, so risk can be documented and deployment can continue regardless of what the assessment found.",
+      "related_governance_repair_fields": [
+        "operational_closure",
+        "evidence_sufficiency",
+        "governance_force"
+      ],
+      "related_scores": {
+        "auditability_score": 100,
+        "conceptual_proximity_score": 65,
+        "enforceability_score": 100,
+        "overall_readiness_score": 63,
+        "structural_score": 41,
+        "terminology_score": 0
+      },
+      "required_control_ids": [
+        "CTRL-002"
+      ],
+      "reviewer_note": "Confirm whether implementation artifacts outside this source document already close this gap.",
+      "sector_profile": "government_service_delivery",
+      "severity": "high",
+      "source_evidence_location": "start of document",
+      "source_evidence_quote": "and undertake risk-based use case-level actions. In recognition of the speed and scale of change in this area,",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ]
+    },
+    {
+      "affected_stakeholders": [
+        "accurate and non-arbitrary service eligibility decisions",
+        "procedural fairness, reasons, and administrative review",
+        "continuity of public services and service-impact transparency"
+      ],
+      "control_artifact": "Published route by which an affected person can contest an outcome, with owner, timescale, and reversal authority.",
+      "control_threshold": "No decision pathway operates without a stated contest route.",
+      "control_trigger": "Any decision materially affecting a person, and any complaint received.",
+      "detected_from": {
+        "expectation_signal": "conceptual: safety",
+        "missing_control_signal": "conceptual: contestability / redress"
+      },
+      "document_profile_key": "australian_policy",
+      "document_type": "public_sector_policy",
+      "failure_mode": "Affected people have no route to challenge an outcome",
+      "gap_id": "GAP-003",
+      "gap_title": "Affected people have no route to challenge an outcome",
+      "gap_type": "incident_reporting_without_redress",
+      "operational_meaning": "The document addresses safety but gives the people affected by a decision nothing they can invoke \u2014 no appeal, review, or remedy \u2014 so harm to an individual has no defined path to correction.",
+      "related_governance_repair_fields": [
+        "operational_closure",
+        "evidence_sufficiency",
+        "governance_force"
+      ],
+      "related_scores": {
+        "auditability_score": 100,
+        "conceptual_proximity_score": 65,
+        "enforceability_score": 100,
+        "overall_readiness_score": 63,
+        "structural_score": 41,
+        "terminology_score": 0
+      },
+      "required_control_ids": [
+        "CTRL-003"
+      ],
+      "reviewer_note": "Confirm whether implementation artifacts outside this source document already close this gap.",
+      "sector_profile": "government_service_delivery",
+      "severity": "high",
+      "source_evidence_location": "start of document",
+      "source_evidence_quote": "a pathway for staff to report AI safety concerns, including AI incidents. \u2022 pathways for the public to report AI safety concerns,",
+      "source_evidence_quote_ids": [
+        "Q001",
+        "Q002",
+        "Q003"
+      ]
+    }
+  ]
+}

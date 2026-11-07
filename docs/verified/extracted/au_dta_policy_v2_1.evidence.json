@@ -1,0 +1,194 @@
+{
+  "document_id": "au_dta_policy_v2_1",
+  "raw_sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+  "page_index": "docs/verification/2026-11-07/regulatory/au_dta_policy_v2_1.pages.json",
+  "traces": [
+    {
+      "trace_id": "au_dta_policy_v2_1-Q001",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 6,
+      "supports": "scope",
+      "matched_text": "Performance and Accountability Act 2013, must apply this policy.",
+      "start_char": 9872,
+      "end_char": 9936,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q002",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 6,
+      "supports": "effective_date",
+      "matched_text": "This version of the policy came into effect 15 December 2025 (v2.0), with minor updates\npublished on 21 October 2026 (v2.1). It replaces version 1.1 of the policy, which came into\neffect 1 September 2024.",
+      "start_char": 9581,
+      "end_char": 9785,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q003",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 10,
+      "supports": "transparency",
+      "matched_text": "The statement must be reviewed and updated annually or sooner, should the agency make\nsignificant changes to its approach to AI.",
+      "start_char": 14445,
+      "end_char": 14573,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q004",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 11,
+      "supports": "accountability",
+      "matched_text": "Agencies must designate an accountable use case owner for each in-scope AI use case\nwithin 12 months of this policy taking effect. Accountable official(s) are to maintain a\nregister of accountable use case owners.",
+      "start_char": 15817,
+      "end_char": 16030,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q005",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 12,
+      "supports": "incidents",
+      "matched_text": "•   clear processes to address AI incidents aligned to their ICT incident management\n    approach - incident remediation must be overseen by an appropriate governance body or\n    senior executive and should be undertaken in line with any other legal obligations.",
+      "start_char": 18236,
+      "end_char": 18498,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q006",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 13,
+      "supports": "training",
+      "matched_text": "Agencies must implement mandatory training for all staff on responsible AI use within\n12 months of this policy taking effect. Agencies should consider the Guidance for staff\ntraining on AI and can use the AI fundamentals training module to meet the requirement.\nThey can use the module as provided, modify it, or incorporate it into an existing training\nprogram based on their specific context and requirements. Alternatively, agencies can\nallow their staff to access the module directly through APSLearn.",
+      "start_char": 19090,
+      "end_char": 19595,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q007",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 14,
+      "supports": "screening",
+      "matched_text": "Agencies must assess all new AI use cases against the in-scope criteria (Appendix C) to\ndetermine if they are in scope of the policy. The assessment must be documented and take\nplace during the design phase while developing requirements.",
+      "start_char": 21353,
+      "end_char": 21590,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q008",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 14,
+      "supports": "predeployment",
+      "matched_text": "assessment. Agencies are to commence an assessment at the design stage. Before the\nsolution is deployed, agencies must finalise the assessment and apply any agreed risk\ntreatments.",
+      "start_char": 22051,
+      "end_char": 22231,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q009",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 15,
+      "supports": "change_control",
+      "matched_text": "•   re-validate the AI use case impact assessment by checking its accuracy and updating it\n    when there is a material change in the use case scope, usage or operation.",
+      "start_char": 23221,
+      "end_char": 23390,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q010",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 16,
+      "supports": "high_risk",
+      "matched_text": "•   report the use case to the agency accountable official with the reasons for the inherent\n    high-risk rating, proposed mitigations and residual risks\n•   govern the use case through a designated board or a senior executive, whichever is\n    appropriate for the size and scope of the agency.",
+      "start_char": 24301,
+      "end_char": 24596,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q011",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 16,
+      "supports": "review",
+      "matched_text": "•   establish a system to regularly review the use case every 12 months at a minimum. The\n    review must report to the relevant governing board or senior executive on whether the\n    use case is operating as intended and that risks are being effectively managed. The\n    review must also consider the AI use case impact assessment and revisions to it, if\n    required.",
+      "start_char": 24770,
+      "end_char": 25139,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q012",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 21,
+      "supports": "scope_criteria",
+      "matched_text": "At a minimum, an AI use case is in scope of this policy if any of the following apply:",
+      "start_char": 30436,
+      "end_char": 30522,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q013",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 22,
+      "supports": "experimentation",
+      "matched_text": "early-stage experimentation which does not:",
+      "start_char": 32851,
+      "end_char": 32894,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q014",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 23,
+      "supports": "classification",
+      "matched_text": "Agencies subject to the policy are required to classify their AI use by these usage patterns\nand domains:",
+      "start_char": 33647,
+      "end_char": 33752,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q015",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 24,
+      "supports": "usage_patterns",
+      "matched_text": " Workplace            Supports routine work, communication,           Meeting summaries, email\n productivity         collaboration and personal productivity         drafting, document summaries,\n                      without materially changing business            presentation drafting, translation\n                      processes or administrative outcomes.           support, calendar assistance,\n                                                                      action tracking and routine\n                                                                      secretariat support.",
+      "start_char": 36911,
+      "end_char": 37499,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q016",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 25,
+      "supports": "coding_and_domains",
+      "matched_text": " Coding               Supports software engineering activities        Requirements analysis, solution\n                      across the software lifecycle, including code   design, generating first-draft code,\n                      generation, prototyping, debugging, testing     prototyping an advanced website\n                      and documentation.                              search function, debugging,\n                                                                      writing test cases, refactoring\n                                                                      code, documenting APIs and\n                                                                      reviewing code for accessibility or\n                                                                      security issues.",
+      "start_char": 38969,
+      "end_char": 39769,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "au_dta_policy_v2_1-Q017",
+      "source_document": "au_dta_policy_v2_1",
+      "page": 26,
+      "supports": "domains",
+      "matched_text": " Corporate and        Supports corporate and enabling functions,      HR service desk support, finance\n enabling             including human resources (HR), finance,        forecasting, procurement\n                      procurement, media and communications,          workflow support, media\n                      record management and information               monitoring, records classification,\n                      technology (IT).                                IT service management, cyber\n                                                                      triage and internal knowledge\n                                                                      search.",
+      "start_char": 43715,
+      "end_char": 44389,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    }
+  ]
+}

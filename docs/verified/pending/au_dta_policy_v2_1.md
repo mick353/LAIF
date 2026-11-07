@@ -1,5 +1,7 @@
 # DTA AI-in-Government Policy v2.1 — Source Deposited; Verification Pending
 
+**Completion update (7 November 2026):** The following deposit checklist is retained as history. PDF SHA-256, full extraction, provenance manifest, exact page-bounded evidence traces and separate source-scoped assessment are completed on PR #98. See the [execution record](../../verification/2026-11-07/regulatory/README.md). Human legal/policy review and merge remain outstanding. DTA is HUMAN_ATTESTED_AUTHORITATIVE; upstream retrieval returned HTTP 503 twice, so byte equivalence is not claimed.
+
 **As at:** 7 November 2026 (AEDT)  
 **Status:** `SOURCE_DEPOSITED_PENDING_VERIFICATION` — original PDF present in the PR #98 branch, not yet admitted as `PRIMARY_CITABLE` in LAIF's verified corpus.  
 **Scope:** Current Australian Government policy, separate from protected historical v2.0 assessment.

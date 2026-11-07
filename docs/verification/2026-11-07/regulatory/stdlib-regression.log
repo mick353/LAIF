@@ -1,0 +1,32 @@
+Original input path: /workspace/scratch/a966521d6ca7/LAIF/docs/verified/raw/au_dta_policy_v2_1.md
+Resolved input path: /workspace/scratch/a966521d6ca7/LAIF/docs/verified/raw/au_dta_policy_v2_1.md
+Original file name: au_dta_policy_v2_1.md
+Processed at UTC: 2026-11-07T04:22:01Z
+Source SHA-256: 3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b
+Extractor used: builtin
+Extracted characters: 44399
+Assessment mode: external_framework
+Sector profile: government_service_delivery
+Markdown report: /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/au_dta_policy_v2_1/au_dta_policy_v2_1.laif.md
+JSON report: /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/au_dta_policy_v2_1/au_dta_policy_v2_1.laif.json
+Institutional report: /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/au_dta_policy_v2_1/au_dta_policy_v2_1.institutional_report.md
+Technical appendix: /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/au_dta_policy_v2_1/au_dta_policy_v2_1.technical_appendix.md
+Analyst bundle: /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/analyst_bundle.json
+Processing index: /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/au_dta_policy_v2_1/laif_processing_index.jsonl
+Original input path: /workspace/scratch/a966521d6ca7/LAIF/docs/verified/raw/eu_ai_act_amendment_2026_1744.md
+Resolved input path: /workspace/scratch/a966521d6ca7/LAIF/docs/verified/raw/eu_ai_act_amendment_2026_1744.md
+Original file name: eu_ai_act_amendment_2026_1744.md
+Processed at UTC: 2026-11-07T04:22:01Z
+Source SHA-256: dfcdbe4c3da4ce06f7b39bade40b4b08c132718352ef70b670ef8f163fb9a5b0
+Extractor used: builtin
+Extracted characters: 182973
+Assessment mode: external_framework
+Sector profile: general_ai_governance
+Markdown report: /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.laif.md
+JSON report: /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.laif.json
+Institutional report: /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.institutional_report.md
+Technical appendix: /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.technical_appendix.md
+Analyst bundle: /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/analyst_bundle.json
+Processing index: /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/eu_ai_act_amendment_2026_1744/laif_processing_index.jsonl
+PASS: documentary processing completed; inspect /workspace/scratch/a966521d6ca7/stdlib-regulatory-run/run_manifest.json and the generated reports.
+NOT VERIFIED: upstream equivalence, corpus admission, legal conclusions, operational AI safety.
