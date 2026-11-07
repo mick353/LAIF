@@ -37,3 +37,5 @@ This branch contains an intentional framework clarification, reporting interpret
 - Protected historical reports remained byte-identical; generated baseline reports matched consecutive regeneration.
 
 These checks verify the implemented boundaries and reproducibility. They do not independently validate the framework’s theory, the full source-based reasoning or an institution’s actual compliance.
+
+Combined PR #98 + #99 integration was also executed and passed: **388 discovered tests plus the additional gates**. See [COMBINED_VALIDATION.md](COMBINED_VALIDATION.md) for exact component/tree identities and boundaries. Neither PR was merged.
