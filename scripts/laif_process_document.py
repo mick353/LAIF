@@ -2175,6 +2175,67 @@ def source_provenance(path: Path, source_hash: str) -> dict:
             "boundary": "Local source bytes identified; no authoritative-origin verification supplied."}
 
 
+def load_submitted_review(source: Path, extracted_text: str, review_file: Path, expected_source_sha256: str | None = None) -> dict:
+    """Reuse the scholarly annotation protocol without granting reviewer authority."""
+    from scripts.laif_research_report import build_dossier, _read_json, ResearchInputError, MAX_OBSERVATIONS
+    try:
+        review_hash = sha256_file(review_file)
+        raw = _read_json(review_file)
+        ids = raw.get("available_evidence_ids")
+        if (not isinstance(ids, list) or not 1 <= len(ids) <= MAX_OBSERVATIONS
+                or any(not isinstance(value, str) for value in ids) or len(set(ids)) != len(ids)):
+            raise ResearchInputError(f"review must retain the template's unique available_evidence_ids (1-{MAX_OBSERVATIONS})")
+        dossier = build_dossier(source, review_file=review_file, max_quotes=len(ids))
+        if expected_source_sha256 and dossier["source"]["source_sha256"] != expected_source_sha256:
+            raise ResearchInputError("source changed during processing; SHA-256 differs")
+        if dossier["source"]["extracted_text_sha256"] != hashlib.sha256(extracted_text.encode("utf-8")).hexdigest():
+            raise ResearchInputError("review and processor extracted texts differ; use the same extractor")
+        if ids != [row["evidence_id"] for row in dossier["evidence"]]:
+            raise ResearchInputError("review evidence inventory differs from the source")
+        findings = dossier["reviewer_findings"]
+        if not findings:
+            raise ResearchInputError("review contains no findings; do not submit an empty template")
+        if any(row["method_basis_status"] != "HASH_BOUND_ANALYST_CLAIM" for row in findings):
+            raise ResearchInputError("review requires current framework, Toolkit and toolchain identities")
+        if sha256_file(review_file) != review_hash:
+            raise ResearchInputError("review file changed during validation; resubmit a stable file")
+    except (ResearchInputError, OSError) as exc:
+        raise ExtractionError(f"Submitted analyst review rejected: {exc}") from exc
+    return {"status": "SOURCE_BOUND_SUBMISSION_NOT_INDEPENDENTLY_VERIFIED",
+            "review_file_name": review_file.name, "review_file_sha256": review_hash,
+            "source_sha256": dossier["source"]["source_sha256"], "method": dossier["method"],
+            "evidence_manifest_sha256": dossier["evidence_manifest_sha256"],
+            "evidence": dossier["evidence"], "findings": findings,
+            "criteria_coverage": dossier["criteria_coverage"],
+            "boundary": "Identity and source reference checks only. Analyst identity, independence, legal correctness and control operation are not authenticated."}
+
+
+def submitted_review_sections(review: dict) -> list[str]:
+    lines = ["## Submitted analyst findings", "", review["boundary"], "",
+             "These are submitted claims, not automatic conclusions or source-authority verification. "
+             "They do not replace any separately attributed repository assessment.", "",
+             f"Review file SHA-256: {review['review_file_sha256']}",
+             f"Evidence manifest SHA-256: {review['evidence_manifest_sha256']}", ""]
+    for row in review["findings"]:
+        lines += [f"### {row['finding_id']} — {row['claim_type']}", "",
+                  _safe_report_text(row["statement"]), "",
+                  f"- Analyst (self-identified): {_safe_report_text(row['analyst_id'])}",
+                  f"- Criteria: {', '.join(row['criterion_ids']) or 'not mapped'}",
+                  f"- Supporting passages: {', '.join(row['evidence_ids'])}",
+                  f"- Counterevidence: {', '.join(row['counterevidence_ids']) or 'none nominated; not proof of absence'}",
+                  "- Alternatives: " + "; ".join(_safe_report_text(value) for value in row["alternative_explanations"]),
+                  "- Limits: " + _safe_report_text(row["limitations"]), ""]
+    lines += ["### Submitted-review coverage", "", "| Criterion | Submitted claims | Review state |", "| --- | --- | --- |"]
+    for row in review["criteria_coverage"]:
+        lines.append(f"| {row['criterion_id']} | {', '.join(row['finding_ids']) or 'none'} | {row['status'].replace('_', ' ').lower()} |")
+    lines += ["", "### Submitted-review evidence", "",
+              "E001-style IDs here refer to this review's source-locked evidence inventory, not the processor's Q001 or curated trace IDs.", ""]
+    for row in review["evidence"]:
+        lines += [f"- **{row['evidence_id']}** — extracted characters {row['start_char']}–{row['end_char']}: "
+                  + _safe_report_text(row["exact_quote"]), ""]
+    return lines
+
+
 def source_reasoning_record(provenance: dict) -> dict | None:
     """Carry existing attributed analysis into reports; never invent a review."""
     key = provenance.get("document_id")
@@ -2219,7 +2280,7 @@ def attributed_reasoning_sections(review: dict) -> list[str]:
 
 
 def _safe_report_text(value: str) -> str:
-    return re.sub(r"([\\`*_{}\[\]()#!|])", r"\\\1", html.escape(value, quote=False))
+    return re.sub(r"([\\`*_{}\[\]()#!|])", r"\\\1", html.escape(value, quote=False).replace("\r", " ").replace("\n", " "))
 
 
 def source_review_sections(assessment: dict) -> list[str]:
@@ -2718,6 +2779,8 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
                   "- " + provenance["boundary"], ""]
     if assessment.get("attributed_reasoning"):
         lines += attributed_reasoning_sections(assessment["attributed_reasoning"])
+    if assessment.get("submitted_review"):
+        lines += submitted_review_sections(assessment["submitted_review"])
     if "source_control_observations" in assessment:
         lines += source_review_sections(assessment)
     if not assessment.get("english_language_readable", True):
@@ -2933,6 +2996,7 @@ Use only the provided deterministic analyst bundle, high-quality `quote_bank`, d
 - Treat gap-register entries as unverified review questions and failure pathways as hypothetical scenarios. Check source_control_observations as counterevidence before asserting a missing control.
 - Explain a potential failure pathway only conditionally; do not invent an operational failure, stop order, quarterly cadence or source-imposed duty.
 - When attributed_reasoning is supplied, preserve its authorship, source/method hashes, qualifications and separate curated trace IDs. It is not a newly generated or independent assessment.
+- Treat submitted_review findings as self-identified analyst claims. Preserve E-style evidence IDs, alternatives and scope limits; populated criteria are not passing criteria or independent validation.
 - Distinguish legal force from operational force. A legal or policy source may be authoritative while still lacking local implementation evidence.
 - Distinguish evidence presence from evidence sufficiency. A requested document, record, or quote is not proof that evidence is current, complete, reviewed, or accepted.
 - Include an executive version and a technical appendix.
@@ -2981,6 +3045,7 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
         "source_control_observations": assessment.get("source_control_observations", []),
         "source_provenance": assessment.get("source_provenance", {}),
         "attributed_reasoning": assessment.get("attributed_reasoning"),
+        "submitted_review": assessment.get("submitted_review"),
         "verification_required_extracted_evidence": verification_required_evidence,
         "extraction_quality_profile": extraction_quality_profile,
         "primary_quote_eligible": primary_quote_eligible,
@@ -3091,6 +3156,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--sector", choices=SECTOR_CHOICES, default="auto")
     parser.add_argument("--source-type", default="uploaded_document")
     parser.add_argument("--document-name", default=None)
+    parser.add_argument("--review-file", type=Path, help="Completed source-locked scholarly analyst template; claims remain unverified")
     parser.add_argument("--output-dir", type=Path, default=Path(DEFAULT_OUTPUT_DIR))
     parser.add_argument("--markdown", dest="markdown", action="store_true", default=True)
     parser.add_argument("--no-markdown", dest="markdown", action="store_false")
@@ -3106,6 +3172,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def run(args: argparse.Namespace) -> int:
+    if getattr(args, "review_file", None) and args.mode != "external_framework":
+        raise ExtractionError("--review-file supports external-framework reporting only; it cannot override native certification")
     input_path_original = str(args.input_file)
     input_path = args.input_file.expanduser().resolve()
     extraction = extract_document(input_path, args.extractor)
@@ -3178,6 +3246,8 @@ def run(args: argparse.Namespace) -> int:
     assessment["source_control_observations"] = source_control_observations(extraction.text)
     assessment["source_provenance"] = source_provenance(input_path, source_hash)
     assessment["attributed_reasoning"] = source_reasoning_record(assessment["source_provenance"])
+    assessment["submitted_review"] = (load_submitted_review(input_path, extraction.text, args.review_file, source_hash)
+                                      if getattr(args, "review_file", None) else None)
     # The basis must explain the profile the assessment used, not a separately
     # derived one — the report shows them side by side.
     if selected_sector == "auto":
@@ -3210,6 +3280,7 @@ def run(args: argparse.Namespace) -> int:
         analyst_outputs = write_institutional_outputs(args.output_dir, processing, extraction_metadata, assessment, extraction.text, materials)
         payload["institutional_analyst_outputs"] = {
             "source_control_observation_count": len(assessment["source_control_observations"]),
+            "submitted_review_status": "SOURCE_BOUND_SUBMISSION_NOT_INDEPENDENTLY_VERIFIED" if assessment.get("submitted_review") else "NOT_SUPPLIED",
             "attributed_reasoning_status": "SOURCE_BOUND_AUTHOR_ANALYSIS" if assessment.get("attributed_reasoning") else "NOT_SUPPLIED",
             "quote_bank_count": len(analyst_outputs["quote_bank"]),
             "gap_count": len(analyst_outputs["gap_register"]),

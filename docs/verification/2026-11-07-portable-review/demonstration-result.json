@@ -1,0 +1,11 @@
+{
+  "execution_exit": 0,
+  "submitted_review_status": "SOURCE_BOUND_SUBMISSION_NOT_INDEPENDENTLY_VERIFIED",
+  "review_file_sha256": "641f9e0f5035f176f8828e31d7516102901b2d4adb815c8448601a376cffe40a",
+  "source_sha256": "e8e8475acaf9fa54846ceac6b0bc8f5728e26e6f5b52ce83613150a791079523",
+  "findings": 1,
+  "unmapped_criteria_remain_unassessed": true,
+  "source_authority_not_promoted": true,
+  "toolchain_fingerprint": "089f55d295bda8f9",
+  "source_kind": "SYNTHETIC_DEMONSTRATION_ONLY"
+}
