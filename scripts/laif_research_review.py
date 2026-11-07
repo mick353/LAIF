@@ -43,6 +43,23 @@ def load_dossier(path: Path) -> tuple[dict, str, dict[str, str]]:
                     or target_id in targets):
                 raise ResearchInputError("dossier has missing or duplicate review targets")
             targets[target_id] = kind
+    criteria_review = dossier.get("criteria_review")
+    if criteria_review is not None:
+        if not isinstance(criteria_review, dict) or not isinstance(criteria_review.get("criteria"), list):
+            raise ResearchInputError("malformed criterion review targets")
+        from laif_spec import ASSESSMENT_CRITERIA
+        for row in criteria_review["criteria"]:
+            if not isinstance(row, dict) or row.get("criterion_id") not in ASSESSMENT_CRITERIA:
+                raise ResearchInputError("unsupported criterion review target")
+            cid = "CR-" + row["criterion_id"]
+            if cid in targets:
+                raise ResearchInputError("duplicate criterion review target")
+            targets[cid] = "finding"
+            for excerpt in row.get("source_excerpts", []):
+                eid = excerpt.get("evidence_id") if isinstance(excerpt, dict) else None
+                if not isinstance(eid, str) or not re.fullmatch(r"C\d{3,5}", eid) or eid in targets:
+                    raise ResearchInputError("duplicate or malformed curated review target")
+                targets[eid] = "evidence"
     return dossier, hashlib.sha256(raw).hexdigest(), targets
 
 

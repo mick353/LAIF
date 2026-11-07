@@ -2272,10 +2272,11 @@ def load_submitted_review(source: Path, extracted_text: str, review_file: Path, 
         review_hash = sha256_file(review_file)
         raw = _read_json(review_file)
         ids = raw.get("available_evidence_ids")
-        if (not isinstance(ids, list) or not 1 <= len(ids) <= MAX_OBSERVATIONS
+        minimum = 0 if raw.get("criteria_review") else 1
+        if (not isinstance(ids, list) or not minimum <= len(ids) <= MAX_OBSERVATIONS
                 or any(not isinstance(value, str) for value in ids) or len(set(ids)) != len(ids)):
             raise ResearchInputError(f"review must retain the template's unique available_evidence_ids (1-{MAX_OBSERVATIONS})")
-        dossier = build_dossier(source, review_file=review_file, max_quotes=len(ids))
+        dossier = build_dossier(source, review_file=review_file, max_quotes=max(1, len(ids)))
         if expected_source_sha256 and dossier["source"]["source_sha256"] != expected_source_sha256:
             raise ResearchInputError("source changed during processing; SHA-256 differs")
         if dossier["source"]["extracted_text_sha256"] != hashlib.sha256(extracted_text.encode("utf-8")).hexdigest():
@@ -2283,7 +2284,7 @@ def load_submitted_review(source: Path, extracted_text: str, review_file: Path, 
         if ids != [row["evidence_id"] for row in dossier["evidence"]]:
             raise ResearchInputError("review evidence inventory differs from the source")
         findings = dossier["reviewer_findings"]
-        if not findings:
+        if not findings and not dossier.get("criteria_review"):
             raise ResearchInputError("review contains no findings; do not submit an empty template")
         if any(row["method_basis_status"] != "HASH_BOUND_ANALYST_CLAIM" for row in findings):
             raise ResearchInputError("review requires current framework, Toolkit and toolchain identities")
@@ -2297,6 +2298,7 @@ def load_submitted_review(source: Path, extracted_text: str, review_file: Path, 
             "evidence_manifest_sha256": dossier["evidence_manifest_sha256"],
             "evidence": dossier["evidence"], "findings": findings,
             "criteria_coverage": dossier["criteria_coverage"],
+            "criteria_review": dossier.get("criteria_review"),
             "boundary": "Identity and source reference checks only. Analyst identity, independence, legal correctness and control operation are not authenticated."}
 
 
@@ -2315,6 +2317,9 @@ def submitted_review_sections(review: dict) -> list[str]:
                   f"- Counterevidence: {', '.join(row['counterevidence_ids']) or 'none nominated; not proof of absence'}",
                   "- Alternatives: " + "; ".join(_safe_report_text(value) for value in row["alternative_explanations"]),
                   "- Limits: " + _safe_report_text(row["limitations"]), ""]
+    if review.get("criteria_review"):
+        lines += ["Criterion-review protocol SHA-256: " + review["method"]["criteria_review_protocol_sha256"], ""]
+        lines += criteria_review_sections(review["criteria_review"])
     lines += ["### Submitted-review coverage", "", "| Criterion | Submitted claims | Review state |", "| --- | --- | --- |"]
     for row in review["criteria_coverage"]:
         lines.append(f"| {row['criterion_id']} | {', '.join(row['finding_ids']) or 'none'} | {row['status'].replace('_', ' ').lower()} |")
@@ -2324,6 +2329,39 @@ def submitted_review_sections(review: dict) -> list[str]:
         lines += [f"- **{row['evidence_id']}** — extracted characters {row['start_char']}–{row['end_char']}: "
                   + _safe_report_text(row["exact_quote"]), ""]
     return lines
+
+
+def criteria_review_sections(review: dict) -> list[str]:
+    safe = _safe_report_text
+    lines = ["## Authored substantive LAIF criterion review", "", review["boundary"], "",
+             "Analyst (self-identified): " + safe(review["analyst_id"]) + "; as at: " + safe(review["as_at_date"]),
+             "Jurisdiction: " + safe(review["jurisdiction"]) + "; assessed role: " + safe(review["assessed_role"]),
+             "Scope: " + safe(review["document_scope"]), "",
+             "### Overall authored reasoning", "", safe(review["overall_reasoning"]), "",
+             "Limits: " + safe(review["limitations"]), "",
+             "| Criterion | Documentary determination |", "|---|---|"]
+    mapped = {row["criterion_id"]: row for row in review["criteria"]}
+    for row in review["coverage"]:
+        item = mapped.get(row["criterion_id"])
+        lines += ["| " + row["criterion_id"] + " | " + safe(item["determination"] if item else "NOT_ASSESSED") + " |"]
+    for row in review["criteria"]:
+        lines += ["", "### " + row["criterion_id"] + " — authored determination", "",
+                  "Reasoning: " + safe(row["reasoning"]), "",
+                  "Framework basis: " + safe(row["framework_basis"]), "",
+                  "Applicability: " + safe(row["applicability_reason"]), "",
+                  "Scope and exceptions: " + safe(row["scope_and_exceptions"]), "",
+                  "Alternative explanation: " + safe(row["alternative_explanation"]), "",
+                  "Evidence needed to close the question: " + safe(row["closure_evidence"]), ""]
+        if row.get("coupling"):
+            c = row["coupling"]
+            lines += ["Q1a structural pairing: " + c["q1a"] + "; Q1b enforcement strength: " + c["q1b"],
+                      "Protected interest: " + safe(c["protected_interest"]),
+                      "Restriction or permission: " + safe(c["restriction"]),
+                      "Equivalent normative force: " + safe(c["equivalent_normative_force"]), ""]
+        for evidence in row["source_excerpts"]:
+            lines += ["- **" + evidence["evidence_id"] + "** — extracted characters " + str(evidence["start_char"]) + "–" + str(evidence["end_char"]) + ": " + safe(evidence["exact_quote"]),
+                      "  Context (author supplied): " + safe(evidence["context"]), ""]
+    return lines + [""]
 
 
 def source_reasoning_record(provenance: dict) -> dict | None:
@@ -2868,7 +2906,13 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         "determination, and not proof of what an organisation actually does.*", "",
         "## Executive finding", "",
     ]
-    if mode == "external_framework" and "source_control_observations" in assessment:
+    criterion_review = (assessment.get("submitted_review") or {}).get("criteria_review")
+    if mode == "external_framework" and criterion_review:
+        lines += [_safe_report_text(criterion_review["overall_reasoning"]), "",
+                  "Author-supplied documentary assessment: " + str(len(criterion_review["criteria"])) + " of 8 criteria addressed. "
+                  "Source references were checked; applicability, reasoning and control operation are not independently verified. "
+                  "Addressing every criterion does not establish an Integrity Layer or Coherence Test pass."]
+    elif mode == "external_framework" and "source_control_observations" in assessment:
         rows = assessment["source_control_observations"]
         lines.append(f"The source contains {len(rows)} candidate control passages across {len({r['control_type'] for r in rows})} mechanism categories. "
                      "These provide a starting point for LAIF review; they do not settle scope, equivalent enforceability, consistency or justified irreversibility. "
@@ -2905,7 +2949,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Document type:** {doc_type}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}"
         + (f" (auto-detected from: {processing.get('sector_basis')}; override with --sector)"
            if processing.get("sector_basis") else ""), f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", f"- **Recommended use:** {assessment.get('recommended_use') or 'source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.'}", f"- **Limits:** {assessment.get('not_sufficient_for') or 'standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.'}", "- **In every case:** this is a reading of the document, not of the organisation. It cannot show whether the controls it describes are in place, current, or working.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", ""]
-    if not assessment.get("attributed_reasoning"):
+    if not assessment.get("attributed_reasoning") and not criterion_review:
         lines += ["", "## Integrity Layer requirement signals", "",
                   "All four properties are listed. A matched phrase is not a substantive pass; a non-match is not proof of absence. Assess what the instrument requires separately from actual system behaviour. Calibration applies under LAIF section 2.5.", "",
                   "| Property | Source section | Detector observation |", "| --- | --- | --- |"]
@@ -3305,6 +3349,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--source-type", default="uploaded_document")
     parser.add_argument("--document-name", default=None)
     parser.add_argument("--review-file", type=Path, help="Completed source-locked scholarly analyst template; claims remain unverified")
+    parser.add_argument("--require-complete-review", action="store_true", help="require authored records for all eight LAIF criteria; no certification implied")
     parser.add_argument("--output-dir", type=Path, default=Path(DEFAULT_OUTPUT_DIR))
     parser.add_argument("--markdown", dest="markdown", action="store_true", default=True)
     parser.add_argument("--no-markdown", dest="markdown", action="store_false")
@@ -3320,6 +3365,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def run(args: argparse.Namespace) -> int:
+    if getattr(args, "require_complete_review", False) and not getattr(args, "review_file", None):
+        raise ExtractionError("--require-complete-review needs a completed --review-file")
     if getattr(args, "review_file", None) and args.mode != "external_framework":
         raise ExtractionError("--review-file supports external-framework reporting only; it cannot override native certification")
     input_path_original = str(args.input_file)
@@ -3399,6 +3446,10 @@ def run(args: argparse.Namespace) -> int:
     assessment["attributed_reasoning"] = source_reasoning_record(assessment["source_provenance"])
     assessment["submitted_review"] = (load_submitted_review(input_path, extraction.text, args.review_file, source_hash)
                                       if getattr(args, "review_file", None) else None)
+    if getattr(args, "require_complete_review", False):
+        criteria = assessment["submitted_review"].get("criteria_review")
+        if not criteria or not criteria["all_criteria_addressed"]:
+            raise ExtractionError("Complete review requires authored records for all eight criteria; missing criteria remain unassessed")
     # The basis must explain the profile the assessment used, not a separately
     # derived one — the report shows them side by side.
     if selected_sector == "auto":
