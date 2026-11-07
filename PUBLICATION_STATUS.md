@@ -16,6 +16,8 @@ PR #104 is merged to `main` at `ededd1b58afc56dbd06ad0b20f8793b3d1e79e3b` with t
 
 The [whole-source reporting follow-up](docs/verification/2026-11-07-real-source-assurance/README.md) was released through PR #103. Its seven retained real documents and authored acceptance annotations are broader than the synthetic example, but are not independent field validation. See [uses and expansion opportunities](docs/product/USE_CASES.md).
 
+The subsequent [substantive-review delivery](docs/verification/2026-11-07-substantive-review/README.md) makes all-criterion authored assessments portable for local documents. Its fresh cloud gate passed 578 tests plus additional checks. It preserves scoring semantics and source authority limits; complete authored coverage is not proof of deployment compliance.
+
 ## 1. Current Maturity State
 
 | Component | Status |

@@ -3,7 +3,7 @@
   "counts": {
     "active_guidance": 48,
     "generated_or_worked_example": 10,
-    "dated_record": 96,
+    "dated_record": 97,
     "source_text": 11,
     "source_evidence_or_custody_record": 12
   },
@@ -580,6 +580,11 @@
     },
     {
       "file": "docs/verification/2026-11-07-substantive-review/au_dta_policy_v2_1/assessment.md",
+      "classification": "dated_record",
+      "unresolved_local_destinations": []
+    },
+    {
+      "file": "docs/verification/2026-11-07-substantive-review/notion-sync.md",
       "classification": "dated_record",
       "unresolved_local_destinations": []
     },

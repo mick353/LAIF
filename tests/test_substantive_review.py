@@ -114,15 +114,15 @@ class SubstantiveReviewTests(unittest.TestCase):
 
     def test_full_review_report_json_bundle_and_scores(self):
         r=self.cli('--require-complete-review');self.assertEqual(r.returncode,0,r.stderr)
-        a=json.loads((self.root/'out/policy.laif.json').read_text())['assessment_result']
-        b=json.loads((self.root/'out/analyst/policy/analyst_bundle.json').read_text())
+        a=json.loads((self.root/'out/policy.laif.json').read_text(encoding='utf-8'))['assessment_result']
+        b=json.loads((self.root/'out/analyst/policy/analyst_bundle.json').read_text(encoding='utf-8'))
         self.assertEqual(a['submitted_review'],b['submitted_review'])
-        report=(self.root/'out/policy.laif.md').read_text()
+        report=(self.root/'out/policy.laif.md').read_text(encoding='utf-8')
         for v in ('Authored substantive LAIF criterion review','Q1a structural pairing','Equivalent normative force','Author-supplied documentary assessment: 8 of 8'):
             self.assertIn(v,report)
         base=subprocess.run([sys.executable,'-S',str(ROOT/'scripts/laif_process_document.py'),str(self.source),'--output-dir',str(self.root/'base')],capture_output=True,text=True)
         self.assertEqual(base.returncode,0,base.stderr)
-        old=json.loads((self.root/'base/policy.laif.json').read_text())['assessment_result']
+        old=json.loads((self.root/'base/policy.laif.json').read_text(encoding='utf-8'))['assessment_result']
         self.assertEqual(a['overall_readiness_score'],old['overall_readiness_score'])
         self.assertEqual(a['source_provenance']['status'],'LOCAL_SOURCE_AUTHORITY_UNVERIFIED')
 
@@ -174,7 +174,7 @@ class ActualSubstantiveSourceTests(unittest.TestCase):
 
     def cases(self):
         for key in ('au_dta_policy_v2_1','5f667a6f-NIST.AI.1001'):
-            m=json.loads((ROOT/'docs/verified/manifests'/f'{key}.json').read_text())
+            m=json.loads((ROOT/'docs/verified/manifests'/f'{key}.json').read_text(encoding='utf-8'))
             yield key,m,ROOT/'docs/verified/raw'/m['raw_filename'],ROOT/'docs/verification/2026-11-07-substantive-review'/key/'completed-review.json'
 
     def test_actual_sources_all_criteria_coupling_and_limits(self):
@@ -183,10 +183,10 @@ class ActualSubstantiveSourceTests(unittest.TestCase):
                 out=self.root/key
                 r=subprocess.run([sys.executable,'-S',str(ROOT/'scripts/laif_process_document.py'),str(source),'--review-file',str(path),'--require-complete-review','--output-dir',str(out)],capture_output=True,text=True)
                 self.assertEqual(r.returncode,0,r.stderr)
-                a=json.loads((out/(source.stem+'.laif.json')).read_text())['assessment_result'];cr=a['submitted_review']['criteria_review']
+                a=json.loads((out/(source.stem+'.laif.json')).read_text(encoding='utf-8'))['assessment_result'];cr=a['submitted_review']['criteria_review']
                 self.assertEqual(len(cr['criteria']),8);self.assertTrue(cr['all_criteria_addressed'])
                 self.assertEqual(a['source_provenance']['verification_status'],m['verification_status'])
-                self.assertIn('Author-supplied documentary assessment: 8 of 8',(out/(source.stem+'.laif.md')).read_text())
+                self.assertIn('Author-supplied documentary assessment: 8 of 8',(out/(source.stem+'.laif.md')).read_text(encoding='utf-8'))
                 if key.startswith('au_'):self.assertIsNotNone(a['attributed_reasoning'])
                 else:self.assertIn('not independently verified',cr['limitations'].lower())
 
@@ -201,7 +201,7 @@ class ActualSubstantiveSourceTests(unittest.TestCase):
     def test_actual_fabricated_curated_quote_rejected_before_write(self):
         for key,_,source,path in self.cases():
             with self.subTest(key=key):
-                raw=json.loads(path.read_text());raw['criteria_review']['criteria'][0]['source_excerpts'][0]['exact_quote']='Fabricated proof'
+                raw=json.loads(path.read_text(encoding='utf-8'));raw['criteria_review']['criteria'][0]['source_excerpts'][0]['exact_quote']='Fabricated proof'
                 p=self.root/(key+'.json');p.write_text(json.dumps(raw));out=self.root/(key+'-bad')
                 r=subprocess.run([sys.executable,'-S',str(ROOT/'scripts/laif_process_document.py'),str(source),'--review-file',str(p),'--require-complete-review','--output-dir',str(out)],capture_output=True,text=True)
                 self.assertEqual(r.returncode,2);self.assertIn('source span',r.stderr);self.assertFalse(out.exists())

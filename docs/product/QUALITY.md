@@ -13,7 +13,7 @@ independence declarations cannot be authenticated by the tool.
 
 ## Current release and whole-source candidate
 
-PR #104 merged at ededd1b58afc56dbd06ad0b20f8793b3d1e79e3b with its 555-test verified tree. The [substantive-review record](../verification/2026-11-07-substantive-review/README.md) records the next authored-assessment enhancement and its actual final execution results. Earlier counts below are dated evidence.
+PR #104 merged at ededd1b58afc56dbd06ad0b20f8793b3d1e79e3b with its 555-test verified tree. The [substantive-review record](../verification/2026-11-07-substantive-review/README.md) records the next authored-assessment enhancement: 578 tests and all additional gates passed in a fresh cloud Python 3.13.18 clone, with 23 focused tests and pinned PDF reproduction. Earlier counts below are dated evidence.
 
 The small synthetic sample tests workflow mechanics. It is insufficient to demonstrate interpretation quality across institutions. The wider curated corpus tests source formats and known reporting failures, but still does not measure independent accuracy or deployment outcomes.
 

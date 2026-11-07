@@ -1,6 +1,6 @@
 # Repository agent instructions
 
-**Verified release base (7 November 2026):** PR #104 merged at ededd1b58afc56dbd06ad0b20f8793b3d1e79e3b with the 555-test tree 2982af0a8f2544be602f3637189a359cca81940d. The [substantive-review execution record](docs/verification/2026-11-07-substantive-review/README.md) records the subsequent enhancement and final verification. Inspect current Git/PR state to distinguish its checkpoint, tested and merged stages. Earlier logs remain historical.
+**Current verification checkpoint (7 November 2026):** The [substantive-review record](docs/verification/2026-11-07-substantive-review/README.md) contains the fresh 578-test full gate, focused checks, actual DTA/NIST authored assessments and pinned PDF reproduction. Its base is merged PR #104 at ededd1b58afc56dbd06ad0b20f8793b3d1e79e3b (555-test release). Inspect current Git/PR state to distinguish checkpoint, tested and merged stages; main remains authoritative. Earlier logs are historical.
 
 ## Local-first verification (GitHub Actions not used)
 

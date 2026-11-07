@@ -45,8 +45,18 @@ opinion or operational evidence was fabricated.
 
 ## Verification
 
-Fresh full-gate results are recorded after execution. An interrupted run or an
-unrun check is not a PASS.
+**Fresh full gate: PASS**, exit 0, **578 discovered tests** plus all additional governance, corpus, provenance, format, adversarial, semantic and deterministic-report checks; no skips. [Full log](full-local-verification.log).
+
+- **23 focused tests PASS**: coverage/evidence/Q1/protocol boundaries, output/preview, second-reader binding and both actual sources. [Focused log](targeted-tests.log).
+- The new fixture file reads were made explicit UTF-8 for portability; the same 23 tests passed again. [Final focused log](targeted-tests-utf8.log). No production code changed after the full run began.
+- The seven-document default/reviewed/preview/rejection matrix is included in the full gate.
+- **PDF re-extraction PASS** with the recorded Poppler 24.02.0: both extracts, 45 quotations, eight original-Act passages and 16 attributed records. [Log](regulatory-source-verification.log).
+- All ten baseline records are identical to merged #104 except the top-level toolchain fingerprint. [Comparison](baseline-preservation.json).
+- Canonical source PDF/raw bytes, framework texts and the protected historical report are unchanged.
+- Active Markdown local destinations resolve. [Inventory and scope](documentation-audit.json).
+- [Implementation hashes](implementation-sha256.json), [runtime/package identity](runtime-recovery.json) and [Notion continuity](notion-sync.md) retain the execution context.
+
+The unverified checkpoint and interrupted sandbox run were not treated as release evidence. Only the fresh successful run and focused rechecks support the PASS above.
 
 ~~~bash
 python3 -m unittest discover -s tests -p test_substantive_review.py
