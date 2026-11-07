@@ -165,7 +165,11 @@ role, commencement and complete evidence. See the
 [dated scholarly-validation research register](docs/review/2026-11-07-external-scholarly-critique-triage.md)
 for proposed independent testing and evidence boundaries; proposals are not results.
 
-The toolkit is currently a local Python command-line workflow with generated reports. It does not provide a hosted service, graphical application or live deployment monitoring.
+The core toolkit is a local Python command-line workflow with generated reports. A separate private research workspace provides document discovery and browser-based processing with a pinned copy of the canonical engine. Its [source catalogue and contribution bridge](docs/site/README.md) preserve source hashes, publication review and the distinction between a repository record and authoritative source admission. Live deployment monitoring is not provided.
+
+## Source discovery and website contributions
+
+The [website source index](docs/site/source-index.json) describes sixteen retained source/framework documents with 39 verified exact quotation witnesses. The [contribution bridge](docs/site/README.md) imports explicitly authorised source proposals without admitting them to the verified corpus or promoting proposed analyses into canonical reports.
 
 ## Explore further
 
