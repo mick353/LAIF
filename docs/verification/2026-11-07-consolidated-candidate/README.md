@@ -2,6 +2,8 @@
 
 This is an unmerged integration and assessment-quality candidate, not the canonical release. It combines the exact inspected heads of PRs #89, #90 and #94–#99 on main `09f8687b58d1c5547cfe58bcf4e38aa7da3619a2`. The eight original PR branches remain unchanged and open. No GitHub main merge or PR closure is authorised by this record. Exact inputs are in [integration-inputs.json](integration-inputs.json).
 
+**Subsequent reasoning pass:** [the assessment follow-up](REASONING_REVIEW.md) corrects specific EU transition/citation issues, explicitly addresses the remaining two principles and adds source-bound authored findings. Its full gate passed **483 tests**; the curated evidence now contains **45 quotes and eight original-Act contextual passages**. The execution counts below preserve the earlier integration checkpoint.
+
 ## What the system can now do
 
 The candidate contains two separate, substantive, source-bounded assessments: [Australian DTA Policy v2.1](../2026-11-07/regulatory/au_dta_policy_v2_1.assessment.md) and [EU Regulation 2026/1744](../2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.assessment.md). They assess the Integrity Layer, Q1a/Q1b, consistency, reversibility, self-application, changes and applicability. They recognise positive protections and identify the evidence needed to close specific gaps. Complete Coherence Test satisfaction is **not demonstrated** by the mapped evidence; that does not establish unlawful government conduct or operational failure.

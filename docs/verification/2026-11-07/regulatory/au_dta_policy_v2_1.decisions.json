@@ -1,0 +1,178 @@
+{
+  "schema": "laif.regulatory-reasoning.v1",
+  "document_id": "au_dta_policy_v2_1",
+  "review_date": "2026-11-07",
+  "review_status": "AUTHOR_ANALYSIS_NOT_INDEPENDENT",
+  "assessment_path": "docs/verification/2026-11-07/regulatory/au_dta_policy_v2_1.assessment.md",
+  "assessment_sha256": "2249c7d2589f7d14440797cb7c530b756073ced45d37585eb63f6d82d448f2e5",
+  "framework_sha256": "c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407",
+  "toolkit_sha256": "24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67",
+  "source_pdf_sha256": "7da206ff9bb77c5c4505577ea2fd11367700b38f4ff8c4e4592501e95221e5c2",
+  "source_text_sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+  "criteria_findings": [
+    {
+      "criterion_id": "A.1",
+      "determination": "NOT_ESTABLISHED_IN_FULL",
+      "reasoning": "Public disclosure and concern routes are real; they do not themselves establish the complete output-specific meaningful account.",
+      "trace_ids": [
+        "au_dta_policy_v2_1-Q003",
+        "au_dta_policy_v2_1-Q005"
+      ],
+      "closure_evidence": "Identify binding meaningful-account and challenge routes, including material uncertainty and limitations.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "A.2",
+      "determination": "NOT_ESTABLISHED_IN_FULL",
+      "reasoning": "Intended-operation monitoring and high-risk review support assurance; objective correspondence and robustness under pressure remain unverified.",
+      "trace_ids": [
+        "au_dta_policy_v2_1-Q009",
+        "au_dta_policy_v2_1-Q011"
+      ],
+      "closure_evidence": "Disclosed versus implemented objectives and adversarial/deployment consistency evidence.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "A.3",
+      "determination": "NOT_ESTABLISHED_IN_FULL",
+      "reasoning": "Agreed treatments before deployment and executive oversight are real gates; tested action/resource bounds and consequence-scaled authority remain unmapped.",
+      "trace_ids": [
+        "au_dta_policy_v2_1-Q005",
+        "au_dta_policy_v2_1-Q008",
+        "au_dta_policy_v2_1-Q010"
+      ],
+      "closure_evidence": "Document and test applicable bounds, interruption and irreversible-action authority.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "A.4",
+      "determination": "CONDITIONAL_REQUIREMENT_NOT_ESTABLISHED",
+      "reasoning": "Risk assessment and monitoring are not themselves confidence-to-observed-accuracy verification; section 2.5 applicability is deployment-specific.",
+      "trace_ids": [
+        "au_dta_policy_v2_1-Q008",
+        "au_dta_policy_v2_1-Q009",
+        "au_dta_policy_v2_1-Q011"
+      ],
+      "closure_evidence": "Determine section 2.5 trigger, then obtain confidence/performance evidence where it applies.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "Q1",
+      "determination": "NOT_DEMONSTRATED",
+      "reasoning": "Risk-linked treatments support protection, but inseparability and equally accessible protective force are not established across permissions.",
+      "trace_ids": [
+        "au_dta_policy_v2_1-Q008",
+        "au_dta_policy_v2_1-Q012"
+      ],
+      "closure_evidence": "Map each permission, human interest, protection and all three normative-force limbs.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "Q2",
+      "determination": "PARTIAL_SUPPORT",
+      "reasoning": "Common harm criteria and risk-proportionate governance are positive; cumulative effects, smaller/larger scales and exceptions require justification.",
+      "trace_ids": [
+        "au_dta_policy_v2_1-Q010",
+        "au_dta_policy_v2_1-Q011",
+        "au_dta_policy_v2_1-Q012"
+      ],
+      "closure_evidence": "Test concrete cross-scale counterexamples and principled alternative protections.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "Q3",
+      "determination": "PARTIAL_SUPPORT",
+      "reasoning": "Material-change review and supervised remediation permit revision, but do not establish justification and safeguards for irreversible consequences.",
+      "trace_ids": [
+        "au_dta_policy_v2_1-Q005",
+        "au_dta_policy_v2_1-Q009",
+        "au_dta_policy_v2_1-Q011"
+      ],
+      "closure_evidence": "Classify irreversibility and document proportionate authority and protective procedure.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    },
+    {
+      "criterion_id": "G.1",
+      "determination": "PARTIAL_SUPPORT",
+      "reasoning": "Accountable officials and governing bodies create agency responsibilities; effectiveness and independent challenge remain evidence questions.",
+      "trace_ids": [
+        "au_dta_policy_v2_1-Q004",
+        "au_dta_policy_v2_1-Q005",
+        "au_dta_policy_v2_1-Q010",
+        "au_dta_policy_v2_1-Q011"
+      ],
+      "closure_evidence": "Identify governance-actor review, conflicts handling and accessible challenge evidence.",
+      "alternative_explanation": "Relevant incorporated law, procedures or operational evidence may supply protections not established by this mapping.",
+      "scope_limit": "Analyst documentary judgement; not an independently reviewed legal or deployment determination."
+    }
+  ],
+  "principle_coverage": [
+    {
+      "principle_id": 1,
+      "addressed_by": [
+        "Q1",
+        "Q2",
+        "Q3"
+      ]
+    },
+    {
+      "principle_id": 2,
+      "addressed_by": [
+        "Q1"
+      ]
+    },
+    {
+      "principle_id": 3,
+      "addressed_by_section": "Non-Accumulation and Temporal Separation"
+    },
+    {
+      "principle_id": 4,
+      "addressed_by_section": "Non-Accumulation and Temporal Separation"
+    },
+    {
+      "principle_id": 5,
+      "addressed_by": [
+        "Q2",
+        "G.1"
+      ]
+    }
+  ],
+  "applicability_cases": [
+    {
+      "case_id": "C01",
+      "assumptions": "Mandatory non-corporate Commonwealth entity, excluding stated carveouts",
+      "determination": "The policy applies as an administrative requirement; do not classify it as an across-economy AI statute.",
+      "trace_ids": [
+        "au_dta_policy_v2_1-Q001"
+      ],
+      "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+    },
+    {
+      "case_id": "C02",
+      "assumptions": "Use labelled early experimentation",
+      "determination": "Apply the no-later-commitment, no-harm and no-added-privacy/security-risk conditions; a pilot label alone is insufficient.",
+      "trace_ids": [
+        "au_dta_policy_v2_1-Q013"
+      ],
+      "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+    },
+    {
+      "case_id": "C03",
+      "assumptions": "Version 2.1 publication and implementation milestones",
+      "determination": "Retain the 15 December 2025 clock. October 2026 classification updates do not restart six/twelve-month periods.",
+      "trace_ids": [
+        "au_dta_policy_v2_1-Q002",
+        "au_dta_policy_v2_1-Q014"
+      ],
+      "boundary": "Hypothetical applicability reasoning, not observed institutional conduct or authenticated legal advice."
+    }
+  ],
+  "verification_boundary": "Hash and reference integrity checks do not verify logical entailment, legal correctness, reviewer independence or control effectiveness."
+}

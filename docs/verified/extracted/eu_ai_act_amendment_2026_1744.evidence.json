@@ -299,6 +299,17 @@
       "end_char": 182326,
       "confidence": "exact",
       "legal_authority_boundary": "Exact extracted source presence only; interpretation and applicability require review."
+    },
+    {
+      "trace_id": "eu_ai_act_amendment_2026_1744-Q028",
+      "source_document": "eu_ai_act_amendment_2026_1744",
+      "page": 35,
+      "supports": "complete_application_rule_including_new_prohibitions_and_Article_6_5_exception",
+      "matched_text": "      (40) in Article 113, the third paragraph is amended as follows:\n\n           (a) point (a) is replaced by the following:\n\n               ‘(a) Chapters I and II shall apply from 2 February 2025, with the exception of Article 5(1), first subparagraph,\n                    points (ba) and (bb), and Article 5(1a) and (1b) which shall apply from 2 December 2026;’;\n\n           (b) point (c) is replaced by the following:\n\n               ‘(c) Chapter III, Sections 1, 2, and 3, with the exception of Article 6(5), shall apply from:\n\n                    (i) 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III; and\n\n                   (ii) 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I;’;\n\n           (c) the following point is added:\n\n               ‘(d) Articles 102 to 110 shall apply from 27 July 2026.’;",
+      "start_char": 165903,
+      "end_char": 166810,
+      "confidence": "exact",
+      "legal_authority_boundary": "Exact source presence only. Join original Article 113 general rule and unchanged point (b), Article 111 and relevant operator/system facts before a current-law determination."
     }
   ]
 }

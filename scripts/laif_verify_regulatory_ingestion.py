@@ -21,6 +21,52 @@ def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def verify_decisions(root: Path, key: str) -> int:
+    """Check authored finding identity/coverage, never its legal correctness."""
+    directory = root / "docs/verification/2026-11-07/regulatory"
+    record = json.loads((directory / f"{key}.decisions.json").read_text(encoding="utf-8"))
+    assessment = f"docs/verification/2026-11-07/regulatory/{key}.assessment.md"
+    manifest = json.loads((root / f"docs/verified/manifests/{key}.json").read_text(encoding="utf-8"))
+    expected = {
+        "schema": "laif.regulatory-reasoning.v1", "document_id": key,
+        "review_status": "AUTHOR_ANALYSIS_NOT_INDEPENDENT", "assessment_path": assessment,
+        "assessment_sha256": digest((root / assessment).read_bytes()),
+        "framework_sha256": digest((root / "LAIF_v1.2.txt").read_bytes()),
+        "toolkit_sha256": digest((root / "LAIF_Compliance_Toolkit.txt").read_bytes()),
+        "source_pdf_sha256": manifest["source_file_sha256"],
+        "source_text_sha256": manifest["sha256_hash"],
+    }
+    if any(record.get(field) != value for field, value in expected.items()):
+        raise ValueError(f"{key}: reasoning record identity, method or assessment hash mismatch")
+    evidence = json.loads((root / manifest["evidence_trace"]).read_text(encoding="utf-8"))
+    allowed = {row["trace_id"] for row in evidence["traces"]}
+    if key == "eu_ai_act_amendment_2026_1744":
+        context = json.loads((directory / "original_act_substantive_evidence.json").read_text(encoding="utf-8"))
+        allowed.update(row["trace_id"] for row in context["traces"])
+    findings = record.get("criteria_findings")
+    criteria = {"A.1", "A.2", "A.3", "A.4", "Q1", "Q2", "Q3", "G.1"}
+    if (not isinstance(findings, list) or len(findings) != len(criteria)
+            or any(not isinstance(row, dict) for row in findings)
+            or any(not isinstance(row.get("criterion_id"), str) for row in findings)
+            or {row.get("criterion_id") for row in findings} != criteria):
+        raise ValueError(f"{key}: reasoning record requires all eight distinct review areas")
+    cases = record.get("applicability_cases")
+    if not isinstance(cases, list) or not cases or any(not isinstance(row, dict) for row in cases):
+        raise ValueError(f"{key}: applicability cases missing")
+    case_ids = [row.get("case_id") for row in cases]
+    if any(not isinstance(value, str) or not value.strip() for value in case_ids) or len(set(case_ids)) != len(case_ids):
+        raise ValueError(f"{key}: duplicate or invalid applicability case ID")
+    for row in findings + cases:
+        refs = row.get("trace_ids")
+        if (not isinstance(refs, list) or not refs
+                or any(not isinstance(value, str) or value not in allowed for value in refs)):
+            raise ValueError(f"{key}: unsupported or missing reasoning evidence reference")
+        required = ("determination", "reasoning", "closure_evidence", "alternative_explanation", "scope_limit") if "criterion_id" in row else ("assumptions", "determination", "boundary")
+        if any(not isinstance(row.get(field), str) or not row[field].strip() for field in required):
+            raise ValueError(f"{key}: reasoning, closure or scope fields missing")
+    return len(findings)
+
+
 def verify_source(root: Path, key: str, reextract: bool = False) -> int:
     base = root / "docs/verified"
     manifest = json.loads((base / "manifests" / f"{key}.json").read_text(encoding="utf-8"))
@@ -95,6 +141,7 @@ def main(argv=None) -> int:
         for trace in context["traces"]:
             if digest(trace["matched_text"].encode("utf-8")) != trace["sha256"]:
                 raise ValueError("Original Act contextual passage hash mismatch")
+        decisions = sum(verify_decisions(ROOT, key) for key in IDS)
         if args.reextract:
             result = subprocess.run(["pdftotext", "-layout", "-enc", "UTF-8", str(source), "-"],
                                     capture_output=True, check=True)
@@ -108,7 +155,8 @@ def main(argv=None) -> int:
         print(f"FAIL: {exc}")
         return 1
     print(f"PASS: {len(IDS)} PDFs and raw-text hashes, complete page maps and {total} exact page-bounded quotes")
-    print("PASS: original-Act contextual PDF and six passage hashes")
+    print(f"PASS: original-Act contextual PDF and {len(context['traces'])} passage hashes")
+    print(f"PASS: {decisions} authored finding records and their applicability references; reasoning validity not established by this check")
     if args.reextract:
         print("PASS: Poppler extraction reproduces committed raw text byte-for-byte")
     return 0

@@ -65,6 +65,28 @@
       "end_char": 584583,
       "matched_text": "\n\n\n\n                                                               Article 86\n                                       Right to explanation of individual decision-making\n\n     1.    Any affected person subject to a decision which is taken by the deployer on the basis of the output from a high-risk AI\n     system listed in Annex III, with the exception of systems listed under point 2 thereof, and which produces legal effects or\n     similarly significantly affects that person in a way that they consider to have an adverse impact on their health, safety or\n     fundamental rights shall have the right to obtain from the deployer clear and meaningful explanations of the role of the AI\n     system in the decision-making procedure and the main elements of the decision taken.\n\n     2.   Paragraph 1 shall not apply to the use of AI systems for which exceptions from, or restrictions to, the obligation\n     under that paragraph follow from Union or national law in compliance with Union law.\n\n     3.   This Article shall apply only to the extent that the right referred to in paragraph 1 is not otherwise provided for under\n     Union law.",
       "sha256": "4648b876eea58578f097364ee350280a557d3f2f31760ddbc77f84b387293a9f"
+    },
+    {
+      "trace_id": "EUO-111-1",
+      "article": 111,
+      "first_pdf_page": 121,
+      "last_pdf_page": 121,
+      "start_char": 629670,
+      "end_char": 630541,
+      "matched_text": "Article 111\n      AI systems already placed on the market or put into service and general-purpose AI models already placed on the\n                                                          marked\n\n      1.   Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), AI systems which are\n      components of the large-scale IT systems established by the legal acts listed in Annex X that have been placed on the market\n      or put into service before 2 August 2027 shall be brought into compliance with this Regulation by 31 December 2030.\n\n      The requirements laid down in this Regulation shall be taken into account in the evaluation of each large-scale IT system\n      established by the legal acts listed in Annex X to be undertaken as provided for in those legal acts and where those legal acts\n      are replaced or amended.\n\n",
+      "sha256": "8edaadff7e6c39ca6ee9d1981aa820dca808d4231da1bb7402c7d9995204cba9",
+      "operative_scope": "Unamended paragraph 1 only; paragraph 2 is replaced by the 2026 amendment."
+    },
+    {
+      "trace_id": "EUO-113",
+      "article": 113,
+      "first_pdf_page": 123,
+      "last_pdf_page": 123,
+      "start_char": 638465,
+      "end_char": 639105,
+      "matched_text": "Article 113\n                                                   Entry into force and application\n      This Regulation shall enter into force on the twentieth day following that of its publication in the Official Journal of the\n      European Union.\n      It shall apply from 2 August 2026.\n      However:\n      (a) Chapters I and II shall apply from 2 February 2025;\n      (b) Chapter III Section 4, Chapter V, Chapter VII and Chapter XII and Article 78 shall apply from 2 August 2025, with the\n          exception of Article 101;\n      (c) Article 6(1) and the corresponding obligations in this Regulation shall apply from 2 August 2027.\n\n",
+      "sha256": "b3e95d692e06027fd04159c7b16588c3dfac08e63b3342d692e9cd8a09f19d50",
+      "operative_scope": "Only the general application rule and point (b) are relied on as unchanged. Points (a) and (c) must be read as replaced by amendment point (40)."
     }
   ]
 }

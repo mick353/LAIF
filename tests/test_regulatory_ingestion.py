@@ -13,7 +13,75 @@ spec.loader.exec_module(ingestion)
 
 class RegulatoryIngestionTests(unittest.TestCase):
     def test_committed_pdf_raw_pages_and_quotes(self):
-        self.assertEqual(sum(ingestion.verify_source(ROOT, key) for key in ingestion.IDS), 44)
+        self.assertEqual(sum(ingestion.verify_source(ROOT, key) for key in ingestion.IDS), 45)
+
+    def test_authored_findings_bind_current_reports_framework_and_evidence(self):
+        for key in ingestion.IDS:
+            self.assertEqual(ingestion.verify_decisions(ROOT, key), 8)
+
+    def decision_fixture(self, root):
+        key = "eu_ai_act_amendment_2026_1744"
+        directory = Path("docs/verification/2026-11-07/regulatory")
+        paths = [directory / (key + ".decisions.json"), directory / (key + ".assessment.md"),
+                 directory / "original_act_substantive_evidence.json",
+                 Path(f"docs/verified/manifests/{key}.json"),
+                 Path(f"docs/verified/extracted/{key}.evidence.json"),
+                 Path("LAIF_v1.2.txt"), Path("LAIF_Compliance_Toolkit.txt")]
+        for path in paths:
+            (root / path).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / path, root / path)
+        return key, root / directory / (key + ".decisions.json")
+
+    def test_stale_report_or_framework_identity_rejected(self):
+        for field in ("assessment_sha256", "framework_sha256", "toolkit_sha256", "source_pdf_sha256"):
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                key, path = self.decision_fixture(root)
+                data = json.loads(path.read_text())
+                data[field] = "0" * 64
+                path.write_text(json.dumps(data))
+                with self.assertRaisesRegex(ValueError, "hash mismatch"):
+                    ingestion.verify_decisions(root, key)
+
+    def test_missing_or_duplicated_calibration_review_rejected(self):
+        for mode in ("missing", "duplicate", "malformed"):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                key, path = self.decision_fixture(root)
+                data = json.loads(path.read_text())
+                rows = data["criteria_findings"]
+                if mode == "missing":
+                    rows.pop(3)
+                else:
+                    rows[3]["criterion_id"] = "A.3" if mode == "duplicate" else []
+                path.write_text(json.dumps(data))
+                with self.assertRaisesRegex(ValueError, "eight distinct"):
+                    ingestion.verify_decisions(root, key)
+
+    def test_unsupported_or_cross_document_reference_rejected(self):
+        for reference in ("EUO-INVENTED", "au_dta_policy_v2_1-Q001"):
+            with self.subTest(reference=reference), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                key, path = self.decision_fixture(root)
+                data = json.loads(path.read_text())
+                data["applicability_cases"][0]["trace_ids"] = [reference]
+                path.write_text(json.dumps(data))
+                with self.assertRaisesRegex(ValueError, "evidence reference"):
+                    ingestion.verify_decisions(root, key)
+
+    def test_distinct_transition_dates_have_distinct_provision_evidence(self):
+        key = "eu_ai_act_amendment_2026_1744"
+        directory = ROOT / "docs/verification/2026-11-07/regulatory"
+        data = json.loads((directory / (key + ".decisions.json")).read_text())
+        cases = {row["case_id"]: row for row in data["applicability_cases"]}
+        # The new Article 5 date cannot be supported by the unrelated Article 50 deadline.
+        self.assertIn(key + "-Q028", cases["C05"]["trace_ids"])
+        self.assertNotIn(key + "-Q021", cases["C05"]["trace_ids"])
+        self.assertEqual(cases["C04"]["trace_ids"], ["EUO-111-1"])
+        context = json.loads((directory / "original_act_substantive_evidence.json").read_text())
+        paragraph = next(row["matched_text"] for row in context["traces"] if row["trace_id"] == "EUO-111-1")
+        self.assertIn("31 December 2030", paragraph)
+        self.assertNotIn("2 August 2030", paragraph)
 
     def fixture(self, root):
         key = ingestion.IDS[0]
