@@ -67,6 +67,11 @@ python3 scripts/laif_process_document.py docs/examples/vendor-policy.md --extrac
 
 Open `laif_outputs/vendor-policy.institutional_report.md` first. The same run also writes a technical appendix, Markdown and JSON assessment data, and an analyst bundle containing the quote bank, governance gap register, failure pathways and control recommendations.
 
+Findings and authored criterion reviews show their cited passages as quotations,
+with source locations and clickable evidence IDs. Character offsets remain in
+the audit data. See the fresh [DTA, EU and NIST reports](docs/verification/2026-11-07-readable-evidence/README.md)
+for this reporting improvement; earlier dated reports retain their original presentation.
+
 To review your own document:
 
 ```bash

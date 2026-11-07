@@ -1,0 +1,87 @@
+{
+  "date": "2026-11-07",
+  "base_main": "368334a346138b28e9735e71a464dca6fe9ff393",
+  "runtime": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "toolchain_fingerprint": "ba559dd38d447779",
+  "sources": [
+    {
+      "document_id": "au_dta_policy_v2_1",
+      "source_sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+      "command": [
+        "-S",
+        "/workspace/scratch/a966521d6ca7/LAIF-consolidated/scripts/laif_process_document.py",
+        "/workspace/scratch/a966521d6ca7/LAIF-consolidated/docs/verified/raw/au_dta_policy_v2_1.md",
+        "--extractor",
+        "builtin",
+        "--sector",
+        "general_ai_governance",
+        "--output-dir",
+        "/workspace/scratch/a966521d6ca7/LAIF-consolidated/docs/verification/2026-11-07-readable-evidence/au_dta_policy_v2_1",
+        "--no-write",
+        "--print-report",
+        "--review-file",
+        "/workspace/scratch/a966521d6ca7/LAIF-consolidated/docs/verification/2026-11-07-readable-evidence/au_dta_policy_v2_1/completed-review.json",
+        "--require-complete-review"
+      ],
+      "exit_code": 0,
+      "report_sha256": "32fb26cf84025a01e318bfd8e83e58910a5ccd2311a828bc8f7ebee633eecc72",
+      "evidence_anchors": 75,
+      "evidence_links": 48,
+      "dangling_links": 0,
+      "authored_content_unchanged": true,
+      "historical_review_sha256": "ba950f8fd58458de3d0e339904751907dd5f6426b21fe2ee5d1b0ff5182eaa80",
+      "curated_criterion_excerpts": 22
+    },
+    {
+      "document_id": "5f667a6f-NIST.AI.1001",
+      "source_sha256": "44ac320e6da1d15fcfded2933da7f62bf0ed552b78a81358102c057991ba6509",
+      "command": [
+        "-S",
+        "/workspace/scratch/a966521d6ca7/LAIF-consolidated/scripts/laif_process_document.py",
+        "/workspace/scratch/a966521d6ca7/LAIF-consolidated/docs/verified/raw/5f667a6f-NIST.AI.1001.md",
+        "--extractor",
+        "builtin",
+        "--sector",
+        "general_ai_governance",
+        "--output-dir",
+        "/workspace/scratch/a966521d6ca7/LAIF-consolidated/docs/verification/2026-11-07-readable-evidence/5f667a6f-NIST.AI.1001",
+        "--no-write",
+        "--print-report",
+        "--review-file",
+        "/workspace/scratch/a966521d6ca7/LAIF-consolidated/docs/verification/2026-11-07-readable-evidence/5f667a6f-NIST.AI.1001/completed-review.json",
+        "--require-complete-review"
+      ],
+      "exit_code": 0,
+      "report_sha256": "82345bf572944a98c1a9a2ecd43c9ff919eac3e71178882b7ca07f69b4332998",
+      "evidence_anchors": 50,
+      "evidence_links": 6,
+      "dangling_links": 0,
+      "authored_content_unchanged": true,
+      "historical_review_sha256": "5072a4a11adc0bb4560ed3572936145f4b212a35cd615d6afb75e150b600780c",
+      "curated_criterion_excerpts": 16
+    },
+    {
+      "document_id": "eu_ai_act_amendment_2026_1744",
+      "source_sha256": "dfcdbe4c3da4ce06f7b39bade40b4b08c132718352ef70b670ef8f163fb9a5b0",
+      "command": [
+        "-S",
+        "/workspace/scratch/a966521d6ca7/LAIF-consolidated/scripts/laif_process_document.py",
+        "/workspace/scratch/a966521d6ca7/LAIF-consolidated/docs/verified/raw/eu_ai_act_amendment_2026_1744.md",
+        "--extractor",
+        "builtin",
+        "--sector",
+        "general_ai_governance",
+        "--output-dir",
+        "/workspace/scratch/a966521d6ca7/LAIF-consolidated/docs/verification/2026-11-07-readable-evidence/eu_ai_act_amendment_2026_1744",
+        "--no-write",
+        "--print-report"
+      ],
+      "exit_code": 0,
+      "report_sha256": "74b95c99342bb0a786f0c12a9f50ecbccf144f75126d90fe96a0911cb8af4ba9",
+      "evidence_anchors": 70,
+      "evidence_links": 75,
+      "dangling_links": 0,
+      "attributed_decisions_unchanged": true
+    }
+  ]
+}

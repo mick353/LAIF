@@ -1,0 +1,7 @@
+{
+  "assessment_engine.py": "814eb7cba0dfa529912f707c785795a516d930cd052c2f2495ada125391d084c",
+  "scripts/laif_process_document.py": "e5fd1e9afcbafb238466e68937caaddae87f634a39f5825bc48f8e8df3993def",
+  "scripts/laif_research_report.py": "56a61d9f3ff24d1bb72be6b01ead5e5aaf4f27e440fb72accbac8b088ca5cccc",
+  "scripts/laif_evidence_display.py": "ddd39c727589c879beeac0ab0eb97b7c42732cc165d334019cd86eb0b9afcd4c",
+  "scripts/laif_criteria_review.py": "eb6ffd791a20928cbc712806edaa2d6a05a5043a014f5e8944aba3abd8377a50"
+}

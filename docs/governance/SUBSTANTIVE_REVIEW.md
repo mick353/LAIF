@@ -53,6 +53,10 @@ Exact matching does not grant primary-quote quality or verify interpretation.
 For a table, retain its governing row/column context and inspect the original.
 Do not treat an unselected questionnaire option as an observed response.
 Offsets identify extracted characters, not original PDF bytes or verified pages.
+The report quotes each curated excerpt below its criterion, with a source name
+and available section, page-marker and line references. Offsets remain audit
+metadata. Submitted supporting and counterevidence passages are also quoted at
+their findings, with links to the full evidence inventory.
 
 Keep the source, evidence, framework, Toolkit, toolchain and criterion-protocol
 hashes from the template. A source or method change needs a fresh template and

@@ -1,6 +1,6 @@
 # Repository agent instructions
 
-**Current verification checkpoint (7 November 2026):** The [substantive-review record](docs/verification/2026-11-07-substantive-review/README.md) contains the fresh 578-test full gate, focused checks, actual DTA/NIST authored assessments and pinned PDF reproduction. Its base is merged PR #104 at ededd1b58afc56dbd06ad0b20f8793b3d1e79e3b (555-test release). Inspect current Git/PR state to distinguish checkpoint, tested and merged stages; main remains authoritative. Earlier logs are historical.
+**Current verification checkpoint (7 November 2026):** The [readable-evidence record](docs/verification/2026-11-07-readable-evidence/README.md) contains the fresh 587-test full gate, 228 targeted checks, PDF reproduction and regenerated DTA/EU/NIST reports with quotations beside findings. Its base is merged PR #105 at 368334a346138b28e9735e71a464dca6fe9ff393 (578-test release). Inspect Git/PR state to distinguish tested and merged stages; main remains authoritative. Earlier logs and reports are historical.
 
 ## Local-first verification (GitHub Actions not used)
 
@@ -21,7 +21,7 @@ The legacy workflow is not triggered by push or pull requests.
 5. Preserve governance, protected artefact, source provenance, semantic fidelity,
    exact-source checks and deterministic report identity.
 6. Changes to assessment_engine.py, validate.py, laif_spec.py or the document
-   processor require the generated-report fingerprint/reproducibility discipline
+   processor or shared evidence renderer require the generated-report fingerprint/reproducibility discipline
    documented in CLAUDE.md.
 7. Never treat a software gate as legal certification or proof of LAIF validity.
 

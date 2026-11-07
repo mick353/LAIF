@@ -1,0 +1,297 @@
+{
+  "schema": "laif.research-annotations.v1",
+  "source_sha256": "44ac320e6da1d15fcfded2933da7f62bf0ed552b78a81358102c057991ba6509",
+  "evidence_manifest_sha256": "ee2e7585075180cf6f27965a128d7e22eeaaf8b334768a1909ec203598b1f350",
+  "framework_source_sha256": "c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407",
+  "toolkit_source_sha256": "24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67",
+  "toolchain_fingerprint": "ba559dd38d447779",
+  "criteria_review_protocol_sha256": "eb6ffd791a20928cbc712806edaa2d6a05a5043a014f5e8944aba3abd8377a50",
+  "instructions": "Add source-supported findings with unique finding_id, claim_type (OBSERVATION/INFERENCE/HYPOTHESIS), statement, evidence_ids, counterevidence_ids, at least one alternative explanation, limitations and analyst_id. Optional criterion_ids map claims to the listed LAIF criteria. Keep the source/evidence/framework/Toolkit hashes and toolchain fingerprint unchanged. A populated file is still an unverified analyst claim.",
+  "available_evidence_ids": [
+    "E001",
+    "E002",
+    "E003",
+    "E004",
+    "E005",
+    "E006",
+    "E007",
+    "E008"
+  ],
+  "available_criteria": [
+    {
+      "criterion_id": "A.1",
+      "name": "Structural Transparency",
+      "source": "2.1",
+      "question": "What meaningful account, uncertainty and limitations must an affected person be able to obtain?"
+    },
+    {
+      "criterion_id": "A.2",
+      "name": "Structural Honesty",
+      "source": "2.2",
+      "question": "What requires objective correspondence and robust behaviour across evaluation and deployment?"
+    },
+    {
+      "criterion_id": "A.3",
+      "name": "Structural Containment",
+      "source": "2.3",
+      "question": "What bounds actions, access and resources, and provides oversight, interruption and appropriate authorisation?"
+    },
+    {
+      "criterion_id": "A.4",
+      "name": "Structural Calibration",
+      "source": "2.5",
+      "question": "Where section 2.5 applies, what evidence links expressed confidence to observed real-world performance?"
+    },
+    {
+      "criterion_id": "Q1",
+      "name": "Coupling",
+      "source": "Part Five, Question One; 2.4",
+      "question": "Which restriction/permission and specific human interest are paired inseparably, with protection as enforceable as the restriction?"
+    },
+    {
+      "criterion_id": "Q2",
+      "name": "Consistency",
+      "source": "Part Five, Question Two",
+      "question": "Does the reasoning remain defensible for the smallest actor and universal application, including justified exceptions?"
+    },
+    {
+      "criterion_id": "Q3",
+      "name": "Reversibility",
+      "source": "Part Five, Question Three; provisions D1-D2",
+      "question": "Is future revision preserved and irreversibility justified with proportionate authority and procedure?"
+    },
+    {
+      "criterion_id": "G.1",
+      "name": "Self-Application",
+      "source": "4.3; 7.4",
+      "question": "What subjects governance actors themselves to review, transparency and effective challenge?"
+    }
+  ],
+  "findings": [],
+  "criteria_review": {
+    "analyst_id": "Codex-authored-documentary-review-2026-11-07",
+    "as_at_date": "2026-11-07",
+    "jurisdiction": "US publication; voluntary framework, not a jurisdiction-specific legal opinion",
+    "assessed_role": "Policy authority and adopting organisation; no deployed system assessed",
+    "document_scope": "Full retained extraction as declared by its manifest; curated source passages. Upstream identity and present applicability are separate questions.",
+    "limitations": "Source-bound author analysis; no independent legal or operational validation. Extraction used python-docx with lxml namespace-aware heading detection (w:pStyle). Heading levels (Heading1 → #, Heading2 → ##) and table structure (pipe tables) were normalised; all text content is verbatim from the DOCX. The user-supplied DOCX accuracy against the authoritative PDF at doi.org/10.6028/NIST.AI.100-1 was not independently verified. SHA256 is of the extracted markdown. Verification taxonomy: HASH_VERIFIED_LOCAL_ONLY with network_status AUTOMATED_URL_BLOCKED_HTTP_403; authoritative_origin_url recorded; manual re-verification pathway available.",
+    "criteria": [
+      {
+        "criterion_id": "A.1",
+        "determination": "PARTIAL_SUPPORT",
+        "reasoning": "NIST supplies meaningful transparency and output-interpretation guidance, tailored to the actor and relevant to redress. This is functional support. A deployment-specific account on request, including uncertainty and limitations, still needs implementation evidence.",
+        "framework_basis": "LAIF v1.2 2.1; Structural Transparency",
+        "applicability_reason": "Documentary comparison with this criterion. No deployment is assessed; actual applicability needs its intended context and evidence.",
+        "scope_and_exceptions": "Retained source edition only. Other law, local adoption, contracts, procedures and operational evidence may qualify this conclusion.",
+        "alternative_explanation": "An adopting organisation or separate instrument may supply stronger protection; this document is not the complete governance setting.",
+        "closure_evidence": "Obtain explanation records, uncertainty/limitation disclosure and evidence of usable access for affected people.",
+        "source_excerpts": [
+          {
+            "evidence_id": "C001",
+            "start_char": 41072,
+            "end_char": 41692,
+            "exact_quote": "Trustworthy AI depends upon accountability. Accountability presupposes transparency. Transparency reflects the extent to which information about an AI system and its outputs is available to individuals interacting with such a system – regardless of whether they are even aware that they are doing so. Meaningful transparency provides access to appropriate levels of information based on the stage of the AI lifecycle and tailored to the role or knowledge of AI actors or individuals interacting with or using the AI system. By promoting higher levels of understanding, transparency increases confidence in the AI system.",
+            "context": "Retained NIST prose, read with its section and adoption context."
+          },
+          {
+            "evidence_id": "C002",
+            "start_char": 45015,
+            "end_char": 45335,
+            "exact_quote": "Risks to interpretability often can be addressed by communicating a description of why an AI system made a particular prediction or recommendation. (See “Four Principles of Explainable Artificial Intelligence” and “Psychological Foundations of Explainability and Interpretability in Artificial Intelligence” found here.)",
+            "context": "Retained NIST prose, read with its section and adoption context."
+          }
+        ]
+      },
+      {
+        "criterion_id": "A.2",
+        "determination": "NOT_ESTABLISHED",
+        "reasoning": "Alignment with intended aims and values and organisational governance are relevant commitments. Objective correspondence and consistent behaviour during evaluation and deployment require implementation evidence; generic risk management is not an empirical honesty test.",
+        "framework_basis": "LAIF v1.2 2.2; Structural Honesty",
+        "applicability_reason": "Documentary comparison with this criterion. No deployment is assessed; actual applicability needs its intended context and evidence.",
+        "scope_and_exceptions": "Retained source edition only. Other law, local adoption, contracts, procedures and operational evidence may qualify this conclusion.",
+        "alternative_explanation": "An adopting organisation or separate instrument may supply stronger protection; this document is not the complete governance setting.",
+        "closure_evidence": "Compare disclosed and implemented objectives; obtain evaluation/deployment and adversarial or oversight-change evidence.",
+        "source_excerpts": [
+          {
+            "evidence_id": "C003",
+            "start_char": 6705,
+            "end_char": 7396,
+            "exact_quote": "AI risk management is a key component of responsible development and use of AI systems. Responsible AI practices can help align the decisions about AI system design, development, and uses with intended aim and values. Core concepts in responsible AI emphasize human centricity, social responsibility, and sustainability. AI risk management can drive responsible uses and practices by prompting organizations and their internal teams who design, develop, and deploy AI to think more critically about context and potential or unexpected negative and positive impacts. Understanding and managing the risks of AI systems will help to enhance trustworthiness, and in turn, cultivate public trust.",
+            "context": "Retained NIST prose, read with its section and adoption context."
+          },
+          {
+            "evidence_id": "C004",
+            "start_char": 25585,
+            "end_char": 26219,
+            "exact_quote": "Organizations need to establish and maintain the appropriate accountability mechanisms, roles and responsibilities, culture, and incentive structures for risk management to be effective. Use of the AI RMF alone will not lead to these changes or provide the appropriate incentives. Effective risk management is realized through organizational commitment at senior levels and may require cultural change within an organization or industry. In addition, small to medium-sized organizations managing AI risks or implementing the AI RMF may face different challenges than large organizations, depending on their capabilities and resources.",
+            "context": "Retained NIST prose, read with its section and adoption context."
+          }
+        ]
+      },
+      {
+        "criterion_id": "A.3",
+        "determination": "PARTIAL_SUPPORT",
+        "reasoning": "Simulation, in-domain testing, monitoring and shutdown/modification are expressly recognised. MANAGE 4 includes override, decommissioning, recovery and change management. These are substantive containment mechanisms. Tested action/access/resource bounds and irreversible-action authority remain deployment-specific.",
+        "framework_basis": "LAIF v1.2 2.3; Structural Containment",
+        "applicability_reason": "Documentary comparison with this criterion. No deployment is assessed; actual applicability needs its intended context and evidence.",
+        "scope_and_exceptions": "Retained source edition only. Other law, local adoption, contracts, procedures and operational evidence may qualify this conclusion.",
+        "alternative_explanation": "An adopting organisation or separate instrument may supply stronger protection; this document is not the complete governance setting.",
+        "closure_evidence": "Identify and test implemented boundaries, interruption authority and consequence-scaled irreversible-action authorisation.",
+        "source_excerpts": [
+          {
+            "evidence_id": "C005",
+            "start_char": 39051,
+            "end_char": 39487,
+            "exact_quote": "Employing safety considerations during the lifecycle and starting as early as possible with planning and design can prevent failures or conditions that can render a system dangerous. Other practical approaches for AI safety often relate to rigorous simulation and in-domain testing, real-time monitoring, and the ability to shut down, modify, or have human intervention into systems that deviate from intended or expected functionality.",
+            "context": "Includes the complete extracted MANAGE 4 row with 4.1-4.3. Curated structured evidence, not automatic clean prose; verify original PDF columns and governing context."
+          },
+          {
+            "evidence_id": "C006",
+            "start_char": 81045,
+            "end_char": 81870,
+            "exact_quote": "| MANAGE 4: Risktreatments, including response and recovery, and communication plans for the identified and measured AI risks are documented and monitored regularly. | MANAGE 4.1: Post-deployment AI system monitoring plans are implemented, including mechanisms for capturing and evaluating input from users and other relevant AI actors, appeal and override, decommissioning, incident response, recovery, and change management.MANAGE 4.2: Measurable activities for continual improvements are integrated into AI system updates and include regular engagement with interested parties, including relevant AI actors.MANAGE 4.3: Incidents and errors are communicated to relevant AI actors, including affected communities. Processes for tracking, responding to, and recovering from incidents and errors are followed and documented. |",
+            "context": "Includes the complete extracted MANAGE 4 row with 4.1-4.3. Curated structured evidence, not automatic clean prose; verify original PDF columns and governing context."
+          }
+        ]
+      },
+      {
+        "criterion_id": "A.4",
+        "determination": "NOT_ESTABLISHED",
+        "reasoning": "Representative expected-use test sets, documented accuracy methodology and recalibration support measurement. They do not alone establish expressed-confidence versus observed-accuracy correspondence under LAIF section 2.5. Applicability depends on material reliance without independent verification capacity.",
+        "framework_basis": "LAIF v1.2 2.5; Structural Calibration",
+        "applicability_reason": "Documentary comparison with this criterion. No deployment is assessed; actual applicability needs its intended context and evidence.",
+        "scope_and_exceptions": "Retained source edition only. Other law, local adoption, contracts, procedures and operational evidence may qualify this conclusion.",
+        "alternative_explanation": "An adopting organisation or separate instrument may supply stronger protection; this document is not the complete governance setting.",
+        "closure_evidence": "Resolve section 2.5 applicability; obtain confidence/accuracy evidence in comparable intended contexts, including uncertainty and subgroup limits.",
+        "source_excerpts": [
+          {
+            "evidence_id": "C007",
+            "start_char": 36459,
+            "end_char": 37174,
+            "exact_quote": "Accuracy is defined by ISO/IEC TS 5723:2022 as “closeness of results of observations, computations, or estimates to the true values or the values accepted as being true.” Measures of accuracy should consider computational-centric measures (e.g., false positive and false negative rates), human-AI teaming, and demonstrate external validity (generalizable beyond the training conditions). Accuracy measurements should always be paired with clearly defined and realistic test sets – that are representative of conditions of expected use – and details about test methodology; these should be included in associated documentation. Accuracy measurements may include disaggregation of results for different data segments.",
+            "context": "Retained NIST prose, read with its section and adoption context."
+          },
+          {
+            "evidence_id": "C008",
+            "start_char": 87856,
+            "end_char": 88161,
+            "exact_quote": "TEVV tasks for operations involve ongoing monitoring for periodic updates, testing, and subject matter expert (SME) recalibration of models, the tracking of incidents or errors reported and their management, the detection of emergent properties and related impacts, and processes for redress and response.",
+            "context": "Retained NIST prose, read with its section and adoption context."
+          }
+        ]
+      },
+      {
+        "criterion_id": "Q1",
+        "determination": "NOT_ESTABLISHED",
+        "reasoning": "The framework is rights-preserving and contains harm-management and redress mechanisms. Voluntary guidance alone does not establish inseparable, equally enforceable protection for each restriction or permission. Binding adoption or other law may supply it and needs separate assessment.",
+        "framework_basis": "LAIF v1.2 Part Five, Question One; 2.4; Coupling",
+        "applicability_reason": "Documentary comparison with this criterion. No deployment is assessed; actual applicability needs its intended context and evidence.",
+        "scope_and_exceptions": "Retained source edition only. Other law, local adoption, contracts, procedures and operational evidence may qualify this conclusion.",
+        "alternative_explanation": "An adopting organisation or separate instrument may supply stronger protection; this document is not the complete governance setting.",
+        "closure_evidence": "Map each material restriction/permission to its interest, inseparable protection and accessible enforcement, including applicable local adoption or law.",
+        "source_excerpts": [
+          {
+            "evidence_id": "C009",
+            "start_char": 8345,
+            "end_char": 8913,
+            "exact_quote": "As directed by the National Artificial Intelligence Initiative Act of 2020 (P.L. 116-283), the goal of the AI RMF is to offer a resource to the organizations designing, developing, deploying, or using AI systems to help manage the many risks of AI and promote trustworthy and responsible development and use of AI systems. The Framework is intended to be voluntary, rights-preserving, non-sector-specific, and use-case agnostic, providing flexibility to organizations of all sizes and in all sectors and throughout society to implement the approaches in the Framework.",
+            "context": "Includes the complete extracted MANAGE 4 row with 4.1-4.3. Curated structured evidence, not automatic clean prose; verify original PDF columns and governing context."
+          },
+          {
+            "evidence_id": "C010",
+            "start_char": 81045,
+            "end_char": 81870,
+            "exact_quote": "| MANAGE 4: Risktreatments, including response and recovery, and communication plans for the identified and measured AI risks are documented and monitored regularly. | MANAGE 4.1: Post-deployment AI system monitoring plans are implemented, including mechanisms for capturing and evaluating input from users and other relevant AI actors, appeal and override, decommissioning, incident response, recovery, and change management.MANAGE 4.2: Measurable activities for continual improvements are integrated into AI system updates and include regular engagement with interested parties, including relevant AI actors.MANAGE 4.3: Incidents and errors are communicated to relevant AI actors, including affected communities. Processes for tracking, responding to, and recovering from incidents and errors are followed and documented. |",
+            "context": "Includes the complete extracted MANAGE 4 row with 4.1-4.3. Curated structured evidence, not automatic clean prose; verify original PDF columns and governing context."
+          }
+        ],
+        "coupling": {
+          "q1a": "IMPLICIT",
+          "q1b": "SOFT",
+          "protected_interest": "Rights and safety of people and communities affected by AI.",
+          "restriction": "Proposed risk-based conditions on development, deployment and continuing use.",
+          "equivalent_normative_force": "NIST presents a voluntary framework. Recommendations alone do not establish equally enforceable person-accessible protection. Adoption in law, contract or institutional rules may change the assessment."
+        }
+      },
+      {
+        "criterion_id": "Q2",
+        "determination": "PARTIAL_SUPPORT",
+        "reasoning": "NIST recognises resource differences and permits context-specific selection and iterative use. This supports proportionate governance. Specific selections and exceptions still need justification showing protection at the smallest and universal scales.",
+        "framework_basis": "LAIF v1.2 Part Five, Question Two; Consistency",
+        "applicability_reason": "Documentary comparison with this criterion. No deployment is assessed; actual applicability needs its intended context and evidence.",
+        "scope_and_exceptions": "Retained source edition only. Other law, local adoption, contracts, procedures and operational evidence may qualify this conclusion.",
+        "alternative_explanation": "An adopting organisation or separate instrument may supply stronger protection; this document is not the complete governance setting.",
+        "closure_evidence": "Test matched small/large actor and aggregate-impact cases, and document principled distinctions and equivalent protections.",
+        "source_excerpts": [
+          {
+            "evidence_id": "C011",
+            "start_char": 25585,
+            "end_char": 26219,
+            "exact_quote": "Organizations need to establish and maintain the appropriate accountability mechanisms, roles and responsibilities, culture, and incentive structures for risk management to be effective. Use of the AI RMF alone will not lead to these changes or provide the appropriate incentives. Effective risk management is realized through organizational commitment at senior levels and may require cultural change within an organization or industry. In addition, small to medium-sized organizations managing AI risks or implementing the AI RMF may face different challenges than large organizations, depending on their capabilities and resources.",
+            "context": "Retained NIST prose, read with its section and adoption context."
+          },
+          {
+            "evidence_id": "C012",
+            "start_char": 53259,
+            "end_char": 54154,
+            "exact_quote": "Framework users may apply these functions as best suits their needs for managing AI risks based on their resources and capabilities. Some organizations may choose to select from among the categories and subcategories; others may choose and have the capacity to apply all categories and subcategories. Assuming a governance structure is in place, functions may be performed in any order across the AI lifecycle as deemed to add value by a user of the framework. After instituting the outcomes in GOVERN, most users of the AI RMF would start with the MAP function and continue to MEASURE or MANAGE. However users integrate the functions, the process should be iterative, with cross-referencing between functions as necessary. Similarly, there are categories and subcategories with elements that apply to multiple functions, or that logically should take place before certain subcategory decisions.",
+            "context": "Retained NIST prose, read with its section and adoption context."
+          }
+        ]
+      },
+      {
+        "criterion_id": "Q3",
+        "determination": "PARTIAL_SUPPORT",
+        "reasoning": "Appeal/override, decommissioning, recovery and change management support revisability. Framework review and version tracking support institutional revision. Revising a system or document does not automatically restore people affected by irreversible decisions.",
+        "framework_basis": "LAIF v1.2 Part Five, Question Three; provisions D1-D2; Reversibility",
+        "applicability_reason": "Documentary comparison with this criterion. No deployment is assessed; actual applicability needs its intended context and evidence.",
+        "scope_and_exceptions": "Retained source edition only. Other law, local adoption, contracts, procedures and operational evidence may qualify this conclusion.",
+        "alternative_explanation": "An adopting organisation or separate instrument may supply stronger protection; this document is not the complete governance setting.",
+        "closure_evidence": "Supply correction/restoration pathways, retained revision authority and consequence-proportionate safeguards before irreversible actions.",
+        "source_excerpts": [
+          {
+            "evidence_id": "C013",
+            "start_char": 81045,
+            "end_char": 81870,
+            "exact_quote": "| MANAGE 4: Risktreatments, including response and recovery, and communication plans for the identified and measured AI risks are documented and monitored regularly. | MANAGE 4.1: Post-deployment AI system monitoring plans are implemented, including mechanisms for capturing and evaluating input from users and other relevant AI actors, appeal and override, decommissioning, incident response, recovery, and change management.MANAGE 4.2: Measurable activities for continual improvements are integrated into AI system updates and include regular engagement with interested parties, including relevant AI actors.MANAGE 4.3: Incidents and errors are communicated to relevant AI actors, including affected communities. Processes for tracking, responding to, and recovering from incidents and errors are followed and documented. |",
+            "context": "Includes the complete extracted MANAGE 4 row with 4.1-4.3. Curated structured evidence, not automatic clean prose; verify original PDF columns and governing context."
+          },
+          {
+            "evidence_id": "C014",
+            "start_char": 1450,
+            "end_char": 2349,
+            "exact_quote": "NIST will review the content and usefulness of the Framework regularly to determine if an update is appropriate; a review with formal input from the AI community is expected to take place no later than 2028. The Framework will employ a two-number versioning system to track and identify major and minor changes. The first number will represent the generation of the AI RMF and its companion documents (e.g., 1.0) and will change only with major revisions. Minor revisions will be tracked using “.n” after the generation number (e.g., 1.1). All changes will be tracked using a Version Control Table which identifies the history, including version number, date of change, and description of change. NIST plans to update the AI RMF Playbook frequently. Comments on the AI RMF Playbook may be sent via email to AIframework@nist.gov at any time and will be reviewed and integrated on a semi-annual basis.",
+            "context": "Includes the complete extracted MANAGE 4 row with 4.1-4.3. Curated structured evidence, not automatic clean prose; verify original PDF columns and governing context."
+          }
+        ]
+      },
+      {
+        "criterion_id": "G.1",
+        "determination": "PARTIAL_SUPPORT",
+        "reasoning": "Community input, regular review and traceable revisions support scrutiny of the guidance itself. They do not demonstrate equally effective challenge and oversight of a particular adopting or enforcing institution and its coercive decisions.",
+        "framework_basis": "LAIF v1.2 4.3; 7.4; Self-Application",
+        "applicability_reason": "Documentary comparison with this criterion. No deployment is assessed; actual applicability needs its intended context and evidence.",
+        "scope_and_exceptions": "Retained source edition only. Other law, local adoption, contracts, procedures and operational evidence may qualify this conclusion.",
+        "alternative_explanation": "An adopting organisation or separate instrument may supply stronger protection; this document is not the complete governance setting.",
+        "closure_evidence": "Identify the governing body, disclosure/challenge routes, independent review and remedies for inconsistent decisions.",
+        "source_excerpts": [
+          {
+            "evidence_id": "C015",
+            "start_char": 1450,
+            "end_char": 2349,
+            "exact_quote": "NIST will review the content and usefulness of the Framework regularly to determine if an update is appropriate; a review with formal input from the AI community is expected to take place no later than 2028. The Framework will employ a two-number versioning system to track and identify major and minor changes. The first number will represent the generation of the AI RMF and its companion documents (e.g., 1.0) and will change only with major revisions. Minor revisions will be tracked using “.n” after the generation number (e.g., 1.1). All changes will be tracked using a Version Control Table which identifies the history, including version number, date of change, and description of change. NIST plans to update the AI RMF Playbook frequently. Comments on the AI RMF Playbook may be sent via email to AIframework@nist.gov at any time and will be reviewed and integrated on a semi-annual basis.",
+            "context": "Retained NIST prose, read with its section and adoption context."
+          },
+          {
+            "evidence_id": "C016",
+            "start_char": 102417,
+            "end_char": 102598,
+            "exact_quote": "Be consensus-driven and developed and regularly updated through an open, transparent process. All stakeholders should have the opportunity to contribute to the AI RMF’s development.",
+            "context": "Retained NIST prose, read with its section and adoption context."
+          }
+        ]
+      }
+    ],
+    "overall_reasoning": "NIST AI RMF 1.0 supplies substantial functional safeguards: transparency, representative testing, monitoring, override, decommissioning and iterative review. It should not be dismissed for lacking LAIF vocabulary. A full Coherence Test and four-property deployment determination is not established by the framework document alone: equivalent enforceable coupling, calibration where applicable, concrete cross-scale consistency, irreversible-consequence protection and self-application need adopting-instrument and operational evidence. This is not a claim that NIST instructs organisations to omit those protections."
+  }
+}

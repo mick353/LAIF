@@ -8,6 +8,11 @@ Primary quote evidence only. Verification-required extracted evidence is listed 
 - **Quality score:** 90 — primary evidence: complete governance action with actor/control context
 
 - **Display quote:**
+
+<a id="quote-q001"></a>
+
+**Q001** — vendor-policy.md; section “Example supplier AI governance policy”; extracted-text line 7
+
 > The service manager must maintain a record of material incidents and arrange an annual review of the service.
 
 - **Why it matters:** This is deterministic source evidence for risk management analysis.
@@ -19,6 +24,11 @@ Primary quote evidence only. Verification-required extracted evidence is listed 
 - **Quality score:** 85 — primary evidence: complete governance action with actor/control context
 
 - **Display quote:**
+
+<a id="quote-q002"></a>
+
+**Q002** — vendor-policy.md; section “Example supplier AI governance policy”; extracted-text line 9
+
 > A human reviewer must check a draft before it is sent to a member of the public.
 
 - **Why it matters:** This is deterministic source evidence for human oversight analysis.
@@ -30,6 +40,11 @@ Primary quote evidence only. Verification-required extracted evidence is listed 
 - **Quality score:** 95 — primary evidence: complete governance action with actor/control context
 
 - **Display quote:**
+
+<a id="quote-q003"></a>
+
+**Q003** — vendor-policy.md; section “Example supplier AI governance policy”; extracted-text line 5
+
 > The assistant provides recommendations to staff; it must not make final eligibility decisions or issue notices without human approval.
 
 - **Why it matters:** This is deterministic source evidence for enforcement/consequence analysis.
@@ -41,6 +56,11 @@ Primary quote evidence only. Verification-required extracted evidence is listed 
 - **Quality score:** 90 — primary evidence: complete governance action with actor/control context
 
 - **Display quote:**
+
+<a id="quote-q004"></a>
+
+**Q004** — vendor-policy.md; section “Example supplier AI governance policy”; extracted-text line 9
+
 > The procurement team must request evidence of testing before deployment.
 
 - **Why it matters:** This is deterministic source evidence for procurement/supplier assurance analysis.
@@ -52,6 +72,11 @@ Primary quote evidence only. Verification-required extracted evidence is listed 
 - **Quality score:** 80 — primary evidence: complete governance action with actor/control context
 
 - **Display quote:**
+
+<a id="quote-q005"></a>
+
+**Q005** — vendor-policy.md; section “Example supplier AI governance policy”; extracted-text line 7
+
 > The supplier will monitor the system and consider improvements when appropriate.
 
 - **Why it matters:** This source evidence required deterministic display normalisation while retaining exact extracted text.
@@ -63,6 +88,11 @@ Primary quote evidence only. Verification-required extracted evidence is listed 
 - **Quality score:** 85 — primary evidence: complete governance action with actor/control context
 
 - **Display quote:**
+
+<a id="quote-q006"></a>
+
+**Q006** — vendor-policy.md; section “Example supplier AI governance policy”; extracted-text line 9
+
 > The supplier must describe the intended use, material limitations and known risks.
 
 - **Why it matters:** This source evidence required deterministic display normalisation while retaining exact extracted text.

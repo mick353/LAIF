@@ -25,6 +25,7 @@ if str(ROOT) not in sys.path:
 if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
 
+from scripts.laif_evidence_display import locate, locate_review, passage, evidence_links
 from assessment_engine import assess, toolchain_fingerprint
 from laif_spec import ASSESSMENT_CRITERIA
 from laif_criteria_review import validate_criteria_review, criterion_template
@@ -135,6 +136,7 @@ def _observations(text: str, records: list[dict], eligible: bool, limit: int) ->
             "start_char": start,
             "end_char": end,
             "extracted_line": text.count("\n", 0, start) + 1,
+            "source_location": locate(text, start, end),
             "evidence_status": "EXTRACTED_TEXT_MATCH_ONLY",
             "interpretation_limit": "Passage exists in extracted text; it does not prove implementation, scope completeness or legal effect.",
         })
@@ -266,6 +268,7 @@ def build_dossier(path: Path, *, extractor: str = "auto-local", source_scope: st
         criteria_review = validate_criteria_review(review_data.get("criteria_review") if review_data else None, text)
     except ValueError as exc:
         raise ResearchInputError(str(exc)) from exc
+    locate_review(criteria_review, text)
     criterion_keys = {row["criterion_id"] for row in criteria_review["criteria"]} if criteria_review else set()
     limits = [
         "Passage selection is heuristic and non-exhaustive; relevant clauses can be missed.",
@@ -390,15 +393,9 @@ def render_markdown(dossier: dict) -> str:
             "",
         ]
     for row in evidence:
-        lines += [
-            f"### {row['evidence_id']} — retrieval hint: {_md_text(row['category'])}",
-            "",
-            _blockquote(row["exact_quote"]),
-            "",
-            f"Extracted-text line {row['extracted_line']}; characters {row['start_char']}–{row['end_char']}. "
-            "This establishes only that the passage appears in the extracted text.",
-            "",
-        ]
+        lines += [f"### {row['evidence_id']} — retrieval hint: {_md_text(row['category'])}", ""]
+        lines += passage(row, row["evidence_id"], "research", source=dossier["source"]["file_name"])
+        lines += ["This establishes only that the passage appears in the extracted text.", ""]
     lines += ["## Analyst interpretations and counterevidence", ""]
     if not dossier["reviewer_findings"] and not dossier.get("criteria_review"):
         lines += [
@@ -408,16 +405,16 @@ def render_markdown(dossier: dict) -> str:
         ]
     if dossier.get("criteria_review"):
         from laif_process_document import criteria_review_sections
-        lines += criteria_review_sections(dossier["criteria_review"])
+        lines += criteria_review_sections(dossier["criteria_review"], dossier["source"]["file_name"])
     for finding in dossier["reviewer_findings"]:
         lines += [
             f"### {_md_text(finding['finding_id'])} — {_md_text(finding['claim_type'])}",
             "",
             _md_text(finding["statement"]),
             "",
-            "- Supporting passages: " + ", ".join(finding["evidence_ids"]),
+            "- Supporting passages: " + evidence_links(finding["evidence_ids"], "research"),
             "- Potential counterevidence passages: " + (
-                ", ".join(finding["counterevidence_ids"]) or "none nominated; not proof of absence"),
+                evidence_links(finding["counterevidence_ids"], "research") or "none nominated; not proof of absence"),
             "- Alternative explanations: " + "; ".join(_md_text(x) for x in finding["alternative_explanations"]),
             "- Limits: " + _md_text(finding["limitations"]),
             "- Analyst (identity not authenticated): " + _md_text(finding["analyst_id"]),
@@ -425,6 +422,9 @@ def render_markdown(dossier: dict) -> str:
             "- Method-basis binding: " + _md_text(finding.get("method_basis_status", "not recorded in legacy dossier")),
             "",
         ]
+        for identity in dict.fromkeys(finding["evidence_ids"] + finding["counterevidence_ids"]):
+            item = next(row for row in evidence if row["evidence_id"] == identity)
+            lines += passage(item, identity, "research", source=dossier["source"]["file_name"], with_anchor=False)
     lines += ["## LAIF criteria coverage", "",
               "This records which criteria have analyst claims attached, not which criteria pass. Unmapped criteria remain NOT_ASSESSED. Pattern matches and filled fields do not certify substantive coherence or a deployment.", ""]
     for row in dossier.get("criteria_coverage", []):
