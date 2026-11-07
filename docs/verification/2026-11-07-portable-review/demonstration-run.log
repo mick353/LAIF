@@ -1,0 +1,15 @@
+Original input path: docs/verification/2026-11-07-portable-review/demonstration/vendor-policy.md
+Resolved input path: /workspace/scratch/a966521d6ca7/LAIF-consolidated/docs/verification/2026-11-07-portable-review/demonstration/vendor-policy.md
+Original file name: vendor-policy.md
+Processed at UTC: 2026-11-07T07:16:59Z
+Source SHA-256: e8e8475acaf9fa54846ceac6b0bc8f5728e26e6f5b52ce83613150a791079523
+Extractor used: builtin
+Extracted characters: 1287
+Assessment mode: external_framework
+Sector profile: procurement_vendor_governance
+Markdown report: ../portable-demonstration-output/vendor-policy.laif.md
+JSON report: ../portable-demonstration-output/vendor-policy.laif.json
+Institutional report: ../portable-demonstration-output/vendor-policy.institutional_report.md
+Technical appendix: ../portable-demonstration-output/vendor-policy.technical_appendix.md
+Analyst bundle: ../portable-demonstration-output/analyst/vendor-policy/analyst_bundle.json
+Processing index: ../portable-demonstration-output/laif_processing_index.jsonl

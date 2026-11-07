@@ -159,3 +159,17 @@ For external-framework single-document runs, `.laif.md` and `.institutional_repo
 Existing verified-corpus manifests are resolved only for their registered paths and matching hashes; the original PDF identity is checked where recorded. This reads an existing admission and does not create one. Arbitrary uploads remain authority-unverified. The two currently registered regulatory decision records are included only after report/framework/Toolkit/source identity and curated evidence references validate. Their analysis is explicitly attributed to its author, and not claimed as newly produced or independently validated by the processor. Sources without such a record receive evidence-linked review questions, not fabricated determinations.
 
 The technical appendix preserves raw rubric diagnostics and formal-channel boundaries. Unverified gaps are review questions, potential failure pathways are hypotheses, and suggested controls are conditional proposals rather than source-imposed duties. Scores and formal certification rules are unchanged. See the [executed report-quality verification and generated examples](../verification/2026-11-07-generated-report-quality/README.md).
+
+## Import a source-locked analyst review
+
+External-framework processing accepts `--review-file` using the existing scholarly annotation format. This supports arbitrary local documents; it does not require a new repository-specific regulatory decision record.
+
+1. Run `python3 scripts/laif_research_report.py /path/to/policy.md --output-dir /path/to/review`.
+2. Complete the generated `*.review_template.json`. Keep all source, evidence, framework, Toolkit and toolchain identities and the available evidence IDs. Add findings with attribution, supporting passages, alternatives, limitations and optional LAIF criterion IDs.
+3. Run `python3 scripts/laif_process_document.py /path/to/policy.md --extractor builtin --review-file /path/to/completed.review_template.json --output-dir /path/to/output`.
+
+For PDF/DOCX inputs use the matching local extractor and preserve identical extracted text. The processor checks source and method identities, the current exact evidence inventory and completed findings before writing outputs. Legacy unbound annotations, empty templates, altered inputs and extraction mismatches are rejected. Native certification cannot be overridden with this flag. A changed source, extraction or toolchain requires a new source-locked template and review.
+
+The report and JSON/analyst bundles retain the submitted findings, E-style evidence inventory, alternatives, limits and coverage. These are unverified analyst submissions. They do not grant source authority, establish independent review, turn attached claims into passing criteria or overwrite separately attributed repository analysis. Unmapped areas remain unassessed. No-write preview uses the same validated findings without writing files. The optional review is revalidated through the existing scholarly pipeline; ordinary runs retain their current path.
+
+See the [executed portable-review example and verification](../verification/2026-11-07-portable-review/README.md).
