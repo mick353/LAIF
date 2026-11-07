@@ -12,7 +12,7 @@
 
 ## Release and evidence checkpoint — 7 November 2026
 
-PR #103 is merged to `main` at `eb3300e15790702805403ccf39887f6c20eeb3ef` with the verified 535-test tree. DTA v2.1 and EU 2026/1744 source-scoped assessments were released through PR #100; DTA origin is human-attested, EU PDF identity is independently byte-matched. The original 2024 Act remains an original-edition source pending a complete substantive assessment. Running it in the processor does not change that status.
+PR #104 is merged to `main` at `ededd1b58afc56dbd06ad0b20f8793b3d1e79e3b` with the verified 555-test tree. DTA v2.1 and EU 2026/1744 source-scoped assessments were released through PR #100; DTA origin is human-attested, EU PDF identity is independently byte-matched. The original 2024 Act remains an original-edition source pending a complete substantive assessment. Running it in the processor does not change that status.
 
 The [whole-source reporting follow-up](docs/verification/2026-11-07-real-source-assurance/README.md) was released through PR #103. Its seven retained real documents and authored acceptance annotations are broader than the synthetic example, but are not independent field validation. See [uses and expansion opportunities](docs/product/USE_CASES.md).
 

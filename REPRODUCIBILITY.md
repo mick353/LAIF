@@ -235,3 +235,7 @@ The Phase 3B suite validates shared governance helpers, governance config valida
 The normal external report supports attributed analysis from registered source records and optional `--review-file` import for other local documents. A completed review is tied to source bytes, extracted text, exact evidence inventory, framework, Toolkit and toolchain. Claims remain attributed and unverified; unmapped criteria stay unassessed. Generate a fresh template after a source or method change.
 
 Whole-source retrieval records bounded, spatially distributed witnesses and counts. Structured rows retain column context and are not interpreted as completed questionnaire answers. A runtime integrity gate checks exact spans and evidence references before output writes. None of these checks establishes complete semantic coverage. See [the whole-source verification record](docs/verification/2026-11-07-real-source-assurance/README.md).
+
+## Criterion-review identity
+
+The optional substantive review binds source/evidence, framework, Toolkit and engine identities plus the dedicated criterion-protocol SHA-256. Curated C-style excerpts must match exact normalised-source spans. Changed source or protocol needs a fresh template and rechecked findings. Complete authored coverage is not a governance pass. The second-reader dossier hash includes every criterion and quotation. [Workflow](docs/governance/SUBSTANTIVE_REVIEW.md).

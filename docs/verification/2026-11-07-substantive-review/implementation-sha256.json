@@ -1,0 +1,9 @@
+{
+  "base_commit": "ededd1b58afc56dbd06ad0b20f8793b3d1e79e3b",
+  "files": {
+    "scripts/laif_criteria_review.py": "eb6ffd791a20928cbc712806edaa2d6a05a5043a014f5e8944aba3abd8377a50",
+    "scripts/laif_process_document.py": "99175cd7bcacd13ce63526bcaa47dcc138b09d910bee5529e390ff2a21f8a542",
+    "scripts/laif_research_report.py": "10299a898e564d8feb989a6f1f2ed1baadd998ae4c9b26025ebeaad6963eb39e",
+    "scripts/laif_research_review.py": "645d35805a4354e200bb7e767e1424d8a59684f774c04d3bfb9692c498fdad79"
+  }
+}

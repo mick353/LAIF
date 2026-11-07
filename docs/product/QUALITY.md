@@ -13,7 +13,7 @@ independence declarations cannot be authenticated by the tool.
 
 ## Current release and whole-source candidate
 
-PR #103 merged at `eb3300e15790702805403ccf39887f6c20eeb3ef`, matching its verified 535-test tree. The [whole-source reporting record](../verification/2026-11-07-real-source-assurance/README.md) covers all seven retained raw documents, 28 workflow CLI executions and source-specific acceptance annotations. Earlier counts below are dated evidence. The subsequent [control-evidence reporting pass](../verification/2026-11-07-control-evidence-reporting/README.md) is a separate candidate until merged; its final local gate passed 555 discovered tests plus additional checks. It adds readable evidence reviews and rejects ambiguous JSON across the assurance paths; actual policy-only and software-record cases abstain under the stronger operational-review gate.
+PR #104 merged at ededd1b58afc56dbd06ad0b20f8793b3d1e79e3b with its 555-test verified tree. The [substantive-review record](../verification/2026-11-07-substantive-review/README.md) records the next authored-assessment enhancement and its actual final execution results. Earlier counts below are dated evidence.
 
 The small synthetic sample tests workflow mechanics. It is insufficient to demonstrate interpretation quality across institutions. The wider curated corpus tests source formats and known reporting failures, but still does not measure independent accuracy or deployment outcomes.
 

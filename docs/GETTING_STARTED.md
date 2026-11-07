@@ -145,3 +145,7 @@ receipts and unauthenticated operational-review records. An explicit
 `--evidence-root /path/to/evidence` supports a manifest stored elsewhere; all
 referenced files must remain inside that root. Readability is not approval of
 the control or permission to deploy.
+
+## Authored all-criterion assessment
+
+Generate the scholarly template with --criteria-template, complete the source-linked reasoning, then import with --review-file and --require-complete-review. All eight criteria, Q1a/Q1b, applicability, alternatives and closing evidence are explicit. The gate checks coverage and source identity, not a governance pass. [Workflow and schema](governance/SUBSTANTIVE_REVIEW.md).

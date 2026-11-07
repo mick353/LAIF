@@ -120,3 +120,7 @@ rejected. Existing strict/readiness gates retain their meaning and exit status.
 A valid failure diagnostic can still be saved when a readiness gate returns 1.
 Ambiguous JSON, non-finite numbers and non-object input roots are rejected before
 interpretation. See [the evidence workflow](../governance/ASSURANCE_CALIBRATION.md).
+
+## Substantive criterion assessments
+
+Use the scholarly --criteria-template flag and complete its source-locked records. Import with the normal processor --review-file option; add --require-complete-review to require all eight criteria before writes. [Workflow, fields and second-reader targets](../governance/SUBSTANTIVE_REVIEW.md).
