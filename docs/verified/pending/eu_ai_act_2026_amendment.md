@@ -1,21 +1,35 @@
-# EU AI Act 2026 Amendment — Admission Pending
+# EU AI Act — Regulation 2026/1744 Deposited; Verification Pending
 
-**Checked:** 7 November 2026 (AEDT)  
-**Status:** `PENDING_SOURCE_ACQUISITION` for the 2026 amendment; no consolidated text admitted to the verified corpus  
-**Use:** Current-law research only after precise amendment, commencement and role applicability checks
+**As at:** 7 November 2026 (AEDT)  
+**Status:** `SOURCE_DEPOSITED_PENDING_VERIFICATION` for the amending regulation. This is **not** a verified consolidated text or completed legal assessment.
 
-## Source identities
+## Source custody
 
-- Base instrument: Regulation (EU) 2024/1689, OJ L 2024/1689, 12 July 2024. The original Official Journal PDF is preserved; draft PR [#90](https://github.com/mick353/LAIF/pull/90) separately proposes source verification and full-text extraction. Do not overwrite or merge its content implicitly.
-- Amending instrument: Regulation (EU) **2026/1744**, 8 July 2026, OJ L 2026/1744, 24 July 2026, on the Digital Omnibus for AI. [Official EUR-Lex record](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32026R1744).
-- Dated consolidated edition: **27 July 2026**, CELEX `02024R1689-20260727`. [EUR-Lex consolidation](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A02024R1689-20260727). A consolidation assists reading but is not a substitute for the binding original and amending OJ texts.
-- Related implementing act independently found: Commission Implementing Regulation (EU) **2026/1755**, 20 July 2026, OJ 21 July, addresses Commission evaluation proceedings and certain GPAI-model fines; [Official Journal](https://eur-lex.europa.eu/eli/reg_impl/2026/1755/oj/eng/pdf). This is a **separate** instrument, not a change to the base Act's text. Ingest only when the study's scope requires it.
+- Original instrument: Regulation (EU) 2024/1689, Official Journal 12 July 2024. Its separate original-source admission remains in draft [PR #90](https://github.com/mick353/LAIF/pull/90).
+- Amendment: Regulation (EU) **2026/1744** of 8 July 2026, published in Official Journal 24 July 2026, 41 pages.
+- Official ELI: http://data.europa.eu/eli/reg/2026/1744/oj
+- Repository PDF: [OJ_L_202601744_EN_TXT.pdf](../OJ_L_202601744_EN_TXT.pdf)
+- Acquisition: `HUMAN_GITHUB_DEPOSIT`, uploaded by repository owner to PR #98 on 7 November 2026.
+- Git blob SHA-1: `90143567e4272f0684cfeaca5af66836c6b0b11e`. **Not** a PDF SHA-256 or upstream-byte equivalence assertion.
+- EUR-Lex dated consolidated edition (not admitted): https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A02024R1689-20260727
+- Separate implementing regulation 2026/1755 is not included in this source deposit.
 
-## Admission and comparison
+## Source-specific checkpoints for legal review
 
-1. Obtain versioned original files from EUR-Lex/Official Journal via verifiable official origin. Preserve exact source bytes, source SHA-256 and acquisition metadata. Do not repin existing base-act evidence to newer text.
-2. Admit the amendment and, if used, the dated consolidated edition into distinct version-specific manifests and raw files with extraction boundary and text hashes; check high-value quotes against the originals.
-3. Produce an article-by-article *delta* limited to demonstrably amended text, with separate effective dates, transitional arrangements, legal roles and exceptions. Do not treat proposals or non-binding guidance as enacted law.
-4. Conduct new source-specific verification and a new explicitly dated analysis; retain old evidence and reports unchanged. Human legal interpretation required where the amendment is ambiguous.
+- Pages 16–17: Article 4 AI-literacy amendment and new Article 4a bias-detection personal-data processing provisions.
+- Pages 18–19: Article 5 prohibited-practices changes and Article 10 data-governance amendment.
+- Pages 26–33: AI Office supervision, investigation and enforcement provisions.
+- Page 35: Article 113 staggered application, including 2 December 2027 for Annex III high-risk systems and 2 August 2028 for Annex I high-risk systems; exceptions and transitional provisions must be analysed separately.
+- Pages 36–38: Annex XIV designation codes, including emerging AI technologies and agentic AI.
 
-**Unfilled fields:** acquired source bytes, SHA-256s, extraction records, article delta, applicability findings and assessment results. No legal change is asserted beyond the cited existence of Regulation (EU) 2026/1744.
+These are preliminary **source observations**, not an automated compliance determination. Do not conflate recitals, operative provisions, provider obligations, deployer obligations, commencement and exemptions.
+
+## Required next steps
+
+1. Retrieve the committed PDF bytes in a local checkout; compute SHA-256 and document acquisition/official-origin comparison.
+2. Ingest the amendment separately from the original Act and from any dated consolidation, with full-text extraction, extraction hash, page boundaries, quote checks, provenance manifest and evidence traces.
+3. Verify article-by-article amendments and commencement rules against the operative text, including exceptions, transition and actor-specific applicability.
+4. Run the local source validation and full LAIF verification suite.
+5. Produce a new source-scoped report and amendment delta with human legal review. Do not overwrite PR #90's original-source evidence or historical assessments.
+
+**Not yet completed:** SHA-256, extraction, verified manifest, evidence traces, local tests, legal delta and independent review.
