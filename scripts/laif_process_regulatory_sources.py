@@ -88,10 +88,9 @@ def main(argv=None) -> int:
         cmd = [sys.executable, str(ROOT / "scripts" / "laif_process_document.py"),
                str(assessed_input), "--extractor", extractor, "--mode", "external_framework",
                "--output-dir", str(target), "--source-type", "uploaded_document"]
-        if args.verified_text:
-            title, sector, source_type = CONTEXT[key]
-            cmd[-1] = source_type
-            cmd.extend(["--document-name", title, "--sector", sector])
+        title, sector, source_type = CONTEXT[key]
+        cmd[-1] = source_type
+        cmd.extend(["--document-name", title, "--sector", sector])
         completed = subprocess.run(cmd, cwd=ROOT, check=False)
         record = {"id": key, "repository_path": source.relative_to(ROOT).as_posix(),
                   "source_sha256": sha256(source), "source_bytes": source.stat().st_size,

@@ -4,6 +4,8 @@ This is an unmerged integration and assessment-quality candidate, not the canoni
 
 **Subsequent reasoning pass:** [the assessment follow-up](REASONING_REVIEW.md) corrects specific EU transition/citation issues, explicitly addresses the remaining two principles and adds source-bound authored findings. Its full gate passed **483 tests**; the curated evidence now contains **45 quotes and eight original-Act contextual passages**. The execution counts below preserve the earlier integration checkpoint.
 
+**Generated reporting follow-up:** [processor and report-quality repairs](../2026-11-07-generated-report-quality/README.md) now pass **496 tests**. This changes the actual output pipeline and includes fresh generated reports; it supersedes earlier descriptions of the automatic reporting defects.
+
 ## What the system can now do
 
 The candidate contains two separate, substantive, source-bounded assessments: [Australian DTA Policy v2.1](../2026-11-07/regulatory/au_dta_policy_v2_1.assessment.md) and [EU Regulation 2026/1744](../2026-11-07/regulatory/eu_ai_act_amendment_2026_1744.assessment.md). They assess the Integrity Layer, Q1a/Q1b, consistency, reversibility, self-application, changes and applicability. They recognise positive protections and identify the evidence needed to close specific gaps. Complete Coherence Test satisfaction is **not demonstrated** by the mapped evidence; that does not establish unlawful government conduct or operational failure.

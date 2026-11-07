@@ -1,0 +1,77 @@
+{
+  "scope": "Development acceptance on two known sources, not independent field accuracy",
+  "results": [
+    {
+      "source": "au_dta_policy_v2_1",
+      "source_sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+      "toolchain_fingerprint": "00aa209f1e2ef4e5",
+      "counts": {
+        "attributed_reasoning_status": "SOURCE_BOUND_AUTHOR_ANALYSIS",
+        "control_recommendation_count": 3,
+        "failure_pathway_count": 3,
+        "gap_count": 3,
+        "quote_bank_count": 11,
+        "source_control_observation_count": 6
+      },
+      "all_quote_and_control_offsets_exact": true,
+      "same_source_scores_and_functional_results_preserved": true,
+      "no_spurious_corpus_or_illustrative_classification": true,
+      "source_provenance": {
+        "authority_url": "https://www.digital.gov.au/sites/default/files/documents/2026-10/Policy%20for%20the%20responsible%20use%20of%20AI%20in%20government%202_1_1.pdf",
+        "boundary": "Existing repository provenance, not a new authority or current-law verification.",
+        "citation_status": "PRIMARY_CITABLE",
+        "document_id": "au_dta_policy_v2_1",
+        "manifest": "docs/verified/manifests/au_dta_policy_v2_1.json",
+        "pdf_sha256": "7da206ff9bb77c5c4505577ea2fd11367700b38f4ff8c4e4592501e95221e5c2",
+        "status": "RECORDED_MANIFEST_MATCH",
+        "verification_status": "HUMAN_ATTESTED_AUTHORITATIVE"
+      },
+      "artifacts": [
+        {
+          "path": "au_dta_policy_v2_1/au_dta_policy_v2_1.institutional_report.md",
+          "sha256": "52efb9e1b74fec1c1a33d18fe08dc64f790e9fd1326519cfee2f1d5109f2e332"
+        },
+        {
+          "path": "au_dta_policy_v2_1/au_dta_policy_v2_1.technical_appendix.md",
+          "sha256": "af3618233b8e83df230a9156c57b05fdde5c1c40f9077a1a0c17873b8f2c82dc"
+        }
+      ]
+    },
+    {
+      "source": "eu_ai_act_amendment_2026_1744",
+      "source_sha256": "dfcdbe4c3da4ce06f7b39bade40b4b08c132718352ef70b670ef8f163fb9a5b0",
+      "toolchain_fingerprint": "00aa209f1e2ef4e5",
+      "counts": {
+        "attributed_reasoning_status": "SOURCE_BOUND_AUTHOR_ANALYSIS",
+        "control_recommendation_count": 0,
+        "failure_pathway_count": 0,
+        "gap_count": 0,
+        "quote_bank_count": 10,
+        "source_control_observation_count": 7
+      },
+      "all_quote_and_control_offsets_exact": true,
+      "same_source_scores_and_functional_results_preserved": true,
+      "no_spurious_corpus_or_illustrative_classification": true,
+      "source_provenance": {
+        "authority_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32026R1744",
+        "boundary": "Existing repository provenance, not a new authority or current-law verification.",
+        "citation_status": "PRIMARY_CITABLE",
+        "document_id": "eu_ai_act_amendment_2026_1744",
+        "manifest": "docs/verified/manifests/eu_ai_act_amendment_2026_1744.json",
+        "pdf_sha256": "0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386",
+        "status": "RECORDED_MANIFEST_MATCH",
+        "verification_status": "AUTOMATED_VERIFIED"
+      },
+      "artifacts": [
+        {
+          "path": "eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.institutional_report.md",
+          "sha256": "e3ae50124c65859a00d351c43031502e15879529c1d1320afa283b56781dec5b"
+        },
+        {
+          "path": "eu_ai_act_amendment_2026_1744/eu_ai_act_amendment_2026_1744.technical_appendix.md",
+          "sha256": "f0b84040b94433d544c92402c893c69f5b52a4acd911438d7b22956e8295010b"
+        }
+      ]
+    }
+  ]
+}

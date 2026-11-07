@@ -361,7 +361,8 @@ If you are having difficulties with accessing this document, please email: suppo
             self.run_cli([str(nist), "--output-dir", str(nist_out), "--mode", "external_framework", "--sector", "auto"])
             self.run_cli([str(dtac), "--output-dir", str(dtac_out), "--mode", "external_framework", "--sector", "auto"])
             nist_report = next(nist_out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
-            self.assertIn("valuable as a governance design framework", nist_report)
+            self.assertIn("candidate control passages", nist_report)
+            self.assertNotIn("valuable as a governance design framework", nist_report)
             self.assertIn("Classified as `voluntary_risk_framework`", nist_report)
             self.assertNotIn("This document is assessed as an external governance source", nist_report)
             nist_controls = json.loads((self.analyst_dir(nist_out) / "control_recommendations.json").read_text(encoding="utf-8"))["control_recommendations"]
