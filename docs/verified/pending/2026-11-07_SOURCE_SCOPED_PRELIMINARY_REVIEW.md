@@ -8,8 +8,8 @@
 
 | Source | Repository PDF | Git blob SHA-1 | Status |
 |---|---|---|---|
-| DTA *Policy for the responsible use of AI in government*, v2.1 (26 pp.) | [PDF](../Policy%20for%20the%20responsible%20use%20of%20AI%20in%20government%202_1_1.pdf) | `6ef6a984c71e48d2ec3a39be9194c5f2ba85e1e4` | `SOURCE_DEPOSITED_PENDING_VERIFICATION` |
-| Regulation (EU) 2026/1744 (41 pp.) | [PDF](../OJ_L_202601744_EN_TXT.pdf) | `90143567e4272f0684cfeaca5af66836c6b0b11e` | `SOURCE_DEPOSITED_PENDING_VERIFICATION` |
+| DTA *Policy for the responsible use of AI in government*, v2.1 (26 pp.) | [PDF](../manual_ingest/Policy%20for%20the%20responsible%20use%20of%20AI%20in%20government%202_1_1.pdf) | `6ef6a984c71e48d2ec3a39be9194c5f2ba85e1e4` | `SOURCE_DEPOSITED_PENDING_VERIFICATION` |
+| Regulation (EU) 2026/1744 (41 pp.) | [PDF](../manual_ingest/OJ_L_202601744_EN_TXT.pdf) | `90143567e4272f0684cfeaca5af66836c6b0b11e` | `SOURCE_DEPOSITED_PENDING_VERIFICATION` |
 
 Git blob SHA-1 identifies a repository object; it is **not** the required original-file SHA-256 or evidence of upstream byte equivalence. No verified raw-text extraction, source-specific manifest, trace or fresh assessment has yet been generated.
 
