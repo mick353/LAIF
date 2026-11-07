@@ -96,17 +96,18 @@ A deployment must pass all three questions. Failure at Q1 constitutes automatic 
 
 ### The Integrity Layer (LAIF v1.2, Part Two)
 
-Three properties required as a **precondition of lawful deployment** — all must be satisfied simultaneously:
+Four properties required as a **precondition of lawful deployment** — all must be satisfied where applicable; calibration follows §2.5:
 
 - **A.1 Structural Transparency**: The system can produce, on request, a comprehensible account of the basis for its outputs, including confidence/uncertainty and material limitations.
 - **A.2 Structural Honesty**: Stated optimisation objectives correspond to actual implemented objectives. System performs consistently whether or not it is being evaluated.
 - **A.3 Structural Containment**: The system operates within documented operational boundaries in all tested conditions (including edge cases) and does not initiate materially irreversible actions without triggering the appropriate authorisation process.
+- **A.4 Structural Calibration**: Where §2.5 applies, expressed confidence corresponds to observed accuracy in comparable intended deployment contexts; documented empirical evidence is required.
 
 ### The Pre-Deployment Coherence Assessment (PDCA)
 
 The PDCA is the primary **operational instrument** of LAIF. It is a structured audit process applied before system deployment. It is structured into:
 
-- **Section A** — Integrity Layer Verification (A.1–A.3 above)
+- **Section A** — Integrity Layer Verification (A.1–A.4 above)
 - **Section B** — Coherence Test Documentation (Q1–Q3)
 - Additional sections assess specific provision compliance
 
@@ -124,7 +125,7 @@ LAIF uses standardised terminology throughout. AI assistants working in this rep
 |------|-----------|
 | **Coherence Test** | The three-question test (Coupling, Consistency, Reversibility) — always capitalised |
 | **PDCA** | Pre-Deployment Coherence Assessment — the operational audit instrument |
-| **Integrity Layer** | The three preconditions (Transparency, Honesty, Containment) |
+| **Integrity Layer** | The four properties (Transparency, Honesty, Containment, Calibration where §2.5 applies) |
 | **Coupling** | The structural pairing of a restriction with the human interest it protects |
 | **Provision** | A specific governance requirement derived from Foundational Principles (e.g. Provision A1, A2) |
 | **Operational Standard** | A Toolkit-level definition subordinate to Provisions |

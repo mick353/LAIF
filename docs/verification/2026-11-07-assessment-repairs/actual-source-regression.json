@@ -1,0 +1,132 @@
+{
+  "source_branch_commit": "476ac685b16579ebeb918423355178c518cacbcc",
+  "scope": "Actual canonical processing of the PR #98 reviewed DTA and EU text; unchanged scores and detector categories; repaired report boundaries. Not a new substantive legal or deployment assessment.",
+  "results": [
+    {
+      "document": "au_dta_policy_v2_1",
+      "source_text_sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+      "scores_and_detector_categories_preserved": {
+        "structural_score": 41,
+        "terminology_score": 0,
+        "conceptual_proximity_score": 65,
+        "auditability_score": 100,
+        "enforceability_score": 80,
+        "overall_readiness_score": 59,
+        "formal_laif_native_compliance": "FAIL",
+        "laif_alignment": "STRUCTURALLY UNALIGNED"
+      },
+      "integrity_requirements": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
+      "processor_date": "2026-11-07T04:51:35Z",
+      "toolchain_fingerprint": "189819907882e429",
+      "no_absence_or_clean_register_overclaim": true
+    },
+    {
+      "document": "eu_ai_act_amendment_2026_1744",
+      "source_text_sha256": "dfcdbe4c3da4ce06f7b39bade40b4b08c132718352ef70b670ef8f163fb9a5b0",
+      "scores_and_detector_categories_preserved": {
+        "structural_score": 74,
+        "terminology_score": 0,
+        "conceptual_proximity_score": 66,
+        "auditability_score": 100,
+        "enforceability_score": 100,
+        "overall_readiness_score": 72,
+        "formal_laif_native_compliance": "FAIL",
+        "laif_alignment": "STRUCTURALLY UNALIGNED"
+      },
+      "integrity_requirements": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
+      "processor_date": "2026-11-07T04:51:35Z",
+      "toolchain_fingerprint": "189819907882e429",
+      "no_absence_or_clean_register_overclaim": true
+    }
+  ]
+}

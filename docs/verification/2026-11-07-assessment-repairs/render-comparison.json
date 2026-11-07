@@ -1,0 +1,29 @@
+{
+  "framework": {
+    "pages": 47,
+    "changed_pages": [
+      "page-9.png",
+      "page-10.png",
+      "page-11.png"
+    ]
+  },
+  "toolkit": {
+    "pages": 18,
+    "changed_pages": [
+      "page-5.png",
+      "page-6.png",
+      "page-7.png",
+      "page-8.png",
+      "page-9.png",
+      "page-10.png",
+      "page-11.png",
+      "page-12.png",
+      "page-13.png",
+      "page-14.png",
+      "page-15.png",
+      "page-16.png",
+      "page-17.png",
+      "page-18.png"
+    ]
+  }
+}

@@ -1835,15 +1835,15 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
     # 1. Verdict — derived, never templated.
     verdict = {
         "FUNCTIONALLY ALIGNED": (
-            "This document already expresses the structural protections a governance "
-            "instrument needs, in its own vocabulary."),
+            "The current rules detect several structural protection signals in this "
+            "document’s own vocabulary; full adequacy requires source-based review."),
         "PARTIALLY ALIGNED": (
-            "This document carries part of the structural machinery a governance "
-            "instrument needs; the rest is absent rather than differently worded."),
+            "The current rules detect some structural governance signals in this "
+            "document; non-detection of other signals does not establish their absence."),
         "STRUCTURALLY UNALIGNED": (
-            "This document does not express the load-bearing governance structures in "
-            "any vocabulary — the gaps below are missing machinery, not missing "
-            "terminology."),
+            "The current rules did not establish the complete functional construct "
+            "patterns. These are detector limits requiring source review, not proof of "
+            "missing protection."),
     }.get(alignment, "This document's structural position requires reviewer confirmation.")
     if not assessment.get("english_language_readable", True):
         verdict = (
@@ -1854,10 +1854,10 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
 
     # 2. What that means for the people it governs.
     binding = {
-        "STRUCTURAL": "Its obligations are explicitly bound to the interests they protect.",
-        "FUNCTIONAL": "Its obligations are bound to the interests they protect, in the document's own words.",
-        "IMPLICIT": "It signals protective intent, but its obligations are not bound to any identifiable beneficiary.",
-        "ABSENT": "Its obligations are not tied to the people they are meant to protect.",
+        "STRUCTURAL": "Explicit pairing signals were detected; equivalent protective force requires review.",
+        "FUNCTIONAL": "Functional pairing signals were detected in the document's own words; adequacy requires review.",
+        "IMPLICIT": "Protective interests are signalled; the complete restriction-to-protection relationship requires source review.",
+        "ABSENT": "The detector did not establish the full restriction-to-protection relationship; absence of protection is not demonstrated.",
     }.get(coupling, "")
     if assessment.get("vocabulary_enumeration_risk") == "HIGH":
         binding = ("Whether its obligations are bound to the interests they protect "
@@ -2456,8 +2456,8 @@ def empty_register_meaning(assessment: dict) -> str:
             "obligation stated in another. For an instrument of this size, assess it "
             "section by section rather than reading an empty register as a clean one.")
     return (
-        "No unclosed expectation was detected: every governance expectation this "
-        "document creates has a corresponding control in the same document. This "
+        "No unclosed expectation was detected by the current rules. This does not establish that every expectation this "
+        "document creates has a corresponding control. This "
         "is a finding about the text, not a certificate of implementation — the "
         "controls still have to exist and operate in practice.")
 
@@ -2505,7 +2505,14 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
                   "limit. None of it is a finding about the document."]
     lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Document type:** {doc_type}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}"
         + (f" (auto-detected from: {processing.get('sector_basis')}; override with --sector)"
-           if processing.get("sector_basis") else ""), f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", f"- **Recommended use:** {assessment.get('recommended_use') or 'source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.'}", f"- **Limits:** {assessment.get('not_sufficient_for') or 'standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.'}", "- **In every case:** this is a reading of the document, not of the organisation. It cannot show whether the controls it describes are in place, current, or working.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", "## Key quoted evidence", ""]
+           if processing.get("sector_basis") else ""), f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", f"- **Recommended use:** {assessment.get('recommended_use') or 'source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.'}", f"- **Limits:** {assessment.get('not_sufficient_for') or 'standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.'}", "- **In every case:** this is a reading of the document, not of the organisation. It cannot show whether the controls it describes are in place, current, or working.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", ""]
+    lines += ["", "## Integrity Layer requirement signals", "",
+              "All four properties are listed. A matched phrase is not a substantive pass; a non-match is not proof of absence. Assess what the instrument requires separately from actual system behaviour. Calibration applies under LAIF section 2.5.", "",
+              "| Property | Source section | Detector observation |", "| --- | --- | --- |"]
+    for item in assessment.get("integrity_requirement_diagnostics", []):
+        lines.append(f"| {item['property']} | {item['source_section']} | {item['signal_status']} |")
+    lines += ["", "Substantive Coherence Test determination: source-based review required. Scores, terminology and gap registers do not provide that determination.", ""]
+    lines += ["", "## Key quoted evidence", ""]
     primary_quote_eligible = True if extraction_quality_profile is None else bool(extraction_quality_profile.get("primary_quote_eligible"))
     primary_quotes = _gate_passing_primary_quotes(quote_bank) if primary_quote_eligible else []
     if primary_quote_eligible:
@@ -2573,9 +2580,9 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
     lines += ["", "## Hidden failure pathways", ""]
     lines += ([("Failure pathway summaries below show how paperwork compliance can "
                 "proceed without live operational control.")] if pathways else
-              [("No failure pathway was traced: no expectation in this document was "
-                "left without a closing control, so there is no paperwork-compliance "
-                "route to trace from the text itself. Operational failure remains "
+              [("No failure pathway was generated. This does not establish that every expectation is "
+                "closed or that no paperwork-compliance "
+                "route exists. Operational failure also remains "
                 "possible through non-implementation, which this assessment cannot see.")])
     lines += [""]
     for pth in pathways:
@@ -2597,7 +2604,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         for ctrl in controls[:8]:
             lines.append(f"- **{ctrl['priority']} — {ctrl['control_id']}:** {ctrl['control_name']}; owner: {ctrl['owner']}; artifact: {ctrl['required_artifact']}")
     else:
-        lines.append("- No remediation is required to the document. Verify that the "
+        lines.append("- No specific remediation was generated. This is not evidence that no repair is needed. Review the source and verify whether "
                      "controls it already specifies are in place, current, and "
                      "evidenced.")
     lines += ["", "## Control implementation templates", ""]
@@ -2606,8 +2613,8 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         for ctrl in controls[:8]:
             lines.append(f"| {ctrl['control_id']} | {ctrl['owner']} | {ctrl['required_artifact']} | {ctrl['trigger']} | {ctrl['threshold']} | {ctrl['cadence']} | {ctrl['decision_consequence']} |")
     else:
-        lines.append("- No control template is issued: the document specifies its own "
-                     "controls, triggers, and thresholds. Use those as the implementation "
+        lines.append("- No control template was generated; this does not establish complete "
+                     "controls, triggers or thresholds. Use source-based review as the "
                      "baseline rather than substituting generic ones.")
     lines += ["", "## Residual risk if no action is taken", ""]
     lines += ([("The failure pathway is paperwork compliance without live operational "
@@ -2615,7 +2622,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
                 + _residual_risk_clause(gaps) + " Until those controls exist and are "
                 "current, a decision made on the strength of this document is not "
                 "governed by it.")] if gaps else
-              [("The residual risk is no longer in the drafting. It is in the gap between "
+              [("An empty register does not establish that drafting risks are closed. Review both the source requirements and the gap between "
                 "what this document requires and what is actually done: unevidenced "
                 "controls, lapsed reviews, and unrecorded exceptions. That gap is invisible "
                 "to a document assessment and must be tested against implementation records.")])
@@ -2650,7 +2657,8 @@ def build_technical_appendix(processing: dict, extraction: dict, assessment: dic
     _functional = assessment.get("functional_alignment", {}) or {}
     _substance_of = {"Structural Transparency": "Integrity Layer",
                      "Structural Honesty": "Integrity Layer",
-                     "Structural Containment": "Integrity Layer"}
+                     "Structural Containment": "Integrity Layer",
+                     "Structural Calibration": "Integrity Layer"}
     for _construct in sorted(set(_coverage) | set(_functional)):
         _form = "present" if _coverage.get(_construct) else "absent"
         _key = _substance_of.get(_construct, _construct)
@@ -2932,7 +2940,8 @@ def run(args: argparse.Namespace) -> int:
         basis = auto_sector_basis(extraction.text, used).get("basis", "")
         if basis:
             processing["sector_basis"] = basis
-    base_report = generate_markdown_report([assessment])
+    base_report = generate_markdown_report([assessment], report_date=processed_at[:10],
+                                           generation_command="python3 scripts/laif_process_document.py")
     markdown_report = markdown_metadata_block(processing, extraction_metadata, assessment) + base_report
     payload = {
         "processing_metadata": processing,

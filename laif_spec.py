@@ -101,13 +101,15 @@ CANONICAL_TERMS = {
 }
 
 # ── Integrity Layer component identifiers ────────────────────────────────────
-# Source: LAIF v1.2 Part Two — all three must be satisfied simultaneously.
+# Source: LAIF v1.2 §§2.1–2.5 and §9.4 — four properties, including
+# calibration where §2.5 applies. This registry does not alter scoring weights.
 # Partial satisfaction = full failure (threshold gate, not checklist).
 
 INTEGRITY_LAYER = {
     "A.1": "Structural Transparency",
     "A.2": "Structural Honesty",
     "A.3": "Structural Containment",
+    "A.4": "Structural Calibration",
 }
 
 # ── Coherence Test questions ──────────────────────────────────────────────────
