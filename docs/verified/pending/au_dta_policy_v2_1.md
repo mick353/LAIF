@@ -9,7 +9,7 @@
 - Policy text states v2.0 effective 15 December 2025; v2.1 minor updates published 21 October 2026 (page 6).
 - Official source: https://www.digital.gov.au/sites/default/files/documents/2026-10/Policy%20for%20the%20responsible%20use%20of%20AI%20in%20government%202_1_1.pdf
 - Acquisition channel: `HUMAN_GITHUB_DEPOSIT`, uploaded by repository owner to PR #98 on 7 November 2026.
-- Repository PDF: [Policy for the responsible use of AI in government 2_1_1.pdf](../Policy%20for%20the%20responsible%20use%20of%20AI%20in%20government%202_1_1.pdf)
+- Repository PDF: [Policy for the responsible use of AI in government 2_1_1.pdf](../manual_ingest/Policy%20for%20the%20responsible%20use%20of%20AI%20in%20government%202_1_1.pdf)
 - Git blob SHA-1: `6ef6a984c71e48d2ec3a39be9194c5f2ba85e1e4`. **Not** a PDF SHA-256 or upstream-byte equivalence assertion.
 - Historical v2.0: `docs/verified/manual_ingest/Policy for the responsible use of AI in Government 2.0_0.pdf`; protected `reports/laif_assessment_aus_ai_policy_v2.md`.
 
