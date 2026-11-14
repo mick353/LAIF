@@ -45,6 +45,22 @@ Use it to make a policy review more concrete, prepare better supplier questions,
 
 You need Git and Python 3. The published independent verification was executed on Python 3.12; the repository targets Python 3.10. Text and Markdown processing need no third-party packages or model API key.
 
+**Start with the guided local review** after cloning the repository. It uses the
+included synthetic policy by default, helps choose a report, shows what text
+was extracted and any warnings, then asks whether to save it:
+
+```bash
+git clone https://github.com/mick353/LAIF.git
+cd LAIF
+python3 scripts/laif_start.py
+```
+
+The evidence path gives source passages and open review questions; the internal
+diagnostic adds interpretive suggestions for expert review. The guide names the
+first report to read and the next action. Use `--inspect-only` to check extraction
+without writing outputs. On Windows, use `py -3 -X utf8` in place of `python3`.
+[Guided start options and limits](docs/GETTING_STARTED.md#guided-local-start).
+
 **For external scholarly, legal-policy or AI-safety audiences, use the
 source-bounded, non-promotional reporting path first.** It presents verified
 extracted-text matches and open review questions, while withholding
@@ -60,8 +76,6 @@ The more interpretive assessment runner below is primarily an internal
 diagnostic that needs human source, legal and operational review.
 
 ```bash
-git clone https://github.com/mick353/LAIF.git
-cd LAIF
 python3 scripts/laif_process_document.py docs/examples/vendor-policy.md --extractor builtin
 ```
 

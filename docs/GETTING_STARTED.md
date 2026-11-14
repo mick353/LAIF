@@ -2,6 +2,36 @@
 
 LAIF is a local Python toolkit. Start with its included synthetic document, inspect the outputs, then use a document you are authorised to review.
 
+## Guided local start
+
+From the repository root, run `python3 scripts/laif_start.py` (or
+`py -3 -X utf8 scripts/laif_start.py` on Windows). The guide starts with the
+synthetic policy when no source is supplied. Choose **evidence** to inspect
+source passages and open questions, or **internal** for an interpretive
+diagnostic that needs expert review. It displays the source hash, extractor,
+character count, extraction confidence, warnings and a short opening passage
+before asking whether to save a report.
+
+```bash
+python3 scripts/laif_start.py --inspect-only
+python3 scripts/laif_start.py /path/to/authorised-policy.md --task evidence --scope unknown
+python3 scripts/laif_start.py /path/to/authorised-policy.md --task internal
+```
+
+The guide prints the first report to open and the next review action. It saves
+each task in its own ignored folder under `laif_outputs/guided/`. If the chosen
+output folder contains any files or subfolders, choose a new `--output-dir`:
+the guide stops before replacing even a partial earlier run. For a
+non-interactive first run, add `--yes` after reviewing the chosen source and
+task. `--hide-excerpt` keeps the opening passage out of terminal output.
+
+Supported types are `.txt`, `.md`, `.markdown`, `.docx` and `.pdf`. Word and PDF
+need the optional local packages described below. Image-only PDFs need a
+separate authorised OCR process. The preview does not establish authoritative
+origin, complete coverage or legal applicability; inspect the original source.
+The direct commands below remain available for detailed options and review
+import.
+
 **For scholarly, regulator-facing or external AI-safety discussion**, start
 with the [research-neutral evidence review](research/SCHOLARLY_REPORTING.md).
 It preserves quotations, provenance and uncertainty without presenting LAIF's
