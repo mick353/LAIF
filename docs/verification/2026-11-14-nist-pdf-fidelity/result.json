@@ -1,0 +1,41 @@
+{
+  "assessed_supporting_sha256": "44ac320e6da1d15fcfded2933da7f62bf0ed552b78a81358102c057991ba6509",
+  "base_commit": "4f58bdb631d2c76836c8fdf48878104c3f49a685",
+  "categories": {
+    "matched_count": 19,
+    "missing_from_pdf": [],
+    "missing_from_raw": [],
+    "pdf_count": 19,
+    "raw_count": 19,
+    "unequal": []
+  },
+  "extractor": "pypdf",
+  "extractor_version": "6.18.0",
+  "pdf_pages": 48,
+  "pdf_sha256": "7576edb531d9848825814ee88e28b1795d3a84b435b4b797d3670eafdc4a89f1",
+  "prose_windows": {
+    "matched": 583,
+    "total": 585,
+    "unmatched": [
+      {
+        "alphanumeric_offset": 300,
+        "raw_line": 113
+      },
+      {
+        "alphanumeric_offset": 0,
+        "raw_line": 388
+      }
+    ],
+    "window_size": 100
+  },
+  "raw_markdown_sha256": "44ac320e6da1d15fcfded2933da7f62bf0ed552b78a81358102c057991ba6509",
+  "schema": "laif.nist-pdf-fidelity.v1",
+  "subcategories": {
+    "matched_count": 72,
+    "missing_from_pdf": [],
+    "missing_from_raw": [],
+    "pdf_count": 72,
+    "raw_count": 72,
+    "unequal": []
+  }
+}
