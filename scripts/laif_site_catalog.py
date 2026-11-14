@@ -118,7 +118,7 @@ def import_submission(root: Path, package: Path, acknowledge: bool) -> dict:
             raise ValueError('Assessment must name an immutable engine revision.')
     folder = Path('docs/site/submissions') / sha[:20]
     source_path = folder / ('source.pdf' if has_binary else 'source.md')
-    destination = checked_path(root, str(source_path))
+    destination = checked_path(root, source_path.as_posix())
     # Validation is complete before any source, proposal, or index write.
     destination.parent.mkdir(parents=True, exist_ok=False)
     destination.write_bytes(data)
@@ -126,14 +126,14 @@ def import_submission(root: Path, package: Path, acknowledge: bool) -> dict:
     item = {'id': 'contributed-'+sha[:20], 'name': title.strip(), 'organisation': 'Source contributor',
             'fileName': source_path.name, 'version': source.get('version') or 'Unspecified',
             'scope': source.get('scope') or 'unknown', 'sourceUrl': source.get('declared_source_url') or '',
-            'repoPath': str(source_path), 'sha256': sha, 'lifecycle': 'active',
+            'repoPath': source_path.as_posix(), 'sha256': sha, 'lifecycle': 'active',
             'status': 'Contributed source · origin unverified', 'origin': 'canonical',
             'reviewStatus': 'PROPOSED_SOURCE_NOT_VERIFIED_CORPUS',
             'manifest': {'verification_status': 'HASH_VERIFIED_LOCAL_ONLY', 'citation_status': 'NOT_ESTABLISHED',
                          'provenance_notes': 'Owner-authorised source proposal. Repository inclusion is not authoritative-origin admission, legal validation or a canonical assessment.'}}
     index['sources'].append(item)
     (root / INDEX).write_text(json.dumps(index, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
-    return {'status': 'proposal_imported', 'source_id': item['id'], 'sha256': sha, 'source_path': str(source_path),
+    return {'status': 'proposal_imported', 'source_id': item['id'], 'sha256': sha, 'source_path': source_path.as_posix(),
             'assessment_status': 'Proposed records retained in proposal.json; not promoted to canonical reports.'}
 
 

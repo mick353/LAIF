@@ -8,6 +8,7 @@ NOTICE text eol=lf
 *.txt text eol=lf
 *.json text eol=lf
 *.jsonl text eol=lf
+*.log text eol=lf
 *.yml text eol=lf
 *.yaml text eol=lf
 *.svg text eol=lf
