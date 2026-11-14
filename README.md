@@ -169,7 +169,7 @@ The core toolkit is a local Python command-line workflow with generated reports.
 
 ## Source discovery and website contributions
 
-The [website source index](docs/site/source-index.json) describes sixteen retained source/framework documents with 39 verified exact quotation witnesses. The [contribution bridge](docs/site/README.md) imports explicitly authorised source proposals without admitting them to the verified corpus or promoting proposed analyses into canonical reports.
+The [website source index](docs/site/source-index.json) describes sixteen retained source/framework documents with 39 verified exact quotation witnesses. The [contribution bridge](docs/site/README.md) imports explicitly authorised source proposals without admitting them to the verified corpus or promoting proposed analyses into canonical reports. The [product and Site readiness programme](docs/product/PRODUCT_READINESS_2026-11.md) tracks the guided review journey, usability and hosted acceptance still to be delivered.
 
 ## Explore further
 

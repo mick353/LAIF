@@ -48,21 +48,24 @@ measured superiority over another assurance method.
 
 ## The next quality step
 
-The highest-value next step is an independent comparison study using unfamiliar
-real documents, including strong controls, ambiguous provisions, templates and
-contradictory evidence. Freeze the cases and scoring protocol before reviewers
-see results. Compare LAIF-assisted review with a checklist and ordinary keyword
-search. Measure missed protections, unsupported findings, review time and whether
-a non-specialist can find the supporting evidence. Record disagreements before
-adjudication. Existing study tooling supports this work; no such study has yet
-established LAIF's accuracy or advantage.
+Complete and test one source-to-decision journey for a policy owner or governance
+reviewer across the local toolkit and the Site. Guide intake, extraction review,
+finding decisions, source context, save/resume and a concise export. Observe
+intended users on the actual build, then repair the failures they encounter.
+The [product and Site readiness programme](PRODUCT_READINESS_2026-11.md) records
+the work, owners and acceptance checks. Existing software and authored-fixture
+tests are useful regression evidence; they do not establish first-use quality.
 
-Run it on local source files without paid model APIs or GitHub Actions. Add live
-system evidence only as a separately scoped test. Do not replace the framework
-or change thresholds to make a benchmark score look better.
+An independent comparison study remains a later research gate. When the product
+and task definition stabilise, freeze unfamiliar real documents, reviewers,
+baselines and metrics before seeing results. Compare LAIF-assisted review with
+a checklist and ordinary keyword search, and report disagreement, missed
+protections, unsupported findings, review time and uncertainty. Existing study
+tooling supports this work; no study has established LAIF's accuracy or advantage.
 
 [Product overview](OVERVIEW.md) · [Method](METHOD.md) · [Quality](QUALITY.md) ·
 [Whole-source verification](../verification/2026-11-07-real-source-assurance/README.md) ·
+[Product and Site readiness](PRODUCT_READINESS_2026-11.md) ·
 [Independent-study runbook](../review/INDEPENDENT_STUDY_OPERATIONS.md)
 
 The [all-criterion review workflow](../governance/SUBSTANTIVE_REVIEW.md) supports authored determinations for any local source, with explicit Q1a/Q1b, applicability and curated evidence, an optional coverage gate and second-reader targets. It does not automate validation of the substantive reasoning.
