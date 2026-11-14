@@ -15,7 +15,13 @@ PYTHON = sys.executable
 
 def run(*command: str, env: dict | None = None) -> None:
     print("CHECK:", " ".join(command), flush=True)
-    child_env = {**(env if env is not None else os.environ), "PYTHONIOENCODING": "utf-8"}
+    # Windows can otherwise decode UTF-8 reports and captured subprocess output
+    # with the system code page (for example cp1252), breaking the local gate.
+    child_env = {
+        **(env if env is not None else os.environ),
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+    }
     subprocess.run(command, cwd=ROOT, env=child_env, check=True)
 
 

@@ -1,5 +1,6 @@
 """Readable policy-to-evidence reports and strict JSON ingestion boundaries."""
 import copy
+import hashlib
 import json
 import os
 import subprocess
@@ -182,10 +183,20 @@ class AssuranceReportingTests(AssuranceFixture):
 
     def test_actual_release_records_are_not_action_receipts(self):
         path = ROOT / 'docs/verification/2026-11-07-control-evidence-reporting/actual-release-records.manifest.json'
-        result = assess_assurance(read_json_object(path.read_text()), ROOT, strict_scope=True, strict_actions=True)
+        manifest = read_json_object(path.read_text(encoding='utf-8'))
+        result = assess_assurance(manifest, ROOT, strict_scope=True, strict_actions=True)
         row = result['controls'][0]
         self.assertEqual(row['original_status'], 'REVIEW_READY')
-        self.assertEqual(row['status'], 'EXECUTION_UNTESTED')
+        # This historical release record pins its verifier bytes. A later
+        # verifier edit must invalidate that source in the current checkout;
+        # it must not rewrite the historical manifest or create an action receipt.
+        pinned = next(item['sha256'] for item in manifest['source_inventory']
+                      if item['id'] == 'verifier')
+        actual = hashlib.sha256((ROOT / 'scripts/laif_verify.py').read_bytes()).hexdigest()
+        self.assertEqual(row['status'], 'EXECUTION_UNTESTED' if actual == pinned else 'SOURCE_INVALID')
         self.assertEqual(row['evidence_grade'], 'DECLARED_TEST_RECORDS')
         self.assertFalse(row['execution_cases'])
-        self.assertTrue(all(s['validation_status'] == 'EXACT_SOURCE_CHECKED' for s in result['source_inventory']))
+        statuses = {item['id']: item['validation_status'] for item in result['source_inventory']}
+        self.assertEqual(statuses['verifier'], 'EXACT_SOURCE_CHECKED' if actual == pinned else 'NOT_ESTABLISHED')
+        self.assertTrue(all(status == 'EXACT_SOURCE_CHECKED' for source_id, status in statuses.items()
+                            if source_id != 'verifier'))
