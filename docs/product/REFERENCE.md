@@ -2,6 +2,10 @@
 
 Use this guide for the implemented local workflow. Start with [Getting started](../GETTING_STARTED.md) if you are running LAIF for the first time.
 
+The optional [guided local start](../GETTING_STARTED.md#guided-local-start)
+previews extraction and runs one of the existing report paths without changing
+their scoring, source identities or review boundaries.
+
 ## Document processing
 
 ```bash
