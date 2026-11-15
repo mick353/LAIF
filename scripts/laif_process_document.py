@@ -205,6 +205,12 @@ def extract_document(path: Path, extractor: str = "auto") -> ExtractionResult:
         raise ExtractionError(f"Input file does not exist or is not a regular file: {path}")
 
     suffix = path.suffix.lower()
+    # Keep format support independent of whichever optional parsers are installed.
+    if suffix not in BUILTIN_EXTENSIONS | {".docx", ".pdf"}:
+        raise ExtractionError(
+            f"Unsupported file type {suffix or '<none>'}; supported types are "
+            ".txt, .md, .markdown, .docx and .pdf."
+        )
     explicit_extractors = {
         "builtin": extract_builtin,
         "docling": extract_docling,

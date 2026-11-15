@@ -102,6 +102,27 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
             self.assertNotEqual(completed.returncode, 0)
             self.assertIn("Unsupported file type", completed.stderr)
 
+    def test_unsupported_extension_never_reaches_installed_optional_parsers(self):
+        import types
+        fake = types.ModuleType("markitdown")
+        class MarkItDown:
+            def convert(self, path):
+                return types.SimpleNamespace(text_content=STRONG_EXTERNAL_TEXT)
+        fake.MarkItDown = MarkItDown
+        with tempfile.TemporaryDirectory() as td, patch.dict(sys.modules, {"markitdown": fake}):
+            for suffix in (".unsupported", ".html", ""):
+                path = Path(td) / ("policy" + suffix)
+                path.write_text(STRONG_EXTERNAL_TEXT, encoding="utf-8")
+                for mode in ("auto", "markitdown", "docling"):
+                    with self.subTest(suffix=suffix, mode=mode), patch.object(runner, "extract_docling") as docling:
+                        with self.assertRaisesRegex(runner.ExtractionError, "Unsupported file type"):
+                            runner.extract_document(path, mode)
+                        docling.assert_not_called()
+            supported = Path(td) / "policy.PDF"
+            supported.write_text(STRONG_EXTERNAL_TEXT, encoding="utf-8")
+            result = runner.extract_document(supported, "markitdown")
+            self.assertEqual(result.text, STRONG_EXTERNAL_TEXT)
+
     def test_optional_extractor_degradation_or_skip_if_not_installed(self) -> None:
         optional = {
             "docling": "docling",

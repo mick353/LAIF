@@ -42,6 +42,10 @@ The runner supports:
 
 The runner never performs network calls and never performs silent OCR. Extraction is local-only and must produce non-empty text above a safe minimum character threshold before assessment proceeds.
 
+Supported extensions are `.txt`, `.md`, `.markdown`, `.docx` and `.pdf`
+(case-insensitive), checked before any parser in both automatic and explicit
+modes. Installing an optional parser does not expand this allowlist.
+
 Extraction support:
 
 1. Built-in extractor for `.txt`, `.md`, and `.markdown` files.
