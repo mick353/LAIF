@@ -59,6 +59,29 @@ class DocumentProcessingRunnerTests(unittest.TestCase):
         self.assertIn("--no-write", completed.stdout)
         self.assertTrue(hasattr(runner, "extract_document"))
 
+    def test_synthetic_policy_report_does_not_infer_contractual_force_from_type(self) -> None:
+        source = REPO_ROOT / "docs" / "examples" / "vendor-policy.md"
+        with tempfile.TemporaryDirectory() as td:
+            out = Path(td) / "report"
+            self.run_cli([str(source), "--extractor", "builtin", "--output-dir", str(out)])
+            report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
+            self.assertIn("Example supplier AI governance policy", report)
+            self.assertIn("Heuristic document-type suggestion: `procurement_assessment_form`", report)
+            self.assertIn("**Heuristic document type (review required):** procurement_assessment_form", report)
+            self.assertIn("A policy that mentions procurement is not necessarily a procurement form or a contract", report)
+            self.assertIn("## Governance force still to establish", report)
+            self.assertIn("does not establish legal, contractual or institutional force", report)
+            self.assertNotIn("force arises through contract conditions", report)
+            self.assertIn("## Positive wording detected in supplied document", report)
+            self.assertNotIn("## What the document controls well", report)
+            appendix = next(out.glob("*.technical_appendix.md")).read_text(encoding="utf-8")
+            self.assertIn("raw heuristic fields", appendix)
+            self.assertIn("not verification of the source's form", appendix)
+            committed = (REPO_ROOT / "docs" / "examples" / "sample-assessment.md").read_text(encoding="utf-8")
+            without_date = lambda value: re.sub(r"^\*\*Report date:\*\* \d{4}-\d{2}-\d{2}$",
+                                                "**Report date:** <run date>", value, flags=re.M)
+            self.assertEqual(without_date(report), without_date(committed))
+
     def test_txt_extraction_builtin(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             path = Path(td) / "sample.txt"
@@ -366,7 +389,7 @@ If you are having difficulties with accessing this document, please email: suppo
                 control["control_name"],
                 expected or runner._CONTROL_NAME_BY_GAP[gap["gap_type"]],
                 f"control name does not correspond to gap {gap['gap_type']}")
-        self.assertIn("high-force legal source", runner.executive_thesis(eu_result, eu_gaps, eu_controls))
+        self.assertIn("If this is a current binding legal instrument", runner.executive_thesis(eu_result, eu_gaps, eu_controls))
 
     def test_phase_3x_executive_finding_and_document_specific_controls(self) -> None:
         nist_text = "AI Risk Management Framework voluntary non-sector-specific use-case agnostic govern map measure manage trustworthy AI. Organizations should document risks, assign accountability, monitor AI systems, review outcomes, manage incidents, and maintain evidence of risk management activities."
@@ -384,7 +407,7 @@ If you are having difficulties with accessing this document, please email: suppo
             nist_report = next(nist_out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
             self.assertIn("candidate control passages", nist_report)
             self.assertNotIn("valuable as a governance design framework", nist_report)
-            self.assertIn("Classified as `voluntary_risk_framework`", nist_report)
+            self.assertIn("Heuristic document-type suggestion: `voluntary_risk_framework`", nist_report)
             self.assertNotIn("This document is assessed as an external governance source", nist_report)
             nist_controls = json.loads((self.analyst_dir(nist_out) / "control_recommendations.json").read_text(encoding="utf-8"))["control_recommendations"]
             dtac_controls = json.loads((self.analyst_dir(dtac_out) / "control_recommendations.json").read_text(encoding="utf-8"))["control_recommendations"]
@@ -1430,7 +1453,7 @@ If you are having difficulties with accessing this document, please email: suppo
 
             report = next(out.glob("*.institutional_report.md")).read_text(encoding="utf-8")
             key_section = report.split("## Key quoted evidence", 1)[1].split("## Extracted evidence requiring source verification", 1)[0]
-            verification_section = report.split("## Extracted evidence requiring source verification", 1)[1].split("## What the document controls well", 1)[0]
+            verification_section = report.split("## Extracted evidence requiring source verification", 1)[1].split("## Positive wording detected in supplied document", 1)[0]
             self.assertIn(clean_primary, key_section)
             self.assertIn(useful_damaged, verification_section)
             self.assertNotIn(weak_scrap, report)
