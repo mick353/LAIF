@@ -2,6 +2,21 @@
 
 LAIF is a local Python toolkit. Start with its included synthetic document, inspect the outputs, then use a document you are authorised to review.
 
+## Choose a route
+
+For a single document in a browser, use the owner-private **LAIF Research
+Workspace**: open the private link supplied to you, try its synthetic example,
+upload or paste an authorised source, inspect extraction and quotations,
+decide which passages to keep, reject or investigate, then download and check
+the brief before sharing it. The **local toolkit** below keeps inputs and
+outputs on your computer and also supports specialist and batch work. Keep
+private material in the authorised workspace and out of public GitHub.
+
+The Site has its own source catalogue, pinned assessment runtime and live
+acceptance checks. Browser save, reload, PDF, phone and accessibility checks
+remain in the [product and Site readiness programme](product/PRODUCT_READINESS_2026-11.md).
+A local report is not a live Site result.
+
 ## Guided local start
 
 From the repository root, run `python3 scripts/laif_start.py` (or
@@ -25,6 +40,16 @@ output folder contains any files or subfolders, choose a new `--output-dir`:
 the guide stops before replacing even a partial earlier run. For a
 non-interactive first run, add `--yes` after reviewing the chosen source and
 task. `--hide-excerpt` keeps the opening passage out of terminal output.
+
+Read a saved evidence run in this order: **source and extraction status**,
+**exact candidate passages**, **provisional eight-criterion documentary
+judgments**, **your passage dispositions**, then **remaining evidence and
+next action**. The rules assess explicit wording only. `NOT_ESTABLISHED` means
+the scan did not find enough explicit wording for that check; it does not prove
+that a safeguard is absent or a law was breached. A positive label does not
+show the described control is operating. The candidate review records whether
+a passage is useful, irrelevant, needs evidence or is outside scope; it does
+not fill the separate attributed substantive criterion review.
 
 Supported types are `.txt`, `.md`, `.markdown`, `.docx` and `.pdf`. Word and PDF
 need the optional local packages described below. Image-only PDFs need a

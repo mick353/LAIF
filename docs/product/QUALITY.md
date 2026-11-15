@@ -11,9 +11,20 @@ local unit-test discovery. Independent construct validation and real-world
 classification error rates remain unmeasured; reviewer identities and
 independence declarations cannot be authenticated by the tool.
 
-## Current release and whole-source candidate
+## Current verification boundary and historical release evidence
 
-PR #104 merged at ededd1b58afc56dbd06ad0b20f8793b3d1e79e3b with its 555-test verified tree. The [substantive-review record](../verification/2026-11-07-substantive-review/README.md) records the next authored-assessment enhancement: 578 tests and all additional gates passed in a fresh cloud Python 3.13.18 clone, with 23 focused tests and pinned PDF reproduction. Earlier counts below are dated evidence.
+Check the current `main` revision and run the local verifier before describing
+the present release. The private Research Workspace has a separately pinned
+runtime and deployment; repository tests cannot verify its live save, export,
+phone or assistive-technology journey. Track those checks in the
+[product and Site readiness programme](PRODUCT_READINESS_2026-11.md).
+
+Historically, PR #104 merged at ededd1b58afc56dbd06ad0b20f8793b3d1e79e3b
+with its 555-test verified tree. The
+[substantive-review record](../verification/2026-11-07-substantive-review/README.md)
+records a later authored-assessment enhancement: 578 tests and all additional
+gates passed in a fresh cloud Python 3.13.18 clone, with 23 focused tests and
+pinned PDF reproduction. These are dated checkpoints, not the current gate.
 
 The small synthetic sample tests workflow mechanics. It is insufficient to demonstrate interpretation quality across institutions. The wider curated corpus tests source formats and known reporting failures, but still does not measure independent accuracy or deployment outcomes.
 

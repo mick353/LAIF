@@ -24,11 +24,37 @@ See [uses across fields and expansion opportunities](USE_CASES.md) for concrete 
 
 ## What a review produces
 
-The internal diagnostic report gives a readable executive finding, quoted
-evidence, strengths, gaps and next actions. Supporting outputs include a
-technical appendix, quote bank, governance gap register, failure pathways,
-control recommendations and structured JSON. Automatically inferred gaps are
-**not legal or operational findings by default**.
+For a single document, an authorised user can open the owner-private **LAIF
+Research Workspace**, upload or paste the source, inspect quotations beside
+proposed judgments, decide which passages to keep, reject or investigate, and
+download a brief with the remaining questions. Use the private access link
+provided to you. The **local Python toolkit** is useful for files, specialist
+reviews and batches, with reports saved on your computer. The Site has its own
+versioned catalogue and assessment runtime; its live acceptance checks remain
+in the [product and Site readiness programme](PRODUCT_READINESS_2026-11.md).
+
+For the local first-use path, [guided start](../GETTING_STARTED.md) previews
+extraction and produces a research report, evidence JSON and an empty human
+review template. It can then open a resumable candidate-passage review. The
+separate internal diagnostic produces an institutional report, technical
+appendix, quote bank, gap register, proposed controls and structured JSON.
+Both paths retain original-source identity; neither automatically validates
+the source's authority or a control's real-world operation.
+
+Read the outputs in this order:
+
+| Reader question | What to inspect | What to do |
+|---|---|---|
+| **What the document wording supports** | Original file, extraction warnings and exact quoted passages | Confirm the quotation and its surrounding context in the original. |
+| **What remains unestablished** | Scope and provenance limits; provisional documentary judgments; counterevidence and exceptions | Treat `NOT_ESTABLISHED` as insufficient wording found by this scan, not proof of an absent safeguard or legal breach. Positive wording does not prove implementation. |
+| **What to check next** | Passage decisions, owner records and unresolved questions | Keep, reject or request more evidence for a passage; make any substantive criterion determination in a separate attributed author review. |
+
+These passage decisions are recorded as **operator dispositions** for a
+**candidate passage**.
+The eight **provisional documentary judgments** are automatic rule-based
+inferences about supplied wording. An **author review** is a separate human
+assessment. None is a legal or operational verdict merely because it appears
+in a report or export.
 
 For research publication or regulator-facing analysis, use the
 [neutral scholarly reporting path](../research/SCHOLARLY_REPORTING.md).
@@ -45,7 +71,11 @@ A reviewer can supply a [source-bound substantive assessment](../governance/SUBS
 
 LAIF does not depend on a particular AI model or provider. Its core text and Markdown workflow runs locally in Python without a model API key. The tool produces its own structured diagnostic outputs; you may use the analyst bundle with an assistant of your choice for further work.
 
-The product is a command-line toolkit with generated reports. Word and PDF extraction use optional local packages. It does not require a hosted account, GitHub Actions or an external model service to analyse text documents.
+The local toolkit works without a hosted account, GitHub Actions or an external
+model service for text documents. Word and PDF extraction use optional local
+packages. The separate private Site requires authorised browser access and has
+its own deployment and acceptance record; local test results do not establish
+the live Site's behaviour.
 
 ## The assessment method
 

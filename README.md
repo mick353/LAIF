@@ -61,6 +61,12 @@ first report to read and the next action. Use `--inspect-only` to check extracti
 without writing outputs. On Windows, use `py -3 -X utf8` in place of `python3`.
 [Guided start options and limits](docs/GETTING_STARTED.md#guided-local-start).
 
+Authorised users can also use the separately versioned, owner-private **LAIF
+Research Workspace** in a browser. It has its own source catalogue, pinned
+assessment runtime and live acceptance checks. [Choose the Site or local
+route](docs/GETTING_STARTED.md#choose-a-route); a repository test or local
+report does not verify a Site session.
+
 **For external scholarly, legal-policy or AI-safety audiences, use the
 source-bounded, non-promotional reporting path first.** It presents verified
 extracted-text matches and open review questions, while withholding
