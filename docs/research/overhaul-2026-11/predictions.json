@@ -1,0 +1,306 @@
+{
+  "schema": "laif.exploratory-preregistration.v1",
+  "author": "Codex",
+  "tier": "exploratory model-authored predictions; not Mick assurance, independent validation or ground truth",
+  "baseline": "362a5be054a1c0cb64b95e00316b2ee3775a6c08",
+  "limitations": [
+    "Existing DTA/NIST reviews and prior corpus reports have been seen: this is not blinded or a held-out sample.",
+    "NIST and OECD retain HASH_VERIFIED_LOCAL_ONLY status. Strong/weak refer only to expected operational detail, not legal merit.",
+    "Ombudsman March 2025 official PDF download was blocked by Cloudflare; no bytes admitted. Current NSW AIAF is a platform; no superseded PDF substituted.",
+    "Eight criterion determinations are authored inputs. Automatic output is expected to leave them unassessed. Agreement with these predictions cannot be computed from imported copies."
+  ],
+  "documents": [
+    {
+      "id": "nist",
+      "path": "docs/verified/raw/5f667a6f-NIST.AI.1001.md",
+      "sha256": "44ac320e6da1d15fcfded2933da7f62bf0ed552b78a81358102c057991ba6509",
+      "mode": "external_framework",
+      "expected_criteria": {
+        "A.1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for an affected-person explanation with uncertainty and limits; disclosure alone is incomplete."
+        },
+        "A.2": {
+          "result": "NOT_ESTABLISHED",
+          "rationale": "A policy promise cannot demonstrate correspondence between stated objectives and actual behaviour."
+        },
+        "A.3": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for limits, intervention and authorisation requirements; operation remains untested."
+        },
+        "A.4": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for empirical confidence/accuracy requirements and applicability; none is a measured deployment result."
+        },
+        "Q1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for a specific protected interest paired with the restriction and equivalent enforceability."
+        },
+        "Q2": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for smallest-actor and general-application reasoning with justified exceptions."
+        },
+        "Q3": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for revision, decommissioning and a procedure for irreversible decisions."
+        },
+        "G.1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for review and challenge applying to governance actors themselves."
+        }
+      }
+    },
+    {
+      "id": "oecd",
+      "path": "docs/verified/raw/51a29205-OECD_Legal_Instruments.md",
+      "sha256": "f35d85747b59c41424858536b566c3c66d0782e4d0036a1c3f6244ed5f259fe6",
+      "mode": "external_framework",
+      "expected_criteria": {
+        "A.1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for an affected-person explanation with uncertainty and limits; disclosure alone is incomplete."
+        },
+        "A.2": {
+          "result": "NOT_ESTABLISHED",
+          "rationale": "A policy promise cannot demonstrate correspondence between stated objectives and actual behaviour."
+        },
+        "A.3": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for limits, intervention and authorisation requirements; operation remains untested."
+        },
+        "A.4": {
+          "result": "NOT_ESTABLISHED",
+          "rationale": "Look for empirical confidence/accuracy requirements and applicability; none is a measured deployment result."
+        },
+        "Q1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for a specific protected interest paired with the restriction and equivalent enforceability."
+        },
+        "Q2": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for smallest-actor and general-application reasoning with justified exceptions."
+        },
+        "Q3": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for revision, decommissioning and a procedure for irreversible decisions."
+        },
+        "G.1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for review and challenge applying to governance actors themselves."
+        }
+      }
+    },
+    {
+      "id": "dta",
+      "path": "docs/verified/raw/au_dta_policy_v2_1.md",
+      "sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+      "mode": "external_framework",
+      "expected_criteria": {
+        "A.1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for an affected-person explanation with uncertainty and limits; disclosure alone is incomplete."
+        },
+        "A.2": {
+          "result": "NOT_ESTABLISHED",
+          "rationale": "A policy promise cannot demonstrate correspondence between stated objectives and actual behaviour."
+        },
+        "A.3": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for limits, intervention and authorisation requirements; operation remains untested."
+        },
+        "A.4": {
+          "result": "NOT_ESTABLISHED",
+          "rationale": "Look for empirical confidence/accuracy requirements and applicability; none is a measured deployment result."
+        },
+        "Q1": {
+          "result": "NOT_ESTABLISHED",
+          "rationale": "Look for a specific protected interest paired with the restriction and equivalent enforceability."
+        },
+        "Q2": {
+          "result": "NOT_ESTABLISHED",
+          "rationale": "Look for smallest-actor and general-application reasoning with justified exceptions."
+        },
+        "Q3": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for revision, decommissioning and a procedure for irreversible decisions."
+        },
+        "G.1": {
+          "result": "NOT_ESTABLISHED",
+          "rationale": "Look for review and challenge applying to governance actors themselves."
+        }
+      }
+    },
+    {
+      "id": "eu",
+      "path": "docs/verified/raw/eu_ai_act_2024_1689.md",
+      "sha256": "7fb1ae279b6353a9da6bf7dd82218f3cfb2329cc1f9f1512aa269bc4985fe697",
+      "mode": "external_framework",
+      "expected_criteria": {
+        "A.1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for an affected-person explanation with uncertainty and limits; disclosure alone is incomplete."
+        },
+        "A.2": {
+          "result": "NOT_ESTABLISHED",
+          "rationale": "A policy promise cannot demonstrate correspondence between stated objectives and actual behaviour."
+        },
+        "A.3": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for limits, intervention and authorisation requirements; operation remains untested."
+        },
+        "A.4": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for empirical confidence/accuracy requirements and applicability; none is a measured deployment result."
+        },
+        "Q1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for a specific protected interest paired with the restriction and equivalent enforceability."
+        },
+        "Q2": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for smallest-actor and general-application reasoning with justified exceptions."
+        },
+        "Q3": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for revision, decommissioning and a procedure for irreversible decisions."
+        },
+        "G.1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for review and challenge applying to governance actors themselves."
+        }
+      }
+    },
+    {
+      "id": "laif",
+      "path": "LAIF_v1.2.txt",
+      "sha256": "c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407",
+      "mode": "laif_native_certification",
+      "expected_criteria": {
+        "A.1": {
+          "result": "SUPPORTED_IN_SCOPE",
+          "rationale": "Look for an affected-person explanation with uncertainty and limits; disclosure alone is incomplete. Native framework text can support its own documentary design; that is a circular positive control, not operational proof."
+        },
+        "A.2": {
+          "result": "SUPPORTED_IN_SCOPE",
+          "rationale": "A policy promise cannot demonstrate correspondence between stated objectives and actual behaviour. Native framework text can support its own documentary design; that is a circular positive control, not operational proof."
+        },
+        "A.3": {
+          "result": "SUPPORTED_IN_SCOPE",
+          "rationale": "Look for limits, intervention and authorisation requirements; operation remains untested. Native framework text can support its own documentary design; that is a circular positive control, not operational proof."
+        },
+        "A.4": {
+          "result": "SUPPORTED_IN_SCOPE",
+          "rationale": "Look for empirical confidence/accuracy requirements and applicability; none is a measured deployment result. Native framework text can support its own documentary design; that is a circular positive control, not operational proof."
+        },
+        "Q1": {
+          "result": "SUPPORTED_IN_SCOPE",
+          "rationale": "Look for a specific protected interest paired with the restriction and equivalent enforceability. Native framework text can support its own documentary design; that is a circular positive control, not operational proof."
+        },
+        "Q2": {
+          "result": "SUPPORTED_IN_SCOPE",
+          "rationale": "Look for smallest-actor and general-application reasoning with justified exceptions. Native framework text can support its own documentary design; that is a circular positive control, not operational proof."
+        },
+        "Q3": {
+          "result": "SUPPORTED_IN_SCOPE",
+          "rationale": "Look for revision, decommissioning and a procedure for irreversible decisions. Native framework text can support its own documentary design; that is a circular positive control, not operational proof."
+        },
+        "G.1": {
+          "result": "SUPPORTED_IN_SCOPE",
+          "rationale": "Look for review and challenge applying to governance actors themselves. Native framework text can support its own documentary design; that is a circular positive control, not operational proof."
+        }
+      }
+    },
+    {
+      "id": "clinical",
+      "path": "LAIF_PDCA_GPT4_Clinical.txt",
+      "sha256": "f66bb72a82b3a447db9e35b15818f349019dd86fc886a9a2593c676b588c5836",
+      "mode": "laif_native_certification",
+      "expected_criteria": {
+        "A.1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for an affected-person explanation with uncertainty and limits; disclosure alone is incomplete."
+        },
+        "A.2": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "A policy promise cannot demonstrate correspondence between stated objectives and actual behaviour."
+        },
+        "A.3": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for limits, intervention and authorisation requirements; operation remains untested."
+        },
+        "A.4": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for empirical confidence/accuracy requirements and applicability; none is a measured deployment result."
+        },
+        "Q1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for a specific protected interest paired with the restriction and equivalent enforceability."
+        },
+        "Q2": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for smallest-actor and general-application reasoning with justified exceptions."
+        },
+        "Q3": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for revision, decommissioning and a procedure for irreversible decisions."
+        },
+        "G.1": {
+          "result": "PARTIAL_SUPPORT",
+          "rationale": "Look for review and challenge applying to governance actors themselves."
+        }
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "left": "nist",
+      "right": "oecd",
+      "metric": "auditability_score",
+      "relation": "greater"
+    },
+    {
+      "left": "nist",
+      "right": "oecd",
+      "metric": "enforceability_score",
+      "relation": "greater"
+    },
+    {
+      "left": "nist",
+      "right": "oecd",
+      "metric": "overall_readiness_score",
+      "relation": "greater"
+    },
+    {
+      "left": "laif",
+      "right": "oecd",
+      "metric": "terminology_score",
+      "relation": "greater"
+    }
+  ],
+  "mutations": [
+    {
+      "id": "remove_accountable_role",
+      "start": "GOVERN 2.1:",
+      "end": "GOVERN 2.2:",
+      "target": "auditability_score",
+      "expected": "decrease; other five-dimension scores unchanged",
+      "criterion_hypothesis": "G.1"
+    },
+    {
+      "id": "remove_deactivation_authority",
+      "start": "MANAGE 2.4:",
+      "end": " |",
+      "target": "enforceability_score",
+      "expected": "decrease; other five-dimension scores unchanged",
+      "criterion_hypothesis": "A.3/Q3"
+    },
+    {
+      "id": "remove_incident_response",
+      "start": "MANAGE 4.3:",
+      "end": " |",
+      "target": "enforceability_score",
+      "expected": "decrease; other five-dimension scores unchanged",
+      "criterion_hypothesis": "A.3"
+    }
+  ]
+}
