@@ -90,6 +90,24 @@ countervailing provisions, definitions, exceptions and surrounding instruments.
 Document the findings that *support* the source as carefully as possible
 deficiencies. Do not confuse absence of a keyword with absence of a duty.
 
+For a resumable **author triage** of these candidate passages, run:
+
+~~~bash
+python3 scripts/laif_review_session.py /path/to/the.research_data.json /path/to/the-original-source.md --analyst "Your name or ID"
+~~~
+
+The review records an explicit relevance disposition and note per passage,
+autosaves after each decision, and skips completed passages on resume. Use
+`--summary` for a read-only progress view, `--revisit` to correct a decision,
+and `--summary --export /path/to/new-review.md` to save a labelled human
+reading copy without replacing an existing file. Blank or skipped candidates
+remain unresolved. The saved review binds exact dossier bytes, original and
+extracted source identity, evidence inventory and method hashes. Changed inputs
+require a new dossier and human recheck. Candidate triage is not an analyst
+finding and is not imported as one; substantive claims still use the separate
+source-locked template below. The second-reader protocol in Pass 4 is separate
+and still requires actual independent reviewers.
+
 ### Pass 3 — Interpretation, competing explanations and falsification
 
 Populate a copy of the generated `*.review_template.json` with a `findings`

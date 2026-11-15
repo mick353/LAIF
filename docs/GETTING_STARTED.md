@@ -32,6 +32,26 @@ origin, complete coverage or legal applicability; inspect the original source.
 The direct commands below remain available for detailed options and review
 import.
 
+### Resume a source-bound evidence review
+
+After an **evidence** run, use the printed Evidence JSON path and the same
+original source to review candidate passages one at a time:
+
+```bash
+python3 scripts/laif_review_session.py /path/to/run.research_data.json /path/to/authorised-policy.md --analyst "Your name or ID"
+```
+
+Each explicit passage decision needs a note and is saved immediately beside
+the dossier as `*.candidate_review.json`. Repeating the command resumes at
+unreviewed passages. `--summary` shows decisions without prompting;
+`--revisit` allows corrections, and `--summary --export /path/to/new-review.md`
+creates a labelled reading copy. Use `py -3 -X utf8` instead of `python3` on
+Windows. Keep private review files outside the public repository or in the
+ignored output folder. A source, extraction, evidence inventory or method
+change stops resume until a new dossier is generated and decisions are checked
+again. This triage does not fill the separate substantive analyst template or
+decide any LAIF criterion.
+
 **For scholarly, regulator-facing or external AI-safety discussion**, start
 with the [research-neutral evidence review](research/SCHOLARLY_REPORTING.md).
 It preserves quotations, provenance and uncertainty without presenting LAIF's
