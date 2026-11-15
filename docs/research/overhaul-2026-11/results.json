@@ -1,0 +1,496 @@
+{
+  "author": "Codex",
+  "comparison_expectations_met": 3,
+  "comparisons": [
+    {
+      "expectation_met": false,
+      "left": "nist",
+      "left_actual": 80,
+      "metric": "auditability_score",
+      "relation": "greater",
+      "right": "oecd",
+      "right_actual": 80
+    },
+    {
+      "expectation_met": true,
+      "left": "nist",
+      "left_actual": 80,
+      "metric": "enforceability_score",
+      "relation": "greater",
+      "right": "oecd",
+      "right_actual": 40
+    },
+    {
+      "expectation_met": true,
+      "left": "nist",
+      "left_actual": 64,
+      "metric": "overall_readiness_score",
+      "relation": "greater",
+      "right": "oecd",
+      "right_actual": 53
+    },
+    {
+      "expectation_met": true,
+      "left": "laif",
+      "left_actual": 95,
+      "metric": "terminology_score",
+      "relation": "greater",
+      "right": "oecd",
+      "right_actual": 0
+    }
+  ],
+  "documents": {
+    "clinical": {
+      "actual_authored_criteria": null,
+      "agreement_with_eight_criterion_predictions": null,
+      "integrity_signals": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 5107,
+          "matched_text": "produce, on request, a comprehensible account",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": 5062
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 7925,
+          "matched_text": "stated optimisation objectives must correspond",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": 7879
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 10801,
+          "matched_text": "surface out-of-scope",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": 10781
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 6056,
+          "matched_text": "Confidence and uncertainty quantification | In standard deployment configurations, the system does not produce calibrated",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": 5935
+        }
+      ],
+      "mode": "laif_native_certification",
+      "reason": "No authored review supplied. Diagnostic scores do not compute the eight authored determinations.",
+      "scores": {
+        "auditability_score": 80,
+        "conceptual_proximity_score": 50,
+        "enforceability_score": 100,
+        "overall_readiness_score": 76,
+        "structural_score": 63,
+        "terminology_score": 95
+      },
+      "source_sha256": "f66bb72a82b3a447db9e35b15818f349019dd86fc886a9a2593c676b588c5836",
+      "substantive_determination": "REQUIRES_SOURCE_BASED_REVIEW"
+    },
+    "dta": {
+      "actual_authored_criteria": null,
+      "agreement_with_eight_criterion_predictions": null,
+      "integrity_signals": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
+      "mode": "external_framework",
+      "reason": "No authored review supplied. Diagnostic scores do not compute the eight authored determinations.",
+      "scores": {
+        "auditability_score": 100,
+        "conceptual_proximity_score": 65,
+        "enforceability_score": 80,
+        "overall_readiness_score": 59,
+        "structural_score": 41,
+        "terminology_score": 0
+      },
+      "source_sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+      "substantive_determination": "REQUIRES_SOURCE_BASED_REVIEW"
+    },
+    "eu": {
+      "actual_authored_criteria": null,
+      "agreement_with_eight_criterion_predictions": null,
+      "integrity_signals": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 93744,
+          "matched_text": "meaningful information",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": 93722
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
+      "mode": "external_framework",
+      "reason": "No authored review supplied. Diagnostic scores do not compute the eight authored determinations.",
+      "scores": {
+        "auditability_score": 100,
+        "conceptual_proximity_score": 100,
+        "enforceability_score": 100,
+        "overall_readiness_score": 78,
+        "structural_score": 74,
+        "terminology_score": 0
+      },
+      "source_sha256": "7fb1ae279b6353a9da6bf7dd82218f3cfb2329cc1f9f1512aa269bc4985fe697",
+      "substantive_determination": "REQUIRES_SOURCE_BASED_REVIEW"
+    },
+    "laif": {
+      "actual_authored_criteria": null,
+      "agreement_with_eight_criterion_predictions": null,
+      "integrity_signals": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 14485,
+          "matched_text": "produce a meaningful account",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": 14457
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 16066,
+          "matched_text": "stated optimisation objectives do not correspond",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": 16018
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 15811,
+          "matched_text": "confidence not supported by its calibrated",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": 15769
+        }
+      ],
+      "mode": "laif_native_certification",
+      "reason": "No authored review supplied. Diagnostic scores do not compute the eight authored determinations.",
+      "scores": {
+        "auditability_score": 100,
+        "conceptual_proximity_score": 92,
+        "enforceability_score": 100,
+        "overall_readiness_score": 98,
+        "structural_score": 100,
+        "terminology_score": 95
+      },
+      "source_sha256": "c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407",
+      "substantive_determination": "REQUIRES_SOURCE_BASED_REVIEW"
+    },
+    "nist": {
+      "actual_authored_criteria": null,
+      "agreement_with_eight_criterion_predictions": null,
+      "integrity_signals": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 71665,
+          "matched_text": "meaningful information",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": 71643
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
+      "mode": "external_framework",
+      "reason": "No authored review supplied. Diagnostic scores do not compute the eight authored determinations.",
+      "scores": {
+        "auditability_score": 80,
+        "conceptual_proximity_score": 92,
+        "enforceability_score": 80,
+        "overall_readiness_score": 64,
+        "structural_score": 56,
+        "terminology_score": 0
+      },
+      "source_sha256": "44ac320e6da1d15fcfded2933da7f62bf0ed552b78a81358102c057991ba6509",
+      "substantive_determination": "REQUIRES_SOURCE_BASED_REVIEW"
+    },
+    "oecd": {
+      "actual_authored_criteria": null,
+      "agreement_with_eight_criterion_predictions": null,
+      "integrity_signals": [
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": 7482,
+          "matched_text": "meaningful\ninformation",
+          "property": "Structural Transparency",
+          "property_id": "A.1",
+          "signal_status": "DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.1",
+          "start_char": 7460
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Honesty",
+          "property_id": "A.2",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.2",
+          "start_char": null
+        },
+        {
+          "applicability": "Assess instrument requirements separately from deployment behaviour",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Containment",
+          "property_id": "A.3",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.3",
+          "start_char": null
+        },
+        {
+          "applicability": "Section 2.5 trigger must be established",
+          "determination": "NOT_ASSESSED_BY_PATTERN_MATCHING",
+          "end_char": null,
+          "matched_text": "",
+          "property": "Structural Calibration",
+          "property_id": "A.4",
+          "signal_status": "NOT_DETECTED_REQUIRES_REVIEW",
+          "source_section": "2.5",
+          "start_char": null
+        }
+      ],
+      "mode": "external_framework",
+      "reason": "No authored review supplied. Diagnostic scores do not compute the eight authored determinations.",
+      "scores": {
+        "auditability_score": 80,
+        "conceptual_proximity_score": 84,
+        "enforceability_score": 40,
+        "overall_readiness_score": 53,
+        "structural_score": 49,
+        "terminology_score": 0
+      },
+      "source_sha256": "f35d85747b59c41424858536b566c3c66d0782e4d0036a1c3f6244ed5f259fe6",
+      "substantive_determination": "REQUIRES_SOURCE_BASED_REVIEW"
+    }
+  },
+  "eight_criterion_agreement": null,
+  "limits": [
+    "Existing DTA/NIST reviews and prior corpus reports have been seen: this is not blinded or a held-out sample.",
+    "NIST and OECD retain HASH_VERIFIED_LOCAL_ONLY status. Strong/weak refer only to expected operational detail, not legal merit.",
+    "Ombudsman March 2025 official PDF download was blocked by Cloudflare; no bytes admitted. Current NSW AIAF is a platform; no superseded PDF substituted.",
+    "Eight criterion determinations are authored inputs. Automatic output is expected to leave them unassessed. Agreement with these predictions cannot be computed from imported copies."
+  ],
+  "mutation_expectations_met": 0,
+  "mutations": [
+    {
+      "criterion_determination_delta": null,
+      "criterion_hypothesis": "G.1",
+      "end": "GOVERN 2.2:",
+      "end_char": 58636,
+      "expectation_met": false,
+      "expected": "decrease; other five-dimension scores unchanged",
+      "id": "remove_accountable_role",
+      "mutated_text_sha256": "c515e5100e1cb3ea207050b557ea58b6eb14ae9806f8f5f949f92247eba0e290",
+      "removed_quote": "GOVERN 2.1: Roles and responsibilities and lines of communication related to mapping, measuring, and managing AI risks are documented and are clear to individuals and teams throughout the organization.",
+      "score_deltas": {
+        "auditability_score": 0,
+        "conceptual_proximity_score": 0,
+        "enforceability_score": 0,
+        "overall_readiness_score": 0,
+        "structural_score": 0,
+        "terminology_score": 0
+      },
+      "start": "GOVERN 2.1:",
+      "start_char": 58435,
+      "target": "auditability_score"
+    },
+    {
+      "criterion_determination_delta": null,
+      "criterion_hypothesis": "A.3/Q3",
+      "end": " |",
+      "end_char": 80557,
+      "expectation_met": false,
+      "expected": "decrease; other five-dimension scores unchanged",
+      "id": "remove_deactivation_authority",
+      "mutated_text_sha256": "0eef3763c37cef9f3d1a0a48841e45f026da44842f66606e6125872ba11be318",
+      "removed_quote": "MANAGE 2.4: Mechanisms are in place and applied, and responsibilities are assigned and understood, to supersede, disengage, or deactivate AI systems that demonstrate performance or outcomes inconsistent with intended use.",
+      "score_deltas": {
+        "auditability_score": 0,
+        "conceptual_proximity_score": 0,
+        "enforceability_score": 0,
+        "overall_readiness_score": 0,
+        "structural_score": 0,
+        "terminology_score": 0
+      },
+      "start": "MANAGE 2.4:",
+      "start_char": 80336,
+      "target": "enforceability_score"
+    },
+    {
+      "criterion_determination_delta": null,
+      "criterion_hypothesis": "A.3",
+      "end": " |",
+      "end_char": 81868,
+      "expectation_met": false,
+      "expected": "decrease; other five-dimension scores unchanged",
+      "id": "remove_incident_response",
+      "mutated_text_sha256": "5e4b55b95ecb614e56e187b471b6e6938f7660bfb999fbd0dfc94f7404e873c0",
+      "removed_quote": "MANAGE 4.3: Incidents and errors are communicated to relevant AI actors, including affected communities. Processes for tracking, responding to, and recovering from incidents and errors are followed and documented.",
+      "score_deltas": {
+        "auditability_score": 0,
+        "conceptual_proximity_score": 0,
+        "enforceability_score": 0,
+        "overall_readiness_score": 0,
+        "structural_score": 0,
+        "terminology_score": 0
+      },
+      "start": "MANAGE 4.3:",
+      "start_char": 81655,
+      "target": "enforceability_score"
+    }
+  ],
+  "prediction_sha256": "7b17f5955edbe4558d0eaacae044002e72c87c81c3e553474983463b9747f962",
+  "schema": "laif.exploratory-comparison.v1",
+  "toolchain_fingerprint": "d61e2f00a3a2f0b4",
+  "ws1_acceptance": "NOT_ESTABLISHED"
+}
