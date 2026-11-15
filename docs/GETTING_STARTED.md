@@ -54,7 +54,11 @@ python3 scripts/laif_review_session.py /path/to/run.research_data.json /path/to/
 
 Each explicit passage decision needs a note and is saved immediately beside
 the dossier as `*.candidate_review.json`. Repeating the command resumes at
-unreviewed passages. `--summary` shows decisions without prompting;
+unreviewed passages. Each prompt shows passage progress and the extracted-text
+line so you can find its context. Invalid choices and empty notes keep you on
+the same passage; use `s` to skip or `q` to stop. Skipping a previously saved
+decision during `--revisit` preserves it. No review file is created until the
+first decision and note are saved. `--summary` shows decisions without prompting;
 `--revisit` allows corrections, and `--summary --export /path/to/new-review.md`
 creates a labelled reading copy. Use `py -3 -X utf8` instead of `python3` on
 Windows. Keep private review files outside the public repository or in the
