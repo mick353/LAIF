@@ -62,7 +62,7 @@ class GuidedStartTests(unittest.TestCase):
             self.assertEqual(payload["source"]["source_scope"], "excerpt")
             self.assertEqual(payload["source"]["source_sha256"],
                              hashlib.sha256(SAMPLE.read_bytes()).hexdigest())
-            self.assertEqual(payload["status"], "EVIDENCE_INVENTORY_ONLY")
+            self.assertEqual(payload["status"], "AUTOMATIC_DOCUMENTARY_DRAFT")
             self.assertIn("Open the Research report named above", run.stdout)
             self.assertIn("Human review template", run.stdout)
             templates[0].write_text("edited review", encoding="utf-8")

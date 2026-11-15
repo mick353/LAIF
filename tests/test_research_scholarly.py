@@ -34,7 +34,7 @@ class ScholarTests(unittest.TestCase):
     def test_inventories_are_source_bounded_and_sha_locked(self) -> None:
         d = self.dossier
         self.assertEqual(d["schema"], researcher.SCHEMA)
-        self.assertEqual(d["status"], "EVIDENCE_INVENTORY_ONLY")
+        self.assertEqual(d["status"], "AUTOMATIC_DOCUMENTARY_DRAFT")
         self.assertEqual(d["source"]["source_sha256"],
                          hashlib.sha256(SOURCE.read_bytes()).hexdigest())
         self.assertEqual(d["source"]["source_scope"], "excerpt")

@@ -2944,6 +2944,9 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         lines.append(executive_thesis(assessment, gaps, controls))
     else:
         lines.append(native_executive_thesis(assessment, gaps, controls))
+    if assessment.get("automatic_criteria"):
+        from scripts.laif_auto_criteria import markdown as automatic_markdown
+        lines += ["", *automatic_markdown(assessment["automatic_criteria"])]
     if "source_provenance" in assessment:
         provenance = assessment["source_provenance"]
         lines += ["", "## Source provenance", "",
@@ -3230,6 +3233,8 @@ def prepare_report_materials(processing: dict, extraction: dict, assessment: dic
         low_confidence_quote_candidates, processing, extraction,
         admitted_quotes=_gate_passing_primary_quotes(quote_bank))
     extraction_quality_profile = build_extraction_quality_profile(extracted_text, extraction, quote_bank, verification_required_evidence, low_confidence_quote_candidates)
+    from scripts.laif_auto_criteria import judge
+    assessment["automatic_criteria"] = judge(extracted_text, evidence_eligible=bool(extraction_quality_profile.get("primary_quote_eligible")))
     gaps = build_governance_gap_register(assessment, quote_bank)
     pathways = build_failure_pathways(gaps, quote_bank)
     controls = build_control_recommendations(gaps, pathways, quote_bank)
