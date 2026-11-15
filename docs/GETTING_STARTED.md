@@ -15,6 +15,7 @@ before asking whether to save a report.
 ```bash
 python3 scripts/laif_start.py --inspect-only
 python3 scripts/laif_start.py /path/to/authorised-policy.md --task evidence --scope unknown
+python3 scripts/laif_start.py /path/to/authorised-policy.md --task evidence --review-now
 python3 scripts/laif_start.py /path/to/authorised-policy.md --task internal
 ```
 
@@ -31,6 +32,16 @@ separate authorised OCR process. The preview does not establish authoritative
 origin, complete coverage or legal applicability; inspect the original source.
 The direct commands below remain available for detailed options and review
 import.
+
+After saving an evidence report, the interactive guide offers to review its
+candidate passages immediately. `--review-now` enters that review directly
+after report generation; `--analyst "Your name or ID"` supplies the required
+self-reported attribution. Each explicit decision and note is saved as it is
+made. The guide prints an exact resume command using the new Evidence JSON and
+the original source. Run that command to continue; running the guide again
+against the same output folder stops to protect all generated and authored
+files. `--yes` skips the report-save prompt but enters review only when
+`--review-now` is also supplied.
 
 ### Resume a source-bound evidence review
 
