@@ -114,6 +114,52 @@ class ReviewSessionTests(unittest.TestCase):
         self.assertEqual(resumed.returncode, 2)
         self.assertEqual(self.session.read_bytes(), partial)
 
+    def test_invalid_choice_and_empty_note_retry_same_passage(self):
+        result = self.call("--analyst", "reviewer-1",
+                           input_text="typo\na\n\nn\nNeed supporting records\nq\n")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        saved = json.loads(self.session.read_text(encoding="utf-8"))
+        self.assertEqual(list(saved["decisions"]), ["E001"])
+        self.assertEqual(saved["decisions"]["E001"]["decision"], "NEEDS_EVIDENCE")
+        self.assertIn("Passage 1/", result.stdout)
+        self.assertIn("Extracted-text line:", result.stdout)
+
+    def test_quit_without_decision_never_claims_a_saved_file(self):
+        result = self.call("--analyst", "reviewer-1", input_text="q\n")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertFalse(self.session.exists())
+        self.assertNotIn("Saved review:", result.stdout)
+        self.assertIn("No review file saved", result.stdout)
+
+    def test_revisit_skip_preserves_decision_and_sanitizes_terminal_note(self):
+        first = self.call("--analyst", "reviewer-1", input_text="a\nInspect \x1b[2J context\nq\n")
+        self.assertEqual(first.returncode, 0, first.stderr)
+        original = self.session.read_bytes()
+        revisited = self.call("--revisit", input_text="s\nq\n")
+        self.assertEqual(revisited.returncode, 0, revisited.stderr)
+        self.assertNotIn("\x1b", revisited.stdout)
+        self.assertEqual(self.session.read_bytes(), original)
+
+    def test_export_created_by_another_writer_is_preserved(self):
+        import contextlib
+        import io
+        from unittest.mock import patch
+        from scripts import laif_review_session as reviewer
+
+        export = self.root / "concurrent.md"
+        original_open = Path.open
+
+        def competing_open(path, mode="r", *args, **kwargs):
+            if path == export and mode == "x":
+                with original_open(path, "w", encoding="utf-8") as handle:
+                    handle.write("Other writer's work")
+            return original_open(path, mode, *args, **kwargs)
+
+        with patch.object(Path, "open", competing_open), contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            result = reviewer.run([str(self.dossier), str(self.source), "--summary", "--export", str(export)])
+        self.assertEqual(result, 2)
+        self.assertEqual(export.read_text(encoding="utf-8"), "Other writer's work")
+
     def test_orphaned_temporary_save_does_not_replace_last_complete_session(self):
         first = self.call("--analyst", "reviewer-1", input_text="a\nCheck context\nq\n")
         self.assertEqual(first.returncode, 0, first.stderr)

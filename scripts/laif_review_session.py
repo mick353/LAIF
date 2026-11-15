@@ -223,27 +223,32 @@ def run(argv: list[str] | None = None) -> int:
                     raise ReviewError("Analyst attribution is required")
                 session = {"schema": SCHEMA, **identity, "analyst_id": analyst,
                            "created_at_utc": _now(), "updated_at_utc": _now(), "decisions": {}}
-            for row in dossier["evidence"]:
+            for position, row in enumerate(dossier["evidence"], start=1):
                 eid = row["evidence_id"]
                 if eid in session["decisions"] and not args.revisit:
                     continue
-                print(f"\n{eid} — {row['category']}")
+                print(f"\nPassage {position}/{len(dossier['evidence'])} — {_safe_excerpt(eid)} — {_safe_excerpt(row['category'])}")
+                print(f"  Extracted-text line: {row.get('extracted_line', 'unknown')}")
                 print("  " + _safe_excerpt(row["exact_quote"]))
                 if eid in session["decisions"]:
                     old = session["decisions"][eid]
-                    print(f"  Saved: {old['decision']} — {old['note']}")
-                print("  a=accept for review; r=irrelevant; n=needs evidence; o=outside scope")
-                choice = input("Decision [s=skip, q=quit]: ").strip().lower()
+                    print(f"  Saved: {old['decision']} — {_safe_excerpt(old['note'])}")
+                while True:
+                    print("  a=accept for review; r=irrelevant; n=needs evidence; o=outside scope")
+                    choice = input("Decision [s=skip, q=quit]: ").strip().lower()
+                    if choice in ("", "s", "q"):
+                        break
+                    if choice not in DECISIONS:
+                        print("Unknown choice; try again for this passage, skip or quit.")
+                        continue
+                    note = input("Reason or next evidence needed: ").strip()
+                    if not note:
+                        print("A note is required; try again for this passage, skip or quit.")
+                        continue
+                    break
                 if choice == "q":
                     break
                 if choice in ("", "s"):
-                    continue
-                if choice not in DECISIONS:
-                    print("Unknown choice; passage remains unchanged.")
-                    continue
-                note = input("Reason or next evidence needed: ").strip()
-                if not note:
-                    print("A note is required; passage remains unchanged.")
                     continue
                 if (research.sha256_file(source_path) != identity["source_sha256"]
                         or _sha(dossier_path.read_bytes()) != identity["dossier_sha256"]):
@@ -268,13 +273,16 @@ def run(argv: list[str] | None = None) -> int:
             if export in (source_path, dossier_path, session_path) or export.exists():
                 raise ReviewError("Export path already exists or overlaps evidence; choose a new path")
             export.parent.mkdir(parents=True, exist_ok=True)
-            export.write_text(summary, encoding="utf-8")
+            with export.open("x", encoding="utf-8", newline="\n") as handle:
+                handle.write(summary)
             print(f"Review summary exported: {export}")
         decided = len(session["decisions"]) if session else 0
         print(f"Review progress: {decided}/{len(dossier['evidence'])} passages decided; "
               f"{len(dossier['evidence'])-decided} unresolved.")
-        if session is not None:
+        if loaded_session_sha is not None:
             print(f"Saved review: {session_path}")
+        else:
+            print("No review file saved; record a decision and note to create one.")
         print("These are analyst passage decisions, not substantive LAIF findings.")
         return 0
     except (ReviewError, research.ResearchInputError, OSError, UnicodeError, TypeError) as exc:
