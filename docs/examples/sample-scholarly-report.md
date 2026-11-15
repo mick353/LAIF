@@ -1,6 +1,6 @@
 # Source-bounded AI governance evidence review — vendor-policy.md
 
-**Status:** EVIDENCE\_INVENTORY\_ONLY — scholarly working draft, not a certified conclusion.
+**Status:** AUTOMATIC\_DOCUMENTARY\_DRAFT — scholarly working draft, not a certified conclusion.
 **Research question:** Which governance commitments and evidence requirements are explicit in the supplied material?
 **Date:** 2026-11-07
 
@@ -10,7 +10,7 @@
 - SHA-256 (original bytes): e8e8475acaf9fa54846ceac6b0bc8f5728e26e6f5b52ce83613150a791079523
 - SHA-256 (extracted text): 35ab55f754f39d61a1e24fa7a8cc844dc45bbf223fe88864f967951ae2f2b825
 - SHA-256 (admitted evidence manifest): 6fbe01991b61afa9b453e9b017aa1ce21bafb4de08bd9a16f11fa54d8ea3cf39
-- Research renderer SHA-256: 56a61d9f3ff24d1bb72be6b01ead5e5aaf4f27e440fb72accbac8b088ca5cccc
+- Research renderer SHA-256: fc134abe04530d0e0f5598b560fbb188a53ca71222329f9f5540702f7b29ac43
 - LAIF principal text SHA-256: c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407
 - Toolkit source SHA-256: 24474b9ed083bd4889e045cd843ae0c8d653f8502612f27dd792aa6f00c5ce67
 - Declared scope: excerpt
@@ -86,6 +86,81 @@ This establishes only that the passage appears in the extracted text.
 > The supplier must describe the intended use, material limitations and known risks.
 
 This establishes only that the passage appears in the extracted text.
+
+## Automatic eight-criterion documentary judgments
+
+Provisional rule-based assessment; inspect source context before relying on it. Authored conclusions remain separate.
+
+### A.1 — PARTIAL_SUPPORT
+
+The text contains relevant wording, but this check remains incomplete. Evidence still needed: explanations of decisions or outputs; uncertainty and limitations; access for affected people.
+
+- explanations of decisions or outputs: not established by explicit wording
+  - Extracted line 11; QUALIFIED_MENTION
+
+> The supplier aims to explain decisions and support affected people.
+
+- uncertainty and limitations: not established by explicit wording
+- access for affected people: not established by explicit wording
+### A.2 — NOT_ESTABLISHED
+
+The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.
+
+- alignment of stated and implemented objectives: not established by explicit wording
+- consistent behaviour in testing and deployment: not established by explicit wording
+- checks for misleading behaviour: not established by explicit wording
+### A.3 — PARTIAL_SUPPORT
+
+The text contains relevant wording, but this check remains incomplete. Evidence still needed: defined operating boundaries; interruption or deactivation; escalation to an authorised person.
+
+- defined operating boundaries: not established by explicit wording
+- interruption or deactivation: not established by explicit wording
+- escalation to an authorised person: not established by explicit wording
+  - Extracted line 5; QUALIFIED_MENTION
+
+> The assistant provides recommendations to staff; it must not make final eligibility decisions or issue notices without human approval.
+
+### A.4 — NOT_ESTABLISHED
+
+The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.
+
+- comparison of confidence with measured accuracy: not established by explicit wording
+- a defined evaluation population: not established by explicit wording
+- review thresholds and corrective action: not established by explicit wording
+### Q1 — NOT_ESTABLISHED
+
+The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.
+
+- a restriction linked to a protected interest: not established by explicit wording
+- equally enforceable protection: not established by explicit wording
+- remedy when the protection fails: not established by explicit wording
+### Q2 — NOT_ESTABLISHED
+
+The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.
+
+- consideration of the smallest affected actor: not established by explicit wording
+- reasoning that applies across comparable actors: not established by explicit wording
+- justified exceptions: not established by explicit wording
+### Q3 — NOT_ESTABLISHED
+
+The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.
+
+- revision or withdrawal of decisions: not established by explicit wording
+- safe decommissioning: not established by explicit wording
+- justification and authority for irreversible action: not established by explicit wording
+### G.1 — NOT_ESTABLISHED
+
+The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.
+
+- review of the governance actors themselves: not established by explicit wording
+- challenge to governance decisions: not established by explicit wording
+- transparency of governance reasoning: not established by explicit wording
+### Limits
+
+- Rules cover explicit English wording and can miss equivalent formulations.
+- Clause matches do not resolve cross-references, exceptions, legal authority or actor identity.
+- No calibrated accuracy probability or independently validated effectiveness is available.
+- Documentary requirements do not establish operational behaviour.
 
 ## Analyst interpretations and counterevidence
 

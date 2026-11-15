@@ -3746,6 +3746,8 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     }
     result["compliance_summary"]           = _compliance_summary(result)
     result["integrity_requirement_diagnostics"] = integrity_requirement_diagnostics(text)
+    from scripts.laif_auto_criteria import judge
+    result["automatic_criteria"] = judge(text)
     result["substantive_coherence_determination"] = "REQUIRES_SOURCE_BASED_REVIEW"
     result["executive_summary"]            = _executive_summary(result)
     result["plain_reading"]                = _plain_reading(result)
@@ -5326,7 +5328,8 @@ def toolchain_fingerprint():
         here = Path(__file__).resolve().parent
         parts = []
         for name in ("assessment_engine.py", "validate.py", "laif_spec.py",
-                     "scripts/laif_process_document.py", "scripts/laif_evidence_display.py"):
+                     "scripts/laif_process_document.py", "scripts/laif_evidence_display.py",
+                     "scripts/laif_auto_criteria.py"):
             path = here / name
             parts.append(path.read_bytes() if path.is_file() else b"")
         return hashlib.sha256(b"\x00".join(parts)).hexdigest()[:16]
@@ -5533,6 +5536,7 @@ def export_assessment_data(assessments, report_date=REPORT_DATE):
             "assessment_mode":     r.get("assessment_mode", ""),
             "substantive_coherence_determination": r.get("substantive_coherence_determination", "REQUIRES_SOURCE_BASED_REVIEW"),
             "integrity_requirement_diagnostics": r.get("integrity_requirement_diagnostics", []),
+            "automatic_criteria": r.get("automatic_criteria"),
             "scores": {
                 "structural":           r.get("structural_score", 0),
                 "terminology":          r.get("terminology_score", 0),

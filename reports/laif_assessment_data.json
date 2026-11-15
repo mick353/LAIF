@@ -8,6 +8,341 @@
       "assessed_character_count": 14701,
       "assessed_text_sha256": "27b205ec652e0a289203f916a034e528275c79d5da307dc8782580dbe096b8a1",
       "assessment_mode": "external_framework",
+      "automatic_criteria": {
+        "criteria": [
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "explanations of decisions or outputs",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "uncertainty and limitations",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "access for affected people",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.1",
+            "missing_components": [
+              "explanations of decisions or outputs",
+              "uncertainty and limitations",
+              "access for affected people"
+            ],
+            "name": "Structural Transparency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "alignment of stated and implemented objectives",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "consistent behaviour in testing and deployment",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "checks for misleading behaviour",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.2",
+            "missing_components": [
+              "alignment of stated and implemented objectives",
+              "consistent behaviour in testing and deployment",
+              "checks for misleading behaviour"
+            ],
+            "name": "Structural Honesty",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "defined operating boundaries",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "interruption or deactivation",
+                "contrary": false,
+                "supported": true,
+                "witnesses": [
+                  {
+                    "end_char": 3018,
+                    "exact_quote": "Doing so requires stopping unlawful collusion and addressing risks from dominant firms' use of key assets such as semiconductors, computing power, cloud storage, and data to disadvantage competitors, and it requires supporting a marketplace that harnesses the benefits of AI to provide new opportunities for small businesses, workers, and entrepreneurs.",
+                    "extracted_line": 7,
+                    "polarity": "EXPLICIT_REQUIREMENT",
+                    "quote_sha256": "fe08cafbf3ba464fb2ddb830a9a67c535bd8f3ae46c8d37f1a01e27815fc163b",
+                    "start_char": 2665
+                  }
+                ]
+              },
+              {
+                "component": "escalation to an authorised person",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.3",
+            "determination": "PARTIAL_SUPPORT",
+            "framework_basis": "2.3",
+            "missing_components": [
+              "defined operating boundaries",
+              "escalation to an authorised person"
+            ],
+            "name": "Structural Containment",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The text contains relevant wording, but this check remains incomplete. Evidence still needed: defined operating boundaries; escalation to an authorised person.",
+            "required_component_count": 3,
+            "supported_component_count": 1
+          },
+          {
+            "applicability": "REQUIRES_REVIEW",
+            "components": [
+              {
+                "component": "comparison of confidence with measured accuracy",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "a defined evaluation population",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "review thresholds and corrective action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.4",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.5",
+            "missing_components": [
+              "comparison of confidence with measured accuracy",
+              "a defined evaluation population",
+              "review thresholds and corrective action"
+            ],
+            "name": "Structural Calibration",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "a restriction linked to a protected interest",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "equally enforceable protection",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "remedy when the protection fails",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question One; 2.4",
+            "missing_components": [
+              "a restriction linked to a protected interest",
+              "equally enforceable protection",
+              "remedy when the protection fails"
+            ],
+            "name": "Coupling",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "consideration of the smallest affected actor",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "reasoning that applies across comparable actors",
+                "contrary": false,
+                "supported": true,
+                "witnesses": [
+                  {
+                    "end_char": 570,
+                    "exact_quote": "When undertaking the actions set forth in this order, executive departments and agencies (agencies) shall, as appropriate and consistent with applicable law, adhere to these principles, while, as feasible, taking into account the views of other agencies, industry, members of academia, civil society, labor unions, international allies and partners, and other relevant organizations:",
+                    "extracted_line": 3,
+                    "polarity": "EXPLICIT_REQUIREMENT",
+                    "quote_sha256": "fc6e1a59be9726ec1cfba87832403f7987f4299e5d5277b5ffc1fef1a207b650",
+                    "start_char": 187
+                  }
+                ]
+              },
+              {
+                "component": "justified exceptions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q2",
+            "determination": "PARTIAL_SUPPORT",
+            "framework_basis": "Part Five, Question Two",
+            "missing_components": [
+              "consideration of the smallest affected actor",
+              "justified exceptions"
+            ],
+            "name": "Consistency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The text contains relevant wording, but this check remains incomplete. Evidence still needed: consideration of the smallest affected actor; justified exceptions.",
+            "required_component_count": 3,
+            "supported_component_count": 1
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "revision or withdrawal of decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "safe decommissioning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justification and authority for irreversible action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Three; provisions D1-D2",
+            "missing_components": [
+              "revision or withdrawal of decisions",
+              "safe decommissioning",
+              "justification and authority for irreversible action"
+            ],
+            "name": "Reversibility",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "review of the governance actors themselves",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "challenge to governance decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "transparency of governance reasoning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "G.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "4.3; 7.4",
+            "missing_components": [
+              "review of the governance actors themselves",
+              "challenge to governance decisions",
+              "transparency of governance reasoning"
+            ],
+            "name": "Self-Application",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          }
+        ],
+        "evidence_eligible": true,
+        "extracted_text_sha256": "27b205ec652e0a289203f916a034e528275c79d5da307dc8782580dbe096b8a1",
+        "limitations": [
+          "Rules cover explicit English wording and can miss equivalent formulations.",
+          "Clause matches do not resolve cross-references, exceptions, legal authority or actor identity.",
+          "No calibrated accuracy probability or independently validated effectiveness is available.",
+          "Documentary requirements do not establish operational behaviour."
+        ],
+        "method_sha256": "19da95849e61b55802e31d6d686344fdee1cdf7a27087fe006cca40fe42c4bf8",
+        "schema": "laif.automatic-criteria.v1",
+        "source_scope": "unknown"
+      },
       "calibration": {
         "achievable_ceiling": 81.5,
         "ceiling_basis": "External-instrument ceiling: 100 minus the terminology dimension weight and the named-decision-instrument structural signal — points only a LAIF-branded document can earn. Derived from the live rubrics.",
@@ -307,6 +642,334 @@
       "assessed_character_count": 8982,
       "assessed_text_sha256": "2767d797d5102afeb14b68f014676b5ffe843cc08109edccd196202001f4d9d4",
       "assessment_mode": "external_framework",
+      "automatic_criteria": {
+        "criteria": [
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "explanations of decisions or outputs",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "uncertainty and limitations",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "access for affected people",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.1",
+            "missing_components": [
+              "explanations of decisions or outputs",
+              "uncertainty and limitations",
+              "access for affected people"
+            ],
+            "name": "Structural Transparency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "alignment of stated and implemented objectives",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "consistent behaviour in testing and deployment",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "checks for misleading behaviour",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.2",
+            "missing_components": [
+              "alignment of stated and implemented objectives",
+              "consistent behaviour in testing and deployment",
+              "checks for misleading behaviour"
+            ],
+            "name": "Structural Honesty",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "defined operating boundaries",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "interruption or deactivation",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "escalation to an authorised person",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.3",
+            "missing_components": [
+              "defined operating boundaries",
+              "interruption or deactivation",
+              "escalation to an authorised person"
+            ],
+            "name": "Structural Containment",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "REQUIRES_REVIEW",
+            "components": [
+              {
+                "component": "comparison of confidence with measured accuracy",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "a defined evaluation population",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "review thresholds and corrective action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.4",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.5",
+            "missing_components": [
+              "comparison of confidence with measured accuracy",
+              "a defined evaluation population",
+              "review thresholds and corrective action"
+            ],
+            "name": "Structural Calibration",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "a restriction linked to a protected interest",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "equally enforceable protection",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "remedy when the protection fails",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question One; 2.4",
+            "missing_components": [
+              "a restriction linked to a protected interest",
+              "equally enforceable protection",
+              "remedy when the protection fails"
+            ],
+            "name": "Coupling",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "consideration of the smallest affected actor",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "reasoning that applies across comparable actors",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justified exceptions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Two",
+            "missing_components": [
+              "consideration of the smallest affected actor",
+              "reasoning that applies across comparable actors",
+              "justified exceptions"
+            ],
+            "name": "Consistency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "revision or withdrawal of decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "safe decommissioning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": [
+                  {
+                    "end_char": 3397,
+                    "exact_quote": "and/or decommissioned safely as needed.",
+                    "extracted_line": 96,
+                    "polarity": "QUALIFIED_MENTION",
+                    "quote_sha256": "936fd26d16f4d959b978c81461d0f8f76928a8cec861e3a90485145f1b5ee453",
+                    "start_char": 3358
+                  }
+                ]
+              },
+              {
+                "component": "justification and authority for irreversible action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q3",
+            "determination": "PARTIAL_SUPPORT",
+            "framework_basis": "Part Five, Question Three; provisions D1-D2",
+            "missing_components": [
+              "revision or withdrawal of decisions",
+              "safe decommissioning",
+              "justification and authority for irreversible action"
+            ],
+            "name": "Reversibility",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The text contains relevant wording, but this check remains incomplete. Evidence still needed: revision or withdrawal of decisions; safe decommissioning; justification and authority for irreversible action.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "review of the governance actors themselves",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "challenge to governance decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "transparency of governance reasoning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "G.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "4.3; 7.4",
+            "missing_components": [
+              "review of the governance actors themselves",
+              "challenge to governance decisions",
+              "transparency of governance reasoning"
+            ],
+            "name": "Self-Application",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          }
+        ],
+        "evidence_eligible": true,
+        "extracted_text_sha256": "2767d797d5102afeb14b68f014676b5ffe843cc08109edccd196202001f4d9d4",
+        "limitations": [
+          "Rules cover explicit English wording and can miss equivalent formulations.",
+          "Clause matches do not resolve cross-references, exceptions, legal authority or actor identity.",
+          "No calibrated accuracy probability or independently validated effectiveness is available.",
+          "Documentary requirements do not establish operational behaviour."
+        ],
+        "method_sha256": "19da95849e61b55802e31d6d686344fdee1cdf7a27087fe006cca40fe42c4bf8",
+        "schema": "laif.automatic-criteria.v1",
+        "source_scope": "unknown"
+      },
       "calibration": {
         "achievable_ceiling": 81.5,
         "ceiling_basis": "External-instrument ceiling: 100 minus the terminology dimension weight and the named-decision-instrument structural signal — points only a LAIF-branded document can earn. Derived from the live rubrics.",
@@ -594,6 +1257,333 @@
       "assessed_character_count": 15607,
       "assessed_text_sha256": "623c77daab39fccc67e56f38035c516d5edbf7fb45134f53e4cd576c9c0963b3",
       "assessment_mode": "external_framework",
+      "automatic_criteria": {
+        "criteria": [
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "explanations of decisions or outputs",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "uncertainty and limitations",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "access for affected people",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.1",
+            "missing_components": [
+              "explanations of decisions or outputs",
+              "uncertainty and limitations",
+              "access for affected people"
+            ],
+            "name": "Structural Transparency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "alignment of stated and implemented objectives",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "consistent behaviour in testing and deployment",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "checks for misleading behaviour",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.2",
+            "missing_components": [
+              "alignment of stated and implemented objectives",
+              "consistent behaviour in testing and deployment",
+              "checks for misleading behaviour"
+            ],
+            "name": "Structural Honesty",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "defined operating boundaries",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "interruption or deactivation",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "escalation to an authorised person",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.3",
+            "missing_components": [
+              "defined operating boundaries",
+              "interruption or deactivation",
+              "escalation to an authorised person"
+            ],
+            "name": "Structural Containment",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "REQUIRES_REVIEW",
+            "components": [
+              {
+                "component": "comparison of confidence with measured accuracy",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "a defined evaluation population",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "review thresholds and corrective action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.4",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.5",
+            "missing_components": [
+              "comparison of confidence with measured accuracy",
+              "a defined evaluation population",
+              "review thresholds and corrective action"
+            ],
+            "name": "Structural Calibration",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "a restriction linked to a protected interest",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "equally enforceable protection",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "remedy when the protection fails",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question One; 2.4",
+            "missing_components": [
+              "a restriction linked to a protected interest",
+              "equally enforceable protection",
+              "remedy when the protection fails"
+            ],
+            "name": "Coupling",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "consideration of the smallest affected actor",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "reasoning that applies across comparable actors",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justified exceptions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Two",
+            "missing_components": [
+              "consideration of the smallest affected actor",
+              "reasoning that applies across comparable actors",
+              "justified exceptions"
+            ],
+            "name": "Consistency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "revision or withdrawal of decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "safe decommissioning",
+                "contrary": false,
+                "supported": true,
+                "witnesses": [
+                  {
+                    "end_char": 4094,
+                    "exact_quote": "GOVERN 1.7: Processes and procedures are in place for decommissioning and phasing out AI systems safely and in a manner that does not increase risks or decrease the organization’s trustworthiness. |",
+                    "extracted_line": 26,
+                    "polarity": "EXPLICIT_REQUIREMENT",
+                    "quote_sha256": "8a873724d01f5b334728e7e44c0b9f4714b6e7c3ebe4f16ebc8f085ab06abbb3",
+                    "start_char": 3896
+                  }
+                ]
+              },
+              {
+                "component": "justification and authority for irreversible action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q3",
+            "determination": "PARTIAL_SUPPORT",
+            "framework_basis": "Part Five, Question Three; provisions D1-D2",
+            "missing_components": [
+              "revision or withdrawal of decisions",
+              "justification and authority for irreversible action"
+            ],
+            "name": "Reversibility",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The text contains relevant wording, but this check remains incomplete. Evidence still needed: revision or withdrawal of decisions; justification and authority for irreversible action.",
+            "required_component_count": 3,
+            "supported_component_count": 1
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "review of the governance actors themselves",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "challenge to governance decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "transparency of governance reasoning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "G.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "4.3; 7.4",
+            "missing_components": [
+              "review of the governance actors themselves",
+              "challenge to governance decisions",
+              "transparency of governance reasoning"
+            ],
+            "name": "Self-Application",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          }
+        ],
+        "evidence_eligible": true,
+        "extracted_text_sha256": "623c77daab39fccc67e56f38035c516d5edbf7fb45134f53e4cd576c9c0963b3",
+        "limitations": [
+          "Rules cover explicit English wording and can miss equivalent formulations.",
+          "Clause matches do not resolve cross-references, exceptions, legal authority or actor identity.",
+          "No calibrated accuracy probability or independently validated effectiveness is available.",
+          "Documentary requirements do not establish operational behaviour."
+        ],
+        "method_sha256": "19da95849e61b55802e31d6d686344fdee1cdf7a27087fe006cca40fe42c4bf8",
+        "schema": "laif.automatic-criteria.v1",
+        "source_scope": "unknown"
+      },
       "calibration": {
         "achievable_ceiling": 81.5,
         "ceiling_basis": "External-instrument ceiling: 100 minus the terminology dimension weight and the named-decision-instrument structural signal — points only a LAIF-branded document can earn. Derived from the live rubrics.",
@@ -865,6 +1855,343 @@
       "assessed_character_count": 14950,
       "assessed_text_sha256": "7e3021badf4587dcc44d4e31ccbc53392b38f829051df3a0ca12c6accb2fd943",
       "assessment_mode": "external_framework",
+      "automatic_criteria": {
+        "criteria": [
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "explanations of decisions or outputs",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "uncertainty and limitations",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "access for affected people",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.1",
+            "missing_components": [
+              "explanations of decisions or outputs",
+              "uncertainty and limitations",
+              "access for affected people"
+            ],
+            "name": "Structural Transparency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "alignment of stated and implemented objectives",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "consistent behaviour in testing and deployment",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "checks for misleading behaviour",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.2",
+            "missing_components": [
+              "alignment of stated and implemented objectives",
+              "consistent behaviour in testing and deployment",
+              "checks for misleading behaviour"
+            ],
+            "name": "Structural Honesty",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "defined operating boundaries",
+                "contrary": false,
+                "supported": false,
+                "witnesses": [
+                  {
+                    "end_char": 13384,
+                    "exact_quote": "It should provide the reader with a summary of all the relevant knowledge that has been acquired relating to the clinical risks associated with the product at that point in the life cycle:A clear and concise record of the process that has been applied to determine the clinical safety of the productA summary of the outcomes of the assessment procedures appliedA clear listing of any residual clinical risks that have been identified and the related operational constraints and limitations that are applicableA clear listing of any hazards and associated clinical risks that have been transferred, together with any declared risk control measures, that are to be addressed as part of the clinical risk management process in the organisation where the product is being deployedA listing of outstanding test issues / defects associated with the product which may have a clinical safety impact.The Hazard Log should record and communicate the on-going identification and resolution of hazards associated with the product.",
+                    "extracted_line": 44,
+                    "polarity": "QUALIFIED_MENTION",
+                    "quote_sha256": "3cfce26952ff15073012edc3ea2a5342ba41501a1df50f307b6e58f02695a44d",
+                    "start_char": 12366
+                  }
+                ]
+              },
+              {
+                "component": "interruption or deactivation",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "escalation to an authorised person",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.3",
+            "determination": "PARTIAL_SUPPORT",
+            "framework_basis": "2.3",
+            "missing_components": [
+              "defined operating boundaries",
+              "interruption or deactivation",
+              "escalation to an authorised person"
+            ],
+            "name": "Structural Containment",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The text contains relevant wording, but this check remains incomplete. Evidence still needed: defined operating boundaries; interruption or deactivation; escalation to an authorised person.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "REQUIRES_REVIEW",
+            "components": [
+              {
+                "component": "comparison of confidence with measured accuracy",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "a defined evaluation population",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "review thresholds and corrective action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.4",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.5",
+            "missing_components": [
+              "comparison of confidence with measured accuracy",
+              "a defined evaluation population",
+              "review thresholds and corrective action"
+            ],
+            "name": "Structural Calibration",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "a restriction linked to a protected interest",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "equally enforceable protection",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "remedy when the protection fails",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question One; 2.4",
+            "missing_components": [
+              "a restriction linked to a protected interest",
+              "equally enforceable protection",
+              "remedy when the protection fails"
+            ],
+            "name": "Coupling",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "consideration of the smallest affected actor",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "reasoning that applies across comparable actors",
+                "contrary": false,
+                "supported": false,
+                "witnesses": [
+                  {
+                    "end_char": 5774,
+                    "exact_quote": "Health and care organisations should ensure that all questions in this section of DTAC is assessed by the same personnel.",
+                    "extracted_line": 32,
+                    "polarity": "QUALIFIED_MENTION",
+                    "quote_sha256": "4669774a5bde5f5d11979549de70ab2713272d8c4251769bfe114de1c033efb6",
+                    "start_char": 5653
+                  }
+                ]
+              },
+              {
+                "component": "justified exceptions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q2",
+            "determination": "PARTIAL_SUPPORT",
+            "framework_basis": "Part Five, Question Two",
+            "missing_components": [
+              "consideration of the smallest affected actor",
+              "reasoning that applies across comparable actors",
+              "justified exceptions"
+            ],
+            "name": "Consistency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The text contains relevant wording, but this check remains incomplete. Evidence still needed: consideration of the smallest affected actor; reasoning that applies across comparable actors; justified exceptions.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "revision or withdrawal of decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "safe decommissioning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justification and authority for irreversible action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Three; provisions D1-D2",
+            "missing_components": [
+              "revision or withdrawal of decisions",
+              "safe decommissioning",
+              "justification and authority for irreversible action"
+            ],
+            "name": "Reversibility",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "review of the governance actors themselves",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "challenge to governance decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "transparency of governance reasoning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "G.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "4.3; 7.4",
+            "missing_components": [
+              "review of the governance actors themselves",
+              "challenge to governance decisions",
+              "transparency of governance reasoning"
+            ],
+            "name": "Self-Application",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          }
+        ],
+        "evidence_eligible": true,
+        "extracted_text_sha256": "7e3021badf4587dcc44d4e31ccbc53392b38f829051df3a0ca12c6accb2fd943",
+        "limitations": [
+          "Rules cover explicit English wording and can miss equivalent formulations.",
+          "Clause matches do not resolve cross-references, exceptions, legal authority or actor identity.",
+          "No calibrated accuracy probability or independently validated effectiveness is available.",
+          "Documentary requirements do not establish operational behaviour."
+        ],
+        "method_sha256": "19da95849e61b55802e31d6d686344fdee1cdf7a27087fe006cca40fe42c4bf8",
+        "schema": "laif.automatic-criteria.v1",
+        "source_scope": "unknown"
+      },
       "calibration": {
         "achievable_ceiling": 81.5,
         "ceiling_basis": "External-instrument ceiling: 100 minus the terminology dimension weight and the named-decision-instrument structural signal — points only a LAIF-branded document can earn. Derived from the live rubrics.",
@@ -1128,6 +2455,325 @@
       "assessed_character_count": 3146,
       "assessed_text_sha256": "b445198d70b6d16ae6209e5add86c44b25ffba13d97f1bddb650b2bc1ec24d2c",
       "assessment_mode": "external_framework",
+      "automatic_criteria": {
+        "criteria": [
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "explanations of decisions or outputs",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "uncertainty and limitations",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "access for affected people",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.1",
+            "missing_components": [
+              "explanations of decisions or outputs",
+              "uncertainty and limitations",
+              "access for affected people"
+            ],
+            "name": "Structural Transparency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "alignment of stated and implemented objectives",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "consistent behaviour in testing and deployment",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "checks for misleading behaviour",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.2",
+            "missing_components": [
+              "alignment of stated and implemented objectives",
+              "consistent behaviour in testing and deployment",
+              "checks for misleading behaviour"
+            ],
+            "name": "Structural Honesty",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "defined operating boundaries",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "interruption or deactivation",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "escalation to an authorised person",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.3",
+            "missing_components": [
+              "defined operating boundaries",
+              "interruption or deactivation",
+              "escalation to an authorised person"
+            ],
+            "name": "Structural Containment",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "REQUIRES_REVIEW",
+            "components": [
+              {
+                "component": "comparison of confidence with measured accuracy",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "a defined evaluation population",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "review thresholds and corrective action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.4",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.5",
+            "missing_components": [
+              "comparison of confidence with measured accuracy",
+              "a defined evaluation population",
+              "review thresholds and corrective action"
+            ],
+            "name": "Structural Calibration",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "a restriction linked to a protected interest",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "equally enforceable protection",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "remedy when the protection fails",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question One; 2.4",
+            "missing_components": [
+              "a restriction linked to a protected interest",
+              "equally enforceable protection",
+              "remedy when the protection fails"
+            ],
+            "name": "Coupling",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "consideration of the smallest affected actor",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "reasoning that applies across comparable actors",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justified exceptions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Two",
+            "missing_components": [
+              "consideration of the smallest affected actor",
+              "reasoning that applies across comparable actors",
+              "justified exceptions"
+            ],
+            "name": "Consistency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "revision or withdrawal of decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "safe decommissioning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justification and authority for irreversible action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Three; provisions D1-D2",
+            "missing_components": [
+              "revision or withdrawal of decisions",
+              "safe decommissioning",
+              "justification and authority for irreversible action"
+            ],
+            "name": "Reversibility",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "review of the governance actors themselves",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "challenge to governance decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "transparency of governance reasoning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "G.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "4.3; 7.4",
+            "missing_components": [
+              "review of the governance actors themselves",
+              "challenge to governance decisions",
+              "transparency of governance reasoning"
+            ],
+            "name": "Self-Application",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          }
+        ],
+        "evidence_eligible": true,
+        "extracted_text_sha256": "b445198d70b6d16ae6209e5add86c44b25ffba13d97f1bddb650b2bc1ec24d2c",
+        "limitations": [
+          "Rules cover explicit English wording and can miss equivalent formulations.",
+          "Clause matches do not resolve cross-references, exceptions, legal authority or actor identity.",
+          "No calibrated accuracy probability or independently validated effectiveness is available.",
+          "Documentary requirements do not establish operational behaviour."
+        ],
+        "method_sha256": "19da95849e61b55802e31d6d686344fdee1cdf7a27087fe006cca40fe42c4bf8",
+        "schema": "laif.automatic-criteria.v1",
+        "source_scope": "unknown"
+      },
       "calibration": {
         "achievable_ceiling": 81.5,
         "ceiling_basis": "External-instrument ceiling: 100 minus the terminology dimension weight and the named-decision-instrument structural signal — points only a LAIF-branded document can earn. Derived from the live rubrics.",
@@ -1421,6 +3067,334 @@
       "assessed_character_count": 2253,
       "assessed_text_sha256": "3eb8aa2a42a0c912215ce629e574acddf7c7c7defa5ac6907a75b5e08feab955",
       "assessment_mode": "external_framework",
+      "automatic_criteria": {
+        "criteria": [
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "explanations of decisions or outputs",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "uncertainty and limitations",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "access for affected people",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.1",
+            "missing_components": [
+              "explanations of decisions or outputs",
+              "uncertainty and limitations",
+              "access for affected people"
+            ],
+            "name": "Structural Transparency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "alignment of stated and implemented objectives",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "consistent behaviour in testing and deployment",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "checks for misleading behaviour",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.2",
+            "missing_components": [
+              "alignment of stated and implemented objectives",
+              "consistent behaviour in testing and deployment",
+              "checks for misleading behaviour"
+            ],
+            "name": "Structural Honesty",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "defined operating boundaries",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "interruption or deactivation",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "escalation to an authorised person",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.3",
+            "missing_components": [
+              "defined operating boundaries",
+              "interruption or deactivation",
+              "escalation to an authorised person"
+            ],
+            "name": "Structural Containment",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "REQUIRES_REVIEW",
+            "components": [
+              {
+                "component": "comparison of confidence with measured accuracy",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "a defined evaluation population",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "review thresholds and corrective action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.4",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.5",
+            "missing_components": [
+              "comparison of confidence with measured accuracy",
+              "a defined evaluation population",
+              "review thresholds and corrective action"
+            ],
+            "name": "Structural Calibration",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "a restriction linked to a protected interest",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "equally enforceable protection",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "remedy when the protection fails",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question One; 2.4",
+            "missing_components": [
+              "a restriction linked to a protected interest",
+              "equally enforceable protection",
+              "remedy when the protection fails"
+            ],
+            "name": "Coupling",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "consideration of the smallest affected actor",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "reasoning that applies across comparable actors",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justified exceptions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Two",
+            "missing_components": [
+              "consideration of the smallest affected actor",
+              "reasoning that applies across comparable actors",
+              "justified exceptions"
+            ],
+            "name": "Consistency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "revision or withdrawal of decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "safe decommissioning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justification and authority for irreversible action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Three; provisions D1-D2",
+            "missing_components": [
+              "revision or withdrawal of decisions",
+              "safe decommissioning",
+              "justification and authority for irreversible action"
+            ],
+            "name": "Reversibility",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "review of the governance actors themselves",
+                "contrary": false,
+                "supported": false,
+                "witnesses": [
+                  {
+                    "end_char": 1706,
+                    "exact_quote": "Mechanisms for independent oversight of AI systems are in place to review",
+                    "extracted_line": 35,
+                    "polarity": "QUALIFIED_MENTION",
+                    "quote_sha256": "1c8973db80007088e528c8a67ece4e8d2a874e94ad5f218be4c3fb64fc0358de",
+                    "start_char": 1633
+                  }
+                ]
+              },
+              {
+                "component": "challenge to governance decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "transparency of governance reasoning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "G.1",
+            "determination": "PARTIAL_SUPPORT",
+            "framework_basis": "4.3; 7.4",
+            "missing_components": [
+              "review of the governance actors themselves",
+              "challenge to governance decisions",
+              "transparency of governance reasoning"
+            ],
+            "name": "Self-Application",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The text contains relevant wording, but this check remains incomplete. Evidence still needed: review of the governance actors themselves; challenge to governance decisions; transparency of governance reasoning.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          }
+        ],
+        "evidence_eligible": true,
+        "extracted_text_sha256": "3eb8aa2a42a0c912215ce629e574acddf7c7c7defa5ac6907a75b5e08feab955",
+        "limitations": [
+          "Rules cover explicit English wording and can miss equivalent formulations.",
+          "Clause matches do not resolve cross-references, exceptions, legal authority or actor identity.",
+          "No calibrated accuracy probability or independently validated effectiveness is available.",
+          "Documentary requirements do not establish operational behaviour."
+        ],
+        "method_sha256": "19da95849e61b55802e31d6d686344fdee1cdf7a27087fe006cca40fe42c4bf8",
+        "schema": "laif.automatic-criteria.v1",
+        "source_scope": "unknown"
+      },
       "calibration": {
         "achievable_ceiling": 81.5,
         "ceiling_basis": "External-instrument ceiling: 100 minus the terminology dimension weight and the named-decision-instrument structural signal — points only a LAIF-branded document can earn. Derived from the live rubrics.",
@@ -1678,6 +3652,325 @@
       "assessed_character_count": 2153,
       "assessed_text_sha256": "2a8b7bd9efe990244d60eab43ba47098c8d9b97a7fe4a0b752a288bbd06dd788",
       "assessment_mode": "external_framework",
+      "automatic_criteria": {
+        "criteria": [
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "explanations of decisions or outputs",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "uncertainty and limitations",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "access for affected people",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.1",
+            "missing_components": [
+              "explanations of decisions or outputs",
+              "uncertainty and limitations",
+              "access for affected people"
+            ],
+            "name": "Structural Transparency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "alignment of stated and implemented objectives",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "consistent behaviour in testing and deployment",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "checks for misleading behaviour",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.2",
+            "missing_components": [
+              "alignment of stated and implemented objectives",
+              "consistent behaviour in testing and deployment",
+              "checks for misleading behaviour"
+            ],
+            "name": "Structural Honesty",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "defined operating boundaries",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "interruption or deactivation",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "escalation to an authorised person",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.3",
+            "missing_components": [
+              "defined operating boundaries",
+              "interruption or deactivation",
+              "escalation to an authorised person"
+            ],
+            "name": "Structural Containment",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "REQUIRES_REVIEW",
+            "components": [
+              {
+                "component": "comparison of confidence with measured accuracy",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "a defined evaluation population",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "review thresholds and corrective action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.4",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.5",
+            "missing_components": [
+              "comparison of confidence with measured accuracy",
+              "a defined evaluation population",
+              "review thresholds and corrective action"
+            ],
+            "name": "Structural Calibration",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "a restriction linked to a protected interest",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "equally enforceable protection",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "remedy when the protection fails",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question One; 2.4",
+            "missing_components": [
+              "a restriction linked to a protected interest",
+              "equally enforceable protection",
+              "remedy when the protection fails"
+            ],
+            "name": "Coupling",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "consideration of the smallest affected actor",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "reasoning that applies across comparable actors",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justified exceptions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Two",
+            "missing_components": [
+              "consideration of the smallest affected actor",
+              "reasoning that applies across comparable actors",
+              "justified exceptions"
+            ],
+            "name": "Consistency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "revision or withdrawal of decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "safe decommissioning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justification and authority for irreversible action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Three; provisions D1-D2",
+            "missing_components": [
+              "revision or withdrawal of decisions",
+              "safe decommissioning",
+              "justification and authority for irreversible action"
+            ],
+            "name": "Reversibility",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "review of the governance actors themselves",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "challenge to governance decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "transparency of governance reasoning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "G.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "4.3; 7.4",
+            "missing_components": [
+              "review of the governance actors themselves",
+              "challenge to governance decisions",
+              "transparency of governance reasoning"
+            ],
+            "name": "Self-Application",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          }
+        ],
+        "evidence_eligible": true,
+        "extracted_text_sha256": "2a8b7bd9efe990244d60eab43ba47098c8d9b97a7fe4a0b752a288bbd06dd788",
+        "limitations": [
+          "Rules cover explicit English wording and can miss equivalent formulations.",
+          "Clause matches do not resolve cross-references, exceptions, legal authority or actor identity.",
+          "No calibrated accuracy probability or independently validated effectiveness is available.",
+          "Documentary requirements do not establish operational behaviour."
+        ],
+        "method_sha256": "19da95849e61b55802e31d6d686344fdee1cdf7a27087fe006cca40fe42c4bf8",
+        "schema": "laif.automatic-criteria.v1",
+        "source_scope": "unknown"
+      },
       "calibration": {
         "achievable_ceiling": 81.5,
         "ceiling_basis": "External-instrument ceiling: 100 minus the terminology dimension weight and the named-decision-instrument structural signal — points only a LAIF-branded document can earn. Derived from the live rubrics.",
@@ -1924,6 +4217,333 @@
       "assessed_character_count": 1747,
       "assessed_text_sha256": "f56aa89da1a32bcbbe86c334859601757f60b8fd243b8b4741e6d6790c6a9f95",
       "assessment_mode": "external_framework",
+      "automatic_criteria": {
+        "criteria": [
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "explanations of decisions or outputs",
+                "contrary": false,
+                "supported": true,
+                "witnesses": [
+                  {
+                    "end_char": 793,
+                    "exact_quote": "shall design systems to provide meaningful explanations of their outputs and to",
+                    "extracted_line": 16,
+                    "polarity": "EXPLICIT_REQUIREMENT",
+                    "quote_sha256": "61d046b3ec46b472a649b28f1691037da82de3f8a679328172ab21ec270c10c6",
+                    "start_char": 714
+                  }
+                ]
+              },
+              {
+                "component": "uncertainty and limitations",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "access for affected people",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.1",
+            "determination": "PARTIAL_SUPPORT",
+            "framework_basis": "2.1",
+            "missing_components": [
+              "uncertainty and limitations",
+              "access for affected people"
+            ],
+            "name": "Structural Transparency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The text contains relevant wording, but this check remains incomplete. Evidence still needed: uncertainty and limitations; access for affected people.",
+            "required_component_count": 3,
+            "supported_component_count": 1
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "alignment of stated and implemented objectives",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "consistent behaviour in testing and deployment",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "checks for misleading behaviour",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.2",
+            "missing_components": [
+              "alignment of stated and implemented objectives",
+              "consistent behaviour in testing and deployment",
+              "checks for misleading behaviour"
+            ],
+            "name": "Structural Honesty",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "defined operating boundaries",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "interruption or deactivation",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "escalation to an authorised person",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.3",
+            "missing_components": [
+              "defined operating boundaries",
+              "interruption or deactivation",
+              "escalation to an authorised person"
+            ],
+            "name": "Structural Containment",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "REQUIRES_REVIEW",
+            "components": [
+              {
+                "component": "comparison of confidence with measured accuracy",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "a defined evaluation population",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "review thresholds and corrective action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.4",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.5",
+            "missing_components": [
+              "comparison of confidence with measured accuracy",
+              "a defined evaluation population",
+              "review thresholds and corrective action"
+            ],
+            "name": "Structural Calibration",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "a restriction linked to a protected interest",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "equally enforceable protection",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "remedy when the protection fails",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question One; 2.4",
+            "missing_components": [
+              "a restriction linked to a protected interest",
+              "equally enforceable protection",
+              "remedy when the protection fails"
+            ],
+            "name": "Coupling",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "consideration of the smallest affected actor",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "reasoning that applies across comparable actors",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justified exceptions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Two",
+            "missing_components": [
+              "consideration of the smallest affected actor",
+              "reasoning that applies across comparable actors",
+              "justified exceptions"
+            ],
+            "name": "Consistency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "revision or withdrawal of decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "safe decommissioning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justification and authority for irreversible action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Three; provisions D1-D2",
+            "missing_components": [
+              "revision or withdrawal of decisions",
+              "safe decommissioning",
+              "justification and authority for irreversible action"
+            ],
+            "name": "Reversibility",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "review of the governance actors themselves",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "challenge to governance decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "transparency of governance reasoning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "G.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "4.3; 7.4",
+            "missing_components": [
+              "review of the governance actors themselves",
+              "challenge to governance decisions",
+              "transparency of governance reasoning"
+            ],
+            "name": "Self-Application",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          }
+        ],
+        "evidence_eligible": true,
+        "extracted_text_sha256": "f56aa89da1a32bcbbe86c334859601757f60b8fd243b8b4741e6d6790c6a9f95",
+        "limitations": [
+          "Rules cover explicit English wording and can miss equivalent formulations.",
+          "Clause matches do not resolve cross-references, exceptions, legal authority or actor identity.",
+          "No calibrated accuracy probability or independently validated effectiveness is available.",
+          "Documentary requirements do not establish operational behaviour."
+        ],
+        "method_sha256": "19da95849e61b55802e31d6d686344fdee1cdf7a27087fe006cca40fe42c4bf8",
+        "schema": "laif.automatic-criteria.v1",
+        "source_scope": "unknown"
+      },
       "calibration": {
         "achievable_ceiling": 81.5,
         "ceiling_basis": "External-instrument ceiling: 100 minus the terminology dimension weight and the named-decision-instrument structural signal — points only a LAIF-branded document can earn. Derived from the live rubrics.",
@@ -2226,6 +4846,325 @@
       "assessed_character_count": 3156,
       "assessed_text_sha256": "656efe7e8ee449203a273ecbb924c73a24c2b631bd25942baf2f62c0407342df",
       "assessment_mode": "external_framework",
+      "automatic_criteria": {
+        "criteria": [
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "explanations of decisions or outputs",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "uncertainty and limitations",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "access for affected people",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.1",
+            "missing_components": [
+              "explanations of decisions or outputs",
+              "uncertainty and limitations",
+              "access for affected people"
+            ],
+            "name": "Structural Transparency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "alignment of stated and implemented objectives",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "consistent behaviour in testing and deployment",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "checks for misleading behaviour",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.2",
+            "missing_components": [
+              "alignment of stated and implemented objectives",
+              "consistent behaviour in testing and deployment",
+              "checks for misleading behaviour"
+            ],
+            "name": "Structural Honesty",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "defined operating boundaries",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "interruption or deactivation",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "escalation to an authorised person",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.3",
+            "missing_components": [
+              "defined operating boundaries",
+              "interruption or deactivation",
+              "escalation to an authorised person"
+            ],
+            "name": "Structural Containment",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "REQUIRES_REVIEW",
+            "components": [
+              {
+                "component": "comparison of confidence with measured accuracy",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "a defined evaluation population",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "review thresholds and corrective action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.4",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.5",
+            "missing_components": [
+              "comparison of confidence with measured accuracy",
+              "a defined evaluation population",
+              "review thresholds and corrective action"
+            ],
+            "name": "Structural Calibration",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "a restriction linked to a protected interest",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "equally enforceable protection",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "remedy when the protection fails",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question One; 2.4",
+            "missing_components": [
+              "a restriction linked to a protected interest",
+              "equally enforceable protection",
+              "remedy when the protection fails"
+            ],
+            "name": "Coupling",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "consideration of the smallest affected actor",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "reasoning that applies across comparable actors",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justified exceptions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Two",
+            "missing_components": [
+              "consideration of the smallest affected actor",
+              "reasoning that applies across comparable actors",
+              "justified exceptions"
+            ],
+            "name": "Consistency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "revision or withdrawal of decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "safe decommissioning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justification and authority for irreversible action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Three; provisions D1-D2",
+            "missing_components": [
+              "revision or withdrawal of decisions",
+              "safe decommissioning",
+              "justification and authority for irreversible action"
+            ],
+            "name": "Reversibility",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "review of the governance actors themselves",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "challenge to governance decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "transparency of governance reasoning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "G.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "4.3; 7.4",
+            "missing_components": [
+              "review of the governance actors themselves",
+              "challenge to governance decisions",
+              "transparency of governance reasoning"
+            ],
+            "name": "Self-Application",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          }
+        ],
+        "evidence_eligible": true,
+        "extracted_text_sha256": "656efe7e8ee449203a273ecbb924c73a24c2b631bd25942baf2f62c0407342df",
+        "limitations": [
+          "Rules cover explicit English wording and can miss equivalent formulations.",
+          "Clause matches do not resolve cross-references, exceptions, legal authority or actor identity.",
+          "No calibrated accuracy probability or independently validated effectiveness is available.",
+          "Documentary requirements do not establish operational behaviour."
+        ],
+        "method_sha256": "19da95849e61b55802e31d6d686344fdee1cdf7a27087fe006cca40fe42c4bf8",
+        "schema": "laif.automatic-criteria.v1",
+        "source_scope": "unknown"
+      },
       "calibration": {
         "achievable_ceiling": 81.5,
         "ceiling_basis": "External-instrument ceiling: 100 minus the terminology dimension weight and the named-decision-instrument structural signal — points only a LAIF-branded document can earn. Derived from the live rubrics.",
@@ -2519,6 +5458,341 @@
       "assessed_character_count": 3620,
       "assessed_text_sha256": "966e46853cb2cd29eb19777d4a2d0d733c83e2b0b3da07f6a7e76f5f48bd760a",
       "assessment_mode": "external_framework",
+      "automatic_criteria": {
+        "criteria": [
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "explanations of decisions or outputs",
+                "contrary": false,
+                "supported": true,
+                "witnesses": [
+                  {
+                    "end_char": 779,
+                    "exact_quote": "employment decisions affecting them and shall provide a meaningful explanation",
+                    "extracted_line": 16,
+                    "polarity": "EXPLICIT_REQUIREMENT",
+                    "quote_sha256": "9557029231abae237a97ad64143d6685c9881b1140d7d07f2e1e7bcf0e7b6806",
+                    "start_char": 701
+                  },
+                  {
+                    "end_char": 1928,
+                    "exact_quote": "employment decision has the right to a written explanation of the decision",
+                    "extracted_line": 37,
+                    "polarity": "QUALIFIED_MENTION",
+                    "quote_sha256": "52807e3c20030365f9b2d86ccd3a3561d47455765964909283714b64fe12f0bb",
+                    "start_char": 1854
+                  }
+                ]
+              },
+              {
+                "component": "uncertainty and limitations",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "access for affected people",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.1",
+            "determination": "PARTIAL_SUPPORT",
+            "framework_basis": "2.1",
+            "missing_components": [
+              "uncertainty and limitations",
+              "access for affected people"
+            ],
+            "name": "Structural Transparency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The text contains relevant wording, but this check remains incomplete. Evidence still needed: uncertainty and limitations; access for affected people.",
+            "required_component_count": 3,
+            "supported_component_count": 1
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "alignment of stated and implemented objectives",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "consistent behaviour in testing and deployment",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "checks for misleading behaviour",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.2",
+            "missing_components": [
+              "alignment of stated and implemented objectives",
+              "consistent behaviour in testing and deployment",
+              "checks for misleading behaviour"
+            ],
+            "name": "Structural Honesty",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "defined operating boundaries",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "interruption or deactivation",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "escalation to an authorised person",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.3",
+            "missing_components": [
+              "defined operating boundaries",
+              "interruption or deactivation",
+              "escalation to an authorised person"
+            ],
+            "name": "Structural Containment",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "REQUIRES_REVIEW",
+            "components": [
+              {
+                "component": "comparison of confidence with measured accuracy",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "a defined evaluation population",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "review thresholds and corrective action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "A.4",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "2.5",
+            "missing_components": [
+              "comparison of confidence with measured accuracy",
+              "a defined evaluation population",
+              "review thresholds and corrective action"
+            ],
+            "name": "Structural Calibration",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "a restriction linked to a protected interest",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "equally enforceable protection",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "remedy when the protection fails",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question One; 2.4",
+            "missing_components": [
+              "a restriction linked to a protected interest",
+              "equally enforceable protection",
+              "remedy when the protection fails"
+            ],
+            "name": "Coupling",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "consideration of the smallest affected actor",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "reasoning that applies across comparable actors",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justified exceptions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q2",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Two",
+            "missing_components": [
+              "consideration of the smallest affected actor",
+              "reasoning that applies across comparable actors",
+              "justified exceptions"
+            ],
+            "name": "Consistency",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "revision or withdrawal of decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "safe decommissioning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "justification and authority for irreversible action",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "Q3",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "Part Five, Question Three; provisions D1-D2",
+            "missing_components": [
+              "revision or withdrawal of decisions",
+              "safe decommissioning",
+              "justification and authority for irreversible action"
+            ],
+            "name": "Reversibility",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          },
+          {
+            "applicability": "DOCUMENTARY_SCOPE_ONLY",
+            "components": [
+              {
+                "component": "review of the governance actors themselves",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "challenge to governance decisions",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              },
+              {
+                "component": "transparency of governance reasoning",
+                "contrary": false,
+                "supported": false,
+                "witnesses": []
+              }
+            ],
+            "confidence": "UNVALIDATED_RULE_BASED_INFERENCE",
+            "criterion_id": "G.1",
+            "determination": "NOT_ESTABLISHED",
+            "framework_basis": "4.3; 7.4",
+            "missing_components": [
+              "review of the governance actors themselves",
+              "challenge to governance decisions",
+              "transparency of governance reasoning"
+            ],
+            "name": "Self-Application",
+            "operational_status": "NOT_ESTABLISHED",
+            "origin": "AUTOMATIC_RULE_BASED_DOCUMENTARY_JUDGMENT",
+            "reader_summary": "The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.",
+            "required_component_count": 3,
+            "supported_component_count": 0
+          }
+        ],
+        "evidence_eligible": true,
+        "extracted_text_sha256": "966e46853cb2cd29eb19777d4a2d0d733c83e2b0b3da07f6a7e76f5f48bd760a",
+        "limitations": [
+          "Rules cover explicit English wording and can miss equivalent formulations.",
+          "Clause matches do not resolve cross-references, exceptions, legal authority or actor identity.",
+          "No calibrated accuracy probability or independently validated effectiveness is available.",
+          "Documentary requirements do not establish operational behaviour."
+        ],
+        "method_sha256": "19da95849e61b55802e31d6d686344fdee1cdf7a27087fe006cca40fe42c4bf8",
+        "schema": "laif.automatic-criteria.v1",
+        "source_scope": "unknown"
+      },
       "calibration": {
         "achievable_ceiling": 81.5,
         "ceiling_basis": "External-instrument ceiling: 100 minus the terminology dimension weight and the named-decision-instrument structural signal — points only a LAIF-branded document can earn. Derived from the live rubrics.",
@@ -2813,5 +6087,5 @@
   "schema": "laif.assessment.v1",
   "schema_revision": 4,
   "schema_revision_note": "Revisions are additive only: fields are added, never removed or redefined. r2 added functional_alignment locations, obligation anchors, and score calibration; r3 added language_coverage, vocabulary_enumeration, self_contradictions, and assessed_character_count. A removal or a change of meaning would take a new schema id.",
-  "toolchain_fingerprint": "d61e2f00a3a2f0b4"
+  "toolchain_fingerprint": "ae1c54e4165eeb22"
 }

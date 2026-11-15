@@ -29,6 +29,7 @@ from scripts.laif_evidence_display import locate, locate_review, passage, eviden
 from assessment_engine import assess, toolchain_fingerprint
 from laif_spec import ASSESSMENT_CRITERIA
 from laif_criteria_review import validate_criteria_review, criterion_template
+from scripts.laif_auto_criteria import judge as automatic_judge
 from laif_process_document import (
     ExtractionError, build_extraction_quality_profile, build_low_confidence_quote_candidates,
     build_quote_bank, build_verification_required_evidence, extract_document,
@@ -289,7 +290,7 @@ def build_dossier(path: Path, *, extractor: str = "auto-local", source_scope: st
     return {
         "schema": SCHEMA,
         "status": "ANALYST_ANNOTATED_DRAFT" if findings or criteria_review else (
-            "EVIDENCE_REVIEW_REQUIRED" if not observations else "EVIDENCE_INVENTORY_ONLY"),
+            "EVIDENCE_REVIEW_REQUIRED" if not observations else "AUTOMATIC_DOCUMENTARY_DRAFT"),
         "report_date": date,
         "research_question": question.strip(),
         "source": {
@@ -313,12 +314,13 @@ def build_dossier(path: Path, *, extractor: str = "auto-local", source_scope: st
             "framework_source_sha256": sha256_file(ROOT / "LAIF_v1.2.txt"),
             "toolkit_source_sha256": sha256_file(ROOT / "LAIF_Compliance_Toolkit.txt"),
             "scores_and_certification_excluded": True,
-            "inference_policy": "Only exact-source observations are machine-produced; absence, legal effect, implementation and validity require human evidence.",
+            "inference_policy": "Automatic criterion judgments are provisional rule-based documentary inferences; authored findings are separate. Absence, legal effect, implementation and validity require further evidence.",
         },
         "evidence": observations,
         "evidence_manifest_sha256": manifest_sha,
         "reviewer_findings": findings,
         "criteria_review": criteria_review,
+        "automatic_criteria": automatic_judge(text, evidence_eligible=eligible, source_scope=source_scope),
         "criteria_coverage": [
             {"criterion_id": key, **criterion,
              "finding_ids": [row["finding_id"] for row in findings if key in row["criterion_ids"]],
@@ -396,6 +398,9 @@ def render_markdown(dossier: dict) -> str:
         lines += [f"### {row['evidence_id']} — retrieval hint: {_md_text(row['category'])}", ""]
         lines += passage(row, row["evidence_id"], "research", source=dossier["source"]["file_name"])
         lines += ["This establishes only that the passage appears in the extracted text.", ""]
+    if dossier.get("automatic_criteria"):
+        from scripts.laif_auto_criteria import markdown as automatic_markdown
+        lines += automatic_markdown(dossier["automatic_criteria"])
     lines += ["## Analyst interpretations and counterevidence", ""]
     if not dossier["reviewer_findings"] and not dossier.get("criteria_review"):
         lines += [

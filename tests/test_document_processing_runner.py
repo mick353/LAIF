@@ -2581,7 +2581,8 @@ class ToolchainProvenanceTests(unittest.TestCase):
         root = REPO_ROOT
         parts = [(root / n).read_bytes() for n in
                  ("assessment_engine.py", "validate.py", "laif_spec.py",
-                  "scripts/laif_process_document.py", "scripts/laif_evidence_display.py")]
+                  "scripts/laif_process_document.py", "scripts/laif_evidence_display.py",
+                  "scripts/laif_auto_criteria.py")]
         expected = hashlib.sha256(b"\x00".join(parts)).hexdigest()[:16]
         self.assertEqual(toolchain_fingerprint(), expected)
 
