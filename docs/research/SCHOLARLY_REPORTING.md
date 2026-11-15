@@ -29,6 +29,16 @@ ignored local `laif_outputs/research/` folder:
 3. `*.review_template.json`: empty, source-locked **analyst interpretation**
    template for later manual completion.
 
+The report and dossier also show eight **provisional automatic documentary
+judgments** on explicit wording. These are rule-based hypotheses with quoted
+witnesses and missing components, not eight completed human reviews. Read each
+one by asking what wording supports it, what remains unestablished and what
+source context, exception or operating record to check next. `NOT_ESTABLISHED`
+means the scan did not find enough explicit wording; it does not prove a
+safeguard is absent or a legal duty was breached. Positive wording does not
+show that a control operates. Candidate-passage triage and the attributed
+substantive criterion review remain separate steps.
+
 All three share a source-and-dossier-specific name so separate study questions,
 review dates and annotations do not overwrite one another. Every source is
 identified by its original-byte SHA-256, extracted-text SHA-256 and admitted
