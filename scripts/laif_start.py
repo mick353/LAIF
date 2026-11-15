@@ -9,6 +9,8 @@ from __future__ import annotations
 import argparse
 import contextlib
 import io
+import os
+import shlex
 import sys
 from pathlib import Path
 
@@ -18,6 +20,7 @@ if str(ROOT) not in sys.path:
 
 from scripts import laif_process_document as processor
 from scripts import laif_research_report as research
+from scripts import laif_review_session as reviewer
 
 SAMPLE = ROOT / "docs" / "examples" / "vendor-policy.md"
 EXTRACTORS = {
@@ -46,7 +49,20 @@ def parser() -> argparse.ArgumentParser:
                    help="avoid printing a source passage to the terminal")
     p.add_argument("--yes", action="store_true",
                    help="run without the confirmation prompt after showing the preview")
+    p.add_argument("--review-now", action="store_true",
+                   help="after generating evidence, enter the source-bound candidate review")
+    p.add_argument("--analyst", help="self-reported reviewer name or ID for --review-now")
     return p
+
+
+def review_command(dossier: Path, source: Path) -> str:
+    script = ROOT / "scripts" / "laif_review_session.py"
+    if os.name == "nt":
+        def quote(value: Path) -> str:
+            return "'" + str(value).replace("'", "''") + "'"
+
+        return f"py -3 -X utf8 {quote(script)} {quote(dossier)} {quote(source)}"
+    return shlex.join(["python3", str(script), str(dossier), str(source)])
 
 
 def choose_task(requested: str | None, automatic: bool) -> str:
@@ -99,8 +115,12 @@ def source_preview(source: Path, hide_excerpt: bool) -> tuple[str, str]:
 
 def run(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
+    if args.review_now and (args.task == "internal" or args.inspect_only):
+        print("--review-now requires a generated evidence report, not internal or inspection-only mode.",
+              file=sys.stderr)
+        return 2
     source = args.source.expanduser().resolve()
-    task = choose_task(args.task, args.yes or args.inspect_only)
+    task = choose_task(args.task, args.yes or args.inspect_only or args.review_now)
     print("\nLAIF guided start")
     if source == SAMPLE:
         print("Using the included synthetic example; it is a demonstration, not a real case.")
@@ -165,14 +185,34 @@ def run(argv: list[str] | None = None) -> int:
     if task == "evidence":
         print("  1. Open the Research report named above; check every quotation in the original.")
         print("  2. Use the Evidence JSON to inspect source identity and uncertainty.")
-        print("  3. Complete the Human review template only for claims you can support.")
-        print("  Next action: record what the source shows, what remains unknown, and which evidence to request.")
+        print("  3. Triage candidate passages, then complete the Human review template only for supported claims.")
+        print("  Next action: record passage relevance and remaining evidence needs.")
     else:
         print(f"  1. Open {output_dir / (stem + '.institutional_report.md')} first.")
         print("  2. Follow its evidence links to the quote bank and source context.")
         print("  3. Review the technical appendix and proposed controls with the responsible owner.")
         print("  Next action: accept, reject or seek evidence for each proposed finding; verify the source.")
     print(f"  Source identity for this run: {digest}")
+    if task == "evidence":
+        dossiers = list(output_dir.glob("*.research_data.json"))
+        if len(dossiers) != 1:
+            print("Expected exactly one new evidence dossier; review was not started.", file=sys.stderr)
+            return 2
+        dossier = dossiers[0].resolve()
+        print(f"  Resume candidate review: {review_command(dossier, source)}")
+        enter_review = args.review_now
+        if not args.yes and not enter_review:
+            enter_review = input("Review candidate passages now? [y/N]: ").strip().lower() in ("y", "yes")
+        if enter_review:
+            print("\nCandidate passage review (human triage only)")
+            review_args = [str(dossier), str(source)]
+            if args.analyst:
+                review_args.extend(["--analyst", args.analyst])
+            try:
+                return reviewer.run(review_args)
+            except (KeyboardInterrupt, EOFError):
+                print("\nReview stopped; completed passage decisions remain saved.", file=sys.stderr)
+                return 2
     return 0
 
 
