@@ -1,8 +1,8 @@
 # LAIF command and output reference
 
-Use this guide for the implemented local workflow. Start with [Getting started](../GETTING_STARTED.md) if you are running LAIF for the first time.
+Use this guide for the local Python workflow. Start with [Local setup](../LOCAL_SETUP.md) for a repository copy, or [Getting started on the Site](../GETTING_STARTED.md) for browser use without installing Python.
 
-The optional [guided local start](../GETTING_STARTED.md#guided-local-start)
+The optional [guided local start](../LOCAL_SETUP.md#guided-local-start)
 previews extraction and runs one of the existing report paths without changing
 their scoring, source identities or review boundaries.
 

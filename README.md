@@ -4,12 +4,13 @@
 
 <p align="center">
   <strong>Law-Aligned Intelligence Framework</strong><br>
-  A model-independent framework and local toolkit for reviewing AI governance documents.
+  A framework, browser workspace and local toolkit for reviewing AI governance documents.
 </p>
 
 <p align="center">
   <a href="docs/verification/CURRENT.md">Current verified state</a> ·
-  <a href="#try-it-locally">Try it locally</a> ·
+  <a href="#start-on-the-site">Use the Site</a> ·
+  <a href="docs/LOCAL_SETUP.md">Local setup</a> ·
   <a href="docs/research/SCHOLARLY_REPORTING.md">Neutral scholarly review</a> ·
   <a href="docs/examples/sample-assessment.md">Read a sample assessment</a> ·
   <a href="docs/product/OVERVIEW.md">Read the executive brief</a> ·
@@ -17,7 +18,25 @@
   <a href="docs/GETTING_STARTED.md">Getting started</a>
 </p>
 
-<p align="center"><strong>Local execution</strong> &nbsp; / &nbsp; <strong>No model API key</strong> &nbsp; / &nbsp; <strong>Standard-library core</strong> &nbsp; / &nbsp; <strong>Markdown + JSON outputs</strong></p>
+<p align="center"><strong>Browser or local workflow</strong> &nbsp; / &nbsp; <strong>No model API key</strong> &nbsp; / &nbsp; <strong>Standard-library core</strong> &nbsp; / &nbsp; <strong>Markdown + JSON outputs</strong></p>
+
+## Start on the Site
+
+[Open the LAIF Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+— authorised private access is required.
+
+Choose **Explore a worked example**, or **Review your document** to add a PDF,
+Markdown or text source. Follow the four-stage path: source, assessment,
+evidence review and export. Check quotations and record your interpretation
+before relying on a result.
+
+No Python installation, repository clone or model API key is required.
+Analysis runs in your browser; signed-in sources and review records are saved
+in your private cloud workspace. [Browser getting-started guide](docs/GETTING_STARTED.md).
+
+For a local copy, batch processing or specialist commands, use
+[Local repository setup](docs/LOCAL_SETUP.md). Browser and local records do
+not automatically synchronise. [Documentation map](docs/README.md).
 
 ## Good principles need working machinery
 
@@ -60,7 +79,7 @@ The evidence path gives source passages and open review questions; the internal
 diagnostic adds interpretive suggestions for expert review. The guide names the
 first report to read and the next action. Use `--inspect-only` to check extraction
 without writing outputs. On Windows, use `py -3 -X utf8` in place of `python3`.
-[Guided start options and limits](docs/GETTING_STARTED.md#guided-local-start).
+[Guided local start options and limits](docs/LOCAL_SETUP.md#guided-local-start).
 
 Authorised users can also use the separately versioned, owner-private **LAIF
 Research Workspace** in a browser. It has its own source catalogue, pinned
@@ -105,7 +124,7 @@ To print the assessment without creating outputs:
 python3 scripts/laif_process_document.py docs/examples/vendor-policy.md --extractor builtin --no-write --print-report
 ```
 
-On Windows, use your Python launcher (for example, `py -3`) in place of `python3`. The [focused Windows text-example record](docs/verification/2026-10-23/windows-example.md) covers Python 3.11; the later [full Windows local gate](docs/verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md) passed on Python 3.13.16. Word and PDF extraction use optional local packages; see the [format and setup guide](docs/GETTING_STARTED.md). Keep private source documents and generated assessments out of this public repository.
+On Windows, use `py -3 -X utf8` in place of `python3`. The [focused Windows text-example record](docs/verification/2026-10-23/windows-example.md) covers Python 3.11; the later [full Windows local gate](docs/verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md) passed on Python 3.13.16. Word and PDF extraction use optional local packages; see the [local format and setup guide](docs/LOCAL_SETUP.md). Keep private source documents and generated assessments out of this public repository.
 
 ## What you get
 
@@ -190,7 +209,7 @@ The core toolkit is a local Python command-line workflow with generated reports.
 
 ## Source discovery and website contributions
 
-The [website source index](docs/site/source-index.json) describes sixteen retained source/framework documents with 39 verified exact quotation witnesses. The [contribution bridge](docs/site/README.md) imports explicitly authorised source proposals without admitting them to the verified corpus or promoting proposed analyses into canonical reports. The [product and Site readiness programme](docs/product/PRODUCT_READINESS_2026-11.md) tracks the guided review journey, usability and hosted acceptance still to be delivered.
+The [website source index](docs/site/source-index.json) describes sixteen retained source/framework documents with 39 verified exact quotation witnesses. The [contribution bridge](docs/site/README.md) imports explicitly authorised source proposals without admitting them to the verified corpus or promoting proposed analyses into canonical reports. The [product and Site readiness programme](docs/product/PRODUCT_READINESS_2026-11.md) tracks the guided review journey, usability and remaining acceptance work. [Current verified state](docs/verification/CURRENT.md) identifies the dated Site and engine releases.
 
 ## Explore further
 
@@ -201,7 +220,7 @@ The [website source index](docs/site/source-index.json) describes sixteen retain
 | [Worked example](docs/examples/README.md) | [Quality and verification](docs/product/QUALITY.md) |
 | [Sample assessment](docs/examples/sample-assessment.md) | [Contribution guide](CONTRIBUTING.md) |
 
-**Questions or feedback?** [Open an issue](https://github.com/mick353/LAIF/issues/new) with your use case, command, Python version and a sanitised example. Do not upload confidential policies or operational logs. Maintained by [Michael Robinson](https://github.com/mick353).
+**Questions or feedback?** [Open an issue](https://github.com/mick353/LAIF/issues/new) with your use case, browser or local route, observed problem and a sanitised example. For local commands, include the command and Python version. Do not upload confidential policies or operational logs. Maintained by [Michael Robinson](https://github.com/mick353).
 
 **Licensing:** original LAIF code and documentation are licensed under the [Apache License, Version 2.0](LICENSE), permitting use, modification and redistribution, including commercial use, under its terms. Retain the [NOTICE](NOTICE). Third-party reference documents and quotations retain their own terms; see [third-party notices and attribution](THIRD_PARTY_NOTICES.md).
 

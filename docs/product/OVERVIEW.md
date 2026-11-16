@@ -2,7 +2,9 @@
 
 **Turn AI policy promises into controls you can inspect.**
 
-The Law-Aligned Intelligence Framework combines a governance method with a local document-review toolkit. It helps reviewers examine whether an AI policy, supplier response or operating procedure specifies the responsibilities, safeguards and evidence needed to make its commitments actionable.
+The Law-Aligned Intelligence Framework combines a governance method with a browser workspace and a local document-review toolkit. It helps reviewers examine whether an AI policy, supplier response or operating procedure specifies the responsibilities, safeguards and evidence needed to make its commitments actionable.
+
+[Start in the browser](../GETTING_STARTED.md) · [Set up a local copy](../LOCAL_SETUP.md)
 
 ## The problem it addresses
 
@@ -33,7 +35,7 @@ reviews and batches, with reports saved on your computer. The Site has its own
 versioned catalogue and assessment runtime; its live acceptance checks remain
 in the [product and Site readiness programme](PRODUCT_READINESS_2026-11.md).
 
-For the local first-use path, [guided start](../GETTING_STARTED.md) previews
+For the local first-use path, [guided start](../LOCAL_SETUP.md) previews
 extraction and produces a research report, evidence JSON and an empty human
 review template. It can then open a resumable candidate-passage review. The
 separate internal diagnostic produces an institutional report, technical
@@ -85,6 +87,6 @@ External documents can express safeguards in their own vocabulary. The separate 
 
 ## Start with an actual output
 
-Read the [sample assessment](../examples/sample-assessment.md), inspect its [source policy](../examples/vendor-policy.md), then follow [Getting started](../GETTING_STARTED.md) to reproduce it. The example is synthetic, so you can explore the workflow without uploading private material.
+Read the [sample assessment](../examples/sample-assessment.md), inspect its [source policy](../examples/vendor-policy.md), then follow [Local setup](../LOCAL_SETUP.md) to reproduce it. The example is synthetic, so you can explore the workflow without uploading private material.
 
 [Product home](../../README.md) · [Assessment method](METHOD.md) · [Technical reference](REFERENCE.md)

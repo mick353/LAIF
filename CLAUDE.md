@@ -442,7 +442,7 @@ No assessment may be performed from memory, reconstructed missing text, paraphra
 
 ## Current product and clone layout
 
-Start users at `README.md`, `docs/GETTING_STARTED.md` and `docs/product/OVERVIEW.md`. The root DOCX/TXT governance corpus is required by `validate.py`; those files are retained deliberately, including the paired exports and applied case fixtures. Do not delete them as duplicate product copy.
+Start browser users at `docs/GETTING_STARTED.md`; send clone/Python users to `docs/LOCAL_SETUP.md`. `docs/README.md` maps the audiences and evidence records. `README.md` and `docs/product/OVERVIEW.md` introduce both routes. The root DOCX/TXT governance corpus is required by `validate.py`; those files are retained deliberately, including the paired exports and applied case fixtures. Do not delete them as duplicate product copy.
 
 Pending, processed, failed and batch-summary folders start empty in a clone. Original public-source custody files live in `docs/verified/manual_ingest/`; moving them does not change manifest verification status. Prior batch outputs are preserved with their hashes in `docs/verification/2026-05-11/`. Local queue contents and outputs are ignored by default.
 

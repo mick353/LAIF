@@ -1,5 +1,12 @@
 # LAIF product and Site readiness
 
+**Reading this programme today:** the dated checkpoints below are historical.
+Use [Current verified state](../verification/CURRENT.md) for later release and
+acceptance evidence. Browser instructions are in [Getting started](../GETTING_STARTED.md);
+commands are in [Local setup](../LOCAL_SETUP.md). The Site accepts PDF, Markdown
+and text; Word input in this programme applies to the local toolkit, or requires
+export to a supported format before Site intake.
+
 **Working programme — 14 November 2026.** Owner: LAIF delivery lead. Baseline:
 `main` at `975e39cb6cfa24da440253364cad5b8f13f69b54`. This is a delivery
 record and research plan, not a claim that the product or Site has passed the
@@ -40,7 +47,7 @@ available, but they do not define first-use success.
 | Area | Present evidence | Remaining product gate |
 | --- | --- | --- |
 | Local engine | The 14 November Windows checkpoint in [issue #93](https://github.com/mick353/LAIF/issues/93) records main parity and a full local gate of 598 tests, two skipped, plus additional checks. The [7 November readable-evidence record](../verification/2026-11-07-readable-evidence/README.md) shows source quotations beside findings. | A passing software gate does not show that a first-time user can complete a review correctly. Test the whole journey on current Windows and Site builds. |
-| Review workflow | [Getting started](../GETTING_STARTED.md) describes a working document command, authored eight-criterion JSON review and separate neutral research path. | Guide users through mode, scope, extraction, finding decisions, save/resume and export in one interface. Confirm that source changes invalidate stale reviews. |
+| Review workflow | [Local setup](../LOCAL_SETUP.md) describes document commands, authored eight-criterion JSON review and the separate neutral research path. [Getting started](../GETTING_STARTED.md) covers the browser journey. | Observe intended users completing mode, scope, extraction, finding decisions, save/resume and export. Confirm that source changes invalidate stale reviews. |
 | Site | The [Site bridge](../site/README.md) records a private browser workspace with a pinned engine, source catalogue and governed contribution package. The 8 November production receipt covered catalogue and text intake. | Check the current deployed revision, signed-in save/restore, real PDF intake, physical phone, keyboard, screen reader, zoom and failure recovery. A repository catalogue check is not hosted acceptance. |
 | Source and legal context | [Issue #93](https://github.com/mick353/LAIF/issues/93) tracks original EU Act review, NIST assessed-text/PDF fidelity and DTAC upstream identity. | Show edition, authority, role, effective date, excerpt scope and unresolved provenance where a legal or framework claim appears. Keep a source-level finding distinct from a legal determination. |
 | Usability evidence | The [September scenario review](../review/USABILITY_REVIEW_2026-09.md) found and corrected report defects using authored fixtures. | Observe intended users completing realistic tasks. Record failures, comprehension, effort and satisfaction on the exact tested build. The scenario review is internal regression evidence. |

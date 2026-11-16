@@ -1,6 +1,8 @@
 # Quality and verification
 
-LAIF's current document-processing core runs locally in Python. The text/Markdown path uses the standard library and does not require a model API key. Word and PDF support uses optional extraction packages.
+For browser use, start with [the Site guide](../GETTING_STARTED.md); no Python installation is required. [Current verified state](../verification/CURRENT.md) separates Site acceptance from repository checks.
+
+The local toolkit's core runs in Python. The text/Markdown path uses the standard library and does not require a model API key. Word and PDF support uses optional extraction packages.
 
 For external research and regulator-facing communication, use the
 [scholarly neutral report and review protocol](../research/SCHOLARLY_REPORTING.md).
