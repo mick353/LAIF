@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-16",
+  "reason": "Owner-authorized removal of byte-identical redundant aliases. Original event inventories remain historical evidence; these mappings resolve removed paths to unchanged retained bytes.",
+  "files": [
+    {
+      "removed": "docs/verification/2026-05-11/latest_batch_summary.json",
+      "retained": "docs/verification/2026-05-11/batch_summaries/20260511T062417595291Z__batch.json",
+      "sha256": "d8554ce9ae38665ed9efbe3b725429be4f013dfdeaa7440e62b573c25ccb1770",
+      "bytes": 3750
+    },
+    {
+      "removed": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/AI_ANALYST_INPUT_BUNDLE.json",
+      "retained": "docs/verification/2026-11-07/regulatory/pypdf-diagnostic/au_dta_policy_v2_1/analyst/Policy-for-the-responsible-use-of-AI-in-government-2_1_1/analyst_bundle.json",
+      "sha256": "d924e952b2f449986429bae10a69c4366253e5807031aa4402183d3430a35d23",
+      "bytes": 116860
+    },
+    {
+      "removed": "docs/verification/2026-11-07/regulatory/reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/AI_ANALYST_INPUT_BUNDLE.json",
+      "retained": "docs/verification/2026-11-07/regulatory/reviewed-text/au_dta_policy_v2_1/analyst/au_dta_policy_v2_1/analyst_bundle.json",
+      "sha256": "810de8ca19dcdfc19913d1227acfce2032712e8da4c399afb1d41071a42f4fef",
+      "bytes": 117009
+    },
+    {
+      "removed": "docs/verification/2026-11-07/regulatory/reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/AI_ANALYST_INPUT_BUNDLE.json",
+      "retained": "docs/verification/2026-11-07/regulatory/reviewed-text/eu_ai_act_amendment_2026_1744/analyst/eu_ai_act_amendment_2026_1744/analyst_bundle.json",
+      "sha256": "ff99a6900a5df384e9c3e6c94841d914c19a8f0c702546a1c848affa7085d480",
+      "bytes": 99218
+    }
+  ]
+}
