@@ -231,7 +231,9 @@ hand-edit `reports/` output — change the engine or corpus and regenerate.
 Every generated artifact records a `toolchain_fingerprint`: a content hash of
 `assessment_engine.py`, `validate.py`, `laif_spec.py`, and
 `scripts/laif_process_document.py`, `scripts/laif_evidence_display.py` and
-`scripts/laif_auto_criteria.py`. **Any edit to these files changes the
+`scripts/laif_auto_criteria.py`, plus every sorted `laif_engine/*.py` source.
+The root engine preserves the historical import API; the package owns its
+implementation. **Any edit to these files changes the
 fingerprint, so `reports/` must be regenerated in the same commit** — the local report-drift gate fails
 otherwise, with the regeneration command in the error. This is the point of the
 field: an artifact that cannot name the code that produced it cannot support a

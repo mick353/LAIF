@@ -1475,7 +1475,7 @@ If you are having difficulties with accessing this document, please email: suppo
     def test_phase_3z_no_external_ai_api_network_patterns_added(self) -> None:
         haystack = "\n".join(
             path.read_text(encoding="utf-8")
-            for root in (REPO_ROOT / "scripts", REPO_ROOT / "tests")
+            for root in (REPO_ROOT / "scripts", REPO_ROOT / "tests", REPO_ROOT / "laif_engine")
             for path in root.rglob("*.py")
         ) + (REPO_ROOT / "assessment_engine.py").read_text(encoding="utf-8")
         forbidden = ("op" + "enai", "anth" + "ropic", "gem" + "ini", "google" + ".generativeai", "requests" + ".post", "ht" + "tpx", "urllib" + ".request")
@@ -2436,7 +2436,8 @@ class RemediationConsistencyTests(unittest.TestCase):
         from assessment_engine import STRUCTURAL_RUBRIC
         import assessment_engine
         labels = {lbl for _, _, lbl in STRUCTURAL_RUBRIC}
-        source = Path(assessment_engine.__file__).read_text(encoding="utf-8")
+        import inspect
+        source = inspect.getsource(assessment_engine.assess)
         block = source.split("_signal_construct = {", 1)[1].split("}", 1)[0]
         keys = re.findall(r'"([^"]+)":', block)
         self.assertTrue(keys)
@@ -2605,9 +2606,30 @@ class ToolchainProvenanceTests(unittest.TestCase):
         parts = [(root / n).read_bytes() for n in
                  ("assessment_engine.py", "validate.py", "laif_spec.py",
                   "scripts/laif_process_document.py", "scripts/laif_evidence_display.py",
-                  "scripts/laif_auto_criteria.py")]
+                  "scripts/laif_auto_criteria.py",
+                  *(p.relative_to(root).as_posix() for p in sorted((root / "laif_engine").glob("*.py"))))]
         expected = hashlib.sha256(b"\x00".join(parts)).hexdigest()[:16]
         self.assertEqual(toolchain_fingerprint(), expected)
+
+    def test_each_engine_module_changes_the_toolchain_identity(self) -> None:
+        from unittest.mock import patch
+        from assessment_engine import toolchain_fingerprint
+        original_read = Path.read_bytes
+        toolchain_fingerprint.cache_clear()
+        baseline = toolchain_fingerprint()
+        modules = sorted((REPO_ROOT / "laif_engine").glob("*.py"))
+        self.assertGreater(len(modules), 1)
+        try:
+            for module in modules:
+                with self.subTest(module=module.name):
+                    def changed_read(path):
+                        content = original_read(path)
+                        return content + b"\n# identity probe\n" if path == module else content
+                    with patch.object(Path, "read_bytes", changed_read):
+                        toolchain_fingerprint.cache_clear()
+                        self.assertNotEqual(toolchain_fingerprint(), baseline)
+        finally:
+            toolchain_fingerprint.cache_clear()
 
     def test_every_generated_artifact_carries_it(self) -> None:
         with tempfile.TemporaryDirectory() as td:
