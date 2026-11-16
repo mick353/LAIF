@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-16",
+  "reason": "Obsolete generated deployment packages; source revisions remain retained in Site source Git and published Site versions. Keep v17 rollback, current v18 and public v1 archives. No unique source or report removed.",
+  "removed": [
+    {
+      "name": "laif-journey-v16.tar",
+      "bytes": 7227179,
+      "sha256": "995540256772e799ac5fd74ad7e067dbb267464780eb2bea5b4839e074ba38cf"
+    },
+    {
+      "name": "laif-auto-criteria-v12.tar",
+      "bytes": 7222035,
+      "sha256": "e78e6a8837eccddf37f75fb7afb9c3c0e60d78aee720be87bdf40c28b702a21d"
+    },
+    {
+      "name": "laif-site-extraction-review-v10.tar",
+      "bytes": 7212055,
+      "sha256": "323ab10c45d2ebf25e784c2aa28ea554cfcfb527deb7b0bd5464ac3eebe7616e"
+    }
+  ]
+}

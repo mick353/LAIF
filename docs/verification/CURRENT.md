@@ -1,65 +1,80 @@
 # Current verified state
 
-Reconciled **16 November 2026 (Canberra)**. Owner: LAIF delivery lead.
-This is a dated checkpoint, not a live status service. Release PRs should update
-this page with the tested engine revision, Site revision and acceptance evidence.
-Documentation-only descendants can share the same tested engine identity.
+Reconciled **16 November 2026, 19:16 Canberra (AEDT)**. Owner: LAIF delivery lead.
+This is a dated checkpoint. See [delivery tasks](OVERHAUL_TASKS.md) and the
+[historical evidence index](INDEX.md).
 
-## Repository and software evidence
+## Released repository work
 
-- Engine baseline: `dd2883d30899ae27552086257582960b441ad183`, merged
-  [PR #122](https://github.com/mick353/LAIF/pull/122). Local main and origin/main
-  matched at reconciliation; no open PRs preceded this documentation follow-up.
-- PR #120 added provisional automatic documentary judgments for all eight
-  criteria. PR #121 clarified the review outputs and two user routes. PR #122
-  qualified heuristic source type and governance-force language in reports.
-- PR #122 records 150 focused runner tests and a full local gate of 631 tests,
-  two skipped, plus additional checks. These are recorded release results;
-  this reconciliation does not claim a fresh rerun of those tests.
-- Automatic judgments are deterministic rules with exact witnesses and missing
-  components. They do not establish legal applicability, operational behaviour
-  or independently validated accuracy. Authored reasoning remains separate.
-- Local untracked `.codex-attachments/` contains owner material and is preserved.
-  No GitHub Actions are used.
+Engine revision `e7594d3b98dcea75a06cb6b73d1a0e3d3a7177ce`, merged
+[PR #128](https://github.com/mick353/LAIF/pull/128). Documentation-only
+follow-ups can share this tested engine identity.
 
-## Site and observed acceptance
+- [PR #125](https://github.com/mick353/LAIF/pull/125): removed four exact duplicate
+  aliases (336,837 bytes), retaining all unique reports and current outputs.
+  [Hashes and retained paths](2026-11-16-deduplication.json). CLAUDE is under
+  8 KB; detailed guidance is linked. Browser/local guides remain separate.
+- [PR #126](https://github.com/mick353/LAIF/pull/126): locked Codex exploratory
+  predictions, five full retained sources, eight criteria, exact real-text
+  deletions and all failures. [Results](../research/overhaul-current/README.md).
+- [PR #127](https://github.com/mick353/LAIF/pull/127): ten engine modules and
+  compatibility API. Corpus Markdown was byte-identical; JSON changed only its
+  truthful source fingerprint. [Comparison](2026-11-16-engine-module-split.md).
+- PR #128: separate plain reader summaries, a summary-only jargon gate and ten
+  repaired current-report navigation links. Canonical authored reasoning is
+  unchanged. Four historical link defects retain their original evidence bytes.
+  [Navigation record](2026-11-16-report-navigation.md).
 
-[Open the Research Workspace](https://laif-research-workspace.mick353.chatgpt.site).
-Sites readback on 16 November confirms **v16**. Its source is
-`2e863ff7ef43ddfb384f5461016a928b612bef00`, with engine pin `dd2883d` and
-deployment `appgdep_6afa96f6cbcc819181b7db1d29796344`.
-The redesigned home, interactive example, four-stage navigation and latest-run
-resume were delivered. Hosted home and example interaction were observed;
-local synthetic intake through Markdown/JSON download and 390-pixel layout
-checks passed. Local exported bytes were inspected. This does not close the
-separate hosted download, fresh owner-document or full accessibility gates.
+Final integrated full local gate: **645 tests, two explicit Windows symlink
+capability skips**, plus corpus/provenance, adversarial, semantic-fidelity and
+byte-identical double report regeneration. No GitHub Actions ran. The initial
+readability gate found a missing assertion in a new test; it was fixed before
+this successful final run. Software verification does not establish independent
+accuracy, legal compliance or working operational controls.
 
-The [Notion project](https://app.notion.com/p/3eba16241adc8105802bdad1cb7d96ed)
-records a fresh hosted synthetic run
-`9578d1db-efd3-48e7-bafe-6ccef52bcf4f` showing the corrected institutional
-report and surviving reload. This is a recorded observation from the prior
-workstream, not a new browser observation during this reconciliation.
-The older sign-in block must not be repeated as the latest state.
+## Live Sites and acceptance
 
-## Remaining work
+[Public reading room](https://laif-public-guide.mick353.chatgpt.site): **v1**,
+source `dde7238d759cce062d28e763a0dbb223e05dcfca`, deployment
+`appgdep_6afab9b657dc81918a37ed1cbf57cdff`, succeeded 19:07 Canberra. Anonymous
+HTTP 200 returned the guide without sign-in; live browser readback passed.
+The static site has no document upload or analysis endpoint. It includes an
+interactive example, eight documentary ceilings, retained report links and
+an honest NIST/OECD comparison. Keyboard walkthrough and 390-pixel reflow were
+checked locally; no physical-phone or screen-reader result is implied.
 
-| Work / owner | Status | Next evidence or dependency |
-|---|---|---|
-| Hosted journey / delivery lead | Partial | Capture downloaded full Markdown and JSON bytes; finish extraction/operator/report-quality checks on the new run |
-| User acceptance / product owner | Open | Fresh owner document, recovery, intended-user tasks, physical phone, screen reader, keyboard/focus and zoom |
-| Discrimination / research owner | Partial | Strong-comparator intake and real eight-criterion comparison; retain earlier failed broad-score mutation results |
-| Engine split / engineering owner | Pending | Stable reviewed baseline; preserve substantive outputs while updating source fingerprints honestly |
-| Plain summaries / reporting owner | Partial | Automatic summaries delivered; remaining authored-summary work must preserve canonical reasoning |
-| Documentation / delivery lead | Partial | Current page and historical index provided; archive moves and shortened guides still need dependency review |
-| Public read-only Site / Site owner | Pending | Separate public retained content from the private working workspace and verify upload/storage disclosure |
-| Source/legal evidence / source custodian | Open | Original EU Act assessment, NIST fidelity qualifications and DTAC upstream identity remain in issue #93 |
+[Private Research Workspace](https://laif-research-workspace.mick353.chatgpt.site):
+**v18**, source `2f762fb0a58f9dfa6a9eac68b4d7f55c380f6d3c`, deployment
+`appgdep_6afabb1441b081918e0aba88e020f14d`, succeeded 19:13 Canberra.
+The 28-file browser runtime pins the merged engine revision above. Access
+readback remains one owner and zero external visitors. Signed-in sources and
+review records are saved in private cloud storage; browser computation does
+not mean documents stay only on the device.
 
-[Issue #110](https://github.com/mick353/LAIF/issues/110) tracks product acceptance;
-[issue #93](https://github.com/mick353/LAIF/issues/93) tracks source/legal gates.
-Neither is closed by passing software checks or deploying the Site.
+Site checks passed for storage/API isolation, source catalogue, decisions,
+extraction, review brief, automatic criteria, plain summaries, report rendering,
+TypeScript and production build. WebAssembly Python processed DTA, LAIF,
+synthetic PDF and policy fixtures; source/quotation identity and negative
+path/source checks passed. Local browser inspection confirmed separate summaries
+and expandable original authored wording.
 
-## Historical evidence
+Fresh hosted synthetic run `9561ab12-5fec-4357-a62c-e3b47ca1544e` used the
+merged engine, verified all 28 runtime files and eight source quotations, produced
+eight criterion judgments, saved and survived reload. Downloaded Markdown and
+JSON were read and checked: [export receipt](2026-11-16-hosted-acceptance.md).
+The run remains `DRAFT_REVIEW_REQUIRED`; no operator or legal attestation was
+fabricated. Previous runs retain their original method and report.
 
-Use the [verification index](INDEX.md). Earlier reports keep their original
-source versions, qualifications, hashes and test counts. This page supersedes
-their use as a **current status summary**, not their evidential contents.
+## Remaining evidence-dependent acceptance
+
+| Item / owner | State and next step |
+|---|---|
+| Intended-user acceptance / product owner | Fresh owner-document review, recovery, physical phone and screen reader remain unobserved. Synthetic browser checks do not replace these. |
+| Preferred comparator intake / source custodian | Ombudsman March 2025 guide edition verified, but normal PC byte retrieval returned HTTP 403. Supply publisher PDF bytes or wait for working authoritative retrieval. Current comparison openly uses retained NIST/OECD. |
+| Independent assessment validity / research owner | Unblinded Codex predictions are exploratory; independent adjudication and empirical control-effectiveness evidence remain absent. |
+| Source/legal gates / source custodian | Original EU Act assessment, NIST fidelity qualifications and DTAC upstream identity remain separately tracked in issue #93. |
+
+[Issue #110](https://github.com/mick353/LAIF/issues/110) remains open for user
+acceptance; [issue #93](https://github.com/mick353/LAIF/issues/93) remains open
+for source/legal evidence. These are not software fixes that a passing build
+can establish. Untracked owner attachments are preserved.
