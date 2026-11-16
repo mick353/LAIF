@@ -1,0 +1,170 @@
+{
+  "schema": "laif.eight-criterion-exploration.v1",
+  "author": "Codex",
+  "baseline": "dde0f77df14ecbb90437ba2e7b523f54ed38c4b4",
+  "independent_validation": false,
+  "prediction_scope": "Unblinded model expectations; prior numeric results and rule source have been inspected. No judgment calls executed before this file was committed.",
+  "documents": [
+    {
+      "id": "nist",
+      "path": "docs/verified/raw/5f667a6f-NIST.AI.1001.md",
+      "sha256": "44ac320e6da1d15fcfded2933da7f62bf0ed552b78a81358102c057991ba6509",
+      "scope": "stronger operational-detail hypothesis; HASH_VERIFIED_LOCAL_ONLY",
+      "expected": {
+        "A.1": "PARTIAL_SUPPORT",
+        "A.2": "NOT_ESTABLISHED",
+        "A.3": "PARTIAL_SUPPORT",
+        "A.4": "PARTIAL_SUPPORT",
+        "Q1": "PARTIAL_SUPPORT",
+        "Q2": "PARTIAL_SUPPORT",
+        "Q3": "PARTIAL_SUPPORT",
+        "G.1": "PARTIAL_SUPPORT"
+      }
+    },
+    {
+      "id": "oecd",
+      "path": "docs/verified/raw/51a29205-OECD_Legal_Instruments.md",
+      "sha256": "f35d85747b59c41424858536b566c3c66d0782e4d0036a1c3f6244ed5f259fe6",
+      "scope": "weaker operational-detail hypothesis; HASH_VERIFIED_LOCAL_ONLY",
+      "expected": {
+        "A.1": "PARTIAL_SUPPORT",
+        "A.2": "NOT_ESTABLISHED",
+        "A.3": "PARTIAL_SUPPORT",
+        "A.4": "NOT_ESTABLISHED",
+        "Q1": "PARTIAL_SUPPORT",
+        "Q2": "PARTIAL_SUPPORT",
+        "Q3": "PARTIAL_SUPPORT",
+        "G.1": "PARTIAL_SUPPORT"
+      }
+    },
+    {
+      "id": "dta",
+      "path": "docs/verified/raw/au_dta_policy_v2_1.md",
+      "sha256": "3165de723fc222c8e8f86fbd0562a07f930841795f4e83f3de3685f37697f21b",
+      "scope": "version 2.1 retained verified regulatory text",
+      "expected": {
+        "A.1": "PARTIAL_SUPPORT",
+        "A.2": "NOT_ESTABLISHED",
+        "A.3": "PARTIAL_SUPPORT",
+        "A.4": "NOT_ESTABLISHED",
+        "Q1": "NOT_ESTABLISHED",
+        "Q2": "NOT_ESTABLISHED",
+        "Q3": "PARTIAL_SUPPORT",
+        "G.1": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "laif",
+      "path": "LAIF_v1.2.txt",
+      "sha256": "c373ed4f8bb76856ac274f40e0af1deadd990eeb68a9bc8b585eb74d7a3df407",
+      "scope": "native circular positive control, not independent",
+      "expected": {
+        "A.1": "PARTIAL_SUPPORT",
+        "A.2": "PARTIAL_SUPPORT",
+        "A.3": "PARTIAL_SUPPORT",
+        "A.4": "PARTIAL_SUPPORT",
+        "Q1": "PARTIAL_SUPPORT",
+        "Q2": "PARTIAL_SUPPORT",
+        "Q3": "PARTIAL_SUPPORT",
+        "G.1": "PARTIAL_SUPPORT"
+      }
+    },
+    {
+      "id": "clinical",
+      "path": "LAIF_PDCA_GPT4_Clinical.txt",
+      "sha256": "f66bb72a82b3a447db9e35b15818f349019dd86fc886a9a2593c676b588c5836",
+      "scope": "native applied circular positive control, not independent",
+      "expected": {
+        "A.1": "PARTIAL_SUPPORT",
+        "A.2": "PARTIAL_SUPPORT",
+        "A.3": "PARTIAL_SUPPORT",
+        "A.4": "PARTIAL_SUPPORT",
+        "Q1": "PARTIAL_SUPPORT",
+        "Q2": "PARTIAL_SUPPORT",
+        "Q3": "PARTIAL_SUPPORT",
+        "G.1": "PARTIAL_SUPPORT"
+      }
+    }
+  ],
+  "ranking": {
+    "left": "nist",
+    "right": "oecd",
+    "expectation": "more supported components and more criteria with any support; neither proves superiority or legal merit"
+  },
+  "mutations": [
+    {
+      "id": "remove_deactivation",
+      "source": "nist",
+      "start": "MANAGE 2.4:",
+      "end": " |",
+      "criterion": "A.3",
+      "component": "interruption or deactivation",
+      "expected": "fewer exact witnesses; status may remain unchanged because other clauses remain"
+    },
+    {
+      "id": "remove_roles",
+      "source": "nist",
+      "start": "GOVERN 2.1:",
+      "end": "GOVERN 2.2:",
+      "criterion": "G.1",
+      "component": "review of the governance actors themselves",
+      "expected": "unchanged: assigning roles does not require independent review of governors"
+    },
+    {
+      "id": "remove_incident_response",
+      "source": "nist",
+      "start": "MANAGE 4.3:",
+      "end": " |",
+      "criterion": "A.3",
+      "component": "escalation to an authorised person",
+      "expected": "unchanged: incident communication does not necessarily establish authorised escalation"
+    }
+  ],
+  "systematic_ablation": {
+    "selection": "For each source and criterion, remove every exact matched source clause for that criterion. Original source retained; derivatives only in memory.",
+    "expectation": "selected criterion becomes NOT_ESTABLISHED when it originally had witnesses; no-witness cases are NOT_APPLICABLE, not passes. Other criteria may change where evidence overlaps.",
+    "limit": "Rule-guided sensitivity diagnostic, not independent construct validation or a realistic edited policy."
+  },
+  "ceilings": {
+    "A.1": {
+      "automatic_documentary": "PROVISIONALLY_SUPPORTED",
+      "authored_documentary": "SUPPORTED_IN_SCOPE with sufficient scoped argument",
+      "operational_from_policy_alone": "NOT_ESTABLISHED"
+    },
+    "A.2": {
+      "automatic_documentary": "PROVISIONALLY_SUPPORTED",
+      "authored_documentary": "SUPPORTED_IN_SCOPE with sufficient scoped argument",
+      "operational_from_policy_alone": "NOT_ESTABLISHED"
+    },
+    "A.3": {
+      "automatic_documentary": "PROVISIONALLY_SUPPORTED",
+      "authored_documentary": "SUPPORTED_IN_SCOPE with sufficient scoped argument",
+      "operational_from_policy_alone": "NOT_ESTABLISHED"
+    },
+    "A.4": {
+      "automatic_documentary": "PROVISIONALLY_SUPPORTED",
+      "authored_documentary": "SUPPORTED_IN_SCOPE with sufficient scoped argument",
+      "operational_from_policy_alone": "NOT_ESTABLISHED"
+    },
+    "Q1": {
+      "automatic_documentary": "PROVISIONALLY_SUPPORTED",
+      "authored_documentary": "SUPPORTED_IN_SCOPE with sufficient scoped argument",
+      "operational_from_policy_alone": "NOT_ESTABLISHED"
+    },
+    "Q2": {
+      "automatic_documentary": "PROVISIONALLY_SUPPORTED",
+      "authored_documentary": "SUPPORTED_IN_SCOPE with sufficient scoped argument",
+      "operational_from_policy_alone": "NOT_ESTABLISHED"
+    },
+    "Q3": {
+      "automatic_documentary": "PROVISIONALLY_SUPPORTED",
+      "authored_documentary": "SUPPORTED_IN_SCOPE with sufficient scoped argument",
+      "operational_from_policy_alone": "NOT_ESTABLISHED"
+    },
+    "G.1": {
+      "automatic_documentary": "PROVISIONALLY_SUPPORTED",
+      "authored_documentary": "SUPPORTED_IN_SCOPE with sufficient scoped argument",
+      "operational_from_policy_alone": "NOT_ESTABLISHED"
+    }
+  }
+}
