@@ -1,6 +1,6 @@
 # Current verified state
 
-Reconciled **16 November 2026, 19:16 Canberra (AEDT)**. Owner: LAIF delivery lead.
+Reconciled **16 November 2026, 23:12 Canberra (AEDT)**. Owner: LAIF delivery lead.
 This is a dated checkpoint. See [delivery tasks](OVERHAUL_TASKS.md) and the
 [historical evidence index](INDEX.md).
 
@@ -34,18 +34,19 @@ accuracy, legal compliance or working operational controls.
 
 ## Live Sites and acceptance
 
-[Public reading room](https://laif-public-guide.mick353.chatgpt.site): **v1**,
-source `dde7238d759cce062d28e763a0dbb223e05dcfca`, deployment
-`appgdep_6afab9b657dc81918a37ed1cbf57cdff`, succeeded 19:07 Canberra. Anonymous
-HTTP 200 returned the guide without sign-in; live browser readback passed.
+[Public reading room](https://laif-public-guide.mick353.chatgpt.site): **v2**,
+source `61b815b3c30c422a59888341067a991d7b849d37`, deployment
+`appgdep_6afaf2bc69508191ac34ec7f810316b4`, succeeded 23:10 Canberra.
+Live browser readback confirmed the public companion explanation and direct
+main-workspace link. Anonymous HTTP 200 was established at v1.
 The static site has no document upload or analysis endpoint. It includes an
 interactive example, eight documentary ceilings, retained report links and
 an honest NIST/OECD comparison. Keyboard walkthrough and 390-pixel reflow were
 checked locally; no physical-phone or screen-reader result is implied.
 
 [Private Research Workspace](https://laif-research-workspace.mick353.chatgpt.site):
-**v18**, source `2f762fb0a58f9dfa6a9eac68b4d7f55c380f6d3c`, deployment
-`appgdep_6afabb1441b081918e0aba88e020f14d`, succeeded 19:13 Canberra.
+**v19**, source `e79e534fbfb38a53d1258ee4dacc67cc8b3aab234`, deployment
+`appgdep_6afaf2881d9c8191833c3b0a30d72eba`, succeeded 23:10 Canberra.
 The 28-file browser runtime pins the merged engine revision above. Access
 readback remains one owner and zero external visitors. Signed-in sources and
 review records are saved in private cloud storage; browser computation does
@@ -58,12 +59,24 @@ synthetic PDF and policy fixtures; source/quotation identity and negative
 path/source checks passed. Local browser inspection confirmed separate summaries
 and expandable original authored wording.
 
-Fresh hosted synthetic run `9561ab12-5fec-4357-a62c-e3b47ca1544e` used the
+At v18, fresh hosted synthetic run `9561ab12-5fec-4357-a62c-e3b47ca1544e` used the
 merged engine, verified all 28 runtime files and eight source quotations, produced
 eight criterion judgments, saved and survived reload. Downloaded Markdown and
 JSON were read and checked: [export receipt](2026-11-16-hosted-acceptance.md).
 The run remains `DRAFT_REVIEW_REQUIRED`; no operator or legal attestation was
 fabricated. Previous runs retain their original method and report.
+
+The v19 interface pass preserves the engine and saved records. The source view
+shows document/edition; assessment and evidence steps open their corresponding
+views. Selecting an older run survives the source-to-assessment round trip.
+Canberra timestamps and short IDs distinguish repeated runs. Duplicate intake
+opens the existing source. Both Sites explain their roles and link to each other.
+Live browser inspection preserved older run `9578d1db-efd3-48e7-bafe-6ccef52bcf4f`
+through that round trip and opened quoted evidence. Focused navigation,
+storage/API isolation, source catalogue, decisions, extraction, review brief,
+guidance, summaries and rendering checks passed, with TypeScript and production
+build. Public static checks and local mobile reflow passed. The unchanged
+engine's full gate was not repeated for this interface-only pass.
 
 ## Remaining evidence-dependent acceptance
 
