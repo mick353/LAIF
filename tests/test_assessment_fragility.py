@@ -21,6 +21,14 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from assessment_engine import assess, generate_markdown_report, _safe_executive_risk_text
+
+
+def _engine_source():
+    """Scan the compatibility API and every implementation module."""
+    root = Path(__file__).resolve().parents[1]
+    return "\n".join(path.read_text(encoding="utf-8") for path in
+                     [root / "assessment_engine.py", *sorted((root / "laif_engine").glob("*.py"))])
+
 from test_real_world import _print_scorecard
 from validate import (CONTEXT_WINDOW, PARAPHRASE_GUARDS,
                       find_paraphrase_violations, has_opening_header_date)
@@ -231,7 +239,7 @@ class PublicReportTemplateHardeningTests(unittest.TestCase):
 
     def test_public_report_unsafe_grep_gates_and_matched_text_doc_gate(self):
         root = Path(__file__).resolve().parents[1]
-        engine = (root / "assessment_engine.py").read_text(encoding="utf-8")
+        engine = _engine_source()
         real_world = (root / "test_real_world.py").read_text(encoding="utf-8")
         evidence_doc = (root / "docs" / "governance" / "EVIDENCE_TRACE_MODEL.md").read_text(encoding="utf-8")
         self.assertIn("matched_text must equal", evidence_doc)
@@ -1094,7 +1102,7 @@ class AssessmentFragilityCharacterizationTests(unittest.TestCase):
 
     def test_sector_profile_unsafe_grep_gates_remain_clear(self):
         """Unsafe source-string cleanup gates remain protected."""
-        engine_text = (Path(__file__).resolve().parents[1] / "assessment_engine.py").read_text(encoding="utf-8")
+        engine_text = _engine_source()
         console_text = (Path(__file__).resolve().parents[1] / "test_real_world.py").read_text(encoding="utf-8")
         self.assertNotIn(LEGACY_FINAL_LABEL, engine_text)
         self.assertNotIn(LEGACY_FAILURE_LABEL, engine_text)
@@ -1412,7 +1420,7 @@ class Phase3QCalibrationScoreJustificationTests(unittest.TestCase):
 
     def test_phase_3q_unsafe_grep_gates_still_pass(self):
         evidence_doc = Path("docs/governance/EVIDENCE_TRACE_MODEL.md").read_text(encoding="utf-8")
-        engine = Path("assessment_engine.py").read_text(encoding="utf-8")
+        engine = _engine_source()
         real_world = Path("test_real_world.py").read_text(encoding="utf-8")
         self.assertIn("matched_text must equal", evidence_doc)
         self.assertNotIn(LEGACY_FINAL_LABEL, engine)

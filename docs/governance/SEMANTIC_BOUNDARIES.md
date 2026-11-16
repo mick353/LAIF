@@ -147,7 +147,7 @@ instructions:
 
 | File | Why a change here can move a boundary |
 |---|---|
-| `assessment_engine.py` | Detection, scoring, functional alignment, contradiction and enumeration guards, and every report the system emits |
+| `assessment_engine.py` and `laif_engine/*.py` (each module listed explicitly in the path configuration) | Detection, scoring, functional alignment, contradiction and enumeration guards, and every report the system emits |
 | `laif_spec.py` | The canonical terms and the forbidden-paraphrase table that `validate.py` derives its guards from |
 | `validate.py` | The strict gate over LAIF's own corpus, and the guards the engine imports |
 | `official_documents.py`, `sample_documents.py` | The assessment corpus and its provenance tiers |
