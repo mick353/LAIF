@@ -30,6 +30,7 @@
     "scripts/governance/protected_paths.json",
     "scripts/laif_assurance.py",
     "scripts/laif_auto_criteria.py",
+    "scripts/laif_reader_summaries.py",
     "scripts/laif_batch_process_pending.py",
     "scripts/laif_calibration.py",
     "scripts/laif_evidence_checks.py",

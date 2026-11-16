@@ -2606,7 +2606,7 @@ class ToolchainProvenanceTests(unittest.TestCase):
         parts = [(root / n).read_bytes() for n in
                  ("assessment_engine.py", "validate.py", "laif_spec.py",
                   "scripts/laif_process_document.py", "scripts/laif_evidence_display.py",
-                  "scripts/laif_auto_criteria.py",
+                  "scripts/laif_auto_criteria.py", "scripts/laif_reader_summaries.py",
                   *(p.relative_to(root).as_posix() for p in sorted((root / "laif_engine").glob("*.py"))))]
         expected = hashlib.sha256(b"\x00".join(parts)).hexdigest()[:16]
         self.assertEqual(toolchain_fingerprint(), expected)

@@ -29,6 +29,7 @@ if str(REPO_ROOT) not in sys.path:
 from scripts.laif_evidence_display import (
     evidence_links, locate, passage, anchor,
 )
+from scripts.laif_reader_summaries import reader_summary, method_sha256 as reader_summary_method_sha256
 
 from assessment_engine import (
     assess,
@@ -2358,6 +2359,7 @@ def criteria_review_sections(review: dict, source_name: str = "supplied source")
         lines += ["| " + row["criterion_id"] + " | " + safe(item["determination"] if item else "NOT_ASSESSED") + " |"]
     for row in review["criteria"]:
         lines += ["", "### " + row["criterion_id"] + " — authored determination", "",
+                  "Reader summary (automatic reading aid): " + safe(reader_summary(row["criterion_id"], row["determination"])), "",
                   "Reasoning: " + safe(row["reasoning"]), "",
                   "Framework basis: " + safe(row["framework_basis"]), "",
                   "Applicability: " + safe(row["applicability_reason"]), "",
@@ -2397,6 +2399,10 @@ def source_reasoning_record(provenance: dict) -> dict | None:
         evidence += json.loads((path.parent / "original_act_substantive_evidence.json").read_text(encoding="utf-8"))["traces"]
     return {"record": record, "record_path": str(path.relative_to(REPO_ROOT)),
             "record_sha256": sha256_file(path), "curated_source_evidence": evidence,
+            "reader_summaries": {row["criterion_id"]: {"reader_summary": reader_summary(row["criterion_id"], row["determination"])}
+                                 for row in record["criteria_findings"]},
+            "reader_summary_method_sha256": reader_summary_method_sha256(),
+            "reader_summary_origin": "AUTOMATIC_READING_AID_FOR_RECORDED_AUTHOR_STATUS",
             "attribution": "Existing repository author analysis; not produced by pattern matching or independently reviewed."}
 
 
@@ -2416,6 +2422,7 @@ def attributed_reasoning_sections(review: dict) -> list[str]:
     for row in record["criteria_findings"]:
         lines += [f'<a id="{anchor("criterion", row["criterion_id"])}"></a>', "",
                   f"#### {row['criterion_id']} — supporting source passages", "",
+                  "Reader summary (automatic reading aid): " + _safe_report_text(reader_summary(row["criterion_id"], row["determination"])), "",
                   "Reasoning: " + _safe_report_text(row["reasoning"]), "",
                   "Evidence: " + evidence_links(row["trace_ids"], "trace"), "",
                   "Closing evidence: " + _safe_report_text(row["closure_evidence"]), ""]

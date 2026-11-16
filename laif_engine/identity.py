@@ -25,7 +25,7 @@ def toolchain_fingerprint():
         parts = []
         for name in ("assessment_engine.py", "validate.py", "laif_spec.py",
                      "scripts/laif_process_document.py", "scripts/laif_evidence_display.py",
-                     "scripts/laif_auto_criteria.py",
+                     "scripts/laif_auto_criteria.py", "scripts/laif_reader_summaries.py",
                      *tuple(str(p.relative_to(here)).replace("\\", "/")
                             for p in sorted((here / "laif_engine").glob("*.py")))):
             path = here / name

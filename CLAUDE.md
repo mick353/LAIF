@@ -59,7 +59,7 @@ Regenerate with `python3 test_real_world.py`; do not hand-edit generated reports
 Every generated artifact records the toolchain fingerprint. Changes to
 `assessment_engine.py`, `validate.py`, `laif_spec.py`,
 `scripts/laif_process_document.py`, `scripts/laif_evidence_display.py` or
-`scripts/laif_auto_criteria.py`, or any sorted `laif_engine/*.py` source require
+`scripts/laif_auto_criteria.py`, `scripts/laif_reader_summaries.py`, or any sorted `laif_engine/*.py` source require
 regeneration in the same change. The root engine is a compatibility API; moved
 implementation remains part of the fingerprint. Two
 successive generations must be byte-identical. Do not disguise a changed source

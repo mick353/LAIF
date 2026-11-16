@@ -231,7 +231,7 @@ hand-edit `reports/` output — change the engine or corpus and regenerate.
 Every generated artifact records a `toolchain_fingerprint`: a content hash of
 `assessment_engine.py`, `validate.py`, `laif_spec.py`, and
 `scripts/laif_process_document.py`, `scripts/laif_evidence_display.py` and
-`scripts/laif_auto_criteria.py`, plus every sorted `laif_engine/*.py` source.
+`scripts/laif_auto_criteria.py`, `scripts/laif_reader_summaries.py`, plus every sorted `laif_engine/*.py` source.
 The root engine preserves the historical import API; the package owns its
 implementation. **Any edit to these files changes the
 fingerprint, so `reports/` must be regenerated in the same commit** — the local report-drift gate fails
