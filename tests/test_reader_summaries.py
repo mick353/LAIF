@@ -49,6 +49,7 @@ class ReaderSummaryTests(unittest.TestCase):
 
     def test_current_generated_report_summary_fields(self):
         report = json.loads((ROOT / "reports/laif_assessment_data.json").read_text(encoding="utf-8"))
+        self.assertIn('"reader_summary"', json.dumps(report), "The gate must inspect actual summary fields")
         validate_summary_fields(report)
 
     def test_authored_reasoning_and_input_are_unchanged(self):
