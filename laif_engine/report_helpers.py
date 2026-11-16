@@ -423,8 +423,10 @@ def _report_limits_and_reviewer_actions(result):
 
 def _md_anchor(text):
     """GitHub-style markdown anchor slug for a heading."""
-    slug = re.sub(r"[^\w\s-]", "", str(text).lower())
-    return re.sub(r"[\s]+", "-", slug).strip("-")
+    # GitHub preserves each ordinary space, including spaces on either side
+    # of removed punctuation. Collapsing them breaks headings containing " — ".
+    slug = re.sub(r"[^\w -]", "", str(text).lower())
+    return slug.replace(" ", "-")
 
 
 def _markdown_table(headers, rows):

@@ -30,6 +30,7 @@ from assessment_engine import assess, toolchain_fingerprint
 from laif_spec import ASSESSMENT_CRITERIA
 from laif_criteria_review import validate_criteria_review, criterion_template
 from scripts.laif_auto_criteria import judge as automatic_judge
+from scripts.laif_reader_summaries import add_reader_summaries
 from laif_process_document import (
     ExtractionError, build_extraction_quality_profile, build_low_confidence_quote_candidates,
     build_quote_bank, build_verification_required_evidence, extract_document,
@@ -266,7 +267,7 @@ def build_dossier(path: Path, *, extractor: str = "auto-local", source_scope: st
     review_data = _read_json(review_file) if review_file else None
     findings = _validated_annotations(review_file, source_sha, manifest_sha, observations, review_data)
     try:
-        criteria_review = validate_criteria_review(review_data.get("criteria_review") if review_data else None, text)
+        criteria_review = add_reader_summaries(validate_criteria_review(review_data.get("criteria_review") if review_data else None, text))
     except ValueError as exc:
         raise ResearchInputError(str(exc)) from exc
     locate_review(criteria_review, text)
