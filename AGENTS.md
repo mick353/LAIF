@@ -1,6 +1,6 @@
 # Repository agent instructions
 
-**Current verification checkpoint (7 November 2026):** The [readable-evidence record](docs/verification/2026-11-07-readable-evidence/README.md) contains the fresh 587-test full gate, 228 targeted checks, PDF reproduction and regenerated DTA/EU/NIST reports with quotations beside findings. Its base is merged PR #105 at 368334a346138b28e9735e71a464dca6fe9ff393 (578-test release). Inspect Git/PR state to distinguish tested and merged stages; main remains authoritative. Earlier logs and reports are historical.
+**Current verified state:** See [CURRENT.md](docs/verification/CURRENT.md) for the dated repository, Site and acceptance checkpoint. Consult the [verification index](docs/verification/INDEX.md) for historical evidence. Recheck live Git/PR and deployment state before release claims; main remains authoritative.
 
 ## Local-first verification (GitHub Actions not used)
 

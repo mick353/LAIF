@@ -13,14 +13,11 @@ This repository holds the Law-Aligned Intelligence Framework (LAIF), a constitut
 
 ---
 
-## Current verification checkpoint — 7 November 2026
+## Current verified state
 
-The [readable-evidence follow-up](docs/verification/2026-11-07-readable-evidence/README.md)
-starts from merged PR #105 (`368334a346138b28e9735e71a464dca6fe9ff393`).
-Its fresh Work cloud Python 3.12.14 gate passed 587 tests plus additional checks;
-228 targeted tests and pinned PDF reproduction passed. Current reports quote
-supporting passages beside findings and link evidence IDs to quotations. Earlier
-dated reports retain their original presentation. Scoring and conclusions are unchanged.
+Use [CURRENT.md](docs/verification/CURRENT.md) for the dated repository, Site
+and acceptance checkpoint and [INDEX.md](docs/verification/INDEX.md) for
+historical verification evidence. Recheck live state before release claims.
 
 ## Repository Structure
 
