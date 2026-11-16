@@ -8,17 +8,17 @@
 
 
 ## Contents
-[Report Scope and Boundary](#report-scope-and-boundary) · [Executive Brief](#executive-brief) · [Cross-Document Dashboard](#cross-document-dashboard) · [Peer Exemplars](#peer-exemplars-what-good-looks-like-in-this-corpus) · [Closing Notes](#closing-interpretation-notes)
-1. [US Executive Order 14110 — §2 Principles, §6 Workers, §7 Civil Rights (offic](#document-1-us-executive-order-14110-2-principles-6-workers-7-civil-rights-official-text)
-2. [OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (official text)](#document-2-oecd-recommendation-on-ai-oecdlegal0449-sections-1-2-official-text)
-3. [NIST AI RMF 1.0 (NIST AI 100-1) — GOVERN & MAP Functions (official text)](#document-3-nist-ai-rmf-10-nist-ai-100-1-govern-map-functions-official-text)
-4. [NHS England DTAC v2.0 (February 2026) — Introduction & C1 Clinical Safety (o](#document-4-nhs-england-dtac-v20-february-2026-introduction-c1-clinical-safety-official-text)
-5. [EU AI Act — Art. 9, 13 & 14](#document-5-eu-ai-act-art-9-13-14)
-6. [NIST AI RMF — Govern & Map Functions](#document-6-nist-ai-rmf-govern-map-functions)
+[Report Scope and Boundary](#report-scope-and-boundary) · [Executive Brief](#executive-brief) · [Cross-Document Dashboard](#cross-document-dashboard) · [Peer Exemplars](#peer-exemplars--what-good-looks-like-in-this-corpus) · [Closing Notes](#closing-interpretation-notes)
+1. [US Executive Order 14110 — §2 Principles, §6 Workers, §7 Civil Rights (offic](#document-1-us-executive-order-14110--2-principles-6-workers-7-civil-rights-official-text)
+2. [OECD Recommendation on AI (OECD/LEGAL/0449) — Sections 1 & 2 (official text)](#document-2-oecd-recommendation-on-ai-oecdlegal0449--sections-1--2-official-text)
+3. [NIST AI RMF 1.0 (NIST AI 100-1) — GOVERN & MAP Functions (official text)](#document-3-nist-ai-rmf-10-nist-ai-100-1--govern--map-functions-official-text)
+4. [NHS England DTAC v2.0 (February 2026) — Introduction & C1 Clinical Safety (o](#document-4-nhs-england-dtac-v20-february-2026--introduction--c1-clinical-safety-official-text)
+5. [EU AI Act — Art. 9, 13 & 14](#document-5-eu-ai-act--art-9-13--14)
+6. [NIST AI RMF — Govern & Map Functions](#document-6-nist-ai-rmf--govern--map-functions)
 7. [OECD AI Principles (2019, rev. 2024)](#document-7-oecd-ai-principles-2019-rev-2024)
-8. [US Executive Order 14110 — §4 Safety & §7 Workers](#document-8-us-executive-order-14110-4-safety-7-workers)
-9. [NHS England — AI in Clinical Decision Support (Policy Framework)](#document-9-nhs-england-ai-in-clinical-decision-support-policy-framework)
-10. [TUC/CIPD — Framework for Fair AI in Employment Decisions](#document-10-tuccipd-framework-for-fair-ai-in-employment-decisions)
+8. [US Executive Order 14110 — §4 Safety & §7 Workers](#document-8-us-executive-order-14110--4-safety--7-workers)
+9. [NHS England — AI in Clinical Decision Support (Policy Framework)](#document-9-nhs-england--ai-in-clinical-decision-support-policy-framework)
+10. [TUC/CIPD — Framework for Fair AI in Employment Decisions](#document-10-tuccipd--framework-for-fair-ai-in-employment-decisions)
 
 
 ## Report Scope and Boundary

@@ -351,11 +351,12 @@ def generate_markdown_report(assessments, report_date=REPORT_DATE,
     p("**Validator boundary:** validate.py enforcement remains unchanged; this report renders existing assessment results only.  ")
     p()
 
+    peer_heading = "Peer Exemplars — What Good Looks Like in This Corpus"
     h(2, "Contents")
     p("[Report Scope and Boundary](#report-scope-and-boundary) · "
       "[Executive Brief](#executive-brief) · "
       "[Cross-Document Dashboard](#cross-document-dashboard) · "
-      "[Peer Exemplars](#peer-exemplars-what-good-looks-like-in-this-corpus) · "
+      f"[Peer Exemplars](#{_md_anchor(peer_heading)}) · "
       "[Closing Notes](#closing-interpretation-notes)")
     for _i, _r in enumerate(assessments, 1):
         _title = f"Document {_i}: {_r.get('document_name', '')}"
@@ -540,7 +541,7 @@ def generate_markdown_report(assessments, report_date=REPORT_DATE,
     p()
 
     # ── Peer Exemplars — turn the corpus into a library of working examples
-    h(2, "Peer Exemplars — What Good Looks Like in This Corpus")
+    h(2, peer_heading)
     p("For each core structure, the strongest expression found anywhere in this "
       "corpus, quoted with its location — a working example a document owner can "
       "adapt. Verdict order: DECLARED > FUNCTIONAL > PARTIAL. Structures no "
