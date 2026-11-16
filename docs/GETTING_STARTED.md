@@ -73,7 +73,10 @@ Automatic judgments, retained authored reasoning and your passage decisions
 remain distinct.
 
 Use **Quoted evidence** to inspect passages and **1. Source** to return to the
-document. The review path shows your location, not completion or certification.
+document. The source view shows the document and edition. **2. Assessment**
+returns to the selected run's findings; **3. Review evidence** opens its quoted
+passages. If the source has no assessment yet, step 2 starts one.
+The review path shows your location, not completion or certification.
 
 ## 4. Review and export
 
@@ -102,6 +105,9 @@ Processing in the browser does not mean the document never leaves your computer.
 On Home, **Continue review** opens the most recent automated assessment.
 Use **Assessments** for older runs. New editions preserve earlier sources and
 runs; check changed text before applying previous review decisions.
+The assessment picker includes Canberra timestamps and short run IDs so repeated
+reviews of the same document can be distinguished. Your selected older run stays
+selected when moving through its source, findings and evidence.
 
 If saving is unavailable, keep the tab open and choose **Export backup**.
 A report download is not a complete workspace backup. Backup import/export
