@@ -4,8 +4,10 @@
 
 All records below are historical evidence of their named runs, not proof that
 today's checkout or Site passed the same checks. Historical does not mean invalid
-or superseded. No records have been moved or deleted; existing links and hashes
-are preserved. A superseded-by relation requires a specific replacement receipt.
+or superseded. Unique records and their original hashes are preserved. Four
+byte-identical aliases were removed on 16 November with a
+[retained-path and hash manifest](2026-11-16-deduplication.json).
+A superseded-by relation requires a specific replacement receipt.
 
 | Record | Status | Evidence scope |
 |---|---|---|

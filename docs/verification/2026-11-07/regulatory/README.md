@@ -1,5 +1,13 @@
 # PR #98 — regulatory ingestion and assessment review
 
+**16 November retention update:** three byte-identical
+`AI_ANALYST_INPUT_BUNDLE.json` aliases were removed; the neighboring
+`analyst_bundle.json` files retain their exact contents. Original artifact
+inventories remain event records. Consult the
+[deduplication manifest](../../2026-11-16-deduplication.json) for the exact
+paths and matching hashes. All distinct assessments and extraction evidence
+remain retained, including the non-identical fourth bundle pair.
+
 **Executed:** 7 November 2026 (Australia/Sydney), in Work's cloud Python environment. **Branch:** `docs/authoritative-source-currency-20261107`, starting at `4170f1825f5b05e4085c99c837658da097275687`; main at `09f8687b58d1c5547cfe58bcf4e38aa7da3619a2`. No merge authorised or performed.
 
 ## Substantive assessment correction

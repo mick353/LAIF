@@ -63,68 +63,14 @@ Use it to make a policy review more concrete, prepare better supplier questions,
 
 ## Try it locally
 
-You need Git and Python 3. The published independent verification was executed on Python 3.12; the repository targets Python 3.10. Text and Markdown processing need no third-party packages or model API key.
+For Python installation, cloning, PDF/Word extraction and batch commands, use
+[Local repository setup](docs/LOCAL_SETUP.md). The guided command is
+`python3 scripts/laif_start.py` after setup (`py -3 -X utf8` on Windows).
+The included synthetic policy provides a safe first review. Keep confidential
+sources and reports out of this public repository.
 
-**Start with the guided local review** after cloning the repository. It uses the
-included synthetic policy by default, helps choose a report, shows what text
-was extracted and any warnings, then asks whether to save it:
-
-```bash
-git clone https://github.com/mick353/LAIF.git
-cd LAIF
-python3 scripts/laif_start.py
-```
-
-The evidence path gives source passages and open review questions; the internal
-diagnostic adds interpretive suggestions for expert review. The guide names the
-first report to read and the next action. Use `--inspect-only` to check extraction
-without writing outputs. On Windows, use `py -3 -X utf8` in place of `python3`.
-[Guided local start options and limits](docs/LOCAL_SETUP.md#guided-local-start).
-
-Authorised users can also use the separately versioned, owner-private **LAIF
-Research Workspace** in a browser. It has its own source catalogue, pinned
-assessment runtime and live acceptance checks. [Choose the Site or local
-route](docs/GETTING_STARTED.md#choose-a-route); a repository test or local
-report does not verify a Site session.
-
-**For external scholarly, legal-policy or AI-safety audiences, use the
-source-bounded, non-promotional reporting path first.** It presents verified
-extracted-text matches and open review questions, while withholding
-unsupported compliance and safety conclusions:
-
-~~~bash
-python3 scripts/laif_research_report.py docs/examples/vendor-policy.md --scope excerpt --preview
-~~~
-
-[See the actual neutral sample](docs/examples/sample-scholarly-report.md) ·
-[Read the research and independent-review protocol](docs/research/SCHOLARLY_REPORTING.md).
-The more interpretive assessment runner below is primarily an internal
-diagnostic that needs human source, legal and operational review.
-
-```bash
-python3 scripts/laif_process_document.py docs/examples/vendor-policy.md --extractor builtin
-```
-
-Open `laif_outputs/vendor-policy.institutional_report.md` first. The same run also writes a technical appendix, Markdown and JSON assessment data, and an analyst bundle containing the quote bank, governance gap register, failure pathways and control recommendations.
-
-Findings and authored criterion reviews show their cited passages as quotations,
-with source locations and clickable evidence IDs. Character offsets remain in
-the audit data. See the fresh [DTA, EU and NIST reports](docs/verification/2026-11-07-readable-evidence/README.md)
-for this reporting improvement; earlier dated reports retain their original presentation.
-
-To review your own document:
-
-```bash
-python3 scripts/laif_process_document.py /path/to/your-policy.md --extractor builtin
-```
-
-To print the assessment without creating outputs:
-
-```bash
-python3 scripts/laif_process_document.py docs/examples/vendor-policy.md --extractor builtin --no-write --print-report
-```
-
-On Windows, use `py -3 -X utf8` in place of `python3`. The [focused Windows text-example record](docs/verification/2026-10-23/windows-example.md) covers Python 3.11; the later [full Windows local gate](docs/verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md) passed on Python 3.13.16. Word and PDF extraction use optional local packages; see the [local format and setup guide](docs/LOCAL_SETUP.md). Keep private source documents and generated assessments out of this public repository.
+For external research, start with the
+[source-bounded scholarly workflow](docs/research/SCHOLARLY_REPORTING.md).
 
 ## What you get
 

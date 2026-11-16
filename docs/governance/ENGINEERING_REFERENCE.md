@@ -1,0 +1,455 @@
+# Engineering and framework reference
+
+Detailed guidance moved from the root CLAUDE.md on 16 November 2026.
+Paths in code spans are repository-root paths. Start with
+[the concise agent instructions](../../CLAUDE.md) and
+[the current checkpoint](../verification/CURRENT.md); dated verification
+statements below describe their original runs.
+
+## Repository Overview
+
+This repository holds the Law-Aligned Intelligence Framework (LAIF), a constitutional-level governance standard for AI systems, in two layers:
+
+1. **The governance corpus** — the framework documents in `.docx` and `.txt` format (the "constitution" and its applied instruments).
+2. **A Python enforcement toolchain** — a validation harness, an assessment engine that scores external governance documents against LAIF, a two-tier assessment corpus with machine-verified provenance, and test suites. Plain Python 3, standard library only — no third-party dependencies.
+
+- **Version**: LAIF v1.2 | Compliance Toolkit v1.1
+- **Product documentation**: October 2026
+- **Purpose**: Governance Audit Series — provides a unified, constitutional-level reasoning structure for evaluating AI deployments, policies, and regulatory decisions.
+
+---
+
+## Current verified state
+
+Use [CURRENT.md](../verification/CURRENT.md) for the dated repository, Site
+and acceptance checkpoint and [INDEX.md](../verification/INDEX.md) for
+historical verification evidence. Recheck live state before release claims.
+
+## Repository Structure
+
+```
+LAIF/
+├── LAIF-Law-Aligned_Intelligence_Framework.txt   # Validated governance-corpus navigation index
+├── README.md                                      # Project description and contents
+├── CLAUDE.md                                      # This file — AI assistant guidance
+│
+│  # Governance corpus (validated reference documents; not the product entry point)
+├── LAIF_Executive_Brief.docx / .txt   # Validated reference brief; product entry point: docs/product/OVERVIEW.md
+├── LAIF_Public_Article.docx / .txt    # 5–7 min public-facing governance audit article
+├── LAIF_v1.2.docx / .txt              # CORE: The principal framework text (the "constitution")
+├── LAIF_PDCA_GPT4_Clinical.docx / .txt        # Applied PDCA: GPT-4 Clinical Documentation Assistant
+├── LAIF_Case_Analysis.docx / .txt             # Retrospective analysis across 8 AI governance failures
+├── LAIF_Compliance_Toolkit.docx / .txt        # Operational definitions and standards (v1.1)
+├── LAIF_Policy_Paper.docx / .txt              # Academic/policy paper: Coupling, Consistency, Reversibility
+├── LAIF REGULATORY INTEGRATION GUIDE.docx     # Step-by-step EU AI Act + US federal integration
+│   └── LAIF_Regulatory_Integration_Guide.txt
+│
+│  # Enforcement toolchain (Python 3, stdlib only)
+├── laif_spec.py             # Canonical spec: terms, forbidden paraphrases, Integrity Layer, tiers, provenance classes
+├── validate.py              # Validation harness over the .txt corpus (exit 1 on rule failure)
+├── assessment_engine.py     # Scoring engine, functional-alignment layer, governance-repair reporting
+├── sample_documents.py      # Assessment corpus tier 2: REPRESENTATIVE_EXCERPT (illustrative)
+├── official_documents.py    # Assessment corpus tier 1: OFFICIAL_EXCERPT (verbatim, SHA-256-pinned; citable)
+├── corpus_manifest.md       # Provenance rules and per-document manifest for both corpus tiers
+├── test_adversarial.py      # Adversarial tests against the guards and depth checks
+├── test_provenance.py       # Provenance checks enforcing citability claims
+├── test_semantic_fidelity.py # Semantic-fidelity invariants (substance vs vocabulary; no false accusations)
+├── test_real_world.py       # Assessment run over both corpora → reports/laif_real_world_assessment.md
+├── scripts/                 # Batch document processing + governance tooling
+│   ├── laif_process_document.py        # one document → institutional report, appendix, analyst bundle
+│   └── laif_batch_process_pending.py   # folder → per-document outputs + portfolio report
+├── tests/                   # Governance, fragility, and processing-runner suites
+│
+├── docs/supporting/         # Verbatim ingested source texts (EO 14110, OECD, NIST AI 100-1, NHS DTAC)
+├── docs/governance/         # Contributor-facing process policy (merge, rollback, protected artifacts)
+├── docs/verified/           # Evidence traces and verified ingestion manifests
+├── laif_inputs/             # Batch-processing input/processed queues
+└── reports/                 # Generated assessment reports (deterministic; regenerate, don't hand-edit)
+```
+
+### Conceptual Document Hierarchy
+
+The `.txt` index maps documents into three tiers:
+
+| Tier | Purpose | Documents |
+|------|---------|-----------|
+| `01_START_HERE` | Orientation for new readers | Executive Brief, Public Article |
+| `02_CORE_FRAMEWORK` | The authoritative framework text | LAIF v1.2 |
+| `03_APPLICATIONS_AND_INTEGRATION` | Applied instruments and regulatory integration | PDCA, Regulatory Integration Guide, Case Analysis, Compliance Toolkit, Policy Paper |
+
+---
+
+## Core Framework Concepts
+
+### The Five Foundational Principles (LAIF v1.2, Part One)
+
+The principal text names five non-amendable principles. Do not substitute a summary of other framework features for this list:
+
+1. **The Coherence Standard** — Coupling, Consistency and revisability must hold together.
+2. **The Coupling Requirement** — constraints and paired protections are one structural obligation, not independently disposable commitments.
+3. **The Non-Accumulation Principle** — every provision needs a distinct grounded function; implicit obligations are not accumulated through ambiguity.
+4. **The Temporal Separation Principle** — capability- and time-specific conditions belong in revisable schedules or subsidiary instruments.
+5. **The Consistency Principle** — the same reasoning standard applies across actors and scales, with principled justification for differences.
+
+Framework hierarchy is described in the principal text and Parts Two/Eight; self-application is explicit in §7.4. They are important features, but are not Principle 2 and Principle 3 respectively.
+
+### The Coherence Test (Three Questions)
+
+The primary decision instrument applied in the PDCA and case analyses:
+
+- **Q1 — Coupling**: Does the deployment identify and protect the specific human interest at risk? (No independent prevalence claim is made.) Under the **refined model v1.1**, Q1 is assessed on two sub-dimensions:
+  - **Q1a — Structural Pairing** (`NONE` / `IMPLICIT` / `EXPLICIT`): Does the instrument's architecture pair each restriction with the specific human interest it protects?
+  - **Q1b — Enforcement Strength** (`NONE` / `SOFT` / `HARD`): Does the pairing carry enforceable normative force equivalent to the restriction imposed?
+- **Q2 — Consistency**: Would the governance logic produce just and workable outcomes if applied across all comparable actors and scales?
+- **Q3 — Reversibility**: Does the deployment preserve the capacity of future actors to reverse or modify its consequences?
+
+A deployment must pass all three questions. Failure at Q1 constitutes automatic failure of the full Coherence Test. The Q1a/Q1b split is an **interpretation-layer refinement only** — it does not alter the detection logic or the pass/fail structure of the Coherence Test.
+
+### The Integrity Layer (LAIF v1.2, Part Two)
+
+Four properties required as a **precondition of lawful deployment** — all must be satisfied where applicable; calibration follows §2.5:
+
+- **A.1 Structural Transparency**: The system can produce, on request, a comprehensible account of the basis for its outputs, including confidence/uncertainty and material limitations.
+- **A.2 Structural Honesty**: Stated optimisation objectives correspond to actual implemented objectives. System performs consistently whether or not it is being evaluated.
+- **A.3 Structural Containment**: The system operates within documented operational boundaries in all tested conditions (including edge cases) and does not initiate materially irreversible actions without triggering the appropriate authorisation process.
+- **A.4 Structural Calibration**: Where §2.5 applies, expressed confidence corresponds to observed accuracy in comparable intended deployment contexts; documented empirical evidence is required.
+
+### The Pre-Deployment Coherence Assessment (PDCA)
+
+The PDCA is the primary **operational instrument** of LAIF. It is a structured audit process applied before system deployment. It is structured into:
+
+- **Section A** — Integrity Layer Verification (A.1–A.4 above)
+- **Section B** — Coherence Test Documentation (Q1–Q3)
+- Additional sections assess specific provision compliance
+
+The applied PDCA in this repository (`LAIF_PDCA_GPT4_Clinical.docx`) assesses GPT-4-based clinical documentation assistants deployed in acute hospital settings (2023–2025).
+
+---
+
+## Document Conventions
+
+### Terminology — Use Precisely
+
+LAIF uses standardised terminology throughout. AI assistants working in this repository must use these terms exactly as defined:
+
+| Term | Definition |
+|------|-----------|
+| **Coherence Test** | The three-question test (Coupling, Consistency, Reversibility) — always capitalised |
+| **PDCA** | Pre-Deployment Coherence Assessment — the operational audit instrument |
+| **Integrity Layer** | The four properties (Transparency, Honesty, Containment, Calibration where §2.5 applies) |
+| **Coupling** | The structural pairing of a restriction with the human interest it protects |
+| **Provision** | A specific governance requirement derived from Foundational Principles (e.g. Provision A1, A2) |
+| **Operational Standard** | A Toolkit-level definition subordinate to Provisions |
+| **Materially Affects Interests** | An objective test — would a reasonable person regard the output as having legal, financial, health, reputational, or liberty consequences? |
+
+### Sector Profiles and Document Types (Reporting Layer)
+
+Two orthogonal axes classify a document, and conflating them misstates who it
+binds. **Document type** is the instrument's form: `binding_legal_instrument`,
+`executive_policy_directive`, `voluntary_risk_framework`,
+`sector_assurance_checklist`, `technical_standard`, `public_sector_policy`,
+`procurement_assessment_form` (the buyer's instrument), `implementation_guide`,
+`internal_policy` (institutional policy, standard, or procedure),
+`vendor_compliance_submission` (the supplier's answer — a claim needing
+independent verification), `values_charter` (intent without duties),
+`unknown_governance_document`. **Sector profile** is its subject:
+`general_ai_governance`, `government_service_delivery`,
+`departmental_ai_development`, `procurement_vendor_governance`, `clinical_ai`,
+`employment_hr_ai`, `education_ai`, `financial_services_ai`.
+
+A tender that buys a clinical system is a procurement instrument whose sector is
+clinical. Adding either kind of profile is a reporting-layer change: it must not
+alter detection verdicts, and `docs/governance/SECTOR_PROFILES.md` documents the
+non-authority boundary that applies to all of them.
+
+### Document Format
+
+Each document follows this pattern:
+1. Title block (ALL CAPS framework name + document type + version + date)
+2. Subtitle / scope statement
+3. Cross-reference to related LAIF documents
+4. Structured sections with decimal numbering (1.1, 1.2, A.1, A.2, etc.)
+
+### Version Numbering
+
+- Framework versions: `v1.2` (major.minor)
+- Toolkit versions: `v1.1`
+- Always include version and "April 2026" date in document headers when creating or updating documents
+
+### Cross-References
+
+Documents are explicitly cross-referenced. When referencing documents, use the standard citation format used throughout the corpus:
+
+> `LAIF v1.2 Principal Text · PDCA-Full Assessment (GPT-4 Clinical) · Compliance Toolkit v1.1 · Regulatory Integration Guide · Case Analysis · Policy Paper`
+
+---
+
+## External Framework Integrations
+
+LAIF v1.2 explicitly incorporates and integrates with:
+
+| Framework | Integration Point |
+|-----------|------------------|
+| EU AI Act (Regulation 2024/1689) | Provision-by-provision mapping in Regulatory Integration Guide Part One |
+| NIST AI RMF | Function-by-function mapping in Regulatory Integration Guide Part Two |
+| OECD AI Principles | Cited throughout as background governance instrument |
+| UNESCO AI Ethics Recommendation | Cited throughout as background governance instrument |
+| Anthropic Constitutional AI | Incorporated feedback cited in v1.2 header |
+| OMB M-24-18 (US federal procurement) | Integration workflow in Regulatory Integration Guide §2.3 |
+
+---
+
+## Working in This Repository
+
+### Commands — The Pre-Commit Gate
+
+The toolchain is plain Python 3 standard library (no package manager needed).
+The local verifier runs the baseline suites, extra validate.py modes, governance checks and report drift checks. GitHub Actions is not a verification dependency and automatic triggers are disabled. **Target runtime is Python 3.10** — avoid 3.11-only constructs (`datetime.UTC`, `tomllib`, `typing.Self`, `except*`).
+
+Run targeted checks while editing and the full local gate before an approved merge where possible: `python3 scripts/laif_verify.py --full --base-ref origin/main`. Use `python3 scripts/laif_verify.py` for a quick targeted checkpoint. State any full-suite omissions explicitly. The commands below remain available individually.
+
+```bash
+python3 validate.py                 # validation harness over the .txt corpus, incl. .docx/.txt parity (rule failures = exit 1)
+python3 test_adversarial.py         # adversarial tests on guards and structural-depth checks
+python3 test_provenance.py          # provenance checks enforcing corpus citability claims
+python3 test_semantic_fidelity.py   # semantic-fidelity invariants: substance never outranked by vocabulary
+python3 tests/test_governance.py    # governance/reporting suite
+python3 tests/test_assessment_fragility.py          # fragility suite
+python3 tests/test_document_processing_runner.py    # batch runner suite
+python3 tests/test_github_actions_document_processing.py  # legacy-named compatibility tests; run locally
+```
+
+To regenerate the assessment report (also acts as an integration test):
+
+```bash
+python3 test_real_world.py    # writes reports/: full assessment (.md), executive summary (.md), data export (.json)
+```
+
+The report must be deterministic: running it twice must produce no diff. Never
+hand-edit `reports/` output — change the engine or corpus and regenerate.
+
+Every generated artifact records a `toolchain_fingerprint`: a content hash of
+`assessment_engine.py`, `validate.py`, `laif_spec.py`, and
+`scripts/laif_process_document.py`, `scripts/laif_evidence_display.py` and
+`scripts/laif_auto_criteria.py`. **Any edit to these files changes the
+fingerprint, so `reports/` must be regenerated in the same commit** — the local report-drift gate fails
+otherwise, with the regeneration command in the error. This is the point of the
+field: an artifact that cannot name the code that produced it cannot support a
+reproducibility claim.
+
+### Corpus Provenance Rules (Machine-Enforced)
+
+The assessment corpus has two evidence tiers (full rules in `corpus_manifest.md`):
+
+- **`official_documents.py` (OFFICIAL_EXCERPT, citable)** — text is extracted
+  verbatim at import from committed source files in `docs/supporting/` via unique
+  start/end markers and pinned by SHA-256. Import fails if provenance cannot be
+  proven. To add a document: commit the full verbatim source text to
+  `docs/supporting/` first, then add markers and pin hashes (run the module's
+  `__main__` to compute them).
+- **`sample_documents.py` (REPRESENTATIVE_EXCERPT / SYNTHETIC_TEST_DOCUMENT,
+  not citable)** — every entry must carry all four provenance fields
+  (`provenance`, `source_url`, `source_note`, `intended_use`). Never classify an
+  entry here as OFFICIAL_EXCERPT — `test_provenance.py` fails the build if you do.
+
+Never present results computed from REPRESENTATIVE_EXCERPT text as findings about
+the official source instrument. This is the reporting layer's own A.2 Structural
+Honesty obligation.
+
+### Semantic Fidelity Rules (Machine-Enforced)
+
+LAIF is the measuring instrument, not an authority over other instruments'
+vocabulary. `assessment_engine.py` therefore measures on two independent axes,
+and both must be preserved by any change:
+
+- **LAIF-native form** (formal gate, binary) — is the document written as a
+  LAIF instrument? External frameworks are expected to fail this; that verdict
+  says nothing about their substance.
+- **Functional alignment** (per-construct) — is the *substance* of Coupling,
+  the Integrity Layer, Consistency, Reversibility, and Self-Application
+  expressed in the document's own vocabulary? Grounded in LAIF v1.2 Part Eight
+  (equivalent structural diligence) and the Regulatory Integration Guide's
+  SATISFIES/EXTENDS methodology.
+
+Hard invariants (enforced by `test_semantic_fidelity.py`):
+1. A document expressing LAIF's structural substance in its own vocabulary is
+   never described as lacking protection, and never ranked below a
+   vocabulary-only shell on any substance axis.
+2. Language that *regulates* a hazard ("no irreversible action without
+   authorisation") is never flagged as a Structural Honesty contradiction.
+3. Paraphrase detections on documents that neither use nor claim LAIF
+   vocabulary are informational divergence notes, not violations
+   (validate.py's strict enforcement over LAIF's own corpus is unchanged).
+4. Register never suppresses substance: "must"/"we will" carry the same
+   signal weight as "shall".
+
+### Detection Rules (Machine-Enforced)
+
+Every rubric and construct signal is keyed to the **function** the language
+performs, never to one institution's word for it. Legal drafting says "shall";
+a bank standard says "must"; a regulator names a "provider", a bank names a
+"Chief Risk Officer" and a "Model Risk Committee"; a framework declares a
+"lifecycle", a standard writes "change control"; a supervisor writes
+"proportionate to risk", an operating standard writes "a drift breach above 5%".
+Full table of accepted registers per signal in
+`docs/governance/SCORE_INTERPRETATION.md` ("Drafting Register Neutrality").
+
+Four guards bound that breadth, and each is pinned by tests:
+
+1. **A word list is not a document.** `_vocabulary_enumeration()` detects
+   governance vocabulary listed rather than made operative (dense governance
+   nouns with nothing bound to an actor). A HIGH verdict forces HOLLOW depth,
+   blocks the FUNCTIONALLY ALIGNED verdict, qualifies the coupling reading, and
+   enters the gap register as the leading gap. Genuine instruments measure
+   0.00–0.06; a constructed word list measures 0.24.
+2. **Analysing a failure is not committing it.** A contradiction adversary
+   inside a prohibition ("the restriction on decisioning *without human review*")
+   is a protection; "Q1 — Coupling: Not satisfied" in a worked example is the
+   test being applied, not disclaimed. Both guards require a positive structural
+   signal elsewhere in the document, so a bare disclaimer is still caught.
+3. **A gap is what a document omits; a contradiction is what it revokes.** A
+   protection asserted and then negated outranks the gap register in the
+   executive finding and is quoted in its own report section.
+4. **Instrument form is not subject matter.** A tender that buys a clinical
+   system is a procurement instrument; a supplier's answer to it is a vendor
+   submission needing independent verification; a values statement is a
+   `values_charter` carrying no assurance force. Detection must not conflate
+   them, and the displayed sector basis must explain the profile actually used.
+
+Gap rules may name several closing controls and fire only when **all** of them
+are missing. An empty register is always explained: too thin to test, nothing
+left unclosed, or — past ~20,000 characters — document-level detection saturated
+and no longer discriminating.
+
+### Editing Documents
+
+- `.docx` files are Microsoft Word format. Edit with Word, LibreOffice, or programmatically with `python-docx`.
+- Each governance document also has a `.txt` export; `validate.py` runs against the `.txt` corpus, so keep both formats in sync when editing. The local baseline and `python3 validate.py --check-corpus-formats` fail if the published `.docx` and the validated `.txt` disagree on any canonical term count, provision identifier count, or on body text beyond formatting.
+- `LAIF-Law-Aligned_Intelligence_Framework.txt` is the navigation index; `README.md` is the public-facing project description.
+- `docs/supporting/` holds verbatim ingested source texts (strict, no transformation). Editing these files breaks pinned hashes in `official_documents.py` by design — any change there must be re-verified against the authoritative source and re-pinned.
+
+### Running Assessment Tools
+
+The Python tooling (`assessment_engine.py`, `validate.py`, test suites, `scripts/`) requires no build step — run directly with `python3`. `corpus_manifest.md` documents provenance classifications for both corpus tiers (`official_documents.py`, `sample_documents.py`).
+
+---
+
+## Repository Governance
+
+See `CONTRIBUTING.md` and `docs/governance/` for contributor-facing review policy, protected artifact awareness, semantic-boundary definitions, merge expectations, and rollback procedures. These governance documents are process guidance and do not alter LAIF semantics, scoring logic, detector logic, interpretation logic, or assessment artifacts.
+
+### Authoritative Branch Policy
+
+**`main` is the sole authoritative branch.** No assessment artifact, scoring result, or interpretation refinement is canonical until it has been merged into `main`.
+
+- Feature branches are temporary working branches. They hold work in progress and are deleted or left inactive after merge.
+- All changes — including reporting-layer and interpretation-layer changes — are repository changes and must be committed and merged to `main` to take effect.
+- Force-pushing to `main` is prohibited. Merge via standard merge commit, not rebase.
+
+### Assessment Workflow
+
+The standard workflow for producing a LAIF assessment:
+
+1. **Source ingestion** — extract full text from supplied documents into `docs/supporting/` using Strict Source Mode (no training-derived content; all factual claims must be traceable to the ingested file).
+2. **Assessment** — apply LAIF v1.2 framework using only ingested source files and `LAIF_v1.2.txt`. Record verbatim quotes for all findings.
+3. **Write artifact** — a machine-generated assessment belongs in the deterministic pipeline (`test_real_world.py`), so the local verifier regenerates and checks it. An authored narrative analysis goes to `reports/` with a row in `reports/README.md` giving its production date and model version. Every file in `reports/` must be one or the other; `tests/test_governance.py` fails otherwise.
+4. **Merge to main** — commit and push. The artifact is not authoritative until on `main`.
+
+### Merge Discipline
+
+- Merge feature branches into `main` before writing the final assessment artifact. This ensures the ingested source files referenced in the assessment are present on `main` when the assessment is committed.
+- Do not write assessment artifacts on feature branches and then push separately — the source documents and assessment must arrive on `main` together.
+
+### External Scholarly and AI-Safety Reporting Boundary
+
+Keep external reports neutral and source-first: problem, methodology, primary
+evidence, competing interpretations, uncertainty, operational significance,
+reproducibility and limits. A report need not persuade its audience to adopt
+LAIF to be useful. Identify exact source hashes and the committed implementation
+revision; do not present draft-PR additions as features of `main`.
+
+The software suite verifies reproducibility and enforcement of local rules. It
+does **not** establish independent construct validity, legal compliance,
+real-world control effectiveness or frontier-model safety. Static document
+assurance can assess stated governance arrangements, not model behaviour under
+adversarial or out-of-distribution conditions. Legally binding duties require
+primary-source interpretation for the relevant role and effective date;
+uncertainty remains explicit. Proposed empirical studies need external,
+blinded human reviewers and a pre-registered scoring protocol. See
+`docs/review/2026-11-07-external-scholarly-critique-triage.md` for bounded
+research questions and the disposition of an unverified external critique.
+
+### Interpretation-Layer vs Detection-Layer Distinction
+
+These two layers are **independently revisable**:
+
+| Layer | What it governs | Can be changed without |
+|-------|----------------|------------------------|
+| **Detection layer** | Whether Q1/Q2/Q3 pass or fail; Integrity Layer thresholds; what counts as PASS/FAIL | Changing the Coherence Test definitions in LAIF v1.2 |
+| **Interpretation layer** | How results are expressed, sub-classified, or contextualised (e.g. Q1a/Q1b split; Governance Durability; Reflexivity) | Changing detection logic or pass/fail outcomes |
+
+Interpretation-layer refinements (adding dimensions, splitting classifications) are reporting changes. They must not alter: detection verdicts, Coherence Test pass/fail results, Integrity Layer assessments, or sourced reasoning. Any change that would reverse a PASS to FAIL or vice versa is a detection-layer change and requires explicit justification against LAIF v1.2.
+
+### Publication Artifact Locations
+
+| Artifact | Location | Status |
+|----------|----------|--------|
+| Citable corpus assessment | `reports/laif_real_world_assessment.md` (+ executive summary, JSON export) | Generated, deterministic, corpus- and toolchain-fingerprinted; matched the committed copy in the 30 October 2026 local Windows gate |
+| Narrative corpus analysis | `reports/laif_full_assessment.md` | Historical — authored 5 May 2026 under Refined Model v1.1; not regenerated, not fingerprinted. Cite as reasoning at that date, not as current output. See `reports/README.md` |
+| Ingested source documents | `docs/supporting/` | Primary evidence; do not modify after ingestion |
+| Framework corpus (assessment engine inputs) | `sample_documents.py` + `corpus_manifest.md` | See provenance classifications before citing |
+
+### Reproducibility
+
+Any assessment produced from the ingested files in `docs/supporting/` and `LAIF_v1.2.txt` should reproduce the same PASS/FAIL verdicts under LAIF v1.2 detection logic. Interpretation-layer dimensions (Durability, Reflexivity, Q1a/Q1b) may be refined by future reviewers provided they are labelled as such and do not alter the underlying Coherence Test results.
+
+### Commit Style
+
+Commits are descriptive, scoped to one coherent change, and name the affected
+layer (corpus, toolchain, reporting, docs):
+
+```
+Add OFFICIAL_EXCERPT corpus with machine-verified verbatim provenance
+LAIF: full source ingestion (strict, no transformation)
+LAIF: publication-prep pass — formatting, README, governance docs
+```
+
+---
+
+
+### Verified Corpus Acquisition Channels
+
+Verified corpus provenance must distinguish custody from authority. Supported acquisition channels are:
+
+- `AUTOMATED_URL_RETRIEVAL` — tooling fetches directly from the authoritative origin URL.
+- `HUMAN_GITHUB_DEPOSIT` — a human downloads the authoritative source and deposits it into `docs/verified/manual_ingest/` through GitHub or commit.
+- `HUMAN_SESSION_UPLOAD` — a human supplies the authoritative source through the active session and the agent writes the exact supplied file into `docs/verified/manual_ingest/`.
+
+The acquisition channel does not itself prove authority. Authority requires `authoritative_origin_url`, acquisition metadata, SHA256 hash records, a transformation chain, citation status, provenance classification, and verification status. `HUMAN_ATTESTED_AUTHORITATIVE` means a human supplied the file and asserted its authoritative origin; `HASH_VERIFIED_LOCAL_ONLY` means only local repository integrity is proven; `NETWORK_BLOCKED_PENDING_HUMAN_SOURCE` is non-terminal and must not be treated as a failed or fabricated source.
+
+No assessment may be performed from memory, reconstructed missing text, paraphrased substitute text, or screenshots unless explicitly marked non-citable.
+
+## Key Substantive Notes for AI Assistants
+
+1. **Precision over fluency**: LAIF terminology is legal/constitutional in register. Do not paraphrase defined terms. "Coupling" is not the same as "alignment" or "connection."
+
+2. **Hierarchy is load-bearing**: Operational Standards (Toolkit) can be revised without amending Foundational Principles; Provisions cannot contradict Principles. Any new content must respect this hierarchy.
+
+3. **The Coherence Test is not a checklist**: The three questions are structurally interdependent — a provision that passes Q1 and Q2 but fails Q3 is not "mostly coherent." It fails.
+
+4. **Self-application matters**: Regulatory bodies and governance actors are subject to LAIF, not only AI operators. This is not a minor note — it is Part Seven of the framework.
+
+5. **Case analysis follows a fixed structure**: Each case in `LAIF_Case_Analysis.docx` has: factual summary → governance failure → Coherence Test application (Q1/Q2/Q3) → structural verdict → LAIF provisions that would have applied → adequacy of existing governance responses.
+
+6. **The Integrity Layer is a threshold, not a score**: A system that partially satisfies A.1 does not receive partial credit — it fails A.1, and therefore fails the Integrity Layer precondition entirely.
+
+7. **"Materially affects interests" is an objective test**: It does not depend on operator intent. The standard is whether a reasonable person in the affected person's situation would regard the output as material.
+
+
+## Current product and clone layout
+
+Start browser users at `docs/GETTING_STARTED.md`; send clone/Python users to `docs/LOCAL_SETUP.md`. `docs/README.md` maps the audiences and evidence records. `README.md` and `docs/product/OVERVIEW.md` introduce both routes. The root DOCX/TXT governance corpus is required by `validate.py`; those files are retained deliberately, including the paired exports and applied case fixtures. Do not delete them as duplicate product copy.
+
+Pending, processed, failed and batch-summary folders start empty in a clone. Original public-source custody files live in `docs/verified/manual_ingest/`; moving them does not change manifest verification status. Prior batch outputs are preserved with their hashes in `docs/verification/2026-05-11/`. Local queue contents and outputs are ignored by default.
+
+The `.gitattributes` policy keeps source and report text as LF on Windows and Linux so source hashes and toolchain fingerprints reproduce across checkouts. No GitHub Actions run is required.
