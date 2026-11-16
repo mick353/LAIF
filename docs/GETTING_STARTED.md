@@ -2,6 +2,12 @@
 
 [Open the LAIF Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
 
+Just exploring? Start with the
+[public reading room](https://laif-public-guide.mick353.chatgpt.site).
+It needs no sign-in and offers an example, report links and the real-document
+comparison. It has no upload or analysis endpoint. This guide below covers the
+separate private workspace where authorised users review their documents.
+
 Use this guide alongside the Site. **You do not need to install Python, clone
 GitHub or obtain a model API key.** The Site runs analysis in your browser and
 guides you from source to findings, review and export.
@@ -14,6 +20,7 @@ documents and retained research records.
 
 | Your task | Start here |
 |---|---|
+| Explore without signing in | [Public reading room](https://laif-public-guide.mick353.chatgpt.site) |
 | Review a document in your browser | Follow this guide |
 | Understand an included assessment | Choose **Explore a worked example** on Home |
 | Run a local copy, batches or specialist commands | [Local repository setup](LOCAL_SETUP.md) |

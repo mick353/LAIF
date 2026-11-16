@@ -22,6 +22,10 @@
 
 ## Start on the Site
 
+[Explore the public reading room](https://laif-public-guide.mick353.chatgpt.site)
+— no sign-in. Try the interactive example, inspect the eight checks and compare
+retained documents. This read-only edition has no upload endpoint.
+
 [Open the LAIF Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
 — authorised private access is required.
 

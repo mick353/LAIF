@@ -11,6 +11,9 @@ A superseded-by relation requires a specific replacement receipt.
 
 | Record | Status | Evidence scope |
 |---|---|---|
+| [16 November hosted acceptance](2026-11-16-hosted-acceptance.md) | Dated live check | Site v18 synthetic run, saved state and inspected downloads |
+| [16 November engine split](2026-11-16-engine-module-split.md) | Dated verification | Behavior and source-identity comparison |
+| [16 November navigation repair](2026-11-16-report-navigation.md) | Dated verification | Current links fixed; historical evidence retained |
 | [16 November documentation audit](2026-11-16-documentation-audit.md) | Dated audit | All tracked repository and Site Markdown inventoried; audience routing, link checks and historical anchor defects |
 | [2026-05-11](2026-05-11/README.md) | Historical | Dated artifacts and logs; read their scope, runtime and omissions before reuse |
 | [2026-10-23](2026-10-23/README.md) | Historical | Dated artifacts and logs; read their scope, runtime and omissions before reuse |

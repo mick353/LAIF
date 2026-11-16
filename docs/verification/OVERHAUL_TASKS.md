@@ -1,21 +1,22 @@
 # Overhaul delivery record
 
-Updated 16 November 2026. A release, a deployed version and observed acceptance
-are separate states. See [current checkpoint](CURRENT.md).
+Updated 16 November 2026, 19:16 Canberra. See [current checkpoint](CURRENT.md)
+for exact revisions, deployments and acceptance evidence.
 
-| Work | Owner | Status | Next step / dependency / evidence |
+| Work | Owner | State | Evidence / next dependency |
 |---|---|---|---|
-| Extractor fallback | Delivery lead | Merged previously | PR #118; retain historical test evidence |
-| Redundant-file removal | Delivery lead | Implemented locally | Four exact duplicate aliases, 336,837 bytes; [hashes and retained paths](2026-11-16-deduplication.json); validate and release |
-| Strong/weak comparison | Research worker | In progress | Lock Codex exploratory predictions before current automatic judgments; preserve previous failed numeric mutation results |
-| Engine modules | Engineering worker | In progress | Isolated worktree; compare all substantive output bytes, record changed source fingerprint honestly |
-| Reader summaries | Delivery lead | Partial | Preserve authored reasoning; separate summary field and jargon check |
-| Shorter documentation | Delivery lead | In progress | Site guide and local setup already separate in PR #124; shorten entry points without losing technical instructions |
-| Public read-only Site | Delivery lead | Pending | Separate public content/build; preserve private working workspace |
-| Hosted export acceptance | Delivery lead | Pending | Inspect actual downloaded Markdown/JSON and persisted run |
-| User/device acceptance | Product owner | Pending | Physical phone and screen reader observations; not established by browser emulation |
+| Extractor fallback | Delivery lead | Merged previously | PR #118; latest full gate passes |
+| Redundant-file removal | Delivery lead | Released | PR #125; four exact aliases removed, all unique evidence retained; [manifest](2026-11-16-deduplication.json) |
+| Strong/weak comparison | Research owner | Exploratory release complete | PR #126; 40 predictions, 29 matches and 11 failures; preferred comparator intake still HTTP403 |
+| Engine modules | Engineering owner | Merged and live | PR #127; behavior comparison, full gate; Site v18 bundles all modules |
+| Reader summaries | Reporting owner | Merged and live | PR #128; separate summaries and jargon gate, original reasoning preserved |
+| Current-report navigation | Reporting owner | Released | Ten current links fixed; four historical defects retained with evidence hashes |
+| Shorter documentation | Delivery lead | Released | Site and Python guides separate; CLAUDE below8KB, detailed reference linked; public guide routes added |
+| Public read-only Site | Site owner | Live and read back | Public guide v1; anonymous HTTP200 and browser observation; no upload endpoint |
+| Hosted engine/export acceptance | Delivery lead | Observed | Private v18 fresh synthetic run, downloads parsed, save/reload; [receipt](2026-11-16-hosted-acceptance.md) |
+| User/device acceptance | Product owner | Open | Fresh owner document, recovery and physical phone/screen reader observations needed; issue #110 |
+| Independent/source/legal evidence | Research/source owners | Open | Independent adjudication, real operational evidence and issue #93; not closed by software checks |
 
-Historical generated assessments are not byte-identical copies. They retain
-distinct source/processing evidence and were not deleted. Ten broken anchors
-in the current generated report require a renderer correction; four historical
-anchor defects do not justify deleting their unique reports.
+Historical generated assessments were distinct source/processing evidence, so
+none was deleted merely for age. Local packaging archives are rebuildable;
+retention decisions and kept release archives are recorded separately.
