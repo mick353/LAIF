@@ -1907,16 +1907,16 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
 
     # 4. Document-type framing (what this kind of document can and cannot do).
     framing = {
-        "voluntary_risk_framework": "It is valuable as a governance design framework, but creates design guidance rather than binding implementation gates.",
-        "binding_legal_instrument": "It is a high-force legal source, but local obligation mapping and evidence registers still decide whether it operates.",
-        "executive_policy_directive": "As executive direction its force depends on agency implementation tracking and escalation.",
-        "sector_assurance_checklist": "As a sector assurance screen its value depends on live review and evidence sufficiency.",
-        "public_sector_policy": "As a public-sector operating policy its value depends on registers, disclosure evidence, and human review logs.",
-        "implementation_guide": "As implementation guidance it must be converted into owners, artefacts, thresholds, and stop/go consequences.",
-        "internal_policy": "As institutional operating policy its assurance depends on implementation records, ownership, and escalation evidence.",
-        "procurement_assessment_form": "As a procurement instrument its force arises through contract conditions and acceptance evidence.",
-        "vendor_compliance_submission": "As a supplier attestation it is a claim, not evidence: every assertion in it needs independent verification before it enters an assurance record.",
-        "values_charter": "As a statement of values it creates no duty, owner, or evidence obligation, so it cannot carry assurance weight until its values are written as operative commitments.",
+        "voluntary_risk_framework": "If this is voluntary guidance, use it for design review; do not infer binding implementation gates from its type.",
+        "binding_legal_instrument": "If this is a current binding legal instrument, its authority and applicability still require primary-source and role-specific review.",
+        "executive_policy_directive": "If this is an operative executive direction, check agency adoption, implementation tracking and escalation.",
+        "sector_assurance_checklist": "If this is a sector assurance checklist, check its issuing authority, live review and evidence sufficiency.",
+        "public_sector_policy": "If this is an adopted public-sector operating policy, check registers, disclosure evidence, and human review logs.",
+        "implementation_guide": "If this is implementation guidance, identify adopted owners, artefacts, thresholds and decision consequences.",
+        "internal_policy": "If this is an adopted internal policy, check implementation records, ownership and escalation evidence.",
+        "procurement_assessment_form": "If this is a procurement assessment form, check the actual contract conditions and acceptance records; this source alone does not establish contractual force or audit rights.",
+        "vendor_compliance_submission": "If this is a supplier attestation, verify each assertion independently before relying on it in an assurance record.",
+        "values_charter": "If this is a values statement, check whether separate operative commitments establish duties, owners and evidence obligations.",
     }.get(doc_type, "")
 
     # 4b. Self-contradiction. A document that claims a protection and negates it
@@ -1966,11 +1966,10 @@ def executive_thesis(assessment: dict, gaps: list[dict], controls: list[dict]) -
         action = ""
 
     classification = (
-        f"Classified as `{doc_type}`."
+        f"Heuristic document-type suggestion: `{doc_type}`; confirm the supplied source's actual form before using type-based conclusions."
         if doc_type and doc_type != "unknown_governance_document"
-        else ("Document type not confidently classified — the governance-force "
-              "reading below is generic; confirm the document's institutional "
-              "status before relying on it.")
+        else ("Document type not confidently classified; confirm the supplied "
+              "source's form and institutional status before relying on type-based conclusions.")
     )
 
     # Contradiction precedes the gap and the next action: it changes what the
@@ -2917,7 +2916,12 @@ def _md_list(items: list[str], empty: str = "Reviewer confirmation required.") -
 def build_institutional_report(processing: dict, extraction: dict, assessment: dict, quote_bank: list[dict], gaps: list[dict], pathways: list[dict], controls: list[dict], verification_required_evidence: list[dict] | None = None, extraction_quality_profile: dict | None = None) -> str:
     mode = assessment.get("assessment_mode")
     doc_type = assessment.get("document_type", "unknown_governance_document")
-    force = assessment.get("governance_force_profile") or assessment.get("governance_force_summary") or "source governance force requires reviewer confirmation"
+    source_type_check = (
+        "Compare this suggestion with the document's own title, issuing authority and adoption record. "
+        "A policy that mentions procurement is not necessarily a procurement form or a contract."
+        if doc_type == "procurement_assessment_form" else
+        "Compare this suggestion with the document's own title, issuing authority and adoption record."
+    )
     lines = [
         f"# Institutional Governance Assessment — {assessment.get('document_name') or processing.get('original_file_name')}", "",
         "**Report date:** " + str(processing.get("processed_at_utc", "not recorded"))[:10],
@@ -2939,7 +2943,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
         rows = assessment["source_control_observations"]
         lines.append(f"The source contains {len(rows)} candidate control passages across {len({r['control_type'] for r in rows})} mechanism categories. "
                      "These provide a starting point for LAIF review; they do not settle scope, equivalent enforceability, consistency or justified irreversibility. "
-                     f"{len(gaps)} heuristic review questions remain. Classified as `{doc_type}`. Full source-based assessment and deployment evidence are required for a substantive determination.")
+                     f"{len(gaps)} heuristic review questions remain. Heuristic document-type suggestion: `{doc_type}`; confirm the supplied source's actual form. Full source-based assessment and deployment evidence are required for a substantive determination.")
     elif mode == "external_framework":
         lines.append(executive_thesis(assessment, gaps, controls))
     else:
@@ -2972,9 +2976,9 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
                   f"- {assessment.get('language_coverage_note')}",
                   "- Every score, verdict, and gap in this report is an artefact of that "
                   "limit. None of it is a finding about the document."]
-    lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Document type:** {doc_type}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}"
+    lines += ["", "## Document identity and document type", "", f"- **Original file:** {processing.get('original_file_name')}", f"- **Heuristic document type (review required):** {doc_type}", f"- **Source check:** {source_type_check}", f"- **Assessment mode:** {mode}", f"- **Sector profile:** {assessment.get('sector_profile_label', assessment.get('sector_profile'))}"
         + (f" (auto-detected from: {processing.get('sector_basis')}; override with --sector)"
-           if processing.get("sector_basis") else ""), f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", f"- **Recommended use:** {assessment.get('recommended_use') or 'source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.'}", f"- **Limits:** {assessment.get('not_sufficient_for') or 'standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.'}", "- **In every case:** this is a reading of the document, not of the organisation. It cannot show whether the controls it describes are in place, current, or working.", "", "## Governance force profile", "", f"- {force if isinstance(force, str) else json.dumps(force, sort_keys=True)}", "- The document creates a strong evidence request where it uses risk, oversight, evidence, review, incident, or accountability language, but the reviewer must test whether that request is operationally closed.", "", ""]
+           if processing.get("sector_basis") else ""), f"- **Source SHA-256:** {processing.get('source_sha256')}", "", "## Recommended use / not sufficient for", "", f"- **Recommended use:** {assessment.get('recommended_use') or 'source framework review, procurement/legal/clinical/public-sector assurance scoping, control mapping, and remediation planning.'}", f"- **Limits:** {assessment.get('not_sufficient_for') or 'standalone proof of implementation, legal validity, external certification, supplier acceptance, clinical safety approval, or LAIF-native certification unless separately evidenced.'}", "- **In every case:** this is a reading of the document, not of the organisation. It cannot show whether the controls it describes are in place, current, or working.", "", "## Governance force still to establish", "", "- The document-type suggestion does not establish legal, contractual or institutional force. Check the actual instrument, issuer, adoption, applicable terms, date and remedies before relying on any obligation.", "- Wording about risk, oversight, evidence, review, incidents or accountability suggests targeted evidence requests. Test whether any applicable requirement is operationally closed.", "", ""]
     if not assessment.get("attributed_reasoning") and not criterion_review:
         lines += ["", "## Integrity Layer requirement signals", "",
                   "All four properties are listed. A matched phrase is not a substantive pass; a non-match is not proof of absence. Assess what the instrument requires separately from actual system behaviour. Calibration applies under LAIF section 2.5.", "",
@@ -3045,7 +3049,7 @@ def build_institutional_report(processing: dict, extraction: dict, assessment: d
                          + (f" Text: \u201c{repaired.strip()}\u201d" if context and not damaged
                             else " Source text withheld: extraction damage; verify in the source."))
         lines.append("")
-    lines += ["", "## What the document controls well", "", _md_list(assessment.get("strengths", [])[:8], "No deterministic strengths detected."), "", "## Control questions requiring review", ""]
+    lines += ["", "## Positive wording detected in supplied document", "", "These are wording and structure signals, not proof that a control is adopted, binding or operating.", "", _md_list(assessment.get("strengths", [])[:8], "No positive wording signal detected by these rules."), "", "## Control questions requiring review", ""]
     lines.append(_md_list(
         [g["gap_title"] + f" ({g['gap_id']})" for g in gaps[:8]],
         empty_register_meaning(assessment)))
@@ -3115,7 +3119,7 @@ def build_technical_appendix(processing: dict, extraction: dict, assessment: dic
     lines += ["", "## Scoring table", "", "| Score | Value |", "| --- | --- |"]
     for key in scores:
         lines.append(f"| {key} | {assessment.get(key)} |")
-    lines += ["", "## Governance repair fields", "", "```json", json.dumps({k: assessment.get(k) for k in assessment if k.startswith('governance_') or k in ('document_type','assessment_mode')}, indent=2, sort_keys=True), "```", "", "## Evidence traces", "", "```json", json.dumps(assessment.get("evidence_traces", []), indent=2, sort_keys=True), "```", "", "## Remediation patches", "", "Legacy rubric suggestions, not confirmed deficiencies or source-imposed obligations. Reconcile them with the located controls, attributed analysis and applicable authority before proposing a change.", "", "```json", json.dumps(assessment.get("remediation_patches", []), indent=2, sort_keys=True), "```", "", "## Construct coverage — form and substance", "",
+    lines += ["", "## Governance repair fields", "", "These are raw heuristic fields. A document-type label or governance-force profile is not verification of the source's form, adoption, legal effect or contractual terms; inspect the original instrument and related records before relying on it.", "", "```json", json.dumps({k: assessment.get(k) for k in assessment if k.startswith('governance_') or k in ('document_type','assessment_mode')}, indent=2, sort_keys=True), "```", "", "## Evidence traces", "", "```json", json.dumps(assessment.get("evidence_traces", []), indent=2, sort_keys=True), "```", "", "## Remediation patches", "", "Legacy rubric suggestions, not confirmed deficiencies or source-imposed obligations. Reconcile them with the located controls, attributed analysis and applicable authority before proposing a change.", "", "```json", json.dumps(assessment.get("remediation_patches", []), indent=2, sort_keys=True), "```", "", "## Construct coverage — form and substance", "",
         ("Two independent readings of the same constructs. **LAIF-native form** asks "
          "whether the document uses LAIF's canonical term; every external instrument "
          "is expected to answer no, and that answer says nothing about its governance. "
