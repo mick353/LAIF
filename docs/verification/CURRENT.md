@@ -25,9 +25,14 @@ Documentation-only descendants can share the same tested engine identity.
 ## Site and observed acceptance
 
 [Open the Research Workspace](https://laif-research-workspace.mick353.chatgpt.site).
-Sites readback confirms **v15**. Its recorded source is
-`a870d65f66a267c04307eabec31813691595481b`, with engine pin `dd2883d` and
-deployment `appgdep_6afa4aae6c9c819193886ca7945a9acf`.
+Sites readback on 16 November confirms **v16**. Its source is
+`2e863ff7ef43ddfb384f5461016a928b612bef00`, with engine pin `dd2883d` and
+deployment `appgdep_6afa96f6cbcc819181b7db1d29796344`.
+The redesigned home, interactive example, four-stage navigation and latest-run
+resume were delivered. Hosted home and example interaction were observed;
+local synthetic intake through Markdown/JSON download and 390-pixel layout
+checks passed. Local exported bytes were inspected. This does not close the
+separate hosted download, fresh owner-document or full accessibility gates.
 
 The [Notion project](https://app.notion.com/p/3eba16241adc8105802bdad1cb7d96ed)
 records a fresh hosted synthetic run

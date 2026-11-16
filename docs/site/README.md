@@ -1,5 +1,9 @@
 # Website source catalogue and contribution bridge
 
+**Audience: source contributors and maintainers.** For browser use, start with
+[the Site guide](../GETTING_STARTED.md). These commands are not required for
+ordinary Site use.
+
 `source-index.json` is the public discovery index for the LAIF Research Workspace. It includes sixteen retained source/framework documents and source-based explanations supported by 39 exact quotations. Source hashes and raw text offsets are checked locally. The descriptions explain what each document contains; they do not establish its current legal applicability, upstream origin or the effectiveness of its controls.
 
 The Site reads this index from a specific commit on public GitHub `main`, retrieves each named source and verifies SHA-256 before displaying it. It keeps the bundled catalogue if GitHub cannot be reached. A new source edition is retained separately; existing private workspace records and historical assessments are not overwritten. Catalogue refresh does not upgrade the pinned assessment engine.

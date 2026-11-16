@@ -1,241 +1,118 @@
-# Get from a policy document to an actionable review
+# Getting started with the LAIF Site
 
-LAIF is a local Python toolkit. Start with its included synthetic document, inspect the outputs, then use a document you are authorised to review.
+[Open the LAIF Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+
+Use this guide alongside the Site. **You do not need to install Python, clone
+GitHub or obtain a model API key.** The Site runs analysis in your browser and
+guides you from source to findings, review and export.
+
+The workspace currently requires authorised private access. Opening its link
+does not grant access. Public GitHub is separate: it holds code, framework
+documents and retained research records.
 
 ## Choose a route
 
-For a single document in a browser, use the owner-private **LAIF Research
-Workspace**: open the private link supplied to you, try its synthetic example,
-upload or paste an authorised source, inspect extraction and quotations,
-decide which passages to keep, reject or investigate, then download and check
-the brief before sharing it. The **local toolkit** below keeps inputs and
-outputs on your computer and also supports specialist and batch work. Keep
-private material in the authorised workspace and out of public GitHub.
+| Your task | Start here |
+|---|---|
+| Review a document in your browser | Follow this guide |
+| Understand an included assessment | Choose **Explore a worked example** on Home |
+| Run a local copy, batches or specialist commands | [Local repository setup](LOCAL_SETUP.md) |
+| Change code or contribute a source | [Contributing](../CONTRIBUTING.md) and [source contribution workflow](site/README.md) |
 
-The Site has its own source catalogue, pinned assessment runtime and live
-acceptance checks. Browser save, reload, PDF, phone and accessibility checks
-remain in the [product and Site readiness programme](product/PRODUCT_READINESS_2026-11.md).
-A local report is not a live Site result.
+## 1. Explore before adding a document
+
+On **Home**, try **The words**, **The meaning** and **The question** in the
+interactive policy example. It separates the exact passage from an
+interpretation and a follow-up question.
+
+Choose **Explore a worked example** for the retained Australian Government
+policy assessment. This is an authored review of a real retained document,
+not a newly generated assessment or independent validation. Check its edition
+and qualifications. **Source index** lets you browse and read retained sources.
+
+## 2. Bring your source
+
+Choose **Review your document** on Home or **Add source** in the header.
+Select a PDF, Markdown or UTF-8 text file, or paste exact text. Enter its title
+and record the edition, origin, completeness and jurisdiction where known.
+A source website is attribution only; entering it does not fetch the document.
+
+- Maximum source size: **8 MB**.
+- Export Word files to PDF or text first. The local toolkit has a separate optional Word extractor.
+- Scanned PDFs need a separate authorised text-extraction process; the Site does not perform OCR.
+- Use only material you are authorised to process and store.
+
+After adding the source, choose **Assess this document** or **2. Assessment**.
+Keep the recommended **Document review** and automatic context unless an
+advanced setting fits your task better. Select **Start assessment**. The first
+run loads the engine and may take longer. The processing banner shows progress
+and offers **Stop processing**.
+
+## 3. Read the findings and check the source
+
+The run opens **Findings & gaps**. Read the eight provisional documentary
+checks, supporting passages and evidence still needed. Compare the extraction
+with the original source, especially headings, tables and page breaks, before
+recording candidate decisions.
+
+Inspect each candidate passage in context. Record whether to keep it as a
+review lead, reject it, request more evidence or mark it outside scope. Add
+notes explaining your choice. These decisions do not prove that a control
+operates or a legal requirement has been met.
+
+**Not established means the scan did not establish the required wording.**
+It does not prove absence. Positive wording does not prove implementation.
+Automatic judgments, retained authored reasoning and your passage decisions
+remain distinct.
+
+Use **Quoted evidence** to inspect passages and **1. Source** to return to the
+document. The review path shows your location, not completion or certification.
+
+## 4. Review and export
+
+Choose **4. Export** or **Reports & export** and confirm the selected assessment.
+Read the report, record only quality checks you have actually performed, and
+add your reviewer name, role, notes and unresolved questions.
+
+| Export | Contents |
+|---|---|
+| **Review brief** (new automated runs) | Concise provisional findings, candidate decisions and remaining review work |
+| **Full report** | Full pipeline report with labelled Site review information where provided |
+| **JSON package** | Structured assessment, source metadata and review records |
+
+Open the downloaded file and check its title, source identity, method revision
+and outstanding work before sharing. Exporting does not publish to GitHub.
+A completed checklist records operator attestations, not independent approval.
+Keep private exports out of public issues and commits.
+
+## Save, resume and recover
+
+Watch the save indicator. Signed-in changes are saved as user-scoped cloud
+records, including source bytes and review outputs. **Saved workspace** or
+**All changes saved** differs from **Session only** or **Save failed**.
+Processing in the browser does not mean the document never leaves your computer.
+
+On Home, **Continue review** opens the most recent automated assessment.
+Use **Assessments** for older runs. New editions preserve earlier sources and
+runs; check changed text before applying previous review decisions.
+
+If saving is unavailable, keep the tab open and choose **Export backup**.
+A report download is not a complete workspace backup. Backup import/export
+controls are under **Status & verification**; check restored sources and runs
+before continuing. Browser and local Python records do not automatically synchronise.
+
+## Help and next steps
+
+**How it works** offers the guided example, work-area suggestions and method
+explanation. **Search workspace** finds documents, assessments and pages.
+The full navigation menu includes evidence, comparison and verification.
+
+[Current release and acceptance limits](verification/CURRENT.md) ·
+[Method](product/METHOD.md) · [Local setup](LOCAL_SETUP.md) ·
+[Documentation map](README.md)
 
 ## Guided local start
 
-From the repository root, run `python3 scripts/laif_start.py` (or
-`py -3 -X utf8 scripts/laif_start.py` on Windows). The guide starts with the
-synthetic policy when no source is supplied. Choose **evidence** to inspect
-source passages and open questions, or **internal** for an interpretive
-diagnostic that needs expert review. It displays the source hash, extractor,
-character count, extraction confidence, warnings and a short opening passage
-before asking whether to save a report.
-
-```bash
-python3 scripts/laif_start.py --inspect-only
-python3 scripts/laif_start.py /path/to/authorised-policy.md --task evidence --scope unknown
-python3 scripts/laif_start.py /path/to/authorised-policy.md --task evidence --review-now
-python3 scripts/laif_start.py /path/to/authorised-policy.md --task internal
-```
-
-The guide prints the first report to open and the next review action. It saves
-each task in its own ignored folder under `laif_outputs/guided/`. If the chosen
-output folder contains any files or subfolders, choose a new `--output-dir`:
-the guide stops before replacing even a partial earlier run. For a
-non-interactive first run, add `--yes` after reviewing the chosen source and
-task. `--hide-excerpt` keeps the opening passage out of terminal output.
-
-Read a saved evidence run in this order: **source and extraction status**,
-**exact candidate passages**, **provisional eight-criterion documentary
-judgments**, **your passage dispositions**, then **remaining evidence and
-next action**. The rules assess explicit wording only. `NOT_ESTABLISHED` means
-the scan did not find enough explicit wording for that check; it does not prove
-that a safeguard is absent or a law was breached. A positive label does not
-show the described control is operating. The candidate review records whether
-a passage is useful, irrelevant, needs evidence or is outside scope; it does
-not fill the separate attributed substantive criterion review.
-
-Supported types are `.txt`, `.md`, `.markdown`, `.docx` and `.pdf`. Word and PDF
-need the optional local packages described below. Image-only PDFs need a
-separate authorised OCR process. The preview does not establish authoritative
-origin, complete coverage or legal applicability; inspect the original source.
-The direct commands below remain available for detailed options and review
-import.
-
-After saving an evidence report, the interactive guide offers to review its
-candidate passages immediately. `--review-now` enters that review directly
-after report generation; `--analyst "Your name or ID"` supplies the required
-self-reported attribution. Each explicit decision and note is saved as it is
-made. The guide prints an exact resume command using the new Evidence JSON and
-the original source. Run that command to continue; running the guide again
-against the same output folder stops to protect all generated and authored
-files. `--yes` skips the report-save prompt but enters review only when
-`--review-now` is also supplied.
-
-### Resume a source-bound evidence review
-
-After an **evidence** run, use the printed Evidence JSON path and the same
-original source to review candidate passages one at a time:
-
-```bash
-python3 scripts/laif_review_session.py /path/to/run.research_data.json /path/to/authorised-policy.md --analyst "Your name or ID"
-```
-
-Each explicit passage decision needs a note and is saved immediately beside
-the dossier as `*.candidate_review.json`. Repeating the command resumes at
-unreviewed passages. Each prompt shows passage progress and the extracted-text
-line so you can find its context. Invalid choices and empty notes keep you on
-the same passage; use `s` to skip or `q` to stop. Skipping a previously saved
-decision during `--revisit` preserves it. No review file is created until the
-first decision and note are saved. `--summary` shows decisions without prompting;
-`--revisit` allows corrections, and `--summary --export /path/to/new-review.md`
-creates a labelled reading copy. Use `py -3 -X utf8` instead of `python3` on
-Windows. Keep private review files outside the public repository or in the
-ignored output folder. A source, extraction, evidence inventory or method
-change stops resume until a new dossier is generated and decisions are checked
-again. This triage does not fill the separate substantive analyst template or
-decide any LAIF criterion.
-
-**For scholarly, regulator-facing or external AI-safety discussion**, start
-with the [research-neutral evidence review](research/SCHOLARLY_REPORTING.md).
-It preserves quotations, provenance and uncertainty without presenting LAIF's
-internal scores as objective compliance or safety verdicts:
-
-~~~bash
-python3 scripts/laif_research_report.py docs/examples/vendor-policy.md --scope excerpt --preview
-~~~
-
-This previews the conservative report without writing files. Omit `--preview`
-to save a source-hashed report, evidence JSON and human-review template.
-The conventional document-processing path below is a more interpretive
-**internal diagnostic** workflow requiring expert review before public use.
-
-## 1. Run the included example
-
-Install Git and Python 3. The project targets Python 3.10; the published independent verification used Python 3.12 on Linux. No model API key or third-party package is needed for the built-in text extractor.
-
-```bash
-git clone https://github.com/mick353/LAIF.git
-cd LAIF
-python3 scripts/laif_process_document.py docs/examples/vendor-policy.md --extractor builtin
-```
-
-On Windows, replace `python3` with your installed Python launcher. Use `py -3 -X utf8` for commands that print Unicode validation results. The Python 3.11 Windows text example and evidence checks are covered by the [focused execution record](verification/2026-10-23/windows-example.md); the [30 October full local Windows gate](verification/2026-10-30/WINDOWS_RELEASE_VERIFICATION.md) was separately recorded on Python 3.13.16.
-
-## 2. Read the right output first
-
-Start with `laif_outputs/vendor-policy.institutional_report.md`.
-
-| Output | Use it for |
-|---|---|
-| `vendor-policy.institutional_report.md` | Executive finding, quoted evidence, strengths, gaps and practical next steps |
-| `vendor-policy.technical_appendix.md` | Technical scoring and interpretation detail |
-| `vendor-policy.laif.md` and `.laif.json` | External review copy and machine-readable assessment data |
-| `analyst/vendor-policy/quote_bank.md` | Check quotations against the input |
-| `analyst/vendor-policy/governance_gap_register.json` | Review unverified control questions and retrieved counterevidence |
-| `analyst/vendor-policy/control_recommendations.json` | Turn gaps into proposed controls for human review |
-| `analyst/vendor-policy/AI_ANALYST_PROMPT.md` | Instructions for further analysis with an assistant of your choice |
-
-The sample is deliberately incomplete. It is not a benchmark or a recommended policy template. [Inspect the committed example and actual output](examples/README.md).
-
-## 3. Review your own document
-
-```bash
-python3 scripts/laif_process_document.py /path/to/your-policy.md --extractor builtin
-```
-
-Use `.txt`, `.md` or `.markdown` for the dependency-free path. Keep private inputs and generated outputs outside the public repository or in the ignored `laif_outputs/` directory. Never add confidential material to a public commit.
-
-To select a sector and a separate output directory:
-
-```bash
-python3 scripts/laif_process_document.py /path/to/your-policy.md --extractor builtin --sector government_service_delivery --output-dir /path/to/private-results
-```
-
-Use `--no-write --print-report` to print without writing report or index files. Run `python3 scripts/laif_process_document.py --help` for all options.
-
-The report separates source-backed prose from structured questionnaire/framework
-rows. A blank choice such as “Provided / Not provided” is not a supplier answer.
-The analyst bundle retains bounded witnesses from different parts of the source,
-exact locations, retrieved counts and limits. These are retrieval diagnostics;
-they do not establish complete coverage or legal force. Known repository sources
-also show their recorded version, verification status and provenance limitations.
-
-To add a substantive analyst assessment, generate a source-locked review template
-with the [scholarly workflow](research/SCHOLARLY_REPORTING.md), complete the
-findings, then import that file:
-
-```bash
-python3 scripts/laif_process_document.py /path/to/your-policy.md --extractor builtin --review-file /path/to/completed-review.json --output-dir /path/to/private-results
-```
-
-Imported findings retain the author's claims, alternatives, limits and criterion
-mapping. Unmapped criteria stay unassessed. Changes to the source or toolchain
-require a fresh template and rechecked findings. The software checks evidence
-identity; a qualified reader must check whether the interpretation follows.
-
-The [whole-source verification record](verification/2026-11-07-real-source-assurance/README.md)
-covers all seven retained documents. These are curated development cases, not
-independent assessment-accuracy evidence.
-
-## Word and PDF
-
-For `.docx` and PDF files, choose an installed optional extractor. For example, in your own virtual environment:
-
-```bash
-python3 -m venv .venv
-# Activate the environment using the command appropriate to your operating system.
-python -m pip install python-docx pypdf
-python scripts/laif_process_document.py /path/to/policy.docx --extractor python-docx
-python scripts/laif_process_document.py /path/to/policy.pdf --extractor pypdf
-```
-
-These packages are optional and installation needs network access. Text extraction runs locally. The runner does not silently perform OCR: image-only PDFs need a separate authorised extraction process. Always inspect extracted text and warnings before relying on the assessment. Docling and MarkItDown are additional optional adapters; they were not available for real-document testing in the published verification.
-
-## Batch processing
-
-The local batch runner processes the pending folder and writes per-document outputs and portfolio summaries. A fresh clone has an empty queue. Add only the documents you intend to process; local queues and outputs are ignored by Git:
-
-```bash
-python3 scripts/laif_batch_process_pending.py --help
-```
-
-Read its [batch-processing reference](product/REFERENCE.md#batch-processing) before placing documents in the input queue. No GitHub Actions run is required.
-
-## Make the human review count
-
-1. Confirm the document type and sector; automatic classification is heuristic.
-2. Check source quotations in context and distinguish an omitted control from one documented elsewhere.
-3. Review the proposed controls with the responsible policy, legal, assurance or operational owner.
-4. Ask for evidence that controls operate, including permitted-action tests and attempted-bypass tests.
-5. Record which findings were accepted, rejected or resolved with additional evidence.
-
-Software tests verify tool behaviour. They do not establish legal compliance or institutional control effectiveness. See [assessment method](product/METHOD.md) and [evidence diagnostic reference](product/REFERENCE.md#evidence-checks).
-
-## Verify the toolkit
-
-```bash
-python3 scripts/laif_verify.py
-python3 scripts/laif_verify.py --full --base-ref origin/main
-```
-
-Use the actual pre-change base SHA when inspecting an already merged change. The [quality guide](product/QUALITY.md) describes verified capabilities and runtime limits.
-
-## Review supplied control evidence
-
-Use the existing optional assurance checker when you have a policy plus evidence
-files, declared tests, action receipts or operational-review records. The
-[assurance guide](governance/ASSURANCE_CALIBRATION.md) defines the manifest.
-The readable reporting follow-up adds:
-
-```bash
-python3 -S scripts/laif_assurance.py /path/to/manifest.json --strict-scope --strict-actions --print-report
-python3 -S scripts/laif_assurance.py /path/to/manifest.json --strict-scope --strict-actions --markdown-report /path/to/control-review.md
-```
-
-Printing a report writes no file. Saving Markdown keeps JSON on stdout. The
-report distinguishes policy claims, declared test labels, checked action
-receipts and unauthenticated operational-review records. An explicit
-`--evidence-root /path/to/evidence` supports a manifest stored elsewhere; all
-referenced files must remain inside that root. Readability is not approval of
-the control or permission to deploy.
-
-## Authored all-criterion assessment
-
-Generate the scholarly template with --criteria-template, complete the source-linked reasoning, then import with --review-file and --require-complete-review. All eight criteria, Q1a/Q1b, applicability, alternatives and closing evidence are explicit. The gate checks coverage and source identity, not a governance pass. [Workflow and schema](governance/SUBSTANTIVE_REVIEW.md).
+The Python commands previously on this page now live in the
+[separate local setup guide](LOCAL_SETUP.md#guided-local-start).
+This section preserves older links; those commands are not needed for Site use.

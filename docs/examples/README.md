@@ -51,7 +51,7 @@ python3 scripts/laif_process_document.py docs/examples/vendor-policy.md --extrac
 
 Compare `laif_outputs/product-demo/vendor-policy.institutional_report.md` with `docs/examples/sample-assessment.md`, and `laif_outputs/product-demo/analyst/vendor-policy/quote_bank.md` with `docs/examples/sample-quote-bank.md`.
 
-[Back to the product overview](../../README.md) · [Full getting-started guide](../GETTING_STARTED.md)
+[Back to the product overview](../../README.md) · [Local reproduction guide](../LOCAL_SETUP.md) · [Browser guide](../GETTING_STARTED.md)
 
 ## Beyond the introductory example
 
