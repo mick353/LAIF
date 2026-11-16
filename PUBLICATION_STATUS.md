@@ -1,5 +1,9 @@
 # LAIF Publication Status
 
+For the current dated release and open acceptance gates, see
+[Current verified state](docs/verification/CURRENT.md). The dated publication
+records below are historical and retain their original claims and limits.
+
 **Framework:** Law-Aligned Intelligence Framework v1.2  
 **Assessment model:** Refined Model v1.1  
 **Original publication record:** May 2026; source and reporting status updated 7 November 2026

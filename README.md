@@ -8,6 +8,7 @@
 </p>
 
 <p align="center">
+  <a href="docs/verification/CURRENT.md">Current verified state</a> ·
   <a href="#try-it-locally">Try it locally</a> ·
   <a href="docs/research/SCHOLARLY_REPORTING.md">Neutral scholarly review</a> ·
   <a href="docs/examples/sample-assessment.md">Read a sample assessment</a> ·
