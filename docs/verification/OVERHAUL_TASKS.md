@@ -1,10 +1,17 @@
 # Overhaul delivery record
 
-Updated 16 November 2026, 23:12 Canberra. See [current checkpoint](CURRENT.md)
+Updated 18 November 2026, Canberra. See [current checkpoint](CURRENT.md)
 for exact revisions, deployments and acceptance evidence.
 
 | Work | Owner | State | Evidence / next dependency |
 |---|---|---|---|
+| Local cancellation/recovery | Engineering owner | Released | PR #131; accurate saved-output/resume messages; 26 focused checks and 649-test full gate, two skips |
+| NIST cited-prose fidelity | Source owner | Released, bounded evidence | PR #132; 16/16 raw and normalized PDF quotation matches; no provenance promotion |
+| NIST historical citation erratum | Research owner | Approved and merged | PR #133; eight incorrect descriptions identified; original trace/report retained; substantive reassessment remains open |
+| Explicit multi-document case map | Engineering/Site owners | Local PR #134 merged; private Site v20 deployed | Shared Python validator/renderer; 8 focused tests and 657-test full gate, two skips; Site runtime/CLI parity and build passed; live acceptance in CURRENT |
+| Keyboard and narrow reflow | Site owner | Bounded checks observed | Private v19 all nine sections/public v2 at 320 CSS px without body overflow; focus return checked; true zoom, screen reader and physical phone remain unobserved |
+| Publisher byte acquisition | Source owner | External retrieval blocked | Ordinary Ombudsman PDF and DTAC DOCX GETs returned HTTP403 again on 18 November; no bytes/source-status promotion |
+| Automatic relationship discovery | Engineering/research owners | Separate unimplemented scope | Declared case links do not infer contradictions, governing authority or control operation; requires designed and reviewed semantics |
 | Extractor fallback | Delivery lead | Merged previously | PR #118; latest full gate passes |
 | Redundant-file removal | Delivery lead | Released | PR #125; four exact aliases removed, all unique evidence retained; [manifest](2026-11-16-deduplication.json) |
 | Strong/weak comparison | Research owner | Exploratory release complete | PR #126; 40 predictions, 29 matches and 11 failures; preferred comparator intake still HTTP403 |

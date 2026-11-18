@@ -1,5 +1,19 @@
 # Map a supplied multi-document governance case
 
+In the private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site),
+open **Source index** and the case-map view. Select retained documents, assign
+their roles, record any unsupplied records and describe the links you want to
+review. Run the case check, inspect unresolved endpoints, then export the map.
+Saved case maps reopen with their declared sources and links. The Site and
+local command use the same Python validator and renderer. This is an authored
+evidence map; a checked quotation does not establish that the asserted
+relationship is correct. Private Site records are saved in cloud storage.
+
+Site v20 save/reload and narrow-screen checks are recorded in
+[CURRENT.md](../verification/CURRENT.md). Local export/CLI parity passed;
+hosted case-export bytes still await readback. The local workflow below is
+useful for files you keep on your computer and for reproducible case manifests.
+
 Use the optional local `laif_case_links.py` command when you have several
 records for one governance question. It connects **only the files and links
 you declare**. It does not search for missing records, infer contradictions,
@@ -60,5 +74,6 @@ The validator and renderer are also available as pure Python functions:
 the manifest object must parse exactly from `manifest_bytes`. These functions
 allow another runtime to use the same checks without reading local paths.
 The CLI's `--evidence-root` confinement and exclusive report creation remain
-local-only concerns. This command does not itself add a Site case-map screen
-or synchronise local files with the Site.
+local-only concerns. Running this command does not synchronise local files
+with the Site. Transfer requires explicit authorised intake and matching the
+source identities; do not assume that a local path identifies a hosted file.

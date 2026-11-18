@@ -1,5 +1,60 @@
 # Current verified state
 
+## 18 November 2026 follow-through
+
+Repository main `d9bfdaa` includes released PRs #131–134. PR #131 fixes
+interruption after report generation so saved outputs and resume instructions
+are reported accurately. PR #132 adds the reproducible NIST cited-prose
+check: 16/16 retained excerpts match raw spans and normalized official PDF
+wording. PR #133 is the explicitly approved additive NIST trace erratum;
+eight clause descriptions were incorrect. Historical sources, trace and
+assessment remain unchanged; the erratum does not regrade NIST or promote
+source status. See the [quotation receipt](2026-11-18-nist-cited-prose/README.md)
+and [erratum](2026-11-18-nist-trace-erratum/README.md).
+
+PR #134 adds [explicit case links](../product/CASE_LINKS.md): declared
+policy/contract/procedure/test/incident/remedy records, byte identities,
+optional exact UTF-8 quotations, declared relationships and explicit unsupplied
+roles. Its pure Python validator and renderer support both local files and
+browser-supplied bytes. It does not infer legal force, contradictions or
+operating controls. The exact candidate passed 657 tests with two explicit
+Windows symlink skips; focused case tests passed 8/8. The subsequent erratum
+merge changes three documentation files only and passed focused readback.
+
+Private Site **v20**, source `aad6e3d1ab91cdd9cb1bb518bb820ecf3e7cb437`,
+deployment `appgdep_6afd0bb81bb881919e9ceae5a5bd59d9`, succeeded with owner-only
+access. It adds saved case maps using the exact merged Python helper; the
+assessment engine remains `e7594d3`. Browser-runtime and CLI case results were
+byte-identical and stale source bytes were rejected. TypeScript, production
+build, persistence/API and existing assessment-runtime checks passed.
+The public guide remains v2.
+
+Signed-in v20 acceptance created a synthetic case with a pinned policy source,
+an explicitly unsupplied test record and a declared policy-to-test link/note.
+After "All changes saved" and reload, the map ID, question, missingness reason,
+relationship and note persisted. The shared Python worker checked the revision
+and reported the unsupplied endpoint. At 320 CSS pixels the case page had
+`scrollWidth = clientWidth = 305`; export buttons fit. Hosted case-export file
+bytes were not captured because the browser download interface did not emit
+a receipt. Local Site/CLI parity and export tests passed; neither proves that
+last hosted download step. No export failure was observed.
+
+Before this release, bounded keyboard checks reached all nine private v19
+sections at 320 CSS pixels without body overflow; the public guide also had
+no body overflow. Escape focus return and selected focus outlines were checked.
+These observations do not establish true zoom, screen-reader or physical-phone
+acceptance. Existing hosted export evidence below remains a dated v18 receipt.
+
+Normal publisher-byte retrieval for the Ombudsman March 2025 PDF and DTAC
+DOCX still returned HTTP 403 on 18 November. No source bytes were acquired or
+verification status upgraded. Independent substantive review of NIST mappings,
+EU applicability/assessment, intended-user and operational evidence remain open.
+Automatic relationship discovery and contradiction adjudication are not part
+of the declared case-map increment; they remain separate engineering/research
+scope, not completed or merely awaiting a human click.
+
+## Earlier integrated release and acceptance
+
 Reconciled **16 November 2026, 23:12 Canberra (AEDT)**. Owner: LAIF delivery lead.
 This is a dated checkpoint. See [delivery tasks](OVERHAUL_TASKS.md) and the
 [historical evidence index](INDEX.md).
