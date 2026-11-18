@@ -119,8 +119,17 @@ def run(argv: list[str] | None = None) -> int:
         print("--review-now requires a generated evidence report, not internal or inspection-only mode.",
               file=sys.stderr)
         return 2
+    if args.analyst and (args.task == "internal" or args.inspect_only
+                         or (args.yes and not args.review_now)):
+        print("--analyst is used only when candidate review starts; choose evidence "
+              "review with --review-now, or omit --analyst.", file=sys.stderr)
+        return 2
     source = args.source.expanduser().resolve()
     task = choose_task(args.task, args.yes or args.inspect_only or args.review_now)
+    if task == "internal" and args.analyst:
+        print("--analyst applies only to candidate evidence review; internal diagnostic "
+              "does not record passage decisions.", file=sys.stderr)
+        return 2
     print("\nLAIF guided start")
     if source == SAMPLE:
         print("Using the included synthetic example; it is a demonstration, not a real case.")
@@ -213,7 +222,11 @@ def run(argv: list[str] | None = None) -> int:
         print(f"  Resume candidate review: {review_command(dossier, source)}")
         enter_review = args.review_now
         if not args.yes and not enter_review:
-            enter_review = input("Review candidate passages now? [y/N]: ").strip().lower() in ("y", "yes")
+            try:
+                enter_review = input("Review candidate passages now? [y/N]: ").strip().lower() in ("y", "yes")
+            except (EOFError, KeyboardInterrupt):
+                print("\nReport saved. Candidate review not started; use the resume command above when ready.")
+                return 0
         if enter_review:
             print("\nCandidate passage review (human triage only)")
             review_args = [str(dossier), str(source)]
@@ -222,7 +235,8 @@ def run(argv: list[str] | None = None) -> int:
             try:
                 return reviewer.run(review_args)
             except (KeyboardInterrupt, EOFError):
-                print("\nReview stopped; completed passage decisions remain saved.", file=sys.stderr)
+                print("\nReview stopped. Check the saved review before resuming; "
+                      "completed writes remain in the output folder.", file=sys.stderr)
                 return 2
     return 0
 
@@ -234,5 +248,6 @@ if __name__ == "__main__":
     try:
         raise SystemExit(run())
     except (EOFError, KeyboardInterrupt):
-        print("\nStopped before report generation.", file=sys.stderr)
+        print("\nStopped. Inspect the output folder before retrying; partial files may exist.",
+              file=sys.stderr)
         raise SystemExit(2)

@@ -131,6 +131,13 @@ class ReviewSessionTests(unittest.TestCase):
         self.assertNotIn("Saved review:", result.stdout)
         self.assertIn("No review file saved", result.stdout)
 
+    def test_eof_before_first_decision_does_not_claim_saved_review(self):
+        result = self.call("--analyst", "reviewer-1", input_text="")
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("Review stopped", result.stderr)
+        self.assertIn("Check the saved review before resuming", result.stderr)
+        self.assertFalse(self.session.exists())
+
     def test_revisit_skip_preserves_decision_and_sanitizes_terminal_note(self):
         first = self.call("--analyst", "reviewer-1", input_text="a\nInspect \x1b[2J context\nq\n")
         self.assertEqual(first.returncode, 0, first.stderr)

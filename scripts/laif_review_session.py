@@ -297,5 +297,6 @@ if __name__ == "__main__":
     try:
         raise SystemExit(run())
     except (KeyboardInterrupt, EOFError):
-        print("\nStopped; completed passage decisions remain saved.", file=sys.stderr)
+        print("\nReview stopped. Check the saved review before resuming; "
+              "completed writes remain in the output folder.", file=sys.stderr)
         raise SystemExit(2)
