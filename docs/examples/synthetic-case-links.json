@@ -1,0 +1,32 @@
+{
+  "schema": "laif.case-links.v1",
+  "case_id": "synthetic-supplier-policy",
+  "question": "Which supplied records connect the policy's testing request to an operating decision?",
+  "analyst_id": "example-author-not-an-actual-reviewer",
+  "sources": [
+    {
+      "id": "policy-v1",
+      "role": "policy",
+      "status": "SUPPLIED",
+      "file": "vendor-policy.md",
+      "sha256": "e8e8475acaf9fa54846ceac6b0bc8f5728e26e6f5b52ce83613150a791079523",
+      "version": "synthetic-v1",
+      "origin": "repository synthetic example"
+    },
+    {"id": "contract-pending", "role": "contract", "status": "NOT_SUPPLIED", "reason": "No contract was included in this synthetic example."},
+    {"id": "procedure-pending", "role": "procedure", "status": "NOT_SUPPLIED", "reason": "No operating procedure was included."},
+    {"id": "test-pending", "role": "test", "status": "NOT_SUPPLIED", "reason": "No completed test record was included."},
+    {"id": "incident-pending", "role": "incident", "status": "NOT_SUPPLIED", "reason": "No incident record was included; this does not assert that an incident occurred."},
+    {"id": "remedy-pending", "role": "remedy", "status": "NOT_SUPPLIED", "reason": "No remedy record was included."}
+  ],
+  "links": [
+    {
+      "id": "policy-to-test-request",
+      "from": "policy-v1",
+      "to": "test-pending",
+      "relationship": "testing evidence requested before deployment",
+      "from_quote": "The procurement team must request evidence of testing before deployment.",
+      "note": "The policy contains a request; no test or acceptance record was supplied."
+    }
+  ]
+}

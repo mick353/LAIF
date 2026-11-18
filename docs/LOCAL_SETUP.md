@@ -200,6 +200,11 @@ These packages are optional and installation needs network access. Text extracti
 
 ## Batch processing
 
+For one case spanning supplied policy, contract, procedure, test, incident or
+remedy records, use the separate [case-link map](product/CASE_LINKS.md). It pins
+each supplied file and shows declared links and missing records. It does not
+infer that a control operates or that an unseen document is absent.
+
 The local batch runner processes the pending folder and writes per-document outputs and portfolio summaries. A fresh clone has an empty queue. Add only the documents you intend to process; local queues and outputs are ignored by Git:
 
 ```bash
