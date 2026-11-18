@@ -139,6 +139,7 @@ class CaseLinksTests(unittest.TestCase):
         self.assertNotIn("\x1b", output)
         second = self.call("--report", report)
         self.assertEqual(second.returncode, 2)
+        self.assertIn("report already exists; choose a new path", second.stderr)
         self.assertEqual(report.read_text(encoding="utf-8"), output)
         same_as_source = self.call("--report", self.policy)
         self.assertEqual(same_as_source.returncode, 2)
@@ -158,6 +159,64 @@ class CaseLinksTests(unittest.TestCase):
         mixed = self.call()
         self.assertEqual(mixed.returncode, 2)
         self.assertIn("supplied and NOT_SUPPLIED records conflict", mixed.stderr)
+
+    def test_malformed_role_status_and_link_endpoints_have_clear_errors(self):
+        for key, value in (("role", []), ("status", [])):
+            with self.subTest(key=key):
+                self.manifest["sources"][0][key] = value
+                self.write_manifest()
+                result = self.call()
+                self.assertEqual(result.returncode, 2)
+                self.assertIn("p1: invalid role or status", result.stderr)
+                self.assertNotIn("unhashable", result.stderr)
+                self.manifest["sources"][0][key] = "policy" if key == "role" else "SUPPLIED"
+        for side in ("from", "to"):
+            with self.subTest(side=side):
+                original = self.manifest["links"][0][side]
+                self.manifest["links"][0][side] = []
+                self.write_manifest()
+                result = self.call()
+                self.assertEqual(result.returncode, 2)
+                self.assertIn("L1: link must name two distinct declared sources", result.stderr)
+                self.assertNotIn("unhashable", result.stderr)
+                self.manifest["links"][0][side] = original
+
+    def test_six_roles_keep_distinct_and_opposing_supplied_records(self):
+        additions = (
+            ("pr1", "procedure", "Procedure says proceed after review."),
+            ("t2", "test", "A second test failed under different conditions."),
+            ("i1", "incident", "An incident was recorded after release."),
+            ("r1", "remedy", "A remedy was proposed but not completed."),
+        )
+        for sid, role, sentence in additions:
+            path = self.root / f"{sid}.txt"
+            path.write_text(sentence + "\n", encoding="utf-8")
+            self.manifest["sources"].append({
+                "id": sid, "role": role, "status": "SUPPLIED", "file": path.name,
+                "sha256": digest(path), "version": "v1", "origin": "synthetic test",
+            })
+        test_path = self.root / "t1.txt"
+        test_path.write_text("The first test passed under its stated conditions.\n", encoding="utf-8")
+        self.manifest["sources"][2] = {
+            "id": "t1", "role": "test", "status": "SUPPLIED", "file": test_path.name,
+            "sha256": digest(test_path), "version": "v1", "origin": "synthetic test",
+        }
+        self.manifest["links"][1] = {
+            "id": "L2", "from": "t1", "to": "t2", "relationship": "author asks reviewer to compare tests",
+            "from_quote": "The first test passed under its stated conditions.",
+            "to_quote": "A second test failed under different conditions.",
+            "note": "Different conditions may explain the result; inspect both records.",
+        }
+        self.write_manifest()
+        result = self.call()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        structured = json.loads(self.call("--json").stdout)
+        self.assertEqual(set(structured["roles"].values()), {"SUPPLIED"})
+        self.assertEqual(len(structured["sources"]), 7)
+        self.assertEqual(structured["links"][1]["status"], "EXACT_TEXT_AT_BOTH_ENDPOINTS")
+        self.assertIn("The first test passed", result.stdout)
+        self.assertIn("A second test failed", result.stdout)
+        self.assertIn("Different conditions may explain", result.stdout)
 
     def test_bundled_synthetic_example_is_runnable_and_not_a_real_case(self):
         result = self.call(manifest=EXAMPLE)
