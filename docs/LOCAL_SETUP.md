@@ -68,7 +68,12 @@ made. The guide prints an exact resume command using the new Evidence JSON and
 the original source. Run that command to continue; running the guide again
 against the same output folder stops to protect all generated and authored
 files. `--yes` skips the report-save prompt but enters review only when
-`--review-now` is also supplied.
+`--review-now` is also supplied. Use `--analyst` only when review will start;
+the guide rejects an attribution that would otherwise be ignored. If input
+ends at the review offer after report generation, the report remains saved and
+the printed resume command starts review later. If input ends during review,
+only completed passage decisions remain saved; resume from the same dossier
+without rerunning the guide into its nonempty output folder.
 
 ### Resume a source-bound evidence review
 

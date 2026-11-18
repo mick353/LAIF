@@ -180,6 +180,26 @@ class GuidedStartTests(unittest.TestCase):
                     self.assertIn("requires a generated evidence report", result.stderr)
                     self.assertFalse(target.exists())
 
+    def test_unused_analyst_attribution_is_rejected_before_write(self):
+        with tempfile.TemporaryDirectory() as temp:
+            target = Path(temp) / "results"
+            cases = (
+                ("--task", "evidence", "--yes", "--analyst", "reader"),
+                ("--task", "internal", "--yes", "--analyst", "reader"),
+                ("--inspect-only", "--analyst", "reader"),
+            )
+            for args in cases:
+                with self.subTest(args=args):
+                    result = self.call(*args, "--output-dir", target)
+                    self.assertEqual(result.returncode, 2)
+                    self.assertIn("--analyst", result.stderr)
+                    self.assertFalse(target.exists())
+            chosen_internal = self.call("--analyst", "reader", "--output-dir", target,
+                                        input_text="2\n")
+            self.assertEqual(chosen_internal.returncode, 2)
+            self.assertIn("internal diagnostic does not record passage decisions", chosen_internal.stderr)
+            self.assertFalse(target.exists())
+
     def test_interactive_report_can_stop_before_candidate_review(self):
         with tempfile.TemporaryDirectory() as temp:
             target = Path(temp) / "research"
@@ -189,6 +209,48 @@ class GuidedStartTests(unittest.TestCase):
             self.assertIn("Review candidate passages now?", result.stdout)
             self.assertEqual(len(list(target.glob("*.research_data.json"))), 1)
             self.assertEqual(list(target.glob("*.candidate_review.json")), [])
+
+    def test_eof_at_review_offer_reports_saved_state_and_preserves_outputs(self):
+        with tempfile.TemporaryDirectory() as temp:
+            target = Path(temp) / "research"
+            result = self.call("--task", "evidence", "--output-dir", target,
+                               input_text="y\n")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("Report saved. Candidate review not started", result.stdout)
+            self.assertIn("Resume candidate review:", result.stdout)
+            self.assertNotIn("Stopped before report generation", result.stderr)
+            self.assertEqual(len(list(target.glob("*.research_report.md"))), 1)
+            self.assertEqual(len(list(target.glob("*.research_data.json"))), 1)
+            self.assertEqual(len(list(target.glob("*.review_template.json"))), 1)
+            self.assertEqual(list(target.glob("*.candidate_review.json")), [])
+            existing = {path.name: path.read_bytes() for path in target.iterdir()}
+            repeat = self.call("--task", "evidence", "--yes", "--output-dir", target)
+            self.assertEqual(repeat.returncode, 2)
+            self.assertIn("Output folder is not empty", repeat.stderr)
+            self.assertEqual({path.name: path.read_bytes() for path in target.iterdir()}, existing)
+
+    def test_interrupted_joined_review_preserves_decision_and_can_resume(self):
+        with tempfile.TemporaryDirectory() as temp:
+            target = Path(temp) / "research"
+            first = self.call("--task", "evidence", "--yes", "--review-now",
+                              "--analyst", "first-reader", "--output-dir", target,
+                              input_text="a\nInspect source context\n")
+            self.assertEqual(first.returncode, 2)
+            self.assertIn("Check the saved review before resuming", first.stderr)
+            dossier = next(target.glob("*.research_data.json"))
+            session = next(target.glob("*.candidate_review.json"))
+            saved = json.loads(session.read_text(encoding="utf-8"))
+            self.assertEqual(list(saved["decisions"]), ["E001"])
+            resumed = subprocess.run(
+                [sys.executable, "-S", str(ROOT / "scripts" / "laif_review_session.py"),
+                 str(dossier), str(SAMPLE), "--analyst", "first-reader"],
+                cwd=ROOT, input="n\nNeed the operating record\nq\n", capture_output=True,
+                text=True, encoding="utf-8", env={**os.environ, "PYTHONUTF8": "1"},
+            )
+            self.assertEqual(resumed.returncode, 0, resumed.stderr)
+            decisions = json.loads(session.read_text(encoding="utf-8"))["decisions"]
+            self.assertEqual(decisions["E001"], saved["decisions"]["E001"])
+            self.assertEqual(decisions["E002"]["decision"], "NEEDS_EVIDENCE")
 
     def test_default_synthetic_source_enters_joined_review(self):
         with tempfile.TemporaryDirectory() as temp:
