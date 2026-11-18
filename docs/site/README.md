@@ -1,5 +1,11 @@
 # Website source catalogue and contribution bridge
 
+**NIST trace caution:** The catalogue includes a manifest pointer to a
+historical NIST evidence trace whose clause descriptions need substantive
+correction. See the [18 November erratum](../verification/2026-11-18-nist-trace-erratum/README.md)
+before using that trace for a finding. The Site's source catalogue does not
+itself establish the trace's interpretation.
+
 **Audience: source contributors and maintainers.** For browser use, start with
 [the Site guide](../GETTING_STARTED.md). These commands are not required for
 ordinary Site use.

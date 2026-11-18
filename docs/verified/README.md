@@ -4,6 +4,13 @@
 **Corpus type:** Authoritative source documents — full-text ingestion, Strict Source Mode  
 **Status:** Distinct from `docs/supporting/` (representative baseline corpus)
 
+**NIST interpretation caution (18 November 2026):** The historical NIST
+[evidence-trace narrative](../verification/2026-11-18-nist-trace-erratum/README.md)
+misdescribes multiple correctly numbered NIST provisions. The validator checks
+identifier presence, not semantic support. Do not rely on that narrative or its
+mapped findings without the source-scoped re-review described in the erratum.
+The original source bytes, manifest and dated assessment remain preserved.
+
 ---
 
 ## Directory Structure
