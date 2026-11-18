@@ -1,5 +1,72 @@
 # Current verified state
 
+## Case previews, recovery and source checks, 18 November 2026
+
+[PR #136](https://github.com/mick353/LAIF/pull/136) improves local case-map
+errors for malformed entries and an output file that already exists. Ten
+focused checks passed. A seven-record synthetic case across all six roles
+retained differing test passages. The full Windows candidate gate discovered
+659 tests with two symlink capability skips. Both skipped tests passed
+separately using the same checkout through WSL Ubuntu with Python 3.12.3.
+
+[PR #137](https://github.com/mick353/LAIF/pull/137) verifies the retained
+original 2024 EU AI Act extraction. All 144 PDF pages matched stored text after
+whitespace removal. The check locates the 113 Articles and 13 Annexes in order.
+The [reproducible receipt](2026-11-18-eu-original-structure/README.md) explains
+the extractor, edition, retained assessment artifacts and scope. The full
+attributed assessment and qualified review of legal applicability remain open.
+
+The [private Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+is at **v22**, source `7af619a610e5f31b3bbbee24386daecb5c37b6e9`, deployment
+`appgdep_6afd16dc2aa0819197d60a1c2f48b5fb`. It deployed successfully at
+14:09 Canberra with access readback showing one owner and zero external
+visitors. The assessment runtime is pinned at `e7594d3`. The public guide is v2.
+
+The recovery release reads the latest saved snapshot after a rejected save.
+It combines changes to different records. When the same record has competing
+edits, it retains the draft and points the owner to the saved copy for review.
+Backup import adds new records and identifies differing existing versions.
+It rejects an import that assigns different bytes to the same source ID.
+Staged API tests verified stale-save recovery, readback of both edits, retry
+after a lost save acknowledgement, overlapping edits and conflicting backup
+source identity. TypeScript, case and navigation tests, and production build
+passed.
+
+On the deployed v22 at 14:16 Canberra, two signed-in tabs saved distinct
+synthetic cases. The second tab reported a newer save. **Recover changes**
+read the latest snapshot and saved both cases. Both tabs reloaded with both
+new IDs and the earlier synthetic case. During setup, a missed button
+activation briefly edited that earlier case's question and analyst fields.
+Those fields were restored and read back before the two-tab test. Its two
+source records, link and reviewer note also read back. The same-record
+conflict and lost-acknowledgement paths were exercised in staged API tests.
+
+Private v21, source `bd9a8869cf447e13ac1682fb3e8c4de13d34d7e7`, deployment
+`appgdep_6afd140b745c819185921e14e7fd2519` at 13:57 Canberra, added a separate
+**Check case map** action and on-page previews of the report, checked JSON and
+CLI manifest. It packages the exact case helper from PR #136. Live signed-in
+checking rejected a result when the case changed during processing. Checking
+again showed the edited question. The preview at 320 CSS pixels had a
+305-pixel body and scroll width.
+
+The hosted preview's manifest hash was
+`6adbc190628763a607e1e34fa7ad7c62453c4f7316c0e2c4a78221e511fd98a7`.
+The original 1,287-byte retained synthetic source matched its pinned SHA-256
+`35ab55f754f39d61a1e24fa7a8cc844dc45bbf223fe88864f967951ae2f2b825`.
+Replaying the read-back manifest and source through the local command produced
+the same checked JSON data, including an explicitly unsupplied link endpoint.
+These artifacts came from the visible case preview and original source view.
+The Chrome control surface reported download starts followed by cancellation
+at zero transferred bytes for both case and ordinary assessment reports.
+Hosted case file transfer remains unverified. The earlier v18 assessment
+downloads are documented in their separate receipt.
+
+Physical phone, screen reader, measured browser zoom, intended-user
+acceptance and hosted network-outage recovery remain open in
+[issue #110](https://github.com/mick353/LAIF/issues/110).
+Source and independent assessment work remain tracked in
+[issue #93](https://github.com/mick353/LAIF/issues/93).
+
 ## 18 November 2026 follow-through
 
 Repository main `d9bfdaa` includes released PRs #131–134. PR #131 fixes

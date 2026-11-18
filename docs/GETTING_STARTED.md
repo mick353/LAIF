@@ -23,6 +23,7 @@ documents and retained research records.
 | Explore without signing in | [Public reading room](https://laif-public-guide.mick353.chatgpt.site) |
 | Review a document in your browser | Follow this guide |
 | Understand an included assessment | Choose **Explore a worked example** on Home |
+| Review how several records relate | In **Source index**, select **Map supplied documents and links** |
 | Run a local copy, batches or specialist commands | [Local repository setup](LOCAL_SETUP.md) |
 | Change code or contribute a source | [Contributing](../CONTRIBUTING.md) and [source contribution workflow](site/README.md) |
 
@@ -95,6 +96,21 @@ and outstanding work before sharing. Exporting does not publish to GitHub.
 A completed checklist records operator attestations, not independent approval.
 Keep private exports out of public issues and commits.
 
+## Review a case with several records
+
+In **Source index**, select **Map supplied documents and links** to open
+**Case links**. Add the records you have, assign roles such as policy, contract
+or test, and say which other records were unavailable. For instance, link the
+policy’s testing requirement to the test record it calls for. If nobody
+supplied that record, mark it as **Not supplied** so the map preserves the
+open question.
+
+Select **Check case map** to confirm the identity of supplied files and any
+exact quotations you entered. Read **Links to follow up** and the checked
+report before sharing it. Editing a checked case asks for a new check. The
+same checks are available when you work with local files.
+See the [case map guide](product/CASE_LINKS.md).
+
 ## Save, resume and recover
 
 Watch the save indicator. Signed-in changes are saved as user-scoped cloud
@@ -109,10 +125,16 @@ The assessment picker includes Canberra timestamps and short run IDs so repeated
 reviews of the same document can be distinguished. Your selected older run stays
 selected when moving through its source, findings and evidence.
 
-If saving is unavailable, keep the tab open and choose **Export backup**.
-A report download is not a complete workspace backup. Backup import/export
-controls are under **Status & verification**; check restored sources and runs
-before continuing. Browser and local Python records do not automatically synchronise.
+If another tab saves first, choose **Recover changes**. The Workspace can
+combine edits to different records. If both copies changed the same record,
+keep this tab open and use **Open saved workspace** to compare the two copies.
+You can also export this tab's draft as a backup.
+
+If a save fails and **Retry save** is available, try it before closing the
+tab. Keep the tab open until the save is confirmed or you have checked your
+backup download. Use **Status & verification** for workspace backups. An
+import adds new records and reports any differing versions that need your
+review. Browser and local Python records have separate storage.
 
 ## Help and next steps
 

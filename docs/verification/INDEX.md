@@ -11,6 +11,7 @@ A superseded-by relation requires a specific replacement receipt.
 
 | Record | Status | Evidence scope |
 |---|---|---|
+| [18 November original EU Act receipt](2026-11-18-eu-original-structure/README.md) | Dated source check | Original 2024 PDF page text, Article and Annex headings, exact source hashes |
 | [16 November hosted acceptance](2026-11-16-hosted-acceptance.md) | Dated live check | Site v18 synthetic run, saved state and inspected downloads |
 | [16 November engine split](2026-11-16-engine-module-split.md) | Dated verification | Behavior and source-identity comparison |
 | [16 November navigation repair](2026-11-16-report-navigation.md) | Dated verification | Current links fixed; historical evidence retained |

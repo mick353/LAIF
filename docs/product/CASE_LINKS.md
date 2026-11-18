@@ -1,18 +1,23 @@
 # Map a supplied multi-document governance case
 
 In the private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site),
-open **Source index** and the case-map view. Select retained documents, assign
-their roles, record any unsupplied records and describe the links you want to
-review. Run the case check, inspect unresolved endpoints, then export the map.
-Saved case maps reopen with their declared sources and links. The Site and
-local command use the same Python validator and renderer. This is an authored
-evidence map; a checked quotation does not establish that the asserted
-relationship is correct. Private Site records are saved in cloud storage.
+open **Source index** and select **Map supplied documents and links**. Choose
+retained documents, assign roles, record any unsupplied records and describe
+the links you want to review. Select **Check case map**. Review **Links to follow up** and read or
+select the text of the checked report, JSON or CLI manifest before downloading.
+After editing a case, check it again. Saved case maps reopen with their declared
+sources and links. Private Site records are saved in cloud storage.
 
-Site v20 save/reload and narrow-screen checks are recorded in
-[CURRENT.md](../verification/CURRENT.md). Local export/CLI parity passed;
-hosted case-export bytes still await readback. The local workflow below is
-useful for files you keep on your computer and for reproducible case manifests.
+To compare two records that appear to disagree, include each version and quote
+both passages in a declared link. In the note, explain what differs and which
+dates or conditions you still need to check. The report keeps both passages
+with their original source identities for your review.
+
+For local replay, place the CLI manifest and each downloaded supplied source
+in one folder, retaining their file names. Run the local command below with
+that manifest. The Site and local command use the same Python checks and report
+format. See the [current verification record](../verification/CURRENT.md) for
+the hosted preview and local replay results.
 
 Use the optional local `laif_case_links.py` command when you have several
 records for one governance question. It connects **only the files and links
