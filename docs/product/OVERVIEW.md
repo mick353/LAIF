@@ -35,6 +35,11 @@ reviews and batches, with reports saved on your computer. The Site has its own
 versioned catalogue and assessment runtime; its live acceptance checks remain
 in the [product and Site readiness programme](PRODUCT_READINESS_2026-11.md).
 
+For a case with several supplied records, the local
+[case-link map](CASE_LINKS.md) shows their byte identities, the relationships
+you declare and records not supplied. It does not decide whether those
+relationships are valid or controls work.
+
 For the local first-use path, [guided start](../LOCAL_SETUP.md) previews
 extraction and produces a research report, evidence JSON and an empty human
 review template. It can then open a resumable candidate-passage review. The
