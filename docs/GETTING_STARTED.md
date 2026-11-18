@@ -23,7 +23,7 @@ documents and retained research records.
 | Explore without signing in | [Public reading room](https://laif-public-guide.mick353.chatgpt.site) |
 | Review a document in your browser | Follow this guide |
 | Understand an included assessment | Choose **Explore a worked example** on Home |
-| Review how several records relate | Open **Case links** from **Source index** |
+| Review how several records relate | In **Source index**, select **Map supplied documents and links** |
 | Run a local copy, batches or specialist commands | [Local repository setup](LOCAL_SETUP.md) |
 | Change code or contribute a source | [Contributing](../CONTRIBUTING.md) and [source contribution workflow](site/README.md) |
 
@@ -98,11 +98,12 @@ Keep private exports out of public issues and commits.
 
 ## Review a case with several records
 
-Open **Source index**, then **Case links**. Add the records you have, assign
-roles such as policy, contract or test, and say which other records were
-unavailable. For instance, link the policy’s testing requirement to the test
-record it calls for. If nobody supplied that record, mark it as **Not supplied**
-so the map preserves the open question.
+In **Source index**, select **Map supplied documents and links** to open
+**Case links**. Add the records you have, assign roles such as policy, contract
+or test, and say which other records were unavailable. For instance, link the
+policy’s testing requirement to the test record it calls for. If nobody
+supplied that record, mark it as **Not supplied** so the map preserves the
+open question.
 
 Select **Check case map** to confirm the identity of supplied files and any
 exact quotations you entered. Read **Links to follow up** and the checked

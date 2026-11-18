@@ -1,9 +1,9 @@
 # Map a supplied multi-document governance case
 
 In the private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site),
-open **Source index** and the case-map view. Select retained documents, assign
-their roles, record any unsupplied records and describe the links you want to
-review. Select **Check case map**. Review **Links to follow up** and read or
+open **Source index** and select **Map supplied documents and links**. Choose
+retained documents, assign roles, record any unsupplied records and describe
+the links you want to review. Select **Check case map**. Review **Links to follow up** and read or
 select the text of the checked report, JSON or CLI manifest before downloading.
 After editing a case, check it again. Saved case maps reopen with their declared
 sources and links. Private Site records are saved in cloud storage.
