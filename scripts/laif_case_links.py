@@ -108,7 +108,7 @@ def assess_bytes(manifest: dict, manifest_bytes: bytes,
         if sid in checked:
             raise ValueError(f"duplicate source id: {sid}")
         role, status = item.get("role"), item.get("status")
-        if role not in ROLES or status not in {"SUPPLIED", "NOT_SUPPLIED"}:
+        if not isinstance(role, str) or role not in ROLES or status not in ("SUPPLIED", "NOT_SUPPLIED"):
             raise ValueError(f"{sid}: invalid role or status")
         if status == "SUPPLIED":
             if not nonblank(item.get("version")) or not nonblank(item.get("origin")):
@@ -153,7 +153,8 @@ def assess_bytes(manifest: dict, manifest_bytes: bytes,
             raise ValueError(f"duplicate link id: {lid}")
         seen_links.add(lid)
         left, right = item.get("from"), item.get("to")
-        if left not in checked or right not in checked or left == right:
+        if (not nonblank(left) or not nonblank(right)
+                or left not in checked or right not in checked or left == right):
             raise ValueError(f"{lid}: link must name two distinct declared sources")
         if not nonblank(item.get("relationship")) or not nonblank(item.get("note")):
             raise ValueError(f"{lid}: relationship and analyst note are required")
@@ -257,8 +258,11 @@ def run(argv: list[str] | None = None) -> int:
                                               for row in outcome["sources"] if row["status"] == "SUPPLIED"):
                 raise ValueError("report path overlaps a source or manifest")
             target.parent.mkdir(parents=True, exist_ok=True)
-            with target.open("x", encoding="utf-8", newline="\n") as handle:
-                handle.write(text)
+            try:
+                with target.open("x", encoding="utf-8", newline="\n") as handle:
+                    handle.write(text)
+            except FileExistsError as exc:
+                raise ValueError(f"report already exists; choose a new path: {target}") from exc
             print(f"Case map saved: {target}")
         else:
             print(text, end="")
