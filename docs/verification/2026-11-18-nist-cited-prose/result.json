@@ -1,0 +1,158 @@
+{
+  "authored_review_sha256": "5072a4a11adc0bb4560ed3572936145f4b212a35cd615d6afb75e150b600780c",
+  "baseline_commit": "e574fb28c6d4c56faaaa429df27d6581342032e9",
+  "comparison": "exact raw span, then punctuation/whitespace-insensitive alphanumeric match within one PDF page",
+  "extractor": "pypdf",
+  "extractor_version": "6.18.0",
+  "matched_count": 16,
+  "pdf_pages": 48,
+  "pdf_sha256": "7576edb531d9848825814ee88e28b1795d3a84b435b4b797d3670eafdc4a89f1",
+  "raw_sha256": "44ac320e6da1d15fcfded2933da7f62bf0ed552b78a81358102c057991ba6509",
+  "rows": [
+    {
+      "criterion_id": "A.1",
+      "evidence_id": "C001",
+      "normalized_length": 521,
+      "pdf_page_1_based": 20,
+      "quote_sha256": "6063ae99ae3f51a0fd70b9e983c7bd26673133478616f51ed3777a8355a232e4",
+      "raw_end_char": 41692,
+      "raw_start_char": 41072
+    },
+    {
+      "criterion_id": "A.1",
+      "evidence_id": "C002",
+      "normalized_length": 272,
+      "pdf_page_1_based": 22,
+      "quote_sha256": "770a08163b6709ef19036bb9c262741eae53f88969732678b92be04c5e528412",
+      "raw_end_char": 45335,
+      "raw_start_char": 45015
+    },
+    {
+      "criterion_id": "A.2",
+      "evidence_id": "C003",
+      "normalized_length": 577,
+      "pdf_page_1_based": 6,
+      "quote_sha256": "c6b0fdbf66796b924ae5f07e6f19c0f7036837e8e84e50d0ee9906156ccef9d8",
+      "raw_end_char": 7396,
+      "raw_start_char": 6705
+    },
+    {
+      "criterion_id": "A.2",
+      "evidence_id": "C004",
+      "normalized_length": 537,
+      "pdf_page_1_based": 14,
+      "quote_sha256": "f8a5a034aab524e4271b2a373cd48def731f45e2a6075e79c9f936d8a5c8328d",
+      "raw_end_char": 26219,
+      "raw_start_char": 25585
+    },
+    {
+      "criterion_id": "A.3",
+      "evidence_id": "C005",
+      "normalized_length": 366,
+      "pdf_page_1_based": 20,
+      "quote_sha256": "558da37e27cefa818a9bf26bdf9a8f0c99110c3309d3104dfd0a889a2183904f",
+      "raw_end_char": 39487,
+      "raw_start_char": 39051
+    },
+    {
+      "criterion_id": "A.3",
+      "evidence_id": "C006",
+      "normalized_length": 689,
+      "pdf_page_1_based": 38,
+      "quote_sha256": "14bb54fa67f1e10c09188c2d4a471c85a9c97977ac90776530e695950e7a02bb",
+      "raw_end_char": 81870,
+      "raw_start_char": 81045
+    },
+    {
+      "criterion_id": "A.4",
+      "evidence_id": "C007",
+      "normalized_length": 594,
+      "pdf_page_1_based": 19,
+      "quote_sha256": "1dd4e06aad4ade9d82133d739e31f661f4dff2b99f52421474878282f5fd659e",
+      "raw_end_char": 37174,
+      "raw_start_char": 36459
+    },
+    {
+      "criterion_id": "A.4",
+      "evidence_id": "C008",
+      "normalized_length": 255,
+      "pdf_page_1_based": 41,
+      "quote_sha256": "f47644915fc329cd57f7ea729e97f3f6dac919f6a6f87e2bc50893d249a112c5",
+      "raw_end_char": 88161,
+      "raw_start_char": 87856
+    },
+    {
+      "criterion_id": "Q1",
+      "evidence_id": "C009",
+      "normalized_length": 464,
+      "pdf_page_1_based": 7,
+      "quote_sha256": "6a48b24a18409be10526bc0dab2933808304eda356bbc76f7efc633513e8f4de",
+      "raw_end_char": 8913,
+      "raw_start_char": 8345
+    },
+    {
+      "criterion_id": "Q1",
+      "evidence_id": "C010",
+      "normalized_length": 689,
+      "pdf_page_1_based": 38,
+      "quote_sha256": "14bb54fa67f1e10c09188c2d4a471c85a9c97977ac90776530e695950e7a02bb",
+      "raw_end_char": 81870,
+      "raw_start_char": 81045
+    },
+    {
+      "criterion_id": "Q2",
+      "evidence_id": "C011",
+      "normalized_length": 537,
+      "pdf_page_1_based": 14,
+      "quote_sha256": "f8a5a034aab524e4271b2a373cd48def731f45e2a6075e79c9f936d8a5c8328d",
+      "raw_end_char": 26219,
+      "raw_start_char": 25585
+    },
+    {
+      "criterion_id": "Q2",
+      "evidence_id": "C012",
+      "normalized_length": 744,
+      "pdf_page_1_based": 26,
+      "quote_sha256": "c0b5175027b90572d814aed53d6d2d5e92de5115f00dc8eb306a08862a631711",
+      "raw_end_char": 54154,
+      "raw_start_char": 53259
+    },
+    {
+      "criterion_id": "Q3",
+      "evidence_id": "C013",
+      "normalized_length": 689,
+      "pdf_page_1_based": 38,
+      "quote_sha256": "14bb54fa67f1e10c09188c2d4a471c85a9c97977ac90776530e695950e7a02bb",
+      "raw_end_char": 81870,
+      "raw_start_char": 81045
+    },
+    {
+      "criterion_id": "Q3",
+      "evidence_id": "C014",
+      "normalized_length": 722,
+      "pdf_page_1_based": 3,
+      "quote_sha256": "ca666ce64fef34642d22771f70b77f836b6e316e09b7bf2aedf73a1254ce78d8",
+      "raw_end_char": 2349,
+      "raw_start_char": 1450
+    },
+    {
+      "criterion_id": "G.1",
+      "evidence_id": "C015",
+      "normalized_length": 722,
+      "pdf_page_1_based": 3,
+      "quote_sha256": "ca666ce64fef34642d22771f70b77f836b6e316e09b7bf2aedf73a1254ce78d8",
+      "raw_end_char": 2349,
+      "raw_start_char": 1450
+    },
+    {
+      "criterion_id": "G.1",
+      "evidence_id": "C016",
+      "normalized_length": 152,
+      "pdf_page_1_based": 47,
+      "quote_sha256": "e531d37423df7b8e7b6bdd744c3ffdb149a81887fe3e9259a21d43d95e1fe059",
+      "raw_end_char": 102598,
+      "raw_start_char": 102417
+    }
+  ],
+  "schema": "laif.nist-cited-prose-pdf-fidelity.v1"
+}
