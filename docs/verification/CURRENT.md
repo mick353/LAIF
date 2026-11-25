@@ -1,5 +1,18 @@
 # Current verified state
 
+## Original EU Act context and hosted access, 25 November 2026
+
+Codex checked the page layout and boundaries of all eight retained
+original-edition context spans across nine rendered pages. Each stored span
+also matched its hash and the admitted text within its page window. Article 15
+ends on page 61. The saved span includes the next section heading on page 62.
+See the [layout and text receipt](2026-11-25-eu-context-layout/README.md).
+
+Sites reported the private Workspace active at v22 with one owner and zero
+external visitors. Native Chrome reached the OpenAI sign-in page and required
+authentication. Hosted file transfer and the other acceptance checks in
+[#110](https://github.com/mick353/LAIF/issues/110) remain open.
+
 ## Case previews, recovery and source checks, 18 November 2026
 
 [PR #136](https://github.com/mick353/LAIF/pull/136) improves local case-map
