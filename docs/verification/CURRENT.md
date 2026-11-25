@@ -1,5 +1,29 @@
 # Current verified state
 
+## Hosted outage and same-record recovery, 25 November 2026
+
+The signed-in private Workspace v22 passed both synthetic recovery checks
+by 15:09 Canberra. Site source was `7af619a610e5f31b3bbbee24386daecb5c37b6e9`.
+The assessment runtime was pinned at `e7594d3`.
+
+- **Connection loss while saving.** The browser put one test tab offline.
+  Its save failed with `ERR_INTERNET_DISCONNECTED`. The case question stayed
+  in the field and **Retry save** was available. Restoring the connection
+  and retrying returned HTTP 200. The edited question persisted after reload.
+- **Competing edits to the same case.** Two tabs loaded the same synthetic
+  case. The first tab saved its edit. The second tab's stale write returned
+  HTTP 409 and its draft stayed visible. **Recover changes** read the latest
+  revision (HTTP 200), reported overlapping edits and made zero writes.
+  After reload the saved tab still showed its committed value, while the
+  stale tab still showed its different draft. Deliberately re-entering that
+  draft in the current tab then saved with HTTP 200 and survived reload.
+
+The original synthetic question was restored and read back after reload.
+The focused Site workspace tests also passed. The browser test covered a
+connection failure in one tab with the draft still open. A fresh authorised
+document journey and physical phone, screen reader and measured browser
+zoom acceptance remain open in [issue #110](https://github.com/mick353/LAIF/issues/110).
+
 ## Hosted report and case downloads, 25 November 2026
 
 The signed-in in-app browser completed 27 downloads from the private
@@ -99,9 +123,10 @@ at zero transferred bytes for both case and ordinary assessment reports.
 Hosted case file transfer was unverified at the 18 November checkpoint.
 The earlier v18 assessment downloads are documented in their separate receipt.
 
-Physical phone, screen reader, measured browser zoom, intended-user
-acceptance and hosted network-outage recovery remain open in
+At this checkpoint, physical phone, screen reader, measured browser zoom,
+intended-user acceptance and hosted network-outage recovery were open in
 [issue #110](https://github.com/mick353/LAIF/issues/110).
+The 25 November recovery check above provides the later browser evidence.
 Source and independent assessment work remain tracked in
 [issue #93](https://github.com/mick353/LAIF/issues/93).
 
