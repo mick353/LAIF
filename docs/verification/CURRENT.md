@@ -1,5 +1,31 @@
 # Current verified state
 
+## Hosted report and case downloads, 25 November 2026
+
+The signed-in in-app browser completed 27 downloads from the private
+Workspace v22 at about 12:24 Canberra. Site source was
+`7af619a610e5f31b3bbbee24386daecb5c37b6e9` and the assessment runtime was
+pinned at `e7594d3`. All 27 files were opened or checked on disk.
+
+- The retained DTA report and a saved synthetic automated report both
+  downloaded as Markdown and JSON. The retained Markdown contained the
+  complete canonical report after newline normalization. The automated
+  Markdown contained the exact pipeline report and its review brief carried
+  the expected source hash and method revision. Both JSON packages preserved
+  those identities and included all eight reader-guidance entries.
+- All 18 individual files for the synthetic run, including both JSON Lines
+  files, matched their corresponding byte sequences in the exported JSON
+  package. JSON and JSON Lines parsed successfully.
+- The synthetic case's Markdown, checked JSON and CLI manifest matched their
+  live previews byte for byte. The downloaded source matched the pinned
+  SHA-256. Running the local checker on the downloaded manifest and source
+  reproduced identical Markdown and equivalent checked JSON.
+
+The local receipt lists filenames, byte counts and SHA-256 digests under
+`.local-evidence/download-acceptance-20261125/`. These checks establish
+download and file integrity for the tested report and case paths. The other
+live acceptance checks remain in [issue #110](https://github.com/mick353/LAIF/issues/110).
+
 ## Original EU Act context and hosted access, 25 November 2026
 
 Codex checked the page layout and boundaries of all eight retained
@@ -9,9 +35,8 @@ ends on page 61. The saved span includes the next section heading on page 62.
 See the [layout and text receipt](2026-11-25-eu-context-layout/README.md).
 
 Sites reported the private Workspace active at v22 with one owner and zero
-external visitors. Native Chrome reached the OpenAI sign-in page and required
-authentication. Hosted file transfer and the other acceptance checks in
-[#110](https://github.com/mick353/LAIF/issues/110) remain open.
+external visitors. At the earlier observation, native Chrome reached OpenAI
+sign-in. The later signed-in check above verified hosted downloads.
 
 ## Case previews, recovery and source checks, 18 November 2026
 
@@ -71,8 +96,8 @@ the same checked JSON data, including an explicitly unsupplied link endpoint.
 These artifacts came from the visible case preview and original source view.
 The Chrome control surface reported download starts followed by cancellation
 at zero transferred bytes for both case and ordinary assessment reports.
-Hosted case file transfer remains unverified. The earlier v18 assessment
-downloads are documented in their separate receipt.
+Hosted case file transfer was unverified at the 18 November checkpoint.
+The earlier v18 assessment downloads are documented in their separate receipt.
 
 Physical phone, screen reader, measured browser zoom, intended-user
 acceptance and hosted network-outage recovery remain open in

@@ -2,6 +2,14 @@
 
 **Current verified state:** See [CURRENT.md](docs/verification/CURRENT.md) for the dated repository, Site and acceptance checkpoint. Consult the [verification index](docs/verification/INDEX.md) for historical evidence. Recheck live Git/PR and deployment state before release claims; main remains authoritative.
 
+## Local working folders
+
+Keep temporary LAIF checkouts under `.worktrees/` and disposable files under
+an ignored subfolder of this checkout, such as `.local-site-workspace/`. Add
+these directories to the checkout's local Git excludes when needed. Keep
+verification evidence under `.local-evidence/` and remove temporary checkouts
+and disposable outputs after use.
+
 ## Local-first verification (GitHub Actions not used)
 
 LAIF operates with local/manual Python checks. Do not initiate GitHub Actions
