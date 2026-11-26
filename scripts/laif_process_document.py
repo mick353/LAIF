@@ -67,6 +67,14 @@ class ExtractionResult:
     errors: list[str] = field(default_factory=list)
 
 
+@dataclass(frozen=True)
+class PreparedDocument:
+    path: Path
+    extractor_requested: str
+    source_sha256: str
+    extraction: ExtractionResult
+
+
 class ExtractionError(RuntimeError):
     """Raised when local document text cannot be extracted safely."""
 
@@ -256,6 +264,27 @@ def extract_document(path: Path, extractor: str = "auto") -> ExtractionResult:
             f"Attempted extractors: {attempted}"
         )
     raise ExtractionError("Unable to extract document text. Attempted extractors: " + attempted)
+
+
+def prepare_document(path: Path, extractor: str = "auto", *, reuse: PreparedDocument | None = None) -> PreparedDocument:
+    """Supply one byte-checked extraction to analyses of the same local source."""
+    path = path.expanduser().resolve()
+    if not path.is_file():
+        raise ExtractionError(f"Input file does not exist or is not a regular file: {path}")
+    if reuse is not None and (reuse.path != path or reuse.extractor_requested != extractor):
+        raise ExtractionError("Prepared document does not match the requested path and extractor.")
+    try:
+        source_sha256 = sha256_file(path)
+        if reuse is not None:
+            if reuse.source_sha256 != source_sha256:
+                raise ExtractionError("Source bytes changed after document preparation. Start a new assessment.")
+            return reuse
+        extraction = extract_document(path, extractor)
+        if sha256_file(path) != source_sha256:
+            raise ExtractionError("Source bytes changed during extraction. Try again with a stable source copy.")
+    except OSError as exc:
+        raise ExtractionError(f"Could not read source bytes at {path}: {exc}") from exc
+    return PreparedDocument(path, extractor, source_sha256, extraction)
 
 
 def _term_hits(text: str, terms: Iterable[str]) -> int:
@@ -2275,9 +2304,10 @@ def source_provenance(path: Path, source_hash: str) -> dict:
             "boundary": "Local source bytes identified; no authoritative-origin verification supplied."}
 
 
-def load_submitted_review(source: Path, extracted_text: str, review_file: Path, expected_source_sha256: str | None = None) -> dict:
+def load_submitted_review(source: Path, extracted_text: str, review_file: Path, expected_source_sha256: str | None = None,
+                          *, prepared: PreparedDocument | None = None) -> dict:
     """Reuse the scholarly annotation protocol without granting reviewer authority."""
-    from scripts.laif_research_report import build_dossier, _read_json, ResearchInputError, MAX_OBSERVATIONS
+    from scripts.laif_research_report import build_dossier, _local_extractor, _read_json, ResearchInputError, MAX_OBSERVATIONS
     try:
         review_hash = sha256_file(review_file)
         raw = _read_json(review_file)
@@ -2286,7 +2316,8 @@ def load_submitted_review(source: Path, extracted_text: str, review_file: Path, 
         if (not isinstance(ids, list) or not minimum <= len(ids) <= MAX_OBSERVATIONS
                 or any(not isinstance(value, str) for value in ids) or len(set(ids)) != len(ids)):
             raise ResearchInputError(f"review must retain the template's unique available_evidence_ids (1-{MAX_OBSERVATIONS})")
-        dossier = build_dossier(source, review_file=review_file, max_quotes=max(1, len(ids)))
+        reusable = prepared if prepared and prepared.extractor_requested == _local_extractor(source, "auto-local") else None
+        dossier = build_dossier(source, review_file=review_file, max_quotes=max(1, len(ids)), prepared=reusable)
         if expected_source_sha256 and dossier["source"]["source_sha256"] != expected_source_sha256:
             raise ResearchInputError("source changed during processing; SHA-256 differs")
         if dossier["source"]["extracted_text_sha256"] != hashlib.sha256(extracted_text.encode("utf-8")).hexdigest():
@@ -3408,14 +3439,15 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def run(args: argparse.Namespace) -> int:
+def run(args: argparse.Namespace, *, prepared: PreparedDocument | None = None) -> int:
     if getattr(args, "require_complete_review", False) and not getattr(args, "review_file", None):
         raise ExtractionError("--require-complete-review needs a completed --review-file")
     if getattr(args, "review_file", None) and args.mode != "external_framework":
         raise ExtractionError("--review-file supports external-framework reporting only; it cannot override native certification")
     input_path_original = str(args.input_file)
     input_path = args.input_file.expanduser().resolve()
-    extraction = extract_document(input_path, args.extractor)
+    prepared = prepare_document(input_path, args.extractor, reuse=prepared)
+    extraction = prepared.extraction
     if args.fail_on_warnings and extraction.warnings:
         raise ExtractionError("Extraction produced warnings and --fail-on-warnings was set: " + "; ".join(extraction.warnings))
 
@@ -3427,7 +3459,7 @@ def run(args: argparse.Namespace) -> int:
     sector_basis = ""
     document_name = args.document_name or input_path.stem
     processed_at = utc_now_iso()
-    source_hash = sha256_file(input_path)
+    source_hash = prepared.source_sha256
     output_stem = safe_stem(input_path.stem)
 
     processing = build_processing_metadata(
@@ -3474,6 +3506,7 @@ def run(args: argparse.Namespace) -> int:
         extraction.text,
         sector=selected_sector,
         assessment_mode=resolve_assessment_mode(args.mode),
+        include_automatic_criteria=False,
         source_sha256=source_hash,
         original_file_name=input_path.name,
         original_pending_path=args.original_pending_path or input_path_original,
@@ -3488,7 +3521,7 @@ def run(args: argparse.Namespace) -> int:
     assessment["source_scan_coverage"] = source_scan["coverage"]
     assessment["source_provenance"] = source_provenance(input_path, source_hash)
     assessment["attributed_reasoning"] = source_reasoning_record(assessment["source_provenance"])
-    assessment["submitted_review"] = (load_submitted_review(input_path, extraction.text, args.review_file, source_hash)
+    assessment["submitted_review"] = (load_submitted_review(input_path, extraction.text, args.review_file, source_hash, prepared=prepared)
                                       if getattr(args, "review_file", None) else None)
     if getattr(args, "require_complete_review", False):
         criteria = assessment["submitted_review"].get("criteria_review")
@@ -3562,11 +3595,11 @@ def run(args: argparse.Namespace) -> int:
     return 0
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: list[str] | None = None, *, prepared: PreparedDocument | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        return run(args)
+        return run(args, prepared=prepared)
     except ExtractionError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
