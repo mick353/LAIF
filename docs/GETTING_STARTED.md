@@ -101,6 +101,29 @@ and outstanding work before sharing. Exporting does not publish to GitHub.
 A completed checklist records operator attestations, not independent approval.
 Keep private exports out of public issues and commits.
 
+### Check downloaded report files locally
+
+Run the package checker from the repository root:
+
+```bash
+python3 scripts/laif_check_workspace_export.py path/to/export.laif.json
+```
+
+Supply `--source path/to/original.pdf` to hash the original source bytes,
+`--report path/to/full.laif.md` to compare the downloaded report, and
+`--artifacts-dir path/to/files` to check all downloaded **Files** artifacts
+against their embedded copies. Keep the original filenames in the artifact
+directory. These options can be combined. On Windows, `py -3 -X utf8` can
+replace `python3`.
+
+The checker reports which files it inspected and returns a failure status for
+any supplied file that differs. For a retained report with no embedded Markdown,
+it checks the report header identifiers and reports `HEADER_MATCH_ONLY`.
+For an automated export it also looks for the exact embedded assessment
+body after newline normalization. Package checks establish internal
+consistency and file matches. Establish source authority and assess the
+reasoning separately.
+
 ## Review a case with several records
 
 In **Source index**, select **Map supplied documents and links** to open
