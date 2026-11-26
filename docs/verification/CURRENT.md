@@ -1,5 +1,34 @@
 # Current verified state
 
+## Assessment output integrity, 26 November 2026
+
+The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+runs Site v33 from source `a90b2f42ea988910c55c7cc1f3d22c4a8fbb142a` and deployment
+`appgdep_6b0812ad1e0c8191b9f6c32aadab9ee3`. Sites reported one allowed owner and zero external
+visitors. The production bundle includes 28 exact runtime files from GitHub
+main `cbf6e5d3b6fe5c7e4cd5dd85f18111dd86e507ca`. [Engine PR #158](https://github.com/mick353/LAIF/pull/158)
+
+Assessments with colliding filenames now receive separate output paths.
+The runner stages reports and analyst files, writes a receipt with source and
+artifact hashes when the files are in place, and records the receipt in the
+processing index. Simulated render and index failures preserved the preceding
+run. The local and Workspace ZIP verifiers check receipt contents. Older
+exports remain readable and report `NOT_RECORDED` for the receipt.
+
+The full Windows gate ran 689 tests with 687 passing and two symlink skips.
+Regeneration twice produced matching committed reports. The retained
+assessment JSON changed only in the toolchain fingerprint. Twelve Site test
+scripts, the pinned browser runtime, report rendering, TypeScript and the
+production build passed.
+
+At 22:07 Canberra, the signed-in Site produced synthetic supplier assessment
+`af4a0b73`, downloaded its review ZIP, and reopened the saved result after
+reload. The offline checker matched the original source, report body,
+eight quotation spans, all 23 ZIP files and all 14 files named in the engine
+receipt. ZIP SHA-256
+`d7cfc29d36af6a3f8522905bb48c16c7658dc5dd45a427295dfd643182101dbd`. Intended-user
+acceptance remains tracked in [issue #110](https://github.com/mick353/LAIF/issues/110).
+
 ## Assessment runtime, 26 November 2026
 
 The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
