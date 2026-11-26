@@ -8,7 +8,17 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import stat
 import sys
+import zipfile
+import zlib
+
+
+# The Workspace writer caps file contents at 32 MiB. Allow room for the inventory
+# and ZIP metadata while keeping local reads bounded.
+_BUNDLE_LIMIT = 33 * 1024 * 1024
+_ARCHIVE_LIMIT = 34 * 1024 * 1024
+_ENTRY_LIMIT = 2048
 
 
 class ExportError(ValueError):
@@ -32,6 +42,11 @@ def _mapping(value, label):
     if not isinstance(value, dict):
         raise ExportError(f"{label} must be a JSON object.")
     return value
+
+
+def _read_json(content, label):
+    return _mapping(json.loads(content.decode("utf-8-sig"), object_pairs_hook=_object,
+                               parse_constant=_non_json_constant), label)
 
 
 def _digest(value, pattern, label):
@@ -68,22 +83,17 @@ def _companion(path, label):
     return path.read_bytes()
 
 
-def _check_artifacts(files, artifact_dir):
-    if not files:
-        raise ExportError("This export contains no embedded artifacts to compare.")
-    root = artifact_dir.resolve(strict=True)
+def _artifact_from_dir(root, name):
     if not root.is_dir():
         raise ExportError("The artifacts location must be a directory.")
-    for name, contents in files.items():
-        artifact = (root / name).resolve()
-        if not artifact.is_relative_to(root):
-            raise ExportError("An artifact path leaves the supplied directory.")
-        if _companion(artifact, f"Artifact {name}") != contents.encode("utf-8"):
-            raise ExportError(f"Artifact bytes differ: {name}.")
+    artifact = (root / name).resolve()
+    if not artifact.is_relative_to(root):
+        raise ExportError("An artifact path leaves the supplied directory.")
+    return _companion(artifact, f"Artifact {name}")
 
 
-def _check_markdown(path, revision, source_hash, files):
-    text = _companion(path, "Markdown report").decode("utf-8-sig")
+def _check_markdown(content, revision, source_hash, files):
+    text = content.decode("utf-8-sig")
     lines = text.replace("\r\n", "\n").split("\n")
     header = []
     for line in lines:
@@ -105,15 +115,7 @@ def _check_markdown(path, revision, source_hash, files):
     return "HEADER_AND_EMBEDDED_BODY_MATCH"
 
 
-def check_export(path, *, source=None, report=None, artifacts_dir=None):
-    """Check package identity and any explicitly supplied file bytes."""
-    package = _mapping(
-        json.loads(
-            _companion(path, "Workspace package").decode("utf-8-sig"),
-            object_pairs_hook=_object, parse_constant=_non_json_constant,
-        ),
-        "Workspace package",
-    )
+def _check_package(package, *, source=None, report_bytes=None, read_artifact=None):
     if package.get("workspace_export_schema") != "laif.workspace-export.v1":
         raise ExportError("Choose a JSON package from Workspace Reports & export.")
     run = _mapping(package.get("run"), "Assessment run")
@@ -149,9 +151,14 @@ def check_export(path, *, source=None, report=None, artifacts_dir=None):
         if digest.hexdigest() != source_hash:
             raise ExportError("Supplied source bytes differ from the assessment source hash.")
         source_status = "SOURCE_BYTES_MATCH"
-    markdown_status = _check_markdown(report, revision, source_hash, files) if report else "NOT_REQUESTED"
-    if artifacts_dir is not None:
-        _check_artifacts(files, artifacts_dir)
+    markdown_status = (_check_markdown(report_bytes, revision, source_hash, files)
+                       if report_bytes is not None else "NOT_REQUESTED")
+    if read_artifact is not None:
+        if not files:
+            raise ExportError("This export contains no embedded artifacts to compare.")
+        for name, contents in files.items():
+            if read_artifact(name) != contents.encode("utf-8"):
+                raise ExportError(f"Artifact bytes differ: {name}.")
     return {
         "assessment_id": run["id"],
         "assessment_kind": run["kind"],
@@ -161,21 +168,82 @@ def check_export(path, *, source=None, report=None, artifacts_dir=None):
         "source_file": source_status,
         "markdown_report": markdown_status,
         "embedded_artifacts": len(files),
-        "artifact_files_verified": len(files) if artifacts_dir is not None else 0,
+        "artifact_files_verified": len(files) if read_artifact is not None else 0,
         "scope": "Package identity and supplied file checks only. Review conclusions and source authority require separate evidence.",
     }
 
 
+def check_export(path, *, source=None, report=None, artifacts_dir=None):
+    """Check a JSON export and any explicitly supplied companion files."""
+    package = _read_json(_companion(path, "Workspace package"), "Workspace package")
+    root = artifacts_dir.resolve() if artifacts_dir is not None else None
+    return _check_package(package, source=source,
+                          report_bytes=_companion(report, "Markdown report") if report else None,
+                          read_artifact=(lambda name: _artifact_from_dir(root, name)) if root else None)
+
+
+def check_review_bundle(path, *, source=None):
+    """Verify a Workspace review ZIP in place without extracting it."""
+    if not path.is_file():
+        raise ExportError("Review ZIP must be a readable regular file.")
+    if path.stat().st_size > _ARCHIVE_LIMIT:
+        raise ExportError("Review ZIP exceeds the Workspace archive size limit.")
+    with zipfile.ZipFile(path) as archive:
+        entries = archive.infolist()
+        names = {entry.filename for entry in entries}
+        if len(entries) > _ENTRY_LIMIT or sum(entry.file_size for entry in entries) > _BUNDLE_LIMIT:
+            raise ExportError("Review ZIP exceeds the Workspace bundle limits.")
+        if len({name.casefold() for name in names}) != len(entries) or any(
+            entry.is_dir() or stat.S_ISLNK(entry.external_attr >> 16)
+            or entry.flag_bits & 1 or entry.compress_type not in (zipfile.ZIP_STORED, zipfile.ZIP_DEFLATED)
+            for entry in entries
+        ):
+            raise ExportError("Review ZIP contains duplicate or unsupported entries.")
+        core = {"START-HERE.txt", "assessment.laif.json", "report.laif.md"}
+        if not (core | {"manifest.json"}) <= names:
+            raise ExportError("Choose a complete review ZIP from Workspace Reports & export.")
+        manifest = _read_json(archive.read("manifest.json"), "Review ZIP manifest")
+        if manifest.get("schema") != "laif.workspace-review-bundle.v1":
+            raise ExportError("Choose a review ZIP from Workspace Reports & export.")
+        package = _read_json(archive.read("assessment.laif.json"), "Workspace package")
+        run = _mapping(package.get("run"), "Assessment run")
+        files = _files(run)
+        if run.get("kind") == "browser_pipeline":
+            core.add("review-brief.md")
+        expected = core | {f"files/{name}" for name in files}
+        inventory = _mapping(manifest.get("files"), "Review ZIP inventory")
+        if names != expected | {"manifest.json"} or set(inventory) != expected:
+            raise ExportError("Review ZIP inventory differs from the files required for this assessment.")
+        for name in sorted(expected):
+            info = _mapping(inventory[name], f"Inventory record for {name}")
+            data = archive.read(name)
+            if (type(info.get("bytes")) is not int or len(data) != info["bytes"]
+                    or hashlib.sha256(data).hexdigest() != info.get("sha256")):
+                raise ExportError(f"Review ZIP file differs from its manifest: {name}.")
+        for key, value in (("assessment_id", run.get("id")), ("canonical_revision", run.get("revision")),
+                           ("source_sha256", run.get("sourceSha256")), ("exported_at", package.get("exportedAt"))):
+            if not isinstance(value, str) or not value or manifest.get(key) != value:
+                raise ExportError(f"Review ZIP identity differs from the assessment package: {key}.")
+        result = _check_package(package, source=source, report_bytes=archive.read("report.laif.md"),
+                                read_artifact=(lambda name: archive.read(f"files/{name}")) if files else None)
+        return {**result, "bundle_files_verified": len(expected)}
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("package", type=Path, help="JSON package exported from Workspace")
+    parser.add_argument("package", type=Path, help="review ZIP or JSON export from Workspace")
     parser.add_argument("--source", type=Path, help="original source file to hash")
     parser.add_argument("--report", type=Path, help="downloaded Full report Markdown")
     parser.add_argument("--artifacts-dir", type=Path, help="directory of downloaded individual artifacts")
     args = parser.parse_args(argv)
     try:
-        result = check_export(args.package, source=args.source, report=args.report, artifacts_dir=args.artifacts_dir)
-    except (OSError, UnicodeError, ValueError, RuntimeError) as error:
+        if args.package.suffix.lower() == ".zip":
+            if args.report or args.artifacts_dir:
+                parser.error("A review ZIP already supplies the report and artifacts.")
+            result = check_review_bundle(args.package, source=args.source)
+        else:
+            result = check_export(args.package, source=args.source, report=args.report, artifacts_dir=args.artifacts_dir)
+    except (OSError, ValueError, RuntimeError, EOFError, zipfile.BadZipFile, zlib.error) as error:
         print(f"CHECK FAILED: {error}", file=sys.stderr)
         return 1
     print(json.dumps(result, indent=2, ensure_ascii=True))
