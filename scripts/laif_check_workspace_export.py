@@ -13,6 +13,12 @@ import sys
 import zipfile
 import zlib
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.laif_process_document import ExtractionError, RUN_RECEIPT_SUFFIX, check_assessment_receipt
+
 
 # The Workspace writer caps file contents at 32 MiB. Allow room for the inventory
 # and ZIP metadata while keeping local reads bounded.
@@ -181,6 +187,40 @@ def _check_shared_extraction(run, source_hash, files):
     return "MATCH", count
 
 
+def _check_run_receipt(run, source_hash):
+    files = run["files"]
+    paths = [path for path in files if path.endswith(RUN_RECEIPT_SUFFIX)]
+    checks = run.get("checks")
+    recorded = isinstance(checks, dict) and "assessment_receipt_match" in checks
+    if not paths and not recorded:
+        return "NOT_RECORDED", 0
+    if (run["kind"] != "browser_pipeline" or len(paths) != 1
+            or not recorded or checks["assessment_receipt_match"] is not True):
+        raise ExportError("A completed browser assessment must carry one verified assessment receipt.")
+    path = paths[0]
+    receipt = _read_json(files[path].encode("utf-8"), "Assessment receipt")
+    if receipt.get("source_sha256") != source_hash:
+        raise ExportError("Assessment receipt names a different source.")
+
+    def contents(relative):
+        if relative not in files:
+            raise ExportError(f"Missing embedded assessment artifact: {relative}.")
+        return files[relative].encode("utf-8")
+
+    def identity(relative):
+        data = contents(relative)
+        return len(data), hashlib.sha256(data).hexdigest()
+
+    try:
+        check_assessment_receipt(path, receipt, identity, lambda relative: _read_json(contents(relative), "Analyst bundle"))
+    except ExtractionError as exc:
+        raise ExportError(str(exc)) from exc
+    count = len(receipt["artifacts"])
+    if type(checks.get("assessment_artifacts_checked")) is not int or checks["assessment_artifacts_checked"] != count:
+        raise ExportError("The recorded assessment receipt file count differs from the verified inventory.")
+    return "MATCH", count
+
+
 def _check_package(package, *, source=None, report_bytes=None, read_artifact=None):
     if package.get("workspace_export_schema") != "laif.workspace-export.v1":
         raise ExportError("Choose a JSON package from Workspace Reports & export.")
@@ -207,6 +247,7 @@ def _check_package(package, *, source=None, report_bytes=None, read_artifact=Non
     if run["kind"] == "browser_pipeline" and sum(name.endswith(".laif.md") for name in files) != 1:
         raise ExportError("An automated assessment must contain one embedded full report.")
     extraction_status, quote_count = _check_shared_extraction(run, source_hash, files)
+    receipt_status, receipt_count = _check_run_receipt(run, source_hash)
     source_status = "NOT_REQUESTED"
     if source is not None:
         if not source.is_file():
@@ -236,6 +277,8 @@ def _check_package(package, *, source=None, report_bytes=None, read_artifact=Non
         "markdown_report": markdown_status,
         "shared_extraction": extraction_status,
         "quotation_spans_verified": quote_count,
+        "assessment_receipt": receipt_status,
+        "assessment_receipt_files_verified": receipt_count,
         "embedded_artifacts": len(files),
         "artifact_files_verified": len(files) if read_artifact is not None else 0,
         "scope": "Package identity and supplied file checks only. Review conclusions and source authority require separate evidence.",

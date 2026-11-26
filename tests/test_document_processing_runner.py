@@ -2204,6 +2204,69 @@ class DocumentFormTests(unittest.TestCase):
 class OutputIsolationTests(unittest.TestCase):
     """Several documents into one output directory must not overwrite each other."""
 
+    def test_concurrent_colliding_names_and_repeated_run_keep_coherent_receipts(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            out = root / "out"
+            first = root / "first" / "Policy !.md"
+            second = root / "second" / "policy.md"
+            for path, content in ((first, STRONG_EXTERNAL_TEXT), (second, INSTITUTIONAL_STANDARD)):
+                path.parent.mkdir()
+                path.write_text(content, encoding="utf-8")
+            commands = [[sys.executable, "scripts/laif_process_document.py", str(path), "--output-dir", str(out)]
+                        for path in (first, second)]
+            processes = [subprocess.Popen(command, cwd=REPO_ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                         for command in commands]
+            for process in processes:
+                stdout, stderr = process.communicate(timeout=60)
+                self.assertEqual(process.returncode, 0, (stdout, stderr))
+            receipts = {path: path.read_bytes() for path in out.glob("*.laif-run.json")}
+            self.assertEqual(len(receipts), 2)
+            subprocess.run([*commands[0], "--no-markdown", "--no-json"], cwd=REPO_ROOT,
+                           capture_output=True, check=True, timeout=60)
+            self.assertEqual(receipts, {path: path.read_bytes() for path in receipts})
+            records = [json.loads(line) for line in (out / runner.INDEX_FILE_NAME).read_text(encoding="utf-8").splitlines()]
+            self.assertEqual(len(records), 3)
+            self.assertEqual(len({row["safe_output_stem"].casefold() for row in records}), 3)
+            for row in records:
+                receipt = runner.verify_assessment_receipt(Path(row["completion_receipt_path"]), Path(row["input_path"]))
+                self.assertEqual(receipt["source_sha256"], row["source_sha256"])
+            self.assertEqual(len(receipt["artifacts"]), 12)
+            self.assertEqual(list(out.glob(".laif-stage-*")), [])
+            self.assertEqual(list((out / ".laif-reservations").iterdir()), [])
+
+    def test_failed_render_and_failed_index_leave_preceding_run_intact(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            source = root / "sample.md"
+            source.write_text(STRONG_EXTERNAL_TEXT, encoding="utf-8")
+            out = root / "out"
+            args = [str(source), "--output-dir", str(out)]
+            self.assertEqual(runner.main(args), 0)
+            receipt = out / "sample.laif-run.json"
+            baseline = {path.relative_to(out): path.read_bytes() for path in out.rglob("*") if path.is_file()}
+
+            def fail_after_partial_render(stage, processing, *unused):
+                (stage / f"{processing['safe_output_stem']}.institutional_report.md").write_text("Partial", encoding="utf-8")
+                raise OSError("simulated render failure")
+
+            with patch.object(runner, "write_institutional_outputs", side_effect=fail_after_partial_render):
+                self.assertEqual(runner.main(args), 2)
+            with patch.object(runner, "append_index", side_effect=OSError("simulated index failure")):
+                self.assertEqual(runner.main(args), 2)
+            self.assertEqual(baseline, {path.relative_to(out): path.read_bytes() for path in out.rglob("*") if path.is_file()})
+            runner.verify_assessment_receipt(receipt, source)
+
+            for path in (out / "sample.laif.md", out / "sample.technical_appendix.md"):
+                original = path.read_bytes()
+                path.write_bytes(b"!" + original[1:])
+                with self.assertRaisesRegex(runner.ExtractionError, "bytes do not match"):
+                    runner.verify_assessment_receipt(receipt, source)
+                path.write_bytes(original)
+            (out / "sample.technical_appendix.md").unlink()
+            with self.assertRaisesRegex(runner.ExtractionError, "missing or redirected"):
+                runner.verify_assessment_receipt(receipt, source)
+
     def test_each_document_keeps_its_own_analyst_outputs(self) -> None:
         strong = ("AI Governance Standard. Owner: Chief Risk Officer. Approved by: "
                   "Risk Committee. This standard binds all Group entities. Model "
