@@ -1,5 +1,43 @@
 # Current verified state
 
+## Assessment review queue and export checks, 26 November 2026
+
+The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+runs Site v26 from source `812f575dd6d490c2647f65a23712ee2a807b1e97`,
+deployment `appgdep_6b07bbdbc3288191b7163f2d2050486b`. Sites reported one
+allowed owner and zero external visitors. The assessment method is pinned
+at `e7594d3`.
+
+The **Review queue** shows the next step for each assessment and leaves
+recorded evidence requests visible. Users can search by title, method revision
+or run ID, and filter by review stage. The queue and Reports use the same
+review progress checks. Queue actions open the corresponding review for the
+selected assessment.
+
+At 15:56 Canberra, a signed-in browser found synthetic run `7ca1544e` by its
+short ID and method revision with the extraction filter active. Keyboard
+activation moved focus to that run's extraction review and to the retained
+NIST report's checklist. Returning kept the query and filter. Clearing an
+empty result focused the search field. All eight rows fit an emulated 320 CSS
+pixel viewport with no horizontal overflow. All ten Site test scripts,
+TypeScript and the production build passed.
+[W3C focus order](https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html)
+
+At 15:53 Canberra on v25, the live browser downloaded full Markdown (33,739
+bytes) and JSON (789,670 bytes) from the selected synthetic run. v26 extended
+queue search. The checker matched the source bytes,
+the report header and embedded report body, and all 18 embedded artifacts
+against the previously downloaded files from the same run. The local check
+of a retained DTA export matched the report header. It did not compare that
+report's body because the package did not include it.
+
+The checker merged in [PR #143](https://github.com/mick353/LAIF/pull/143).
+Its exact candidate passed the full Windows gate with 663 tests passed and
+two Windows symlink tests skipped. File checks establish package consistency.
+The fresh authorised-document journey, physical phone, measured browser zoom
+and screen-reader acceptance remain open in
+[issue #110](https://github.com/mick353/LAIF/issues/110).
+
 ## Guided recovery and report checks, 26 November 2026
 
 The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)

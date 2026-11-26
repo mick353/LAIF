@@ -147,11 +147,17 @@ records, including source bytes and review outputs. **Saved workspace** or
 Processing in the browser does not mean the document never leaves your computer.
 
 On Home, **Continue review** opens the most recent automated assessment.
-Use **Assessments** for older runs. New editions preserve earlier sources and
-runs; check changed text before applying previous review decisions.
-The assessment picker includes Canberra timestamps and short run IDs so repeated
-reviews of the same document can be distinguished. Your selected older run stays
-selected when moving through its source, findings and evidence.
+Use the **Review queue** in **Assessments** to see what each record needs next.
+Search by title, method revision or run ID, and filter by review status to find
+source issues, extracted text to check, candidate decisions or report checklists.
+The main action in each row opens that review step for the selected assessment.
+Returning to the queue in the same tab keeps your search and filter. Open
+evidence requests remain visible after you record the report checklist.
+
+New editions preserve earlier sources and assessments. Check changed text
+before applying earlier review decisions. Canberra timestamps and short run IDs
+help distinguish repeated reviews of the same document. The same assessment
+stays selected as you move through its source, findings and evidence.
 
 If another tab saves first, choose **Recover changes**. The Workspace can
 combine edits to different records. If both copies changed the same record,
