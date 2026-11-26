@@ -1,5 +1,41 @@
 # Current verified state
 
+## Case replay bundles and direct review ZIP checks, 26 November 2026
+
+The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+runs Site v28 from source `2a7db689728cefb40d73b0a8aad27381924dba6a`,
+deployment `appgdep_6b07d45b33a481919454057f578b9482`. Sites reported one
+allowed owner and zero external visitors. The current automated assessment
+method is pinned at `e7594d3`.
+
+- **Case handoff.** A checked case can be downloaded as a ZIP containing the
+  readable map, checked JSON, CLI manifest, start guide and file inventory.
+  Including original sources is an explicit choice for the current check.
+  The Workspace checks each included original against the pinned file hash.
+- **Review ZIP checker.** [PR #146](https://github.com/mick353/LAIF/pull/146)
+  added read-only checks of review ZIPs without extraction. It verifies the
+  inventory, every included file, and the existing report, artifact and
+  optional original-source checks. The full Windows gate passed 667 tests,
+  with two Windows symlink tests skipped.
+
+At 17:41 Canberra, the signed-in Workspace downloaded both ZIP options from
+existing synthetic case `3a3e5981`. All four inventoried files matched in the
+standard ZIP. All five matched in the opt-in ZIP, including its single pinned
+original. The checked outputs in both ZIPs identify the same manifest. The
+local case command reproduced byte-identical Markdown and structurally
+identical JSON from the opt-in ZIP. The checkbox started clear and reset after
+the download. The expanded case download controls fit an emulated 320 CSS
+pixel viewport without horizontal overflow. The local preview also verified
+that editing a checked case clears the choice and disables its bundle.
+
+A freshly downloaded v28 assessment ZIP for synthetic run `7ca1544e` passed
+direct checks of all 22 listed files, including 18 pipeline artifacts. Its
+embedded report body and the separately supplied original bytes matched.
+All eleven Site test scripts, TypeScript and the production build passed.
+Intended-user acceptance using a fresh authorised document, physical phone,
+measured browser zoom and screen-reader testing remain open in
+[issue #110](https://github.com/mick353/LAIF/issues/110).
+
 ## Downloadable review bundles, 26 November 2026
 
 The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
