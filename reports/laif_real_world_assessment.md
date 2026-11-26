@@ -123,11 +123,11 @@ Evidence/auditability fixes (10); Reversibility/escalation fixes (10); LAIF-nati
 ## Peer Exemplars — What Good Looks Like in This Corpus
 For each core structure, the strongest expression found anywhere in this corpus, quoted with its location — a working example a document owner can adapt. Verdict order: DECLARED > FUNCTIONAL > PARTIAL. Structures no document expresses are named honestly.
 
-| Structure       | Best example in corpus                       | Strength | Text status                                                   | Where                                | Verbatim passage                                                                                                                  |
-| --------------- | -------------------------------------------- | -------- | ------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| Coupling        | US Executive Order 14110 — §4 Safety & §7 Wo | PARTIAL  | illustrative excerpt — verify against the official instrument | Section 7 — Supporting Workers       | «protections for workers, maintaining the connection between obligations imposed on workers and the protections those obligations |
-| Integrity Layer | OECD Recommendation on AI (OECD/LEGAL/0449)  | PARTIAL  | verbatim official text                                        | 1.3. Transparency and explainability | «To this end, they should provide meaningful information, appropriate to the context, and consistent with the state of art:»      |
-| Reversibility   | OECD Recommendation on AI (OECD/LEGAL/0449)  | PARTIAL  | verbatim official text                                        | 1.4. Robustness, security and safety | «undue harm or exhibit undesired behaviour, they can be overridden, repaired, and/or decommissioned safely as needed.»            |
+| Structure       | Best example in corpus                       | Strength | Text status                                                   | Where                                | Verbatim passage                                                                                                                   |
+| --------------- | -------------------------------------------- | -------- | ------------------------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Coupling        | US Executive Order 14110 — §4 Safety & §7 Wo | PARTIAL  | illustrative excerpt — verify against the official instrument | Section 7 — Supporting Workers       | «connection between obligations imposed on workers and the protections those obligations are intended to serve. No deployment shal |
+| Integrity Layer | OECD Recommendation on AI (OECD/LEGAL/0449)  | PARTIAL  | verbatim official text                                        | 1.3. Transparency and explainability | «To this end, they should provide meaningful information, appropriate to the context, and consistent with the state of art:»       |
+| Reversibility   | OECD Recommendation on AI (OECD/LEGAL/0449)  | PARTIAL  | verbatim official text                                        | 1.4. Robustness, security and safety | «undue harm or exhibit undesired behaviour, they can be overridden, repaired, and/or decommissioned safely as needed.»             |
 **Expressed by no document in this corpus:** Consistency, Self-Application — there is no peer example to adapt; an owner adding this would be setting the benchmark.
 
 
@@ -260,12 +260,12 @@ Verbatim quotes from the assessed text with their locations in the document's ow
 | Conceptual     | human rights / fundamental interests         | Section 2. Policy and Principles | «Artificial Intelligence policies must be consistent with my Administration's dedication to advancing equity and civil r |
 | Conceptual     | transparency                                 | Section 6. Supporting Workers    | «implications for workers of employers' AI-related collection and use of data about them, including transparency, engage |
 | Conceptual     | accountability                               | Section 2. Policy and Principles | «It is necessary to hold those developing and deploying AI accountable to standards that protect against unlawful discri |
-| Auditability   | multiple mandatory obligations (shall/must p | Section 6. Supporting Workers    | «To advance the Government's understanding of AI's implications for workers, the following actions shall be taken within |
+| Auditability   | multiple mandatory obligations (shall/must p | Section 6. Supporting Workers    | «shall be taken within 180 days of the date of this order: (i) The Chairman of the Council of Economic Advisers shall pr |
 | Auditability   | numbered traceable requirements              | Section 2. Policy and Principles | «## Section 2. Policy and Principles»                                                                                    |
 | Auditability   | evidence / documentation requirements        | Section 6. Supporting Workers    | «The Chairman of the Council of Economic Advisers shall prepare and submit a report to the President on the labor-market |
 | Enforceability | mandatory language (shall/must)              | Section 2. Policy and Principles | «When undertaking the actions set forth in this order, executive departments and agencies (agencies) shall,»             |
 | Enforceability | named responsible parties                    | Section 2. Policy and Principles | «When undertaking the actions set forth in this order, executive departments and agencies (agencies) shall,»             |
-| Enforceability | enforcement consequences / penalties         | Section 2. Policy and Principles | «The Federal Government will enforce existing consumer protection laws and principles and enact appropriate safeguards a |
+| Enforceability | enforcement consequences / penalties         | Section 2. Policy and Principles | «safeguards against fraud, unintended bias, discrimination, infringements on privacy, and other harms from AI. Such prot |
 
 
 #### Not Found — and Where It Would Belong
@@ -928,7 +928,7 @@ Verbatim quotes from the assessed text with their locations in the document's ow
 | Auditability   | review / monitoring mechanisms             | Govern               | «Documentation can enhance transparency, improve human review processes, and bolster accountability in AI system teams.» |
 | Enforceability | mandatory language (shall/must)            | Govern               | «“the system shall respect the privacy of its users”) are elicited from and understood by relevant AI actors.»           |
 | Enforceability | named responsible parties                  | Govern               | «Governing authorities can determine the overarching policies that direct an organization’s mission, goals, values, cult |
-| Enforceability | risk-proportionate thresholds              | Govern               | «Governing authorities can determine the overarching policies that direct an organization’s mission, goals, values, cult |
+| Enforceability | risk-proportionate thresholds              | Govern               | «an organization’s mission, goals, values, culture, and risk tolerance. Senior leadership sets the tone for risk managem |
 
 
 #### Not Found — and Where It Would Belong
@@ -1253,7 +1253,7 @@ Verbatim quotes from the assessed text with their locations in the document's ow
 | Conceptual     | safety                                       | C1 - Clinical safety | «### C1 - Clinical safety»                                                                                               |
 | Conceptual     | contestability / redress                     | C1 - Clinical safety | «can challenge the determination if not in agreement. \\| \\|»                                                           |
 | Conceptual     | risk governance                              | C1 - Clinical safety | «the clinical risk management, such as a qualified Clinical Safety Officer. Health and care organisations should ensure  |
-| Auditability   | multiple mandatory obligations (shall/must p | Introduction         | «DTAC forms must be completed by the manufacturer of a DHT in the first instance. If the manufacturer is not the seller  |
+| Auditability   | multiple mandatory obligations (shall/must p | Introduction         | «must be completed by the manufacturer of a DHT in the first instance. If the manufacturer is not the seller of the prod |
 | Auditability   | evidence / documentation requirements        | Introduction         | «Sections A and B will provide the assessors the context required to understand your product and support your evidence.» |
 | Auditability   | specific, measurable obligations             | C1 - Clinical safety | «the terms as defined in the DCB0129 standard and applicability guidance linked previously.Please note commissioning org |
 | Enforceability | mandatory language (shall/must)              | Introduction         | «Manufacturers must provide this form in lieu of the older v1.0 form from 6 April 2026 when requested by health and care |
@@ -1598,7 +1598,7 @@ Verbatim quotes from the assessed text with their locations in the document's ow
 | Conceptual     | human rights / fundamental interests         | Article 9 — Risk Management System           | «foreseeable risks to health, safety or fundamental rights when the system is used in accordance with its intended purpo |
 | Conceptual     | transparency                                 | start of document                            | «EU AI Act (Regulation 2024/1689) — Risk Management, Transparency, and Human Oversight»                                  |
 | Conceptual     | explainability / interpretability            | Article 13 — Transparency and Provision of I | «their operation is sufficiently transparent to enable deployers to interpret the system's output and use it appropriate |
-| Auditability   | multiple mandatory obligations (shall/must p | Article 9 — Risk Management System           | «A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI syste |
+| Auditability   | multiple mandatory obligations (shall/must p | Article 9 — Risk Management System           | «shall be established, implemented, documented and maintained in relation to high-risk AI systems throughout the entire  |
 | Auditability   | numbered traceable requirements              | Article 9 — Risk Management System           | «Article 9 — Risk Management System»                                                                                     |
 | Auditability   | evidence / documentation requirements        | Article 9 — Risk Management System           | «Providers shall establish technical documentation demonstrating that the high-risk AI system conforms to the requiremen |
 | Enforceability | mandatory language (shall/must)              | Article 9 — Risk Management System           | «A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI syste |
@@ -2586,7 +2586,7 @@ Verbatim quotes from the assessed text with their locations in the document's ow
 | Conceptual     | human rights / fundamental interests         | Section 4.1 — Ensuring the Safety and Securi | «with democratic values and human rights. Safety standards shall be proportionate to the level of risk posed,»           |
 | Conceptual     | transparency                                 | Section 4.2 — Advancing Transparency and Acc | «Section 4.2 — Advancing Transparency and Accountability»                                                                |
 | Conceptual     | accountability                               | Section 4.2 — Advancing Transparency and Acc | «Section 4.2 — Advancing Transparency and Accountability»                                                                |
-| Auditability   | multiple mandatory obligations (shall/must p | Section 4.1 — Ensuring the Safety and Securi | «The Secretary of Commerce shall engage with industry, civil society, and other stakeholders to develop guidelines, stan |
+| Auditability   | multiple mandatory obligations (shall/must p | Section 4.1 — Ensuring the Safety and Securi | «shall engage with industry, civil society, and other stakeholders to develop guidelines, standards, methodologies, and  |
 | Auditability   | numbered traceable requirements              | Section 4.1 — Ensuring the Safety and Securi | «Section 4.1 — Ensuring the Safety and Security of AI»                                                                   |
 | Auditability   | evidence / documentation requirements        | Section 4.3 — Evidence and Reporting         | «Section 4.3 — Evidence and Reporting»                                                                                   |
 | Enforceability | mandatory language (shall/must)              | Section 4.1 — Ensuring the Safety and Securi | «The Secretary of Commerce shall engage with industry, civil society, and other stakeholders to develop guidelines, stan |
@@ -2921,7 +2921,7 @@ Verbatim quotes from the assessed text with their locations in the document's ow
 | Conceptual     | human rights / fundamental interests         | 4. Transparency and Patient Rights  | «Transparency and Patient Rights»                                                                                        |
 | Conceptual     | transparency                                 | 4. Transparency and Patient Rights  | «Transparency and Patient Rights»                                                                                        |
 | Conceptual     | explainability / interpretability            | 4. Transparency and Patient Rights  | «in plain language accessible to patients without clinical training.»                                                    |
-| Auditability   | multiple mandatory obligations (shall/must p | 2. Clinical Validation Requirements | «Validation studies shall demonstrate clinical accuracy, sensitivity, and specificity appropriate to the intended clinic |
+| Auditability   | multiple mandatory obligations (shall/must p | 2. Clinical Validation Requirements | «shall demonstrate clinical accuracy, sensitivity, and specificity appropriate to the intended clinical use case. 2.2 Pr |
 | Auditability   | evidence / documentation requirements        | 2. Clinical Validation Requirements | «Providers shall maintain technical documentation of validation methodology, datasets used, and performance metrics.»    |
 | Auditability   | review / monitoring mechanisms               | 1. Purpose and Scope                | «lifecycle from procurement through post-market surveillance.»                                                           |
 | Enforceability | mandatory language (shall/must)              | 2. Clinical Validation Requirements | «All AI-enabled CDSS must undergo prospective clinical validation in the target patient population before deployment.»   |
