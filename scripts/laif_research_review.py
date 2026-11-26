@@ -7,6 +7,7 @@ scientific replication, source authentication or verified control operation.
 from __future__ import annotations
 
 import argparse
+from bisect import bisect_left
 import hashlib
 import json
 import re
@@ -15,7 +16,11 @@ from itertools import combinations
 from pathlib import Path
 from typing import Any
 
-from laif_research_report import ResearchInputError, _nonblank, _read_json, safe_stem
+from laif_research_report import (
+    ResearchInputError, _evidence_manifest_sha256, _nonblank, _prepare_local,
+    _read_json, _reject_constant, _unique_object, safe_stem,
+)
+from scripts.laif_evidence_display import locate
 
 SCHEMA = "laif.independent-review.v1"
 SOURCE_VERDICTS = {"source_matched", "source_disagrees", "unverified"}
@@ -25,8 +30,12 @@ INDEPENDENCE_STATES = {"self_declared_independent", "not_independent", "unknown"
 
 def load_dossier(path: Path) -> tuple[dict, str, dict[str, str]]:
     raw = path.read_bytes()
-    dossier = _read_json(path)
-    if dossier.get("schema") != "laif.research-dossier.v1":
+    try:
+        dossier = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_object,
+                             parse_constant=_reject_constant)
+    except (UnicodeError, json.JSONDecodeError) as exc:
+        raise ResearchInputError(f"cannot read JSON {path.name}: {exc}") from exc
+    if not isinstance(dossier, dict) or dossier.get("schema") != "laif.research-dossier.v1":
         raise ResearchInputError("not a supported research dossier")
     if not isinstance(dossier.get("source"), dict):
         raise ResearchInputError("dossier source identity is missing")
@@ -61,6 +70,87 @@ def load_dossier(path: Path) -> tuple[dict, str, dict[str, str]]:
                     raise ResearchInputError("duplicate or malformed curated review target")
                 targets[eid] = "evidence"
     return dossier, hashlib.sha256(raw).hexdigest(), targets
+
+
+def _records(value: object, label: str) -> list[dict]:
+    if not isinstance(value, list) or any(not isinstance(row, dict) for row in value):
+        raise ResearchInputError(f"{label} must contain a list of objects")
+    return value
+
+
+def verify_source(dossier: dict, dossier_hash: str, source_path: Path) -> dict:
+    """Replay saved documentary spans without rerunning or approving any judgments."""
+    source = dossier["source"]
+    for key in ("source_sha256", "extracted_text_sha256"):
+        digest = source.get(key)
+        if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+            raise ResearchInputError(f"dossier cannot be replayed without a valid {key}")
+    prepared = _prepare_local(source_path.expanduser().resolve(), "auto-local", None)
+    extraction = prepared.extraction
+    if prepared.source_sha256 != source["source_sha256"]:
+        raise ResearchInputError("original file bytes do not match the dossier source SHA-256")
+    if extraction.extractor_used != source.get("extractor"):
+        raise ResearchInputError("local extractor differs from the extractor recorded in the dossier")
+    text = extraction.text
+    extracted_sha = hashlib.sha256(text.encode("utf-8")).hexdigest()
+    if (extracted_sha != source["extracted_text_sha256"]
+            or type(source.get("extracted_characters")) is not int
+            or len(text) != source["extracted_characters"]):
+        raise ResearchInputError("reproduced text differs from the dossier extraction identity")
+    line_breaks = [match.start() for match in re.finditer("\n", text)]
+
+    def check_span(row: dict, label: str, *, require_hash: bool = False) -> None:
+        start, end, quote = row.get("start_char"), row.get("end_char"), row.get("exact_quote")
+        if (type(start) is not int or type(end) is not int or not 0 <= start < end <= len(text)
+                or not _nonblank(quote) or text[start:end] != quote):
+            raise ResearchInputError(f"{label}: quotation differs from its exact extracted span")
+        if require_hash and row.get("quote_sha256") != hashlib.sha256(quote.encode("utf-8")).hexdigest():
+            raise ResearchInputError(f"{label}: quotation SHA-256 differs")
+        if "extracted_line" in row and (type(row["extracted_line"]) is not int
+                                        or row["extracted_line"] != bisect_left(line_breaks, start) + 1):
+            raise ResearchInputError(f"{label}: recorded extracted line differs")
+        if "source_location" in row and row["source_location"] != locate(text, start, end):
+            raise ResearchInputError(f"{label}: recorded source location differs")
+
+    bank = _records(dossier.get("evidence"), "Retrieved evidence")
+    for row in bank:
+        check_span(row, row["evidence_id"])
+    manifest = _evidence_manifest_sha256(bank)
+    if manifest != dossier.get("evidence_manifest_sha256"):
+        raise ResearchInputError("the retrieved evidence manifest SHA-256 differs")
+    curated_count = 0
+    authored = dossier.get("criteria_review")
+    if authored is not None:
+        for criterion in _records(authored.get("criteria"), "Authored criteria"):
+            for row in _records(criterion.get("source_excerpts"), "Authored source excerpts"):
+                check_span(row, row["evidence_id"])
+                curated_count += 1
+
+    automatic_count = 0
+    automatic = dossier.get("automatic_criteria")
+    if automatic is not None:
+        if not isinstance(automatic, dict) or automatic.get("extracted_text_sha256") != extracted_sha:
+            raise ResearchInputError("automatic judgments name a different extracted text")
+        for criterion_index, criterion in enumerate(_records(automatic.get("criteria"), "Automatic criteria"), 1):
+            for component in _records(criterion.get("components"), "Automatic components"):
+                for row in _records(component.get("witnesses"), "Automatic witnesses"):
+                    check_span(row, f"automatic criterion {criterion_index}", require_hash=True)
+                    automatic_count += 1
+    return {
+        "schema": "laif.dossier-source-replay.v1",
+        "dossier_sha256": dossier_hash,
+        "source_sha256": prepared.source_sha256,
+        "extracted_text_sha256": extracted_sha,
+        "extractor": extraction.extractor_used,
+        "evidence_manifest_sha256": manifest,
+        "retrieved_spans_verified": len(bank),
+        "authored_spans_verified": curated_count,
+        "automatic_witness_records_verified": automatic_count,
+        "automatic_criteria": "NOT_INCLUDED" if automatic is None else "EXTRACTION_AND_WITNESSES_MATCH",
+        "status": "MATCH",
+        "scope": "Original file identity, reproduced extracted text and recorded quotations only. "
+                 "Publisher authority, page images and interpretation require separate review.",
+    }
 
 
 def review_template(dossier_hash: str, targets: dict[str, str]) -> dict:
@@ -225,10 +315,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--review", action="append", type=Path, default=[], help="Independent self-attested reviewer JSON; repeat for each reviewer")
     parser.add_argument("--template", action="store_true", help="Print blank second-reader JSON; no files written")
     parser.add_argument("--preview", action="store_true", help="Print review summary; no files written")
+    parser.add_argument("--verify-source", type=Path, help="Replay the dossier against the original file; print a JSON receipt")
     parser.add_argument("--output-dir", type=Path, default=Path("laif_outputs/research"))
     args = parser.parse_args(argv)
     try:
-        _dossier, dossier_hash, targets = load_dossier(args.dossier)
+        dossier, dossier_hash, targets = load_dossier(args.dossier)
+        if args.verify_source is not None:
+            if args.template or args.review or args.preview:
+                raise ResearchInputError("use --verify-source separately from review and template modes")
+            print(json.dumps(verify_source(dossier, dossier_hash, args.verify_source), ensure_ascii=False, indent=2))
+            return 0
         if args.template:
             if args.review:
                 raise ResearchInputError("use --template separately from --review")

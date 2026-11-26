@@ -201,10 +201,17 @@ class ActualSubstantiveSourceTests(unittest.TestCase):
     def test_actual_evidence_second_reader_targets(self):
         for key,_,source,path in self.cases():
             with self.subTest(key=key):
-                d=research.build_dossier(source,review_file=path);p=self.root/(key+'.json');p.write_text(json.dumps(d))
-                _,_,targets=peer.load_dossier(p);self.assertEqual(sum(k.startswith('CR-') for k in targets),8)
-                self.assertGreaterEqual(sum(k.startswith('C0') for k in targets),16)
-                self.assertEqual(d['independent_replication'],'NOT_PERFORMED')
+                dossier = research.build_dossier(source, review_file=path)
+                dossier_path = self.root / (key + '.json')
+                dossier_path.write_text(json.dumps(dossier), encoding='utf-8')
+                loaded, digest, targets = peer.load_dossier(dossier_path)
+                authored_spans = sum(item.startswith('C0') for item in targets)
+                self.assertEqual(sum(item.startswith('CR-') for item in targets), 8)
+                self.assertGreaterEqual(authored_spans, 16)
+                receipt = peer.verify_source(loaded, digest, source)
+                self.assertEqual(receipt['status'], 'MATCH')
+                self.assertEqual(receipt['authored_spans_verified'], authored_spans)
+                self.assertEqual(dossier['independent_replication'], 'NOT_PERFORMED')
 
     def test_actual_fabricated_curated_quote_rejected_before_write(self):
         for key,_,source,path in self.cases():

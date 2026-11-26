@@ -158,6 +158,30 @@ be supplied by binding external law or a separate operational document.
 
 ### Pass 4 — Independent source checking and disagreement
 
+Before rating a dossier, replay it with the original file:
+
+~~~bash
+python3 scripts/laif_research_review.py /path/to/the.research_data.json --verify-source /path/to/original.pdf
+~~~
+
+The command prints an offline JSON receipt. It hashes the same dossier bytes
+it reads, checks the original file and reproduces the recorded extraction. It
+checks the retrieved and authored quotation spans, saved locations, and any
+automatic witness spans and hashes. An earlier dossier without automatic
+witness data reports that omission. A different extractor or output text
+requires the original software environment or a fresh dossier. Previously
+submitted reviews stay tied to their original dossier hash.
+
+The receipt covers text fidelity. Use the publisher's document and layout
+when checking a quotation for publication. The receipt does not rerun the
+detector or establish authority, context, interpretation or reviewer agreement.
+
+The November verification replayed six retained dossiers for DTA, NIST and
+the EU amendment against their original stored Markdown inputs. All 48
+retrieved and 76 authored quotation instances matched, including repeated
+quotes across dossier versions. Those dossiers predate the automatic
+witness data. The retained input status and review conclusions are unchanged.
+
 The optional second-reader command does **not** generate or simulate reviews:
 
 ~~~bash

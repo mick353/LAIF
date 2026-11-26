@@ -7,6 +7,7 @@ substantive analysis or the validity of any legal/safety conclusion.
 from __future__ import annotations
 
 import hashlib
+from copy import deepcopy
 import json
 import subprocess
 import sys
@@ -48,6 +49,65 @@ class ScholarTests(unittest.TestCase):
             self.assertEqual(self.doc_text[item["start_char"]:item["end_char"]],
                              item["exact_quote"])
             self.assertEqual(item["evidence_status"], "EXTRACTED_TEXT_MATCH_ONLY")
+
+    def test_source_replay_uses_the_hashed_dossier_snapshot_and_emits_no_files(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            folder = Path(td)
+            path = folder / "dossier.json"
+            raw = json.dumps(self.dossier, ensure_ascii=False, indent=2).replace("\n", "\r\n").encode()
+            path.write_bytes(raw)
+            with patch.object(Path, "read_text", side_effect=AssertionError("must not read a second snapshot")):
+                dossier, digest, _ = peer.load_dossier(path)
+            self.assertEqual(dossier, self.dossier)
+            self.assertEqual(digest, hashlib.sha256(raw).hexdigest())
+            result = subprocess.run(
+                [sys.executable, str(ROOT / "scripts/laif_research_review.py"),
+                 str(path), "--verify-source", str(SOURCE), "--output-dir", str(folder / "should-not-exist")],
+                capture_output=True, encoding="utf-8", check=True,
+            )
+            result = json.loads(result.stdout)
+            self.assertEqual(result["status"], "MATCH")
+            self.assertEqual(result["dossier_sha256"], digest)
+            self.assertEqual(result["retrieved_spans_verified"], len(self.dossier["evidence"]))
+            self.assertGreater(result["automatic_witness_records_verified"], 0)
+            self.assertEqual(list(folder.iterdir()), [path])
+
+    def test_replay_rejects_wrong_source_span_location_and_witness_digest(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            wrong_source = Path(td) / "same-extension.md"
+            wrong_source.write_bytes(SOURCE.read_bytes() + b"\nChanged original bytes.\n")
+            with self.assertRaisesRegex(researcher.ResearchInputError, "original file bytes"):
+                peer.verify_source(self.dossier, "a" * 64, wrong_source)
+        for change, message in (
+            ("extraction", "extraction identity"),
+            ("span", "exact extracted span"),
+            ("location", "recorded source location"),
+            ("witness", "quotation SHA-256"),
+            ("manifest", "evidence manifest SHA-256"),
+        ):
+            with self.subTest(change=change):
+                dossier = deepcopy(self.dossier)
+                if change == "extraction":
+                    dossier["source"]["extracted_text_sha256"] = "0" * 64
+                if change == "span":
+                    dossier["evidence"][0]["start_char"] += 1
+                if change == "location":
+                    dossier["evidence"][0]["source_location"]["extracted_line"] += 1
+                if change == "witness":
+                    witness = next(w for c in dossier["automatic_criteria"]["criteria"]
+                                   for component in c["components"] for w in component["witnesses"])
+                    witness["quote_sha256"] = "0" * 64
+                if change == "manifest":
+                    dossier["evidence_manifest_sha256"] = "0" * 64
+                with self.assertRaisesRegex(researcher.ResearchInputError, message):
+                    peer.verify_source(dossier, "a" * 64, SOURCE)
+
+    def test_earlier_dossier_without_automatic_records_reports_that_scope(self) -> None:
+        dossier = deepcopy(self.dossier)
+        del dossier["automatic_criteria"]
+        receipt = peer.verify_source(dossier, "a" * 64, SOURCE)
+        self.assertEqual(receipt["automatic_criteria"], "NOT_INCLUDED")
+        self.assertEqual(receipt["automatic_witness_records_verified"], 0)
 
     def test_neutral_report_avoids_automated_certification_and_absence_claims(self) -> None:
         report = researcher.render_markdown(self.dossier)
