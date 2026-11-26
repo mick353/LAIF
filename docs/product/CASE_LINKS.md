@@ -8,6 +8,19 @@ select the text of the checked report, JSON or CLI manifest before downloading.
 After editing a case, check it again. Saved case maps reopen with their declared
 sources and links. Private Site records are saved in cloud storage.
 
+### Recover edits from two tabs
+
+If the Workspace reports a newer save, keep the tab with your draft open and
+choose **Recover changes**. The Workspace can combine edits to different
+records. When competing edits affect only a case's question or analyst name,
+the comparison shows the saved value and your draft. Choose what to keep for
+each field and select **Save chosen values**. If another save arrives during
+the comparison, run **Recover changes** again and review the new values.
+
+If a conflict also involves sources, links or assessment records, keep the
+draft open. Use **Open saved workspace** to compare manually or **Export
+backup** to keep a copy before you proceed.
+
 To compare two records that appear to disagree, include each version and quote
 both passages in a declared link. In the note, explain what differs and which
 dates or conditions you still need to check. The report keeps both passages
