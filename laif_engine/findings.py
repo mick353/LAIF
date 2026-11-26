@@ -4,7 +4,7 @@ import re
 import sys
 
 
-def _score_signals(text, rubric):
+def _score_signals(text, rubric, *, search=None):
     """Return (score, fired, missed) for a rubric.
 
     fired  — list of (label, weight) for patterns that matched
@@ -15,8 +15,10 @@ def _score_signals(text, rubric):
     # DOTALL: span patterns (".{1,300}") are proximity windows over the
     # document, not same-line constraints — hard-wrapped prose must be able
     # to earn them. The Evidence Locator uses identical flags (parity).
+    flags = re.IGNORECASE | re.DOTALL
     for w, pat, label in rubric:
-        if re.search(pat, text, re.IGNORECASE | re.DOTALL):
+        match = search(pat, flags) if search is not None else re.search(pat, text, flags)
+        if match:
             fired.append((label, w))
         else:
             missed.append((label, w))

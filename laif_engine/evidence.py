@@ -264,27 +264,27 @@ def _fallback_evidence_trace(source_document, source_type, assessment_mode, supp
     }
 
 
-def _first_regex_match(text, pattern):
-    match = re.search(pattern, text or "", re.IGNORECASE)
+def _first_regex_match(text, pattern, *, search=None):
+    match = search(pattern, re.IGNORECASE) if search is not None else re.search(pattern, text or "", re.IGNORECASE)
     if not match:
         return None
     return match.group(0)
 
 
-def _extract_profile_signal_traces(text, result):
+def _extract_profile_signal_traces(text, result, *, search=None):
     traces = []
     profile = _sector_profile_metadata(result.get("sector_profile", result.get("sector_used")))
     signal_specs = []
     signal_specs.extend((pat, label, "sector_profile_signal") for pat, label in profile.get("risk_indicators", []))
     signal_specs.extend((pat, label, "provenance_signal") for pat, label in profile.get("expected_evidence", []))
     for pat, label, evidence_type in signal_specs:
-        matched = _first_regex_match(text, pat)
+        matched = _first_regex_match(text, pat, search=search)
         if matched:
             traces.append((evidence_type, matched, f"regex:{pat}", f"sector profile signal: {label}"))
     return traces
 
 
-def _extract_governance_force_traces(text, result):
+def _extract_governance_force_traces(text, result, *, search=None):
     traces = []
     rubric_specs = (
         (TERMINOLOGY_RUBRIC, "diagnostic_term", "terminology signal"),
@@ -295,32 +295,32 @@ def _extract_governance_force_traces(text, result):
     )
     for rubric, evidence_type, prefix in rubric_specs:
         for _, pat, label in rubric:
-            matched = _first_regex_match(text, pat)
+            matched = _first_regex_match(text, pat, search=search)
             if matched:
                 traces.append((evidence_type, matched, f"regex:{pat}", f"{prefix}: {label}"))
     return traces
 
 
-def _extract_remediation_anchor_traces(text, result):
+def _extract_remediation_anchor_traces(text, result, *, search=None):
     traces = []
     for construct, present in result.get("construct_coverage", {}).items():
         if not present:
             continue
-        matched = _first_regex_match(text, re.escape(construct))
+        matched = _first_regex_match(text, re.escape(construct), search=search)
         if matched:
             traces.append(("remediation_anchor", matched, f"regex:{re.escape(construct)}", f"remediation anchor: {construct}"))
     return traces
 
 
-def _build_evidence_traces(text, result):
+def _build_evidence_traces(text, result, *, search=None):
     """Build capped deterministic source-support traces without changing scores."""
     source_document = result.get("document_name", "unknown document")
     source_type = result.get("source_type", "unknown_source_type")
     assessment_mode = result.get("assessment_mode", "external_framework")
     candidates = []
-    candidates.extend(_extract_profile_signal_traces(text, result))
-    candidates.extend(_extract_governance_force_traces(text, result))
-    candidates.extend(_extract_remediation_anchor_traces(text, result))
+    candidates.extend(_extract_profile_signal_traces(text, result, search=search))
+    candidates.extend(_extract_governance_force_traces(text, result, search=search))
+    candidates.extend(_extract_remediation_anchor_traces(text, result, search=search))
 
     traces = []
     seen = set()

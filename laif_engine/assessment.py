@@ -2,6 +2,7 @@
 
 import hashlib
 import re
+from functools import cache
 from validate import find_paraphrase_violations, PARAPHRASE_GUARDS
 from .classification import (
     _assessment_mode_fields,
@@ -92,12 +93,18 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     Formal compliance is binary and strict — no partial credit.
     Scores are diagnostic — they contextualise the compliance gap.
     """
+    @cache
+    def search(pattern, flags):
+        # The match belongs to this text only. DOTALL and ordinary searches
+        # remain separate, including when one finds a match and the other does not.
+        return re.search(pattern, text, flags)
+
     # Dimension scores with signal traceability
-    s, s_fired, s_missed = _score_signals(text, STRUCTURAL_RUBRIC)
-    t, t_fired, t_missed = _score_signals(text, TERMINOLOGY_RUBRIC)
-    c, c_fired, c_missed = _score_signals(text, CONCEPTUAL_RUBRIC)
-    a, a_fired, a_missed = _score_signals(text, AUDITABILITY_RUBRIC)
-    e, e_fired, e_missed = _score_signals(text, ENFORCEABILITY_RUBRIC)
+    s, s_fired, s_missed = _score_signals(text, STRUCTURAL_RUBRIC, search=search)
+    t, t_fired, t_missed = _score_signals(text, TERMINOLOGY_RUBRIC, search=search)
+    c, c_fired, c_missed = _score_signals(text, CONCEPTUAL_RUBRIC, search=search)
+    a, a_fired, a_missed = _score_signals(text, AUDITABILITY_RUBRIC, search=search)
+    e, e_fired, e_missed = _score_signals(text, ENFORCEABILITY_RUBRIC, search=search)
 
     # Directionality check — small downward adjustment to conceptual if rights-
     # language is used to justify AI surveillance of humans rather than protect
@@ -107,12 +114,12 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     overall = round(0.25 * s + 0.15 * t + 0.20 * c + 0.20 * a + 0.20 * e)
 
     construct_coverage = {
-        cname: bool(re.search(pat, text, re.IGNORECASE))
+        cname: bool(search(pat, re.IGNORECASE))
         for cname, pat in CONSTRUCT_COVERAGE_CHECKS
     }
 
     formal_checks = [
-        (label, bool(re.search(pat, text, re.IGNORECASE)))
+        (label, bool(search(pat, re.IGNORECASE)))
         for pat, label in FORMAL_REQUIREMENTS
     ]
     formal_pass = all(present for _, present in formal_checks)
@@ -150,16 +157,16 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     # which external frameworks are not expected to contain)
     strengths = []
     for _, pat, label in CONCEPTUAL_RUBRIC:
-        if re.search(pat, text, re.IGNORECASE):
+        if search(pat, re.IGNORECASE):
             strengths.append(f"Expresses: {label}")
     for _, pat, label in STRUCTURAL_RUBRIC[:6]:
-        if re.search(pat, text, re.IGNORECASE):
+        if search(pat, re.IGNORECASE):
             strengths.append(f"Structure: {label}")
     for _, pat, label in AUDITABILITY_RUBRIC:
-        if re.search(pat, text, re.IGNORECASE):
+        if search(pat, re.IGNORECASE):
             strengths.append(f"Auditability: {label}")
     for _, pat, label in ENFORCEABILITY_RUBRIC:
-        if re.search(pat, text, re.IGNORECASE):
+        if search(pat, re.IGNORECASE):
             strengths.append(f"Enforceability: {label}")
 
     # Gaps. LAIF-native distance items (vocabulary, canonical structural
@@ -169,7 +176,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     # certification-channel wording rather than deficiency wording.
     gaps = []
     missing_terms = [lbl for _, pat, lbl in TERMINOLOGY_RUBRIC
-                     if not re.search(pat, text, re.IGNORECASE)]
+                     if not search(pat, re.IGNORECASE)]
 
     for guard_term, violations in paraphrase.items():
         examples = "; ".join(
@@ -234,11 +241,11 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     profile_signals = _sector_profile_signals(text, profile_key)
 
     sector_risk_results = [
-        (label, bool(re.search(pat, text, re.IGNORECASE)))
+        (label, bool(search(pat, re.IGNORECASE)))
         for pat, label in profile["risk_indicators"]
     ]
     sector_evidence_results = [
-        (label, bool(re.search(pat, text, re.IGNORECASE)))
+        (label, bool(search(pat, re.IGNORECASE)))
         for pat, label in profile["expected_evidence"]
     ]
 
@@ -269,7 +276,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     # Source location layer — document outline, located signals, obligation
     # anchors. Lets every finding point INTO the document.
     _outline          = _document_outline(text)
-    signal_locations  = _located_signals(text, _outline)
+    signal_locations  = _located_signals(text, _outline, search=search)
     obligation_anchors = _obligation_anchors(text, _outline)
 
     # Functional alignment — substance detection independent of vocabulary.
@@ -307,7 +314,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     _CHANNEL_MARKERS = ("certification-channel", "LAIF-native vocabulary not used",
                         "LAIF-native marker not present")
     for _, _pat, _lbl in STRUCTURAL_RUBRIC[6:]:
-        if re.search(_pat, text, re.IGNORECASE):
+        if search(_pat, re.IGNORECASE):
             continue
         _mapped = _signal_construct.get(_lbl)
         if _mapped == "__branding__" and not claims_laif:
@@ -516,7 +523,7 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     result["structured_findings"]          = _structured_findings(result)
     result["structured_remediation_steps"] = _structured_remediation(result)
     result["governance_signal"]            = _governance_signal_strength(result)
-    result["evidence_traces"]              = _build_evidence_traces(text, result)
+    result["evidence_traces"]              = _build_evidence_traces(text, result, search=search)
     result["remediation_patches"]          = _build_remediation_patches(result)
     result["score_interpretation"]         = _score_interpretation_label(overall)
     result["score_justification"]          = _score_justification_summary(result)
