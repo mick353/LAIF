@@ -31,9 +31,9 @@ from laif_spec import ASSESSMENT_CRITERIA
 from laif_criteria_review import validate_criteria_review, criterion_template
 from scripts.laif_auto_criteria import judge as automatic_judge
 from scripts.laif_reader_summaries import add_reader_summaries
-from laif_process_document import (
-    ExtractionError, build_extraction_quality_profile, build_low_confidence_quote_candidates,
-    build_quote_bank, build_verification_required_evidence, extract_document,
+from scripts.laif_process_document import (
+    ExtractionError, PreparedDocument, build_extraction_quality_profile, build_low_confidence_quote_candidates,
+    build_quote_bank, build_verification_required_evidence, prepare_document,
     safe_stem, sha256_file,
 )
 
@@ -97,7 +97,7 @@ def _report_date(raw: str | None) -> str:
         raise ResearchInputError("invalid report date") from exc
 
 
-def _extract_local(path: Path, preferred: str) -> Any:
+def _prepare_local(path: Path, preferred: str, prepared: PreparedDocument | None) -> PreparedDocument:
     expected = {
         ".txt": "builtin", ".md": "builtin", ".markdown": "builtin",
         ".docx": "python-docx", ".pdf": "pypdf",
@@ -110,7 +110,7 @@ def _extract_local(path: Path, preferred: str) -> Any:
     if preferred != expected[suffix]:
         raise ResearchInputError(f"incorrect local extractor for {suffix}: use {expected[suffix]}")
     try:
-        return extract_document(path, preferred)
+        return prepare_document(path, preferred, reuse=prepared)
     except ExtractionError as exc:
         raise ResearchInputError(str(exc)) from exc
 
@@ -228,7 +228,7 @@ def _validated_annotations(path: Path | None, source_sha: str, manifest_sha: str
 def build_dossier(path: Path, *, extractor: str = "auto-local", source_scope: str = "unknown",
                   instrument_status: str = "unknown", jurisdiction: str = "", source_url: str = "",
                   question: str = DEFAULT_QUESTION, date: str | None = None,
-                  review_file: Path | None = None, max_quotes: int = 8) -> dict:
+                  review_file: Path | None = None, max_quotes: int = 8, prepared: PreparedDocument | None = None) -> dict:
     if source_scope not in SCOPES or instrument_status not in STATES:
         raise ResearchInputError("unknown source scope or instrument status")
     if not _nonblank(question) or not 1 <= max_quotes <= MAX_OBSERVATIONS:
@@ -243,13 +243,14 @@ def build_dossier(path: Path, *, extractor: str = "auto-local", source_scope: st
             raise ResearchInputError("source URL must be an HTTPS attribution URL without credentials; it is not fetched")
     date = _report_date(date)
     path = path.expanduser().resolve()
-    extraction = _extract_local(path, extractor)
-    source_sha = sha256_file(path)
+    prepared = _prepare_local(path, extractor, prepared)
+    extraction = prepared.extraction
+    source_sha = prepared.source_sha256
     text = extraction.text
     # The existing engine supplies candidate evidence/sector heuristics only.
     # Its scoring, certification and stronger inferred narratives are not used.
     assessed = assess(path.stem, "uploaded_document", text, sector="auto",
-                      assessment_mode="external_framework")
+                      assessment_mode="external_framework", include_automatic_criteria=False)
     processing = {"original_file_name": path.name, "stored_source_path": path.name,
                   "source_sha256": source_sha}
     extraction_meta = {"extractor_used": extraction.extractor_used,
@@ -492,14 +493,14 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: list[str] | None = None, *, prepared: PreparedDocument | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
         dossier = build_dossier(args.source, extractor=args.extractor, source_scope=args.scope,
                                 instrument_status=args.instrument_status, jurisdiction=args.jurisdiction,
                                 source_url=args.source_url, question=args.question, date=args.date,
-                                review_file=args.review_file, max_quotes=args.max_quotes)
+                                review_file=args.review_file, max_quotes=args.max_quotes, prepared=prepared)
         if args.require_evidence and not dossier["evidence"]:
             raise ResearchInputError("no quote-grade evidence admitted; review is held")
         report = render_markdown(dossier)

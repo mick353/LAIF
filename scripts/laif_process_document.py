@@ -67,6 +67,14 @@ class ExtractionResult:
     errors: list[str] = field(default_factory=list)
 
 
+@dataclass(frozen=True)
+class PreparedDocument:
+    path: Path
+    extractor_requested: str
+    source_sha256: str
+    extraction: ExtractionResult
+
+
 class ExtractionError(RuntimeError):
     """Raised when local document text cannot be extracted safely."""
 
@@ -256,6 +264,27 @@ def extract_document(path: Path, extractor: str = "auto") -> ExtractionResult:
             f"Attempted extractors: {attempted}"
         )
     raise ExtractionError("Unable to extract document text. Attempted extractors: " + attempted)
+
+
+def prepare_document(path: Path, extractor: str = "auto", *, reuse: PreparedDocument | None = None) -> PreparedDocument:
+    """Supply one byte-checked extraction to analyses of the same local source."""
+    path = path.expanduser().resolve()
+    if not path.is_file():
+        raise ExtractionError(f"Input file does not exist or is not a regular file: {path}")
+    if reuse is not None and (reuse.path != path or reuse.extractor_requested != extractor):
+        raise ExtractionError("Prepared document does not match the requested path and extractor.")
+    try:
+        source_sha256 = sha256_file(path)
+        if reuse is not None:
+            if reuse.source_sha256 != source_sha256:
+                raise ExtractionError("Source bytes changed after document preparation. Start a new assessment.")
+            return reuse
+        extraction = extract_document(path, extractor)
+        if sha256_file(path) != source_sha256:
+            raise ExtractionError("Source bytes changed during extraction. Try again with a stable source copy.")
+    except OSError as exc:
+        raise ExtractionError(f"Could not read source bytes at {path}: {exc}") from exc
+    return PreparedDocument(path, extractor, source_sha256, extraction)
 
 
 def _term_hits(text: str, terms: Iterable[str]) -> int:
@@ -3408,14 +3437,15 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def run(args: argparse.Namespace) -> int:
+def run(args: argparse.Namespace, *, prepared: PreparedDocument | None = None) -> int:
     if getattr(args, "require_complete_review", False) and not getattr(args, "review_file", None):
         raise ExtractionError("--require-complete-review needs a completed --review-file")
     if getattr(args, "review_file", None) and args.mode != "external_framework":
         raise ExtractionError("--review-file supports external-framework reporting only; it cannot override native certification")
     input_path_original = str(args.input_file)
     input_path = args.input_file.expanduser().resolve()
-    extraction = extract_document(input_path, args.extractor)
+    prepared = prepare_document(input_path, args.extractor, reuse=prepared)
+    extraction = prepared.extraction
     if args.fail_on_warnings and extraction.warnings:
         raise ExtractionError("Extraction produced warnings and --fail-on-warnings was set: " + "; ".join(extraction.warnings))
 
@@ -3427,7 +3457,7 @@ def run(args: argparse.Namespace) -> int:
     sector_basis = ""
     document_name = args.document_name or input_path.stem
     processed_at = utc_now_iso()
-    source_hash = sha256_file(input_path)
+    source_hash = prepared.source_sha256
     output_stem = safe_stem(input_path.stem)
 
     processing = build_processing_metadata(
@@ -3474,6 +3504,7 @@ def run(args: argparse.Namespace) -> int:
         extraction.text,
         sector=selected_sector,
         assessment_mode=resolve_assessment_mode(args.mode),
+        include_automatic_criteria=False,
         source_sha256=source_hash,
         original_file_name=input_path.name,
         original_pending_path=args.original_pending_path or input_path_original,
@@ -3562,11 +3593,11 @@ def run(args: argparse.Namespace) -> int:
     return 0
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: list[str] | None = None, *, prepared: PreparedDocument | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        return run(args)
+        return run(args, prepared=prepared)
     except ExtractionError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2

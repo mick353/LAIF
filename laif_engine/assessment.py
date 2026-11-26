@@ -70,7 +70,8 @@ from .source_spans import (
 )
 
 
-def assess(name, source_type, text, sector="general_ai_governance", assessment_mode=None, **meta):
+def assess(name, source_type, text, sector="general_ai_governance", assessment_mode=None,
+           *, include_automatic_criteria=True, **meta):
     """
     Produce a full LAIF assessment for a document.
 
@@ -506,8 +507,9 @@ def assess(name, source_type, text, sector="general_ai_governance", assessment_m
     }
     result["compliance_summary"]           = _compliance_summary(result)
     result["integrity_requirement_diagnostics"] = integrity_requirement_diagnostics(text)
-    from scripts.laif_auto_criteria import judge
-    result["automatic_criteria"] = judge(text)
+    if include_automatic_criteria:
+        from scripts.laif_auto_criteria import judge
+        result["automatic_criteria"] = judge(text)
     result["substantive_coherence_determination"] = "REQUIRES_SOURCE_BASED_REVIEW"
     result["executive_summary"]            = _executive_summary(result)
     result["plain_reading"]                = _plain_reading(result)
