@@ -7,6 +7,7 @@ source documents, authenticate reviewers or establish independent ground truth.
 from __future__ import annotations
 
 import argparse
+from collections import Counter, defaultdict
 import hashlib
 import itertools
 import json
@@ -18,6 +19,7 @@ from pathlib import Path
 SYSTEMS = ("laif", "checklist", "keyword")
 SPLITS = ("development", "holdout")
 PROVENANCE = ("SYNTHETIC", "HUMAN_ADJUDICATED")
+OUTCOMES = ("correct", "incorrect", "abstained")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 SHA1 = re.compile(r"^[0-9a-f]{40}$")
 
@@ -126,12 +128,13 @@ def validate(study: object, *, require_human: bool = False) -> list[dict]:
 
 
 def metrics(cases: list[dict], system: str) -> dict:
-    tp = tn = fp = fn = abstentions = 0
+    tp = tn = fp = fn = positive_abstentions = negative_abstentions = 0
     for case in cases:
         predicted = case["predictions"][system]
         gold = case["reference"]
         if predicted is None:
-            abstentions += 1
+            positive_abstentions += gold
+            negative_abstentions += not gold
         elif predicted and gold:
             tp += 1
         elif predicted and not gold:
@@ -141,14 +144,25 @@ def metrics(cases: list[dict], system: str) -> dict:
         else:
             tn += 1
     answered = tp + tn + fp + fn
+    n = len(cases)
+    positives = tp + fn + positive_abstentions
+    independent_units = all(len({case[key] for case in cases}) == n for key in ("source_sha256", "family"))
+    interval_status = ("NO_CASES" if not n else "REQUIRES_INDEPENDENT_CASES" if independent_units
+                       else "WITHHELD_REPEATED_SOURCE_OR_FAMILY")
     p, r = fraction(tp, tp+fp), fraction(tp, tp+fn)
     f1 = fraction(2*tp, 2*tp+fp+fn)
     return {
-        "n": len(cases), "answered": answered, "abstained": abstentions,
-        "coverage": fraction(answered, len(cases)),
+        "n": n, "answered": answered, "abstained": positive_abstentions + negative_abstentions,
+        "abstained_reference_positive": positive_abstentions,
+        "abstained_reference_negative": negative_abstentions,
+        "reference_positive": positives,
+        "coverage": fraction(answered, n),
+        "recall_over_all_positives": fraction(tp, positives),
+        "correct_per_case": fraction(tp+tn, n),
         "TP": tp, "TN": tn, "FP": fp, "FN": fn,
-        "precision": p, "precision_wilson95": wilson95(tp, tp+fp),
-        "recall": r, "recall_wilson95": wilson95(tp, tp+fn),
+        "precision": p, "precision_wilson95": wilson95(tp, tp+fp) if independent_units else None,
+        "recall": r, "recall_wilson95": wilson95(tp, tp+fn) if independent_units else None,
+        "wilson95_status": interval_status,
         "f1": f1, "f1_interval": None,
         "false_positive_rate": fraction(fp, fp+tn),
         "false_negative_rate": fraction(fn, fn+tp),
@@ -157,57 +171,102 @@ def metrics(cases: list[dict], system: str) -> dict:
 
 
 def reviewer_agreement(cases: list[dict]) -> list[dict]:
-    voters = sorted({v["reviewer"] for c in cases for v in c["reviewer_votes"]})
+    observations = defaultdict(Counter)
+    for case in cases:
+        votes = sorted((vote["reviewer"], vote["value"]) for vote in case["reviewer_votes"])
+        for (a, value_a), (b, value_b) in itertools.combinations(votes, 2):
+            observations[a, b][value_a, value_b] += 1
     result = []
-    for a, b in itertools.combinations(voters, 2):
-        observations = []
-        for case in cases:
-            votes = {v["reviewer"]: v["value"] for v in case["reviewer_votes"]}
-            if a in votes and b in votes:
-                observations.append((votes[a], votes[b]))
-        if not observations:
-            continue
-        n = len(observations)
-        agreed = sum(x == y for x, y in observations)
-        pa = sum(x for x, _ in observations) / n
-        pb = sum(y for _, y in observations) / n
-        expected = pa*pb + (1-pa)*(1-pb)
-        kappa = ((agreed/n - expected)/(1-expected)) if n >= 2 and expected < 1 else None
+    for (a, b), counts in sorted(observations.items()):
+        n = sum(counts.values())
+        agreed = counts[True, True] + counts[False, False]
+        positive_a = counts[True, True] + counts[True, False]
+        positive_b = counts[True, True] + counts[False, True]
+        expected = positive_a*positive_b + (n-positive_a)*(n-positive_b)
+        kappa = fraction(agreed*n - expected, n*n - expected) if n >= 2 else None
         result.append({"reviewer_a": a, "reviewer_b": b, "n": n,
+                       "both_positive": counts[True, True], "both_negative": counts[False, False],
+                       "reviewer_a_only_positive": counts[True, False],
+                       "reviewer_b_only_positive": counts[False, True],
                        "observed_agreement": fraction(agreed, n),
-                       "cohen_kappa": round(kappa, 6) if kappa is not None else None})
+                       "cohen_kappa": kappa})
     return result
 
 
+def answer_status(prediction: bool | None, reference: bool) -> str:
+    if prediction is None:
+        return "abstained"
+    return "correct" if prediction == reference else "incorrect"
+
+
+def outcome_difference(counts: Counter, outcome: str) -> int:
+    """Count how often LAIF produces an outcome minus how often the baseline does."""
+    return sum(count * ((laif == outcome) - (other == outcome))
+               for (laif, other), count in counts.items())
+
+
 def paired_outcomes(cases: list[dict], baseline: str) -> dict:
-    count = {"both_correct": 0, "laif_only_correct": 0,
-             "baseline_only_correct": 0, "both_wrong": 0}
+    by_family = defaultdict(Counter)
+    families_per_source = defaultdict(set)
+    counts = Counter()
     for case in cases:
-        # Keep pairwise comparisons only where both systems emitted a label.
-        laif, other = case["predictions"]["laif"], case["predictions"][baseline]
-        gold = case["reference"]
-        if laif is None or other is None:
-            continue
-        if laif == gold and other == gold:
-            count["both_correct"] += 1
-        elif laif == gold:
-            count["laif_only_correct"] += 1
-        elif other == gold:
-            count["baseline_only_correct"] += 1
-        else:
-            count["both_wrong"] += 1
-    return {"common_answered_n": sum(count.values()), **count,
-            "warning": "Paired descriptive counts only; abstentions excluded, not statistical significance."}
+        pair = tuple(answer_status(case["predictions"][system], case["reference"])
+                     for system in ("laif", baseline))
+        counts[pair] += 1
+        by_family[case["family"]][pair] += 1
+        families_per_source[case["source_sha256"]].add(case["family"])
+    common = {"both_correct": counts["correct", "correct"],
+              "laif_only_correct": counts["correct", "incorrect"],
+              "baseline_only_correct": counts["incorrect", "correct"],
+              "both_wrong": counts["incorrect", "incorrect"]}
+    common_n = sum(common.values())
+    n = len(cases)
+    delta = outcome_difference(counts, "correct")
+    sensitivity = {"families": len(by_family), "status": "NEEDS_TWO_FAMILIES", "range": None}
+    if any(len(families) > 1 for families in families_per_source.values()):
+        sensitivity["status"] = "SOURCE_ASSIGNED_TO_MULTIPLE_FAMILIES"
+    elif len(by_family) >= 2:
+        after_removal = [(delta - outcome_difference(family, "correct")) / (n - sum(family.values()))
+                         for family in by_family.values()]
+        sensitivity.update(status="DESCRIPTIVE_RANGE",
+                           range=[round(min(after_removal), 6), round(max(after_removal), 6)])
+    return {
+        "common_answered_n": common_n, **common,
+        "accuracy_difference_on_common": fraction(common["laif_only_correct"] - common["baseline_only_correct"],
+                                                  common_n),
+        "all_case_n": n,
+        "all_case_outcomes": {laif: {other: counts[laif, other] for other in OUTCOMES} for laif in OUTCOMES},
+        "coverage_difference_on_all": fraction(-outcome_difference(counts, "abstained"), n),
+        "correct_per_case_difference_on_all": fraction(delta, n),
+        "correct_per_case_difference_leave_one_family_out": sensitivity,
+        "warning": "Differences are LAIF minus baseline. The common-answer subset and whole-sample yield "
+                   "answer different questions. The family-deletion range describes sensitivity in this sample.",
+    }
 
 
-def analyse(study: dict, *, require_human: bool = False) -> dict:
+def analyse(study: dict, *, require_human: bool = False, protocol_bytes: bytes | None = None,
+            expected_holdout_sha256: str | None = None) -> dict:
     cases = validate(study, require_human=require_human)
+    holdout = [{key: case[key] for key in ("id", "family", "source_sha256", "attribute", "reference")}
+               for case in sorted(cases, key=lambda x: x["id"]) if case["split"] == "holdout"]
+    holdout_sha256 = hashlib.sha256(
+        json.dumps(holdout, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+    if expected_holdout_sha256 is not None:
+        if not is_sha256(expected_holdout_sha256):
+            raise ValueError("expected holdout digest must be lowercase SHA-256")
+        if holdout_sha256 != expected_holdout_sha256:
+            raise ValueError("holdout snapshot differs from the expected SHA-256")
+    if protocol_bytes is not None and hashlib.sha256(protocol_bytes).hexdigest() != study["protocol_sha256"]:
+        raise ValueError("protocol bytes differ from the declared SHA-256")
+
     splits = {}
     for split in SPLITS:
         selected = [case for case in cases if case["split"] == split]
         labels = sorted({case["attribute"] for case in selected})
         splits[split] = {
             "n": len(selected),
+            "source_documents": len({case["source_sha256"] for case in selected}),
+            "declared_families": len({case["family"] for case in selected}),
             "systems": {name: metrics(selected, name) for name in SYSTEMS},
             "by_attribute": {
                 label: {name: metrics([c for c in selected if c["attribute"] == label], name)
@@ -223,9 +282,7 @@ def analyse(study: dict, *, require_human: bool = False) -> dict:
                 for name in SYSTEMS
             },
         }
-    canonical = json.dumps(study, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
-    holdout = [{key: case[key] for key in ("id", "family", "source_sha256", "attribute", "reference")}
-               for case in sorted(cases, key=lambda x: x["id"]) if case["split"] == "holdout"]
+    canonical = json.dumps(study, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
     return {
         "schema": "laif.comparative-study-report.v1",
         "study_id": study["study_id"],
@@ -233,8 +290,9 @@ def analyse(study: dict, *, require_human: bool = False) -> dict:
         "declared_evaluated_revision": study["evaluated_revision"],
         "declared_protocol_sha256": study["protocol_sha256"],
         "input_canonical_sha256": hashlib.sha256(canonical.encode("utf-8")).hexdigest(),
-        "holdout_snapshot_sha256": hashlib.sha256(
-            json.dumps(holdout, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest(),
+        "holdout_snapshot_sha256": holdout_sha256,
+        "protocol_bytes": "MATCH" if protocol_bytes is not None else "NOT_SUPPLIED",
+        "holdout_against_expected": "MATCH" if expected_holdout_sha256 is not None else "NOT_SUPPLIED",
         "comparator_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "splits": splits,
         "status": "DESCRIPTIVE_COMPARISON_ONLY",
@@ -242,8 +300,9 @@ def analyse(study: dict, *, require_human: bool = False) -> dict:
             "Input provenance and reviewer independence are declared, not verified by this tool. "
             "A snapshot hash is not proof the holdout was registered before inspection. "
             "Undefined ratios are null; abstentions are not negative predictions. "
-            "Wilson intervals assume independent Bernoulli observations and do not account "
-            "for document clusters, multiplicity or selection bias. No F1 interval is provided. "
+            "Wilson intervals assume independent Bernoulli observations. The report withholds them "
+            "where source or family repeats. Unique identifiers cannot establish independence. "
+            "The family-deletion range describes sensitivity, with no confidence level. "
             "The report does not validate LAIF theory, field accuracy, legal compliance or model safety."
         ),
     }
@@ -259,29 +318,45 @@ def format_summary(report: dict) -> str:
         f"Study: {report['study_id']}",
         f"Label provenance (unverified): {report['declared_label_provenance']}",
         f"Evaluated revision (declared): {report['declared_evaluated_revision']}",
+        f"Holdout SHA-256: {report['holdout_snapshot_sha256']}",
+        f"Protocol file: {report['protocol_bytes']}. Expected holdout: {report['holdout_against_expected']}.",
         "",
     ]
     for split in SPLITS:
         data = report["splits"][split]
-        lines.append(f"{split.upper()} — {data['n']} labelled attributes")
+        lines.append(f"{split.upper()} — {data['n']} labelled attributes across "
+                     f"{data['source_documents']} sources in {data['declared_families']} declared families")
         if not data["n"]:
             lines.append("  No cases in this split.")
             lines.append("")
             continue
-        lines.append("  System       Covered     Precision   Recall      F1       FP  FN")
+        lines.append("  System       Answered  Correct/all  Recall (answered/all positives)   FP  FN")
         for name in SYSTEMS:
             m = data["systems"][name]
             lines.append(
-                f"  {name:<12} {m['answered']:>2}/{m['n']:<6}"
-                f" {show(m['precision']):<11} {show(m['recall']):<11}"
-                f" {show(m['f1']):<9} {m['FP']:>2}  {m['FN']:>2}"
+                f"  {name:<12} {m['answered']:>2}/{m['n']:<5}"
+                f" {show(m['correct_per_case']):<12} {show(m['recall']):>9} / "
+                f"{show(m['recall_over_all_positives']):<16} {m['FP']:>2}  {m['FN']:>2}"
             )
+        if data["systems"]["laif"]["wilson95_status"] == "WITHHELD_REPEATED_SOURCE_OR_FAMILY":
+            lines.append("  Precision and recall intervals withheld because sources or families repeat.")
         for name, paired in data["paired_comparisons"].items():
             lines.append(
                 f"  Paired LAIF vs {name}: common={paired['common_answered_n']},"
                 f" LAIF-only correct={paired['laif_only_correct']},"
                 f" baseline-only correct={paired['baseline_only_correct']}"
             )
+            sensitivity = paired["correct_per_case_difference_leave_one_family_out"]
+            lines.append(
+                f"    On all {paired['all_case_n']} cases, correct per case difference "
+                f"{show(paired['correct_per_case_difference_on_all'])} and coverage difference "
+                f"{show(paired['coverage_difference_on_all'])}."
+            )
+            if sensitivity["range"] is not None:
+                low, high = sensitivity["range"]
+                lines.append(f"    Range after omitting each family in turn: {show(low)} to {show(high)}.")
+            elif sensitivity["status"] == "SOURCE_ASSIGNED_TO_MULTIPLE_FAMILIES":
+                lines.append("    Family sensitivity withheld because a source belongs to multiple families.")
         reviewers = data["human_pairwise_agreement_before_adjudication"]
         if reviewers:
             for item in reviewers:
@@ -294,8 +369,8 @@ def format_summary(report: dict) -> str:
             lines.append("  Human inter-rater agreement: unavailable")
         lines.append("")
     lines.extend([
-        "BOUNDARY: This tool does not verify the sources, humans, labels, protocols",
-        "or execution of LAIF/baselines. Synthetic values are not field results.",
+        "BOUNDARY: Source custody, human labels, blinding and method execution",
+        "require independent evidence. Synthetic values are not field results.",
         "Passing the comparator does NOT validate legal compliance, AI safety,",
         "LAIF theory or empirical accuracy. Use --format json for full counts,",
         "case-level errors, conditional intervals and reproducibility hashes.",
@@ -308,12 +383,16 @@ def main() -> int:
     parser.add_argument("study", type=Path, help="caller-prepared JSON study file")
     parser.add_argument("--require-human", action="store_true",
                         help="reject datasets labelled SYNTHETIC (does not authenticate reviewers)")
+    parser.add_argument("--protocol", type=Path, help="check the original protocol bytes against the declared SHA-256")
+    parser.add_argument("--expect-holdout-sha256", help="require an independently retained holdout snapshot digest")
     parser.add_argument("--format", choices=("summary", "json"), default="summary",
                         help="human-readable summary (default) or complete JSON statistics")
     args = parser.parse_args()
     try:
         data = json.loads(args.study.read_text(encoding="utf-8"), object_pairs_hook=unique_object)
-        report = analyse(data, require_human=args.require_human)
+        report = analyse(data, require_human=args.require_human,
+                         protocol_bytes=args.protocol.read_bytes() if args.protocol else None,
+                         expected_holdout_sha256=args.expect_holdout_sha256)
     except (ValueError, TypeError, OSError, UnicodeError, json.JSONDecodeError) as exc:
         parser.error(str(exc))
     if args.format == "json":

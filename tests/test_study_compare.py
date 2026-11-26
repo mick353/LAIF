@@ -62,6 +62,99 @@ class StudyComparisonTests(unittest.TestCase):
         self.assertEqual(result["precision"], 0.5)
         self.assertEqual(result["recall"], 0.5)
         self.assertEqual(result["f1"], 0.5)
+        self.assertEqual(result["abstained_reference_positive"], 1)
+        self.assertEqual(result["abstained_reference_negative"], 1)
+        self.assertEqual(result["recall_over_all_positives"], 0.333333)
+
+    def test_common_answer_advantage_can_reverse_across_all_cases(self):
+        dataset = study()
+        dataset["cases"] = [make_case(i, True, True if i < 3 else None, i != 2, None)
+                            for i in range(1, 7)]
+        result = analyse(dataset)["splits"]["holdout"]
+        self.assertEqual(result["systems"]["laif"]["recall"], 1.0)
+        self.assertEqual(result["systems"]["laif"]["recall_over_all_positives"], 0.333333)
+        pair = result["paired_comparisons"]["checklist"]
+        self.assertEqual(pair["common_answered_n"], 2)
+        self.assertEqual(pair["accuracy_difference_on_common"], 0.5)
+        self.assertEqual(pair["correct_per_case_difference_on_all"], -0.5)
+        self.assertEqual(pair["coverage_difference_on_all"], -0.666667)
+        self.assertEqual(pair["all_case_outcomes"]["abstained"]["correct"], 4)
+        self.assertEqual(sum(sum(row.values()) for row in pair["all_case_outcomes"].values()), 6)
+        pair = result["paired_comparisons"]["keyword"]
+        self.assertIsNone(pair["accuracy_difference_on_common"])
+        self.assertEqual(pair["all_case_outcomes"]["abstained"]["abstained"], 4)
+
+    def test_family_deletion_can_expose_one_family_driving_the_result(self):
+        dataset = study()
+        dataset["cases"] = [make_case(i, True, True, False, True, family="large-family")
+                            for i in range(8)] + [make_case(i, True, False, True, True) for i in range(8, 10)]
+        split = analyse(dataset)["splits"]["holdout"]
+        pair = split["paired_comparisons"]["checklist"]
+        self.assertEqual(pair["correct_per_case_difference_on_all"], 0.6)
+        self.assertEqual(pair["correct_per_case_difference_leave_one_family_out"],
+                         {"families": 3, "status": "DESCRIPTIVE_RANGE", "range": [-1.0, 0.777778]})
+        self.assertEqual(split["declared_families"], 3)
+        self.assertEqual(split["source_documents"], 10)
+        laif = split["systems"]["laif"]
+        self.assertIsNone(laif["recall_wilson95"])
+        self.assertIsNone(laif["precision_wilson95"])
+        self.assertEqual(laif["wilson95_status"], "WITHHELD_REPEATED_SOURCE_OR_FAMILY")
+
+    def test_same_source_in_multiple_families_cannot_count_as_independent(self):
+        dataset = study()
+        dataset["cases"][1]["source_sha256"] = dataset["cases"][0]["source_sha256"]
+        split = analyse(dataset)["splits"]["holdout"]
+        pair = split["paired_comparisons"]["checklist"]
+        self.assertEqual(split["source_documents"], 5)
+        self.assertIsNone(split["systems"]["laif"]["precision_wilson95"])
+        self.assertEqual(pair["correct_per_case_difference_leave_one_family_out"]["status"],
+                         "SOURCE_ASSIGNED_TO_MULTIPLE_FAMILIES")
+        self.assertIsNone(pair["correct_per_case_difference_leave_one_family_out"]["range"])
+
+    def test_agreement_keeps_directional_disagreements_and_sparse_reviewer_counts(self):
+        cases = study()["cases"]
+        cases[0]["reviewer_votes"].append({"reviewer": "C", "value": False})
+        cases[0]["reviewer_votes"].reverse()
+        pairs = reviewer_agreement(cases)
+        self.assertEqual(pairs[0], {"reviewer_a": "A", "reviewer_b": "B", "n": 6,
+                                    "both_positive": 2, "both_negative": 2,
+                                    "reviewer_a_only_positive": 1, "reviewer_b_only_positive": 1,
+                                    "observed_agreement": 0.666667, "cohen_kappa": 0.333333})
+        self.assertEqual([(r["reviewer_a"], r["reviewer_b"], r["n"], r["cohen_kappa"]) for r in pairs[1:]],
+                         [("A", "C", 1, None), ("B", "C", 1, None)])
+
+    def test_frozen_holdout_checks_labels_but_allows_new_predictions(self):
+        dataset = study()
+        snapshot = analyse(dataset)["holdout_snapshot_sha256"]
+        dataset["cases"].reverse()
+        dataset["cases"][0]["predictions"]["laif"] = False
+        changed = analyse(dataset, expected_holdout_sha256=snapshot)
+        self.assertEqual(changed["holdout_against_expected"], "MATCH")
+        dataset["cases"][0]["reference"] = not dataset["cases"][0]["reference"]
+        with self.assertRaisesRegex(ValueError, "holdout snapshot differs"):
+            analyse(dataset, expected_holdout_sha256=snapshot)
+
+    def test_cli_verifies_protocol_and_expected_holdout(self):
+        dataset = study()
+        protocol = b"Frozen research protocol\r\n"
+        dataset["protocol_sha256"] = hashlib.sha256(protocol).hexdigest()
+        holdout = analyse(dataset)["holdout_snapshot_sha256"]
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "study.json"
+            path.write_text(json.dumps(dataset), encoding="utf-8")
+            protocol_path = Path(temp) / "protocol.txt"
+            protocol_path.write_bytes(protocol)
+            cmd = [sys.executable, str(ROOT / "scripts/laif_study_compare.py"), str(path), "--format", "json",
+                   "--protocol", str(protocol_path), "--expect-holdout-sha256", holdout]
+            run = subprocess.run(cmd, capture_output=True, text=True, check=True, encoding="utf-8")
+            report = json.loads(run.stdout)
+            self.assertEqual(report["protocol_bytes"], "MATCH")
+            self.assertEqual(report["holdout_against_expected"], "MATCH")
+            protocol_path.write_bytes(protocol.replace(b"\r\n", b"\n"))
+            run = subprocess.run(cmd, capture_output=True, text=True, check=False, encoding="utf-8")
+            self.assertNotEqual(run.returncode, 0)
+            self.assertIn("protocol bytes differ", run.stderr)
+            self.assertEqual(run.stdout, "")
 
     def test_aligned_baselines_and_pairwise_comparisons(self):
         result = analyse(study())["splits"]["holdout"]

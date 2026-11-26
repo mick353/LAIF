@@ -42,7 +42,7 @@ Create a new private dataset outside the public repository containing:
 | `schema` | Exact literal `laif.comparative-study.v1`. |
 | `study_id` | Unique nonempty identifier; capture preregistration separately. |
 | `label_provenance` | `SYNTHETIC` or self-reported `HUMAN_ADJUDICATED`. This is **not verified** by the tool. |
-| `protocol_sha256` | Lowercase SHA-256 of the externally preserved study protocol. The CLI checks format, **not the referenced file's bytes**. |
+| `protocol_sha256` | Lowercase SHA-256 of the externally preserved study protocol. With `--protocol`, the CLI checks those bytes. |
 | `evaluated_revision` | Declared 40-character Git SHA for the evaluated implementation; externally verify it against the actual run. |
 | `cases[]` | Nonempty set including a `holdout` split. Each `id` is unique, each case has one atomic observable `attribute`. |
 | `family`, `source_sha256`, `split` | Source-family and source-hash linkage. Identical sources/families may not appear in both development and holdout. |
@@ -64,6 +64,23 @@ For a caller-prepared human-labelled file:
 python3 scripts/laif_study_compare.py /path/to/private-study.json --require-human
 ```
 
+When comparing runs on the same frozen study, supply the preserved protocol
+file and the externally recorded holdout SHA-256:
+
+```bash
+python3 scripts/laif_study_compare.py /path/to/private-study.json --require-human \
+  --protocol /path/to/frozen-protocol.txt --expect-holdout-sha256 YOUR_FROZEN_HOLDOUT_SHA256 \
+  --format json
+```
+
+Replace `YOUR_FROZEN_HOLDOUT_SHA256` with the saved 64-character digest.
+Record the holdout digest after adjudication and before inspecting method
+performance. It covers each holdout case ID, family, source SHA-256, attribute
+and reference label. Row order and new predictions leave it unchanged. The
+full input digest covers predictions and votes as well. The CLI stops before
+printing statistics if a supplied protocol or holdout digest fails to match.
+Retain the preregistration and the post-adjudication handoff separately.
+
 `--require-human` refuses `SYNTHETIC` files. It does not verify whether a
 `HUMAN_ADJUDICATED` assertion is true. Retain signed reviewer and adjudication
 evidence separately and arrange independent audit of input custody. Use
@@ -74,26 +91,51 @@ repository (for example, through a privately controlled output redirection).
 
 - `development` and `holdout` remain separate. The tool does not optimise any
   thresholds or choose a favourable split.
-- Each system receives a confusion matrix (TP, TN, FP, FN), **answered**
-  and **abstained** totals, coverage, accuracy on answered cases, precision,
-  recall, F1 and conditional false-positive/false-negative rates.
+- Each system receives confusion counts, conditional accuracy, precision,
+  recall, F1 and conditional false-positive/false-negative rates. The report
+  also gives coverage and correct answers per eligible case. Recall over all
+  reference positives uses every labelled positive in its denominator.
+  Positive and negative abstentions are reported separately.
 - Undefined denominators produce JSON `null`, **not** zero. Abstentions are
   excluded from class-error counts but still reduce coverage.
-- Approximate Wilson 95% intervals accompany precision and recall; they
-  assume independent labelled units. They do **not** account for multiple
-  attributes per document, correlated case families, non-random selection or
-  multiple comparisons. No interval is claimed for F1.
+- Approximate Wilson 95% intervals for conditional precision and recall are
+  withheld where sources or families repeat. Otherwise interpretation still
+  requires independently sampled units. Source and family counts help
+  distinguish the number of observations from the number of documents.
+  Sampling bias and multiple comparisons require a study-specific analysis.
+  [Cameron and Miller on clustered observations](https://escholarship.org/uc/item/1jq5d0pq)
 - Human pre-adjudication pairwise agreement and Cohen's kappa are separate
-  from tool-versus-consensus performance. Kappa can be undefined for
-  constant labels or insufficient shared observations.
-- LAIF-versus-checklist and LAIF-versus-keyword comparisons use **only cases
-  answered by both**; the report includes the common denominator and paired
-  correct/wrong counts. Do not turn these counts into significance claims.
+  from tool-versus-consensus performance. Each reviewer pair retains all four
+  cells of its before-consensus comparison, including who labelled an item
+  positive when the other did not. Kappa can be undefined with constant
+  labels or insufficient shared observations.
+  [Krippendorff on agreement and information](https://www.tandfonline.com/doi/full/10.1080/19312458.2011.568376)
+- For each baseline the comparison gives the accuracy difference on cases both
+  systems answered, as well as the difference in correct decisions per
+  eligible case and coverage across the full sample. A three-by-three table
+  accounts for every case by pairing correct, incorrect and abstained outcomes.
+  Read accuracy and coverage together.
+  [El-Yaniv and Wiener on selective classification](https://jmlr.org/papers/v11/el-yaniv10a.html)
+- The difference in correct decisions per eligible case is recalculated
+  after omitting each declared family in turn. Read the range as a
+  sensitivity check. A span crossing zero shows that the ordering depends
+  on which family is included. The range requires at least two families,
+  with each source assigned to one family. It has no confidence level.
 - Case identifiers with errors or abstentions remain visible for traceable
   error analysis. Do not publish identifying source data or sensitive IDs.
 - Output reports include a canonical input digest, a holdout snapshot digest
   and the comparator-script digest. These support **reproducibility**, not
   proof that the study was preregistered or blinded.
+
+### What the new checks catch
+
+In one six-case synthetic regression, the LAIF-labelled system answered two
+cases correctly and skipped four. The baseline answered five correctly.
+On just the two common answers, LAIF led by 50 percentage points. Across
+all six eligible cases it trailed by 50 percentage points. In a different
+synthetic regression, one eight-case family drove a 60-point lead. Omitting
+that family reversed the comparison to a 100-point deficit. These examples
+are constructed to exercise the arithmetic. They supply no field estimates.
 
 ## Scholarly study gate
 
