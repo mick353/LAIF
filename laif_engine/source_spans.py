@@ -53,7 +53,8 @@ def _quote_at(text, start, end, max_len=140):
     Quotes are the evidentiary backbone of the report, so they must be
     quotable: no partial leading word, no orphaned list numbering, and an
     ending at a clause boundary wherever one is available rather than a hard
-    character cut. The text itself is never altered — only the window moves.
+    character cut. Keep the actual trigger in view, even when that requires
+    exceeding the preferred length. Collapse display whitespace only.
     """
     # Prefer the start of the sentence containing the match, so a quote reads
     # as a statement rather than a fragment missing its subject.
@@ -70,7 +71,8 @@ def _quote_at(text, start, end, max_len=140):
         if cut != -1:
             hi_limit = cut
     hi = max(end, hi_limit)
-    window = " ".join(text[lo:hi].split())
+    original_window = " ".join(text[lo:hi].split())
+    window = original_window
 
     # Drop a leading partial word when the window still began mid-token.
     if lo > 0 and window:
@@ -86,11 +88,57 @@ def _quote_at(text, start, end, max_len=140):
         window = stripped
 
     if len(window) <= max_len:
-        return window.strip()
+        excerpt = window.strip()
+    else:
+        # Prefer a clause boundary inside the last third of the allowance.
+        head = window[:max_len]
+        boundary = max(head.rfind("; "), head.rfind(", "), head.rfind(". "))
+        excerpt = (head[:boundary + 1].strip() if boundary >= int(max_len * 0.55)
+                   else head.rsplit(" ", 1)[0].strip() + "…")
 
-    # Prefer a clause boundary inside the last third of the allowance.
-    head = window[:max_len]
-    boundary = max(head.rfind("; "), head.rfind(", "), head.rfind(". "))
-    if boundary >= int(max_len * 0.55):
-        return head[:boundary + 1].strip()
-    return head.rsplit(" ", 1)[0].strip() + "…"
+    raw_match = text[start:end]
+    matched = " ".join(raw_match.split())
+    if not matched:
+        return excerpt
+    # Locate this occurrence in the normalized window. Finding the same
+    # words elsewhere in the preview is not enough.
+    first_word = start + len(raw_match) - len(raw_match.lstrip())
+    prefix = text[lo:first_word]
+    normalized_prefix = " ".join(prefix.split())
+    separator = bool(normalized_prefix) and prefix[-1:].isspace()
+    removed = len(original_window) - len(window)
+    match_offset = len(normalized_prefix) + separator - removed
+    if match_offset >= 0 and excerpt[match_offset:match_offset + len(matched)] == matched:
+        return excerpt
+
+    return _match_centered_quote(text, lo, hi, first_word, end, max_len)
+
+
+def _match_centered_quote(text, lo, hi, start, end, max_len):
+    """Keep a complete matched span and fit adjacent whole tokens when there is room."""
+    # Prefix matches such as 'beneficiar' may end inside an actual source word.
+    while start > lo and not text[start - 1].isspace():
+        start -= 1
+    while end < hi and end > start and not text[end - 1].isspace() and not text[end].isspace():
+        end += 1
+    matched = " ".join(text[start:end].split())
+    available = max_len - len(matched)
+    if available <= 0:
+        return matched
+
+    before, after = [], []
+    remaining_before = available // 2
+    for word in reversed(text[lo:start].split()):
+        size = len(word) + 1
+        if size > remaining_before:
+            break
+        before.append(word)
+        remaining_before -= size
+        available -= size
+    for word in text[end:hi].split():
+        size = len(word) + 1
+        if size > available:
+            break
+        after.append(word)
+        available -= size
+    return " ".join([*reversed(before), matched, *after])
