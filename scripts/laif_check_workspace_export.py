@@ -44,6 +44,12 @@ def _mapping(value, label):
     return value
 
 
+def _records(value, label):
+    if not isinstance(value, list):
+        raise ExportError(f"{label} must be a JSON array.")
+    return (_mapping(item, label) for item in value)
+
+
 def _read_json(content, label):
     return _mapping(json.loads(content.decode("utf-8-sig"), object_pairs_hook=_object,
                                parse_constant=_non_json_constant), label)
@@ -115,6 +121,66 @@ def _check_markdown(content, revision, source_hash, files):
     return "HEADER_AND_EMBEDDED_BODY_MATCH"
 
 
+def _check_shared_extraction(run, source_hash, files):
+    checks = run.get("checks")
+    if not isinstance(checks, dict) or "shared_extraction_match" not in checks:
+        return "NOT_RECORDED", 0
+    if run["kind"] != "browser_pipeline" or checks["shared_extraction_match"] is not True:
+        raise ExportError("The shared extraction check is invalid for this assessment.")
+    text = run.get("extractedText")
+    if not isinstance(text, str):
+        raise ExportError("The shared extraction must include the exact extracted text.")
+    text_hash = hashlib.sha256(text.encode("utf-8")).hexdigest()
+    artifacts = {}
+    for key, suffix in (("payload", ".laif.json"), ("research", ".research_data.json"),
+                        ("bundle", "analyst_bundle.json")):
+        copies = [value for name, value in files.items() if name.endswith(suffix)]
+        artifact = _mapping(run.get(key), f"Shared extraction {key}")
+        if len(copies) != 1 or _read_json(copies[0].encode("utf-8"), key) != artifact:
+            raise ExportError(f"The run's {key} differs from its individual artifact.")
+        artifacts[key] = artifact
+    payload, research, bundle = (artifacts[key] for key in ("payload", "research", "bundle"))
+    processing = _mapping(payload.get("processing_metadata"), "Processing metadata")
+    research_source = _mapping(research.get("source"), "Research source")
+    if any(data.get("source_sha256") != source_hash for data in (processing, research_source)):
+        raise ExportError("Report and research source identities differ from the run.")
+    assessment = _mapping(payload.get("assessment_result"), "Assessment result")
+    methods = [_mapping(data.get("automatic_criteria"), "Automatic documentary checks")
+               for data in (assessment, research)]
+    if any(data.get("extracted_text_sha256") != text_hash for data in (research_source, *methods)):
+        raise ExportError("Report and research extraction identities differ from the retained text.")
+    method_hash = _digest(methods[0].get("method_sha256"), r"[0-9a-f]{64}", "Automatic method SHA-256")
+    if methods[1].get("method_sha256") != method_hash:
+        raise ExportError("Report and research automatic methods differ.")
+
+    def exact_quote(record, start_field, end_field):
+        start, end = record.get(start_field), record.get(end_field)
+        quote = record.get("exact_quote")
+        if (type(start) is not int or type(end) is not int or not 0 <= start < end <= len(text)
+                or not isinstance(quote, str) or text[start:end] != quote):
+            raise ExportError("An evidence quotation differs from the retained extracted text.")
+        return start, end, quote
+
+    quote_bank = list(_records(bundle.get("quote_bank"), "Analyst quote bank"))
+    for record in quote_bank:
+        exact_quote(record, "start_offset", "end_offset")
+        if record.get("source_sha256") != source_hash:
+            raise ExportError("An analyst quotation names a different source.")
+    witnesses = set()
+    for method in methods:
+        for criterion in _records(method.get("criteria"), "Automatic criteria"):
+            for component in _records(criterion.get("components"), "Criterion components"):
+                for witness in _records(component.get("witnesses"), "Component witnesses"):
+                    span = exact_quote(witness, "start_char", "end_char")
+                    if hashlib.sha256(span[2].encode("utf-8")).hexdigest() != witness.get("quote_sha256"):
+                        raise ExportError("An automatic quotation does not match its SHA-256.")
+                    witnesses.add(span)
+    count = len(quote_bank) + len(witnesses)
+    if type(checks.get("quotes_checked")) is not int or checks["quotes_checked"] != count:
+        raise ExportError("The recorded quote count differs from the verified spans.")
+    return "MATCH", count
+
+
 def _check_package(package, *, source=None, report_bytes=None, read_artifact=None):
     if package.get("workspace_export_schema") != "laif.workspace-export.v1":
         raise ExportError("Choose a JSON package from Workspace Reports & export.")
@@ -140,6 +206,7 @@ def _check_package(package, *, source=None, report_bytes=None, read_artifact=Non
     files = _files(run)
     if run["kind"] == "browser_pipeline" and sum(name.endswith(".laif.md") for name in files) != 1:
         raise ExportError("An automated assessment must contain one embedded full report.")
+    extraction_status, quote_count = _check_shared_extraction(run, source_hash, files)
     source_status = "NOT_REQUESTED"
     if source is not None:
         if not source.is_file():
@@ -167,6 +234,8 @@ def _check_package(package, *, source=None, report_bytes=None, read_artifact=Non
         "source_metadata": "MATCH" if metadata is not None else "NOT_INCLUDED",
         "source_file": source_status,
         "markdown_report": markdown_status,
+        "shared_extraction": extraction_status,
+        "quotation_spans_verified": quote_count,
         "embedded_artifacts": len(files),
         "artifact_files_verified": len(files) if read_artifact is not None else 0,
         "scope": "Package identity and supplied file checks only. Review conclusions and source authority require separate evidence.",

@@ -1,5 +1,6 @@
 import hashlib
 import json
+from copy import deepcopy
 from pathlib import Path
 import tempfile
 import unittest
@@ -55,7 +56,69 @@ class WorkspaceExportTests(unittest.TestCase):
         self.assertEqual(result["source_file"], "SOURCE_BYTES_MATCH")
         self.assertEqual(result["markdown_report"], "HEADER_AND_EMBEDDED_BODY_MATCH")
         self.assertEqual(result["artifact_files_verified"], 1)
+        self.assertEqual(result["shared_extraction"], "NOT_RECORDED")
         self.assertEqual(self.artifact_path.read_bytes(), self.body.encode("utf-8"))
+
+    def shared_assessment(self):
+        text = "🔍 Explain the decision."
+        quote = text[2:]
+        text_hash = hashlib.sha256(text.encode("utf-8")).hexdigest()
+        witness = {"start_char": 2, "end_char": len(text), "exact_quote": quote,
+                   "quote_sha256": hashlib.sha256(quote.encode("utf-8")).hexdigest()}
+        method = {"extracted_text_sha256": text_hash, "method_sha256": "d" * 64,
+                  "criteria": [{"components": [{"witnesses": [witness]}]}]}
+        run = self.package["run"]
+        run.update(extractedText=text, checks={"shared_extraction_match": True, "quotes_checked": 2},
+                   payload={"processing_metadata": {"source_sha256": self.digest},
+                            "assessment_result": {"automatic_criteria": deepcopy(method)}},
+                   research={"source": {"source_sha256": self.digest, "extracted_text_sha256": text_hash},
+                             "automatic_criteria": deepcopy(method)},
+                   bundle={"quote_bank": [{"start_offset": 2, "end_offset": len(text),
+                                           "exact_quote": quote, "source_sha256": self.digest}]})
+        return run
+
+    def write_shared_artifacts(self, run):
+        paths = {"payload": "source.laif.json", "research": "source.research_data.json",
+                 "bundle": "analyst_bundle.json"}
+        for key, name in paths.items():
+            run["files"][name] = json.dumps(run[key])
+        self.write_package()
+        return {f"files/{name}": run["files"][name].encode("utf-8") for name in paths.values()}
+
+    def test_checks_unicode_extraction_and_both_sources_of_quotes_in_bundle(self):
+        run = self.shared_assessment()
+        result = check_review_bundle(self.write_bundle(edits=self.write_shared_artifacts(run)),
+                                     source=self.source_path)
+        self.assertEqual(result["shared_extraction"], "MATCH")
+        self.assertEqual(result["quotation_spans_verified"], 2)
+
+    def test_rejects_inconsistent_extraction_even_with_a_rebuilt_zip_manifest(self):
+        for change, message in (
+            ("text", "extraction identities differ"),
+            ("source", "source identities differ"),
+            ("offset", "quotation differs"),
+            ("quote_sha256", "quotation does not match"),
+            ("counts", "quote count differs"),
+            ("artifact", "differs from its individual artifact"),
+        ):
+            with self.subTest(change=change):
+                run = self.shared_assessment()
+                if change == "text":
+                    run["extractedText"] += " Changed source."
+                if change == "source":
+                    run["research"]["source"]["source_sha256"] = "e" * 64
+                if change == "offset":
+                    run["bundle"]["quote_bank"][0]["start_offset"] = 1
+                if change == "quote_sha256":
+                    witness = run["research"]["automatic_criteria"]["criteria"][0]["components"][0]["witnesses"][0]
+                    witness["quote_sha256"] = "0" * 64
+                if change == "counts":
+                    run["checks"]["quotes_checked"] += 1
+                artifacts = self.write_shared_artifacts(run)
+                if change == "artifact":
+                    run["bundle"]["quote_bank"].clear()
+                with self.assertRaisesRegex(ExportError, message):
+                    check_review_bundle(self.write_bundle(edits=artifacts))
 
     def test_retained_package_checks_header_only_and_handles_absent_source_metadata(self):
         self.package["run"].update(kind="imported_authored", files={})
