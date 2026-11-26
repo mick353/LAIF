@@ -509,7 +509,7 @@
           {
             "label": "multiple mandatory obligations (shall/must pairs)",
             "location": "Section 6. Supporting Workers",
-            "quote": "To advance the Government's understanding of AI's implications for workers, the following actions shall be taken within 180 days of the…"
+            "quote": "shall be taken within 180 days of the date of this order: (i) The Chairman of the Council of Economic Advisers shall prepare and submit a report to the President on the labor-market effects of AI. (ii) The Secretary of Labor shall"
           },
           {
             "label": "numbered traceable requirements",
@@ -556,12 +556,12 @@
           {
             "label": "safety",
             "location": "Section 2. Policy and Principles",
-            "quote": "In the workplace itself, AI should not be deployed in ways that undermine rights, worsen job quality, encourage undue worker surveillance,"
+            "quote": "surveillance, lessen market competition, introduce new health and safety risks, or cause harmful labor-force disruptions. The critical next"
           },
           {
             "label": "risk governance",
             "location": "Section 2. Policy and Principles",
-            "quote": "My Administration will build on the important steps that have already been taken—such as issuing the Blueprint for an AI Bill of Rights,"
+            "quote": "as issuing the Blueprint for an AI Bill of Rights, the AI Risk Management Framework, and Executive Order 14091 of February 16, 2023 (Further"
           },
           {
             "label": "fairness / labour / non-discrimination",
@@ -583,12 +583,12 @@
           {
             "label": "enforcement consequences / penalties",
             "location": "Section 2. Policy and Principles",
-            "quote": "The Federal Government will enforce existing consumer protection laws and principles and enact appropriate safeguards against fraud,"
+            "quote": "safeguards against fraud, unintended bias, discrimination, infringements on privacy, and other harms from AI. Such protections are"
           },
           {
             "label": "non-discretionary operational mandates",
             "location": "Section 2. Policy and Principles",
-            "quote": "The interests of Americans who increasingly use, interact with, or purchase AI and AI-enabled products in their daily lives must be…"
+            "quote": "or purchase AI and AI-enabled products in their daily lives must be protected. Use of new technologies, such as AI, does not excuse"
           }
         ],
         "structural": [
@@ -610,7 +610,7 @@
           {
             "label": "operational mechanisms defined",
             "location": "Section 2. Policy and Principles",
-            "quote": "Meeting this goal requires robust, reliable, repeatable, and standardized evaluations of AI systems, as well as policies, institutions,"
+            "quote": "as well as policies, institutions, and, as appropriate, other mechanisms to test, understand, and mitigate risks from these systems before"
           },
           {
             "label": "review / monitoring mechanisms",
@@ -620,7 +620,7 @@
           {
             "label": "threshold gate conditions (all must pass simultaneously)",
             "location": "Section 2. Policy and Principles",
-            "quote": "This effort requires investments in AI-related education, training, development, research, and capacity,"
+            "quote": "training, development, research, and capacity, while simultaneously tackling novel intellectual property (IP) questions and other problems"
           }
         ],
         "terminology": []
@@ -1769,12 +1769,12 @@
           {
             "label": "proportionality",
             "location": "Govern",
-            "quote": "Engagement with external collaborators, end users, potentially impacted communities,"
+            "quote": "impacted communities, and others may vary based on the risk level of a particular AI system, the makeup of the internal team, and"
           },
           {
             "label": "safety",
             "location": "Govern",
-            "quote": "GOVERN 4:Organizational teams are committed to a culture | GOVERN 4.1: Organizational policies and practices are in place to foster a…"
+            "quote": "and practices are in place to foster a critical thinking and safety-first mindset in the design, development, deployment, and uses of AI"
           },
           {
             "label": "risk governance",
@@ -1796,12 +1796,12 @@
           {
             "label": "risk-proportionate thresholds",
             "location": "Govern",
-            "quote": "Governing authorities can determine the overarching policies that direct an organization’s mission, goals, values, culture,"
+            "quote": "an organization’s mission, goals, values, culture, and risk tolerance. Senior leadership sets the tone for risk management within an"
           },
           {
             "label": "enforcement consequences / penalties",
             "location": "Govern",
-            "quote": "GOVERN 6.1: Policies and procedures are in place that address AI risks associated with third-party entities,"
+            "quote": "risks associated with third-party entities, including risks of infringement of a third-party’s intellectual property or other rights.GOVERN"
           }
         ],
         "structural": [
@@ -2367,7 +2367,7 @@
           {
             "label": "multiple mandatory obligations (shall/must pairs)",
             "location": "Introduction",
-            "quote": "DTAC forms must be completed by the manufacturer of a DHT in the first instance. If the manufacturer is not the seller of the product,"
+            "quote": "must be completed by the manufacturer of a DHT in the first instance. If the manufacturer is not the seller of the product, or placing it on the market, the seller must"
           },
           {
             "label": "evidence / documentation requirements",
@@ -2944,7 +2944,7 @@
           {
             "label": "multiple mandatory obligations (shall/must pairs)",
             "location": "Article 9 — Risk Management System",
-            "quote": "A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI systems throughout the…"
+            "quote": "shall be established, implemented, documented and maintained in relation to high-risk AI systems throughout the entire lifecycle of the system. The risk management system shall"
           },
           {
             "label": "numbered traceable requirements",
@@ -4718,7 +4718,7 @@
           {
             "label": "multiple mandatory obligations (shall/must pairs)",
             "location": "Section 4.1 — Ensuring the Safety and Security of AI",
-            "quote": "The Secretary of Commerce shall engage with industry, civil society, and other stakeholders to develop guidelines, standards,"
+            "quote": "shall engage with industry, civil society, and other stakeholders to develop guidelines, standards, methodologies, and related tools for AI safety and security, including for the evaluation of AI systems' alignment with democratic values and human rights. Safety standards shall"
           },
           {
             "label": "numbered traceable requirements",
@@ -5345,7 +5345,7 @@
           {
             "label": "multiple mandatory obligations (shall/must pairs)",
             "location": "2. Clinical Validation Requirements",
-            "quote": "Validation studies shall demonstrate clinical accuracy, sensitivity, and specificity appropriate to the intended clinical use case."
+            "quote": "shall demonstrate clinical accuracy, sensitivity, and specificity appropriate to the intended clinical use case. 2.2 Providers shall maintain technical documentation of validation methodology, datasets used, and performance metrics. Technical documentation shall"
           },
           {
             "label": "evidence / documentation requirements",
@@ -6087,5 +6087,5 @@
   "schema": "laif.assessment.v1",
   "schema_revision": 4,
   "schema_revision_note": "Revisions are additive only: fields are added, never removed or redefined. r2 added functional_alignment locations, obligation anchors, and score calibration; r3 added language_coverage, vocabulary_enumeration, self_contradictions, and assessed_character_count. A removal or a change of meaning would take a new schema id.",
-  "toolchain_fingerprint": "e881788006217690"
+  "toolchain_fingerprint": "2c5e9fb4cc6c5a5d"
 }
