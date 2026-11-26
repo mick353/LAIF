@@ -118,6 +118,11 @@ in place, including the manifest, the report and every bundled artifact:
 python3 scripts/laif_check_workspace_export.py path/to/review.laif-review.zip
 ```
 
+For new automated runs, `shared_extraction: MATCH` means the downloaded
+report and dossier use the same extracted text and the retained quotations
+match that text. `quotation_spans_verified` gives the count. Older exports
+can return `NOT_RECORDED` because they lack this processing record.
+
 Use `--source path/to/original.pdf` with the ZIP to verify the original
 document's SHA-256 separately. The same checker accepts a standalone JSON
 package:

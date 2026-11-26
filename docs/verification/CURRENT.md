@@ -1,9 +1,49 @@
 # Current verified state
 
+## Shared document processing and review integrity, 26 November 2026
+
+The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+runs Site v31 from source `ef6ca2a292645fd92fb0c07a0f5a2858b28a0f07`,
+deployment `appgdep_6b07fd1658a081919a0e5e53085fe2dc`. Sites reported one
+allowed owner and zero external visitors. Fresh assessments use 28 hash-pinned
+engine files from the GitHub main merge
+`abe9792e53f474d21cc3bd90df2f80b3c9f43310`.
+[Engine PR #150](https://github.com/mick353/LAIF/pull/150)
+
+A new assessment extracts the input once and shares that exact text between
+the full report and the scholarly dossier. The automatic documentary check
+runs once per report, with the established evidence-quality gate. The Site
+requires both report paths to agree on source identity, extracted text and
+exact quotation spans before the run completes. The current scoring and
+detection rules are unchanged. Review ZIP checks now recompute extraction
+and quotation identity independently of the ZIP inventory. Older packages
+without that recorded check remain usable and return `NOT_RECORDED`.
+
+The Windows full gate for PR #150 had 671 passing tests and two symlink
+skips. The pinned WebAssembly test counted one extraction each for the
+DTA source, the LAIF framework, a synthetic PDF, a supplier policy and a
+source-locked authored review. It also rejected stale or mismatched inputs.
+The twelve Site test scripts, separate report-rendering check, TypeScript
+and the production build passed.
+
+At 20:36 Canberra, the signed-in browser ran the retained synthetic supplier
+policy with the released method, downloaded the review bundle and
+reopened the saved run `f75aa3cc` after reloading. The downloaded bundle
+matched the original source, the report body and all 22 inventoried files,
+including 18 artifacts. Its eight recorded quotation spans passed an offline
+recheck. Download SHA-256
+`38f8c83b7863b593c31182610be94e6c13d113bffd357d9736c713452da065a7`.
+
+A fresh authorised-document journey by an intended user, measured browser
+zoom, physical phone and screen-reader acceptance remain open in
+[issue #110](https://github.com/mick353/LAIF/issues/110). The separate
+source and interpretation acceptance work remains tracked in
+[issue #93](https://github.com/mick353/LAIF/issues/93).
+
 ## Side-by-side assessment comparison, 26 November 2026
 
 The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
-runs Site v30 from source `9eaaed29df6699f15ac5b3d5a938d9eb19caa7d4`,
+ran Site v30 from source `9eaaed29df6699f15ac5b3d5a938d9eb19caa7d4`,
 deployment `appgdep_6b07f62e37708191a7804e0f540103f9`. Sites reported one
 allowed owner and zero external visitors. At 20:06 Canberra, the live
 canonical check found that all 28 pinned engine files matched GitHub main.
