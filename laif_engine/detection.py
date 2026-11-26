@@ -1,5 +1,6 @@
 """LAIF engine: detection. Moved without changing assessment rules."""
 
+from bisect import bisect_left
 import re
 from laif_spec import INTEGRITY_LAYER
 from .source_spans import (
@@ -896,8 +897,11 @@ def _contradiction_check(text):
             continue
         for pat, desc in check["adversaries"]:
             for m in re.finditer(pat, text, re.IGNORECASE):
-                if not any(abs(m.start() - t) <= CONTRADICTION_PROXIMITY
-                           for t in trigger_positions):
+                pos = m.start()
+                # finditer produces sorted offsets. Only the first trigger
+                # inside the lower limit can decide whether this window is empty.
+                nearest = bisect_left(trigger_positions, pos - CONTRADICTION_PROXIMITY)
+                if nearest == len(trigger_positions) or trigger_positions[nearest] > pos + CONTRADICTION_PROXIMITY:
                     continue
                 lo = max(0, m.start() - 160)
                 hi = min(len(text), m.end() + 160)

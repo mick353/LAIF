@@ -14,11 +14,12 @@ from .source_spans import (
 )
 
 
-def _located_signals(text, outline):
+def _located_signals(text, outline, *, search=None):
     """First-match location and verbatim quote for every fired rubric signal,
     per dimension. Deterministic; quotes are exact substrings of the excerpt
     window around the match."""
     out = {}
+    flags = re.IGNORECASE | re.DOTALL
     for dim, rubric in (("structural", STRUCTURAL_RUBRIC),
                         ("terminology", TERMINOLOGY_RUBRIC),
                         ("conceptual", CONCEPTUAL_RUBRIC),
@@ -26,7 +27,7 @@ def _located_signals(text, outline):
                         ("enforceability", ENFORCEABILITY_RUBRIC)):
         rows = []
         for _, pat, label in rubric:
-            m = re.search(pat, text, re.IGNORECASE | re.DOTALL)
+            m = search(pat, flags) if search is not None else re.search(pat, text, flags)
             if m:
                 rows.append({
                     "label":    label,
