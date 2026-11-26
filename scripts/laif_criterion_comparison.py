@@ -2,16 +2,21 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
+import subprocess
 import sys
+from tempfile import TemporaryDirectory
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from scripts.laif_auto_criteria import judge
-
 PACKET = ROOT / "docs/research/overhaul-current"
+METHOD_PATH = "scripts/laif_auto_criteria.py"
+HISTORICAL_COMMIT = "dde0f77df14ecbb90437ba2e7b523f54ed38c4b4"
+HISTORICAL_SHA256 = "19da95849e61b55802e31d6d686344fdee1cdf7a27087fe006cca40fe42c4bf8"
 
 
 def digest(data):
@@ -44,7 +49,38 @@ def witness_count(row, component=None):
                if component is None or c["component"] == component)
 
 
+@contextmanager
+def historical_judge():
+    """Reproduce the exact exploratory method from the pinned local Git object."""
+    path = ROOT / METHOD_PATH
+    if digest(path.read_bytes()) == HISTORICAL_SHA256:
+        from scripts.laif_auto_criteria import judge
+        yield judge
+        return
+    try:
+        data = subprocess.check_output(["git", "show", f"{HISTORICAL_COMMIT}:{METHOD_PATH}"], cwd=ROOT,
+                                       stderr=subprocess.DEVNULL)
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise ValueError(f"The historical comparison requires local Git history at {HISTORICAL_COMMIT}.") from exc
+    if digest(data) != HISTORICAL_SHA256:
+        raise ValueError("Historical detector identity differs from the locked comparison method.")
+    scratch = ROOT / "laif_outputs"
+    scratch.mkdir(exist_ok=True)
+    with TemporaryDirectory(prefix="criterion-history-", dir=scratch) as directory:
+        snapshot = Path(directory) / "historical_criteria.py"
+        snapshot.write_bytes(data)
+        spec = importlib.util.spec_from_file_location("_laif_historical_criteria", snapshot)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        yield module.judge
+
+
 def compare(packet=PACKET):
+    with historical_judge() as judge:
+        return _compare(packet, judge)
+
+
+def _compare(packet, judge):
     raw = (packet / "predictions.json").read_bytes()
     if digest(raw) != (packet / "predictions.sha256").read_text().strip():
         raise ValueError("Locked predictions changed")

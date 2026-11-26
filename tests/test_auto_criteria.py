@@ -1,5 +1,7 @@
 """Conjunctive evidence, polarity, real-source mutations and integration."""
 import copy
+import hashlib
+import json
 import unittest
 from pathlib import Path
 from scripts.laif_auto_criteria import judge, markdown
@@ -22,6 +24,20 @@ def row(text, cid):
 
 
 class AutomaticCriteriaTests(unittest.TestCase):
+    def test_predeclared_context_fixtures_preserve_offsets_and_polarities(self):
+        fixture = ROOT / "tests/fixtures/auto-criteria-context.json"
+        for case in json.loads(fixture.read_text(encoding="utf-8")):
+            with self.subTest(case=case["id"]):
+                text = case["text"]
+                feature = row(text, case["criterion"])["components"][case["component"]]
+                self.assertEqual([w["polarity"] for w in feature["witnesses"]], case["polarities"])
+                for witness in feature["witnesses"]:
+                    quote = text[witness["start_char"]:witness["end_char"]]
+                    self.assertEqual(quote, witness["exact_quote"])
+                    self.assertEqual(witness["quote_sha256"], hashlib.sha256(quote.encode("utf-8")).hexdigest())
+                    self.assertEqual(witness["extracted_line"], text.count("\n", 0, witness["start_char"]) + 1)
+                    self.assertTrue(witness["polarity_reason"])
+
     def test_all_eight_can_distinguish_complete_partial_and_missing_requirements(self):
         for cid, text in COMPLETE.items():
             with self.subTest(cid=cid):
