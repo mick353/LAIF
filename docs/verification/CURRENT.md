@@ -1,9 +1,40 @@
 # Current verified state
 
+## Assessment runtime, 26 November 2026
+
+The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+runs Site v32 from `8e4d384815753daa13995030af685fe032d8a492` with deployment
+`appgdep_6b080b9cd4e88191ad2ff554cdea4ec6`. The site has one allowed owner
+and zero external visitors. The archive carries all 28 exact runtime files
+from GitHub main `783dc8a140105c9709f6653a5b8074cccacb7db7`.
+
+Scoring and evidence generation now reuse exact pattern results within an
+assessment. Contradiction checking uses ordered offsets to look within the
+same 600-character interval. Complete assessment outputs matched on the
+retained EU, NIST and DTA texts and a long synthetic policy. In the synthetic
+test containing 4,500 claims and 4,500 distant adverse phrases, median CPU
+time for that contradiction check fell from 1.281 seconds to 0.078 seconds
+over five alternating runs. Whole-assessment timings varied by source.
+[Engine PR #155](https://github.com/mick353/LAIF/pull/155)
+
+The full Windows gate for the engine had 684 passing tests and two symlink
+skips. Twelve Site test scripts, the browser-runtime and report-rendering
+tests, TypeScript and the production build passed. At 21:37 Canberra a
+signed-in browser ran synthetic supplier assessment `f4660918` and reopened
+it after reload. The initial download wait timed out. After reopening the
+saved result, the ZIP downloaded and matched the original source, the
+report body, eight quote spans and all 22 files, including 18 sub-artifacts.
+ZIP SHA-256
+`8456c40f368e272cbdc3c72b34ac0469d4cecfdfed76291d5b1929c9b980fd15`.
+
+The separate [quotation proposal](https://github.com/mick353/LAIF/pull/156)
+changes the displayed evidence and awaits semantic review. Intended-user
+acceptance remains tracked in [issue #110](https://github.com/mick353/LAIF/issues/110).
+
 ## Shared document processing and review integrity, 26 November 2026
 
 The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
-runs Site v31 from source `ef6ca2a292645fd92fb0c07a0f5a2858b28a0f07`,
+ran Site v31 from source `ef6ca2a292645fd92fb0c07a0f5a2858b28a0f07`,
 deployment `appgdep_6b07fd1658a081919a0e5e53085fe2dc`. Sites reported one
 allowed owner and zero external visitors. Fresh assessments use 28 hash-pinned
 engine files from the GitHub main merge
