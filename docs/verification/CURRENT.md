@@ -1,5 +1,40 @@
 # Current verified state
 
+## Downloadable review bundles, 26 November 2026
+
+The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+runs Site v27 from source `ff6606d45ae527d68fbb8f819dda9ff7757fc57d`,
+deployment `appgdep_6b07c498cf348191a0cc9fb43e8a5929`. Sites reported one
+allowed owner and zero external visitors. The current automated assessment
+method is pinned at `e7594d3`.
+
+**Reports & export** now offers one ZIP for the selected assessment. It
+contains the full report, the JSON package, a start file, a SHA-256 manifest
+and any available assessment artifacts. Automated bundles also include the
+review brief. Original source files remain separate. Individual downloads
+are still available. A failed retained report read offers **Retry full report**.
+
+At 16:34 Canberra, a signed-in browser downloaded and reopened two v27 ZIPs.
+
+- **Automated run `7ca1544e`.** The 230,798-byte ZIP passed independent
+  readback of all 22 manifest entries. The local checker matched the original
+  synthetic source, the embedded report body and 18 artifacts. The 18 files
+  also matched the earlier standalone downloads byte for byte.
+- **Retained NIST report.** A blocked browser request exposed the failure
+  state. After restoring the request, keyboard retry loaded the exact NIST
+  report and kept focus on the download action. The 33,949-byte ZIP passed
+  all three manifest checks. The local checker matched its report header.
+  A separate comparison matched the retained Markdown body to the pinned
+  NIST report after newline normalization.
+
+The expanded download panel fit at an emulated 320 CSS pixels without
+horizontal overflow. All eleven Site test scripts, TypeScript and the
+production build passed on the v27 source. Package comparisons establish
+file consistency. The intended-user run on a fresh authorised document, a
+physical phone, measured browser zoom and screen-reader acceptance remain
+open in [issue #110](https://github.com/mick353/LAIF/issues/110).
+[W3C status message guidance](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html)
+
 ## Assessment review queue and export checks, 26 November 2026
 
 The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)

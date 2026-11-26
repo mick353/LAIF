@@ -85,10 +85,18 @@ Choose **4. Export** or **Reports & export** and confirm the selected assessment
 Use **Next review step** to find the next outstanding check. For automated
 runs it starts with the extracted text and any unresolved source-text
 candidates. When these are addressed, open the report checklist and record
-who reviewed it. If you switch assessments, wait until **Export full report**
-is available for the selected assessment.
+who reviewed it.
 Read the report, record only quality checks you have actually performed, and
 add your reviewer name, role, notes and unresolved questions.
+
+Choose **Download review bundle** to save the selected review as one ZIP.
+Extract it and open `START-HERE.txt`. The ZIP includes the full Markdown report,
+the JSON package, and, for automated runs, the review brief and available
+pipeline files. `manifest.json` lists the exact assessment, method revision,
+source hash and SHA-256 for the included files. Check extracted text and
+reviewer notes before sharing. Download the original source separately.
+If a retained report cannot load, use **Retry full report** in the download
+panel. Use **Download individual files** if you only want one of the exports.
 
 | Export | Contents |
 |---|---|
@@ -115,6 +123,10 @@ Supply `--source path/to/original.pdf` to hash the original source bytes,
 against their embedded copies. Keep the original filenames in the artifact
 directory. These options can be combined. On Windows, `py -3 -X utf8` can
 replace `python3`.
+
+For an extracted ZIP, select `assessment.laif.json` and `report.laif.md`.
+For automated bundles, point `--artifacts-dir` at the extracted `files`
+folder. The checker compares the exported files with their embedded copies.
 
 The checker reports which files it inspected and returns a failure status for
 any supplied file that differs. For a retained report with no embedded Markdown,
