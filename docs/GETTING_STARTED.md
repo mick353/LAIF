@@ -82,6 +82,11 @@ The review path shows your location, not completion or certification.
 ## 4. Review and export
 
 Choose **4. Export** or **Reports & export** and confirm the selected assessment.
+Use **Next review step** to find the next outstanding check. For automated
+runs it starts with the extracted text and any unresolved source-text
+candidates. When these are addressed, open the report checklist and record
+who reviewed it. If you switch assessments, wait until **Export full report**
+is available for the selected assessment.
 Read the report, record only quality checks you have actually performed, and
 add your reviewer name, role, notes and unresolved questions.
 

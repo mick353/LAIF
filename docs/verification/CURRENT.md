@@ -1,5 +1,55 @@
 # Current verified state
 
+## Guided recovery and report checks, 26 November 2026
+
+The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+runs Site v24 from source `0bffb8ca7926c651bb34a5d09f406917b87f3091`,
+deployment `appgdep_6b07b1f1ff348191bd7283873043b127`. Sites reported one
+allowed owner and zero external visitors. The assessment method remains pinned
+at `e7594d3`.
+
+- **Compare case edits in the same tab.** For conflicts confined to the case
+  question or analyst name, the Workspace shows the saved value and the open
+  draft. Every differing field requires a choice. A newer save during the
+  comparison rejects the stale choices and preserves the draft.
+- **Use a common source catalogue during recovery.** The v23 live check
+  reported spurious source conflicts after the background source index
+  refresh. v24 compares the base, draft and saved snapshots against the same
+  catalogue layers. A regression test reproduces the v23 condition and
+  verifies that an actual local source lifecycle change survives.
+- **Find the next report check.** Reports surface the next step for source-text
+  extraction, candidate review or the operator checklist. Full Markdown
+  export waits until the report for the selected assessment, source hash and
+  method revision is present.
+
+By 15:16 Canberra, two signed-in v24 tabs showed the two differing fields on
+one synthetic case after the catalogue refresh. Keyboard choices worked and
+the save button stayed disabled until both fields were chosen. A newer save
+made those choices stale. Reopening the comparison showed the newer value,
+and the selected draft question and saved analyst name survived reload.
+At an emulated 320 CSS pixels, the options stacked and document client and
+scroll widths both measured 305 pixels. A tab-scoped outage preserved another
+synthetic edit, displayed reconnection instructions, and **Retry save**
+persisted it. The original case question and analyst name were restored and
+read back.
+
+The live automated report shortcut opened evidence review. Keyboard
+activation of the retained report shortcut focused its checklist. During a
+delayed switch to the retained NIST assessment, Markdown export was disabled
+until its report loaded. The 65,568-byte downloaded report contained the
+canonical NIST Markdown after newline normalization and matched its source
+hash and method revision. The local download SHA-256 is
+`11f1436a6adc6b4a49a9a1eacca8098847c90e64514df9b8b4333f0e900f689`.
+
+All ten Site test scripts, TypeScript and the production build passed for
+v24. The interaction design used the W3C guidance on status messages and
+Amershi et al.'s correction guideline as design references. These checks
+covered synthetic recovery, keyboard operation and narrow browser reflow.
+The fresh authorised-document journey, physical phone, measured browser
+zoom and screen-reader acceptance remain open in [issue #110](https://github.com/mick353/LAIF/issues/110).
+[W3C status messages](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html) ·
+[Amershi et al., CHI 2019](https://www.microsoft.com/en-us/research/publication/guidelines-for-human-ai-interaction/)
+
 ## Hosted outage and same-record recovery, 25 November 2026
 
 The signed-in private Workspace v22 passed both synthetic recovery checks
