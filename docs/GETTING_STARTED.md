@@ -22,25 +22,21 @@ documents and retained research records.
 |---|---|
 | Explore without signing in | [Public reading room](https://laif-public-guide.mick353.chatgpt.site) |
 | Review a document in your browser | Follow this guide |
-| Understand an included assessment | Choose **Explore a worked example** on Home |
+| Understand an included assessment | Choose **Try a worked example** on Home |
 | Review how several records relate | In **Source index**, select **Map supplied documents and links** |
 | Run a local copy, batches or specialist commands | [Local repository setup](LOCAL_SETUP.md) |
 | Change code or contribute a source | [Contributing](../CONTRIBUTING.md) and [source contribution workflow](site/README.md) |
 
 ## 1. Explore before adding a document
 
-On **Home**, try **The words**, **The meaning** and **The question** in the
-interactive policy example. It separates the exact passage from an
-interpretation and a follow-up question.
-
-Choose **Explore a worked example** for the retained Australian Government
+On **Home**, choose **Try a worked example** for the retained Australian Government
 policy assessment. This is an authored review of a real retained document,
 not a newly generated assessment or independent validation. Check its edition
 and qualifications. **Source index** lets you browse and read retained sources.
 
 ## 2. Bring your source
 
-Choose **Review your document** on Home or **Add source** in the header.
+Choose **Assess a document** on Home or **Add source** in the header.
 Select a PDF, Markdown or UTF-8 text file, or paste exact text. Enter its title
 and record the edition, origin, completeness and jurisdiction where known.
 A source website is attribution only; entering it does not fetch the document.
@@ -58,7 +54,7 @@ and offers **Stop processing**.
 
 ## 3. Read the findings and check the source
 
-The run opens **Findings & gaps**. Read the eight provisional documentary
+The run opens **Assessment findings**. Read the eight provisional documentary
 checks, supporting passages and evidence still needed. Compare the extraction
 with the original source, especially headings, tables and page breaks, before
 recording candidate decisions.
@@ -67,6 +63,12 @@ Inspect each candidate passage in context. Record whether to keep it as a
 review lead, reject it, request more evidence or mark it outside scope. Add
 notes explaining your choice. These decisions do not prove that a control
 operates or a legal requirement has been met.
+
+For your own reading of a whole check, open **Read finding and next evidence**
+and choose **Add reviewer’s note**. Record your reason or the evidence you need.
+Link a listed passage or paste exact wording from the retained extraction.
+Include enough context to identify one occurrence. This note remains attached to
+the exact assessment and appears separately from the engine’s finding in exports.
 
 **Not established means the scan did not establish the required wording.**
 It does not prove absence. Positive wording does not prove implementation.
@@ -84,8 +86,9 @@ The review path shows your location, not completion or certification.
 Choose **4. Export** or **Reports & export** and confirm the selected assessment.
 Use **Next review step** to find the next outstanding check. For automated
 runs it starts with the extracted text and any unresolved source-text
-candidates. When these are addressed, open the report checklist and record
-who reviewed it.
+candidates. Open requests from candidates and reviewer notes remain visible in
+**Evidence requested**. Use the report checklist to record which checks you
+performed and who reviewed the report.
 Read the report, record only quality checks you have actually performed, and
 add your reviewer name, role, notes and unresolved questions.
 

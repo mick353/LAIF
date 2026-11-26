@@ -1,5 +1,41 @@
 # Current verified state
 
+## Criterion review and report status, 27 November 2026
+
+The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+runs Site v36 from `383dd081fc362acb05038b86353ead5c5bf1f24c` and deployment
+`appgdep_6b082cde84588191a4ea4c2b59b6e923`. Sites reported one allowed owner and zero
+external visitors. The Python method pin is
+`cbf6e5d3b6fe5c7e4cd5dd85f18111dd86e507ca`.
+
+For each check in an automated assessment, the reviewer can record a reading,
+reason and evidence request. They can link an engine passage or paste another
+passage. The Workspace ties the note to the run, source hash, method,
+extraction and recorded determination. A pasted passage has to match exactly
+once in the retained text. New notes appear in the report brief, full report,
+findings register and structured review record. The review queue and report
+exports now leave the review open while current evidence requests are
+outstanding, even when the report checklist is complete.
+
+TypeScript, 14 Site test scripts, pinned Python runtime, report rendering and
+the production build passed. The local editor rejected an invented quotation.
+It accepted exact source wording and reflowed at a 320-CSS-pixel viewport.
+Automated checks exercised changed sources, stale notes, duplicate quotation
+locations and the distinction between a completed checklist and a review with
+outstanding evidence.
+
+At 23:59 Canberra on 26 November, the signed-in Workspace saved a Q3 reviewer
+note on synthetic run `1af0cbe1`. The note cited the line 9 suspension clause,
+which had no Q3 engine witness for that quotation, and asked for the relevant
+procedure. The note survived reload. The evidence queue focused its follow-up
+heading, and saving the note by keyboard returned focus to the note heading.
+The downloaded ZIP matched the original source, 23 inventoried files,
+14 engine receipt files and eight engine quotation spans. A separate check
+matched the reviewer’s exact offsets and quotation in the retained extraction.
+The full report, brief and JSON showed a draft. The test note was removed and
+the original source-text check state was restored and read back after reload.
+ZIP SHA-256 `14ded3b20ef1260596c5d67c999720ff680e6c2a851d2501d9cb24dec77464bc`.
+
 ## Assessment presentation and current set, 26 November 2026
 
 The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
