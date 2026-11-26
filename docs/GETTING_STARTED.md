@@ -111,7 +111,16 @@ Keep private exports out of public issues and commits.
 
 ### Check downloaded report files locally
 
-Run the package checker from the repository root:
+Run the package checker from the repository root. It can check a review ZIP
+in place, including the manifest, the report and every bundled artifact:
+
+```bash
+python3 scripts/laif_check_workspace_export.py path/to/review.laif-review.zip
+```
+
+Use `--source path/to/original.pdf` with the ZIP to verify the original
+document's SHA-256 separately. The same checker accepts a standalone JSON
+package:
 
 ```bash
 python3 scripts/laif_check_workspace_export.py path/to/export.laif.json

@@ -3,8 +3,10 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
+import zipfile
 
-from scripts.laif_check_workspace_export import check_export, ExportError
+from scripts.laif_check_workspace_export import check_export, check_review_bundle, ExportError
 
 
 class WorkspaceExportTests(unittest.TestCase):
@@ -116,6 +118,65 @@ class WorkspaceExportTests(unittest.TestCase):
         self.write_report(self.body, revision="b" * 40)
         with self.assertRaisesRegex(ExportError, "Markdown header"):
             check_export(self.package_path, report=self.report_path)
+
+    def write_bundle(self, *, edits=None, manifest_edits=None, after_manifest=None):
+        exported_at = '2026-11-26T06:00:00.000Z'
+        files = {
+            'START-HERE.txt': b'Use the review brief or full report.',
+            'assessment.laif.json': json.dumps({**self.package, 'exportedAt': exported_at}).encode(),
+            'report.laif.md': self.report_path.read_bytes(),
+        }
+        if self.package['run']['kind'] == 'browser_pipeline':
+            files['review-brief.md'] = b'Check the original source.'
+            files['files/source.laif.md'] = self.artifact_path.read_bytes()
+        files.update(edits or {})
+        manifest = {
+            'schema': 'laif.workspace-review-bundle.v1', 'assessment_id': 'run-1',
+            'canonical_revision': self.revision, 'source_sha256': self.digest, 'exported_at': exported_at,
+            'files': {name: {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()}
+                      for name, data in files.items()},
+        }
+        manifest.update(manifest_edits or {})
+        files.update(after_manifest or {})
+        path = self.root / 'review.zip'
+        with zipfile.ZipFile(path, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
+            for name, data in files.items():
+                archive.writestr(name, data)
+            archive.writestr('manifest.json', json.dumps(manifest))
+        return path
+
+    def test_checks_bundle_in_place(self):
+        archive = self.write_bundle()
+        result = check_review_bundle(archive, source=self.source_path)
+        self.assertEqual(result['bundle_files_verified'], 5)
+        self.assertEqual(result['artifact_files_verified'], 1)
+        self.assertEqual(result['source_file'], 'SOURCE_BYTES_MATCH')
+        self.assertFalse((self.root / 'manifest.json').exists())
+
+    def test_retained_bundle_reports_header_scope(self):
+        self.package['run'].update(kind='imported_authored', files={})
+        result = check_review_bundle(self.write_bundle())
+        self.assertEqual(result['bundle_files_verified'], 3)
+        self.assertEqual(result['markdown_report'], 'HEADER_MATCH_ONLY')
+        self.assertEqual(result['artifact_files_verified'], 0)
+
+    def test_bundle_rejects_mismatches_and_unexpected_files(self):
+        for options, message in (
+            ({'manifest_edits': {'assessment_id': 'another'}}, 'identity differs'),
+            ({'after_manifest': {'report.laif.md': b'Changed report text'}}, 'differs from its manifest'),
+            ({'edits': {'files/source.laif.md': b'Different saved report'}}, 'Artifact bytes differ'),
+            ({'edits': {'notes.txt': b'Unrelated file'}}, 'inventory differs'),
+            ({'edits': {'Files/SOURCE.LAIF.MD': b'Duplicate name'}}, 'duplicate or unsupported'),
+        ):
+            with self.subTest(options=options):
+                with self.assertRaisesRegex(ExportError, message):
+                    check_review_bundle(self.write_bundle(**options))
+
+    def test_bundle_limits_are_checked_before_reading_file_data(self):
+        archive = self.write_bundle()
+        with patch('scripts.laif_check_workspace_export._BUNDLE_LIMIT', 1):
+            with self.assertRaisesRegex(ExportError, 'bundle limits'):
+                check_review_bundle(archive)
 
 
 if __name__ == "__main__":
