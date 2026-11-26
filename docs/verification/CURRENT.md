@@ -1,5 +1,49 @@
 # Current verified state
 
+## Assessment presentation and current set, 26 November 2026
+
+The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+runs Site v35 from `21aadcf249e261d4f69fbe9bd0722c0c92d5ca70` and deployment
+`appgdep_6b081cba5b208191a59e7ac0dcf16066`. Sites reported one allowed owner and zero external
+visitors. The pinned Python method is `cbf6e5d3b6fe5c7e4cd5dd85f18111dd86e507ca`.
+
+The home page leads to assessment, worked examples and the next saved review
+action. Assessment findings show all eight checks with their source passages,
+documentary component counts and follow-up evidence. The workspace exposes
+saved extraction quality, candidate counts, receipt verification and rubric
+scores with their units and limits. Older records display unrecorded measures
+explicitly. Report exports include a standalone findings and measurements
+register. Source checks use the code-point offsets retained by the engine.
+
+Site v34 source `9ab774659c1b2b92c27b3dcca485b81478a650c4` passed 13 Site test
+scripts, TypeScript, pinned Python runtime, report rendering and the
+production build. The v35 revision passed TypeScript, focused assessment and
+review tests, and a production build. The local browser reached the
+Measurements heading by keyboard at a 320-CSS-pixel viewport. Findings and
+Reports had no horizontal page overflow at that width.
+
+At 22:41–22:44 Canberra five replacement runs were saved on v34. Each ZIP
+matched its original source, 23 inventoried files and 14 engine receipt
+files. The offline verifier checked 111 quotation spans across the five ZIPs.
+
+| Retained source | New run | Explicit documentary requirements | Exact quote spans checked |
+| --- | --- | --- | --- |
+| Synthetic supplier policy | `1af0cbe1` | 0 / 24 | 8 |
+| DTA responsible AI policy | `d55ba01e` | 1 / 24 | 14 |
+| NIST AI Risk Management Framework | `61a22ba6` | 3 / 24 | 27 |
+| EU AI Act original edition | `f22784e7` | 4 / 24 | 42 |
+| EU AI Act amendment | `e38d7fb4` | 2 / 24 | 20 |
+
+The component counts record explicit wording found by the pinned method.
+They are distinct from quote integrity and independent operational evidence.
+Eight superseded automated runs moved to recoverable Trash after the
+replacements were checked. The fresh runs and three retained authored reviews
+survived reload. All eight older records had restore controls. On v35 the
+signed-in browser opened NIST A.1 by keyboard, verified its quotation context,
+and downloaded the findings register. Register SHA-256
+`ed55fcf7007d45f61c82be5fe14c579ffe046af9b38774d1c165b499623b8bf8`.
+[Intended-user acceptance remains open in issue #110](https://github.com/mick353/LAIF/issues/110).
+
 ## Assessment output integrity, 26 November 2026
 
 The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
