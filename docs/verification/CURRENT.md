@@ -1,5 +1,45 @@
 # Current verified state
 
+## Side-by-side assessment comparison, 26 November 2026
+
+The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+runs Site v30 from source `9eaaed29df6699f15ac5b3d5a938d9eb19caa7d4`,
+deployment `appgdep_6b07f62e37708191a7804e0f540103f9`. Sites reported one
+allowed owner and zero external visitors. At 20:06 Canberra, the live
+canonical check found that all 28 pinned engine files matched GitHub main.
+
+**Compare assessment** in the queue suggests an earlier run of the same
+source or an edition linked in the source index. The comparison shows both
+run identities, recorded source hashes and method revisions. It places
+the findings side by side and identifies differences in recorded result,
+review basis, retained passages or explanation. Users can filter to those
+rows, swap the two runs and open the corresponding finding on either side.
+
+At 20:06 Canberra, the signed-in browser selected synthetic run `7ca1544e`
+from the queue and suggested `f52bcf4f`. The source matched and their
+method revisions differed. All eight criterion rows had the same recorded
+results, basis, passages and explanation. The retained DTA author review
+and automated DTA run `26121cb8` shared the source and method revision,
+and the comparison identified differences in all eight criterion rows.
+The first row separately identified the different result, review basis,
+retained passages and explanation.
+
+Duplicate selection displayed a prompt to choose another run. Keyboard
+swap exchanged the exact records. The comparison-side A.1 link focused
+Structural Transparency in the retained DTA review, and returning restored
+the corresponding comparison row and the filter. At an emulated 320 CSS
+pixels, the comparison stacked without horizontal overflow, with the full
+64-character source hash and 40-character method revision expanded.
+All twelve Site test scripts, TypeScript and the production build passed.
+[W3C focus order](https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html) ·
+[W3C reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html)
+
+Attributing differences requires inspection of source scope, settings and
+review basis. Legal or operational conclusions need separate evidence.
+The fresh authorised-document journey by an intended user, measured browser
+zoom, physical phone and screen-reader testing remain open in
+[issue #110](https://github.com/mick353/LAIF/issues/110).
+
 ## Evidence request navigation and handoff, 26 November 2026
 
 The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)

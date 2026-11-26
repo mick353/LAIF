@@ -162,6 +162,22 @@ you need the source bytes in that ZIP. Editing a checked case asks for a new
 check. The same checks are available when you work with local files.
 See the [case map guide](product/CASE_LINKS.md).
 
+## Compare two assessments
+
+Choose **Compare assessment** from a review queue row, or **Compare
+versions** in the navigation menu. From the queue, LAIF suggests a baseline
+using the same source or an edition linked in the Source index. You can
+choose either run yourself. Use the timestamps and short run IDs to tell
+repeated assessments apart.
+
+Review **Source and method** before reading the findings. The same source
+can have runs from different method revisions or with different review
+bases. Use **Show only differences** to scan changes in the recorded
+result, review basis, retained passages or explanation. Any of those
+changes may warrant a check even when the recorded result is the same.
+**Open finding** takes you to the selected criterion in that exact run.
+**Back to comparison** returns to that row and keeps your selections.
+
 ## Save, resume and recover
 
 Watch the save indicator. Signed-in changes are saved as user-scoped cloud
