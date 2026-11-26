@@ -97,7 +97,7 @@ def _report_date(raw: str | None) -> str:
         raise ResearchInputError("invalid report date") from exc
 
 
-def _prepare_local(path: Path, preferred: str, prepared: PreparedDocument | None) -> PreparedDocument:
+def _local_extractor(path: Path, preferred: str) -> str:
     expected = {
         ".txt": "builtin", ".md": "builtin", ".markdown": "builtin",
         ".docx": "python-docx", ".pdf": "pypdf",
@@ -109,10 +109,19 @@ def _prepare_local(path: Path, preferred: str, prepared: PreparedDocument | None
         preferred = expected[suffix]
     if preferred != expected[suffix]:
         raise ResearchInputError(f"incorrect local extractor for {suffix}: use {expected[suffix]}")
+    return preferred
+
+
+def _prepare_local(path: Path, preferred: str, prepared: PreparedDocument | None) -> PreparedDocument:
     try:
-        return prepare_document(path, preferred, reuse=prepared)
+        return prepare_document(path, _local_extractor(path, preferred), reuse=prepared)
     except ExtractionError as exc:
         raise ResearchInputError(str(exc)) from exc
+
+
+def _extract_local(path: Path, preferred: str):
+    """Return only the extraction for callers reproducing a saved review session."""
+    return _prepare_local(path, preferred, None).extraction
 
 
 def _observations(text: str, records: list[dict], eligible: bool, limit: int) -> list[dict]:

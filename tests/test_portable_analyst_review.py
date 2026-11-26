@@ -133,7 +133,12 @@ class PortableAnalystReviewTests(unittest.TestCase):
     def test_changed_review_snapshot_and_source_identity_rejected(self):
         self.save()
         text=processor.extract_document(self.source, 'builtin').text
-        with patch.object(processor, 'sha256_file', side_effect=['0'*64,'1'*64]), self.assertRaisesRegex(processor.ExtractionError, 'changed during validation'):
+        review_hashes = iter(['0'*64, '1'*64])
+        source_digest = processor.sha256_file
+        def changed_review_digest(path):
+            return next(review_hashes) if path == self.path else source_digest(path)
+
+        with patch.object(processor, 'sha256_file', side_effect=changed_review_digest), self.assertRaisesRegex(processor.ExtractionError, 'changed during validation'):
             processor.load_submitted_review(self.source,text,self.path)
         with self.assertRaisesRegex(processor.ExtractionError, 'source changed during processing'):
             processor.load_submitted_review(self.source,text,self.path,'0'*64)

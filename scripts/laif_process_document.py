@@ -2304,9 +2304,10 @@ def source_provenance(path: Path, source_hash: str) -> dict:
             "boundary": "Local source bytes identified; no authoritative-origin verification supplied."}
 
 
-def load_submitted_review(source: Path, extracted_text: str, review_file: Path, expected_source_sha256: str | None = None) -> dict:
+def load_submitted_review(source: Path, extracted_text: str, review_file: Path, expected_source_sha256: str | None = None,
+                          *, prepared: PreparedDocument | None = None) -> dict:
     """Reuse the scholarly annotation protocol without granting reviewer authority."""
-    from scripts.laif_research_report import build_dossier, _read_json, ResearchInputError, MAX_OBSERVATIONS
+    from scripts.laif_research_report import build_dossier, _local_extractor, _read_json, ResearchInputError, MAX_OBSERVATIONS
     try:
         review_hash = sha256_file(review_file)
         raw = _read_json(review_file)
@@ -2315,7 +2316,8 @@ def load_submitted_review(source: Path, extracted_text: str, review_file: Path, 
         if (not isinstance(ids, list) or not minimum <= len(ids) <= MAX_OBSERVATIONS
                 or any(not isinstance(value, str) for value in ids) or len(set(ids)) != len(ids)):
             raise ResearchInputError(f"review must retain the template's unique available_evidence_ids (1-{MAX_OBSERVATIONS})")
-        dossier = build_dossier(source, review_file=review_file, max_quotes=max(1, len(ids)))
+        reusable = prepared if prepared and prepared.extractor_requested == _local_extractor(source, "auto-local") else None
+        dossier = build_dossier(source, review_file=review_file, max_quotes=max(1, len(ids)), prepared=reusable)
         if expected_source_sha256 and dossier["source"]["source_sha256"] != expected_source_sha256:
             raise ResearchInputError("source changed during processing; SHA-256 differs")
         if dossier["source"]["extracted_text_sha256"] != hashlib.sha256(extracted_text.encode("utf-8")).hexdigest():
@@ -3519,7 +3521,7 @@ def run(args: argparse.Namespace, *, prepared: PreparedDocument | None = None) -
     assessment["source_scan_coverage"] = source_scan["coverage"]
     assessment["source_provenance"] = source_provenance(input_path, source_hash)
     assessment["attributed_reasoning"] = source_reasoning_record(assessment["source_provenance"])
-    assessment["submitted_review"] = (load_submitted_review(input_path, extraction.text, args.review_file, source_hash)
+    assessment["submitted_review"] = (load_submitted_review(input_path, extraction.text, args.review_file, source_hash, prepared=prepared)
                                       if getattr(args, "review_file", None) else None)
     if getattr(args, "require_complete_review", False):
         criteria = assessment["submitted_review"].get("criteria_review")
