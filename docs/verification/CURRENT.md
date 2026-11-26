@@ -1,5 +1,37 @@
 # Current verified state
 
+## Evidence request navigation and handoff, 26 November 2026
+
+The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)
+runs Site v29 from source `b9b6147e96790f8d9149217b5d155dfbd6ac41e7`,
+deployment `appgdep_6b07f347969481919380858882bace6c`. Sites reported one
+allowed owner and zero external visitors. New automated runs use method
+`e7594d3`. Earlier runs retain their own method revision.
+
+The **Evidence requested** queue filter finds assessments with a current,
+source-matched request. **Open evidence requests** in the queue and Reports
+opens a list of the reviewer notes. Each request links directly to its
+candidate. The review brief lists the same current requests near the top.
+An unchanged extraction is hashed once per loaded run record. The focused
+test verified reuse across two projections of 40 candidates and verified
+that changed text invalidates the earlier identity.
+
+At 19:53 Canberra, the signed-in filter found one matching synthetic run
+`75e2ab88`. Both shortcuts focused its evidence requests. The candidate
+action focused `OBS-002` below the sticky header. Tab reached **Inspect
+source context**, and Escape returned from the source dialog to that control.
+At an emulated 320 CSS pixels, both document widths measured 320 pixels
+and both request panel widths measured 241 pixels. The sampled note text
+had a contrast ratio of 8.93:1. The request button was 44 CSS pixels high.
+[W3C focus-order guidance](https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html)
+
+The live review ZIP passed all 22 file checks, including 18 individual
+artifacts. Its Markdown review brief contained the same request and reviewer
+note as the candidate indexed in the live UI. All eleven Site test scripts,
+TypeScript and the production build passed. Intended-user acceptance with a
+fresh authorised document, measured browser zoom, physical phone and
+screen-reader testing remain open in [issue #110](https://github.com/mick353/LAIF/issues/110).
+
 ## Case replay bundles and direct review ZIP checks, 26 November 2026
 
 The owner-private [Research Workspace](https://laif-research-workspace.mick353.chatgpt.site)

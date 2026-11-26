@@ -177,6 +177,12 @@ The main action in each row opens that review step for the selected assessment.
 Returning to the queue in the same tab keeps your search and filter. Open
 evidence requests remain visible after you record the report checklist.
 
+Choose **Evidence requested** under **Review status** to find assessments
+with active requests. **Open evidence requests** lists the reviewer notes
+and links each request to its exact candidate. The same shortcut is under
+**Next review step** in **Reports & export**. The review brief lists current
+requests near the top so they can travel with the exported assessment.
+
 New editions preserve earlier sources and assessments. Check changed text
 before applying earlier review decisions. Canberra timestamps and short run IDs
 help distinguish repeated reviews of the same document. The same assessment
