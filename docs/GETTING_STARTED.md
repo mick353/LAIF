@@ -156,8 +156,10 @@ open question.
 
 Select **Check case map** to confirm the identity of supplied files and any
 exact quotations you entered. Read **Links to follow up** and the checked
-report before sharing it. Editing a checked case asks for a new check. The
-same checks are available when you work with local files.
+report before sharing it. **Download case bundle** collects the checked files
+in one ZIP. Select **Include original source files for local replay** when
+you need the source bytes in that ZIP. Editing a checked case asks for a new
+check. The same checks are available when you work with local files.
 See the [case map guide](product/CASE_LINKS.md).
 
 ## Save, resume and recover

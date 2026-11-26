@@ -8,6 +8,22 @@ select the text of the checked report, JSON or CLI manifest before downloading.
 After editing a case, check it again. Saved case maps reopen with their declared
 sources and links. Private Site records are saved in cloud storage.
 
+### Download and replay a checked case
+
+Select **Download case bundle** for the readable map, checked JSON, CLI
+manifest and file inventory. Extract the ZIP and open `START-HERE.txt`.
+If you need to replay the case, choose **Include original source files for
+local replay** before downloading. The Workspace compares each original to
+its pinned SHA-256 before including it. The choice clears after download,
+when you switch cases, or when you recheck an edited case. Review quotations,
+notes and any included originals before sharing.
+
+The original files in a replay bundle sit beside the CLI manifest. When you
+use the standard bundle, get the supplied sources under **Download individual
+files** and place them beside the manifest without renaming them. Run the
+existing `laif_case_links.py` command on the extracted CLI manifest. The Site
+and local command use the same Python checks and report format.
+
 ### Recover edits from two tabs
 
 If the Workspace reports a newer save, keep the tab with your draft open and
@@ -26,11 +42,8 @@ both passages in a declared link. In the note, explain what differs and which
 dates or conditions you still need to check. The report keeps both passages
 with their original source identities for your review.
 
-For local replay, place the CLI manifest and each downloaded supplied source
-in one folder, retaining their file names. Run the local command below with
-that manifest. The Site and local command use the same Python checks and report
-format. See the [current verification record](../verification/CURRENT.md) for
-the hosted preview and local replay results.
+See the [current verification record](../verification/CURRENT.md) for the
+hosted download and local replay results.
 
 Use the optional local `laif_case_links.py` command when you have several
 records for one governance question. It connects **only the files and links
