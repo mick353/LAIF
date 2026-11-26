@@ -96,7 +96,7 @@ Provisional rule-based assessment; inspect source context before relying on it. 
 The text contains relevant wording, but this check remains incomplete. Evidence still needed: explanations of decisions or outputs; uncertainty and limitations; access for affected people.
 
 - explanations of decisions or outputs: not established by explicit wording
-  - Extracted line 11; QUALIFIED_MENTION
+  - Extracted line 11; QUALIFIED_MENTION. The passage mentions the component with weak or absent obligation wording.
 
 > The supplier aims to explain decisions and support affected people.
 
@@ -109,17 +109,13 @@ The rules did not find enough explicit wording to establish this check. Inspect 
 - alignment of stated and implemented objectives: not established by explicit wording
 - consistent behaviour in testing and deployment: not established by explicit wording
 - checks for misleading behaviour: not established by explicit wording
-### A.3 — PARTIAL_SUPPORT
+### A.3 — NOT_ESTABLISHED
 
-The text contains relevant wording, but this check remains incomplete. Evidence still needed: defined operating boundaries; interruption or deactivation; escalation to an authorised person.
+The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.
 
 - defined operating boundaries: not established by explicit wording
 - interruption or deactivation: not established by explicit wording
 - escalation to an authorised person: not established by explicit wording
-  - Extracted line 5; QUALIFIED_MENTION
-
-> The assistant provides recommendations to staff; it must not make final eligibility decisions or issue notices without human approval.
-
 ### A.4 — NOT_ESTABLISHED
 
 The rules did not find enough explicit wording to establish this check. Inspect the source and related records before concluding that a safeguard is missing.
@@ -158,7 +154,7 @@ The rules did not find enough explicit wording to establish this check. Inspect 
 ### Limits
 
 - Rules cover explicit English wording and can miss equivalent formulations.
-- Clause matches do not resolve cross-references, exceptions, legal authority or actor identity.
+- Continuation handling preserves quotations. Cross-references, exceptions, legal authority and actor identity require review.
 - No calibrated accuracy probability or independently validated effectiveness is available.
 - Documentary requirements do not establish operational behaviour.
 
