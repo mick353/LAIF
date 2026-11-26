@@ -8,6 +8,7 @@ from unittest.mock import patch
 import zipfile
 
 from scripts.laif_check_workspace_export import check_export, check_review_bundle, ExportError
+from scripts.laif_process_document import main as run_document
 
 
 class WorkspaceExportTests(unittest.TestCase):
@@ -57,6 +58,7 @@ class WorkspaceExportTests(unittest.TestCase):
         self.assertEqual(result["markdown_report"], "HEADER_AND_EMBEDDED_BODY_MATCH")
         self.assertEqual(result["artifact_files_verified"], 1)
         self.assertEqual(result["shared_extraction"], "NOT_RECORDED")
+        self.assertEqual(result["assessment_receipt"], "NOT_RECORDED")
         self.assertEqual(self.artifact_path.read_bytes(), self.body.encode("utf-8"))
 
     def shared_assessment(self):
@@ -215,6 +217,34 @@ class WorkspaceExportTests(unittest.TestCase):
         self.assertEqual(result['artifact_files_verified'], 1)
         self.assertEqual(result['source_file'], 'SOURCE_BYTES_MATCH')
         self.assertFalse((self.root / 'manifest.json').exists())
+
+    def test_receipt_detects_changed_engine_output_with_rebuilt_zip_inventory(self):
+        self.source_path.write_text("The provider must maintain a log of incidents for review by the risk committee.",
+                                    encoding="utf-8")
+        self.digest = hashlib.sha256(self.source_path.read_bytes()).hexdigest()
+        output = self.root / "runner"
+        self.assertEqual(run_document([str(self.source_path), "--output-dir", str(output)]), 0)
+        files = {path.relative_to(output).as_posix(): path.read_bytes().decode("utf-8")
+                 for path in output.rglob("*") if path.is_file()}
+        self.package["source_metadata"]["sha256"] = self.digest
+        self.package["run"].update(sourceSha256=self.digest, files=files,
+                                   checks={"assessment_receipt_match": True, "assessment_artifacts_checked": 14})
+        self.write_report(files["source.laif.md"].replace("\r\n", "\n"))
+
+        def review_zip():
+            edits = {f"files/{Path(path).name}": content.encode("utf-8") for path, content in files.items()}
+            return self.write_bundle(edits=edits)
+
+        result = check_review_bundle(review_zip(), source=self.source_path)
+        self.assertEqual(result["assessment_receipt"], "MATCH")
+        self.assertEqual(result["assessment_receipt_files_verified"], 14)
+        changed = "source.technical_appendix.md"
+        files[changed] += "\nEdited after assessment."
+        with self.assertRaisesRegex(ExportError, "artifact bytes do not match"):
+            check_review_bundle(review_zip())
+        del files["source.laif-run.json"]
+        with self.assertRaisesRegex(ExportError, "one verified assessment receipt"):
+            check_review_bundle(review_zip())
 
     def test_retained_bundle_reports_header_scope(self):
         self.package['run'].update(kind='imported_authored', files={})

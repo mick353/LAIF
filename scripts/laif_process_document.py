@@ -16,10 +16,14 @@ import hashlib
 import html
 import functools
 import json
+import os
 import re
 import sys
+from contextlib import contextmanager
 from dataclasses import dataclass, field
+from itertools import count
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Callable, Iterable
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -41,6 +45,13 @@ from assessment_engine import (
 MIN_EXTRACTED_CHARACTERS = 20
 DEFAULT_OUTPUT_DIR = "laif_outputs"
 INDEX_FILE_NAME = "laif_processing_index.jsonl"
+RUN_RECEIPT_SUFFIX = ".laif-run.json"
+RUN_RECEIPT_SCHEMA = "laif.assessment-run.v1"
+ANALYST_ARTIFACT_NAMES = frozenset({
+    "analyst_bundle.json", "quote_bank.jsonl", "quote_bank.md", "verification_required_evidence.md",
+    "governance_gap_register.json", "failure_pathways.json", "control_recommendations.json",
+    "AI_ANALYST_PROMPT.md", "AI_ANALYST_INPUT_BUNDLE.json", "AI_REPORT_VALIDATION_RULES.md",
+})
 
 ASSESSMENT_MODES = ("external_framework", "laif_native")
 SECTOR_CHOICES = (
@@ -94,7 +105,7 @@ def sha256_file(path: Path) -> str:
 def safe_stem(stem: str) -> str:
     safe = re.sub(r"[^A-Za-z0-9._-]+", "-", stem.strip())
     safe = re.sub(r"-+", "-", safe).strip(".-_")
-    return safe[:120] or "document"
+    return safe[:120].rstrip(".-_") or "document"
 
 
 def normalize_text(text: str) -> str:
@@ -505,10 +516,115 @@ def build_processing_metadata(
         "original_file_name": input_path.name,
         "original_file_stem": input_path.stem,
         "source_sha256": source_sha256,
-        "safe_output_stem": safe_output_stem,
-        "markdown_output_path": str(output_dir / f"{safe_output_stem}.laif.md") if markdown_enabled else "",
-        "json_output_path": str(output_dir / f"{safe_output_stem}.laif.json") if json_enabled else "",
+        **_output_paths(output_dir, safe_output_stem, markdown_enabled, json_enabled),
     }
+
+
+def _output_paths(output_dir: Path, stem: str, markdown_enabled: bool, json_enabled: bool) -> dict:
+    return {
+        "safe_output_stem": stem,
+        "markdown_output_path": str(output_dir / f"{stem}.laif.md") if markdown_enabled else "",
+        "json_output_path": str(output_dir / f"{stem}.laif.json") if json_enabled else "",
+    }
+
+
+@contextmanager
+def _reserve_output_stem(output_dir: Path, preferred: str, source_hash: str, *, no_write: bool):
+    if no_write:
+        yield preferred
+        return
+    reservations = output_dir / ".laif-reservations"
+    analyst_root = output_dir / "analyst"
+    if any(path.resolve() != output_dir.resolve() / path.name for path in (reservations, analyst_root)):
+        raise ExtractionError("Assessment output directories must stay inside the selected output directory")
+    reservations.mkdir(parents=True, exist_ok=True)
+    for attempt in count():
+        suffix = "" if attempt == 0 else f"-{source_hash[:12]}"
+        if attempt > 1:
+            suffix += f"-{attempt}"
+        stem = preferred[:120 - len(suffix)].rstrip(".-_") + suffix
+        reservation = reservations / stem.casefold()
+        try:
+            reservation.mkdir()
+        except FileExistsError:
+            continue
+        try:
+            names = {f"{stem}{ending}".casefold() for ending in
+                     (".laif.md", ".laif.json", ".institutional_report.md", ".technical_appendix.md", RUN_RECEIPT_SUFFIX)}
+            if any(item.name.casefold() in names for item in output_dir.iterdir()):
+                continue
+            if analyst_root.exists() and any(item.name.casefold() == stem.casefold() for item in analyst_root.iterdir()):
+                continue
+            yield stem
+            return
+        finally:
+            reservation.rmdir()
+
+
+def verify_assessment_receipt(path: Path, source: Path | None = None) -> dict:
+    """Check a complete run against its recorded source and artifact bytes."""
+    receipt = json.loads(path.read_text(encoding="utf-8"))
+    root = path.parent.resolve()
+
+    def safe_artifact(relative: str) -> Path:
+        artifact = root / relative
+        if artifact.resolve() != artifact or not artifact.is_file():
+            raise ExtractionError(f"Assessment artifact missing or redirected: {relative}")
+        return artifact
+
+    def artifact_identity(relative: str) -> tuple[int, str]:
+        artifact = safe_artifact(relative)
+        return artifact.stat().st_size, sha256_file(artifact)
+
+    def read_bundle(relative: str) -> dict:
+        return json.loads(safe_artifact(relative).read_text(encoding="utf-8"))
+
+    check_assessment_receipt(path.name, receipt, artifact_identity, read_bundle)
+    if source is not None and sha256_file(source) != receipt["source_sha256"]:
+        raise ExtractionError("Supplied source bytes do not match the assessment receipt")
+    return receipt
+
+
+def check_assessment_receipt(
+    receipt_name: str,
+    receipt: dict,
+    artifact_identity: Callable[[str], tuple[int, str]],
+    read_bundle: Callable[[str], dict],
+) -> None:
+    """Check the same receipt format for a directory, worker, or archived run."""
+    if not isinstance(receipt, dict) or receipt.get("schema") != RUN_RECEIPT_SCHEMA:
+        raise ExtractionError("Unknown assessment receipt schema")
+    stem = receipt.get("safe_output_stem")
+    if not isinstance(stem, str) or stem != safe_stem(stem) or receipt_name != stem + RUN_RECEIPT_SUFFIX:
+        raise ExtractionError("Assessment receipt name and output stem do not match")
+    for field, digits in (("source_sha256", 64), ("toolchain_fingerprint", 16)):
+        value = receipt.get(field)
+        if field == "toolchain_fingerprint" and value == "unavailable":
+            continue
+        if not isinstance(value, str) or not re.fullmatch(rf"[0-9a-f]{{{digits}}}", value):
+            raise ExtractionError(f"Invalid {field} in assessment receipt")
+
+    required = {f"{stem}.institutional_report.md", f"{stem}.technical_appendix.md"}
+    required.update(f"analyst/{stem}/{name}" for name in ANALYST_ARTIFACT_NAMES)
+    optional = {f"{stem}.laif.md", f"{stem}.laif.json"}
+    artifacts = receipt.get("artifacts")
+    if not isinstance(artifacts, dict) or not required <= artifacts.keys() <= required | optional:
+        raise ExtractionError("Assessment receipt artifact inventory is incomplete or contains unexpected paths")
+    for relative, expected in artifacts.items():
+        size, sha256 = artifact_identity(relative)
+        if (not isinstance(expected, dict) or type(expected.get("size_bytes")) is not int
+                or expected["size_bytes"] != size or expected.get("sha256") != sha256):
+            raise ExtractionError(f"Assessment artifact bytes do not match: {relative}")
+    bundle = read_bundle(f"analyst/{stem}/analyst_bundle.json")
+    if not isinstance(bundle, dict) or not isinstance(bundle.get("processing_metadata"), dict):
+        raise ExtractionError("Analyst bundle is missing its processing metadata")
+    processing = bundle["processing_metadata"]
+    keys = ("safe_output_stem", "processed_at_utc", "source_sha256", "toolchain_fingerprint")
+    if any(processing.get(key) != receipt.get(key) for key in keys):
+        raise ExtractionError("Analyst bundle and assessment receipt identities do not match")
+    for field, suffix in (("markdown_output_path", ".laif.md"), ("json_output_path", ".laif.json")):
+        if bool(processing.get(field)) != (stem + suffix in artifacts):
+            raise ExtractionError("Assessment receipt does not cover the declared report outputs")
 
 
 def markdown_metadata_block(processing: dict, extraction: dict, assessment: dict) -> str:
@@ -576,8 +692,24 @@ def index_record(processing: dict, extraction: dict, assessment: dict, input_pat
 
 def append_index(output_dir: Path, record: dict) -> None:
     index_path = output_dir / INDEX_FILE_NAME
-    with index_path.open("a", encoding="utf-8") as handle:
-        handle.write(json.dumps(record, sort_keys=True) + "\n")
+    data = (json.dumps(record, sort_keys=True) + "\n").encode("utf-8")
+    with index_path.open("ab", buffering=0) as handle:
+        # Native locks are released on close or process exit. The browser
+        # runner has its own filesystem in each assessment worker.
+        if os.name == "nt":
+            import msvcrt
+            handle.seek(0)
+            msvcrt.locking(handle.fileno(), msvcrt.LK_LOCK, 1)
+        elif sys.platform != "emscripten":
+            import fcntl
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        previous_end = handle.seek(0, os.SEEK_END)
+        try:
+            if handle.write(data) != len(data):
+                raise OSError("Incomplete processing index write")
+        except OSError:
+            handle.truncate(previous_end)
+            raise
 
 
 SIGNAL_CATEGORIES: list[tuple[str, tuple[str, ...], str]] = [
@@ -3416,6 +3548,73 @@ def write_institutional_outputs(output_dir: Path, processing: dict, extraction: 
     (analyst_dir / "AI_REPORT_VALIDATION_RULES.md").write_text(build_validation_rules(), encoding="utf-8")
     return {"quote_bank": quote_bank, "verification_required_extracted_evidence": verification_required_evidence, "extraction_quality_profile": extraction_quality_profile, "gap_register": gaps, "failure_pathways": pathways, "control_recommendations": controls, "analyst_bundle": bundle, "low_confidence_quote_candidates": low_confidence_quote_candidates}
 
+def _publish_assessment_outputs(
+    args: argparse.Namespace,
+    processing: dict,
+    extraction: dict,
+    assessment: dict,
+    extracted_text: str,
+    materials: dict,
+    markdown_report: str,
+    record: dict,
+) -> Path:
+    output_dir = args.output_dir
+    stem = processing["safe_output_stem"]
+    receipt_path = output_dir / f"{stem}{RUN_RECEIPT_SUFFIX}"
+    with TemporaryDirectory(prefix=".laif-stage-", dir=output_dir) as temporary:
+        stage = Path(temporary)
+        analyst_outputs = write_institutional_outputs(stage, processing, extraction, assessment, extracted_text, materials)
+        if args.markdown:
+            (stage / f"{stem}.laif.md").write_text(markdown_report, encoding="utf-8")
+        if args.json_output:
+            json_dump(stage / f"{stem}.laif.json", {
+                "processing_metadata": processing,
+                "extraction_metadata": extraction,
+                "assessment_result": assessment,
+                "institutional_analyst_outputs": {
+                    "source_control_observation_count": len(assessment["source_control_observations"]),
+                    "submitted_review_status": "SOURCE_BOUND_SUBMISSION_NOT_INDEPENDENTLY_VERIFIED" if assessment.get("submitted_review") else "NOT_SUPPLIED",
+                    "attributed_reasoning_status": "SOURCE_BOUND_AUTHOR_ANALYSIS" if assessment.get("attributed_reasoning") else "NOT_SUPPLIED",
+                    "quote_bank_count": len(analyst_outputs["quote_bank"]),
+                    "gap_count": len(analyst_outputs["gap_register"]),
+                    "failure_pathway_count": len(analyst_outputs["failure_pathways"]),
+                    "control_recommendation_count": len(analyst_outputs["control_recommendations"]),
+                },
+            })
+        top_level_reports = sorted(path for path in stage.iterdir() if path.is_file())
+        artifacts = {
+            path.relative_to(stage).as_posix(): {"size_bytes": path.stat().st_size, "sha256": sha256_file(path)}
+            for path in sorted(stage.rglob("*")) if path.is_file()
+        }
+        staged_receipt = stage / receipt_path.name
+        json_dump(staged_receipt, {
+            "schema": RUN_RECEIPT_SCHEMA,
+            "safe_output_stem": stem,
+            "processed_at_utc": processing["processed_at_utc"],
+            "source_sha256": processing["source_sha256"],
+            "toolchain_fingerprint": processing["toolchain_fingerprint"],
+            "artifacts": artifacts,
+        })
+
+        (output_dir / "analyst").mkdir(exist_ok=True)
+        published = []
+        try:
+            # Publish the receipt after all its files are in place. The
+            # append-only index is a separate, mutable record of finished runs.
+            for path in [stage / "analyst" / stem, *top_level_reports, staged_receipt]:
+                target = output_dir / path.relative_to(stage)
+                if target.exists() or target.is_symlink():
+                    raise ExtractionError(f"Assessment output already exists: {target}")
+                path.rename(target)
+                published.append((path, target))
+            append_index(output_dir, {**record, "completion_receipt_path": str(receipt_path)})
+        except (ExtractionError, OSError):
+            for path, target in reversed(published):
+                target.rename(path)
+            raise
+    return receipt_path
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Extract a local document and run the LAIF assessment report wrapper.")
     parser.add_argument("input_file", type=Path, help="Local input document path")
@@ -3535,40 +3734,24 @@ def run(args: argparse.Namespace, *, prepared: PreparedDocument | None = None) -
         if basis:
             processing["sector_basis"] = basis
     materials = prepare_report_materials(processing, extraction_metadata, assessment, extraction.text)
-    if assessment.get("assessment_mode") == "external_framework":
-        base_report = build_institutional_report(processing, extraction_metadata, assessment,
-            materials["quote_bank"], materials["gaps"], materials["pathways"], materials["controls"],
-            materials["verification_required_evidence"], materials["extraction_quality_profile"])
-    else:
-        base_report = generate_markdown_report([assessment], report_date=processed_at[:10],
-                                               generation_command="python3 scripts/laif_process_document.py")
-    metadata = markdown_metadata_block(processing, extraction_metadata, assessment)
-    markdown_report = (base_report + "\n" + metadata if assessment.get("assessment_mode") == "external_framework" else metadata + base_report)
-    payload = {
-        "processing_metadata": processing,
-        "extraction_metadata": extraction_metadata,
-        "assessment_result": assessment,
-    }
-
-    if not args.no_write:
-        args.output_dir.mkdir(parents=True, exist_ok=True)
-        if args.markdown:
-            Path(processing["markdown_output_path"]).write_text(markdown_report, encoding="utf-8")
-        if args.json_output:
-            json_dump(Path(processing["json_output_path"]), payload)
-        analyst_outputs = write_institutional_outputs(args.output_dir, processing, extraction_metadata, assessment, extraction.text, materials)
-        payload["institutional_analyst_outputs"] = {
-            "source_control_observation_count": len(assessment["source_control_observations"]),
-            "submitted_review_status": "SOURCE_BOUND_SUBMISSION_NOT_INDEPENDENTLY_VERIFIED" if assessment.get("submitted_review") else "NOT_SUPPLIED",
-            "attributed_reasoning_status": "SOURCE_BOUND_AUTHOR_ANALYSIS" if assessment.get("attributed_reasoning") else "NOT_SUPPLIED",
-            "quote_bank_count": len(analyst_outputs["quote_bank"]),
-            "gap_count": len(analyst_outputs["gap_register"]),
-            "failure_pathway_count": len(analyst_outputs["failure_pathways"]),
-            "control_recommendation_count": len(analyst_outputs["control_recommendations"]),
-        }
-        if args.json_output:
-            json_dump(Path(processing["json_output_path"]), payload)
-        append_index(args.output_dir, index_record(processing, extraction_metadata, assessment, input_path, document_name))
+    with _reserve_output_stem(args.output_dir, output_stem, source_hash, no_write=args.no_write) as output_stem:
+        processing.update(_output_paths(args.output_dir, output_stem, args.markdown, args.json_output))
+        extraction_metadata["safe_output_stem"] = output_stem
+        metadata = markdown_metadata_block(processing, extraction_metadata, assessment)
+        if assessment.get("assessment_mode") == "external_framework":
+            base_report = build_institutional_report(processing, extraction_metadata, assessment,
+                materials["quote_bank"], materials["gaps"], materials["pathways"], materials["controls"],
+                materials["verification_required_evidence"], materials["extraction_quality_profile"])
+            markdown_report = base_report + "\n" + metadata
+        else:
+            base_report = generate_markdown_report([assessment], report_date=processed_at[:10],
+                                                   generation_command="python3 scripts/laif_process_document.py")
+            markdown_report = metadata + base_report
+        if not args.no_write:
+            receipt_path = _publish_assessment_outputs(
+                args, processing, extraction_metadata, assessment, extraction.text, materials, markdown_report,
+                index_record(processing, extraction_metadata, assessment, input_path, document_name),
+            )
 
     print(f"Original input path: {input_path_original}")
     print(f"Resolved input path: {input_path}")
@@ -3589,6 +3772,7 @@ def run(args: argparse.Namespace, *, prepared: PreparedDocument | None = None) -
         print(f"Institutional report: {args.output_dir / (processing['safe_output_stem'] + '.institutional_report.md')}")
         print(f"Technical appendix: {args.output_dir / (processing['safe_output_stem'] + '.technical_appendix.md')}")
         print(f"Analyst bundle: {args.output_dir / 'analyst' / output_stem / 'analyst_bundle.json'}")
+        print(f"Assessment receipt: {receipt_path}")
         print(f"Processing index: {args.output_dir / INDEX_FILE_NAME}")
     if args.print_report:
         print("\n" + markdown_report)
@@ -3600,7 +3784,7 @@ def main(argv: list[str] | None = None, *, prepared: PreparedDocument | None = N
     args = parser.parse_args(argv)
     try:
         return run(args, prepared=prepared)
-    except ExtractionError as exc:
+    except (ExtractionError, OSError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
 

@@ -70,6 +70,26 @@ Output filenames use a filesystem-safe stem derived from the original input stem
 - JSON: `<safe_output_stem>.laif.json`
 - index: `laif_processing_index.jsonl`
 
+When a stem is already in use, another run receives a new stem with a short
+source hash and, if needed, a sequence number. Earlier reports, analyst files
+and index entries remain available. The runner applies the same collision
+rule to case differences and names that sanitize to the same stem.
+
+Each completed run writes `<stem>.laif-run.json` beside its reports. The receipt
+records the source hash, toolchain fingerprint and the SHA-256 and size of each
+report and analyst file. To check a saved report directory with its original input:
+
+```powershell
+python scripts/laif_verify_local_run.py <output-dir>/<stem>.laif-run.json --source <original-file>
+```
+
+Omit `--source` to check only the saved reports. A match establishes that the
+files agree with the receipt. Keep a trusted copy of the receipt when using it
+as a record of a completed run. Older reports created before receipts remain
+readable. If the process is forcibly stopped, inspect any leftover staging
+files and verify the receipt before relying on the saved reports. The shared
+index can lag a complete receipt if the interruption occurred before its append.
+
 The original source identity is preserved separately in metadata so safe filenames do not erase provenance. Each run records:
 
 - `processed_at_utc`
@@ -120,6 +140,7 @@ Each JSONL record contains:
 - `safe_output_stem`
 - `markdown_output_path`
 - `json_output_path`
+- `completion_receipt_path`
 - `document_name`
 - `assessment_mode`
 - `sector_profile`
